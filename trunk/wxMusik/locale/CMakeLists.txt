@@ -6,4 +6,5 @@ INSTALL_FILES(/share/locale/es/LC_MESSAGES FILES ./es/wxMusik.mo ./es/wxstd.mo)
 INSTALL_FILES(/share/locale/pt_BR/LC_MESSAGES FILES ./pt_BR/wxMusik.mo ./pt_BR/wxstd.mo)
 INSTALL_FILES(/share/locale/nl/LC_MESSAGES FILES ./nl/wxMusik.mo ./nl/wxstd.mo)
 INSTALL_FILES(/share/locale/it/LC_MESSAGES FILES ./it/wxMusik.mo ./it/wxstd.mo)
+INSTALL_FILES(/share/locale/ru/LC_MESSAGES FILES ./ru/wxMusik.mo ./ru/wxstd.mo)
 

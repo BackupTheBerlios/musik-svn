@@ -252,8 +252,8 @@ END_EVENT_TABLE()
 CSourcesListBox::CSourcesListBox( wxWindow* parent )
 	: CMusikListCtrl( parent, MUSIK_SOURCES_LISTCTRL, wxPoint( -1, -1 ), wxSize( -1, -1 ), wxLC_ALIGN_LEFT |wxLC_EDIT_LABELS | wxLC_SINGLE_SEL | wxNO_BORDER|wxLC_NO_SORT_HEADER)
 {
-#ifndef __WXMAC__
-	SetBackgroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_BTNHIGHLIGHT ) );
+#ifdef __WXMSW__
+    m_bHideHorzScrollbar = true;
 #endif
 	//--- initialize variables ---//
 	m_CurSel = 0;
@@ -860,8 +860,16 @@ int CSourcesListBox::GetItemImage( long index )
 void CSourcesListBox::RescaleColumns()
 {
 	int nWidth, nHeight;
-	GetClientSize( &nWidth, &nHeight );
-	SetColumnWidth( 0, --nWidth );		
+	GetClientSize	( &nWidth, &nHeight );
+    const int main_col = 0;
+	if ( GetColumnWidth( main_col ) != nWidth )
+	{
+		#ifdef __WXMSW__
+			SetColumnWidth	( main_col, nWidth );
+		#else
+			SetColumnWidth( main_col, nWidth - wxSystemSettings::GetMetric(wxSYS_HSCROLL_Y) /*- GetColumnWidth( 0 )*/ - 1 );			
+		#endif 
+	}
 }
 
 void CSourcesListBox::RescanPlaylistDir()

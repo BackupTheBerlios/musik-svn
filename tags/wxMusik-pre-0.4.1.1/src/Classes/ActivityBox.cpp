@@ -68,10 +68,10 @@ CActivityListBox::CActivityListBox( CActivityBox *parent,  wxWindowID id )
 {
 	m_Related = 0;
 	m_pParent = parent;
-#ifndef __WXMAC__	
-	SetBackgroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_BTNHIGHLIGHT ) );
+#ifdef __WXMSW__
+    m_bHideHorzScrollbar = true;
 #endif
-	InsertColumn( 0, wxT(""), wxLIST_FORMAT_LEFT, 0 );
+    InsertColumn( 0, wxT(""), wxLIST_FORMAT_LEFT, 0 );
 //	InsertColumn( 1, wxT(""), wxLIST_FORMAT_LEFT, 0 );
 	m_bIgnoreSetItemStateEvents = false;
 }
@@ -146,25 +146,19 @@ void CActivityListBox::OnFocused( wxListEvent& event )
 {
 	event.Skip(m_bIgnoreSetItemStateEvents == false);
 }
-void CActivityListBox::RescaleColumns( bool bFreeze )
+void CActivityListBox::RescaleColumns( )
 {
-	if( bFreeze )
-		Freeze();
 	int nWidth, nHeight;
 	GetClientSize	( &nWidth, &nHeight );
-//	if(GetColumnWidth( 0 ) != 0)
-//		SetColumnWidth	( 0, 0 );
     const int main_col = 0;
 	if ( GetColumnWidth( main_col ) != nWidth )
 	{
-		#ifndef __WXGTK__
+		#ifdef __WXMSW__
 			SetColumnWidth	( main_col, nWidth );
 		#else
 			SetColumnWidth( main_col, nWidth - wxSystemSettings::GetMetric(wxSYS_HSCROLL_Y) /*- GetColumnWidth( 0 )*/ - 1 );			
 		#endif 
 	}
-	if( bFreeze )
-		Thaw();
 }
 
 void CActivityListBox::SetCaption( const wxString & sCaption )

@@ -72,6 +72,13 @@ protected:
 	virtual wxMenu * CreateContextMenu(){ return NULL;}
 
 	void SelectClickedItem(wxMouseEvent &event);
+#ifdef __WXMSW__
+    bool m_bHideHorzScrollbar;
+    bool m_bHideVertScrollbar;
+protected:
+    long MSWWindowProc(WXUINT message, WXWPARAM wParam, WXLPARAM lParam);
+#endif
+
 private:
 #ifdef __WXMSW__
 	int m_freezeCount;

@@ -35,16 +35,16 @@ wxSizer * StreamingProxyServerPanel::CreateControls()
     PREF_CREATE_TEXTCTRL2(ProxyServerPassword,wxFILTER_NONE);
 
  
-    wxFlexGridSizer * fsProxySizer		= new wxFlexGridSizer( 4,2,2,2 );
-
+    wxFlexGridSizer * fsProxySizer		= new wxFlexGridSizer( 2,2,2 );
+    fsProxySizer->AddGrowableCol(1);
     fsProxySizer->Add(PREF_STATICTEXT(_("Proxy server address:")),0,wxALIGN_CENTER_VERTICAL);
-    fsProxySizer->Add(tcProxyServer);
+    fsProxySizer->Add(tcProxyServer,0,wxEXPAND);
     fsProxySizer->Add(PREF_STATICTEXT(_("Proxy server port:")),0,wxALIGN_CENTER_VERTICAL);
-    fsProxySizer->Add(tcProxyServerPort);
+    fsProxySizer->Add(tcProxyServerPort,0,wxEXPAND);
     fsProxySizer->Add(PREF_STATICTEXT(_("Proxy server user:")),0,wxALIGN_CENTER_VERTICAL);
-    fsProxySizer->Add(tcProxyServerUser);
+    fsProxySizer->Add(tcProxyServerUser,0,wxEXPAND);
     fsProxySizer->Add(PREF_STATICTEXT(_("Proxy server password:")),0,wxALIGN_CENTER_VERTICAL);
-    fsProxySizer->Add(tcProxyServerPassword);
+    fsProxySizer->Add(tcProxyServerPassword,0,wxEXPAND);
 
     wxBoxSizer *vsStreaming_ProxyServer	= new wxBoxSizer( wxVERTICAL );
 

@@ -70,7 +70,7 @@ public:
 
   DECLARE_EVENT_TABLE()
 protected:
-	void RescaleColumns	( bool bFreeze = true );	
+	void RescaleColumns	();	
 	bool OnRescaleColumns() { RescaleColumns();return true;}
     wxMenu * CreateContextMenu();	
 

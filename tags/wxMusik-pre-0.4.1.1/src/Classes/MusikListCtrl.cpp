@@ -26,6 +26,8 @@ CMusikListCtrl::CMusikListCtrl( wxWindow *parent, const wxWindowID id, const wxP
 	:	wxListCtrl		( parent, id, pos, size, wxLC_REPORT | wxLC_VIRTUAL | wxCLIP_CHILDREN | style)
 #ifdef __WXMSW__
 	,m_freezeCount(0)
+    ,m_bHideHorzScrollbar(false)
+    ,m_bHideVertScrollbar(false)
 #endif
 {
 #ifdef __WXMSW__
@@ -53,6 +55,7 @@ BEGIN_EVENT_TABLE(CMusikListCtrl, wxListCtrl)
 	EVT_PAINT ( CMusikListCtrl::OnPaint )
 #endif
 	EVT_SIZE  (	CMusikListCtrl::OnSize )	
+    EVT_SIZING  (	CMusikListCtrl::OnSize )
 END_EVENT_TABLE()
 
 void CMusikListCtrl::OnSize( wxSizeEvent& event )
@@ -240,4 +243,32 @@ void CMusikListCtrl::OnPaint(wxPaintEvent& event)
         }
     }
 }
+#endif
+
+#ifdef __WXMSW__
+BOOL ModifyStyle(HWND hWnd, 
+            DWORD dwRemove, DWORD dwAdd, UINT nFlags)
+{
+    int nStyleOffset = GWL_STYLE;
+    DWORD dwStyle = ::GetWindowLong(hWnd, nStyleOffset);
+    DWORD dwNewStyle = (dwStyle & ~dwRemove) | dwAdd;
+    if (dwStyle == dwNewStyle)
+        return FALSE;
+
+    ::SetWindowLong(hWnd, nStyleOffset, dwNewStyle);
+    return TRUE;
+
+}
+
+long CMusikListCtrl::MSWWindowProc(WXUINT message, WXWPARAM wParam, WXLPARAM lParam)
+{
+    if(message == WM_NCCALCSIZE)
+    {
+            if(m_bHideHorzScrollbar)
+                ModifyStyle(((HWND)GetHWND()),WS_HSCROLL ,0,0);
+            if(m_bHideVertScrollbar)
+                ModifyStyle(((HWND)GetHWND()),WS_VSCROLL,0,0);
+    }
+    return wxListCtrl::MSWWindowProc(message,wParam,lParam);
+}	
 #endif

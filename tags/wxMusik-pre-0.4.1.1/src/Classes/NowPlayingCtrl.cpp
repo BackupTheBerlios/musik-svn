@@ -105,7 +105,7 @@ CNowPlayingCtrl::CNowPlayingCtrl( wxWindow *parent )
 	btnVolume		= new wxBitmapButton( this, MUSIK_NOWPLAYINGCTRL_VOLUME, bmVolume,wxDefaultPosition,wxDefaultSize,0);
 
 	//--- events ---//
-	#ifdef __WXGTK__
+	#ifndef __WXMSW__
 	btnPrev->SetBitmapFocus				( bmPrevDown );
 	btnNext->SetBitmapFocus				( bmNextDown );
 	btnPlayPause->SetBitmapFocus		( bmPlayDown );
@@ -291,7 +291,7 @@ CNowPlayingCtrl::~CNowPlayingCtrl()
 	//--- stop timer ---//
 	KillTimer();
 
-	#ifndef __WXGTK__
+	#ifdef __WXMSW__
     btnPrev->PopEventHandler();
 	btnNext->PopEventHandler();
 	btnPlayPause->PopEventHandler();
@@ -339,7 +339,7 @@ void CNowPlayingCtrl::KillTimer()
 
 void CNowPlayingCtrl::PlayBtnToPauseBtn()
 {
-	#ifdef __WXGTK__
+	#ifndef __WXMSW__
 	btnPlayPause->SetBitmapLabel( bmPause );
 	btnPlayPause->SetBitmapFocus( bmPauseDown );
 	#else //defined __WXMSW__
@@ -352,7 +352,7 @@ void CNowPlayingCtrl::PlayBtnToPauseBtn()
 
 void CNowPlayingCtrl::PauseBtnToPlayBtn()
 {
-	#ifdef __WXGTK__
+	#ifndef __WXMSW__
 	btnPlayPause->SetBitmapLabel( bmPlay );
 	btnPlayPause->SetBitmapFocus( bmPlayDown );
 	#else //if defined __WXMSW__

@@ -1,0 +1,12 @@
+This version of taglib is based on taglib 1.3.1.
+Is was slightly modified by me ( Gunnar Roth gunnar.roth @gmx.de) to suit my needs for wxMusik.
+
+The modifications are:
+1. Make it compile on windows. (unistd.h header stuff)
+2. Make it work on windows. ( use "r+b" instead "r+" for fopen() )
+3. Make it work with unicode filenames in windows unicode builds 
+	( introduced simple TagLib::Filename class to handle this)
+
+4. Use std::vector intead of std::list for lists ( easier to debug and faster IMHO)
+
+

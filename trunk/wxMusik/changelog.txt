@@ -1,0 +1,371 @@
+0.4.0.1 
+- fixed bug: MPEGACCURATE flag was lost, so mp3 vbr were sometimes not played in full length.
+- all bug fixes and enhancements  from 0.3.1.7
+0.4.0
++ Polished version to be released.
+0.3.99.0
++ APE V1,V2 tag reading and APE V2 writing for mpc and ape files.
++ Flac tag reading and writing.
++ Support for playing .flac,.mpc and .ape files 
+0.3.1.7
++ tag guessing on library build is optional now
++ make most frame a dialog.
++ utilize buttons in Library setup instead of a menu.
++ use taglib from scott wheeler  for tag reading and writing
+. fix selection box scrolling on linux. Now it scrolls while you type a name
+- workaround for  a weird linux crash , if sources listctrl is in edit mode and right click is made.
++ on linux you can cancel library build now
+- fix hardcoded button sizes in library setup, which lead to unreadable labels on gtk
++ use system font ,not hardcoded font face name
+- fix crash while (re)building the library on systems where sizeof(wchar_t) != 2, bug in idtag.cpp
+- add files missing in hotfix1 tag.gz
+- fix bug in autodj,only at least once played songs were chosen.
+Hotfix1 0.3.1.6
+- Fixed linux segfault on prefs win open
+- Fixed linux data path access for about and picture view
+- Fixed make install target in CMake generated makefile
++ Data and locale files are now installed on make install
+- Fixed linux bug: alsa works now with fmod-3.74 and hotfix1
+0.3.1.5 to 0.3.1.6
++ On windows a balloon tooltip is shown above the trayicon on each song change with the song info.
++ Reads APE Tags (V1 and V2) and id3v1 tag for all files, if no other tags are present.
++ Uses filename to guess tags, if no tags are present, on library build and rebuild.
++ If the playlists are read on first startup they are now sorted after categories.(delete musiksources.dat if you want sort it as default again) 
++ Added italian translation, (thanks to mirko_3)
++ Added dutch translation, (thanks to Brent Huisman)
++ Setup (on windows) no longer associated .mp3 and .ogg with wxMusik. Instead you can set the associations in the preferences now.
+- fix AutoDj selection routine. Was made in good intention,but badly done,so didnt work quite right. Random selection has been enhance for shuffle play too.
++ Trayicon text displays now  song  properties multiple lines. Album  info has been added.
++ Added DisableTrayIcon setting in prefs file, for people who dont like it, or have a windowmanager which is not supported.
++ Searching with the search box, now includes the genre
++ added new hotkey i in playlist to play selected songs instantly ( useful if option "Double click replaces playlist" is active but you dont want to replace playlist 
+- Hotkey F8 did not work in playlist
++ added portuguese translation (thanks to Marc Gayot)
++ added spanish translation (thanks to Iván Campaña)
+- fixed bug with adding notes containing accented chars. the note was discared if it did contain such a char.
++ In Shuffle mode , pressing "previous" goes to start ( as usual) pressing prev. again goes to previously played song
+  and not another randomly chosen song as before.
++ Currently playing song uses playlist border colour as background, if border colour is actibvated
++ Border colour of playlist is configurable now
++ New option "Double click replaces playlist" instead of adding song to NowPlaying
++ New option "Show Library on startup" instead of NowPlaying
++ New option "Display <unknown> in empty colums" for playlist, if you disable it, the column will be empty.
+- fixed centering of picture in album info. Transparency of picture( if available) is used now 
+- fixed some other minor bug
+- fixed crash while drag and drop under some circumstances
++ added norsk bokmal translation( thanks to Oddmund aka dubbz)
++ added czech translation (thanks to Vit Hrachovy)
+- fixed sorting in selection boxes. now the sorting order honors the current locale setting of the OS.
+
+0.3.1.4 to 0.3.1.5
++ supported new formats: mp2, wav , aiff and wma(windows only).  wav , aiff and wma tag writing is not (yet) supported.
++ new ui language available: french
++ number of items is now displayed in the selecton boxes captions,finally you know how much albums( and how many artists you have ;-))
+-fixed bug: seeking in song, did increment the timesplayed count and added a history entry.
++ auto dj album count can now be set in the prefs.
+-fixed bug: long song titles should no longer overwrite the play control buttons.
++ Right click on seek bar, toggles time display to counting up or down.
+-fixed major bug: Picture view took 50% cpu, if wxMusik logo was displayed, because no picture could be found.
++ internally, a songs is flagged now , if chosen by user(as opposes to chosen by autodj). this is written to the history_songs table.(but not used yet)
++ new option: Stop song, if now playing list is cleared. Before this was always the case, now you can turn this off.
++ spinctrl are used for most preferences, which are numbers.
+-fixed minor bug: sometimes tag were written even if not changed.
+-fixed bug: filenames are converted to the currently used locale and not always to iso8859-1 charset. Korean filenames should work now, hopyfully.
+-fixed bug: if in shuffle mode, 'play as next' added songs are really played as next  
+ some code cleanup. made adding of new preferences a lot easier.
+ 
+0.3.1.3 to 0.3.1.4
++ new Open Folder in Filemanager option in playlist context menu. This opens the folder(directory) of the current selected song in a app,which is configured in the prefs file.
+as default this is FilemanagerCmd=explorer.exe "%s" ,you can change that for now only by editing the prefs file yourself.
++ new "RebuildTags" option in playlist context menu. that way you can drag and drop songs into MusicBrainz app or other tagger, tag them there,
+and then rebuild( read again) the tags from the files of the selected songs into wxMusik's database.
++ drag and drop of songs from playlist into other apps( cd-burning app for example, or other players,well promise me you won't do this ;-))  
+is now possible.
++ you can use fuzzy matching in your own dynamic pla<ylist by using fuzzycmp(pattern,field,errors) function in your query. for example
+	fuzzycmp('*.Marillian.*',artist,1) will match 'Marillion' or 'marillian' or 'marilian' etc. 
++ enhanced search feature. different search modes and fuzzy matching supported
++ additional shortcut keys: CTRL + F1 selects Library ,CTRL + F2 selects Now Playing
++ added $YEAR and "$TRACKLENGTH tunage variables
++ auto dj album mode added. in this mode complete albums are chosen. as default 5 albums are chosen in advance. the setting for "hours not played" is also used
+  , thus a song from an album, which was recently played,is not chosen.
+ 
++ album picture view added. shows a picture according to the selected album( album of song) or when playing a song, the picture of the respective album.
+  the picture are looked for in the directory and subdirectorys of the song file location. if the name contains "front" this picture is chosen before others.
+  you can change to the other pictures by clicking on the displayed picture.
+- fix crash on startup , if bTunageRunOnStop option was active   
+- fixed bug: sometimes after stopping a song, you could not start play again.
+- fixed bug: player pause state was wrongly maintained leading to problems with the trayicon menu. 
+ 
+
+0.3.1.2 to 0.3.1.3
++ Listviews show a tooltip if column could not display the whole text ( Windows only)
++ (Windows only)Added possibility for using standard keys as hotkeys for play control. For now the settings can only be made by editing the .ini file.
++ Reduced flicker of Playing display.
++ Multiline edit for the autodj filter in preferences 
+- fixed bug: if prev song is selected in AutoDj mode, the player has skipped to the next song instead the previous
++ You can use / or \ in the rename mask now, so you can restructure your directories with the renaming feature.
+- fixed bug: Renaming does actually work again.
+- fixed bug: If a file had been renamed outside of wxMusik and then tagged inside of wxMusik, wxMusik created a small file with the old name.
+
+0.3.1.1 to 0.3.1.2
+- fixed bug: now playing list was not properly refreshed , when view was changed back to now playing.
+- fixed bug: rename mask setting change was not used or saved.
++ Query enter dialog has now a multi line text control for better input comfort
++ now it is possible to use songhistory in your dynamic paylist query. for example to display the last 50 played songs, the query is
+  FROM songhistory join songs on songs.songid=songhistory.songid order by songhistory.date_played desc limit 50
+  (note the FROM!) 
+  or to get the 100 most skipped songs ( less than 33 percent played)
+  FROM (select songid as aid,count(*) as acount from songhistory where percent_played < 33 group by songhistory.songid) join songs on songs.songid=aid order by acount desc limit 100
+
+- fixed some other small bugs i dont know anymore
+- fixed bug which gives  a funny sound when now playling list is cleared while song is playing
+- fixed bug which leads to an error box, when skipping songs fast and crossfading is enabled
+- fixed bug which let 'n' and 'e' key not work in playlist, n plays song as next one, e enqueues song at the end of the list.
++ playing dropped files from filemanager is now an option
++ while Copying files a progress dialog is now shown. A warning is issued if not enough space in target directory.
+- fixed bug which made the CopyFiles function unusable on windows
++ finally added an About Dialog
+-remove pedantic flag from CMakeLists.txt , to make it compile without error on "long long is not ansi".
+
+0.3.1.0 to 0.3.1.1
+- quick fix for linux bug, if log window is about to be opened, if a warning occurs while scanning this gives an xlib error. feature disabled on linux for now
+- Loop song is now Repeat Song, same for loop list.
+- fixed bug concerning Simple Query and Custom Query from menu, when the library view was not the active one.
++ AutoDj/Shuffle Settings are now changeable in the preferences. 
++ New AutoDJ Filter setting available. for example you can filter out all songs with genre Comedy and negative rating.
++ Now you are able to rate the songs from -9 to +9. Use shift + number for negative rating
+- Tunage Run on stop was always executed, regardless of the prefs setting
++ wxMusik is localized now. A german localization is available now as the first one ( simply because i am german ;-)) 
+
+0.3.0.2 to 0.3.1.0
+- On linux CTRL + a and CTRL + d in the playlist to select all/nothing did not work.
+- If you drag something to an inavlid target , this is now indictated by the cursor.
++ Failures of tag reading or writing are now output in a log window.
+- if selecting the library after another source was active, its the displayed netries are preserved in the playlistctrl, in al selection styles ( not only standard)
++ while drag and dropping instead of selecting entrys where the mouse is over, focussing is used.
++ you can let you show the artist( album genre) in the library with the context menu in the playlistctrl
+- vorbis comments are read as utf-8 and the tags which wxMusik does not edit, are preserved now.
+- now playing list is properly updated, if the data of the songs has changed somehow.
++ now you can easily rate the selected song(s) with the keyboard ( simply press a key from 0-5 )
++ all data is stored as UTF-8 in the database.(For now only ogg data is read as unicode)
++ Now full unicode support. wxMusik compiles with unicode suppport 
++ callback api adapted to fmod 3.72 api ( wxMusik now needs fmod 3.72)
++ new started instance delegates its paramters to already running instance now.
+- fixed bug: songs were not played until the end( last n seconds , depending on setting of crossfading duration were missing), if crossfading was disabled.
++ New Context Menu item "Clear List" if your are viewing the NOW Playing playlist.
++ New Playmode Auto DJ. Shuffle only randomizes the current NOW Playing playlist. Auto DJ selects 15 songs randomly from the whole library in advance if active. 
+  as default only songs are selected which have not been played for 5 days. ( the setting can be changed in the prefs or ini file only for now)
++ New Option "Hide On Minimize". This behaviour is now optional, and default is false. ( some uers had problems understanding the previous default behaviour)
++ New option, to automatically (re)start playing on startup, at the point where you have exit wxMusik before.
++ On start, now playing list is shown instead of Musik Library, this way startup time is faster.
++ Now Playing list scrolls to new song on song change
++ Sources box now scroll automatically while drag and dropping
++ some code cleanup as usual
++ Some controls which were hidden in the Volume Popup are now in the main window ( crossfader checkbox and playmode choice)
+- fixed bug in the automatically Now Playing list saving
++ New Context Menu for Selection Boxes ( essentially the same like the new Play sub menu in the playlist)
++ Now Playing list is now automatically saved on program exit and restored on next program start
++ New submenu "Play", offers enqueuing instant playing etc. of selected songs.
++ change of operation: double click in Playlist no longer makes the whole list active ( this can achived by a new submenu), but inserts the clicked song into the "now playing playlist" and plays it instantly
+- bug fix:DnD in Now Playing playlist now really works
++ rewritten most of dnd code for playlistctrl, should be faster and more logical
++ Genre comboxbox in Tag dialog offers standard id3v1 genres plus all used genres, and you can enter your own genre name.
++ Drag and Drop of files from a Filemanager is supported now. New songs will automaticvally be added to the library. The dropped songs are appended to the "Now Playing" source playlist
++ songs can be deleted from  "Now Playing" playlist, and you can reorder songs by drag on drop there. 
++ you can now drag songs from playlist( or artist, album etc from selection boxes)  to the "Now Playing" sources entry and they will be appended
++ speed of tag writing to db has been enhanced.
++ random play history buffer is enlarged from 30 to 500 and you can set it to your liking in the prefs file (MaxRandomHistory)
+- fixed bug: threading is now made easier (nad less buggy) with a Thread controler class, which takes into acount that wxwidgets dispatches messages while waiting for a thread
+- fixed bug: cursor keys work now in all listctrl
+- fixed bug: when you tried to drag files from outside, the gui was blocked
++ new option to rebuild library, which rereads the tags from all songs ( lastplayed etc. entrys will be preserved)
++ scanning songs cannot be interrupted by pressing ESC
++ make library song parsing easier to extend,simpler and faster 
++ changed net stream,now playing  and library bitmaps
+
+0.3.0.1 to 0.3.0.2
+- fix bug with TaskBArIcon on linux. the way i did implement worked only
+  okay on windows. the new way works on both linux and windows( taskbaricon
+  no longer stays alive if app is closed)
+- workaround for bug (??) in wxGTK. wxCriticalSection is implemented there
+  as a non-recursive mutex, this lead to an unusable linux build(0.3.0.1), because
+  the app got locked up as soon as you tried to play something
+- workaorund for a bug in the datetime functions of wxwidgets, so date
+  queries do now work on linux too. (see some example playlist in contrib
+  dir of src distribution)
+
+0.3.0 to 0.3.0.1
+- fixed installation of prepacked radio channels and dynamic playlists on win9x
++ sorting order is now kept if selection in the selection boxes are made.
++ changed library playlist view sorting code. the sorting order is now remomberd if view  has been changed. should be faster now too ( gunnar)
+- fixed small bug: subtle backcolor bug in playlist view. playling songs background was coloured even if stripes where switched off ( gunnar)
+- fixed serious bug: access to m_Playlist in musikplayer.cpp from different threads could lead to a crash( gunnar)
+- fixed serious bug: access to pCrossFader in musikthreads.cpp from different threads could lead to a crash( gunnar)
+
+0.2.2 to 0.3.0
+
+- clean up  vc.net project file (uses environment variables for additional libraries to make compiling easier for other people) (gunnar)
++ Renamed Musik to wxMusik (gunnar)
+- Some errors concerning renaming of sources remove ( gunnar)
++ Trayicon added (gunnar)
+- skip version 0.2.2 and go to version 0.3.0
+
+0.2.1 to 0.2.2
+ - bug: should compile on linux with wxGTK 2.4.2 again
+ - fixed bug: if you want to rename a playlist but then click somewhere else, the name was set to empty (gunnar)
+ + random play now skips songs which are not available ( because they are on a network drive or cdrom or deleted etc.) (gunnar) 
+ - fixed bug with en/disabling selections when libray is not selected (gunnar) 
+ - if a song cannot be loaded the current playing song is not stopped anymore (gunnar) 
+ - fixed a crash bug , which apperad if musik is closed while a net stream was playing (gunnar) 
+ + Moved search box to playinfo ctrl above the playlist (gunnar) 
+ + custom wxjulianday sqlite function integrated now, which makes it possible to create dynamic playlists like "Show songs added in last 2 days" 
+   	( query would be: "wxjulianday(timeadded) > julianday('now','-2 days')" )
+	or "Show songs last played at least two weeks before" ( query would be: "wxjulianday(lastplayed) > julianday('now','-14 days')"  )
+	or "Show Songs not play for 3 months" ( query would be:"wxjulianday(lastplayed) < julianday('now','-3 months') or lastplayed = ''" )
+
+	wxjulianday sqlite function converts the timeformat used by Musik to the timeformat of sqlite.
+	You need sqlite 2.8.11 for this to work.(gunnar) 
+
+ + Sources and selections areas use wxSashWindow now, which means they can be resized by the user now (gunnar)
+ + More robust reconnect feature, if the stream connection is disturbed (gunnar)
+ + Added Preferences for streaming. Proxy and buffer settings (gunnar)
+ + Internet Radio streams are now supported (at least the kind of net streams, which fmod supports) (gunnar) 
+ + You can search in activity list boxes for artist etc. by entering more than one char now (gunnar)
+ + New option to sort the artist without prefix (e.g The Beatles become Beatles concerning sorting order) (gunnar)
+ + New permanent sources entry "Now Playing" showing which playlist the internal player works on. If selected it is scrolled to the actually played song (gunnar)
+ - Fixed Bug: Color of Text in ListViews uses now the window text system setting(gunnar)
+ + More AutoTagging enhancements (gunnar)
+ - Fixed bug in window placement on tsart, if Musik was closed iconized before. (on restart the window was not visible)(gunnar)
+ + Enhanced AutoTagging. Uses regex to be more robust. Dialog with option to store tag masks added (gunnar)
+ - Fixed Bug: Threads handling for Rename and tagging changed to joinable threads ( more robust) (gunnar)
+ + Pitch control added, with option to toggle (SiW)
+ + Fixed Bug: Reduced flicker of gauge control for position, fx and volume, NOW works correctly on win2000 too (gunnar)
+ + Make Horizontal Scrollbars disappear again in Selection Boxes ( gunnar)
+ + Flicker free listctrls for windows ( gunnar)
+ + Made a new option (under Sound/Driver) for using  FSOUND_MPEGACCURATE when a stream is openend for a mp3-vbr file. This makes opning slower and seek crossfading unusable(which is disabled then for that cause), BUT progress bar and playing time behave correctly for that files. The option is ON as default. See BUG #958 (gunnar)
+ + In Random Playmode, the currently displayed playlist will be made active if "play" is pressed while player is stopped. Before this change the user had to double click an entry of the playlist first to make the playlist active.(gunnar)
+ - Fixed Bug: If a Playlist which was selected by using the Selection Boxes was activly playing and the user chooses Show All , the current song could not be stopped/paused and a double click in  the playlistctrl had no effect too.(gunnar)
+ + Using indexes on the tables, speeding up some sql-selects and updating of the library, if new songs are available(gunnar)
+ + Reduced some flicker from selection listboxes(gunnar)
+ + Reduced flicker of gauge control for position, fx and volume (gunnar)
+ + Tunage - a simple system to update a file, URL, or run an app when song changes (SiW)
+ - Fixed Bug: Sorting numeric fields now works again (SiW)
+ - Fixed Bug: Serious Bug in delete from db and computer. The wrong files are deleted. This bug was introduced by me in 0.2.1. Shame on me. (gunnar)
+ - Fixed Bug: If Playlist is sorted, it was not internally updated by the player
+ - Fixed Bug:  On linux the genre string parsing did not work correctly for tags like (123)
+ + If a selection box has the focus, it now scrolls to a matching entry if a key is pressed
+ + Selection Boxes are now case-insensitively sorted (gunnar)
+ + Optimized Column sorting code a bit (gunnar)
+ - Fixed Bug: Playlists could be overwritten with empty file when exiting (SiW)
+ + Added playlist sorting by column (SiW)
+ + Made headers look better (avatar)
+ - Fixed Bug: On linux there were problems with menu items in the playlist context menu having the same title. The key accelarators of one item did also apper in an item of another submenu with the same title. simply changed the titles of items (gunnar)
+ - Fixed Bug: On linux the context menu had a strange behaviour concerning the check marks of the display submenu. Found a good workaround (gunnar)
+ + Some speed improvements, concerning rating and tag changing.(gunnar)
+ - Fixed Bug: On linux simple query would abort, because of wxString used as params for a (...) function (gunnar)
+
+0.2.0 to 0.2.1
+ - Fixed Bug: seek progress not updated if UI abused (avatar)
+ - Fixed Bug: Now compiles with wxGtk 2.4.1 again. (gunnar)
+ + The query text field is now disabled if a user playlist is displayed, because one ould easily destroy his playlist, by typing something in the textfield for search. (gunnar)
+ + Simplified some routines, by reusing existing code and by make for loops as short as possible (break from them as soon as possible) (gunnar)
+ + Reworked the tagging code, it should be much faster now and more thread safe. (gunnar)
+
+0.1.3 to 0.2.0 (aka 0.1.4)
+ + InnoSetup rather than NSIS for Win32 installer. (avatar)
+ - Fixed Bug: Playlist of selected artists and albums is now sorted after artist, album, trackum (gunnar)
+ + Added "Shuffle," "Random," and "Crossfade" to volume popup window. (avatar)
+ - Fixed Bug: Random Song selection code was wrong in the way that an endless loop could be entered. (gunnar)
+ + Added check for older (0.1.3) Musik column style, and a routine to reset if detected. (avatar)
+ + Changed threading for library and fader. should now be safe. no more crashes for this hopefully (gunnar)
+ - Fixed Bug: Genre string was not correctly put into the db, if the mp3 had also a pure text Genre field (ID3V2) (gunnar)
+ + Added "Fit Columns" option to the playlist popup menu. Also fixed some resizing issues. Renamed "Smart Columns" to "No horizontal scroll" (avatar)
+ + Compiles now with wxGTK 2.4.1 too ( not only wxWindows cvs version). No gtk2 wxWindows is really needed. It compiles on my gentoo box with the standard wxGtk 2.4.1(gunnar)
+ + Removed all warnings on linux compiling (gunnar)
+ - Fixed Bug: Multimedia keyboard support on windows should really work now (gunnar)
+ - Fixed Bug: Playlist was not shown on linux, bcause playlistctrl was freezed. wonder why that error did not have effect on windows.(gunnar)
+ - Fixed Bug: compiles on linux again (gunnar)
+ - Fixed Bug: Hiding / Showing the activity boxes could make the playlist info disappear. (avatar)
+ - Fixed Bug: clicking and dragging outside the seek bar, then releasing in the seek bar could cause a crash (avatar)
+ + Took out "Scan for new files" in Library setup. Just caused confusion. (avatar)
+ - Fixed Bug: F2/F3/F4/F6/F6/F7 accelerator keys in the playlist now select the correct info. (avatar)
+ + Redesigned playlist popup menu (dcarter)
+ - Fixed Bug: DND / retagging multipe artists with the same album, etc. (avatar)
+ - Fixed Bug: stop / pause / resume work with crossfade being disabled. (avatar)
++ Optimized db querys (gunnar)
+- Fixed Bug: having lots of crossfades at the same time is no longer dangerous.
+ + Optimized many function that returned an wxArrayString object to functions that use a reference parameter for the array
+   Lots of memory copying are saved (gunnar)
+ + changed handling of the Show all entry in activity boxes, to gain some speed by not adding the netry to the front of the list array
+ + Much more speed ( up to 3 times faster) for adding of files to the library by using only one transaction for the database update, instead of the implicit transaction that are used for every single update ( gunnar)
+ + some code cleanup (gunnar)
+ 
+0.1.2 to 0.1.3
+ - Fixed Bug: Crash when selecting first item using (new) "Highlight" method, formally "Show unselected..." (avatar)
+ - Fixed Bug: Pressing "Stop" resets the caption bar to "Musik" (avatar)
+ - Fixed Bug: Time added being calculated every time a song was added. (avatar)
+ + Playlist columns (header) can now be customized. Big time. Check out File -> Preferences -> General -> Playlist. (avatar)
+ + Dropdown box in Preferences -> Options -> Selections for selection style. Used to be a checkbox. (avatar)
+ - Fixed Bug: standard playlists would not get saved under certain circumstances, saved twice under others. (avatar)
+ + More crossfader smoothness. We gotta have the smoothest fader around now (avatar)
+ - Fixed Bug: Optimized ogg read support a little, which magically fixed the last known memory leak. (avatar)
+ - Fixed Bug: "make install" directive works in linux now (malenfant)
+ + Can now automatically tag files from filename, including paths (DCarter)
+ + Updating library now prompts user, and asks if he would like to clear the database first (avatar)
+ + First run message box to help new users. (avatar)
+ + Optimized for wxWindows 2.5 (CVS), and share a common codebase now. (avatar)
+ - Fixed Bug: adjusting the volume during song playback could cause the next crossfade to cut out (avatar)
+ - Fixed Bug: VBR crashing. If non Xing VBR, Musik would crash. (avatar)
+ - Fixed Bug: Confusion when attempting to add / show a playlist that exists or is not visible in the Sources box (avatar)
+ + Sources box now virtual. Less flashy. (avatar)
+ + Couple patches from Gunnar Roth that should address any non ANSI character issues(gunnar)
+ + setup wxMutex (mutual exclusion) objects to keep threads from interfering with each other (avatar)
+ - Fixed Bug: "&" would be displayed "&&" on caption bar (avatar)
+ + Window position and state are remembered (WadeB) 
+ + Colour selection for activity / sources / playlist stripes (WadeB)
+ + Selection box drop target. Drag files from playlist to artist / album / genre / year to have that song updated. (WadeB)
+ + Paths are stored in their own file.. (*nix) ~/.Musik/musikpaths.dat or (win32) docs and settings\<user>\.Musik\musikpaths.dat (avatar)
+ - Fixed Bug: If there are no pending tags to view, activity area status will not change (avatar)
+ + Preferences saved in an ini file rather than registry. (*nix) ~/.MusikPrefs or (win32) docs and serttings\<user>\.Musik\Musik.ini (avatar)
+ - Fixed Bug: Swapped ordering of activity box stripes. (avatar)
+ - Fixed Bug: Flashing problems when updating some progress bars (avatar)
+ + Threading routines completely redone and now complete.  (avatar)
+ + auto rename now supports renaming to nested directories.. like <root dir>\Artist\Album\Song.mp3 (avatar)
+ - Fixed Bug: Uninstall problem where changelog wasn't getting removed (avatar)
+ + New selection routine to assure that, for example, if two artists share a common album name (such as "unplugged"), 
+   only the correct, selected artist's album songs get displayed (avatar)
+ - Fixed Bug: Selection boxes may be have been getting updated twice under certain circumstances. (avatar)
+ - Fixed Bug: Deleting songs from a playlist / database / computer no longer makes selection jump to first item (avatar)
+ - Fixed Bug: Deleting songs from database / computer actually WORKS again. oops. (avatar)
+ - Fixed Bug: Purging old files from database works again (avatar)
+
+0.1.1 to 0.1.2
+ + Database, sources list, and playlists are now stored (*nix) ~/.Musik/ or (win32) docs and settings\<user>\.Musik\ (avatar)
+ - Fixed Bug: Windows may not have loaded if no paths configured (avatar)
+ + Brand new selection scheme for hiding unrelated material.  (avatar)
+ + New activity box tag editing again, with better ogg support (avatar)
+ - Fixed Bug: Changing a playlist in certain circumstances could cause a crash (SiW)
+ - Fixed Bug: font related issues (avatar)
+ + Player component tear down and rebuild (avatar)
+ + About 5 crossfader rewrites. (avatar)
+ + Threaded crossfade and playback updating (avatar)
+ + project converted to unicode (avatar/unthesis)
+ + Linux CMake files (malenfant)
+ + wxListBox's are now virtual wxListCtrls. big switch. This means faster updating, less flashing, and smaller exe size. (avatar)
+ + Slightly re-designed database setup dialog now called "Library Setup" (avatar)
+ - Fixed Bug: Crash when attempting to edit an unknown genre type (avatar)
+ + Profanity filter (SiW)
+ - Fixed Bug: Layout problems with tag edit frame fixed. (avatar)
+ + Tag edit frame has progress that can be aborted (avatar)
+ - Fixed Bug: Memory leak when tagging ogg vorbis files (avatar)
+ - Fixed Bug: Volume adjustment improvements. window gets killed when focus is lost (avatar)
+ + shortcut keys. tag dialog: enter/shift-enter/escape. prefs dialog: escape. library dialog: escape (avatar)
+
+0.1.1
+ + New volume popup window
+ + seek bar is now a progress bar. (avatar)
+ - Fixed Bug: All reported tagging problems addressed (avatar)
+ - Little things people complained about *cough*dustin*cough* ;) (avatar)
+
+0.1
+ + First public release (the Musik team)

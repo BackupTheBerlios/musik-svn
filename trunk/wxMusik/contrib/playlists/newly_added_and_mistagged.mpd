@@ -1,0 +1,1 @@
+(artist='' or title ='' or title = filename or album='' or genre=''  or tracknum=0) and wxjulianday(timeadded) > julianday('now','-1 hours')

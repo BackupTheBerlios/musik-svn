@@ -107,11 +107,7 @@ bool MusikApp::OnInit()
 {
 	if(Prefs.bEnableCrashHandling)
 	{
-#if defined(__WINDOWS__)
-		// BlackBox dll (crash handling)
-		m_blackboxDll.Load (_T("BlackBox.dll"));
-#endif
-#if defined(__linux__)
+#if defined(__WXMSW__) || defined(__linux__)
 		// fatal exceptions handling
 		wxHandleFatalExceptions (true);
 #endif
@@ -479,5 +475,47 @@ void MusikApp::OnFatalException ()
 
 
 
+}
+#endif
+#if defined(__WXMSW__)
+#include "wx/log.h"
+#include "wx/datetime.h"
+#include "wx/ffile.h"
+#include "wx/wfstream.h"
+#include "wx/filename.h"
+#include "wx/dynlib.h"
+#include "wx/debugrpt.h"
+
+#include "wx/msgdlg.h"
+
+#include "wx/net/email.h"
+
+void MusikApp::OnFatalException ()
+{
+    wxDebugReportCompress report;
+
+    // add all standard files: currently this means just a minidump and an
+    // XML file with system info and stack trace
+    report.AddAll(wxDebugReport::Context_Exception);
+ 
+    // create a copy of our preferences file to include it in the report
+    wxFileName destfn(report.GetDirectory(), _T("musik.ini"));
+    wxCopyFile(wxFileConfig::GetLocalFileName(CONFIG_NAME),destfn.GetFullPath());
+
+    report.AddFile(destfn.GetFullName(), _T("Current Preferences Settings"));
+
+    // calling Show() is not mandatory, but is more polite
+    if ( wxDebugReportPreviewStd().Show(report) )
+    {
+        if ( report.Process() )
+        {
+            wxMailMessage mail(GetAppName() +  _T(" Crash-Report"),_T("gunnar67@users.berlios.de"),
+                MUSIKAPPNAME_VERSION wxT("crashed."),
+                wxEmptyString,report.GetCompressedFileName(),_T("CrashReportZip"));
+            if(!wxEmail::Send(mail))
+                wxMessageBox(_T("Sending email failed!"));
+        }
+    }
+    //else: user cancelled the report
 }
 #endif

@@ -38,12 +38,12 @@ Name: desktopicon; Description: {cm:CreateDesktopIcon}; GroupDescription: {cm:Ad
 Name: quicklaunchicon; Description: {cm:CreateQuickLaunchIcon}; GroupDescription: {cm:AdditionalIcons}; Flags: unchecked
 
 [Files]
-Source: _release\{#MyAppExe}; DestDir: {app}; Flags: promptifolder; MinVersion: 4.1.1998,0; OnlyBelowVersion: 0,4.0.1381
+Source: _release\{#MyAppExe}; DestDir: {app}; Flags: promptifolder replacesameversion; MinVersion: 4.1.1998,0; OnlyBelowVersion: 0,4.0.1381
 Source: changelog.txt; DestDir: {app}; Flags: ignoreversion
-Source: Release Unicode\BlackBox.dll; DestDir: {app}; Flags: ignoreversion
-Source: Release Unicode\fmod.dll; DestDir: {app}; Flags: ignoreversion
+;Source: Release Unicode\BlackBox.dll; DestDir: {app}; Flags: ignoreversion
+Source: Release Unicode\fmod.dll; DestDir: {app}; Flags: replacesameversion
 Source: license.txt; DestDir: {app}; Flags: ignoreversion
-Source: _release\MMShellHook.dll; DestDir: {app}; Flags: ignoreversion
+Source: _release\MMShellHook.dll; DestDir: {app}; Flags: replacesameversion
 Source: c:\WINDOWS\SYSTEM32\msvcp71.dll; DestDir: {app}; Flags: promptifolder onlyifdoesntexist
 Source: c:\WINDOWS\SYSTEM32\msvcr71.dll; DestDir: {app}; Flags: promptifolder onlyifdoesntexist
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
@@ -52,7 +52,7 @@ Source: contrib\playlists\*.mpd; DestDir: {userappdata}\..\.Musik\playlists; Fla
 Source: contrib\playlists\*.mpu; DestDir: {userappdata}\..\.Musik\playlists; Flags: overwritereadonly; Components: Radio_Channels
 Source: contrib\playlists\*.mpu; DestDir: {app}\.Musik\playlists; Flags: overwritereadonly; Components: Radio_Channels_win9x
 Source: contrib\playlists\*.mpd; DestDir: {app}\.Musik\playlists; Flags: overwritereadonly; Components: Dynamic_Playlist_Examples_win9x
-Source: Release Unicode\{#MyAppExe}; DestDir: {app}; MinVersion: 0,4.0.1381sp6; Flags: promptifolder
+Source: Release Unicode\{#MyAppExe}; DestDir: {app}; MinVersion: 0,4.0.1381sp6; Flags: promptifolder replacesameversion
 Source: data\*; DestDir: {app}\data; Flags: overwritereadonly; Excludes: CMakeLists.txt
 Source: locale\de\*.mo; DestDir: {app}\locale\de; Flags: overwritereadonly; Languages: de
 Source: locale\fr\*.mo; DestDir: {app}\locale\fr; Flags: overwritereadonly; Languages: fr

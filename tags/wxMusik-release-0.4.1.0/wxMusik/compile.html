@@ -1,0 +1,629 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+    <head>
+        <title>Musik | Compiling How-To</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+        <link href="../css/index.css" rel="stylesheet" type="text/css">
+    </head>
+    <body>
+        <a href="#win32">compiling in win32</a>
+        <p><a href="#linux">compiling in linux</a></p>
+        <h1 id="win32"><span style="FONT-STYLE: italic">Important&nbsp; note: Only wxWidgets
+version 2.5.3 or newer is supported</span></h1>
+        <br>
+        <br>
+        <table border="0" width="95%">
+            <tbody>
+                <tr>
+                    <td>
+                        <h1>Compiling in Windows...</h1>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h2>setup the wxMusik dependencies</h2>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div style="LEFT: 10px; POSITION: relative">
+            <br>
+            <table border="0" width="95%">
+                <tbody>
+                    <tr>
+                        <td>
+                            <h3>Assure the following are available on your system...</h3>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h4>notes: as of right now only VS.C++ 2003 is supported in cvs. To use VS.Net 7.0 
+                                you have to change the version number from 7.10 ( 8.00) to 7.00 in the .sln and 
+                                vcproj files.</h4>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <ul>
+                                <li>
+                                Microsoft Visual C++ .NET 2003
+                                <li>
+                                    <a href="#flac">libflac</a>
+                                <li>
+                                    <a href="#fmod">fmod sound system</a>
+                                <li>
+                                    <a href="#ape">Monkeys Audio SDK</a>
+                                <li>
+                                    <a href="#sqlite">sqlite</a>
+                                <li>
+                                    <a href="#wxwindows">wxWidgets</a>
+                                </li>
+                            </ul>
+                            <p><font size="2">You have to manually change the include and lib pathes to this 
+                                    libraries in the .vcproj file or set some environment variables. Be sure to 
+                                    build all libs as static libs using the c-runtime (msvcrt) as a dll.</font></p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <br>
+            <table border="0" width="95%">
+                <tbody>
+                    <tr>
+                        <td>
+                            <h3 id="flac">
+                                libFLAC: <a href="http://flac.sourceforge.net/" target="_blank">homepage</a> or <a href="http://flac.sourceforge.net/download.html" target="_blank">
+                                    download libflac</a>
+                            </h3>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h4>notes: You need flac 1.1.1. build as static libs. consult package's readme.</h4>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <br>
+            <table border="0" width="95%">
+                <tbody>
+                    <tr>
+                        <td>
+                            <h3 id="ape">MAC SDK(Monkey's Audio aka APE): <a href="http://www.monkeysaudio.com/" target="_blank">
+                                    homepage</a> or <a href="http://www.monkeysaudio.com/files/MAC_SDK_399.zip" target="_blank">
+                                    download MAC SDK</a>
+                            </h3>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h4>notes: You need version 3.99&nbsp; build as static libs. consult package's 
+                                readme.</h4>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <br>
+            <table border="0" width="95%">
+                <tbody>
+                    <tr>
+                        <td>
+                            <h3 id="fmod">
+                                fmod sound system: <a href="http://www.fmod.org" target="_blank">homepage</a> or
+                                <a href="http://www.fmod.org/files/fmodapi372win32.zip" target="_blank">download</a>
+                            </h3>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <ul>
+                                <li>
+                                download the 3.73 version
+                                <li>
+                                unarchive
+                                <li>
+                                    <code>add</code> <code>fmodapi373win/api/include/</code>
+                                directory to your include path
+                                <li>
+                                    <code>add fmodapi373win/api/lib/</code>
+                                to your include path&nbsp;
+                                <li>
+                                    <code>copy fmodapi373win/api/fmod.dll </code>to&nbsp;the subdirectories Debug 
+                                    Unicode , Release Unicode (_debug and _release for non-unicode builds) of 
+                                    wxMusik root directory<br>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <br>
+            <table border="0" width="95%">
+                <tbody>
+                    <tr>
+                        <td height="18">
+                            <h3 id="sqlite">
+                                sqlite: <a href="http://www.sqlite.org/">homepage</a> or <a href="http://www.sqlite.org/download.html">
+                                    download</a> binary and source
+                            </h3>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h4>notes: make sure <code>sqlite.h</code> from the source packages is in an 
+                                include path.</h4>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <ul>
+                                <li>
+                                download sqlite 2.8.15 or later (not sqlite 3!)
+                                <li>
+                                unarchive
+                                <li>
+                                create a new static library project&nbsp;named sqlite and add all .c files 
+                                besides shell.c
+                                <li>
+                                    add _LIB;THREADSAFE to preprocessor definitions to each 
+                                    configuration(debug,release) to build build a static threadsafe version of 
+                                    sqlite.</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <br>
+            <table border="0" width="95%">
+                <tbody>
+                    <tr>
+                        <td>
+                            <h3 id="wxwidgets">
+                                wxWidgets 2.5.3 : <a href="http://www.wxwidgets.org/">homepage </a>
+                            </h3>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h4>notes: only wxWidgets 2.5.3 version is supported by now!<br>
+                            </h4>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h4 style="FONT-WEIGHT: bold">IMPORTANT: Use unicode build of wxWigets is 
+                                encouraged. This is now the official used build. Only for win98 builds the 
+                                non-unicode version is used.<br>
+                            </h4>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <br>
+            <br>
+            <br>
+        </div>
+        <table border="0" width="95%">
+            <tbody>
+                <tr>
+                    <td>
+                        <h2>Compile wxMusik once you have all the dependencies...</h2>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div style="LEFT: 10px; POSITION: relative">
+            <table border="0" width="95%">
+                <tbody>
+                    <tr>
+                        <td>
+                            <h3>wxMusik Source: <a href="http://developer.berlios.de/project/showfiles.php?group_id=925">
+                                    download</a></h3>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <ul>
+                                <li>
+                                unarchive the source
+                                <li>
+                                    set environment variables in windows (Setting/System/Advanced)
+                                    <ul>
+                                        <li>
+                                        set WXDIR&nbsp; to the wxwindows dir (e.g. c:\src\wxwidgets-2.5.3)
+                                        <li>
+                                        set SQLITEDIR (e.g. c:\src\sqlite) be sure to create the sqlite.lib in 
+                                        Debug/Release subdirectories there.
+                                        <li>
+                                        set FMODDIR (e.g. c:\src\fmodapi373win)
+                                        <li>
+                                        set FLACLIBDIR (e.g. c:\src\flac-1.1.1)
+                                        <li>
+                                            set MAC_SDKDIR (e.g. c:\src\MAC_SDK_399)</li>
+                                    </ul>
+                                <li>
+                                    load <code>Musik.sln</code>
+                                into Visual C++.NET 2003
+                                <li>
+                                    compile! (only Debug Unicode,Release Unicode, Release and Debug version work.)</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <br>
+        </div>
+        <h1 id="linux">&nbsp;</h1>
+        <table border="0" width="95%">
+            <tbody>
+                <tr>
+                    <td>
+                        <h1>Compiling in Linux...</h1>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h2>setup the wxMusik dependencies
+                        </h2>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <DIV style="LEFT: 10px; POSITION: relative">
+            <br>
+        </DIV>
+        <DIV style="LEFT: 10px; POSITION: relative">
+            <table border="0" width="95%">
+                <tbody>
+                    <tr>
+                        <td>
+                            <h3>Assure the following are available on your system...</h3>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h4>Note: a "make install" target is available now.</h4>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <ul>
+                                <li>
+                                CMake
+                                <li>
+                                libmusepack 1.0.3 ( not 1.1!) ( optional)
+                                <LI>
+                                libflac 1.1 (optional)
+                                <LI>
+                                libmac
+                                <LI>
+                                fmod sound system
+                                <li>
+                                sqlite
+                                <li>
+                                GTK2 (GTK1 may work, but is not supported)
+                                <li>
+                                    wxWidgets
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </DIV>
+        <DIV style="LEFT: 10px; POSITION: relative">
+            <br>
+        </DIV>
+        <DIV style="LEFT: 10px; POSITION: relative">
+            <table border="0" width="95%">
+                <tbody>
+                    <tr>
+                        <td>
+                            <h3>CMake: <a href="http://www.cmake.org/">homepage</a> or download linux binary or 
+                                download source</h3>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h4>notes: just build as normal. consult package's readme.</h4>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </DIV>
+        <DIV style="LEFT: 10px; POSITION: relative">
+            <table border="0" width="95%">
+                <tbody>
+                    <tr>
+                        <td>
+                            <h3>GTK2: homepage or download</h3>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h4>notes: read the gtk2 official installation guide or just use the install 
+                                mechanism of your distribution. dont forget to install the devel packages</h4>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </DIV>
+        <DIV style="LEFT: 10px; POSITION: relative">
+            <br>
+        </DIV>
+        <DIV style="LEFT: 10px; POSITION: relative">
+            <table border="0" width="95%">
+                <tbody>
+                    <tr>
+                        <td height="15">
+                            <h3>Monkeys Audio (MAC) : <a href="http://www.monkeysaudio.com/" target="_blank">homepage</a>
+                                or <a href="http://www.hydrogenaudio.org/forums/index.php?act=Attach&amp;type=post&amp;id=711"
+                                    target="_blank">download</a></h3>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h4>notes: just build as normal. consult package's readme or just use the install 
+                                mechanism of your distribution. dont forget to install the devel packages</h4>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </DIV>
+        <DIV style="LEFT: 10px; POSITION: relative">&nbsp;</DIV>
+        <DIV style="LEFT: 10px; POSITION: relative"><BR>
+            <TABLE id="Table4" width="95%" border="0">
+                <TR>
+                    <TD height="15">
+                        <H3>
+                            <H3 id="flac">libFLAC: <A href="http://flac.sourceforge.net/" target="_blank">homepage</A>
+                                or <A href="http://flac.sourceforge.net/download.html" target="_blank">download 
+                                    libflac</A>
+                            </H3>
+                        </H3>
+                    </TD>
+                </TR>
+                <TR>
+                    <TD>
+                        <H4>notes: just build as normal. consult package's readme or just use the install 
+                            mechanism of your distribution. dont forget to install the devel packages</H4>
+                    </TD>
+                </TR>
+            </TABLE>
+            <BR>
+            <br>
+            <br>
+        </DIV>
+        <DIV style="LEFT: 10px; POSITION: relative">
+            <table border="0" width="95%">
+                <tbody>
+                    <tr>
+                        <td>
+                            <h3>
+                                libmusepack 1.0.3: <a href="http://www.musepack.net/" target="_blank">homepage</a>
+                                or <A href="http://files.musepack.net/source/libmusepack-1.0.3.tar.bz2">download</A></h3>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h4>
+                                <H4>notes: do not try to use Version 1.1.
+                                </H4>
+                                <H4>just build as normal. consult package's readme or just use the install 
+                                    mechanism of your distribution. dont forget to install the devel packages</H4>
+                            </h4>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </DIV>
+        <DIV style="LEFT: 10px; POSITION: relative">
+            <br>
+            <br>
+        </DIV>
+        <DIV style="LEFT: 10px; POSITION: relative">
+            <table border="0" width="95%">
+                <tbody>
+                    <tr>
+                        <td>
+                            <h3>fmod sound system: <a href="http://www.fmod.org/" target="_blank">homepage</a> or
+                                <a href="http://www.fmod.org/files/fmodapi374linux.tar.gz" target="_blank">download</a></h3>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <ul>
+                                <li>
+                                download the 3.74 version (alsa should work with this version finally)
+                                <li>
+                                unarchive
+                                <li>
+                                    <code>cp fmodapi374linux/api/inc/* /usr/include</code>
+                                (or your prefered include path)
+                                <li>
+                                    <code>cp fmodapi374linux/api/libfmod-3.74.so /usr/lib</code>
+                                (or your prefered lib path)
+                                <li>
+                                    <code>ldconfig</code>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </DIV>
+        <DIV style="LEFT: 10px; POSITION: relative">
+            <br>
+        </DIV>
+        <DIV style="LEFT: 10px; POSITION: relative">
+            <table border="0" width="95%">
+                <tbody>
+                    <tr>
+                        <td>
+                            <h3>sqlite: <a href="http://www.sqlite.org/">homepage</a>, or <a href="http://www.sqlite.org/download.html">
+                                    download</a> binary and download source</h3>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h4>notes: make sure <code>sqlite.h</code> from the source packages is in an 
+                                include path.</h4>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <ul>
+                                <li>
+                                download sqlite 2.8.15 or later
+                                <li>
+                                unarchive
+                                <li>
+                                ./configure --enable-utf8;make; make install
+                                <li>
+                                move enclosed library to a library path
+                                <li>
+                                    <code>ldconfig</code>
+                                <li>
+                                    get <code>sqlite.h</code>
+                                from the source distribution
+                                <li>
+                                    copy <code>sqlite.h</code> to an include path
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </DIV>
+        <DIV style="LEFT: 10px; POSITION: relative">
+            <br>
+        </DIV>
+        <DIV style="LEFT: 10px; POSITION: relative">
+            <table id="Table1" border="0" width="95%">
+                <tbody>
+                    <tr>
+                        <td>
+                            <h3>wxWidgets 2.5.3 or latest CVS : <a href="http://www.wxwindows.org">homepage</a> 
+                                or download</h3>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h4>
+                            </h4>
+                            <h4>
+                            </h4>
+                            <H4>
+                                notes: Use latest CVS if possible, because&nbsp;some errors have been corrected 
+                                since 2.5.3.</H4>
+                            <H4>
+                                For the cvs version use&nbsp; <code>configure --with-gtk --enable-gtk2 
+                                    --enable-unicode</code></H4>
+                            <h4>
+                                gtk1 is somewhat faster than gtk2,but does not support unicode! ( Actually gtk2 
+                                is as fast as gtk1 on my ubuntu distribution)</h4>
+                            <P>&lt;Attention!&gt;Some Linux users have experienced problems when scanning their 
+                                media files.One of them told me that using wxGTK 2.4.1 solved the problems for 
+                                him.<br>
+                                But wxGTK version below wxGTK 2.5.3 are not supported by wxMusik anymore. I 
+                                would be glad if someone,who also has this problem could this debug for me.<br>
+                                As mirko_3 found out the problem arises, if the environment variables settings 
+                                are not set correctly.<br>
+                            </P>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h4 style="FONT-WEIGHT: bold">IMPORTANT: use gtk2 unicode build if possible!<br>
+                            </h4>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </DIV>
+        <DIV style="LEFT: 10px; POSITION: relative">
+            <br>
+            <br>
+            <br>
+        </DIV>
+        <table id="Table2" border="0" width="95%">
+            <tbody>
+                <tr>
+                    <td>
+                        <h2>Compile wxMusik once you have all the dependencies...</h2>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div style="LEFT: 10px; POSITION: relative">
+            <table id="Table3" border="0" width="95%">
+                <tbody>
+                    <tr>
+                        <td>
+                            <h3>wxMusik Source: <a href="http://developer.berlios.de/project/showfiles.php?group_id=925" target="_blank">
+                                    download</a></h3>
+                            <P>If you are adventurous you can use the most current source code from the svn 
+                                repositiory (in cvs is only the old 0.3.1.7 code)</P>
+                            <UL>
+                                <LI> <!--StartFragment --> svn checkout svn://svn.berlios.de/musik
+                                </LI>
+                                <LI>
+                                    cd musik/trunk/wxMusik</LI>
+                                <LI>
+                                    continue as described below</LI></UL>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <UL>
+                                <li>
+                                unarchive the source
+                                <li>
+                                    <code>cd wxMusik-0.4.1.0/</code>
+                                <LI>
+                                the wxMusik cmake scripts allow a out-of source build, so we create a 
+                                subdirectory for the compiled files
+                                <LI>
+                                    <CODE>mkdir crelbuild</CODE>
+                                <LI>
+                                    <CODE><!--StartFragment --> cd crelbuild&nbsp;<!--StartFragment --></CODE>
+                                <LI>
+                                    execute " <code>ccmake&nbsp; -DCMAKE_BUILD_TYPE:STRING=RelWithDebInfo ..&nbsp; "</code>, 
+                                and assure all the libraries listed above are found. If not you can disable the 
+                                use of MAC,MPC or FLAC libs now.
+                                <LI>
+                                while inside "ccmake", you can set&nbsp;CMAKE_BUILD_TYPE to 
+                                RelWithDebInfo,Release (or Debug if you want a Debug Build) and 
+                                CMAKE_INSTALL_PREFIX
+                                <li>
+                                You can now choose which wxwidgets lib should be used, unicode version or not 
+                                and or if a wxwidgets should be statically linked or not.
+                                <li>
+                                press "c" to configure(maybe several times, until the [g] option apears), then 
+                                "g" to generate the makefile
+                                <li>
+                                    run <code>make</code>
+                                <li>
+                                if all is right, an executable named "wxMusik" will be generated.
+                                <li>
+                                    run <code>./wxMusik</code>
+                                in the current dir to try it out
+                                <li>
+                                do a 'make install' to install binary and data to CMAKE_INSTALL_PREFIX. All 
+                                languages will be installed
+                                <li>
+                                    copy the example playlists and radio channels from 
+                                    wxMusik-0.4.1.0/contrib/playlists to ~/.Musik/playlists<br>
+                                    <br>
+                                    <br>
+                                </li>
+                            </UL>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <br>
+        </div>
+        (last changed 20th January&nbsp;2005)
+    </body>
+</html>

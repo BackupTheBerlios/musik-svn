@@ -1,0 +1,4 @@
+cmake  -DCMAKE_BUILD_TYPE:STRING=Release \
+	-DWXWINDOWS_USE_SHARED_LIBS:BOOL=OFF \
+ 	-DSQLITE_LIBRARY:FILEPATH=../binlibs/libsqlite.a \
+ 	..

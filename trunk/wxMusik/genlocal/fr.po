@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wxMusik-0.3.1.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-02-20 19:51+0100\n"
-"PO-Revision-Date: 2004-10-12 21:25+0100\n"
+"POT-Creation-Date: 2005-02-20 21:18+0100\n"
+"PO-Revision-Date: 2005-02-20 19:51+0100\n"
 "Last-Translator: tomass <tomass@no-log.org>\n"
 "Language-Team: wxMusik Team\n"
 "MIME-Version: 1.0\n"
@@ -421,7 +421,7 @@ msgstr "Tous les termes"
 
 #: ../src/Frames/MusikLibraryFrame.cpp:165
 msgid "Allow tag guessing from filename"
-msgstr ""
+msgstr "Permettre l'extraction des tags sur le nom du fichier"
 
 #: ../src/Frames/MusikFrame.cpp:367
 msgid "Always On Top\tCtrl-T"
@@ -549,9 +549,8 @@ msgid "Clear old tags    "
 msgstr "Nettoyer les vieux tags"
 
 #: ../src/Frames/MusikFXFrame.cpp:142
-#, fuzzy
 msgid "Close"
-msgstr "Nettoyer"
+msgstr "Fermer"
 
 #: ../src/Frames/MusikPrefsFrame.cpp:360
 msgid "Command line:"
@@ -694,7 +693,7 @@ msgstr "Utiliser le pitch"
 
 #: ../src/Frames/MusikPrefsFrame.cpp:237
 msgid "Enable balloon song info"
-msgstr ""
+msgstr "Afficher les informations du morceau "
 
 #: ../src/Classes/ActivityBox.cpp:872 ../src/Classes/PlaylistCtrl.cpp:417
 msgid "Enqueue"
@@ -943,7 +942,7 @@ msgstr "Normal"
 #: ../src/MusikAboutDlg.cpp:89 ../src/MusikAboutDlg.cpp:97
 #: ../src/MusikAboutDlg.cpp:105
 msgid "Not supported"
-msgstr ""
+msgstr "Non supporté"
 
 #: ../src/MusikGlobals.cpp:61
 msgid "Notes"
@@ -1253,9 +1252,8 @@ msgid "Show Library on startup"
 msgstr "Montrer la Bibliothèque au démarrage"
 
 #: ../src/Frames/MusikFrame.cpp:359
-#, fuzzy
 msgid "Show Playing Control on top\tCtrl-5"
-msgstr "Afficher les informations de la sélection"
+msgstr "Afficber les commandes audio en haut\tCtrl-5"
 
 #: ../src/Frames/MusikFrame.cpp:357
 msgid "Show Playlist Info\tCtrl-3"
@@ -1581,7 +1579,7 @@ msgstr "mise en cache"
 
 #: ../src/Frames/MusikFrame.cpp:644
 msgid "by "
-msgstr ""
+msgstr "par "
 
 #: ../src/Classes/MusikPlayer.cpp:1231
 msgid "connecting ..."
@@ -1606,7 +1604,7 @@ msgstr "vibromasseur"
 
 #: ../src/Frames/MusikFrame.cpp:646
 msgid "from the album"
-msgstr ""
+msgstr "de l'album"
 
 #: ../src/MusikUtils.cpp:282
 msgid "fuck"
@@ -1647,9 +1645,3 @@ msgstr "branler"
 #: ../src/MusikUtils.cpp:287
 msgid "whore"
 msgstr "pute"
-
-#~ msgid "&Directories"
-#~ msgstr "&Répertoires"
-
-#~ msgid "Remove A&ll Directories"
-#~ msgstr "Suprimer tous les &répertoires  "

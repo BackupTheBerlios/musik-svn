@@ -1,4 +1,4 @@
-WxMusik as a whole is licensed under the GPL V2 ( see below for license text)
+wxMusik as a whole is licensed under the GPL V2 ( see below for license text)
 , because it uses some code which is licensed under the GPL.
 
 But code written by the authors of wxMusik for wxMusik is licensed under BSD License.

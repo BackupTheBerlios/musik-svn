@@ -1,20 +1,20 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR Free Software Foundation, Inc.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: wxMusik 0.4.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-02-20 19:51+0100\n"
-"PO-Revision-Date: 2005-02-20 19:50+0100\n"
+"POT-Creation-Date: 2005-02-20 21:18+0100\n"
+"PO-Revision-Date: 2005-02-20 20:46+0100\n"
 "Last-Translator: Gunnar Roth <gunnar.roth@gmx.de>\n"
 "Language-Team: wxMusik Translators <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-2\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Language: Polish\n"
-"X-Poedit-Country: POLAND\n"
+"X-Poedit-Country: Poland\n"
 "X-Poedit-SourceCharset: iso-8859-1\n"
 
 #: ../src/Frames/MusikPrefsFrame.cpp:537
@@ -656,7 +656,7 @@ msgstr "Edytuj gatunek\tF6"
 
 #: ../src/Classes/PlaylistCtrl.cpp:380
 msgid "Edit Notes\tF8"
-msgstr "Edytuj Komentarz\tF8"
+msgstr "Edytuj komentarz\tF8"
 
 #: ../src/Classes/PlaylistCtrl.cpp:374
 msgid "Edit Title\tF2"
@@ -685,7 +685,7 @@ msgstr "W³±cz EQ"
 
 #: ../src/Frames/MusikFXFrame.cpp:133
 msgid "Enable Pitch control"
-msgstr "W³±cz sterowanie tonacj±"
+msgstr "Zmiana tempa "
 
 #: ../src/Frames/MusikPrefsFrame.cpp:237
 msgid "Enable balloon song info"
@@ -693,7 +693,7 @@ msgstr "W³±cz dymki informacji o utworze"
 
 #: ../src/Classes/ActivityBox.cpp:872 ../src/Classes/PlaylistCtrl.cpp:417
 msgid "Enqueue"
-msgstr "Dodaj do \"Aktualnie odtwarzane\""
+msgstr "Dodaj do listy odtwarzania"
 
 #: ../src/Frames/MusikAutoTaggerFrame.cpp:113
 msgid "Enter Tag Mask:"
@@ -777,7 +777,7 @@ msgstr "Zakoñcz &tylko dla bazy "
 
 #: ../src/Classes/PlaylistCtrl.cpp:399
 msgid "Fit Columns"
-msgstr "Dopsuj kolumny"
+msgstr "Dopasuj kolumny"
 
 #: ../src/Classes/Library/MetaDataHandler.cpp:87
 #: ../src/Classes/Library/MetaDataHandler.cpp:98
@@ -900,7 +900,7 @@ msgstr "Plik Musepack"
 
 #: ../src/Classes/SourcesBox.cpp:742
 msgid "Musik Library"
-msgstr "Biblioteka utworów"
+msgstr "Biblioteka "
 
 #: ../src/Classes/SourcesBox.cpp:319 ../src/Classes/SourcesBox.cpp:1293
 msgid "Net Stream"
@@ -941,15 +941,15 @@ msgstr "Nie jest obs³ugiwane"
 
 #: ../src/MusikGlobals.cpp:61
 msgid "Notes"
-msgstr "Uwagi"
+msgstr "Komentarz"
 
 #: ../src/Frames/MusikTagFrame.cpp:133
 msgid "Notes "
-msgstr "Uwagi"
+msgstr "Komentarz"
 
 #: ../src/Classes/SourcesBox.cpp:744
 msgid "Now Playing"
-msgstr "Aktualnie odtwarzane "
+msgstr "Lista odtwarzania"
 
 #: ../src/Frames/MusikPrefsFrame.cpp:435
 msgid "Number of albums to choose in advance:"
@@ -1097,7 +1097,7 @@ msgstr "U¿ytkownik:"
 
 #: ../src/Frames/MusikLibraryFrame.cpp:166
 msgid "Purge &Missing Songs"
-msgstr "Wyczy¶æ &nieistniej±ce utwory"
+msgstr "Usuñ &nieistniej±ce utwory"
 
 #: ../src/MusikGlobals.cpp:49
 msgid "Rating"
@@ -1192,7 +1192,7 @@ msgstr "Poka¿ bibliotekê\tCtrl-F1"
 
 #: ../src/Frames/MusikFrame.cpp:362
 msgid "Select Now Playing\tCtrl-F2"
-msgstr "Poka¿ aktualnie odtwarzane\tCtrl-F2"
+msgstr "Poka¿ listê odtwarzania\tCtrl-F2"
 
 #: ../src/Frames/MusikPrefsFrame.cpp:241
 msgid "Selecting library shows all songs in playlist"
@@ -1250,7 +1250,7 @@ msgstr "Poka¿ informacje o li¶cie\tCtrl-3"
 
 #: ../src/Frames/MusikFrame.cpp:356
 msgid "Show Selections\tCtrl-2"
-msgstr "Poka¿ zaznaczenia\tCtrl-2"
+msgstr "Poka¿ zaznaczenie\tCtrl-2"
 
 #: ../src/Frames/MusikFrame.cpp:355
 msgid "Show Sources\tCtrl-1"
@@ -1308,8 +1308,7 @@ msgstr "Statyczne"
 #: ../src/Frames/MusikPrefsFrame.cpp:233
 msgid "Stop song, if Now Playing is cleared"
 msgstr ""
-"Zatrzymaj odtwarzanie je¶li usuniête zostan± utwory z listy aktualnie "
-"odtwarzanych"
+"Zatrzymaj odtwarzanie je¶li usuniête zostan± utwory z listy odtwarzania"
 
 #: ../src/Frames/MusikPrefsFrame.cpp:363
 msgid "Stopped Text:"
@@ -1634,3 +1633,12 @@ msgstr "wank"
 #: ../src/MusikUtils.cpp:287
 msgid "whore"
 msgstr "whore"
+
+#~ msgid "Couldn't grab %s: another client may already have done so"
+#~ msgstr "Brak dostêpu do %s: byæ mo¿e dzia³a inny klient "
+
+#~ msgid "Couldn't ungrab keycode %d"
+#~ msgstr "Nie mogê zwolniæ kodu klawisza %d"
+
+#~ msgid "Received KeyRelease event for unrequested keycode %d"
+#~ msgstr "Otrzymano zdarzenie KeyRelease dla niewywo³ywanego kodu klawisza %d"

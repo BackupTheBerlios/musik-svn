@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wxMusik-0.3.1.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-02-20 19:51+0100\n"
-"PO-Revision-Date: 2004-10-17 17:32+0100\n"
+"POT-Creation-Date: 2005-02-20 21:18+0100\n"
+"PO-Revision-Date: 2005-02-20 21:02+0100\n"
 "Last-Translator: \n"
 "Language-Team: wxMusik Team <gunnar.roth@gmx.de>\n"
 "MIME-Version: 1.0\n"
@@ -423,7 +423,7 @@ msgstr "Alle woorden"
 
 #: ../src/Frames/MusikLibraryFrame.cpp:165
 msgid "Allow tag guessing from filename"
-msgstr ""
+msgstr "Sta tag-raden vanuit bestandsnaam toe"
 
 #: ../src/Frames/MusikFrame.cpp:367
 msgid "Always On Top\tCtrl-T"
@@ -550,9 +550,8 @@ msgid "Clear old tags    "
 msgstr "Wis oude tags"
 
 #: ../src/Frames/MusikFXFrame.cpp:142
-#, fuzzy
 msgid "Close"
-msgstr "Wis"
+msgstr "Sluiten"
 
 #: ../src/Frames/MusikPrefsFrame.cpp:360
 msgid "Command line:"
@@ -693,7 +692,7 @@ msgstr "Zet toonhoogte controle aan"
 
 #: ../src/Frames/MusikPrefsFrame.cpp:237
 msgid "Enable balloon song info"
-msgstr ""
+msgstr "Gebruik ballon-notificatie"
 
 #: ../src/Classes/ActivityBox.cpp:872 ../src/Classes/PlaylistCtrl.cpp:417
 msgid "Enqueue"
@@ -941,7 +940,7 @@ msgstr "Normaal"
 #: ../src/MusikAboutDlg.cpp:89 ../src/MusikAboutDlg.cpp:97
 #: ../src/MusikAboutDlg.cpp:105
 msgid "Not supported"
-msgstr ""
+msgstr "Niet ondersteund"
 
 #: ../src/MusikGlobals.cpp:61
 msgid "Notes"
@@ -1247,9 +1246,8 @@ msgid "Show Library on startup"
 msgstr "Toon Bibliotheek bij starten programma"
 
 #: ../src/Frames/MusikFrame.cpp:359
-#, fuzzy
 msgid "Show Playing Control on top\tCtrl-5"
-msgstr "Toon afspeellijst informatie\tCtrl-3"
+msgstr "Geef afspeelknoppen altijd weer\tCtrl-5"
 
 #: ../src/Frames/MusikFrame.cpp:357
 msgid "Show Playlist Info\tCtrl-3"
@@ -1572,7 +1570,7 @@ msgstr "buffer opbouwen ..."
 
 #: ../src/Frames/MusikFrame.cpp:644
 msgid "by "
-msgstr ""
+msgstr "door"
 
 #: ../src/Classes/MusikPlayer.cpp:1231
 msgid "connecting ..."
@@ -1585,7 +1583,7 @@ msgstr "kopiëren %s"
 
 #: ../src/MusikUtils.cpp:290
 msgid "cunt"
-msgstr "kont"
+msgstr "kut"
 
 #: ../src/MusikUtils.cpp:285
 msgid "dick"
@@ -1597,7 +1595,7 @@ msgstr "dildo"
 
 #: ../src/Frames/MusikFrame.cpp:646
 msgid "from the album"
-msgstr ""
+msgstr "uit"
 
 #: ../src/MusikUtils.cpp:282
 msgid "fuck"
@@ -1638,9 +1636,3 @@ msgstr "rukker"
 #: ../src/MusikUtils.cpp:287
 msgid "whore"
 msgstr "hoer"
-
-#~ msgid "&Directories"
-#~ msgstr "&Mappen"
-
-#~ msgid "Remove A&ll Directories"
-#~ msgstr "Verwijder &alle mappen"

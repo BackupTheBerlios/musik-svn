@@ -1,5 +1,6 @@
 0.4.1.0
-+ new program icon by ben oakes
++ (Linux) XF86Audio keys supported. This means you can use your multimedia keys for wxMusik on linux.
++ new program icon by Ben Oakes
 - enhanced taglib mpeg header parsing code
 - several bugs fixed, i cannot remember.
 + middle mouse click on album(or artist) in selection box starts playing of whole album (artist)

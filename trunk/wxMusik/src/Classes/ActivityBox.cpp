@@ -106,39 +106,42 @@ void CActivityListBox::OnChar(wxKeyEvent& event)
 			m_sSearch.Empty();
 		}
 		m_sSearch+=keycode;
-		m_sSearch.LowerCase();
-		for (int i=HasShowAllRow()?1:0;i<GetItemCount();++i)
-		{
-			if (0 == wxStrcoll(GetRowText(i,false).Left(m_sSearch.Len()).Lower(),m_sSearch))
-			{ // Move this item to the center of the list.
-				int centeroffset = (GetCountPerPage() - 1) / 2;
-				int showitem=0;
-				if (i >= GetTopItem()) 
-				{
-					// We need to ensure visibility of an item further down the list to
-					// move the matching item to the center of the list.
-					showitem = wxMin(i + centeroffset, GetItemCount()-1);
-				} 
-				else
-				{
-					// i < GetTopItem() , so EnsureVisible(m) will scroll backwards, 
-					// this will bring the item m automatically to the center
-					showitem = wxMax(0, i-centeroffset);
-				}
-				EnsureVisible(showitem);
-				m_bIgnoreSetItemStateEvents = true;
-				// Move the focus (*not* the selection) to the matching item.
-				SetItemState(i,wxLIST_STATE_FOCUSED,wxLIST_STATE_FOCUSED);
-				m_bIgnoreSetItemStateEvents = false;
-				break;
-			}
-		}
+		ScrollToItem(m_sSearch,wxString::ignoreCase);
 		m_OnCharStopWatch.Start();
 	} 
 	else 
 		event.Skip();
 }
+void CActivityListBox::ScrollToItem(const wxString & sItem, wxString::caseCompare cmp)
+{
+	for (int i=HasShowAllRow()?1:0;i<GetItemCount();++i)
+	{
+		if (GetRowText(i,false).Left(sItem.Len()).CompareTo(sItem,cmp) == 0)
+		{ // Move this item to the center of the list.
+			int centeroffset = (GetCountPerPage() - 1) / 2;
+			int showitem=0;
+			if (i >= GetTopItem()) 
+			{
+				// We need to ensure visibility of an item further down the list to
+				// move the matching item to the center of the list.
+				showitem = wxMin(i + centeroffset, GetItemCount()-1);
+			} 
+			else
+			{
+				// i < GetTopItem() , so EnsureVisible(m) will scroll backwards, 
+				// this will bring the item m automatically to the center
+				showitem = wxMax(0, i-centeroffset);
+			}
+			EnsureVisible(showitem);
+			m_bIgnoreSetItemStateEvents = true;
+			// Move the focus (*not* the selection) to the matching item.
+			SetItemState(i,wxLIST_STATE_FOCUSED,wxLIST_STATE_FOCUSED);
+			m_bIgnoreSetItemStateEvents = false;
+			break;
+		}
+	}
 
+}
 void CActivityListBox::OnFocused( wxListEvent& event )
 {
 	event.Skip(m_bIgnoreSetItemStateEvents == false);
@@ -179,9 +182,17 @@ void CActivityListBox::RefreshCaption()
 	SetColumn( 0, item );
 }
 
-void CActivityListBox::SetList( const wxArrayString &  aList )
+void CActivityListBox::SetList( const wxArrayString &  aList ,bool selectnone,bool bEnsureVisibilityOfCurrentTopItem )
 {
+	wxString sCurrentTopItem;
+	if(bEnsureVisibilityOfCurrentTopItem && m_Items.GetCount())
+	{
+		sCurrentTopItem = m_Items[GetTopItem()];
+	}
 	m_Items = aList;
+	Update( selectnone );
+	if(	!sCurrentTopItem.IsEmpty())
+		ScrollToItem(sCurrentTopItem);
 }
 
 void CActivityListBox::Update( bool selnone )
@@ -203,9 +214,9 @@ void CActivityListBox::Update( bool selnone )
 	if ( selnone )
 		wxListCtrlSelNone( this );
 	RefreshCaption();
-#ifndef __WXMAC__	
-	wxWindow::Update(); // instantly update window content
-#endif
+//#ifndef __WXMAC__	
+//	wxWindow::Update(); // instantly update window content
+//#endif
 }
 
 
@@ -599,7 +610,7 @@ void CActivityBox::GetRelatedList( CActivityBox *pDst, wxArrayString & aReturn )
 }
 
 
-void CActivityBox::ResetContents(bool selectnone)
+void CActivityBox::ResetContents(bool selectnone, bool bEnsureVisibilityOfCurrentTopItem)
 {
 	wxArrayString list;
 	GetFullList(list,false);
@@ -607,7 +618,7 @@ void CActivityBox::ResetContents(bool selectnone)
 		list.Sort(wxStringSortAscendingLocaleRemovePrefix);
 	else
 		list.Sort(wxStringSortAscendingLocale);
-	SetContents( list , selectnone );
+	SetContents( list , selectnone ,bEnsureVisibilityOfCurrentTopItem);
 }
 
 void CActivityBox::GetFullList( wxArrayString & aReturn ,bool bSorted)
@@ -751,11 +762,11 @@ void CActivityBox::SetPlaylist()
 	g_PlaylistBox->Update( true );
 }
 
-void CActivityBox::SetContents( const wxArrayString & aList , bool selectnone )
+void CActivityBox::SetContents( const wxArrayString & aList , bool selectnone ,bool bEnsureVisibilityOfCurrentTopItem )
 {
 
-	pListBox->SetList( aList );
-	pListBox->Update( selectnone );
+	pListBox->SetList( aList, selectnone ,bEnsureVisibilityOfCurrentTopItem);
+	
 }
 //------------------------//
 //--- tag info editing ---//
@@ -866,8 +877,8 @@ wxMenu * CActivityBox::CreateContextMenu()
 
 void CActivityBox::OnListItemMiddleClick( wxListEvent& event)
 {
-    wxCommandEvent ev(0);
-    OnPlayInstantly(ev);
+	wxCommandEvent ev(0);
+	OnPlayInstantly(ev);
 }
 
 void CActivityBox::OnPlayInstantly( wxCommandEvent& WXUNUSED(event) )

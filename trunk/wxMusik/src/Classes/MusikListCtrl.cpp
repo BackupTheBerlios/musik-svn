@@ -13,11 +13,14 @@
 
 //--- For compilers that support precompilation, includes "wx/wx.h". ---//
 #include "wx/wxprec.h"
+
+#include "MusikUtils.h"
 #include "MusikListCtrl.h"
 
 #ifdef __WXMSW__
 #include <commctrl.h>
 #endif
+
 
 CMusikListCtrl::CMusikListCtrl( wxWindow *parent, const wxWindowID id, const wxPoint& pos, const wxSize& size, long style)
 	:	wxListCtrl		( parent, id, pos, size, wxLC_REPORT | wxLC_VIRTUAL | wxCLIP_CHILDREN | style)
@@ -35,6 +38,8 @@ CMusikListCtrl::CMusikListCtrl( wxWindow *parent, const wxWindowID id, const wxP
 
 
 BEGIN_EVENT_TABLE(CMusikListCtrl, wxListCtrl)
+	EVT_MIDDLE_DOWN(  CMusikListCtrl::OnMiddleDown)
+	EVT_RIGHT_DOWN(  CMusikListCtrl::OnRightDown)
     EVT_MOUSEWHEEL(CMusikListCtrl::OnMouseWheel)
 #ifdef WXMUSIK_BUGWORKAROUND_LISTCTRL_CONTEXTMENU
 	EVT_LIST_ITEM_RIGHT_CLICK(-1, CMusikListCtrl::ShowMenu)
@@ -62,8 +67,60 @@ void CMusikListCtrl::OnMouseWheel(wxMouseEvent &event)
 {
 	event.Skip();
 }
+void CMusikListCtrl::OnRightDown(wxMouseEvent &event)
+{
+	SetFocus();
+	int HitFlags = 0;
+	long item = HitTest(event.GetPosition(),HitFlags);
+	if(item != -1)
+	{
+		SelectClickedItem(event);
+		wxListEvent myev(wxEVT_COMMAND_LIST_ITEM_RIGHT_CLICK, GetId());
+		myev.SetEventObject(this);
+		myev.m_itemIndex = item;
+		myev.m_pointDrag = event.GetPosition();
+		GetEventHandler()->ProcessEvent(myev);
+	}
+	return;
 
+}
 
+void CMusikListCtrl::OnMiddleDown(wxMouseEvent &event)
+{
+	SetFocus();
+	int HitFlags = 0;
+	long item = HitTest(event.GetPosition(),HitFlags);
+	if(item != -1)
+	{
+		SelectClickedItem(event);
+		wxListEvent myev(wxEVT_COMMAND_LIST_ITEM_MIDDLE_CLICK, GetId());
+		myev.SetEventObject(this);
+		myev.m_itemIndex = item;
+		myev.m_pointDrag = event.GetPosition();
+		GetEventHandler()->ProcessEvent(myev);
+	}
+	return;
+}
+void CMusikListCtrl::SelectClickedItem(wxMouseEvent &event)
+{
+	int HitFlags = 0;
+	long item = HitTest(event.GetPosition(),HitFlags);
+	if(item != -1)
+	{
+		if(!event.CmdDown())
+		{
+			int i = -1;
+			while ( -1 != (i = GetNextItem(i, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED)))
+			{
+				if(i != item)
+					SetItemState( i, 0, wxLIST_STATE_SELECTED );
+			}
+
+		}
+		SetItemState(item,wxLIST_STATE_SELECTED|wxLIST_STATE_FOCUSED,wxLIST_STATE_SELECTED|wxLIST_STATE_FOCUSED);
+		wxTheApp->Yield(true);   // call yield to let the SetItemState changes go through the system.
+	}
+}
 bool CMusikListCtrl::OnRescaleColumns()	
 {
 	return true;

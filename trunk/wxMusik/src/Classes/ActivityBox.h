@@ -55,7 +55,7 @@ public:
 
 	//--- sets ---//
 	void SetCaption( const wxString & sCaption );
-	void SetList		(const  wxArrayString & );
+	void SetList		(const  wxArrayString & aList,bool selectnone = true ,bool bEnsureVisibilityOfCurrentTopItem = false);
 	void SetSel			( const  wxArrayString & aList );
 	void SetSel			( const wxString & sel, bool bEnsureVisible = true,bool bDeselectAllFirst = true);
 	void SetRelated		( int n );
@@ -73,6 +73,8 @@ protected:
 	void RescaleColumns	( bool bFreeze = true );	
 	bool OnRescaleColumns() { RescaleColumns();return true;}
     wxMenu * CreateContextMenu();	
+
+	void ScrollToItem(const wxString & sItem, wxString::caseCompare cmp = wxString::exact);
 private:
 	//--- virtual functions ---//
     virtual	wxString		OnGetItemText	(long item, long column) const;
@@ -188,8 +190,8 @@ public:
 	//---misc ---//
 	bool IsSelected			( int n )							{ return pListBox->IsSelected( n );		}
 	void Update				( bool selectnone = true )			{ pListBox->Update( selectnone );		}	
-	void ResetContents		(bool selectnone = true);
-	void SetContents		( const wxArrayString &list ,bool selectnone = true); 
+	void ResetContents		(bool selectnone = true, bool bEnsureVisibilityOfCurrentTopItem = false);
+	void SetContents		( const wxArrayString &list ,bool selectnone = true, bool bEnsureVisibilityOfCurrentTopItem = false); 
 	void GetFullList		( wxArrayString & aReturn, bool bSorted = true );
 	void SetPlaylist		();
 	void EnableProgress		( bool enable = true );

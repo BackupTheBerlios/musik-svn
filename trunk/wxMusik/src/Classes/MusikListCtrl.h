@@ -57,7 +57,9 @@ public:
 protected:
 
     void OnMouseWheel(wxMouseEvent & event);
-
+	void OnMiddleDown(wxMouseEvent & event);
+	void OnRightDown(wxMouseEvent & event);
+	
 #ifdef WXMUSIK_BUGWORKAROUND_LISTCTRL_CONTEXTMENU
 	void ShowMenu				( wxListEvent& event );
 #else	
@@ -68,6 +70,7 @@ protected:
 	virtual bool OnRescaleColumns();
 	virtual wxMenu * CreateContextMenu(){ return NULL;}
 
+	void SelectClickedItem(wxMouseEvent &event);
 private:
 #ifdef __WXMSW__
 	int m_freezeCount;

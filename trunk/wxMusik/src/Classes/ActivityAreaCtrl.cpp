@@ -204,7 +204,7 @@ void CActivityAreaCtrl::UpdateSel( CActivityBox *pSelectedBox )
 	if ( ( wxGetApp().Prefs.eSelStyle == MUSIK_SELECTION_TYPE_STANDARD || wxGetApp().Prefs.eSelStyle == MUSIK_SELECTION_TYPE_SLOPPY ) && ( pSelectedBox->IsSelected( 0 ) || pSelectedBox->GetSelectedItemCount() < 1 ) )
 	{
 		SetParent( 0, false );
-		pSelectedBox->ResetContents();	
+		pSelectedBox->ResetContents(true,true); // ensure visiblility of top item before reset	
 
 		for(size_t j = 0 ; j < WXSIZEOF(pOtherBoxes);j++)
 		{

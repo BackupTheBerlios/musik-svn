@@ -98,7 +98,8 @@ bool MUSIKDefaultDecoder::Close()
 MUSIKStream* MUSIKEngine::OpenMedia(const char *FileName)
 {
 	char *FileExt = strrchr(FileName, '.');
-
+    if(FileExt == NULL)
+        return NULL;
 	MUSIKDecoder *d = NULL;
 	IMUSIKStreamOut *so = NULL;
 #ifndef MUSIKENGINE_NO_APE_SUPPORT	

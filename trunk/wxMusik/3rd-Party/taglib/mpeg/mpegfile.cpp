@@ -190,6 +190,7 @@ public:
     delete ID3v1Tag;
     delete tag;
     delete properties;
+    delete APETag;
   }
 
   const ID3v2::FrameFactory *ID3v2FrameFactory;

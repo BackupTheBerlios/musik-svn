@@ -22,8 +22,11 @@
 #ifndef MPCDECODER_H
 #define MPCDECODER_H
 #include <stdio.h>
-#include "decoder.h"
-#define MP3DEC_NEW
+#include "MUSIKEngine/inc/decoder.h"
+
+#ifndef _WIN32
+#define MP3DEC_NEW // non win32 systems use new mpc decoder
+#endif
 
 #ifdef MP3DEC_NEW
 #include "musepack/mpc_dec.h"

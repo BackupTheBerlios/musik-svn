@@ -20,10 +20,10 @@
 //OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
-#include "MUSIKEngine/MUSIKEngine/inc/engine.h"
-#include "MUSIKEngine/MUSIKEngine/inc/stream.h"
-#include "MUSIKEngine/MUSIKEngine/inc/defaultdecoder.h"
-#include "MUSIKEngine/MUSIKEngine/inc/imusikstreamout.h"
+#include "MUSIKEngine/inc/engine.h"
+#include "MUSIKEngine/inc/stream.h"
+#include "MUSIKEngine/inc/defaultdecoder.h"
+#include "MUSIKEngine/inc/imusikstreamout.h"
 
 
 #include "apedecoder.h"

@@ -20,7 +20,7 @@
 //OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "mpcdecoder.h"
-#include "imusikstreamout.h"
+#include "MUSIKEngine/inc/imusikstreamout.h"
 
 #ifdef MP3DEC_NEW
 
@@ -261,7 +261,7 @@ bool MUSIKMPCDecoder::OpenMedia(const char *FileName)
 		Close();
 		return false;
 	}
-	m_MPCInfo.Reader->seek(0l);
+	m_MPCInfo.Reader->seek(0l,SEEK_SET);
 	m_MPCInfo.Decoder = new MPC_decoder(m_MPCInfo.Reader);
 	m_MPCInfo.Decoder->Reset_Globals();
 	m_MPCInfo.Decoder->SetStreamInfo(&m_MPCInfo.Info);

@@ -4,6 +4,7 @@
 	Version="7.10"
 	Name="MUSIKEngine"
 	ProjectGUID="{2477BD73-12EC-4466-9061-8B71F28D6343}"
+	RootNamespace="MUSIKEngine"
 	Keyword="Win32Proj">
 	<Platforms>
 		<Platform
@@ -19,7 +20,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(VCInstallDir)include&quot;;&quot;$(MAC_SDKDIR)\Shared&quot;;&quot;$(FMODDIR)\api\inc&quot;;..;&quot;$(FLACDIR)\include&quot;;../..;&quot;$(FLACDIR)\src&quot;"
+				AdditionalIncludeDirectories="..;&quot;$(FLACDIR)/include&quot;;&quot;$(MAC_SDKDIR)&quot;;&quot;$(FLACDIR)/src&quot;"
 				PreprocessorDefinitions="FLAC__NO_DLL"
 				MinimalRebuild="TRUE"
 				BasicRuntimeChecks="3"
@@ -60,7 +61,7 @@
 			CharacterSet="2">
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;$(VCInstallDir)include&quot;;&quot;$(MAC_SDKDIR)\Shared&quot;;&quot;$(FMODDIR)\api\inc&quot;;&quot;$(FLACDIR)\include&quot;;../..;..;&quot;$(FLACDIR)\src&quot;"
+				AdditionalIncludeDirectories="..;&quot;$(FLACDIR)/src&quot;;&quot;$(FLACDIR)/include&quot;;&quot;$(MAC_SDKDIR)&quot;"
 				PreprocessorDefinitions="FLAC__NO_DLL"
 				StringPooling="TRUE"
 				RuntimeLibrary="2"

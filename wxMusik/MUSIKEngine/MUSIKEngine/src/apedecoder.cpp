@@ -20,12 +20,12 @@
 //OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "apedecoder.h"
-#include "MUSIKEngine/MUSIKEngine/inc/imusikstreamout.h"
+#include "MUSIKEngine/inc/imusikstreamout.h"
 
 #ifdef _WIN32
-#include "All.h"							/* Monkey's Audio include file */
-#include "MACLib.h"						/* Monkey's Audio include file */
-#include "CharacterHelper.h"
+#include "Shared/All.h"							/* Monkey's Audio include file */
+#include "Shared/MACLib.h"						/* Monkey's Audio include file */
+#include "Source/Shared/CharacterHelper.h"
 
 #else
 #define BUILD_CROSS_PLATFORM

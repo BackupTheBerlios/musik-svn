@@ -36,7 +36,7 @@ extern "C"
 }
 #include "share/grabbag.h"
 
-#include "MUSIKEngine/MUSIKEngine/inc/decoder.h"
+#include "MUSIKEngine/inc/decoder.h"
 
 #define FLAC_SAMPLES_PER_WRITE 576
 

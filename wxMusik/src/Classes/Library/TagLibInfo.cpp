@@ -11,7 +11,7 @@ CTagLibInfo::CTagLibInfo(void)
 }
 bool CTagLibInfo::ReadMetaData(CSongMetaData & MetaData) const
 {
-#ifdef __WXMSW
+#ifdef __WXMSW__
 	TagLib::FileRef f(  MetaData.Filename.GetFullPath().c_str());
 #else
 	TagLib::FileRef f(TagLib::Filename((const char*)ConvFn2A(MetaData.Filename.GetFullPath())) );

@@ -27,7 +27,9 @@
 #include "engine.h"
 
 class IMUSIKStreamOut;
-
+#if _WIN32
+typedef __int64 int64_t;
+#endif
 class   MUSIKDecoder
 {
 public:

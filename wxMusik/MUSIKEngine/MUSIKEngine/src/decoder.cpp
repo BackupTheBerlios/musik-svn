@@ -19,8 +19,8 @@
 //WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
 //OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#include "MUSIKEngine/MUSIKEngine/inc/decoder.h"
-#include "MUSIKEngine/MUSIKEngine/inc/imusikstreamout.h"
+#include "MUSIKEngine/inc/decoder.h"
+#include "MUSIKEngine/inc/imusikstreamout.h"
 
 MUSIKDecoder::~MUSIKDecoder()
 {

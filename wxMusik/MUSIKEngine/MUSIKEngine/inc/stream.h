@@ -21,7 +21,7 @@
 
 #ifndef MUSIKSTREAM_H
 #define MUSIKSTREAM_H
-#include "MUSIKEngine/MUSIKEngine/inc/decoder.h"
+#include "MUSIKEngine/inc/decoder.h"
 class MUSIKStream 
 {
 

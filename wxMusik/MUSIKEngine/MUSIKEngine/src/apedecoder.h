@@ -22,7 +22,7 @@
 #ifndef MUSIKAPEDECODER_H
 #define MUSIKAPEDECODER_H
 
-#include "MUSIKEngine/MUSIKEngine/inc/decoder.h"
+#include "MUSIKEngine/inc/decoder.h"
 class IAPEDecompress;
 
 class MUSIKAPEDecoder : public MUSIKDecoder

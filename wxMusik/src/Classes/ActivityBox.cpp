@@ -93,7 +93,7 @@ void CActivityListBox::OnChar(wxKeyEvent& event)
 #else
 	int keycode=event.GetKeyCode();
 #endif
-	if ((keycode>=WXK_SPACE) && (keycode <= 255))
+	if ((event.GetKeyCode() >=WXK_SPACE) && (event.GetKeyCode() <= 255))
 	{
 		if(m_OnCharStopWatch.Time()>1000)
 		{ // More than 1000 ms have passed since the last character was entered.

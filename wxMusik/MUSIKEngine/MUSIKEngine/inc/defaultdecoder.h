@@ -1,7 +1,7 @@
 #ifndef MUSIKDEFAULTDECODER_H
 #define MUSIKDEFAULTDECODER_H
-#include "MUSIKEngine/MUSIKEngine/inc/decoder.h"
-#include "MUSIKEngine/MUSIKEngine/inc/imusikstreamout.h"
+#include "MUSIKEngine/inc/decoder.h"
+#include "MUSIKEngine/inc/imusikstreamout.h"
 class   MUSIKDefaultDecoder: public MUSIKDecoder
 {
 public:

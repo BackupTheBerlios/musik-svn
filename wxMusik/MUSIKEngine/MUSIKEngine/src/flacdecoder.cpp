@@ -24,7 +24,7 @@
 */
 
 #include "flacdecoder.h"
-#include "MUSIKEngine/MUSIKEngine/inc/imusikstreamout.h"
+#include "MUSIKEngine/inc/imusikstreamout.h"
 #include <utility>
 
 

@@ -23,7 +23,7 @@
 #define FMODSTREAMOUT_H
 
 #include <fmod.h>
-#include "MUSIKEngine/MUSIKEngine/inc/imusikstreamout.h"
+#include "MUSIKEngine/inc/imusikstreamout.h"
 #include "MUSIKEngine/FMODEngine/inc/fmodengine.h"
 class FMODStreamOut	 : public IMUSIKStreamOutDefault
 {

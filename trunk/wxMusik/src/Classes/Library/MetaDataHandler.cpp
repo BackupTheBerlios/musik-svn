@@ -15,6 +15,8 @@
 */
 // For compilers that support precompilation, includes "wx/wx.h".
 #include "wx/wxprec.h"
+
+#include <exception>
 //--- mp3 / ogg helpers ---//
 #include "MusikUtils.h"
 #include "3rd-Party/TagHelper/idtag.h"
@@ -59,14 +61,23 @@ public:
 		CSimpleTagReader tr;
 		CSimpleTagReader::CFile trf(fp,true);
 		tr.ReadTags(trf,ConvToUTF8(MetaData.Filename.GetFullPath()));
-		MetaData.Album =  tr.TagValue(SIMPLETAG_FIELD_ALBUM);
-		MetaData.Title =  tr.TagValue(SIMPLETAG_FIELD_TITLE);
-		MetaData.Notes =  tr.TagValue(SIMPLETAG_FIELD_NOTES);
-		MetaData.Artist =  tr.TagValue(SIMPLETAG_FIELD_ARTIST);
-		MetaData.Year =  tr.TagValue(SIMPLETAG_FIELD_YEAR);
-		MetaData.Genre =  tr.TagValue(SIMPLETAG_FIELD_GENRE);
-		char* track = tr.TagValue(SIMPLETAG_FIELD_TRACK);
-		MetaData.nTracknum = track ? atoi(track) : 0;
+        if(MetaData.Album.IsEmpty())
+            MetaData.Album =  tr.TagValue(SIMPLETAG_FIELD_ALBUM);
+        if(MetaData.Title.IsEmpty())    
+            MetaData.Title =  tr.TagValue(SIMPLETAG_FIELD_TITLE);
+        if(MetaData.Notes.IsEmpty())    
+            MetaData.Notes =  tr.TagValue(SIMPLETAG_FIELD_NOTES);
+        if(MetaData.Artist.IsEmpty())    
+            MetaData.Artist =  tr.TagValue(SIMPLETAG_FIELD_ARTIST);
+        if(MetaData.Year.IsEmpty())    
+            MetaData.Year =  tr.TagValue(SIMPLETAG_FIELD_YEAR);
+        if(MetaData.Genre.IsEmpty())    
+            MetaData.Genre =  tr.TagValue(SIMPLETAG_FIELD_GENRE);
+        if(MetaData.nTracknum == 0)
+        {    
+            char* track = tr.TagValue(SIMPLETAG_FIELD_TRACK);
+            MetaData.nTracknum = track ? atoi(track) : 0;
+        }    
 		return true;
 	}
 protected:
@@ -126,23 +137,29 @@ const tSongClass * CMetaDataHandler::GetSongClass(EMUSIK_FORMAT_TYPE eFormat)
 
 CMetaDataHandler::RetCode CMetaDataHandler::GetMetaData( CSongMetaData & MetaData  )
 {
-
-	//--- get format ---//
-	wxString ext = MetaData.Filename.GetExt().MakeLower();
-	
-	const tSongClass *psc = GetSongClass(ext);
-	wxASSERT(psc);
-	if(psc == NULL)
-		return fail;
-	MetaData.eFormat = psc->eFormat;
-	RetCode rc = success;
-	if(psc->pInfoRead)
-	{
-		rc = psc->pInfoRead->ReadMetaData(MetaData) ? success:fail;
-	}
-	else
-		rc = notsupported;
-
+    RetCode rc = success;
+    try
+    {
+        //--- get format ---//
+        wxString ext = MetaData.Filename.GetExt().MakeLower();
+        
+        const tSongClass *psc = GetSongClass(ext);
+        wxASSERT(psc);
+        if(psc == NULL)
+            return fail;
+        MetaData.eFormat = psc->eFormat;
+        if(psc->pInfoRead)
+        {
+            rc = psc->pInfoRead->ReadMetaData(MetaData) ? success:fail;
+        }
+        else
+            rc = notsupported;
+    }
+    catch(std::exception &e)
+    {
+        ::wxLogWarning(_("An exception (%s) occurred while reading tag of %s."),ConvA2W(e.what()).c_str(),MetaData.Filename.GetFullPath().c_str());
+        rc = fail;
+    }
 	if (wxGetApp().Prefs.bAllowTagGuessing && MetaData.Title.Length() == 0 )
 	{
 		dummyinfo.ReadMetaData(MetaData);
@@ -161,10 +178,17 @@ CMetaDataHandler::RetCode CMetaDataHandler::WriteMetaData(const CSongMetaData &M
 	if(psc == NULL)
 		return fail;
 	RetCode rc = success;
-	if(psc->pInfoWrite)
-		rc  = psc->pInfoWrite->WriteMetaData(MetaData,bClearAll)? success:fail;
-	else
-		rc = notsupported;
-
+    try
+    {
+        if(psc->pInfoWrite)
+            rc  = psc->pInfoWrite->WriteMetaData(MetaData,bClearAll)? success:fail;
+        else
+            rc = notsupported;
+    }
+    catch(std::exception & e)
+    {
+        ::wxLogWarning(_("An exception (%s) occurred while writing tag of %s."),ConvA2W(e.what()).c_str(),MetaData.Filename.GetFullPath().c_str());
+        rc = fail;
+    }
 	return rc;
 }

@@ -80,9 +80,6 @@ Name: Radio_Channels_win9x; Description: {cm:Examples_of_Net_Radio_Channels}; Ty
 Name: Dynamic_Playlist_Examples_win9x; Description: {cm:Examples_of_Dynamic_Playlists}; Types: custom full; MinVersion: 4.0.950,0; OnlyBelowVersion: 0,4.0.1381
 [InstallDelete]
 Name: {app}\Musik.exe; Type: files
-[UninstallDelete]
-Name: {userappdata}\..\.Musik; Type: filesandordirs; MinVersion: 0,4.0.1381
-Name: {app}\.Musik; Type: filesandordirs; MinVersion: 4.0.950,0; OnlyBelowVersion: 0,4.0.1381
 [Registry]
 
 [Languages]

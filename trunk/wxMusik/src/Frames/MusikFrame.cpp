@@ -208,6 +208,8 @@ MusikFrame::MusikFrame()
 	//--- icon ---//
 	#ifdef __WXMSW__
 		SetIcon( wxICON( musicbox ) );
+	#else
+		SetIcon( wxIcon(tray_xpm) );
 	#endif
 #ifdef wxHAS_TASK_BAR_ICON
 	if(wxGetApp().Prefs.bDisableTrayIcon)

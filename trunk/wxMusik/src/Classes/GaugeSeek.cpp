@@ -55,19 +55,18 @@ void CGaugeSeekEvt::OnLeftDown( wxMouseEvent& event )
 	//--- we're using the seek bar AND music is playing ---//
 	//--- OR we're adjusting volume                     ---//
 	//-----------------------------------------------------//
-	if ( event.LeftDown() )
+	if ( !m_Dragging )
 	{
 		m_Dragging = true;
 		pParent->CaptureMouse();
-
 		if ( lType == wxGA_HORIZONTAL )
 			g_TimeSeeking = true;
 
 		if ( ( lType == wxGA_HORIZONTAL && wxGetApp().Player.IsSeekable() ) || lType == wxGA_VERTICAL )
 			SetFromMousePos( event );
 	}
-
-	event.Skip();
+	else
+		event.Skip();
 
 }
 
@@ -81,16 +80,16 @@ void CGaugeSeekEvt::OnMouseMove( wxMouseEvent& event )
 				SetFromMousePos( event );		
 		}
 	}
-
-	event.Skip();
+	else
+		event.Skip();
 }
 
-void CGaugeSeekEvt::OnLeftUp( wxMouseEvent& WXUNUSED(event) )
+void CGaugeSeekEvt::OnLeftUp( wxMouseEvent& (event) )
 {
 	if ( m_Dragging )
 	{
 		pParent->ReleaseMouse();
-
+		m_Dragging = false;
 		//-----------------------------------------------//
 		//--- if we have left up and modifying time	  ---//
 		//--- assume user is done. update pos		  ---//
@@ -106,6 +105,9 @@ void CGaugeSeekEvt::OnLeftUp( wxMouseEvent& WXUNUSED(event) )
 			g_TimeSeeking = false;
 		}
 	}
+	else
+		event.Skip();
+
 }
 
 void CGaugeSeekEvt::SetFromMousePos( wxMouseEvent& event )

@@ -20,9 +20,9 @@
 
 #include "MusikApp.h"
 /***** the XInitThreads call leads to strange behaviour when doing 
-****** drag in a listview. the whole xserver is locked, until the app is 
+****** 'drag and drop' in a listview. the whole xserver is locked, until the app is 
 ****** killed in a console. mouse is still movable and windows are updated 
-****** but no key or mous input is possible.
+****** but no key or mouse input is possible.
 #if defined(__WXGTK__) || defined(__WXMOTIF__) || defined(__WXX11__)
 IMPLEMENT_APP_NO_MAIN(MusikApp)
 #include <X11/Xlib.h>

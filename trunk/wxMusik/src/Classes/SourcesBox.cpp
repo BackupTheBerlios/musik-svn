@@ -861,7 +861,7 @@ void CSourcesListBox::RescaleColumns()
 {
 	int nWidth, nHeight;
 	GetClientSize( &nWidth, &nHeight );
-	SetColumnWidth( 0, nWidth );		
+	SetColumnWidth( 0, --nWidth );		
 }
 
 void CSourcesListBox::RescanPlaylistDir()

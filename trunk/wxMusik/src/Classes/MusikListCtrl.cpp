@@ -52,15 +52,12 @@ BEGIN_EVENT_TABLE(CMusikListCtrl, wxListCtrl)
 	EVT_ERASE_BACKGROUND	( CMusikListCtrl::OnEraseBackground )
 	EVT_PAINT ( CMusikListCtrl::OnPaint )
 #endif
+	EVT_SIZE  (	CMusikListCtrl::OnSize )	
 END_EVENT_TABLE()
 
-void CMusikListCtrl::DoSetSize(int x, int y,int width, int height,int sizeFlags)
+void CMusikListCtrl::OnSize( wxSizeEvent& event )
 {
-	Freeze();
-	wxListCtrl::DoSetSize(x,y,width,height,sizeFlags);
 	OnRescaleColumns();
-	Thaw();
-
 }
 // enable wheel scroll, no matter if the bug in wxWidgets/src/generic/listctrl is fixed or not
 void CMusikListCtrl::OnMouseWheel(wxMouseEvent &event)

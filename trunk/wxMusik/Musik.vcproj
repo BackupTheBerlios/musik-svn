@@ -388,9 +388,6 @@
 				RelativePath=".\src\MusikVersion.h">
 			</File>
 			<File
-				RelativePath=".\src\PrefUtil.h">
-			</File>
-			<File
 				RelativePath=".\src\ThreadController.h">
 			</File>
 			<File
@@ -459,10 +456,88 @@
 				Name="Prefs"
 				Filter="">
 				<File
-					RelativePath=".\src\Frames\MusikPrefsFrame.cpp">
+					RelativePath=".\src\Frames\Prefs\MusikPrefsFrame.cpp">
 				</File>
 				<File
-					RelativePath=".\src\Frames\MusikPrefsFrame.h">
+					RelativePath=".\src\Frames\Prefs\MusikPrefsFrame.h">
+				</File>
+				<File
+					RelativePath=".\src\Frames\Prefs\OptionAutoDJPanel.cpp">
+				</File>
+				<File
+					RelativePath=".\src\Frames\Prefs\OptionAutoDJPanel.h">
+				</File>
+				<File
+					RelativePath=".\src\Frames\Prefs\OptionFileAssocPanel.cpp">
+				</File>
+				<File
+					RelativePath=".\src\Frames\Prefs\OptionFileAssocPanel.h">
+				</File>
+				<File
+					RelativePath=".\src\Frames\Prefs\OptionGeneralPanel.cpp">
+				</File>
+				<File
+					RelativePath=".\src\Frames\Prefs\OptionGeneralPanel.h">
+				</File>
+				<File
+					RelativePath=".\src\Frames\Prefs\OptionPlaylistPanel.cpp">
+				</File>
+				<File
+					RelativePath=".\src\Frames\Prefs\OptionPlaylistPanel.h">
+				</File>
+				<File
+					RelativePath=".\src\Frames\Prefs\OptionSelectionsPanel.cpp">
+				</File>
+				<File
+					RelativePath=".\src\Frames\Prefs\OptionSelectionsPanel.h">
+				</File>
+				<File
+					RelativePath=".\src\Frames\Prefs\OptionTunagePanel.cpp">
+				</File>
+				<File
+					RelativePath=".\src\Frames\Prefs\OptionTunagePanel.h">
+				</File>
+				<File
+					RelativePath=".\src\Frames\Prefs\PrefPanel.h">
+				</File>
+				<File
+					RelativePath=".\src\Frames\Prefs\PrefUtil.h">
+				</File>
+				<File
+					RelativePath=".\src\Frames\Prefs\SoundCrossfaderPanel.cpp">
+				</File>
+				<File
+					RelativePath=".\src\Frames\Prefs\SoundCrossfaderPanel.h">
+				</File>
+				<File
+					RelativePath=".\src\Frames\Prefs\SoundDriverPanel.cpp">
+				</File>
+				<File
+					RelativePath=".\src\Frames\Prefs\SoundDriverPanel.h">
+				</File>
+				<File
+					RelativePath=".\src\Frames\Prefs\StreamingBufferPanel.cpp">
+				</File>
+				<File
+					RelativePath=".\src\Frames\Prefs\StreamingBufferPanel.h">
+				</File>
+				<File
+					RelativePath=".\src\Frames\Prefs\StreamingProxyServerPanel.cpp">
+				</File>
+				<File
+					RelativePath=".\src\Frames\Prefs\StreamingProxyServerPanel.h">
+				</File>
+				<File
+					RelativePath=".\src\Frames\Prefs\TaggingAutoRenamePanel.cpp">
+				</File>
+				<File
+					RelativePath=".\src\Frames\Prefs\TaggingAutoRenamePanel.h">
+				</File>
+				<File
+					RelativePath=".\src\Frames\Prefs\TaggingGeneralPanel.cpp">
+				</File>
+				<File
+					RelativePath=".\src\Frames\Prefs\TaggingGeneralPanel.h">
 				</File>
 			</Filter>
 			<Filter

@@ -36,7 +36,7 @@ public:
 	//--------------//
 	//--- events ---//
 	//--------------//
-
+                                     
 #ifdef __WXMSW__
 	void OnEraseBackground(wxEraseEvent& event);
 	void OnPaint(wxPaintEvent& event);
@@ -55,6 +55,7 @@ public:
 #endif
 	DECLARE_EVENT_TABLE()
 protected:
+    void OnSize					( wxSizeEvent& event );
 
     void OnMouseWheel(wxMouseEvent & event);
 	void OnMiddleDown(wxMouseEvent & event);
@@ -66,7 +67,7 @@ protected:
 	void ShowMenu				( wxContextMenuEvent& event );
 #endif	
 
-	virtual void DoSetSize(int x, int y,int width, int height,int sizeFlags);
+	//virtual void DoSetSize(int x, int y,int width, int height,int sizeFlags);
 	virtual bool OnRescaleColumns();
 	virtual wxMenu * CreateContextMenu(){ return NULL;}
 

@@ -501,7 +501,7 @@ public:
 		long style);  //see above  (MUSIK_LW_XXX)
 
 	virtual bool OnFrameClose(wxFrame *frame);
-	void OnShow(wxCommandEvent &);
+	void OnNewMsg(wxCommandEvent &);
 	DECLARE_EVENT_TABLE()
 protected:
 	virtual void DoLogString(const wxChar *szString, time_t t);

@@ -127,28 +127,31 @@ bool MusikApp::OnInit()
 	{
 		arrParams.Add(parser.GetParam(i));
 	}
-	m_pSingleInstanceChecker = new wxSingleInstanceChecker(GetAppName());
+	m_pSingleInstanceChecker = new wxSingleInstanceChecker(GetAppName()+wxT(".single_instance_check"));
 	if ( m_pSingleInstanceChecker->IsAnotherRunning() )
 	{
 		MusikAppClient client;
 		MusikAppConnection *pConn = (MusikAppConnection *)client.MakeConnection(wxT("localhost"),MUSIK_APP_SERVICE,wxT("wxMusikInternal"));
-		wxString sData;
-
-		if(arrParams.GetCount())
+		if(pConn)
 		{
-			for( size_t i = 0; i < arrParams.GetCount(); i++)
+			wxString sData;
+
+			if(arrParams.GetCount())
 			{
-				sData += arrParams[i];
-				sData += wxT("\n");
+				for( size_t i = 0; i < arrParams.GetCount(); i++)
+				{
+					sData += arrParams[i];
+					sData += wxT("\n");
+				}
+		#ifdef wxUSE_UNICODE
+				pConn->Poke(wxT("PlayFiles"),sData.GetWriteBuf(sData.Length()),sData.Length()*sizeof(wxChar),wxIPC_UNICODETEXT);
+		#else
+				pConn->Poke(wxT("PlayFiles"),sData.GetWriteBuf(sData.Length()),sData.Length(),wxIPC_TEXT);
+		#endif
 			}
-	#ifdef wxUSE_UNICODE
-			pConn->Poke(wxT("PlayFiles"),sData.GetWriteBuf(sData.Length()),sData.Length()*sizeof(wxChar),wxIPC_UNICODETEXT);
-	#else
-			pConn->Poke(wxT("PlayFiles"),sData.GetWriteBuf(sData.Length()),sData.Length(),wxIPC_TEXT);
-	#endif
+			pConn->Poke(wxT("RaiseFrame"),NULL,0,wxIPC_PRIVATE);
+			return false;
 		}
-		pConn->Poke(wxT("RaiseFrame"),NULL,0,wxIPC_PRIVATE);
-		return false;
 	}
 
 	wxImage::AddHandler(new wxPNGHandler);
@@ -307,7 +310,7 @@ What could be improved here:
 -Option to prepend a numerical value to the destination filename to maintain 
 the same order as the playlist
 -Option to create a directory in the destination directory based on playlist name
--A progress dialog
+
 SiW
 */
 void MusikApp::CopyFiles(const CMusikSongArray &songs)

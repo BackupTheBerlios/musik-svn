@@ -8,12 +8,11 @@
 *  See the file "license.txt" for information on usage and redistribution
 *  of this file, and for a DISCLAIMER OF ALL WARRANTIES.
 */
-#ifndef APEINFO_H
-#define APEINFO_H
+#ifndef TAGLIBINFO_H
+#define TAGLIBINFO_H
 #include "CInfo.h"
 //--- globals ---//
-#include "../../MusikGlobals.h"
-class CAPETag;
+#include "MusikGlobals.h"
 class CTagLibInfo : public CInfoRead,public CInfoWrite
 {
 public:

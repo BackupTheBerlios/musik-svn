@@ -1,18 +1,25 @@
 #include "wx/wxprec.h"
+#ifdef _WIN32
 #include "All.h"							/* Monkey's Audio include file */
 #include "MACLib.h"						/* Monkey's Audio include file */
 #include "APETag.h"
+#else
+#define BUILD_CROSS_PLATFORM
+#include "mac/All.h"							/* Monkey's Audio include file */
+#include "mac/MACLib.h"						/* Monkey's Audio include file */
+#include "mac/APETag.h"
+#endif
 #include "APEInfo.h"
-#include "../MusikUtils.h"
+#include "MusikUtils.h"
 
-CAPEInfo::CAPEInfo(void)
+CMyAPEInfo::CMyAPEInfo(void)
 {
 }
-bool CAPEInfo::ReadMetaData(CSongMetaData & MetaData) const
+bool CMyAPEInfo::ReadMetaData(CSongMetaData & MetaData) const
 {
 	return ReadFileData(MetaData) && ReadTagData(MetaData);
 }
-bool CAPEInfo::ReadTagData(CSongMetaData & MetaData) const
+bool CMyAPEInfo::ReadTagData(CSongMetaData & MetaData) const
 {
 	CAPETag tag(MetaData.Filename.GetFullPath().wc_str(wxConvFile));
 	GetFieldAsUtf8(APE_TAG_FIELD_TITLE,tag,MetaData.Title);
@@ -27,7 +34,7 @@ bool CAPEInfo::ReadTagData(CSongMetaData & MetaData) const
 	return true;
 }
 
-bool  CAPEInfo::WriteMetaData(const CSongMetaData & MetaData,bool bClearAll)
+bool  CMyAPEInfo::WriteMetaData(const CSongMetaData & MetaData,bool bClearAll)
 {
 	CAPETag tag(MetaData.Filename.GetFullPath().wc_str(wxConvFile));
 	if(bClearAll)
@@ -39,11 +46,12 @@ bool  CAPEInfo::WriteMetaData(const CSongMetaData & MetaData,bool bClearAll)
 	tag.SetFieldString(APE_TAG_FIELD_NOTES,MetaData.Notes,TRUE);
 	tag.SetFieldString(APE_TAG_FIELD_YEAR,MetaData.Year,TRUE);
 	char buf[20];
-	tag.SetFieldString(APE_TAG_FIELD_TRACK,itoa(MetaData.nTracknum,buf,10),TRUE);
+	sprintf(buf,"%d",MetaData.nTracknum);
+	tag.SetFieldString(APE_TAG_FIELD_TRACK,buf,TRUE);
 	return tag.Save() == ERROR_SUCCESS;
 }
 
-bool CAPEInfo::ReadFileData(CSongMetaData & MetaData) const
+bool CMyAPEInfo::ReadFileData(CSongMetaData & MetaData) const
 {
 	int nRetVal=0;
 	IAPEDecompress * pAPEDecompress = CreateIAPEDecompress(MetaData.Filename.GetFullPath().wc_str(wxConvFile), &nRetVal);
@@ -58,7 +66,7 @@ bool CAPEInfo::ReadFileData(CSongMetaData & MetaData) const
 	}
 	return false;
 }
-bool CAPEInfo::GetFieldAsUtf8(wchar_t *pFieldName,CAPETag &tag, CSongMetaData::StringData &s)
+bool CMyAPEInfo::GetFieldAsUtf8(wchar_t *pFieldName,CAPETag &tag, CSongMetaData::StringData &s)
 {
 	CAPETagField * pAPETagField = tag.GetTagField(pFieldName);
 	if (pAPETagField == NULL)

@@ -19,6 +19,9 @@
 #include "MusikUtils.h"
 #include "3rd-Party/TagHelper/idtag.h"
 #include "MetaDataHandler.h"
+
+#include "APEInfo.h"
+
 #define USE_TAGLIB
 
 #ifdef USE_TAGLIB
@@ -26,18 +29,17 @@
 static CTagLibInfo taglibinfo;
 #else
 #include "CMP3Info.h"
-#include "APEInfo.h"
 #include "COggInfo.h"
 #include "MPCInfo.h"
 #include "FlacInfo.h"
 static CMP3Info mp3info;
 static COggInfo ogginfo;
-static CAPEInfo apeinfo;
 static CMPCInfo mpcinfo;
 static CFlacInfo flacinfo;
 #endif
 #include "CFMODInfo.h"
 static CFMODInfo fmodinfo;
+static CMyAPEInfo apeinfo;
 
 class CDummyInfo : public CInfoRead
 {
@@ -74,7 +76,6 @@ static const tSongClass valid_SongClasses[] =
 	,{wxT("ogg"),wxTRANSLATE("OGG Vorbis Audio File"),MUSIK_FORMAT_OGG,&taglibinfo,&taglibinfo}
 	,{wxT("mpc"),wxTRANSLATE("Musepack Audio File"),MUSIK_FORMAT_MPC,&taglibinfo,&taglibinfo}
 	,{wxT("flac"),wxTRANSLATE("Flac Lossless Audio File"),MUSIK_FORMAT_FLAC,&taglibinfo,&taglibinfo}
-	,{wxT("ape"),wxTRANSLATE("Monkey's Audio File"),MUSIK_FORMAT_APE,&taglibinfo,&taglibinfo}
 	,{wxT("mp2"),wxTRANSLATE("MPEG Layer 2 Audio File"),MUSIK_FORMAT_MP2,&taglibinfo,&taglibinfo}
 
 #else
@@ -82,9 +83,9 @@ static const tSongClass valid_SongClasses[] =
 	,{wxT("ogg"),wxTRANSLATE("OGG Vorbis Audio File"),MUSIK_FORMAT_OGG,&ogginfo,&ogginfo}
 	,{wxT("mpc"),wxTRANSLATE("Musepack Audio File"),MUSIK_FORMAT_MPC,&mpcinfo,&mpcinfo}
 	,{wxT("flac"),wxTRANSLATE("Flac Lossless Audio File"),MUSIK_FORMAT_FLAC,&flacinfo,&flacinfo}
-	,{wxT("ape"),wxTRANSLATE("Monkey's Audio File"),MUSIK_FORMAT_APE,&apeinfo,&apeinfo}
 	,{wxT("mp2"),wxTRANSLATE("MPEG Layer 2 Audio File"),MUSIK_FORMAT_MP2,&mp3info,&mp3info}
 #endif
+	,{wxT("ape"),wxTRANSLATE("Monkey's Audio File"),MUSIK_FORMAT_APE,&apeinfo,&apeinfo}
 	,{wxT("wav"),wxTRANSLATE("WAVE Audio File"),MUSIK_FORMAT_WAV,&fmodinfo,NULL}
 	,{wxT("aiff"),wxTRANSLATE("AIFF Audio File"),MUSIK_FORMAT_AIFF,&fmodinfo,NULL}
 #ifdef __WXMSW__

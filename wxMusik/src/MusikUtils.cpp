@@ -966,7 +966,7 @@ void UnassociateWithFileType(const wxString &sExt)
 // MusikLogWindow
 // -----------
 BEGIN_EVENT_TABLE(MusikLogWindow, wxEvtHandler)
-  EVT_MENU			( MUSIK_LOGWINDOW_SHOW,		MusikLogWindow::OnShow)
+  EVT_MENU			( MUSIK_LOGWINDOW_NEWMSG,		MusikLogWindow::OnNewMsg)
 END_EVENT_TABLE()
 
 MusikLogWindow::MusikLogWindow(wxFrame *pParent,
@@ -982,7 +982,7 @@ MusikLogWindow::MusikLogWindow(wxFrame *pParent,
 void MusikLogWindow::DoLogString(const wxChar *szString, time_t t)
 {
 
-	wxLogWindow::DoLogString(szString,t);
+	
 /*
 ** on linux the Show from another thread
 ** ( if wxLogWarning is issued from a thread) 
@@ -990,13 +990,19 @@ void MusikLogWindow::DoLogString(const wxChar *szString, time_t t)
 ** same for mac oxs.
 ** 
 ** so we post a message to ourself.
+**
+**As i have expereience some crashes on gtk and osx ( osx is being deadlocked)
+** i do the actual logging in the message handler
 */
-	wxCommandEvent Evt	( wxEVT_COMMAND_MENU_SELECTED, MUSIK_LOGWINDOW_SHOW );
+	wxCommandEvent Evt	( wxEVT_COMMAND_MENU_SELECTED, MUSIK_LOGWINDOW_NEWMSG );
+	Evt.SetString(szString);
+	Evt.SetInt((int)t);
 	wxPostEvent( this,Evt );
 }
 
-void MusikLogWindow::OnShow(wxCommandEvent &)
+void MusikLogWindow::OnNewMsg(wxCommandEvent &evt)
 {
+	wxLogWindow::DoLogString(evt.GetString(),(time_t)evt.GetInt());
 	if(m_Style & MUSIK_LW_ShowOnLog)
 		Show(TRUE);
 }

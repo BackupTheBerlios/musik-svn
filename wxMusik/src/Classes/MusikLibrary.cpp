@@ -444,7 +444,7 @@ bool CMusikLibrary::AddSongDataFromFile( const wxString & filename )
 	CMetaDataHandler::RetCode rc  = CMetaDataHandler::GetMetaData( MetaData );
 	if(rc == CMetaDataHandler::notsupported)
 	{
-	//TEST	::wxLogInfo(_("Parsing of file %s not supported. Setting title to filename."),(const wxChar *)MetaData.Filename.GetFullPath());
+		::wxLogInfo(_("Parsing of file %s not supported. Setting title to filename."),(const wxChar *)MetaData.Filename.GetFullPath());
 		rc = CMetaDataHandler::success; // continue as if success
 	}
 	if(rc == CMetaDataHandler::success )
@@ -476,7 +476,7 @@ bool CMusikLibrary::AddSongDataFromFile( const wxString & filename )
 	}
 	else if(rc == CMetaDataHandler::fail)
 	{
-		//TEST ::wxLogWarning(_("Parsing of file %s failed."),(const wxChar *)MetaData.Filename.GetFullPath());
+		::wxLogWarning(_("Parsing of file %s failed."),(const wxChar *)MetaData.Filename.GetFullPath());
 	}
 	else
 	{
@@ -497,7 +497,7 @@ bool CMusikLibrary::UpdateSongDataFromFile( const wxString & filename )
 	CMetaDataHandler::RetCode rc  = CMetaDataHandler::GetMetaData( MetaData );
 	if(rc == CMetaDataHandler::notsupported)
 	{
-		//TEST ::wxLogInfo(_("Parsing of file %s not supported. Song data is not updated."),(const wxChar *)MetaData.Filename.GetFullPath());
+		::wxLogInfo(_("Parsing of file %s not supported. Song data is not updated."),(const wxChar *)MetaData.Filename.GetFullPath());
 		return true; // we are not able to parse this file, so we return here, to not overwrite the possible user edited data in the db with empty data.
 	}
 	if(rc == CMetaDataHandler::success )
@@ -524,7 +524,7 @@ bool CMusikLibrary::UpdateSongDataFromFile( const wxString & filename )
 	}
 	else if(rc == CMetaDataHandler::fail)
 	{
-		//TEST ::wxLogWarning(_("Parsing of file %s failed."),(const wxChar *)MetaData.Filename.GetFullPath());
+		::wxLogWarning(_("Parsing of file %s failed."),(const wxChar *)MetaData.Filename.GetFullPath());
 	}
 	else
 	{
@@ -541,7 +541,7 @@ bool CMusikLibrary::WriteTag(  CMusikSong & song, bool ClearAll , bool bUpdateDB
 	CMetaDataHandler::RetCode rc  = CMetaDataHandler::success;
 	if(false == wxFileExists(song.MetaData.Filename.GetFullPath()))
 	{
-		//TEST ::wxLogWarning(_("Writing tags to file %s failed,because the file does not exist.\nPlease purge the database."),(const wxChar *)song.MetaData.Filename.GetFullPath());
+		::wxLogWarning(_("Writing tags to file %s failed,because the file does not exist.\nPlease purge the database."),(const wxChar *)song.MetaData.Filename.GetFullPath());
 		return false;
 	}
 	else
@@ -549,7 +549,7 @@ bool CMusikLibrary::WriteTag(  CMusikSong & song, bool ClearAll , bool bUpdateDB
 		rc = CMetaDataHandler::WriteMetaData(song.MetaData,ClearAll);
 	}
 	if(rc == CMetaDataHandler::notsupported)
-	  ;//TEST ::wxLogInfo(_("Writing tags to file %s is not supported. File is set as clean in database."),(const wxChar *)song.MetaData.Filename.GetFullPath());
+	  ::wxLogInfo(_("Writing tags to file %s is not supported. File is set as clean in database."),(const wxChar *)song.MetaData.Filename.GetFullPath());
 	if(( rc != CMetaDataHandler::fail) && bUpdateDB )
 	{
 		//-----------------------------//
@@ -558,7 +558,7 @@ bool CMusikLibrary::WriteTag(  CMusikSong & song, bool ClearAll , bool bUpdateDB
 		UpdateItem( song , false );
 	}
 	else if(rc == CMetaDataHandler::fail)
-		;//TEST::wxLogWarning(_("Writing tags to file %s failed."),(const wxChar *)song.MetaData.Filename.GetFullPath());
+		::wxLogWarning(_("Writing tags to file %s failed."),(const wxChar *)song.MetaData.Filename.GetFullPath());
 
    return rc != CMetaDataHandler::fail;
 }

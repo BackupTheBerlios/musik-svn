@@ -25,6 +25,7 @@ ADD_EXECUTABLE(wxMusik
 
         ./Classes/Library/TagLibInfo
         ./Classes/Library/CFMODInfo
+        ./Classes/Library/APEInfo
         ./Classes/Library/MetaDataHandler
 	${wxMusik_SOURCE_DIR}/3rd-Party/Bitap/libbitap.c
 	${wxMusik_SOURCE_DIR}/3rd-Party/TagHelper/idtag.cpp

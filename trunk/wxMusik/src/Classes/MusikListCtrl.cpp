@@ -35,6 +35,7 @@ CMusikListCtrl::CMusikListCtrl( wxWindow *parent, const wxWindowID id, const wxP
 
 
 BEGIN_EVENT_TABLE(CMusikListCtrl, wxListCtrl)
+    EVT_MOUSEWHEEL(CMusikListCtrl::OnMouseWheel)
 #ifdef WXMUSIK_BUGWORKAROUND_LISTCTRL_CONTEXTMENU
 	EVT_LIST_ITEM_RIGHT_CLICK(-1, CMusikListCtrl::ShowMenu)
 #else
@@ -56,7 +57,11 @@ void CMusikListCtrl::DoSetSize(int x, int y,int width, int height,int sizeFlags)
 	Thaw();
 
 }
-
+// enable wheel scroll, no matter if the bug in wxWidgets/src/generic/listctrl is fixed or not
+void CMusikListCtrl::OnMouseWheel(wxMouseEvent &event)
+{
+	event.Skip();
+}
 
 
 bool CMusikListCtrl::OnRescaleColumns()	
@@ -65,7 +70,7 @@ bool CMusikListCtrl::OnRescaleColumns()
 }
 
 #ifdef WXMUSIK_BUGWORKAROUND_LISTCTRL_CONTEXTMENU
-void CMusikListCtrl::ShowMenu( wxListEvent& WXUNUSED(event) )
+void CMusikListCtrl::ShowMenu( wxListEvent& event )
 #else
 void CMusikListCtrl::ShowMenu( wxContextMenuEvent &WXUNUSED(event) )
 #endif

@@ -55,6 +55,9 @@ public:
 #endif
 	DECLARE_EVENT_TABLE()
 protected:
+
+    void OnMouseWheel(wxMouseEvent & event);
+
 #ifdef WXMUSIK_BUGWORKAROUND_LISTCTRL_CONTEXTMENU
 	void ShowMenu				( wxListEvent& event );
 #else	

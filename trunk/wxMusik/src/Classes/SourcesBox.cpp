@@ -455,7 +455,6 @@ void CSourcesListBox::UpdateSel( size_t index )
 		// if -4 we actually want to change ciew(not only selection)
 
 		bInFunction = (index == (size_t)-4); // HACK!!,
-		wxListCtrlSelNone( this );
         m_CurSel = FindInSources(wxT( "" ),MUSIK_SOURCES_LIBRARY);
 		SetItemState( m_CurSel, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED );
 		bInFunction = false;
@@ -464,7 +463,6 @@ void CSourcesListBox::UpdateSel( size_t index )
 	if(index == (size_t)-3)
 	{	//select now playing
 		bInFunction = false;// HACK!!, this leads to recursive execution of this function (	call of SetItemState() will generate an event)
-		wxListCtrlSelNone( this );
         int sel = FindInSources(wxT( "Now Playing" ),MUSIK_SOURCES_NOW_PLAYING);
 		SetItemState( sel, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED );
 		return;
@@ -483,7 +481,6 @@ void CSourcesListBox::UpdateSel( size_t index )
 
 	if ( m_CurSel == -1 )
 	{
-		wxListCtrlSelNone( this );
 		SetItemState( nLastSel, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED );
 		m_CurSel = nLastSel;
 	}
@@ -804,8 +801,6 @@ void CSourcesListBox::DelSel()
 	m_SourcesList.RemoveAt( nIndex );
 	Update();
 
-	//--- reselect item ---//
-	wxListCtrlSelNone( this );
 
 	int nNextSel = nIndex;
 	if ( nNextSel != 0 )

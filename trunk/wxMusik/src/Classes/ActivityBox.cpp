@@ -372,7 +372,7 @@ BEGIN_EVENT_TABLE(CActivityBox, wxPanel)
 	EVT_MENU					( MUSIK_PLAYLIST_CONTEXT_PLAY_ENQUEUED,				CActivityBox::OnPlayEnqueued		)
 	EVT_MENU					( MUSIK_PLAYLIST_CONTEXT_PLAY_REPLACE_PLAYERLIST_WITH_SELECTION,CActivityBox::OnPlayReplaceWithSel		)
 	EVT_MENU					( MUSIK_SOURCE_CONTEXT_RENAME,						CActivityBox::OnRename				)	
-
+    EVT_LIST_ITEM_MIDDLE_CLICK      (-1, CActivityBox::OnListItemMiddleClick)
 END_EVENT_TABLE()
 #if 0 // old code
 //-----------------//
@@ -863,6 +863,13 @@ wxMenu * CActivityBox::CreateContextMenu()
 
 	return context_menu;
 }
+
+void CActivityBox::OnListItemMiddleClick( wxListEvent& event)
+{
+    wxCommandEvent ev(0);
+    OnPlayInstantly(ev);
+}
+
 void CActivityBox::OnPlayInstantly( wxCommandEvent& WXUNUSED(event) )
 {
 	CMusikSongArray aResult;

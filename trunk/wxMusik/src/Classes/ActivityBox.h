@@ -145,6 +145,7 @@ public:
 	void OnPlayEnqueued	( wxCommandEvent& event );
 	void OnPlayReplaceWithSel( wxCommandEvent& event );
    
+    void OnListItemMiddleClick( wxListEvent & event);
 
 	//other
 	void OnRename(wxCommandEvent& WXUNUSED(event)) { EditBegin();}

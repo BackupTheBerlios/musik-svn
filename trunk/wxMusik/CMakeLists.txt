@@ -3,12 +3,18 @@ PROJECT(wxMusik)
 SUBDIRS(data locale 3rd-Party MUSIKEngine src)
 INCLUDE (${wxMusik_SOURCE_DIR}/scripts/cmake/TargetDistclean.cmake)
 
+IF(NOT WIN32 )
+IF(NOT APPLE)
+SET(CMAKE_CXX_FLAGS " `pkg-config  --cflags-only-I gtk+-2.0`  ${CMAKE_CXX_FLAGS}")
+ENDIF(NOT APPLE)
+ENDIF(NOT WIN32)
 # Configure for a wxWindows build
 INCLUDE( ${CMAKE_CURRENT_SOURCE_DIR}/scripts/cmake/MyUse_wxWindows.cmake)
 
 OPTION(OPTION_SUPPORT_APE "Support Ape (Monkeys Audio Files) " ON)
 OPTION(OPTION_SUPPORT_MPC "Support Musepack (MPC) Audio Files " ON)
 OPTION(OPTION_SUPPORT_FLAC "Support FLAC Audio Files " ON)
+
 
 IF(OPTION_SUPPORT_MPC)
 # musepack library

@@ -296,19 +296,24 @@ wxString SanitizedString( const wxString & str )
 
 void wxListCtrlSelAll( wxListCtrl *pList )
 {
-	#ifdef WXLISTCTRL_SETITEMSTATE_IS_BUGGY
-		for( int i = 0; i < pList->GetItemCount(); i++ )
-			pList->SetItemState( i, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED );
-	#else
-    		pList->SetItemState( -1, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED );
-	#endif
+#ifdef WXLISTCTRL_SETITEMSTATE_IS_BUGGY
+	for(int i = 0; i < = pList->GetItemCount();i++)
+    {
+		pList->SetItemState( i, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED );
+    }
+#else
+	pList->SetItemState( -1, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED );
+#endif
 }
 
 void wxListCtrlSelNone( wxListCtrl *pList )
 {
 #ifdef WXLISTCTRL_SETITEMSTATE_IS_BUGGY
-	for( int i = 0; i < pList->GetItemCount(); i++ )
+	int i = -1;
+	while ( -1 != (i = pList->GetNextItem(i, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED)))
+    {
 		pList->SetItemState( i, 0, wxLIST_STATE_SELECTED );
+    }
 #else
 	pList->SetItemState( -1, 0, wxLIST_STATE_SELECTED );
 #endif

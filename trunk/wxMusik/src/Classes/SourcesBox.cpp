@@ -709,7 +709,7 @@ wxListItemAttr* CSourcesListBox::OnGetItemAttr(long item) const
 #ifdef __WXMAC__
 	wxListItemAttr *pDefAttr = 	NULL;
 #else
-	wxListItemAttr *pDefAttr = 	&m_Light;
+	wxListItemAttr *pDefAttr = 	(wxListItemAttr*)&m_Light;
 #endif
 	wxString type = m_SourcesList.Item( item ).Left( 3 );
 	type.MakeLower();

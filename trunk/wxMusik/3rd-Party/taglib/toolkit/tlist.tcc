@@ -44,6 +44,7 @@ public:
 };
 
 // A generic implementation
+#define USE_VECTOR // use std::vector instead of std::list as underlying container
 
 template <class T>
 template <class TP> class List<T>::ListPrivate  : public ListPrivateBase
@@ -54,7 +55,11 @@ public:
   void clear() {
     list.clear();
   }
+#ifdef USE_VECTOR
   std::vector<TP> list;
+#else
+  std::list<TP> list;
+#endif
 };
 
 // A partial specialization for all pointer types that implements the
@@ -77,7 +82,12 @@ public:
     }
     list.clear();
   }
+#ifdef USE_VECTOR
   std::vector<TP *> list;
+#else
+  std::list<TP> list;
+#endif
+
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -141,7 +151,7 @@ void List<T>::sortedInsert(const T &value, bool unique)
 {
   detach();
   Iterator it = begin();
-  while(*it < value && it != end())
+  while(it != end() && *it < value )
     ++it;
   if(unique && it != end() && *it == value)
     return;
@@ -242,23 +252,31 @@ T &List<T>::back()
 template <class T>
 T &List<T>::operator[](uint i)
 {
+#ifdef USE_VECTOR
+  return d->list[i];
+#else
   Iterator it = d->list.begin();
 
   for(uint j = 0; j < i; j++)
     ++it;
 
   return *it;
+#endif
 }
 
 template <class T>
 const T &List<T>::operator[](uint i) const
 {
+#ifdef USE_VECTOR
+  return d->list[i];
+#else
   ConstIterator it = d->list.begin();
 
   for(uint j = 0; j < i; j++)
     ++it;
 
   return *it;
+#endif
 }
 
 template <class T>

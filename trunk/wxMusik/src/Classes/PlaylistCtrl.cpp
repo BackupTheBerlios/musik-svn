@@ -924,7 +924,7 @@ wxListItemAttr* CPlaylistCtrl::OnGetItemAttr(long item) const
 #ifdef __WXMAC__
 	wxListItemAttr *pDefAttr = 	NULL;
 #else
-	wxListItemAttr *pDefAttr = 	&m_LightAttr;
+	wxListItemAttr *pDefAttr = 	(wxListItemAttr *)&m_LightAttr;
 #endif
 	if(item >= (long)g_Playlist.GetCount())
 		return pDefAttr;

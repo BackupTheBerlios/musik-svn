@@ -433,9 +433,10 @@ void MusikApp::OnFatalException ()
 	int status;
 	std::string cur, addr, func, addrs;
 	std::vector<std::string> lines;
-	int pos1, pos2;
+	std::string::size_type pos1, pos2;
 	for (int i = 0; i < btCount; ++i) {
 		cur = btStrings[i];
+   //     printf("%s\n",cur.c_str());
 		pos1 = cur.rfind ('[');
 		pos2 = cur.rfind (']');
 		if ((pos1 != std::string::npos) && (pos2 != std::string::npos)) {
@@ -462,11 +463,11 @@ void MusikApp::OnFatalException ()
 	wxString cmd = wxString::Format (_T("addr2line -e /proc/%d/exe -s "), getpid());
 	wxArrayString fnames;
 	if (wxExecute (cmd + wxString(addrs.c_str(),wxConvLibc), fnames) != -1) {
-		for (int i = 0; i < fnames.GetCount(); ++i) {
+		for (size_t i = 0; i < fnames.GetCount(); ++i) {
 			printf ("%s at %s\n", (const char *)lines[i].c_str(),(const char*) fnames[i].mb_str());
 		}
 	}else{
-		for (int i = 0; i < lines.size(); ++i) {
+		for (size_t i = 0; i < lines.size(); ++i) {
 			printf ("%s\n", (const char *)lines[i].c_str());
 		}
 	}

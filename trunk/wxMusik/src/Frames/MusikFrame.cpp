@@ -28,7 +28,10 @@
 #ifdef __WXMSW__
 	#include "../MMShellHook/MMShellHook.h"
 #endif
-
+#ifdef __WXGTK__
+static void XF86AudioKeyGrab_init();
+static void XF86AudioKeyGrab_cleanup();
+#endif
 //--- images ---//
 #include "../images/sources/dynamic.xpm"
 #include "../images/sources/library.xpm"
@@ -310,13 +313,21 @@ MusikFrame::MusikFrame()
 
 	SetActiveThread( NULL );
 
-	#ifdef __WXMSW__
-		SetMMShellHook((HWND)GetHWND());
-	#endif
+#ifdef __WXMSW__
+	SetMMShellHook((HWND)GetHWND());
+#endif
+#ifdef __WXGTK__
+	XF86AudioKeyGrab_init();
+#endif
+
 }
 
 MusikFrame::~MusikFrame()
 {
+#ifdef __WXGTK__
+	XF86AudioKeyGrab_cleanup();
+#endif
+
 #ifdef wxHAS_TASK_BAR_ICON
   delete m_pTaskBarIcon;
 #endif 
@@ -679,3 +690,205 @@ void MusikFrame::SetSongInfoText(const CMusikSong& song)
 		return wxFrame::MSWWindowProc(message,wParam,lParam);
 	}	
 #endif
+
+#ifdef __WXGTK__
+
+// support for XF86AUDIO keys on gtk
+// the following code is taken from XMMS-XF86AUDIO Plugin
+// and is licensed under GPL
+
+/*
+ * $Id: xf86audio.c 403 2004-10-24 07:18:08Z aqua $
+ * 
+ * XF86Audio keys plugin for XMMS
+ *
+ * This is a "general" XMMS plugin (that is, one that doesn't provide any
+ * audio processing functions).  When enabled, it grabs the XF86Audio*
+ * keys for play/stop/next/previous, then translates keyrelease events
+ * on those keys into XMMS actions.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * Copyright (c) 2003 by Devin Carraway <xf86audio-plugin@devin.com>.
+ *
+ */
+
+
+#include <gtk/gtk.h>
+#include <gdk/gdkx.h>
+#include <gdk/gdk.h>
+#include <X11/Xlib.h>
+#include <X11/Xatom.h>
+#include <string.h>
+#undef _
+#define _(string) (string)
+enum xf86audio_value {
+       XF86AUDIO_PLAY = 0,
+//       XF86AUDIO_PAUSE,
+       XF86AUDIO_STOP,
+       XF86AUDIO_NEXT,
+       XF86AUDIO_PREV,
+//       XF86AUDIO_RAISEVOLUME,
+//       XF86AUDIO_LOWERVOLUME,
+//       XF86AUDIO_MUTE,
+//       XF86AUDIO_MEDIA,
+       XF86AUDIO_MAX
+};
+
+static KeyCode map[XF86AUDIO_MAX];
+
+//enum onplay_value {
+//	ONPLAY_PAUSE,
+//	ONPLAY_RESTART
+//};
+
+static void grab_keys();
+static void ungrab_keys();
+static GdkFilterReturn xf86audio_filter(GdkXEvent *xevent, GdkEvent *event, gpointer data);
+
+
+
+static void XF86AudioKeyGrab_init()
+{
+	gdk_window_add_filter(GDK_ROOT_PARENT(), xf86audio_filter, map);
+	grab_keys();
+}
+
+static void XF86AudioKeyGrab_cleanup()
+{
+	ungrab_keys();
+	gdk_window_remove_filter(NULL, xf86audio_filter, map);
+}
+
+
+
+
+static GdkFilterReturn xf86audio_filter(GdkXEvent *xevent, GdkEvent *event, gpointer data)
+{
+	XEvent *xev = (XEvent *)xevent;
+	XKeyEvent *keyevent = (XKeyEvent *)xevent;
+	KeyCode *k = (KeyCode *)data;
+	gint i;
+
+//	if (xev->type != KeyRelease) // key release event is not received if wxMusik is the active app. dont know why.
+	if (xev->type != KeyPress)
+		return GDK_FILTER_CONTINUE;
+
+	for (i=0; i<XF86AUDIO_MAX; i++) {
+		if (k[i] == keyevent->keycode)
+			break;
+	}
+	if (i == XF86AUDIO_MAX) {
+		g_warning(_("Received KeyRelease event for unrequested keycode %d"),
+				keyevent->keycode);
+		return GDK_FILTER_CONTINUE;
+	}
+
+	switch (i) {
+		case XF86AUDIO_STOP:
+			if( wxGetApp().Player.IsPlaying() )
+					wxGetApp().Player.Stop();
+			break;
+		case XF86AUDIO_PREV:
+			if( wxGetApp().Player.IsPlaying() )
+					wxGetApp().Player.PrevSong();
+			break;
+		case XF86AUDIO_NEXT:
+			if( wxGetApp().Player.IsPlaying() )
+					wxGetApp().Player.NextSong();
+			break;
+		case XF86AUDIO_PLAY:
+			wxGetApp().Player.PlayPause();
+			break;
+		default: return GDK_FILTER_CONTINUE;
+	}
+	return GDK_FILTER_REMOVE;
+}
+
+
+static KeyCode grab_key(char *keystring)
+{
+	KeySym sym;
+	KeyCode code;
+	gint i;
+
+	if ((sym = XStringToKeysym(keystring)) == NoSymbol)
+		return 0;
+	if ((code = XKeysymToKeycode(GDK_DISPLAY(), sym)) == 0)
+		return 0;
+
+	gdk_error_trap_push();
+	for (i = 0; i < ScreenCount(GDK_DISPLAY()); i++) {
+		XGrabKey(GDK_DISPLAY(), code,
+				AnyModifier, RootWindow(GDK_DISPLAY(),i),
+				1, GrabModeAsync, GrabModeAsync);
+	}
+
+	gdk_flush();
+	if (gdk_error_trap_pop()) {
+		g_warning(_("Couldn't grab %s: another client may already have done so"),
+				keystring);
+		return 0;
+	}
+	return code;
+}
+
+static void grab_keys()
+{
+	KeyCode code;
+	
+	if ((code = grab_key("XF86AudioNext")) != 0)
+		map[XF86AUDIO_NEXT] = code;
+	if ((code = grab_key("XF86AudioPrev")) != 0)
+		map[XF86AUDIO_PREV] = code;
+	if ((code = grab_key("XF86AudioPlay")) != 0)
+		map[XF86AUDIO_PLAY] = code;
+	if ((code = grab_key("XF86AudioStop")) != 0)
+		map[XF86AUDIO_STOP] = code;
+/*	if ((code = grab_key("XF86AudioPause")) != 0)
+		map[XF86AUDIO_PAUSE] = code;
+	if ((code = grab_key("XF86AudioRaiseVolume")) != 0)
+		map[XF86AUDIO_RAISEVOLUME] = code;
+	if ((code = grab_key("XF86AudioLowerVolume")) != 0)
+		map[XF86AUDIO_LOWERVOLUME] = code;
+	if ((code = grab_key("XF86AudioMute")) != 0)
+		map[XF86AUDIO_MUTE] = code;
+	if ((code = grab_key("XF86AudioMedia")) != 0)
+		map[XF86AUDIO_MEDIA] = code;
+*/
+}
+
+
+static void ungrab_key(KeyCode code)
+{
+	int i;
+
+	gdk_error_trap_push();
+	for (i = 0; i < ScreenCount(GDK_DISPLAY()); i++)
+		XUngrabKey(GDK_DISPLAY(), code,
+				AnyModifier, RootWindow(GDK_DISPLAY(),i));
+	gdk_flush();
+	if (gdk_error_trap_pop())
+		g_warning(_("Couldn't ungrab keycode %d"), code);
+}
+
+static void ungrab_keys()
+{
+	int i;
+
+	for (i = 0; i < XF86AUDIO_MAX; i++)
+		if (map[i] != 0) {
+			ungrab_key(map[i]);
+			map[i] = 0;
+		}
+}
+#endif //WXGTK
+

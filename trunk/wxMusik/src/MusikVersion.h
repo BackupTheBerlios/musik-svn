@@ -1,6 +1,6 @@
 #ifndef MUSIK_VERSION_H
 #define MUSIK_VERSION_H
-#define MUSIK_OFFICIAL_BUILD 1
+//#define MUSIK_OFFICIAL_BUILD 1
 
 #define MUSIK_STRINGIZE2(x)  #x
 #define MUSIK_STRINGIZE_T(x)  wxT(MUSIK_STRINGIZE2(x))
@@ -9,7 +9,7 @@
 #define MUSIK_VERSION_MAJOR		0
 #define MUSIK_VERSION_MAJORSUB	4
 #define MUSIK_VERSION_MINOR		1
-#define MUSIK_VERSION_MINORSUB	0
+#define MUSIK_VERSION_MINORSUB	1
 
 #define MUSIK_VERSION(ma,mas,mi,mis) ((((unsigned long)((char)ma))<<24) | (((unsigned long)((char)mas))<<16) | (((unsigned long)((char)mi))<<8) | (((unsigned long)((char)mis))))
 #define MUSIK_VERSION_CURRENT MUSIK_VERSION(MUSIK_VERSION_MAJOR,MUSIK_VERSION_MAJORSUB,MUSIK_VERSION_MINOR,MUSIK_VERSION_MINORSUB) 

@@ -253,8 +253,9 @@ END_EVENT_TABLE()
 CSourcesListBox::CSourcesListBox( wxWindow* parent )
 	: CMusikListCtrl( parent, MUSIK_SOURCES_LISTCTRL, wxPoint( -1, -1 ), wxSize( -1, -1 ), wxLC_ALIGN_LEFT |wxLC_EDIT_LABELS | wxLC_SINGLE_SEL | wxNO_BORDER|wxLC_NO_SORT_HEADER)
 {
+#ifndef __WXMAC__
 	SetBackgroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_BTNHIGHLIGHT ) );
-
+#endif
 	//--- initialize variables ---//
 	m_CurSel = 0;
 	m_DragIndex	= -1;
@@ -705,6 +706,11 @@ wxString CSourcesListBox::OnGetItemText(long item, long column) const
 
 wxListItemAttr* CSourcesListBox::OnGetItemAttr(long item) const
 {
+#ifdef __WXMAC__
+	wxListItemAttr *pDefAttr = 	NULL;
+#else
+	wxListItemAttr *pDefAttr = 	&m_Light;
+#endif
 	wxString type = m_SourcesList.Item( item ).Left( 3 );
 	type.MakeLower();
 
@@ -717,7 +723,7 @@ wxListItemAttr* CSourcesListBox::OnGetItemAttr(long item) const
 			if ( type == wxT( "[l]" ) )
 				return ( wxListItemAttr* )&m_LightBold;
 			else
-				return ( wxListItemAttr* )&m_Light;
+				return pDefAttr;
 		}
 		else
 		{
@@ -732,7 +738,7 @@ wxListItemAttr* CSourcesListBox::OnGetItemAttr(long item) const
 	if ( type == wxT( "[l]" ) )
 		return ( wxListItemAttr* )&m_LightBold;
 
-	return ( wxListItemAttr* )&m_Light;
+	return pDefAttr;
 }
 
 int	CSourcesListBox::OnGetItemImage	(long item) const
@@ -1527,12 +1533,14 @@ void CSourcesBox::ShowAlbumArt(bool bShow)
 void CSourcesBox::Update( ) 
 { 
 	m_pListBox->Update();
+#ifndef __WXMAC__	
 	SetBackgroundColour(wxGetApp().Prefs.bPlaylistBorder ?  
 		StringToColour(wxGetApp().Prefs.sPlaylistBorderColour)
 		:wxSystemSettings::GetColour(wxSYS_COLOUR_BTNFACE));
 	m_pPictureBox->SetBackgroundColour(wxGetApp().Prefs.bPlaylistBorder ?  
 		StringToColour(wxGetApp().Prefs.sPlaylistBorderColour)
 		:wxSystemSettings::GetColour(wxSYS_COLOUR_BTNFACE));
+#endif		
 }
 
 CSourcesBox::~CSourcesBox()

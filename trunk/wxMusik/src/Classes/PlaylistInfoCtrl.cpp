@@ -131,6 +131,7 @@ void CPlaylistInfoCtrl::Update()
 			strsize = wxString::Format( wxT("%.2f gb"), totsize / kbsize / kbsize / kbsize );
 		stFilesizeVal->SetLabel( strsize );
 	}
+#ifndef __WXMAC__	
 	wxColour bg = GetParent()->GetBackgroundColour();
 	if(GetBackgroundColour() !=  bg)
 	{
@@ -143,5 +144,6 @@ void CPlaylistInfoCtrl::Update()
 		}
 
 	}
+#endif	
 	Layout();
 }

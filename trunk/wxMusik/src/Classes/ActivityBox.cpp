@@ -68,8 +68,9 @@ CActivityListBox::CActivityListBox( CActivityBox *parent,  wxWindowID id )
 {
 	m_Related = 0;
 	m_pParent = parent;
+#ifndef __WXMAC__	
 	SetBackgroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_BTNHIGHLIGHT ) );
-
+#endif
 	InsertColumn( 0, wxT(""), wxLIST_FORMAT_LEFT, 0 );
 	InsertColumn( 1, wxT(""), wxLIST_FORMAT_LEFT, 0 );
 	m_bIgnoreSetItemStateEvents = false;
@@ -198,7 +199,9 @@ void CActivityListBox::Update( bool selnone )
 	if ( selnone )
 		wxListCtrlSelNone( this );
 	RefreshCaption();
+#ifndef __WXMAC__	
 	wxWindow::Update(); // instantly update window content
+#endif
 }
 
 
@@ -250,8 +253,11 @@ wxListItemAttr* CActivityListBox::OnGetItemAttr(long item) const
 
 	if ( wxGetApp().Prefs.bActStripes == 1 )
 		return item % 2 ? (wxListItemAttr *)&m_DarkAttr : (wxListItemAttr *)&m_LightAttr;
-
+#ifdef __WXMAC__
+	return NULL;
+#else
 	return ( wxListItemAttr* )&m_LightAttr;
+#endif	
 }
 
 CActivityListBox::~CActivityListBox()

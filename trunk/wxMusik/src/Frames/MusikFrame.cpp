@@ -217,8 +217,12 @@ MusikFrame::MusikFrame()
 	else
 		m_pTaskBarIcon = new MusikTaskBarIcon(this);
 #endif
+
+#ifdef __WXMAC__
+	MacSetMetalAppearance(true);
+#endif
 	//--- colours ---//
-	this->SetBackgroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_3DFACE ) );
+//	this->SetBackgroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_3DFACE ) );
 
 	//--- load image lists and fonts ---//
 	LoadImageLists();

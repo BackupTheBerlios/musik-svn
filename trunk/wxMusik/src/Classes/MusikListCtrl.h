@@ -42,7 +42,16 @@ public:
 	void Freeze();
 	void Thaw();
 #endif
-
+#ifdef __WXMAC__
+	void SetItemCount(long count)
+	{
+		if(count != GetItemCount())
+		{
+			EnsureVisible(0); // hack to circumvent bug, if SetItemCount is callec but the listview is scrolled down.
+			wxListCtrl::SetItemCount(count);
+		}	
+	}
+#endif
 	DECLARE_EVENT_TABLE()
 protected:
 	virtual void DoSetSize(int x, int y,int width, int height,int sizeFlags);

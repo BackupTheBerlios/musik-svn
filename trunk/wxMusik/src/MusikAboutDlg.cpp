@@ -20,14 +20,14 @@
 #ifndef MUSIKENGINE_NO_FLAC_SUPPORT
 #include <FLAC/format.h>
 #endif
-#ifndef MUSIKENGINE_NO_MPC_SUPPORT
+#ifndef MUSIKENGINE_NO_APE_SUPPORT
 #ifdef _WIN32
 #include "All.h" // monkeys audio
 #else
 #define BUILD_CROSS_PLATFORM
 #include "mac/All.h" // monkeys audio
 #endif
-#endif //#ifndef MUSIKENGINE_NO_MPC_SUPPORT
+#endif //#ifndef MUSIKENGINE_NO_APE
 
 //#include "MUSIKEngine/MPC/in_mpc.h"
 

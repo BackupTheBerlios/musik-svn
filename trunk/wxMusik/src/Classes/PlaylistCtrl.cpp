@@ -79,19 +79,25 @@ CPlaylistBox::CPlaylistBox( wxWindow *parent )
 	: wxPanel( parent, -1, wxPoint( -1, -1 ), wxSize( -1, -1 ),wxNO_FULL_REPAINT_ON_RESIZE| wxTAB_TRAVERSAL|wxCLIP_CHILDREN|wxSUNKEN_BORDER )
 	
 {
-
+#ifdef __WXMAC__
+	int nBorder1 = 0;
+	int nBorder2 = 0;
+#else	
+	int nBorder1 = 2;
+	int nBorder2 = 5;
+#endif	
 	//--- CSourcesListBox ---//
 	m_pPlaylistCtrl	= new CPlaylistCtrl( this, MUSIK_PLAYLIST, wxPoint( -1, -1 ), wxSize( -1, -1 ) );
 	m_pPlaylistInfoCtrl = new CPlaylistInfoCtrl( this ,  m_pPlaylistCtrl);
 	m_pSearchBox = new CSearchBox(this);
 	m_pInfoSearchSizer = new wxBoxSizer( wxVERTICAL );
-	m_pInfoSearchSizer->Add( m_pSearchBox, 0, wxEXPAND|wxALL,2 );
+	m_pInfoSearchSizer->Add( m_pSearchBox, 0, wxEXPAND|wxALL,nBorder1 );
 	m_pInfoSearchSizer->Add( m_pPlaylistInfoCtrl, 0, wxEXPAND );
 	//--- top sizer ---//
 	m_pMainSizer = new wxBoxSizer( wxVERTICAL );
-	m_pMainSizer->Add( m_pInfoSearchSizer, 0, wxADJUST_MINSIZE|wxEXPAND|wxRIGHT|wxLEFT|wxBOTTOM|wxTOP  , 2 );
+	m_pMainSizer->Add( m_pInfoSearchSizer, 0, wxADJUST_MINSIZE|wxEXPAND|wxRIGHT|wxLEFT|wxBOTTOM|wxTOP  , nBorder1 );
 	
-	m_pMainSizer->Add(  m_pPlaylistCtrl, 1, wxEXPAND|wxRIGHT|wxLEFT|wxBOTTOM,5);
+	m_pMainSizer->Add(  m_pPlaylistCtrl, 1, wxEXPAND|wxRIGHT|wxLEFT|wxBOTTOM,nBorder2);
 	SetSizerAndFit( m_pMainSizer );
 
 	Layout();
@@ -105,9 +111,11 @@ void CPlaylistBox::ShowPlaylistInfo()
 }
 void CPlaylistBox::Update( bool bSelFirstItem )
 {
+#ifndef __WXMAC__ 
 	SetBackgroundColour(wxGetApp().Prefs.bPlaylistBorder ?  
 										StringToColour(wxGetApp().Prefs.sPlaylistBorderColour)
 										:wxSystemSettings::GetColour(wxSYS_COLOUR_BTNFACE));
+#endif										
 	m_pPlaylistCtrl->Update(bSelFirstItem);
 	if ( wxGetApp().Prefs.bShowPLInfo )
 	{
@@ -329,8 +337,9 @@ CPlaylistCtrl::CPlaylistCtrl( CPlaylistBox *parent, const wxWindowID id, const w
 	,m_pParent(parent)
 	
 {
+#ifndef __WXMAC__
 	SetBackgroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_BTNHIGHLIGHT ) );
-
+#endif
 	//--- setup headers ---//
 	m_ColSaveNeeded = false;
 	ResetColumns();
@@ -912,8 +921,13 @@ int CPlaylistCtrl::OnGetItemImage(long item) const
 
 wxListItemAttr* CPlaylistCtrl::OnGetItemAttr(long item) const
 {
+#ifdef __WXMAC__
+	wxListItemAttr *pDefAttr = 	NULL;
+#else
+	wxListItemAttr *pDefAttr = 	&m_LightAttr;
+#endif
 	if(item >= (long)g_Playlist.GetCount())
-		return (wxListItemAttr *)&m_LightAttr;
+		return pDefAttr;
 	const CMusikSong & song = g_Playlist.Item ( item );
 	if(wxGetApp().Player.IsPlaying() && (g_SourcesCtrl->GetSelType() == MUSIK_SOURCES_NOW_PLAYING) 
 		&& (wxGetApp().Player.GetCurIndex() == (size_t)item ) && (song.songid == wxGetApp().Player.GetCurrentSongid()))
@@ -934,9 +948,9 @@ wxListItemAttr* CPlaylistCtrl::OnGetItemAttr(long item) const
 	else
 	{
 		if ( wxGetApp().Prefs.bPLStripes == 1 )
-			return item % 2 ? (wxListItemAttr *)&m_DarkAttr : (wxListItemAttr *)&m_LightAttr;
+			return item % 2 ? (wxListItemAttr *)&m_DarkAttr : pDefAttr;
 		else
-			return (wxListItemAttr *)&m_LightAttr;
+			return pDefAttr;
 	}
 }
 
@@ -1740,7 +1754,14 @@ EVT_BUTTON					(MUSIK_SEARCHBOX_CLEAR,CSearchBox::OnClear)
 END_EVENT_TABLE()
 
 CSearchBox::CSearchBox( wxWindow *parent )
-:wxPanel( parent, -1, wxPoint( -1, -1 ), wxSize( -1, -1 ),wxNO_FULL_REPAINT_ON_RESIZE| wxTAB_TRAVERSAL|wxCLIP_CHILDREN|wxBORDER_RAISED )
+:wxPanel( parent, -1, wxPoint( -1, -1 ), wxSize( -1, -1 ),
+		wxNO_FULL_REPAINT_ON_RESIZE
+		| wxTAB_TRAVERSAL
+		|wxCLIP_CHILDREN
+#ifndef __WXMAC__
+		|wxBORDER_RAISED
+#endif		 
+		)
 ,m_Timer(this,MUSIK_SEARCHBOX_TIMERID)
 {
 	//--------------------//
@@ -1851,7 +1872,7 @@ void CSearchBox::DoSearchQuery( wxString sQueryVal )
 }
 void CSearchBox::OnTextInput(wxCommandEvent &)
 {
-	m_Timer.Start(650,wxTIMER_ONE_SHOT );	
+	m_Timer.Start(650 );	
 }
 void CSearchBox::OnSearchMode( wxCommandEvent&	event )
 {
@@ -1868,6 +1889,7 @@ void CSearchBox::OnFuzzySearchMode( wxCommandEvent&	event )
 }
 void CSearchBox::OnTimer(wxTimerEvent& )
 {
+	m_Timer.Stop();
 	DoSearchQuery(m_pTextSimpleQuery->GetValue());
 }
 void CSearchBox::OnTextEnter(wxCommandEvent &)

@@ -311,18 +311,18 @@ ELSE(WIN32_STYLE_FIND)
     
     OPTION(WXWINDOWS_USE_SHARED_LIBS "Use shared versions (.so) of wxWindows libraries" OFF)
     OPTION(WXWINDOWS_USE_UNICODE     "Use unicode versions of wxWindows libraries" ON)
-#    OPTION(WXWINDOWS_USE_DEBUG_LIBS     "Use debug versions of wxWindows libraries in Debug build" ON)
+    OPTION(WXWINDOWS_USE_DEBUG_LIBS     "Use debug versions of wxWindows libraries in Debug build" ON)
 
 
-#    IF(CMAKE_BUILD_TYPE STREQUAL Debug)
-#        IF(WXWINDOWS_USE_DEBUG_LIBS)
-#	    SET(WXWINDOWS_USE_DEBUG ON)
-#        ELSE(WXWINDOWS_USE_DEBUG_LIBS)
-#   	    SET(WXWINDOWS_USE_DEBUG OFF)
-#        ENDIF(WXWINDOWS_USE_DEBUG_LIBS)
-#    ELSE(CMAKE_BUILD_TYPE STREQUAL Debug)
-#	SET(WXWINDOWS_USE_DEBUG OFF)
-#    ENDIF(CMAKE_BUILD_TYPE STREQUAL Debug)
+    IF(CMAKE_BUILD_TYPE STREQUAL Debug)
+        IF(WXWINDOWS_USE_DEBUG_LIBS)
+	    SET(WXWINDOWS_USE_DEBUG ON)
+        ELSE(WXWINDOWS_USE_DEBUG_LIBS)
+   	    SET(WXWINDOWS_USE_DEBUG OFF)
+        ENDIF(WXWINDOWS_USE_DEBUG_LIBS)
+    ELSE(CMAKE_BUILD_TYPE STREQUAL Debug)
+	SET(WXWINDOWS_USE_DEBUG OFF)
+    ENDIF(CMAKE_BUILD_TYPE STREQUAL Debug)
     # JW removed option and force the develper th SET it. 
     # OPTION(WXWINDOWS_USE_GL "use wxWindows with GL support (use additional
     # --gl-libs for wx-config)?" OFF)

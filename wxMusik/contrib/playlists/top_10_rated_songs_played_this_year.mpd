@@ -1,1 +1,0 @@
-lastplayed > julianday('now','start of year') order by rating desc  limit 10

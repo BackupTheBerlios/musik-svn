@@ -148,23 +148,17 @@ void CActivityListBox::OnFocused( wxListEvent& event )
 }
 void CActivityListBox::RescaleColumns( bool bFreeze )
 {
-	if( bFreeze )
-		Freeze();
 	int nWidth, nHeight;
 	GetClientSize	( &nWidth, &nHeight );
-//	if(GetColumnWidth( 0 ) != 0)
-//		SetColumnWidth	( 0, 0 );
     const int main_col = 0;
 	if ( GetColumnWidth( main_col ) != nWidth )
 	{
-		#ifndef __WXGTK__
+		#ifdef __WXMSW__
 			SetColumnWidth	( main_col, nWidth );
 		#else
 			SetColumnWidth( main_col, nWidth - wxSystemSettings::GetMetric(wxSYS_HSCROLL_Y) /*- GetColumnWidth( 0 )*/ - 1 );			
 		#endif 
 	}
-	if( bFreeze )
-		Thaw();
 }
 
 void CActivityListBox::SetCaption( const wxString & sCaption )

@@ -860,8 +860,16 @@ int CSourcesListBox::GetItemImage( long index )
 void CSourcesListBox::RescaleColumns()
 {
 	int nWidth, nHeight;
-	GetClientSize( &nWidth, &nHeight );
-	SetColumnWidth( 0, --nWidth );		
+	GetClientSize	( &nWidth, &nHeight );
+    const int main_col = 0;
+	if ( GetColumnWidth( main_col ) != nWidth )
+	{
+		#ifdef __WXMSW__
+			SetColumnWidth	( main_col, nWidth );
+		#else
+			SetColumnWidth( main_col, nWidth - wxSystemSettings::GetMetric(wxSYS_HSCROLL_Y) /*- GetColumnWidth( 0 )*/ - 1 );			
+		#endif 
+	}
 }
 
 void CSourcesListBox::RescanPlaylistDir()

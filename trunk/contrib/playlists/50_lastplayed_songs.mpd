@@ -1,1 +1,0 @@
-FROM songhistory join songs on songs.songid=songhistory.songid order by songhistory.date_played desc limit 50

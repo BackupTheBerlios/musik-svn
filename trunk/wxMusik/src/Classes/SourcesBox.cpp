@@ -62,14 +62,16 @@ private:
 
 wxDragResult SourcesDropTarget::OnData(wxCoord x, wxCoord y, wxDragResult def)
 {
+printf("OnData\n");
 	bool bRes = false;
 	if (GetData() )
 	{
-
+printf("OnData1\n");
 		wxDataObjectSimple *dobj = ((wxDataObjectCompositeEx *)GetDataObject())->GetActualDataObject();
 
 		if( dobj == (wxDataObjectSimple *)m_pSourcesDObj )
 		{
+printf("OnData2\n");
 			bRes = OnDropSources(x, y, m_pSourcesDObj->GetText());
 		}
 		else if( dobj == (wxDataObjectSimple *)m_pSonglistDObj )
@@ -87,9 +89,10 @@ bool SourcesDropTarget::OnDropSources( wxCoord x, wxCoord y, const wxString &sSo
 	const wxPoint& pt = wxPoint( x, y );
 	int nHitFlags = 0;
 	n = m_SourcesListBox->HitTest( pt, nHitFlags );
+   printf("OnDropSources hittest n = %d\n",n); 
 	if ( n == m_SourcesListBox->GetDragIndex() )
 		return false;
-	
+printf("OnDropSources dragindex = %d\n",m_SourcesListBox->GetDragIndex());	
 	if ( m_SourcesListBox->GetType( n ) == MUSIK_SOURCES_NOW_PLAYING ) 
 	{
 		return m_SourcesListBox->AddSourceContentToNowPlaying(m_SourcesListBox->GetDragIndex());
@@ -117,13 +120,14 @@ bool SourcesDropTarget::OnDropSources( wxCoord x, wxCoord y, const wxString &sSo
 }
 bool SourcesDropTarget::OnDropSonglist( wxCoord x, wxCoord y, const wxString &sFiles )
 {
+printf("OnDropSongList\n");
 	if ( !sFiles.IsEmpty() )
 	{
 		//--- where did we land? ---//
 		const wxPoint& pt = wxPoint( x, y );
 		int nFlags;
 		long n = m_SourcesListBox->HitTest( pt, nFlags );
-
+	printf("OnDropSongList hittest n = %d\n",n);
 	
 		//--- drag not over an object, create new list ---//
 		if ( n == -1 )
@@ -179,44 +183,62 @@ wxDragResult SourcesDropTarget::OnDragOver(wxCoord x, wxCoord y, wxDragResult de
 		return wxDragNone;
 
 	const wxPoint& pt = wxPoint( x, y );
+#ifdef __WXMSW__	
 	return HighlightSel( pt )? wxDragCopy : wxDragNone;// return wxDragCopy because def is not set correctly by wxwidgets(it should be the operation which is proposed by windows, but wxwidgets uses the keystate for determining the drop effect)
 	// wxDragCopy because CPlaylistCtrl uses wxDrag_CopyOnly( to prohibit moving files by explorer when files are dropped there.)
+#else
+	return HighlightSel( pt )? def : wxDragNone;
+#endif
 }
 
 bool SourcesDropTarget::HighlightSel( const wxPoint &pPos )
 {
 	int nFlags;
 	long n = m_SourcesListBox->HitTest( pPos, nFlags );
+	printf("hittest n = %d\n",n);
+#ifndef __WXMAC__
 	m_SourcesListBox->SetFocus();
+#endif	
 	EMUSIK_SOURCES_TYPE Type = m_SourcesListBox->GetType(n);
+#ifndef __WXMAC__	
 	if(n != m_SourcesListBox->m_CurSel)
 		m_SourcesListBox->SetItemState( m_SourcesListBox->m_CurSel, 0, wxLIST_STATE_FOCUSED );
-	if(m_SourcesListBox->GetDragIndex() == -1)
-	{// NOT dragging from source to source
-		if(Type == MUSIK_SOURCES_NONE)
-			return true;// drag over non, means create new playlist from drag data
-		else if((Type != MUSIK_SOURCES_NOW_PLAYING) && (Type != MUSIK_SOURCES_PLAYLIST_STANDARD) )
-		{
-			return false;
-		}
-	}
-	else if(Type == MUSIK_SOURCES_LIBRARY)
-	{
-		// do not move library source entry
-		return false;
-	}
+#endif		
 	long topitem = m_SourcesListBox->GetTopItem();
+	printf("topitem = %d\n",topitem);
+
 	long countperpage = m_SourcesListBox->GetCountPerPage();
 	if( n == topitem && n > 0)
 		m_SourcesListBox->EnsureVisible(n - 1);
 	else if((n == topitem + countperpage - 1) &&  (n < m_SourcesListBox->GetItemCount() - 1))
 		m_SourcesListBox->EnsureVisible(n + 1);
-	
+	if(m_SourcesListBox->GetDragIndex() == -1)
+	{// NOT dragging from source to source
+		if(Type == MUSIK_SOURCES_NONE)
+		{
+			printf("none\n");
+			return true;// drag over non, means create new playlist from drag data
+		}
+		else if((Type != MUSIK_SOURCES_NOW_PLAYING) && (Type != MUSIK_SOURCES_PLAYLIST_STANDARD) )
+		{
+			printf("none\n");
+			return false;
+		}
+	}
+	else if(Type == MUSIK_SOURCES_LIBRARY)
+	{
+		printf("Library\n");
+		// do not move library source entry
+		return false;
+	}
+#ifndef __WXMAC__	
 	if ( n != nLastHit )
 	{
 		m_SourcesListBox->SetItemState( n, wxLIST_STATE_FOCUSED, wxLIST_STATE_FOCUSED );
 	}
+#endif	
 	nLastHit = n;
+	printf("ok\n");
 	return true;
 }
 
@@ -406,12 +428,13 @@ void CSourcesListBox::CopyFiles( wxCommandEvent& WXUNUSED(event) )
 
 void CSourcesListBox::BeginDrag( wxListEvent &event )
 {
-	if ( m_CurSel != -1 )
+    long n = m_CurSel;
+	if ( n != -1 )
 	{
 		//-------------------------//
 		//--- get selected item	---//
 		//-------------------------//
-		int n = event.GetIndex();
+		
 		EMUSIK_SOURCES_TYPE Type = GetType(n);
 		if(( Type == MUSIK_SOURCES_NONE)
 			|| (Type == MUSIK_SOURCES_NOW_PLAYING)
@@ -420,6 +443,7 @@ void CSourcesListBox::BeginDrag( wxListEvent &event )
 			return;//not allowed to be dragged.
 		}
 		m_DragIndex = n;
+printf("BeginDrag dragindex = %d\n",m_DragIndex);        
 		const wxString & sDrop	= m_SourcesList.Item( m_DragIndex );
 
 		//------------------------------------------------------//

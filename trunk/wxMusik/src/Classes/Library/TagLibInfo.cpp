@@ -1,4 +1,5 @@
 #include "wx/wxprec.h"
+#include "wx/mstream.h"
 #include <string.h>
 #include "TagLibInfo.h"
 #include "MusikUtils.h"
@@ -6,6 +7,10 @@
 #include <tag.h>
 #include <tfile.h>
 #include <mpeg/mpegproperties.h>
+#include <mpeg/mpegfile.h>
+#include <mpeg/id3v2/id3v2tag.h>
+#include <mpeg/id3v2/frames/attachedpictureframe.h>
+
 CTagLibInfo::CTagLibInfo(void)
 {
 }
@@ -67,4 +72,29 @@ bool  CTagLibInfo::WriteMetaData(const CSongMetaData & MetaData,bool bClearAll)
 	tag->setYear(atoi(MetaData.Year));
 	tag->setTrack(MetaData.nTracknum);
 	return f.save();
+}
+
+bool CTagLibInfo::LoadImage(const wxString & sFilename, wxImage & img)
+{
+#ifdef __WXMSW__
+    TagLib::Filename fn(sFilename.c_str());
+#else
+    TagLib::Filename fn((const char*)ConvFn2A(sFilename));
+#endif
+    TagLib::MPEG::File *pMpegfile =new TagLib::MPEG::File( fn ,false);
+    
+    if(pMpegfile->isValid() == false || pMpegfile->ID3v2Tag() == NULL)
+        return false;
+    TagLib::FileRef f(pMpegfile);  // to take care of deletion.
+
+    TagLib::ID3v2::Tag *tag = pMpegfile->ID3v2Tag();
+    const TagLib::ID3v2::FrameList & ApicFrameList = tag->frameList("APIC");
+    if(ApicFrameList.isEmpty() 
+        || dynamic_cast<const TagLib::ID3v2::AttachedPictureFrame *>(ApicFrameList.front()) == NULL 
+      )
+        return false;
+    const TagLib::ID3v2::AttachedPictureFrame *ApicFrame = static_cast<const TagLib::ID3v2::AttachedPictureFrame *>(ApicFrameList.front());
+    wxString sMimeType(ConvA2W(ApicFrame->mimeType().toCString()));
+    wxMemoryInputStream vMstream(ApicFrame->picture().data(), ApicFrame->picture().size());
+    return img.LoadFile(vMstream,sMimeType);
 }

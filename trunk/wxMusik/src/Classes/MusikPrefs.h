@@ -172,6 +172,18 @@ struct PathEncoder
 	}
 };
 
+struct PercentSignEncoder
+{
+    static void EncodeValue(wxString & v)
+    {
+        v.Replace( wxT( "%" ), wxT( "\\%" ), true );
+    }
+    static void DecodeValue(wxString & v)
+    {
+        v.Replace( wxT("\\%"), wxT("%"), true );
+    }
+};
+
 typedef CConfigSetting<wxString,wxString,PathEncoder>  CConfigSettingPath;
 
 
@@ -457,7 +469,7 @@ public:
 	CConfigSettingBool bSortArtistWithoutPrefix;
 	
 	CConfigSettingPath sAutoRename;
-	CConfigSettingPath sAutoTag;
+	CConfigSetting<wxString,wxString,PercentSignEncoder> sAutoTag;
 	CConfigSettingBool bAutoTagConvertUnderscoresToSpaces;
 	CConfigSettingBool bWebServerEnable;
 	CConfigSettingInt nWebServerPort;

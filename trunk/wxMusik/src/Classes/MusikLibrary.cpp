@@ -151,7 +151,7 @@ bool CMusikLibrary::Load()
 
 
 		CreateDBFuncs();
-		sqlite_exec( m_pDB, "PRAGMA synchronous = OFF;", NULL, NULL, NULL );
+		//sqlite_exec( m_pDB, "PRAGMA synchronous = OFF;", NULL, NULL, NULL );
 		sqlite_exec( m_pDB, "PRAGMA cache_size = 10000;", NULL, NULL, NULL );
 		CheckVersion();
 		SetAutoDjFilter(wxGetApp().Prefs.sAutoDjFilter );

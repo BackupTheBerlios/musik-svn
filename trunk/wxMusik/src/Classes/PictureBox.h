@@ -37,6 +37,8 @@ public:
 	DECLARE_EVENT_TABLE()
 protected:
 	void TryToLoadImage(const CSongPath &sSongPath);
+    bool LoadImageFromDirectory(const wxString &sDirPath);
+    bool LoadImageFromFile( const wxString & sFilename );
 private:
 	wxImage m_DefImage;
 	wxImage m_image;

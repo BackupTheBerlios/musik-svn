@@ -19,5 +19,8 @@ public:
 	CTagLibInfo(void);
 	bool ReadMetaData(CSongMetaData & MetaData) const;
 	bool WriteMetaData(const CSongMetaData & MetaData,bool bClearAll = false);
+
+    //
+    static bool LoadImage(const wxString & sFilename, wxImage & img);
 };
 #endif

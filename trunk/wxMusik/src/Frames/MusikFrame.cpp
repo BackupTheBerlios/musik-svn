@@ -99,6 +99,7 @@ END_EVENT_TABLE()
 void MusikTaskBarIcon::RestoreFrame()
 {
 	m_pFrame->Show(TRUE);
+    m_pFrame->Restore();
 	m_pFrame->Raise();
 	//RemoveIcon();
 }
@@ -108,6 +109,7 @@ void MusikTaskBarIcon::OnMenuRestore(wxCommandEvent& )
 }
 void MusikTaskBarIcon::OnMenuHide(wxCommandEvent& )
 {
+    m_pFrame->Iconize(TRUE);
 	m_pFrame->Show(FALSE);
 }
 void MusikTaskBarIcon::OnMenuPlayPause(wxCommandEvent& )

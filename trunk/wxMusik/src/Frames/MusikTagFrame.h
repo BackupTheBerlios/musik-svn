@@ -70,6 +70,7 @@ public:
 	wxCheckBox	*chkTitle;
 	wxTextCtrl	*tcTrackNum;
 	wxCheckBox	*chkTrackNum;
+    wxCheckBox	*chkIncrementalTrackNum;
 	wxTextCtrl	*tcArtist;
 	wxCheckBox	*chkArtist;
 	wxTextCtrl	*tcAlbum;

@@ -97,6 +97,8 @@ bool MUSIKDefaultDecoder::Close()
 
 MUSIKStream* MUSIKEngine::OpenMedia(const char *FileName)
 {
+    if(FileName == NULL)
+        return NULL;
 	char *FileExt = strrchr(FileName, '.');
     if(FileExt == NULL)
         return NULL;

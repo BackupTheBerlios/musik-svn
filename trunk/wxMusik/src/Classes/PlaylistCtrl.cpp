@@ -379,9 +379,9 @@ wxMenu * CPlaylistCtrl::CreateContextMenu()
 	playlist_context_edit_tag_menu->Append( MUSIK_PLAYLIST_CONTEXT_TAG_YEAR,		_( "Edit Year\tF7" ) );
 	playlist_context_edit_tag_menu->Append( MUSIK_PLAYLIST_CONTEXT_TAG_NOTES,		_( "Edit Notes\tF8" ) );
 	playlist_context_edit_tag_menu->AppendSeparator();
-	playlist_context_edit_tag_menu->Append( MUSIK_PLAYLIST_CONTEXT_RENAME_FILES,	_( "&Auto Rename" ) );
-	playlist_context_edit_tag_menu->Append( MUSIK_PLAYLIST_CONTEXT_RETAG_FILES,		_( "A&uto Retag..." ) );
-	playlist_context_edit_tag_menu->Append( MUSIK_PLAYLIST_CONTEXT_REBUILDTAG,		_( "&Rebuild Tag" ) );
+	playlist_context_edit_tag_menu->Append( MUSIK_PLAYLIST_CONTEXT_RENAME_FILES,	wxString(_( "&Auto Rename" )) + wxT("\tCTRL+SHIFT+R"));
+	playlist_context_edit_tag_menu->Append( MUSIK_PLAYLIST_CONTEXT_RETAG_FILES,		wxString(_( "A&uto Retag...")) + wxT("\tCTRL+T") );
+	playlist_context_edit_tag_menu->Append( MUSIK_PLAYLIST_CONTEXT_REBUILDTAG,		wxString(_( "&Rebuild Tag"))+ wxT("\tCTRL+R") );
 
 	//--- delete menu ---//
 	wxMenu *playlist_context_delete_menu = new wxMenu;
@@ -680,7 +680,7 @@ void CPlaylistCtrl::OnItemActivate( wxListEvent& (event) )
 void CPlaylistCtrl::OnKeyDown( wxKeyEvent& event )
 {	 
 	int nKeyCode = event.GetKeyCode();
-	if ( event.AltDown() == TRUE )
+	if ( event.AltDown())
 	{
 		switch( nKeyCode )
 		{
@@ -693,30 +693,47 @@ void CPlaylistCtrl::OnKeyDown( wxKeyEvent& event )
 				return;
 		}
 	}
-	else if ( event.ControlDown() == TRUE )
+	else if ( event.CmdDown())
 	{
-		switch( nKeyCode )
+        if( GetSelectedItemCount() > 0 )
+        {
+            wxCommandEvent dummy;
+            switch( nKeyCode )
+            {
+            case 'R':
+                if(event.ShiftDown())
+                    OnRenameFiles(dummy);
+                else
+                    OnRebuildTag(dummy);
+                break;
+            case 'T':
+                OnRetagFiles(dummy);                        
+            case 'D':	//--- d / D ---//
+                wxListCtrlSelNone( this );
+                break;
+            case WXK_DELETE:
+            case WXK_BACK:
+                DelSelSongs(true,true);// delete from db and computer
+                break;
+            default:
+                break;
+            }
+        }
+        switch( nKeyCode )
 		{
 		case 'A':	//--- a / A ---//
 			wxListCtrlSelAll( this );
-			break;
-		case 'D':	//--- d / D ---//
-			wxListCtrlSelNone( this );
-			break;
-		case WXK_DELETE:
-		case WXK_BACK:
-			DelSelSongs(true,true);// delete from db and computer
 			break;
 		default:
 			event.Skip();
 			return;
 		}
 	}
-	else if ( event.AltDown() == FALSE )
+	else 
 	{
 		if( GetSelectedItemCount() > 0 )
-		{			
-			switch( nKeyCode )
+		{
+ 			switch( nKeyCode )
 			{
 				case WXK_F2:
 				case WXK_F3:
@@ -769,9 +786,9 @@ void CPlaylistCtrl::OnKeyDown( wxKeyEvent& event )
 					return;
 			}
 		}
+        else
+            event.Skip();   // we did not handle the key, so propagate it further
 	}
-	else
-		event.Skip();   // we did not handle the key, so propagate it further
 }
 
 //---------------------------------------------------//

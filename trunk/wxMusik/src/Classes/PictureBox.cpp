@@ -19,7 +19,7 @@
 //--- globals ---//
 #include "../MusikGlobals.h"
 #include "../MusikUtils.h"
-
+#include "Library/TagLibInfo.h"
 
 BEGIN_EVENT_TABLE(CPictureBox, wxPanel)
 	EVT_PAINT(CPictureBox::OnPaint)
@@ -134,33 +134,45 @@ void CPictureBox::TryToLoadImage(const CSongPath &sSongPath)
 	}
     wxLogNull lognull; // disable logging in this scope
 	m_img_files.Clear();
-	wxDir d(sSongPath.GetPath());
-	wxDirTraverserImages t(m_img_files);
-	d.Traverse(t);
-	for(m_curr_img_file = 0; m_curr_img_file < m_img_files.GetCount();m_curr_img_file++)
-	{
-		wxString s(m_img_files[m_curr_img_file]);
-		if(s.Lower().Contains(wxT("front")))
-		{
-			if(m_image.LoadFile(s))
-			{
-				Refresh();
-				return;
-			}
-		}
-	
-	}
-	m_curr_img_file = 0;
-	if(m_img_files.GetCount())
-		m_image.LoadFile(m_img_files[m_curr_img_file]);
-	else
-		m_image	= m_DefImage;
-
+    if(!LoadImageFromFile(sSongPath.GetFullPath()))
+    {
+        if(!LoadImageFromDirectory(sSongPath.GetPath()))
+        {
+            m_image	= m_DefImage;
+        }
+    }
 	if(!m_image.Ok())
 		m_image	= m_DefImage;
 	Refresh();
 }
+bool CPictureBox::LoadImageFromFile( const wxString & sFilename )
+{
+    return CTagLibInfo::LoadImage(sFilename, m_image);
+}
+bool CPictureBox::LoadImageFromDirectory(const wxString &sDirPath)
+{
+    wxDir d(sDirPath);
+    wxDirTraverserImages t(m_img_files);
+    d.Traverse(t);
+    for(m_curr_img_file = 0; m_curr_img_file < m_img_files.GetCount();m_curr_img_file++)
+    {
+        wxString s(m_img_files[m_curr_img_file]);
+        if(s.Lower().Contains(wxT("front")))
+        {
+            if(m_image.LoadFile(s))
+            {
+                return true;
+            }
+        }
 
+    }
+    m_curr_img_file = 0;
+    if(m_img_files.GetCount())
+        m_image.LoadFile(m_img_files[m_curr_img_file]);
+    else
+        return false;
+    return true;
+}
 void CPictureBox::OnPaint(wxPaintEvent &)
 {
 	wxPaintDC dc(this);

@@ -55,7 +55,8 @@ bool FMODStreamOut::DoCreate(int buffersize)
 
 bool FMODStreamOut::Start()
 {
-	FMODChannel = FSOUND_Stream_Play(FSOUND_FREE,StreamPointer);
+    FMODChannel = FSOUND_Stream_PlayEx(FSOUND_FREE, StreamPointer, NULL, 1);
+    FSOUND_SetPaused(FMODChannel, 0);
 	return FMODChannel != -1;
 
 }
@@ -109,7 +110,11 @@ bool FMODStreamOut::Open(const char *FileName)
 	static const char * szhttp = "http://";
 	bNetStream = (strncmp(FileName,szhttp,strlen(szhttp)) == 0);
 	int nFlags = FMOD_STREAM_FORMAT_FLAGS|(m_OpenMode == FMODEngine::OpenMode_MPEGACCURATE ? FSOUND_MPEGACCURATE:0);
-	if(bNetStream) nFlags |= FSOUND_NONBLOCKING;
+#ifdef WIN32
+    if(bNetStream) nFlags |= FSOUND_NONBLOCKING;
+#else
+	if(bNetStream) nFlags = FSOUND_NORMAL|FSOUND_NONBLOCKING;// on linux and mac, HW2D does not work on net streams.
+#endif
 	StreamPointer = FSOUND_Stream_Open(FileName,nFlags,0,0);
 	return StreamPointer != NULL;
 }

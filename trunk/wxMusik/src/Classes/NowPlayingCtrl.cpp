@@ -61,9 +61,9 @@ END_EVENT_TABLE()
 
 #define LOAD_BUTTONPNG(Name) \
     if(!bm##Name.LoadFile(MusikGetStaticDataPath() + wxT("playbackart/") MUSIK_STRINGIZE_T(Name) wxT(".png"),wxBITMAP_TYPE_PNG))\
-        bm##Name = wxBitmap(##Name##_xpm);\
+        bm##Name = wxBitmap( Name##_xpm);\
     if(!bm##Name##Down.LoadFile(MusikGetStaticDataPath() + wxT("playbackart/") MUSIK_STRINGIZE_T(Name) wxT("_down.png"),wxBITMAP_TYPE_PNG))\
-        bm##Name = wxBitmap(##Name##_xpm);
+        bm##Name = wxBitmap( Name##_down_xpm);
 
 CNowPlayingCtrl::CNowPlayingCtrl( wxWindow *parent )
 	: wxPanel( parent, -1, wxDefaultPosition, wxDefaultSize, wxCLIP_CHILDREN| wxTAB_TRAVERSAL |wxFULL_REPAINT_ON_RESIZE)

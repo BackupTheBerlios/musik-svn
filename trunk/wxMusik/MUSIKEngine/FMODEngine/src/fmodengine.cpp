@@ -53,6 +53,8 @@ bool FMODEngine::SetPlayState( MUSIKEngine::PlayState state)
 		return FSOUND_SetPaused(FSOUND_ALL, 0) != 0;
 	case MUSIKEngine::Stopped:
 		return FSOUND_SetPaused(FSOUND_ALL, 1) != 0;
+	case MUSIKEngine::Invalid:
+		return false;
 	}
 	return false;
 }

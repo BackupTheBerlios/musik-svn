@@ -117,8 +117,11 @@ bool MusikApp::OnInit()
 #endif
 	}
 
-
+#ifdef __WXMAC__
+	m_locale.AddCatalogLookupPathPrefix( MusikGetStaticDataPath() );
+#else
 	m_locale.AddCatalogLookupPathPrefix(wxT("locale"));
+#endif
 
 	const wxLanguageInfo * pLangInfo = wxLocale::FindLanguageInfo(Prefs.sLocale);
 	if(pLangInfo == NULL)

@@ -418,6 +418,11 @@ inline wxString MusikGetStaticDataPath()
 {
 #ifdef __WXMSW__
 	return wxT("data/");		
+#elif __WXMAC__
+	wxFileName fname( wxTheApp->argv[0] );
+	wxString path = fname.GetPath();
+	path += wxT("/../Resources/");
+	return path;
 #else
 	wxString sDataPath(wxT("/usr/local/share/") MUSIKAPPNAME wxT("/data/"));
 	if(wxDirExists(sDataPath))

@@ -70,7 +70,7 @@ bool CMusikListCtrl::OnRescaleColumns()
 }
 
 #ifdef WXMUSIK_BUGWORKAROUND_LISTCTRL_CONTEXTMENU
-void CMusikListCtrl::ShowMenu( wxListEvent& event )
+void CMusikListCtrl::ShowMenu( wxListEvent& WXUNUSED(event) )
 #else
 void CMusikListCtrl::ShowMenu( wxContextMenuEvent &WXUNUSED(event) )
 #endif

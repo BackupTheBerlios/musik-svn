@@ -18,8 +18,8 @@
 #include "wx/wxprec.h"	   // For compilers that support precompilation, includes "wx/wx.h".
 
 #include "MusikFX.h"
-#include "../MusikGlobals.h"
-
+#include "MusikGlobals.h"
+#include "MusikApp.h"
 //-----------------------------//
 //--- Stuff for Shibatch EQ ---//
 //-----------------------------//
@@ -63,13 +63,13 @@ void CMusikFX::ResetBands()
 		m_LeftBands[n] = 1.0f;
 		m_RightBands[n] = 1.0f;
 	}
-	MakeTable( 44100 );
+	MakeTable( wxGetApp().Prefs.nSndRate );
 }
 
 void CMusikFX::InitEQ()
 {
 	equ_init( 14 );		//--- no one knows why, 14 is the magic number ---//
-	MakeTable( 44100 );
+	MakeTable( wxGetApp().Prefs.nSndRate );
 }
 
 void CMusikFX::EndEQ()

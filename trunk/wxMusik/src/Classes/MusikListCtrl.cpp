@@ -107,19 +107,22 @@ void CMusikListCtrl::SelectClickedItem(wxMouseEvent &event)
 	long item = HitTest(event.GetPosition(),HitFlags);
 	if(item != -1)
 	{
-		if(!event.CmdDown())
-		{
-			int i = -1;
-			while ( -1 != (i = GetNextItem(i, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED)))
-			{
-				if(i != item)
-					SetItemState( i, 0, wxLIST_STATE_SELECTED );
-			}
+        if(wxLIST_STATE_SELECTED != GetItemState(item,wxLIST_STATE_SELECTED))
+        {    
+            if(!event.CmdDown())
+            {
+                int i = -1;
+                while ( -1 != (i = GetNextItem(i, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED)))
+                {
+                    if(i != item)
+                        SetItemState( i, 0, wxLIST_STATE_SELECTED );
+                }
 
-		}
-		SetItemState(item,wxLIST_STATE_SELECTED|wxLIST_STATE_FOCUSED,wxLIST_STATE_SELECTED|wxLIST_STATE_FOCUSED);
-		wxTheApp->Yield(true);   // call yield to let the SetItemState changes go through the system.
-	}
+            }
+            SetItemState(item,wxLIST_STATE_SELECTED,wxLIST_STATE_SELECTED);
+            wxTheApp->Yield(true);   // call yield to let the SetItemState changes go through the system.
+        }
+    }
 }
 bool CMusikListCtrl::OnRescaleColumns()	
 {

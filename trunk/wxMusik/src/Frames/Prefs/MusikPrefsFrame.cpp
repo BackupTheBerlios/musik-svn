@@ -82,7 +82,7 @@ END_EVENT_TABLE()
 
 
 MusikPrefsDialog::MusikPrefsDialog( wxWindow *pParent, const wxString &sTitle )
-    :wxDialog( pParent, -1, sTitle, wxDefaultPosition, wxSize(700,700), wxDEFAULT_FRAME_STYLE|wxRESIZE_BORDER|wxCAPTION | wxTAB_TRAVERSAL | wxFRAME_FLOAT_ON_PARENT | wxFRAME_NO_TASKBAR )
+    :wxDialog( pParent, -1, sTitle, wxDefaultPosition, wxSize(750,700), wxDEFAULT_FRAME_STYLE|wxRESIZE_BORDER|wxCAPTION | wxTAB_TRAVERSAL | wxFRAME_FLOAT_ON_PARENT | wxFRAME_NO_TASKBAR )
     ,m_pCurrentPanel(NULL)
 {
 	//---------------//

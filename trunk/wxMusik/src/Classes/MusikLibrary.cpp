@@ -388,8 +388,8 @@ void CMusikLibrary::fuzzycmpFunc(sqlite_func *context, int argc, const char **ar
 		{
 			Result = 1;
 		}
+		DeleteBitap(&b);
 	}
-	DeleteBitap(&b);
 	sqlite_set_result_int(context,Result);
 }
 

@@ -1846,6 +1846,12 @@ void CSearchBox::DoSearchQuery( wxString sQueryVal )
 			break;
 
 		}
+		if(fuzzy > 0.0)
+		{
+			// we need to escape (){}[]*.|\+? etc.
+			wxRegEx reMatchRegexSpecialChars(wxT("([{}\\:\\^\\*\\.\\+\\$\\(\\)\\|\\?\\\\]|\\[|\\])"));
+			reMatchRegexSpecialChars.ReplaceAll(&sQueryVal,wxT("\\\\\\1"));// replace all special regex chars by \char
+		}
 		EMUSIK_SEARCHMODE sm = wxGetApp().Prefs.eSearchmode;
 		switch(	sm )
 		{

@@ -444,7 +444,8 @@ long MPEG::File::nextFrameOffset(long position)
   ByteVector buffer = readBlock(bufferSize());
   char firstByte = 0;	
   while(buffer.size() > 0) {
-    for(uint i = 0; i < buffer.size() - 1; i++) {
+    uint i = 0;
+    for(; i < buffer.size() - 1; i++) {
       firstByte = buffer[i];
 	  if( (firstByte == (char)0xff) && secondSynchByte(buffer[i + 1]))
     	return position + i;

@@ -82,10 +82,10 @@ bool CTagLibInfo::LoadImage(const wxString & sFilename, wxImage & img)
     TagLib::Filename fn((const char*)ConvFn2A(sFilename));
 #endif
     TagLib::MPEG::File *pMpegfile =new TagLib::MPEG::File( fn ,false);
+	TagLib::FileRef f(pMpegfile);  // to take care of deletion.
     
     if(pMpegfile->isValid() == false || pMpegfile->ID3v2Tag() == NULL)
         return false;
-    TagLib::FileRef f(pMpegfile);  // to take care of deletion.
 
     TagLib::ID3v2::Tag *tag = pMpegfile->ID3v2Tag();
     const TagLib::ID3v2::FrameList & ApicFrameList = tag->frameList("APIC");

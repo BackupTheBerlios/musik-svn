@@ -6,9 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: wxMusik\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-02-20 21:18+0100\n"
-"PO-Revision-Date: 2004-10-13 14:12+0100\n"
+"POT-Creation-Date: 2005-02-18 16:39+0100\n"
+"PO-Revision-Date: 2005-03-04 10:06+0100\n"
 "Last-Translator: Vit Hrachovy <flaska@moje.cz>\n"
 "Language-Team: czech <flaska@moje.cz>\n"
 "MIME-Version: 1.0\n"
@@ -46,11 +45,11 @@ msgstr " Oznaèkovávaè"
 msgid " FX"
 msgstr "FX"
 
-#: ../src/Frames/MusikLibraryFrame.cpp:106
+#: ../src/Frames/MusikLibraryFrame.cpp:105
 msgid " Library Setup"
 msgstr "Nastavení Knihovny"
 
-#: ../src/Frames/MusikLibraryFrame.cpp:670
+#: ../src/Frames/MusikLibraryFrame.cpp:673
 msgid " Library Setup - Elapsed Time: "
 msgstr "Nastavuji Knihovnu - Uplynulý èas"
 
@@ -58,40 +57,40 @@ msgstr "Nastavuji Knihovnu - Uplynulý èas"
 msgid " Preferences"
 msgstr "Nastavení"
 
-#: ../src/Frames/MusikLibraryFrame.cpp:544
+#: ../src/Frames/MusikLibraryFrame.cpp:542
 msgid ""
 " has detected that your library configuration has changed.\n"
 "\n"
-"It is suggested that you update the internal library, which includes adding "
-"the new songs. Proceed?"
+"It is suggested that you update the internal library, which includes adding the new songs. Proceed?"
 msgstr ""
 " zjistil, ¾e se zmìnilo nastavení va¹í Knihovny.\n"
 "\n"
-"Je doporuèeno, abyste aktualizoval vnitøní knihovny; k tomu patøí i pøidání "
-"nových skladeb. Pokraèovat?"
+"Je doporuèeno, abyste aktualizoval vnitøní knihovny; k tomu patøí i pøidání nových skladeb. Pokraèovat?"
 
-#: ../src/MusikApp.cpp:295
+#: ../src/MusikApp.cpp:294
 msgid ""
 " has detected version 0.1.2 or earlier was previously installed.\n"
 "\n"
-"Due to the changes from 0.1.2 to the current version, your Sources list and "
-"Library must be reset. We apologize for any inconvenience this may cause."
+"Due to the changes from 0.1.2 to the current version, your Sources list and Library must be reset. We apologize for any inconvenience this may cause."
 msgstr ""
 " zjistil, ¾e máte ji¾ nainstalovánu verzi 0.1.2 nebo døívìj¹í.\n"
 "\n"
-"Kvùli zmìnám od 0.1.2 po souèasnou verzi je tøeba vynulovat vá¹ Seznam "
-"Zdrojù a Knihovnu. Omlouváme se za jakékoliv nepohodlí, které to mù¾e "
-"zpùsobit."
+"Kvùli zmìnám od 0.1.2 po souèasnou verzi je tøeba vynulovat vá¹ Seznam Zdrojù a Knihovnu. Omlouváme se za jakékoliv nepohodlí, které to mù¾e zpùsobit."
 
 #: ../src/Classes/MusikPrefs.h:349
 msgid " is not running"
 msgstr " nebì¾í"
 
-#: ../src/Frames/MusikPrefsFrame.cpp:399 ../src/Frames/MusikPrefsFrame.cpp:400
-#: ../src/Frames/MusikPrefsFrame.cpp:401 ../src/Frames/MusikPrefsFrame.cpp:402
-#: ../src/Frames/MusikPrefsFrame.cpp:403 ../src/Frames/MusikPrefsFrame.cpp:404
-#: ../src/Frames/MusikPrefsFrame.cpp:405 ../src/Frames/MusikPrefsFrame.cpp:406
-#: ../src/Frames/MusikPrefsFrame.cpp:407 ../src/Frames/MusikPrefsFrame.cpp:408
+#: ../src/Frames/MusikPrefsFrame.cpp:399
+#: ../src/Frames/MusikPrefsFrame.cpp:400
+#: ../src/Frames/MusikPrefsFrame.cpp:401
+#: ../src/Frames/MusikPrefsFrame.cpp:402
+#: ../src/Frames/MusikPrefsFrame.cpp:403
+#: ../src/Frames/MusikPrefsFrame.cpp:404
+#: ../src/Frames/MusikPrefsFrame.cpp:405
+#: ../src/Frames/MusikPrefsFrame.cpp:406
+#: ../src/Frames/MusikPrefsFrame.cpp:407
+#: ../src/Frames/MusikPrefsFrame.cpp:408
 msgid " of current song\n"
 msgstr " aktuální skladby\n"
 
@@ -103,7 +102,8 @@ msgstr " délka druhé vyrovnávací pamìti"
 msgid " will not delete empty directories!"
 msgstr " nesma¾e prázdné adresáøe!"
 
-#: ../src/Classes/SourcesBox.cpp:964 ../src/Classes/SourcesBox.cpp:1038
+#: ../src/Classes/SourcesBox.cpp:964
+#: ../src/Classes/SourcesBox.cpp:1038
 #: ../src/Classes/SourcesBox.cpp:1142
 msgid ""
 "\" already exists, but does not appear to be visible in the panel.\n"
@@ -191,11 +191,11 @@ msgstr ""
 "pou¾ít v masce mezery, aby bylo mo¾no nalézet '_'. \n"
 "\n"
 
-#: ../src/Frames/MusikFrame.cpp:385
+#: ../src/Frames/MusikFrame.cpp:379
 msgid "&About"
 msgstr "&O programu"
 
-#: ../src/Frames/MusikLibraryFrame.cpp:113
+#: ../src/Frames/MusikLibraryFrame.cpp:112
 msgid "&Add Directory"
 msgstr "&Pøidej Adresáø"
 
@@ -203,7 +203,8 @@ msgstr "&Pøidej Adresáø"
 msgid "&Auto Rename"
 msgstr "&Automatické Pøejmenování"
 
-#: ../src/Classes/PlaylistCtrl.cpp:425 ../src/Classes/SourcesBox.cpp:299
+#: ../src/Classes/PlaylistCtrl.cpp:425
+#: ../src/Classes/SourcesBox.cpp:299
 msgid "&Clear List"
 msgstr "&Vyèisti seznam skladeb"
 
@@ -211,7 +212,7 @@ msgstr "&Vyèisti seznam skladeb"
 msgid "&Create New"
 msgstr "&Vytvoø Nový"
 
-#: ../src/Frames/MusikFrame.cpp:381
+#: ../src/Frames/MusikFrame.cpp:375
 msgid "&Custom Query"
 msgstr "&Vlastní Dotaz"
 
@@ -227,23 +228,23 @@ msgstr "&Uprav Dotaz"
 msgid "&Edit URL"
 msgstr "&Uprav URL"
 
-#: ../src/Frames/MusikFrame.cpp:391
+#: ../src/Frames/MusikFrame.cpp:385
 msgid "&File"
 msgstr "&Soubor"
 
-#: ../src/Frames/MusikFrame.cpp:394
+#: ../src/Frames/MusikFrame.cpp:388
 msgid "&Help"
 msgstr "&Nápovìda"
 
-#: ../src/Frames/MusikFrame.cpp:168
+#: ../src/Frames/MusikFrame.cpp:162
 msgid "&Hide wxMusik"
 msgstr "&Schovej wxMusik"
 
-#: ../src/Frames/MusikFrame.cpp:393
+#: ../src/Frames/MusikFrame.cpp:387
 msgid "&Library"
 msgstr "&Knihovna"
 
-#: ../src/Frames/MusikFrame.cpp:178
+#: ../src/Frames/MusikFrame.cpp:172
 msgid "&Next"
 msgstr "&Dal¹í"
 
@@ -251,32 +252,34 @@ msgstr "&Dal¹í"
 msgid "&Open Folder in File Manager"
 msgstr "&Otevøi Adresáø v Souborovém Mana¾eru"
 
-#: ../src/Frames/MusikFrame.cpp:172
+#: ../src/Frames/MusikFrame.cpp:166
 msgid "&Pause"
 msgstr "&Pauza"
 
-#: ../src/Frames/MusikFrame.cpp:383
+#: ../src/Frames/MusikFrame.cpp:377
 msgid "&Pending Tags"
 msgstr "&Nedokonèené Znaèky"
 
-#: ../src/Classes/ActivityBox.cpp:877 ../src/Classes/PlaylistCtrl.cpp:422
-#: ../src/Frames/MusikFrame.cpp:176
+#: ../src/Classes/ActivityBox.cpp:877
+#: ../src/Classes/PlaylistCtrl.cpp:422
+#: ../src/Frames/MusikFrame.cpp:170
 msgid "&Play"
 msgstr "&Pøehrát"
 
-#: ../src/Frames/MusikFrame.cpp:349
+#: ../src/Frames/MusikFrame.cpp:343
 msgid "&Preferences\tCtrl-P"
 msgstr "&Nastavení\tCtrl-P"
 
-#: ../src/Frames/MusikFrame.cpp:177
+#: ../src/Frames/MusikFrame.cpp:171
 msgid "&Previous"
 msgstr "&Pøedchozí"
 
-#: ../src/Classes/PlaylistCtrl.cpp:444 ../src/Frames/MusikFrame.cpp:188
+#: ../src/Classes/PlaylistCtrl.cpp:444
+#: ../src/Frames/MusikFrame.cpp:182
 msgid "&Rating"
 msgstr "&Hodnocení"
 
-#: ../src/Frames/MusikLibraryFrame.cpp:164
+#: ../src/Frames/MusikLibraryFrame.cpp:162
 msgid "&Rebuild Library"
 msgstr "&Znovuvytvoø Knihovnu"
 
@@ -284,7 +287,7 @@ msgstr "&Znovuvytvoø Knihovnu"
 msgid "&Rebuild Tag"
 msgstr "&Znovuvytvoø Znaèku"
 
-#: ../src/Frames/MusikLibraryFrame.cpp:114
+#: ../src/Frames/MusikLibraryFrame.cpp:113
 msgid "&Remove &Selected Directories"
 msgstr "&Odstraò &Vybrané Adresáøe"
 
@@ -296,15 +299,15 @@ msgstr "&Pøejmenuj"
 msgid "&Rename\t F2"
 msgstr "&Pøejmenuj\t F2"
 
-#: ../src/Frames/MusikFrame.cpp:166
+#: ../src/Frames/MusikFrame.cpp:160
 msgid "&Restore wxMusik"
 msgstr "&Obnov wxMusik"
 
-#: ../src/Frames/MusikFrame.cpp:174
+#: ../src/Frames/MusikFrame.cpp:168
 msgid "&Resume"
 msgstr "&Pokraèovat"
 
-#: ../src/Frames/MusikFrame.cpp:379
+#: ../src/Frames/MusikFrame.cpp:373
 msgid "&Setup Library\tCtrl-L"
 msgstr "&Nastav Knihovnu\tCtrl-L"
 
@@ -316,15 +319,15 @@ msgstr "&Zobraz Ikony"
 msgid "&Show in Library"
 msgstr "&Uka¾ v Knihovnì"
 
-#: ../src/Frames/MusikFrame.cpp:180
+#: ../src/Frames/MusikFrame.cpp:174
 msgid "&Stop"
 msgstr "&Zastavit"
 
-#: ../src/Frames/MusikLibraryFrame.cpp:163
+#: ../src/Frames/MusikLibraryFrame.cpp:161
 msgid "&Update Library"
 msgstr "&Aktualizuj Knihovnu"
 
-#: ../src/Frames/MusikFrame.cpp:392
+#: ../src/Frames/MusikFrame.cpp:386
 msgid "&View"
 msgstr "&Zobrazit"
 
@@ -368,22 +371,17 @@ msgstr ": Aktualizuji vybrané Znaèky (ESC - zru¹it)"
 msgid ": Writing dirty tags to file (ESC to abort)"
 msgstr ": Zapisuji neèisté znaèky do souboru (ESC - zru¹it)"
 
-#: ../src/Classes/ActivityBox.cpp:237 ../src/Classes/PlaylistCtrl.cpp:795
+#: ../src/Classes/ActivityBox.cpp:237
+#: ../src/Classes/PlaylistCtrl.cpp:795
 msgid "<unknown>"
 msgstr "<neznámý>"
 
 #: ../src/Classes/SourcesBox.cpp:1050
-msgid ""
-"A dynamic playlist with this name already exists, would you like to edit the "
-"existing query?"
-msgstr ""
-"Dynamický seznam skladeb s tímto jménem u¾ existuje, pøejete si zmìnit "
-"existující dotaz?"
+msgid "A dynamic playlist with this name already exists, would you like to edit the existing query?"
+msgstr "Dynamický seznam skladeb s tímto jménem u¾ existuje, pøejete si zmìnit existující dotaz?"
 
 #: ../src/Classes/SourcesBox.cpp:979
-msgid ""
-"A playlist with this name already exists, would you like to append to the "
-"existing one?"
+msgid "A playlist with this name already exists, would you like to append to the existing one?"
 msgstr "U¾ existuje seznam skladeb stejného jména, chcete k nìmu pøidat?"
 
 #: ../src/Classes/PlaylistCtrl.cpp:383
@@ -402,8 +400,10 @@ msgstr "O programu"
 msgid "Added on"
 msgstr "Pøidáno"
 
-#: ../src/Frames/MusikPrefsFrame.cpp:204 ../src/Frames/MusikPrefsFrame.cpp:400
-#: ../src/Frames/MusikTagFrame.cpp:121 ../src/MusikGlobals.cpp:53
+#: ../src/Frames/MusikPrefsFrame.cpp:204
+#: ../src/Frames/MusikPrefsFrame.cpp:400
+#: ../src/Frames/MusikTagFrame.cpp:121
+#: ../src/MusikGlobals.cpp:53
 msgid "Album"
 msgstr "Album"
 
@@ -415,11 +415,11 @@ msgstr "Alba"
 msgid "All words"
 msgstr "V¹echna slova"
 
-#: ../src/Frames/MusikLibraryFrame.cpp:165
+#: ../src/Frames/MusikLibraryFrame.cpp:163
 msgid "Allow tag guessing from filename"
-msgstr ""
+msgstr "Povolit odhadování znaèky ze jména souboru"
 
-#: ../src/Frames/MusikFrame.cpp:367
+#: ../src/Frames/MusikFrame.cpp:361
 msgid "Always On Top\tCtrl-T"
 msgstr "V¾dy Nahoøe\tCtrl-T"
 
@@ -439,12 +439,15 @@ msgstr "Jakékoli slovo"
 msgid "Append to file"
 msgstr "Pøipojit k souboru"
 
-#: ../src/Frames/MusikPrefsFrame.cpp:559 ../src/Frames/MusikTagFrame.cpp:146
+#: ../src/Frames/MusikPrefsFrame.cpp:559
+#: ../src/Frames/MusikTagFrame.cpp:146
 msgid "Apply"
 msgstr "Pou¾ít"
 
-#: ../src/Frames/MusikPrefsFrame.cpp:203 ../src/Frames/MusikPrefsFrame.cpp:399
-#: ../src/Frames/MusikTagFrame.cpp:117 ../src/MusikGlobals.cpp:52
+#: ../src/Frames/MusikPrefsFrame.cpp:203
+#: ../src/Frames/MusikPrefsFrame.cpp:399
+#: ../src/Frames/MusikTagFrame.cpp:117
+#: ../src/MusikGlobals.cpp:52
 msgid "Artist"
 msgstr "Umìlec"
 
@@ -452,7 +455,8 @@ msgstr "Umìlec"
 msgid "Artists"
 msgstr "Umìlci"
 
-#: ../src/Classes/NowPlayingCtrl.cpp:163 ../src/Frames/MusikPrefsFrame.cpp:86
+#: ../src/Classes/NowPlayingCtrl.cpp:163
+#: ../src/Frames/MusikPrefsFrame.cpp:86
 #: ../src/Frames/MusikPrefsFrame.cpp:416
 msgid "Auto DJ"
 msgstr "Auto DJ"
@@ -473,7 +477,8 @@ msgstr "Hned po startu zaèít pøehrávat"
 msgid "Automatically play songs, dropped into playlist"
 msgstr "Automaticky zaèít pøehrávat skladby pøesunuté do seznamu skladeb"
 
-#: ../src/Frames/MusikPrefsFrame.cpp:510 ../src/Frames/MusikPrefsFrame.cpp:513
+#: ../src/Frames/MusikPrefsFrame.cpp:510
+#: ../src/Frames/MusikPrefsFrame.cpp:513
 msgid "Automatically rename file"
 msgstr "Automaticky pøejmenovat soubor"
 
@@ -481,7 +486,8 @@ msgstr "Automaticky pøejmenovat soubor"
 msgid "Automatically scan for new songs on startup"
 msgstr "Automaticky hledej nové skladby hned po startu"
 
-#: ../src/Frames/MusikPrefsFrame.cpp:407 ../src/MusikGlobals.cpp:59
+#: ../src/Frames/MusikPrefsFrame.cpp:407
+#: ../src/MusikGlobals.cpp:59
 msgid "Bitrate"
 msgstr "Bitrate"
 
@@ -494,8 +500,9 @@ msgid "Buffer Size (bytes):"
 msgstr "Velikost Vyrovnávací pamìti (byty):"
 
 #: ../src/Frames/MusikAutoTaggerFrame.cpp:160
-#: ../src/Frames/MusikLibraryFrame.cpp:186
-#: ../src/Frames/MusikPrefsFrame.cpp:558 ../src/Frames/MusikTagFrame.cpp:145
+#: ../src/Frames/MusikLibraryFrame.cpp:184
+#: ../src/Frames/MusikPrefsFrame.cpp:558
+#: ../src/Frames/MusikTagFrame.cpp:145
 msgid "Cancel"
 msgstr "Zru¹it"
 
@@ -527,11 +534,12 @@ msgstr "Cenzurovat obvyklá sprostá slova"
 msgid "Clear"
 msgstr "Vyèistit"
 
-#: ../src/Frames/MusikLibraryFrame.cpp:167
+#: ../src/Frames/MusikLibraryFrame.cpp:165
 msgid "Clear &Library"
 msgstr "Vyèistit Knihovnu"
 
-#: ../src/Frames/MusikPrefsFrame.cpp:509 ../src/Frames/MusikPrefsFrame.cpp:512
+#: ../src/Frames/MusikPrefsFrame.cpp:509
+#: ../src/Frames/MusikPrefsFrame.cpp:512
 msgid "Clear old tag"
 msgstr "Vyèistit starou znaèku"
 
@@ -544,9 +552,8 @@ msgid "Clear old tags    "
 msgstr "Vyèistit staré znaèky"
 
 #: ../src/Frames/MusikFXFrame.cpp:142
-#, fuzzy
 msgid "Close"
-msgstr "Vyèistit"
+msgstr "Zavøít"
 
 #: ../src/Frames/MusikPrefsFrame.cpp:360
 msgid "Command line:"
@@ -628,11 +635,13 @@ msgstr "Dynamický seznam skladeb"
 msgid "Dynamic playlist \""
 msgstr "Dynamický seznam skladeb \""
 
-#: ../src/Frames/MusikFrame.cpp:191 ../src/Frames/MusikFrame.cpp:351
+#: ../src/Frames/MusikFrame.cpp:185
+#: ../src/Frames/MusikFrame.cpp:345
 msgid "E&xit"
 msgstr "K&onec"
 
-#: ../src/Classes/MusikPlayer.cpp:482 ../src/Classes/MusikPlayer.cpp:613
+#: ../src/Classes/MusikPlayer.cpp:482
+#: ../src/Classes/MusikPlayer.cpp:613
 msgid "ERROR: failed to open stream:"
 msgstr "CHYBA: nepodaøilo se otevøít stream"
 
@@ -672,7 +681,8 @@ msgstr "Upravit Rok\tF7"
 msgid "Empty"
 msgstr "Prázdný"
 
-#: ../src/Frames/MusikPrefsFrame.cpp:338 ../src/Frames/MusikPrefsFrame.cpp:340
+#: ../src/Frames/MusikPrefsFrame.cpp:338
+#: ../src/Frames/MusikPrefsFrame.cpp:340
 #: ../src/Frames/MusikPrefsFrame.cpp:341
 msgid "Enable"
 msgstr "Zapnout"
@@ -687,9 +697,10 @@ msgstr "Zapnout kontrolu Pitch"
 
 #: ../src/Frames/MusikPrefsFrame.cpp:237
 msgid "Enable balloon song info"
-msgstr ""
+msgstr "Povolit vyskakovací bublinu s informacemi o skladbì"
 
-#: ../src/Classes/ActivityBox.cpp:872 ../src/Classes/PlaylistCtrl.cpp:417
+#: ../src/Classes/ActivityBox.cpp:872
+#: ../src/Classes/PlaylistCtrl.cpp:417
 msgid "Enqueue"
 msgstr "Zaøadit"
 
@@ -701,7 +712,8 @@ msgstr "Zadejte Masku Znaèek:"
 msgid "Enter name for new dynamic playlist:"
 msgstr "Zadejte jméno nového dynamického seznamu skladeb:"
 
-#: ../src/Classes/SourcesBox.cpp:128 ../src/Classes/SourcesBox.cpp:345
+#: ../src/Classes/SourcesBox.cpp:128
+#: ../src/Classes/SourcesBox.cpp:345
 #: ../src/Classes/SourcesBox.cpp:355
 msgid "Enter name for new playlist:"
 msgstr "Zadejte jméno novéhoo seznamu skladeb:"
@@ -722,11 +734,11 @@ msgstr "Pøesná fráze:"
 msgid "Examples:\n"
 msgstr "Ukázky:\n"
 
-#: ../src/Frames/MusikFrame.cpp:364
+#: ../src/Frames/MusikFrame.cpp:358
 msgid "FX\tCtrl-F"
 msgstr "FX\tCtrl-F"
 
-#: ../src/MusikApp.cpp:395
+#: ../src/MusikApp.cpp:394
 #, c-format
 msgid "Failed to copy file %s. Continue?"
 msgstr "Selhalo kopíroování souboru %s. Pokraèovat?"
@@ -749,15 +761,16 @@ msgstr "Soubor"
 msgid "File Associations"
 msgstr "Asociace souborù"
 
-#: ../src/MusikApp.cpp:396
+#: ../src/MusikApp.cpp:395
 msgid "File copy error"
 msgstr "Chyba pøi kopírování souboru"
 
-#: ../src/MusikApp.cpp:356
+#: ../src/MusikApp.cpp:355
 msgid "File copy warning"
 msgstr "Varování pøi kopírování souboru"
 
-#: ../src/Frames/MusikPrefsFrame.cpp:405 ../src/MusikGlobals.cpp:60
+#: ../src/Frames/MusikPrefsFrame.cpp:405
+#: ../src/MusikGlobals.cpp:60
 msgid "Filename"
 msgstr "Jméno souboru"
 
@@ -769,7 +782,7 @@ msgstr "Jméno souboru:"
 msgid "Filesize"
 msgstr "Velikost souboru:"
 
-#: ../src/Frames/MusikFrame.cpp:375
+#: ../src/Frames/MusikFrame.cpp:369
 msgid "Finalize for Database &Only"
 msgstr "Finalizovat &Jen pro Databázi"
 
@@ -810,11 +823,13 @@ msgstr "Støednì Fuzzy"
 msgid "Fuzzy None"
 msgstr "Bez Fuzzy"
 
-#: ../src/Frames/MusikPrefsFrame.cpp:81 ../src/Frames/MusikPrefsFrame.cpp:87
+#: ../src/Frames/MusikPrefsFrame.cpp:81
+#: ../src/Frames/MusikPrefsFrame.cpp:87
 msgid "General"
 msgstr "Obecné"
 
-#: ../src/Frames/MusikPrefsFrame.cpp:205 ../src/Frames/MusikTagFrame.cpp:125
+#: ../src/Frames/MusikPrefsFrame.cpp:205
+#: ../src/Frames/MusikTagFrame.cpp:125
 #: ../src/MusikGlobals.cpp:55
 msgid "Genre"
 msgstr "®ánr"
@@ -844,7 +859,8 @@ msgstr "Inicicalizace zvukového systému FMOD selhala."
 msgid "Initialization of library failed."
 msgstr "Inicializace Knihovny selhala."
 
-#: ../src/Classes/ActivityBox.cpp:873 ../src/Classes/PlaylistCtrl.cpp:418
+#: ../src/Classes/ActivityBox.cpp:873
+#: ../src/Classes/PlaylistCtrl.cpp:418
 msgid "Instantly"
 msgstr "Okam¾itì"
 
@@ -900,7 +916,8 @@ msgstr "Zvukový soubor Musepack"
 msgid "Musik Library"
 msgstr "Musik Knihovna"
 
-#: ../src/Classes/SourcesBox.cpp:319 ../src/Classes/SourcesBox.cpp:1293
+#: ../src/Classes/SourcesBox.cpp:319
+#: ../src/Classes/SourcesBox.cpp:1293
 msgid "Net Stream"
 msgstr "Sí»ový Stream"
 
@@ -912,11 +929,12 @@ msgstr "Sí»ový Stream \""
 msgid "Never"
 msgstr "Nikdy"
 
-#: ../src/Frames/MusikLibraryFrame.cpp:161
+#: ../src/Frames/MusikLibraryFrame.cpp:159
 msgid "New"
 msgstr "Nový"
 
-#: ../src/Classes/ActivityBox.cpp:871 ../src/Classes/PlaylistCtrl.cpp:416
+#: ../src/Classes/ActivityBox.cpp:871
+#: ../src/Classes/PlaylistCtrl.cpp:416
 msgid "Next"
 msgstr "Dal¹í"
 
@@ -932,10 +950,11 @@ msgstr "®ádný"
 msgid "Normal"
 msgstr "Normální"
 
-#: ../src/MusikAboutDlg.cpp:89 ../src/MusikAboutDlg.cpp:97
+#: ../src/MusikAboutDlg.cpp:89
+#: ../src/MusikAboutDlg.cpp:97
 #: ../src/MusikAboutDlg.cpp:105
 msgid "Not supported"
-msgstr ""
+msgstr "Bez podpory"
 
 #: ../src/MusikGlobals.cpp:61
 msgid "Notes"
@@ -967,8 +986,9 @@ msgid "OGG Vorbis Audio File"
 msgstr "Zvukový soubor OGG Vorbis"
 
 #: ../src/Frames/MusikAutoTaggerFrame.cpp:156
-#: ../src/Frames/MusikLibraryFrame.cpp:187
-#: ../src/Frames/MusikPrefsFrame.cpp:560 ../src/Frames/MusikTagFrame.cpp:147
+#: ../src/Frames/MusikLibraryFrame.cpp:185
+#: ../src/Frames/MusikPrefsFrame.cpp:560
+#: ../src/Frames/MusikTagFrame.cpp:147
 #: ../src/MusikAboutDlg.cpp:149
 msgid "OK"
 msgstr "OK"
@@ -981,7 +1001,8 @@ msgstr "Volby"
 msgid "Ouput Driver:"
 msgstr "Výstupní ovladaè:"
 
-#: ../src/Classes/MusikLibrary.cpp:479 ../src/Classes/MusikLibrary.cpp:527
+#: ../src/Classes/MusikLibrary.cpp:479
+#: ../src/Classes/MusikLibrary.cpp:527
 #, c-format
 msgid "Parsing of file %s failed."
 msgstr "Parsování souboru %s selhalo."
@@ -989,17 +1010,14 @@ msgstr "Parsování souboru %s selhalo."
 #: ../src/Classes/MusikLibrary.cpp:447
 #, c-format
 msgid "Parsing of file %s not supported. Setting title to filename."
-msgstr ""
-"Parsování souboru %s není podporování. Nasatavuji název skladby dle názvu "
-"souboru."
+msgstr "Parsování souboru %s není podporování. Nasatavuji název skladby dle názvu souboru."
 
 #: ../src/Classes/MusikLibrary.cpp:500
 #, c-format
 msgid "Parsing of file %s not supported. Song data is not updated."
-msgstr ""
-"Parsování souboru %s není podporováno. Data ve skladbì nebyly aktualizovány."
+msgstr "Parsování souboru %s není podporováno. Data ve skladbì nebyly aktualizovány."
 
-#: ../src/Frames/MusikLibraryFrame.cpp:159
+#: ../src/Frames/MusikLibraryFrame.cpp:157
 msgid "Path"
 msgstr "Cesta"
 
@@ -1019,7 +1037,8 @@ msgstr "Pøehrávání"
 msgid "Playback Rate (hz):"
 msgstr "Pøehrávací frekvence (hz):"
 
-#: ../src/Classes/NowPlayingCtrl.cpp:407 ../src/Classes/NowPlayingCtrl.cpp:408
+#: ../src/Classes/NowPlayingCtrl.cpp:407
+#: ../src/Classes/NowPlayingCtrl.cpp:408
 msgid "Playback Stopped"
 msgstr "Pøehrávání se zastavilo"
 
@@ -1051,11 +1070,11 @@ msgstr "Seznam skladeb ze Souèasných"
 msgid "Playlist size: "
 msgstr "Velikost seznamu skladeb:"
 
-#: ../src/MusikApp.cpp:342
+#: ../src/MusikApp.cpp:341
 msgid "Please choose location to copy songs to:"
 msgstr "Prosím vyberte místo kam se budou skladby kopírovat:"
 
-#: ../src/Frames/MusikLibraryFrame.cpp:400
+#: ../src/Frames/MusikLibraryFrame.cpp:398
 msgid "Please choose music directory."
 msgstr "Prosím vyberte adresáø s hudbou."
 
@@ -1091,7 +1110,7 @@ msgstr "Port Proxy serveru:"
 msgid "Proxy server user:"
 msgstr "U¾ivatelské jméno pro Proxy server:"
 
-#: ../src/Frames/MusikLibraryFrame.cpp:166
+#: ../src/Frames/MusikLibraryFrame.cpp:164
 msgid "Purge &Missing Songs"
 msgstr "Vyèistit &Chybìjící Skladby"
 
@@ -1103,7 +1122,7 @@ msgstr "Hodnocení"
 msgid "Rebuffering (%):"
 msgstr "Znovuvyrovnávám (%):"
 
-#: ../src/Frames/MusikLibraryFrame.cpp:115
+#: ../src/Frames/MusikLibraryFrame.cpp:114
 msgid "Remove All Directories"
 msgstr "Odstranit V¹echny Adresáøe"
 
@@ -1134,7 +1153,8 @@ msgstr "Opakovat Skladbu"
 msgid "Replace current playlist with all"
 msgstr "Nahradit aktuální seznam skladeb v¹ím"
 
-#: ../src/Classes/ActivityBox.cpp:874 ../src/Classes/PlaylistCtrl.cpp:419
+#: ../src/Classes/ActivityBox.cpp:874
+#: ../src/Classes/PlaylistCtrl.cpp:419
 msgid "Replace current playlist with selection"
 msgstr "Nahradit aktuální seznam skladeb výbìrem"
 
@@ -1155,12 +1175,12 @@ msgstr "Pravý Kanál: %d hz"
 msgid "Run a program"
 msgstr "Spustit program"
 
-#: ../src/Frames/MusikLibraryFrame.cpp:731
+#: ../src/Frames/MusikLibraryFrame.cpp:734
 #, c-format
 msgid "Scanning directory for audio files: %d files scanned"
 msgstr "Hledám zvukové soubory v adresáøi: %d souborù nalezeno"
 
-#: ../src/Frames/MusikLibraryFrame.cpp:706
+#: ../src/Frames/MusikLibraryFrame.cpp:709
 #, c-format
 msgid "Scanning for and adding new files: %d / %d (ESC to abort)"
 msgstr "Hledání a pøidávání Nových Souborù: %d / %d (ESC - zru¹it)"
@@ -1169,7 +1189,7 @@ msgstr "Hledání a pøidávání Nových Souborù: %d / %d (ESC - zru¹it)"
 msgid "Scanning for changed attributes"
 msgstr "Hledám zmìnìné atributy"
 
-#: ../src/Frames/MusikLibraryFrame.cpp:718
+#: ../src/Frames/MusikLibraryFrame.cpp:721
 #, c-format
 msgid "Scanning library for obsolete files: %d / %d (ESC to abort)"
 msgstr "Hledám v Knihovnì zastaralé soubory: %d / %d (ESC - zru¹it)"
@@ -1182,11 +1202,11 @@ msgstr "Hledat:"
 msgid "Searching for and Adding New Files"
 msgstr "Hledání a pøidávání Nových Souborù"
 
-#: ../src/Frames/MusikFrame.cpp:361
+#: ../src/Frames/MusikFrame.cpp:355
 msgid "Select Library\tCtrl-F1"
 msgstr "Vyberte Knihovnu\tCtrl-F1"
 
-#: ../src/Frames/MusikFrame.cpp:362
+#: ../src/Frames/MusikFrame.cpp:356
 msgid "Select Now Playing\tCtrl-F2"
 msgstr "Vybrat Nyní Pøehrávám\tCtrl-F2"
 
@@ -1211,8 +1231,10 @@ msgstr "Styl Výbìru:"
 msgid "Selections"
 msgstr "Výbìry"
 
-#: ../src/Frames/MusikPrefsFrame.cpp:249 ../src/Frames/MusikPrefsFrame.cpp:250
-#: ../src/Frames/MusikPrefsFrame.cpp:251 ../src/Frames/MusikPrefsFrame.cpp:252
+#: ../src/Frames/MusikPrefsFrame.cpp:249
+#: ../src/Frames/MusikPrefsFrame.cpp:250
+#: ../src/Frames/MusikPrefsFrame.cpp:251
+#: ../src/Frames/MusikPrefsFrame.cpp:252
 msgid "Set Color"
 msgstr "Nastav Barvu"
 
@@ -1228,7 +1250,7 @@ msgstr "Zobraz 'prou¾ky' ve výbìrových tlaèítkách"
 msgid "Show \"stripes\" in sources box"
 msgstr "Zobraz 'prou¾ky' v oknì zdrojù"
 
-#: ../src/Frames/MusikFrame.cpp:358
+#: ../src/Frames/MusikFrame.cpp:352
 msgid "Show Album Info\tCtrl-4"
 msgstr "Zobraz Album Info\tCtrl-4"
 
@@ -1236,20 +1258,19 @@ msgstr "Zobraz Album Info\tCtrl-4"
 msgid "Show Library on startup"
 msgstr "Nastavení Knihovny pøi startu"
 
-#: ../src/Frames/MusikFrame.cpp:359
-#, fuzzy
+#: ../src/Frames/MusikFrame.cpp:353
 msgid "Show Playing Control on top\tCtrl-5"
-msgstr "Zobraz Info k Seznamu skladeb\tCtrl-3"
+msgstr "Ovládací panel nahoøe\tCtrl-5"
 
-#: ../src/Frames/MusikFrame.cpp:357
+#: ../src/Frames/MusikFrame.cpp:351
 msgid "Show Playlist Info\tCtrl-3"
 msgstr "Zobraz Info k Seznamu skladeb\tCtrl-3"
 
-#: ../src/Frames/MusikFrame.cpp:356
+#: ../src/Frames/MusikFrame.cpp:350
 msgid "Show Selections\tCtrl-2"
 msgstr "Zobraz Výbìry\tCtrl-2"
 
-#: ../src/Frames/MusikFrame.cpp:355
+#: ../src/Frames/MusikFrame.cpp:349
 msgid "Show Sources\tCtrl-1"
 msgstr "Zobraz Zdroje\tCtrl-1"
 
@@ -1257,7 +1278,8 @@ msgstr "Zobraz Zdroje\tCtrl-1"
 msgid "Show all "
 msgstr "Uka¾ v¹echny"
 
-#: ../src/Classes/NowPlayingCtrl.cpp:163 ../src/Frames/MusikPrefsFrame.cpp:86
+#: ../src/Classes/NowPlayingCtrl.cpp:163
+#: ../src/Frames/MusikPrefsFrame.cpp:86
 #: ../src/Frames/MusikPrefsFrame.cpp:446
 msgid "Shuffle"
 msgstr "Shuffle"
@@ -1282,7 +1304,8 @@ msgstr "Zvuk"
 msgid "Sound Device:"
 msgstr "Zvukové zaøízení:"
 
-#: ../src/Classes/SourcesBox.h:92 ../src/Classes/SourcesBox.cpp:263
+#: ../src/Classes/SourcesBox.h:92
+#: ../src/Classes/SourcesBox.cpp:263
 msgid "Sources"
 msgstr "Zdroje"
 
@@ -1338,19 +1361,14 @@ msgstr "Neexistují ¾ádnì nedokonèené znaèky, které by ¹lo zobrazit."
 msgid "There are no pending tags to finalize."
 msgstr "Neexistují ¾ádné nedokonèené znaèky, ktetré by ¹lo finalizovat."
 
-#: ../src/MusikApp.cpp:355
+#: ../src/MusikApp.cpp:354
 #, c-format
-msgid ""
-"There is not enough free space in directory \"%s\". You need %s bytes more "
-"free. Continue nevertheless?"
-msgstr ""
-"V adresáøi \"%s\" není dostatek volného místa. Potøebujete %s bytù více. "
-"Pøesto pokraèovat?"
+msgid "There is not enough free space in directory \"%s\". You need %s bytes more free. Continue nevertheless?"
+msgstr "V adresáøi \"%s\" není dostatek volného místa. Potøebujete %s bytù více. Pøesto pokraèovat?"
 
 #: ../src/Frames/MusikPrefsFrame.cpp:397
 msgid "These variables can be used in file line, URL or commandline"
-msgstr ""
-"Tyto promìnné mohou být pou¾ity øádce souboru, URL nebo pøíkazové øádce."
+msgstr "Tyto promìnné mohou být pou¾ity øádce souboru, URL nebo pøíkazové øádce."
 
 #: ../src/Classes/PlaylistCtrl.cpp:432
 msgid "This album"
@@ -1364,33 +1382,24 @@ msgstr "Tento umìlec"
 msgid "This genre"
 msgstr "Tento ¾ánr"
 
-#: ../src/Frames/MusikLibraryFrame.cpp:235
+#: ../src/Frames/MusikLibraryFrame.cpp:233
 #, c-format
 msgid ""
 "This is the first time %s has been run.\n"
 "\n"
-"To begin, you must first add directories to the database. Select \"Add "
-"Directory\" from the \"Directories\" menu, then press the \"OK\" button to "
-"rebuild the library.\n"
+"To begin, you must first add directories to the database. Select \"Add Directory\" from the \"Directories\" menu, then press the \"OK\" button to rebuild the library.\n"
 "\n"
-"To display this window again, press CTRL+L in the main window, or select "
-"\"Library Setup\" from the \"Library\" menu."
+"To display this window again, press CTRL+L in the main window, or select \"Library Setup\" from the \"Library\" menu."
 msgstr ""
 "Poprvé spou¹títe %s .\n"
 "\n"
-"Pro zaèátek musíte pøidat adresáøe do databáze. Vyberte \"Pøidat Adresáø\" z "
-"menu \"Adresáøe\" , pak stisknìte tlaèítko \"OK\". Tím se pøedìlá Knihovna.\n"
+"Pro zaèátek musíte pøidat adresáøe do databáze. Vyberte \"Pøidat Adresáø\" z menu \"Adresáøe\" , pak stisknìte tlaèítko \"OK\". Tím se pøedìlá Knihovna.\n"
 "\n"
-"Pokud budete chtít toto okno znovu zobrazit, stisknìte CTRL+L v hlavním oknì "
-"nebo vyberte \"Nastavení Knihovny\" z menu \"Knihovna\"."
+"Pokud budete chtít toto okno znovu zobrazit, stisknìte CTRL+L v hlavním oknì nebo vyberte \"Nastavení Knihovny\" z menu \"Knihovna\"."
 
-#: ../src/Frames/MusikLibraryFrame.cpp:516
-msgid ""
-"This will wipe the library clean. Are you ABSOLUTELY SURE you want to do "
-"this?"
-msgstr ""
-"Tato akce naprosto vyma¾e celou databázi. Jste si NAPROSTO JISTÍ ¾e to "
-"chcete udìlat?"
+#: ../src/Frames/MusikLibraryFrame.cpp:514
+msgid "This will wipe the library clean. Are you ABSOLUTELY SURE you want to do this?"
+msgstr "Tato akce naprosto vyma¾e celou databázi. Jste si NAPROSTO JISTÍ ¾e to chcete udìlat?"
 
 #: ../src/Classes/PlaylistCtrl.cpp:436
 msgid "This year"
@@ -1408,12 +1417,13 @@ msgstr "-krát Hráno"
 msgid "Times played"
 msgstr "-krát Hráno"
 
-#: ../src/Frames/MusikPrefsFrame.cpp:401 ../src/Frames/MusikTagFrame.cpp:109
+#: ../src/Frames/MusikPrefsFrame.cpp:401
+#: ../src/Frames/MusikTagFrame.cpp:109
 #: ../src/MusikGlobals.cpp:51
 msgid "Title"
 msgstr "Název"
 
-#: ../src/Frames/MusikLibraryFrame.cpp:160
+#: ../src/Frames/MusikLibraryFrame.cpp:158
 msgid "Total"
 msgstr "Celkem"
 
@@ -1453,7 +1463,8 @@ msgstr "Neznámý Umìlec"
 msgid "Unknown Song"
 msgstr "Neznámá Skladba"
 
-#: ../src/Classes/PlaylistCtrl.cpp:370 ../src/Frames/MusikFrame.cpp:186
+#: ../src/Classes/PlaylistCtrl.cpp:370
+#: ../src/Frames/MusikFrame.cpp:180
 msgid "Unrated"
 msgstr "Nehodnoceno"
 
@@ -1485,7 +1496,7 @@ msgstr "Pou¾ij vybranou barvu okraje"
 msgid "Use this filter to select songs:"
 msgstr "Pou¾ít tetnto filtr pro výbìr skladeb:"
 
-#: ../src/Frames/MusikFrame.cpp:372
+#: ../src/Frames/MusikFrame.cpp:366
 msgid "Vie&w"
 msgstr "Zobraz&w"
 
@@ -1497,11 +1508,12 @@ msgstr "Zvukový soubor WAVE"
 msgid "Windows Media Audio File"
 msgstr "Zvukový Soubor Windows Media"
 
-#: ../src/Frames/MusikFrame.cpp:374
+#: ../src/Frames/MusikFrame.cpp:368
 msgid "Write Changes to &File"
 msgstr "Zapsat Zmìny do &Souboru"
 
-#: ../src/Frames/MusikPrefsFrame.cpp:508 ../src/Frames/MusikPrefsFrame.cpp:511
+#: ../src/Frames/MusikPrefsFrame.cpp:508
+#: ../src/Frames/MusikPrefsFrame.cpp:511
 msgid "Write tag to file"
 msgstr "Zapsat znaèku do souboru"
 
@@ -1529,13 +1541,11 @@ msgstr "Writing tags to file %s failed."
 
 #: ../src/Classes/MusikLibrary.cpp:552
 #, c-format
-msgid ""
-"Writing tags to file %s is not supported. File is set as clean in database."
-msgstr ""
-"Zapisování znaèek do souboru %s není podporováno. Soubor je v databázi "
-"oznaèen jako èistý."
+msgid "Writing tags to file %s is not supported. File is set as clean in database."
+msgstr "Zapisování znaèek do souboru %s není podporováno. Soubor je v databázi oznaèen jako èistý."
 
-#: ../src/Frames/MusikPrefsFrame.cpp:206 ../src/Frames/MusikPrefsFrame.cpp:402
+#: ../src/Frames/MusikPrefsFrame.cpp:206
+#: ../src/Frames/MusikPrefsFrame.cpp:402
 #: ../src/MusikGlobals.cpp:54
 msgid "Year"
 msgstr "Rok"
@@ -1560,15 +1570,15 @@ msgstr "bitch"
 msgid "buffering ..."
 msgstr "vyrovnávám..."
 
-#: ../src/Frames/MusikFrame.cpp:644
+#: ../src/Frames/MusikFrame.cpp:634
 msgid "by "
-msgstr ""
+msgstr "od"
 
 #: ../src/Classes/MusikPlayer.cpp:1231
 msgid "connecting ..."
 msgstr "pøipojuji se..."
 
-#: ../src/MusikApp.cpp:388
+#: ../src/MusikApp.cpp:387
 #, c-format
 msgid "copying %s"
 msgstr "kopíruji %s"
@@ -1585,9 +1595,9 @@ msgstr "dick"
 msgid "dildo"
 msgstr "dildo"
 
-#: ../src/Frames/MusikFrame.cpp:646
+#: ../src/Frames/MusikFrame.cpp:636
 msgid "from the album"
-msgstr ""
+msgstr "z alba"
 
 #: ../src/MusikUtils.cpp:282
 msgid "fuck"
@@ -1629,8 +1639,3 @@ msgstr "wank"
 msgid "whore"
 msgstr "whore"
 
-#~ msgid "&Directories"
-#~ msgstr "&Adresáøe"
-
-#~ msgid "Remove A&ll Directories"
-#~ msgstr "Odstranit V&¹echny Adresáøe"

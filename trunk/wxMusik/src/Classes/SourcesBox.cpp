@@ -409,7 +409,7 @@ void CSourcesListBox::CopyFiles( wxCommandEvent& WXUNUSED(event) )
 }
 
 
-void CSourcesListBox::BeginDrag( wxListEvent &event )
+void CSourcesListBox::BeginDrag( wxListEvent &WXUNUSED(event) )
 {
     long n = m_CurSel;
 	if ( n != -1 )

@@ -185,7 +185,7 @@ void CActivityListBox::SetList( const wxArrayString &  aList ,bool selectnone,bo
 {
 	wxString sCurrentTopItem;
     long  nTopItem = HasShowAllRow()? GetTopItem() - 1 : GetTopItem();
-	if(bEnsureVisibilityOfCurrentTopItem && m_Items.GetCount() && nTopItem < m_Items.GetCount())
+	if(bEnsureVisibilityOfCurrentTopItem && m_Items.GetCount() && nTopItem < (long)m_Items.GetCount())
 	{
 		sCurrentTopItem = m_Items[nTopItem];
 	}
@@ -881,7 +881,7 @@ wxMenu * CActivityBox::CreateContextMenu()
 	return context_menu;
 }
 
-void CActivityBox::OnListItemMiddleClick( wxListEvent& event)
+void CActivityBox::OnListItemMiddleClick( wxListEvent& WXUNUSED(event))
 {
 	wxCommandEvent ev(0);
 	OnPlayInstantly(ev);

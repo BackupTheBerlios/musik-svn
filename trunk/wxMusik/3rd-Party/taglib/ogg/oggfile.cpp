@@ -286,7 +286,7 @@ void Ogg::File::writePageGroup(const List<int> &pageGroup)
     uint lastPacket = firstPacket + d->pages[*it]->packetCount() - 1;
 
     List<int>::ConstIterator last = pageGroup.end();
-	last--;
+    last--;
     for(uint i = firstPacket; i <= lastPacket; i++) {
 
       if(it == last && i == lastPacket && !d->dirtyPages.contains(i))

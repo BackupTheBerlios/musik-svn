@@ -180,7 +180,7 @@ void CPictureBox::OnPaint(wxPaintEvent &)
 	if(m_DefImage.Ok() == false && m_bDefaultImageFailed == false)
 	{
         wxLogNull lognull; // disable logging in this scope
-		m_image = m_DefImage = wxImage(MusikGetStaticDataPath() + wxT("musik.png"), wxBITMAP_TYPE_PNG);
+		m_image = m_DefImage = wxImage(MusikGetStaticDataPath() + wxT("wxMusik.jpg"), wxBITMAP_TYPE_ANY);
 		if(!m_DefImage.Ok())
 		{
 			m_bDefaultImageFailed = true;

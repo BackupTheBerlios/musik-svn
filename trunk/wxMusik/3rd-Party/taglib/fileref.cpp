@@ -133,8 +133,8 @@ File *FileRef::create(const Filename & fileName, bool readAudioProperties,
       return new Vorbis::File(fileName, readAudioProperties, audioPropertiesStyle);
     if(s.substr(s.size() - 4, 4).upper() == ".MP3")
       return new MPEG::File(fileName, readAudioProperties, audioPropertiesStyle);
-	if(s.substr(s.size() - 4, 4).upper() == ".MP2")
-		return new MPEG::File(fileName, readAudioProperties, audioPropertiesStyle);
+  if(s.substr(s.size() - 4, 4).upper() == ".MP2")
+    return new MPEG::File(fileName, readAudioProperties, audioPropertiesStyle);
     if(s.substr(s.size() - 5, 5).upper() == ".FLAC")
       return new FLAC::File(fileName, readAudioProperties, audioPropertiesStyle);
     if(s.substr(s.size() - 4, 4).upper() == ".MPC")

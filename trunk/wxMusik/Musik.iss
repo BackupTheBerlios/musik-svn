@@ -53,7 +53,7 @@ Source: contrib\playlists\*.mpu; DestDir: {userappdata}\..\.Musik\playlists; Fla
 Source: contrib\playlists\*.mpu; DestDir: {app}\.Musik\playlists; Flags: overwritereadonly; Components: Radio_Channels_win9x
 Source: contrib\playlists\*.mpd; DestDir: {app}\.Musik\playlists; Flags: overwritereadonly; Components: Dynamic_Playlist_Examples_win9x
 Source: Release Unicode\{#MyAppExe}; DestDir: {app}; MinVersion: 0,4.0.1381sp6; Flags: promptifolder replacesameversion
-Source: data\*; DestDir: {app}\data; Flags: overwritereadonly; Excludes: CMakeLists.txt
+Source: data\*; DestDir: {app}\data; Flags: overwritereadonly recursesubdirs; Excludes: CMakeLists.txt
 Source: locale\de\*.mo; DestDir: {app}\locale\de; Flags: overwritereadonly; Languages: de
 Source: locale\fr\*.mo; DestDir: {app}\locale\fr; Flags: overwritereadonly; Languages: fr
 Source: locale\cs\*.mo; DestDir: {app}\locale\cs; Flags: overwritereadonly; Languages: cs

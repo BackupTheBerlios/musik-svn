@@ -35,6 +35,12 @@ CMusikListCtrl::CMusikListCtrl( wxWindow *parent, const wxWindowID id, const wxP
 
 
 BEGIN_EVENT_TABLE(CMusikListCtrl, wxListCtrl)
+#ifdef WXMUSIK_BUGWORKAROUND_LISTCTRL_CONTEXTMENU
+	EVT_LIST_ITEM_RIGHT_CLICK(-1, CMusikListCtrl::ShowMenu)
+#else
+	EVT_CONTEXT_MENU( CMusikListCtrl::ShowMenu)
+
+#endif	
 
 #ifdef __WXMSW__
 	EVT_ERASE_BACKGROUND	( CMusikListCtrl::OnEraseBackground )
@@ -57,6 +63,22 @@ bool CMusikListCtrl::OnRescaleColumns()
 {
 	return true;
 }
+
+#ifdef WXMUSIK_BUGWORKAROUND_LISTCTRL_CONTEXTMENU
+void CMusikListCtrl::ShowMenu( wxListEvent& WXUNUSED(event) )
+#else
+void CMusikListCtrl::ShowMenu( wxContextMenuEvent &WXUNUSED(event) )
+#endif
+{ 
+	wxMenu *context_menu = CreateContextMenu();
+    if(context_menu)
+    {
+	   PopupMenu( context_menu);
+    	delete context_menu;
+    }
+}
+
+
 #ifdef __WXMSW__
 #include "wx/dcbuffer.h"
 void CMusikListCtrl::Freeze()

@@ -20,6 +20,7 @@
 	#include "wx/wx.h"
 #endif 
 #include "wx/listctrl.h"
+#include "MusikDefines.h"
 
 
 class CMusikListCtrl : public wxListCtrl
@@ -54,8 +55,16 @@ public:
 #endif
 	DECLARE_EVENT_TABLE()
 protected:
+#ifdef WXMUSIK_BUGWORKAROUND_LISTCTRL_CONTEXTMENU
+	void ShowMenu				( wxListEvent& event );
+#else	
+	void ShowMenu				( wxContextMenuEvent& event );
+#endif	
+
 	virtual void DoSetSize(int x, int y,int width, int height,int sizeFlags);
 	virtual bool OnRescaleColumns();
+	virtual wxMenu * CreateContextMenu(){ return NULL;}
+
 private:
 #ifdef __WXMSW__
 	int m_freezeCount;

@@ -348,9 +348,7 @@ void MusikLibraryDialog::PathsPopupMenu( wxContextMenuEvent& WXUNUSED(event) )
 		paths_context_menu->Enable( MUSIK_PATHS_MENU_REMOVESEL, false );
 	else
 		paths_context_menu->Enable( MUSIK_PATHS_MENU_REMOVESEL, true );
-
-	wxPoint pos = ScreenToClient( wxGetMousePosition() );
-	PopupMenu( paths_context_menu, pos );
+	PopupMenu( paths_context_menu);
 }
 
 //-----------------------//

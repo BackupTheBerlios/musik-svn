@@ -107,7 +107,8 @@ bool MUSIKMPCDecoder::OpenMedia(const char *FileName)
 
 	m_Info.bitrate	 = (int) m_MPCInfo.Info.simple.AverageBitrate;
 	m_Info.bits_per_sample  = 16;
-	return CreateBuffer(MPC_decoder::DecodeBufferLength * sizeof(MPC_SAMPLE_FORMAT),MPC_decoder::DecodeBufferLength*2);
+    return CreateBuffer(4608,4608*8);
+//  return CreateBuffer(MPC_decoder::DecodeBufferLength,MPC_decoder::DecodeBufferLength);
 }
 
 bool MUSIKMPCDecoder::Close()

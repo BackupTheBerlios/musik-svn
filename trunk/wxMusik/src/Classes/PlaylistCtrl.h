@@ -90,7 +90,6 @@ public:
 	void OnColumnClick	( wxListEvent& event );
 	//--- other ---//
 	void UpdateSel		( wxListEvent&		event			);
-	void ShowMenu		( wxContextMenuEvent&	event );
 	void BeginDrag		( wxListEvent&		event	);
 	void OnKeyDown		( wxKeyEvent&		pEvent			);
 	void EndDragCol		( wxListEvent&		event			);

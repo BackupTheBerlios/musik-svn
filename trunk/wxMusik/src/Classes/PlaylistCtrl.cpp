@@ -194,7 +194,6 @@ BEGIN_EVENT_TABLE(CPlaylistCtrl, CMusikListCtrl)
 	EVT_UPDATE_UI				( MUSIK_PLAYLIST_DISPLAY_SMART,											CPlaylistCtrl::OnUpdateUIDisplaySmart)
 	EVT_MENU					( MUSIK_PLAYLIST_DISPLAY_FIT,											CPlaylistCtrl::OnDisplayFit			)
 	EVT_MENU					( MUSIK_PLAYLIST_CLEARPLAYERLIST,										CPlaylistCtrl::OnClearPlayerlist	)
-	EVT_CONTEXT_MENU			(																		CPlaylistCtrl::ShowMenu				)
 	EVT_KEY_DOWN				(																		CPlaylistCtrl::OnKeyDown			)
 	EVT_LIST_COL_CLICK			( -1,																	CPlaylistCtrl::OnColumnClick		)
 
@@ -541,15 +540,7 @@ void CPlaylistCtrl::SaveColumns()
 //--------------//
 //--- events ---//
 //--------------//
-void CPlaylistCtrl::ShowMenu( wxContextMenuEvent& WXUNUSED(event) )
-{
-	wxPoint pos = ScreenToClient( wxGetMousePosition() );
 
-	wxMenu *playlist_context_menu = CreateContextMenu();
-
-	PopupMenu( playlist_context_menu, pos );
-	delete playlist_context_menu;
-}
 int CPlaylistCtrl::DisplayEventId2ColumnId( int evid)
 {
 	return  evid - MUSIK_PLAYLIST_DISPLAY_FIRST;

@@ -83,6 +83,10 @@ BEGIN_EVENT_TABLE(CActivityListBox, CMusikListCtrl)
 
 END_EVENT_TABLE()
 
+wxMenu * CActivityListBox::CreateContextMenu()
+{ 
+    return m_pParent->CreateContextMenu();
+}	
 void CActivityListBox::OnChar(wxKeyEvent& event)
 {
 #ifdef __WXMSW__
@@ -362,12 +366,6 @@ BEGIN_EVENT_TABLE(CActivityBox, wxPanel)
 	EVT_MENU			( MUSIK_ACTIVITY_RENAME_THREAD_PROG,	CActivityBox::OnRenameThreadProg	)
 
 	EVT_LIST_BEGIN_DRAG			( -1, CActivityBox::OnActivityBoxSelDrag	)
-#ifdef WXMUSIK_BUGWORKAROUND_LISTCTRL_CONTEXTMENU
-	EVT_LIST_ITEM_RIGHT_CLICK(-1, CActivityBox::ShowMenu)
-#else
-	EVT_CONTEXT_MENU			(	CActivityBox::ShowMenu				)
-
-#endif	
 
 	EVT_MENU					( MUSIK_PLAYLIST_CONTEXT_PLAY_INSTANTLY,			CActivityBox::OnPlayInstantly		)
 	EVT_MENU					( MUSIK_PLAYLIST_CONTEXT_PLAY_ASNEXT,				CActivityBox::OnPlayAsNext			)
@@ -849,19 +847,7 @@ wxString CActivityBox::DNDGetList()
 	return sRet;
 }
 
-#ifdef WXMUSIK_BUGWORKAROUND_LISTCTRL_CONTEXTMENU
-void CActivityBox::ShowMenu( wxListEvent& WXUNUSED(event) )
-#else
-void CActivityBox::ShowMenu( wxContextMenuEvent& WXUNUSED(event) )
-#endif
-{
-	wxPoint pos = ScreenToClient( wxGetMousePosition() );
 
-	wxMenu *context_menu = CreateContextMenu();
-
-	PopupMenu( context_menu, pos );
-	delete context_menu;
-}
 wxMenu * CActivityBox::CreateContextMenu()
 {
 	//Play menu

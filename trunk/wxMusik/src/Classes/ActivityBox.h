@@ -71,7 +71,8 @@ public:
   DECLARE_EVENT_TABLE()
 protected:
 	void RescaleColumns	( bool bFreeze = true );	
-	bool OnRescaleColumns() { RescaleColumns();return true;}	
+	bool OnRescaleColumns() { RescaleColumns();return true;}
+    wxMenu * CreateContextMenu();	
 private:
 	//--- virtual functions ---//
     virtual	wxString		OnGetItemText	(long item, long column) const;
@@ -136,11 +137,6 @@ public:
 	{	
 		DNDBegin();		
 	}
-#ifdef WXMUSIK_BUGWORKAROUND_LISTCTRL_CONTEXTMENU
-	void ShowMenu				( wxListEvent& event );
-#else	
-	void ShowMenu		( wxContextMenuEvent&	event );
-#endif	
 	//--------------//
 	//--- playing ---//
 	//--------------//
@@ -225,6 +221,8 @@ private:
 	CThreadController m_ActiveThreadController;
 	int m_Progress;
 	int m_ProgressType;
+
+friend class CActivityListBox;
 };
 #if 0
 class ActivityDropTarget : public wxTextDropTarget

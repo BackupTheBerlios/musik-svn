@@ -47,6 +47,7 @@ bool MUSIKDecoder::CreateBuffer(int decoderbuffersize,int streambuffersize )
 
 	return true;
 }
+
 bool MUSIKDecoder::DoFillBuffer(unsigned char * buff,int len)
 {
 	if ( m_seek_needed != -1 ) 
@@ -67,7 +68,7 @@ bool MUSIKDecoder::DoFillBuffer(unsigned char * buff,int len)
 
 		while (len >= m_sample_buffer_filled)
 		{
-			memcpy(buff + buff_filled, m_sample_buffer, m_sample_buffer_filled); /* Give samples to fmod */
+			memcpy(buff + buff_filled, m_sample_buffer, m_sample_buffer_filled); /* copy samples to buff */
 			buff_filled += m_sample_buffer_filled;
 			len -= m_sample_buffer_filled;
 			m_sample_buffer_filled = DecodeBlocks(m_sample_buffer,m_sample_buffer_size);
@@ -82,10 +83,12 @@ bool MUSIKDecoder::DoFillBuffer(unsigned char * buff,int len)
 	}
 	if(len > 0)
 	{
-		memcpy(buff + buff_filled, m_sample_buffer, len); /* Give samples to fmod */
+		memcpy(buff + buff_filled, m_sample_buffer, len); /* copy samples to buff */
 		m_sample_buffer_filled -=len;
 		if(m_sample_buffer_filled > 0)
+        {
 			memmove( m_sample_buffer,((unsigned char*)m_sample_buffer) + len, m_sample_buffer_filled );
+        }
 	}
 	return true;
 }

@@ -985,7 +985,7 @@ wxString CPlaylistCtrl::GetSelFiles()
 	for ( int i = 0; i < itemcount; i++ )
 	{
 		nIndex = GetNextItem( nIndex, wxLIST_NEXT_ALL , wxLIST_STATE_SELECTED );
-		if( i == -1)
+		if( nIndex == -1)
 			break;
 		if(g_Playlist.Item( nIndex ).MetaData.eFormat != MUSIK_FORMAT_NETSTREAM)
 		{

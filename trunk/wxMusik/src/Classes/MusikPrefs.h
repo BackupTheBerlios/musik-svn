@@ -256,7 +256,7 @@ public:
 		,bAutoPlayOnDropFilesInPlaylist(this,wxT( "AutoPlayOnDropFilesInPlaylist" ),true)
 		,bStopSongOnNowPlayingClear(this,wxT( "StopSongOnNowPlayingClear" ),true)
 		,eSelStyle(this,wxT( "SelectionStyle" ),MUSIK_SELECTION_TYPE_STANDARD)
-		,bShowAllSongs(this,wxT( "SelectingLibraryDisplaysSongs" ),true)
+		,bShowAllSongs(this,wxT( "SelectingLibraryDisplaysSongs" ),false)
 		,bLogVerbose(this,wxT( "LogVerbose" ),true)
 		,bDisableTrayIcon(this,wxT("DisableTrayIcon"),false)
 		,bEnableBalloonSongInfo(this,wxT("EnableBalloonSongInfo"),true)

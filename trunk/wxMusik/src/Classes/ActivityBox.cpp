@@ -561,25 +561,26 @@ EMUSIK_LIB_TYPE CActivityBox::ACTIVITY_TYPE2LIB_TYPE( EMUSIK_ACTIVITY_TYPE lbtyp
 		return MUSIK_LIB_INVALID;
 	}
 }
-wxString wxStringRemovePrefixLower(const wxString &s)
+wxString wxStringRemovePrefix(const wxString &s)
 {
 	const wxChar* Prefix = BeginsWithPreposition(s);
 	if(Prefix)
 	{
 		wxString r = s.Right(s.size() - wxStrlen(Prefix));
-		r.LowerCase();
 		return r;
 	}
-	return s.Lower();
+	return s;
 }
+// NOTE: wxStrcoll sorts by using the current locale. This means they are sorted lexically.
+// case is ignored in th lexically order of most locales ( don't know why MS has a separate stricoll function)
 int wxCMPFUNC_CONV wxStringSortAscendingLocaleRemovePrefix(wxString* s1, wxString* s2)
 {
-	return wxStrcoll(wxStringRemovePrefixLower(*s1).c_str(), wxStringRemovePrefixLower(*s2).c_str());
+	return wxStrcoll(wxStringRemovePrefix(*s1).c_str(), wxStringRemovePrefix(*s2).c_str());
 }
 
 int wxCMPFUNC_CONV wxStringSortAscendingLocale(wxString* s1, wxString* s2)
 {
-	return wxStrcoll(s1->Lower().c_str(), s2->Lower().c_str());
+	return wxStrcoll(s1->c_str(), s2->c_str());
 }
 
 void CActivityBox::GetRelatedList( CActivityBox *pDst, wxArrayString & aReturn )

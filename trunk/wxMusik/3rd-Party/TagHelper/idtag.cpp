@@ -317,19 +317,19 @@ int CSimpleTagReader::InsertTagFieldLonger ( const char* item, size_t itemsize, 
 // Return number of bytes written
 size_t unicodeToUtf8 ( const wchar_t * lpWideCharStr, char* lpMultiByteStr, int cwcChars )
 {
-    const unsigned short*   pwc = (unsigned short *)lpWideCharStr;
-    unsigned char*          pmb = (unsigned char  *)lpMultiByteStr;
-    const unsigned short*   pwce;
+    const wchar_t*   pwc = lpWideCharStr;
+    unsigned char*   pmb = (unsigned char*)lpMultiByteStr;
+    const wchar_t*   pwce;
     size_t  cBytes = 0;
 
     if ( cwcChars >= 0 ) {
         pwce = pwc + cwcChars;
     } else {
-        pwce = (unsigned short *)((size_t)-1);
+        pwce = (wchar_t *)((size_t)-1);
     }
 
     while ( pwc < pwce ) {
-        unsigned short  wc = *pwc++;
+        wchar_t  wc = *pwc++;
 
         if ( wc < 0x00000080 ) {
             *pmb++ = (char)wc;
@@ -360,15 +360,15 @@ size_t unicodeToUtf8 ( const wchar_t * lpWideCharStr, char* lpMultiByteStr, int 
 // Return number of characters converted
 size_t utf8ToUnicode ( const char* lpMultiByteStr, wchar_t* lpWideCharStr, int cmbChars )
 {
-    const unsigned char*    pmb = (unsigned char  *)lpMultiByteStr;
-    unsigned short*         pwc = (unsigned short *)lpWideCharStr;
-    const unsigned char*    pmbe;
+    const unsigned char*    pmb = (const unsigned char*)lpMultiByteStr;
+    wchar_t	*			    pwc = lpWideCharStr;
+    const unsigned char*	pmbe;
     size_t  cwChars = 0;
 
     if ( cmbChars >= 0 ) {
         pmbe = pmb + cmbChars;
     } else {
-        pmbe = (unsigned char *)((size_t)-1);
+        pmbe = (unsigned char*)((size_t)-1);
     }
 
     while ( pmb < pmbe ) {
@@ -399,7 +399,7 @@ size_t utf8ToUnicode ( const char* lpMultiByteStr, wchar_t* lpWideCharStr, int c
 
         if ( wc & 0xFFFF0000 )
             wc = L'?';
-        *pwc++ = wc;
+        *pwc++ = (wchar_t)(wc & 0x0000FFFF);
         cwChars++;
         if ( wc == L'\0' )
             return cwChars;
@@ -641,15 +641,15 @@ void fix_percentage_sequences ( char* string )
                     while ( *s && ((*s >= '0' && *s <= '9') || (*s >= 'A' && *s <= 'F')) )
                         s++;
                 } else {                            // %xx
-                    *t++ = (v1 << 4) + v2;
+                    *t++ = (char)((v1 << 4) + v2);
                 }
             } else {                                // %aa
                 *t++ = '%';
-                *t++ = b1;
-                *t++ = b2;
+                *t++ = (char)b1;
+                *t++ = (char)b2;
             }
         } else {
-            *t++ = value;
+            *t++ = (char) value;
         }
     } while ( value != '\0' );
 

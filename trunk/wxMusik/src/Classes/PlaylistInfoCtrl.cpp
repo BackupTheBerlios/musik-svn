@@ -72,11 +72,11 @@ CPlaylistInfoCtrl::CPlaylistInfoCtrl( wxWindow *parent ,IPlaylistInfo *pIPlaylis
 	Layout();
 }
 
-void CPlaylistInfoCtrl::OnEraseBackground( wxEraseEvent& (event) )
+void CPlaylistInfoCtrl::OnEraseBackground( wxEraseEvent& event )
 {	
 	// empty => no background erasing to avoid flicker
 
-	wxDC * TheDC = event.m_dc;
+	wxDC * TheDC = event.GetDC();
 	wxColour BGColor =  GetBackgroundColour();
 	wxBrush MyBrush(BGColor ,wxSOLID);
 	TheDC->SetBackground(MyBrush);

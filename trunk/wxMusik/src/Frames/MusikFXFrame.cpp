@@ -45,11 +45,11 @@ BEGIN_EVENT_TABLE(MusikFXDialog, wxDialog)
 #endif
 END_EVENT_TABLE()
 
-void MusikFXDialog::OnEraseBackground( wxEraseEvent& (event) )
+void MusikFXDialog::OnEraseBackground( wxEraseEvent& event )
 {	
 	// empty => no background erasing to avoid flicker
 
-	wxDC * TheDC = event.m_dc;
+	wxDC * TheDC = event.GetDC();
 	wxColour BGColor =  GetBackgroundColour();
 	wxBrush MyBrush(BGColor ,wxSOLID);
 	TheDC->SetBackground(MyBrush);
@@ -172,7 +172,7 @@ void MusikFXDialog::OnSlidePitch( wxScrollEvent &WXUNUSED(event) )
 
 void MusikFXDialog::OnRightClick( wxContextMenuEvent& event )
 {
-	if ( event.m_id == SLD_PITCH )
+	if ( event.GetId() == SLD_PITCH )
 	{
 		slPitch->SetValue( 50 );
 		g_FX.SetFrequency( 44100 );

@@ -124,11 +124,11 @@ void CPlaylistBox::Update( bool bSelFirstItem )
 	Layout();
 
 }
-void CPlaylistBox::OnEraseBackground( wxEraseEvent& (event) )
+void CPlaylistBox::OnEraseBackground( wxEraseEvent& event )
 {	
 	// empty => no background erasing to avoid flicker
 
-	wxDC * TheDC = event.m_dc;
+	wxDC * TheDC = event.GetDC();
 	wxColour BGColor =  GetBackgroundColour();
 	wxBrush MyBrush(BGColor ,wxSOLID);
 	TheDC->SetBackground(MyBrush);
@@ -367,7 +367,7 @@ wxMenu * CPlaylistCtrl::CreateContextMenu()
 	wxMenu *playlist_context_rating_menu = new wxMenu;
 	for(int i = MUSIK_MIN_RATING; i <= MUSIK_MAX_RATING ;i++)
 	{
-		playlist_context_rating_menu->Append(  MUSIK_PLAYLIST_CONTEXT_RATING  + (i - MUSIK_MIN_RATING), (i == 0) ? _( "Unrated" ) : IntToString(i), wxT( "" ), wxITEM_CHECK );
+		playlist_context_rating_menu->Append(  MUSIK_PLAYLIST_CONTEXT_RATING  + (i - MUSIK_MIN_RATING), (i == 0) ? _( "Unrated" ) : wxString() << i, wxT( "" ), wxITEM_CHECK );
 	}
 	//--- tag edit menu ---//
 	wxMenu *playlist_context_edit_tag_menu = new wxMenu;
@@ -854,7 +854,7 @@ wxString CPlaylistCtrl::GetItemText(long item, EPLAYLISTCOLUMNS eColumnType) con
 	case PLAYLISTCOLUMN_TIMES_PLAYED:
 		{
 
-			return (song.TimesPlayed > 0) ? wxString(IntToString(song.TimesPlayed)) : wxString(wxT("-"));
+			return (song.TimesPlayed > 0) ? wxString() << song.TimesPlayed : wxString(wxT("-"));
 		}
 		break;
 

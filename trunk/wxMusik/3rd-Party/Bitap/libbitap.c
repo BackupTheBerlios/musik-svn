@@ -46,16 +46,16 @@ static int ParseRegex (bitapType *b, const unsigned char *regex, const unsigned 
       continue;
     }
     if (*regex == '{') {
-      for (i = 1; i < atoi (regex + 1); i++) {
+      for (i = 1; i < atoi ((const char*)(regex + 1)); i++) {
 	lastL = b->l;
 	lastLen = ParseRegex (b, regex - lastLen, regex);
 	/* This regex has already been scanned and will not contain errors */
       }
       
       for (regex++; regex < end && isdigit (*regex);) regex++;
-      if (regex[strspn (regex, "0123456789")] == ',') {
-	if (isdigit (regex[strspn (regex, "0123456789") + 1])) {
-	  for (; i <= atoi (regex + strspn (regex, "0123456789") + 1); i++) {
+      if (regex[strspn ((const char*)regex, "0123456789")] == ',') {
+	if (isdigit (regex[strspn ((const char*)regex, "0123456789") + 1])) {
+	  for (; i <= atoi ((const char*)(regex + strspn ((const char*)regex, "0123456789") + 1)); i++) {
 	    lastL = b->l;
 	    ParseRegex (b, regex - lastLen, regex); /* Already scanned */
 	    NewJump (b, lastL - 1, b->l - 1, anyJump);

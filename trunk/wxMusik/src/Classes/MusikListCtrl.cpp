@@ -88,9 +88,9 @@ void CMusikListCtrl::OnPaint(wxPaintEvent& event)
 	}
 	wxBufferedPaintDC dc(this);
 
-	wxEraseEvent erase_event(m_windowId, &dc);
-	wxControl::OnEraseBackground(erase_event);
-
+//	wxEraseEvent erase_event(m_windowId, &dc);
+//	wxWindow::OnEraseBackground(erase_event);
+	MSWDefWindowProc(WM_ERASEBKGND, (WPARAM) (HDC) dc.GetHDC(), 0);
 	MSWDefWindowProc(WM_PAINT, (WPARAM) (HDC) dc.GetHDC(), 0);
 
 	/* copied from original wxwindows code */

@@ -445,11 +445,11 @@ void MusikFrame::OnSashDraggedActivityCtrl	(wxSashEvent & WXUNUSED(ev))
 }
 
 
-void MusikFrame::OnEraseBackground( wxEraseEvent& (event) )
+void MusikFrame::OnEraseBackground( wxEraseEvent& event )
 {	
 	// empty => no background erasing to avoid flicker
 
-	wxDC * TheDC = event.m_dc;
+	wxDC * TheDC = event.GetDC();
 	wxColour BGColor =  GetBackgroundColour();
 	wxBrush MyBrush(BGColor ,wxSOLID);
 	TheDC->SetBackground(MyBrush);

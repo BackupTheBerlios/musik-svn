@@ -429,7 +429,7 @@ void ID3v2::Tag::parse(const ByteVector &data)
 
     Frame *frame = d->factory->createFrame(data.mid(frameDataPosition),
                                            d->header.majorVersion());
-
+#if 0
     if(!frame)
       return;
 
@@ -439,9 +439,14 @@ void ID3v2::Tag::parse(const ByteVector &data)
       delete frame;
       return;
     }
-
-    frameDataPosition += frame->size() + Frame::headerSize(d->header.majorVersion());
-    addFrame(frame);
+#endif
+	if(frame)
+	{
+		frameDataPosition += frame->size() + Frame::headerSize(d->header.majorVersion());
+		addFrame(frame);
+	}
+	else
+		frameDataPosition +=  Frame::headerSize(d->header.majorVersion());
   }
 }
 

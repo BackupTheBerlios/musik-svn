@@ -50,7 +50,7 @@ BEGIN_EVENT_TABLE(CNowPlayingCtrl, wxPanel)
 	EVT_CHOICE	(MUSIK_NOWPLAYINGCTRL_PLAYMODE,			CNowPlayingCtrl::OnPlayMode) 
 	EVT_CHECKBOX(MUSIK_CHK_CROSSFADE,					CNowPlayingCtrl::OnCheckCrossfade)
 	
-#ifdef wxUSE_HOTKEY
+#if wxUSE_HOTKEY
 	EVT_HOTKEY(MUSIK_HOTKEYID_STOP, CNowPlayingCtrl::PlayerStopHK)
 	EVT_HOTKEY(MUSIK_HOTKEYID_PLAYPAUSE, CNowPlayingCtrl::PlayerPlayPauseHK)
 	EVT_HOTKEY(MUSIK_HOTKEYID_PREV, CNowPlayingCtrl::PlayerPrevHK)
@@ -196,7 +196,7 @@ void CNowPlayingCtrl::ActivateHotkeys()
 {
 	if(s_bHotKeyRegistered)
 		return;
-#ifdef wxUSE_HOTKEY
+#if wxUSE_HOTKEY
 	if( wxGetApp().Prefs.bEnablePlayerHotkeys == false)
 		return;
 
@@ -276,7 +276,7 @@ void CNowPlayingCtrl::DeactivateHotkeys()
 {
 	if(!s_bHotKeyRegistered)
 		return;
-#ifdef wxUSE_HOTKEY
+#if wxUSE_HOTKEY
 
 	for(int i = MUSIK_HOTKEYID_FIRST; i <= MUSIK_HOTKEYID_LAST;i++)
 		UnregisterHotKey(i);

@@ -146,7 +146,7 @@ bool MusikApp::OnInit()
 	{
 		arrParams.Add(parser.GetParam(i));
 	}
-	m_pSingleInstanceChecker = new wxSingleInstanceChecker(GetAppName()+wxT(".single_instance_check"));
+	m_pSingleInstanceChecker = new wxSingleInstanceChecker(wxString(wxT(".")) << GetAppName() << wxT(".single_instance_check"));
 	if ( m_pSingleInstanceChecker->IsAnotherRunning() )
 	{
 		MusikAppClient client;

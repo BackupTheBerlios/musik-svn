@@ -17,7 +17,7 @@
 
 //--- frames ---//
 #include "MusikLibraryFrame.h"
-#include "MusikPrefsFrame.h"
+#include "Prefs/MusikPrefsFrame.h"
 #include "MusikFXFrame.h"
 
 #include "../MusikAboutDlg.h"

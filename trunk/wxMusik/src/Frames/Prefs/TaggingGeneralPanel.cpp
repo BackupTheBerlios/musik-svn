@@ -38,12 +38,12 @@ wxSizer * TaggingGeneralPanel::CreateControls()
     wxBoxSizer *vsTagging_General = new wxBoxSizer( wxVERTICAL );
     vsTagging_General->Add	( PREF_STATICTEXT( _("Selection Boxes (artist/album/etc):")),		0, wxALL | wxEXPAND, 4 );
     vsTagging_General->Add	( chkActBoxWrite,		0, wxALL | wxEXPAND, 4 );
-    vsTagging_General->Add	( chkActBoxClear,		1, wxALL | wxEXPAND, 4 );
-    vsTagging_General->Add	( chkActBoxRename,	1, wxALL | wxEXPAND, 4 );
+    vsTagging_General->Add	( chkActBoxClear,		0, wxALL | wxEXPAND, 4 );
+    vsTagging_General->Add	( chkActBoxRename,	0, wxALL | wxEXPAND, 4 );
     vsTagging_General->Add	( PREF_STATICTEXT(_("\nTag Dialog Box:")),			0, wxALL | wxEXPAND, 4 );
     vsTagging_General->Add	( chkTagDlgWrite,		0, wxALL | wxEXPAND, 4 );
-    vsTagging_General->Add	( chkTagDlgClear,		1, wxALL | wxEXPAND, 4 );
-    vsTagging_General->Add	( chkTagDlgRename,		1, wxALL | wxEXPAND, 4 );
+    vsTagging_General->Add	( chkTagDlgClear,		0, wxALL | wxEXPAND, 4 );
+    vsTagging_General->Add	( chkTagDlgRename,		0, wxALL | wxEXPAND, 4 );
     return vsTagging_General;
 
 }  

@@ -16,13 +16,12 @@
 #include "MusikFrame.h"
 
 //--- globals ---//
-#include "../MusikGlobals.h"
-#include "../MusikUtils.h"
-#include "../MusikApp.h"
-#include "../Classes/NowPlayingCtrl.h"
+#include "MusikGlobals.h"
+#include "MusikUtils.h"
+#include "MusikApp.h"
+#include "Classes/NowPlayingCtrl.h"
 //--- frames ---	//
 #include "MusikLibraryFrame.h"
-#include "MusikPrefsFrame.h"
 #include "MusikTagFrame.h"
 
 #ifdef __WXMSW__

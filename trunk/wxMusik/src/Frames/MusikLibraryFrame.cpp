@@ -16,14 +16,14 @@
 #include "MusikLibraryFrame.h"
 
 //--- globals ---//
-#include "../MusikGlobals.h"
-#include "../MusikUtils.h"
-#include "../PrefUtil.h"
+#include "MusikGlobals.h"
+#include "MusikUtils.h"
+#include "Prefs/PrefUtil.h"
 //--- frames ---//
 #include "MusikFrame.h"
 
 //--- threads ---//
-#include "../Threads/MusikLibraryThreads.h"
+#include "Threads/MusikLibraryThreads.h"
 
 BEGIN_EVENT_TABLE(MusikLibraryDialog, wxDialog)
 	EVT_CONTEXT_MENU	( 									MusikLibraryDialog::PathsPopupMenu			)

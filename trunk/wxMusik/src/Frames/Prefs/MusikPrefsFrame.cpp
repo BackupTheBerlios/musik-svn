@@ -82,8 +82,8 @@ END_EVENT_TABLE()
 
 
 MusikPrefsDialog::MusikPrefsDialog( wxWindow *pParent, const wxString &sTitle )
-    :m_pCurrentPanel(NULL)
-	, wxDialog( pParent, -1, sTitle, wxDefaultPosition, wxSize(700,700), wxDEFAULT_FRAME_STYLE|wxRESIZE_BORDER|wxCAPTION | wxTAB_TRAVERSAL | wxFRAME_FLOAT_ON_PARENT | wxFRAME_NO_TASKBAR )
+    :wxDialog( pParent, -1, sTitle, wxDefaultPosition, wxSize(700,700), wxDEFAULT_FRAME_STYLE|wxRESIZE_BORDER|wxCAPTION | wxTAB_TRAVERSAL | wxFRAME_FLOAT_ON_PARENT | wxFRAME_NO_TASKBAR )
+    ,m_pCurrentPanel(NULL)
 {
 	//---------------//
 	//--- colours ---//
@@ -132,9 +132,28 @@ MusikPrefsDialog::MusikPrefsDialog( wxWindow *pParent, const wxString &sTitle )
 	//-------------------------//
 	//--- Hide / Show Sizer ---//
 	//-------------------------//
-	hsSplitter = new wxBoxSizer( wxHORIZONTAL );
-	hsSplitter->Add( tcPreferencesTree,		1, wxEXPAND | wxRIGHT, 8 );
+	wxBoxSizer *hsSplitter = new wxBoxSizer( wxHORIZONTAL );
+    wxBoxSizer *vsRight = new wxBoxSizer( wxVERTICAL );
 
+    m_sizerPanels = new wxBoxSizer( wxVERTICAL );
+	hsSplitter->Add( tcPreferencesTree,		1, wxEXPAND | wxRIGHT, 8 );
+    hsSplitter->Add( vsRight,	3 ,wxEXPAND|wxALL,5);
+    
+    wxPanel *HeaderPanel = new wxPanel(this,-1,wxDefaultPosition,wxSize(-1,30));
+    HeaderPanel->SetBackgroundColour ( wxSystemSettings::GetColour( wxSYS_COLOUR_HIGHLIGHT ) );
+    m_stPanelHeader = new wxStaticText(HeaderPanel,-1,wxEmptyString);
+    wxBoxSizer *hsHeaderPanel = new wxBoxSizer( wxHORIZONTAL );
+    hsHeaderPanel->Add( m_stPanelHeader,1,wxALL|wxALIGN_CENTER_VERTICAL,5);   
+    HeaderPanel->SetSizer(hsHeaderPanel);
+    
+    wxFont f = m_stPanelHeader->GetFont();
+    f.SetPointSize(f.GetPointSize() * 2);
+    f.SetWeight(wxBOLD);
+    m_stPanelHeader->SetFont(f);
+    
+    vsRight->Add(HeaderPanel,0,wxEXPAND|wxALL,5);
+    vsRight->Add(m_sizerPanels,1,wxEXPAND|wxALL,10);
+ 
     AddPanel(nOptionsRootID,new OptionGeneralPanel(this));
     AddPanel(nOptionsRootID,new OptionSelectionsPanel(this));
     AddPanel(nOptionsRootID,new OptionPlaylistPanel(this));
@@ -150,7 +169,7 @@ MusikPrefsDialog::MusikPrefsDialog( wxWindow *pParent, const wxString &sTitle )
 
 
     //--- expand all the root nodes ---//
-     tcPreferencesTree->Expand( nRootID );
+    tcPreferencesTree->Expand( nRootID );
     tcPreferencesTree->Expand( nOptionsRootID );
     tcPreferencesTree->Expand( nTagRootID );
     tcPreferencesTree->Expand( nSoundRootID );
@@ -160,7 +179,7 @@ MusikPrefsDialog::MusikPrefsDialog( wxWindow *pParent, const wxString &sTitle )
     //-----------------//
 	//--- Top Sizer ---//
 	//-----------------//
-	vsTopSizer = new wxBoxSizer( wxVERTICAL );
+	wxBoxSizer *vsTopSizer = new wxBoxSizer( wxVERTICAL );
 	vsTopSizer->Add( hsSplitter,	1, wxEXPAND | wxALL, 2 );
 	vsTopSizer->Add( hsSysButtons,	0, wxEXPAND | wxLEFT | wxRIGHT | wxBOTTOM, 2 );
 	SetSizer( vsTopSizer );
@@ -191,8 +210,8 @@ void MusikPrefsDialog::SelectFirstPanel()
 void MusikPrefsDialog::AddPanel( const wxTreeItemId &tidParent,PrefPanel * panel)
 {
     tcPreferencesTree->AppendItem	( tidParent, panel->Name(),-1,-1,new PrefTreeItemData(panel));
-    hsSplitter->Add( panel,	3 );
-    hsSplitter->Show( panel,false );
+    m_sizerPanels->Add( panel,	1 ,wxEXPAND);
+    m_sizerPanels->Show( panel,false );
 }
 
 //--------------//
@@ -228,11 +247,12 @@ void MusikPrefsDialog::OnTreeChange( wxTreeEvent& event )
     }
     if( m_pCurrentPanel && newpanel && (m_pCurrentPanel != newpanel)) // we have a valid new item, if not we must not hide the current panel
     { // hide old panel
-        hsSplitter->Show( m_pCurrentPanel, false );
+        m_sizerPanels->Show( m_pCurrentPanel, false );
     }
     if(newpanel && (m_pCurrentPanel != newpanel))
     {   // show new panel
-        hsSplitter->Show( m_pCurrentPanel = newpanel, true );
+        m_stPanelHeader->SetLabel(newpanel->Name());
+        m_sizerPanels->Show( m_pCurrentPanel = newpanel, true );
         m_pCurrentPanel->Layout();
     }
   	Layout();

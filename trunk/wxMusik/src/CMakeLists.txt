@@ -1,10 +1,10 @@
-SET(PROJECT_VERSION_MAJOR "0.4.1")
+SET(PROJECT_VERSION_MAJOR "0.4.1.1")
 
 SET(MAIN_SRCS
         ./MusikApp
         ./MusikGlobals
         ./MusikUtils
-	    ./MusikAboutDlg
+        ./MusikAboutDlg
         ./Classes/ActivityBox
         ./Classes/ActivityAreaCtrl
         ./Classes/BtnDown
@@ -15,7 +15,7 @@ SET(MAIN_SRCS
         ./Classes/NowPlayingCtrl
         ./Classes/MusikListCtrl
         ./Classes/PlaylistCtrl
-	    ./Classes/PlaylistInfoCtrl
+        ./Classes/PlaylistInfoCtrl
         ./Classes/SourcesBox
         ./Classes/WebServer
         ./Classes/MusikFX
@@ -28,22 +28,35 @@ SET(MAIN_SRCS
         ./Classes/Library/CFMODInfo
         ./Classes/Library/APEInfo
         ./Classes/Library/MetaDataHandler
-	    ${wxMusik_SOURCE_DIR}/3rd-Party/Bitap/libbitap.c
-	    ${wxMusik_SOURCE_DIR}/3rd-Party/TagHelper/idtag.cpp
+        ${wxMusik_SOURCE_DIR}/3rd-Party/Bitap/libbitap.c
+        ${wxMusik_SOURCE_DIR}/3rd-Party/TagHelper/idtag.cpp
 		
         ./Frames/MusikFrame
         ./Frames/MusikFrameEvents
         ./Frames/MusikLibraryFrame
-        ./Frames/MusikPrefsFrame
         ./Frames/MusikTagFrame
         ./Frames/MusikVolumeFrame
         ./Frames/MusikFXFrame
-	    ./Frames/MusikAutoTaggerFrame
- 	    ./Threads/ActivityBoxThreads
+        ./Frames/MusikAutoTaggerFrame
+        ./Threads/ActivityBoxThreads
         ./Threads/PlaylistCtrlThreads
         ./Threads/MusikLibraryThreads
         ./Threads/MusikTagThreads
         ./Threads/MusikThreads
+
+        ./Frames/Prefs/TaggingGeneralPanel
+        ./Frames/Prefs/OptionAutoDJPanel
+        ./Frames/Prefs/StreamingProxyServerPanel
+        ./Frames/Prefs/StreamingBufferPanel
+        ./Frames/Prefs/MusikPrefsFrame
+        ./Frames/Prefs/OptionPlaylistPanel.cpp
+        ./Frames/Prefs/OptionSelectionsPanel.cpp
+        ./Frames/Prefs/OptionFileAssocPanel.cpp
+        ./Frames/Prefs/TaggingAutoRenamePanel.cpp
+        ./Frames/Prefs/SoundCrossfaderPanel.cpp
+        ./Frames/Prefs/SoundDriverPanel.cpp
+        ./Frames/Prefs/OptionGeneralPanel.cpp
+        ./Frames/Prefs/OptionTunagePanel.cpp
 
         ./shibatch/Equ.cpp
         ./shibatch/Fftsg_fl.cpp

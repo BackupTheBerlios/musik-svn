@@ -43,15 +43,15 @@ protected:
 	void Close				( bool bCancel );
 	
 	//--------------------//
-	//--- tree control ---//
+	//--- widgets      ---//
 	//--------------------//
 	wxTreeCtrl	*tcPreferencesTree;
 
+    wxStaticText *m_stPanelHeader;
 	//--------------//
 	//--- sizers ---//
 	//--------------//
-	wxBoxSizer		*hsSplitter;
-	wxBoxSizer		*vsTopSizer;
+	wxSizer		*m_sizerPanels;
 
 	DECLARE_EVENT_TABLE()
 private:

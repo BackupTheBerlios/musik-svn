@@ -58,6 +58,7 @@ END_EVENT_TABLE()
 void CMusikListCtrl::OnSize( wxSizeEvent& event )
 {
 	OnRescaleColumns();
+    event.Skip();
 }
 // enable wheel scroll, no matter if the bug in wxWidgets/src/generic/listctrl is fixed or not
 void CMusikListCtrl::OnMouseWheel(wxMouseEvent &event)

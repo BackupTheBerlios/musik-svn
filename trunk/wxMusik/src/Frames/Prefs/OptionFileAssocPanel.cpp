@@ -31,10 +31,10 @@ wxSizer * OptionFileAssocPanel::CreateControls()
     //------------------------------------//
     //--- options -> file associations ---//
     //------------------------------------//
-    wxBoxSizer *vsOptions_FileAssoc = new wxBoxSizer( wxVERTICAL );
+    wxBoxSizer *vsOptions_FileAssoc = new wxBoxSizer( wxVERTICAL);
 
     chklbFileAssocs = new wxCheckListBox(this,-1);
-    vsOptions_FileAssoc->Add(chklbFileAssocs,1,wxALL,5);
+    vsOptions_FileAssoc->Add(chklbFileAssocs,1,wxEXPAND|wxALL,5);
 
     for(int i = 0; i < COUNT_MUSIK_FORMAT ; i++)
     {

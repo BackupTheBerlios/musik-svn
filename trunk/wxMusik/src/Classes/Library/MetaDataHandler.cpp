@@ -20,7 +20,10 @@
 #include "3rd-Party/TagHelper/idtag.h"
 #include "MetaDataHandler.h"
 
+#ifndef MUSIKENGINE_NO_APE_SUPPORT
 #include "APEInfo.h"
+static CMyAPEInfo apeinfo;
+#endif
 
 #define USE_TAGLIB
 
@@ -29,17 +32,20 @@
 static CTagLibInfo taglibinfo;
 #else
 #include "CMP3Info.h"
-#include "COggInfo.h"
-#include "MPCInfo.h"
-#include "FlacInfo.h"
 static CMP3Info mp3info;
+#include "COggInfo.h"
 static COggInfo ogginfo;
+#ifndef MUSIKENGINE_NO_MPC_SUPPORT
+#include "MPCInfo.h"
 static CMPCInfo mpcinfo;
+#endif
+#ifndef MUSIKENGINE_NO_FLAC_SUPPORT
+#include "FlacInfo.h"
 static CFlacInfo flacinfo;
+#endif
 #endif
 #include "CFMODInfo.h"
 static CFMODInfo fmodinfo;
-static CMyAPEInfo apeinfo;
 
 class CDummyInfo : public CInfoRead
 {
@@ -74,18 +80,28 @@ static const tSongClass valid_SongClasses[] =
 #ifdef USE_TAGLIB
 	{wxT("mp3"),wxTRANSLATE("MPEG Layer 3 Audio File"),MUSIK_FORMAT_MP3,&taglibinfo,&taglibinfo}
 	,{wxT("ogg"),wxTRANSLATE("OGG Vorbis Audio File"),MUSIK_FORMAT_OGG,&taglibinfo,&taglibinfo}
+#ifndef MUSIKENGINE_NO_MPC_SUPPORT
 	,{wxT("mpc"),wxTRANSLATE("Musepack Audio File"),MUSIK_FORMAT_MPC,&taglibinfo,&taglibinfo}
+#endif
+#ifndef MUSIKENGINE_NO_FLAC_SUPPORT
 	,{wxT("flac"),wxTRANSLATE("Flac Lossless Audio File"),MUSIK_FORMAT_FLAC,&taglibinfo,&taglibinfo}
+#endif
 	,{wxT("mp2"),wxTRANSLATE("MPEG Layer 2 Audio File"),MUSIK_FORMAT_MP2,&taglibinfo,&taglibinfo}
 
 #else
 	{wxT("mp3"),wxTRANSLATE("MPEG Layer 3 Audio File"),MUSIK_FORMAT_MP3,&mp3info,&mp3info}
 	,{wxT("ogg"),wxTRANSLATE("OGG Vorbis Audio File"),MUSIK_FORMAT_OGG,&ogginfo,&ogginfo}
+#ifndef MUSIKENGINE_NO_MPC_SUPPORT
 	,{wxT("mpc"),wxTRANSLATE("Musepack Audio File"),MUSIK_FORMAT_MPC,&mpcinfo,&mpcinfo}
+#endif
+#ifndef MUSIKENGINE_NO_FLAC_SUPPORT
 	,{wxT("flac"),wxTRANSLATE("Flac Lossless Audio File"),MUSIK_FORMAT_FLAC,&flacinfo,&flacinfo}
+#endif
 	,{wxT("mp2"),wxTRANSLATE("MPEG Layer 2 Audio File"),MUSIK_FORMAT_MP2,&mp3info,&mp3info}
 #endif
+#ifndef MUSIKENGINE_NO_APE_SUPPORT
 	,{wxT("ape"),wxTRANSLATE("Monkey's Audio File"),MUSIK_FORMAT_APE,&apeinfo,&apeinfo}
+#endif
 	,{wxT("wav"),wxTRANSLATE("WAVE Audio File"),MUSIK_FORMAT_WAV,&fmodinfo,NULL}
 	,{wxT("aiff"),wxTRANSLATE("AIFF Audio File"),MUSIK_FORMAT_AIFF,&fmodinfo,NULL}
 #ifdef __WXMSW__

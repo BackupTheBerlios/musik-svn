@@ -17,13 +17,17 @@
 #include <sqlite.h>
 #include <fmod.h>
 #include <taglib.h>
+#ifndef MUSIKENGINE_NO_FLAC_SUPPORT
 #include <FLAC/format.h>
+#endif
+#ifndef MUSIKENGINE_NO_MPC_SUPPORT
 #ifdef _WIN32
 #include "All.h" // monkeys audio
 #else
 #define BUILD_CROSS_PLATFORM
 #include "mac/All.h" // monkeys audio
 #endif
+#endif //#ifndef MUSIKENGINE_NO_MPC_SUPPORT
 
 //#include "MUSIKEngine/MPC/in_mpc.h"
 
@@ -76,18 +80,30 @@ TAG_HANDLER_PROC(tag)
 		else if(sParamValue == wxT("OggVorbis"))
 		{
 			sTextToInsert = wxT("");
-		}
+		}		
 		else if(sParamValue == wxT("libFlac"))
 		{
+#ifndef MUSIKENGINE_NO_FLAC_SUPPORT		
 			sTextToInsert = ConvA2W(FLAC__VERSION_STRING);
+#else
+			sTextToInsert = _("Not supported");
+#endif			
 		}
 		else if(sParamValue == wxT("MACSDK"))
 		{
+#ifndef MUSIKENGINE_NO_APE_SUPPORT		
 			sTextToInsert = MAC_VERSION_STRING;
+#else
+			sTextToInsert = _("Not supported");
+#endif			
 		}
 		else if(sParamValue == wxT("MPCDEC"))
 		{
+#ifndef MUSIKENGINE_NO_MPC_SUPPORT		
 			sTextToInsert = wxT("1.0.3"/*MPCDEC_VERSION*/);
+#else
+			sTextToInsert = _("Not supported");
+#endif			
 		}
 		else if(sParamValue == wxT("Shibatch"))
 		{

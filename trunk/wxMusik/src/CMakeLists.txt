@@ -1,5 +1,5 @@
 
-ADD_EXECUTABLE(wxMusik
+ADD_EXECUTABLE(wxMusik WIN32 
         ./MusikApp
         ./MusikGlobals
         ./MusikUtils
@@ -47,7 +47,12 @@ ADD_EXECUTABLE(wxMusik
         ./shibatch/Equ.cpp
         ./shibatch/Fftsg_fl.cpp
     )
-
+IF(OPTION_SUPPORT_FLAC)
+SET(FLAC_ADDITIONAL_LIBS "plugin_common grabbag  replaygain_synthesis")
+SEPARATE_ARGUMENTS(FLAC_ADDITIONAL_LIBS)
+ELSE(OPTION_SUPPORT_FLAC)
+SET(FLAC_ADDITIONAL_LIBS "")
+ENDIF(OPTION_SUPPORT_FLAC)
 
 TARGET_LINK_LIBRARIES(wxMusik
         FMODEngine
@@ -59,20 +64,16 @@ TARGET_LINK_LIBRARIES(wxMusik
         ${FLAC_LIBRARY}
         ${FMOD_LIBRARY}
         TagLib
-        plugin_common
-        grabbag
-        replaygain_synthesis
+        ${FLAC_ADDITIONAL_LIBS}
     )
 
 IF(APPLE)
-  FIND_PROGRAM(VTK_APPLE_RESOURCE Rez /Developer/Tools)
-  IF(VTK_APPLE_RESOURCE)
-    ADD_CUSTOM_COMMAND(SOURCE wxMusik
-                       COMMAND ${VTK_APPLE_RESOURCE}
-                       ARGS -d __DARWIN__ -t APPL Carbon.r /usr/local/lib/libwx_macu-2.5.3.r -o
-                       ${MyExecutable_PATH}/wxMusik
-                       TARGET wxMusik)
-  ENDIF(VTK_APPLE_RESOURCE)
+    ADD_CUSTOM_COMMAND(SOURCE wxMusik 
+                       COMMAND ""# dummy command because command is given by wx-config
+                        ARGS `${CMAKE_WXWINDOWS_WXCONFIG_EXECUTABLE} ${WX_CONFIG_ARG_UNICODE} 					${WX_CONFIG_ARG_DEBUG} --rezflags`
+                              ${MyExecutable_PATH}/wxMusik
+			TARGET wxMusik
+                       )
 ENDIF(APPLE)
 
 # Set install options

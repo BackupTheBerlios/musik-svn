@@ -22,6 +22,8 @@
 #include "apedecoder.h"
 #include "MUSIKEngine/inc/imusikstreamout.h"
 
+#ifndef MUSIKENGINE_NO_APE_SUPPORT 
+
 #ifdef _WIN32
 #include "Shared/All.h"							/* Monkey's Audio include file */
 #include "Shared/MACLib.h"						/* Monkey's Audio include file */
@@ -110,3 +112,5 @@ bool MUSIKAPEDecoder::Close()
 	m_ApeInfo.pAPEDecompress = NULL;
 	return true;
 }
+
+#endif //MUSIKENGINE_NO_APE_SUPPORT

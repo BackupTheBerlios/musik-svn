@@ -19,6 +19,8 @@
 //WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
 //OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+#ifndef MUSIKENGINE_NO_MPC_SUPPORT
+
 #include "mpcdecoder.h"
 #include "MUSIKEngine/inc/imusikstreamout.h"
 
@@ -291,4 +293,6 @@ bool MUSIKMPCDecoder::Close()
 	return MUSIKDecoder::Close();
 }
 
-#endif
+#endif // else // MP3DEC_NEW
+
+#endif //MUSIKENGINE_NO_MPC_SUPPORT

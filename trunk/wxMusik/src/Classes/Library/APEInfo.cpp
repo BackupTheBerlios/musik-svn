@@ -1,4 +1,5 @@
 #include "wx/wxprec.h"
+#ifndef MUSIKENGINE_NO_APE_SUPPORT
 #ifdef _WIN32
 #include "All.h"							/* Monkey's Audio include file */
 #include "MACLib.h"						/* Monkey's Audio include file */
@@ -88,3 +89,4 @@ bool CMyAPEInfo::GetFieldAsUtf8(wchar_t *pFieldName,CAPETag &tag, CSongMetaData:
 	}
 	return true;
 }
+#endif // #ifndef MUSIKENGINE_NO_APE_SUPPORT

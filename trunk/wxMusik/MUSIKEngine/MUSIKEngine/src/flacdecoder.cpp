@@ -22,7 +22,7 @@
 * along with this program; if not, write to the Free Software
 * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
-
+#ifndef MUSIKENGINE_NO_FLAC_SUPPORT
 #include "flacdecoder.h"
 #include "MUSIKEngine/inc/imusikstreamout.h"
 #include <utility>
@@ -236,3 +236,6 @@ bool MUSIKFLACDecoder::Close()
 	FLAC__file_decoder_delete(m_FlacInfo.Decoder);
 	return true;
 }
+
+#endif //MUSIKENGINE_NO_FLAC_SUPPORT
+

@@ -570,10 +570,10 @@ void CPlaylistCtrl::OnDisplayFit( wxCommandEvent& WXUNUSED(event) )
 void CPlaylistCtrl::OnClearPlayerlist( wxCommandEvent& WXUNUSED(event) )
 {
 
-	g_Playlist.Clear();
-	wxGetApp().Player.SetPlaylist(g_Playlist);
 	if(wxGetApp().Prefs.bStopSongOnNowPlayingClear)
 		wxGetApp().Player.Stop();
+	g_Playlist.Clear();
+	wxGetApp().Player.SetPlaylist(g_Playlist);
 	Update(false);
 }
 void CPlaylistCtrl::OnUpdateUIDisplayMenu ( wxUpdateUIEvent &event)
@@ -905,6 +905,8 @@ void CPlaylistCtrl::FindColumnOrder()
 
 int CPlaylistCtrl::OnGetItemImage(long item) const
 {
+	if(item >= (long)g_Playlist.GetCount())
+		return 0;  // this actually did happen on macos.dont know why.
 	return g_Playlist.Item ( item ).Rating - MUSIK_MIN_RATING;
 }
 
@@ -1733,6 +1735,7 @@ EVT_TEXT					(MUSIK_SEARCHBOX_TEXT,			CSearchBox::OnTextInput	)	// simple query 
 EVT_CHOICE					(MUSIK_SEARCHBOX_SEARCHMODE,	CSearchBox::OnSearchMode	) 
 EVT_CHOICE					(MUSIK_SEARCHBOX_FUZZYSEARCHMODE,	CSearchBox::OnFuzzySearchMode ) 
 EVT_TIMER					(MUSIK_SEARCHBOX_TIMERID, CSearchBox::OnTimer)
+EVT_TEXT_ENTER				(MUSIK_SEARCHBOX_TEXT, CSearchBox::OnTextEnter)
 EVT_BUTTON					(MUSIK_SEARCHBOX_CLEAR,CSearchBox::OnClear)
 END_EVENT_TABLE()
 
@@ -1746,7 +1749,7 @@ CSearchBox::CSearchBox( wxWindow *parent )
 	wxBoxSizer *pSizer = new wxBoxSizer( wxHORIZONTAL );
 
 	wxStaticText *stSearch	= new wxStaticText_NoFlicker( this, -1, _( "Search:" ),wxPoint( -1, -1 ), wxSize( -1, -1 ), wxALIGN_RIGHT | wxTRANSPARENT_WINDOW );
-	m_pTextSimpleQuery		= new wxTextCtrl_NoFlicker( this, MUSIK_SEARCHBOX_TEXT, wxT( "" ), wxPoint( -1, -1 ), wxSize( -1, -1 ), wxSIMPLE_BORDER );
+	m_pTextSimpleQuery		= new wxTextCtrl_NoFlicker( this, MUSIK_SEARCHBOX_TEXT, wxT( "" ), wxPoint( -1, -1 ), wxSize( -1, -1 ), wxSIMPLE_BORDER|wxTE_PROCESS_ENTER );
 	wxButton *buttonClear =new wxButton_NoFlicker(this,MUSIK_SEARCHBOX_CLEAR,_("Clear"),wxDefaultPosition,wxDefaultSize,wxBU_EXACTFIT );
 	const wxString searchmode_choices[] ={_("All words"),_("Exact phrase"),_("Any word")};
 	wxChoice *choiceSearchmode = new wxChoice_NoFlicker(this,MUSIK_SEARCHBOX_SEARCHMODE,wxDefaultPosition,wxDefaultSize,WXSIZEOF(searchmode_choices),searchmode_choices);
@@ -1865,6 +1868,11 @@ void CSearchBox::OnFuzzySearchMode( wxCommandEvent&	event )
 }
 void CSearchBox::OnTimer(wxTimerEvent& )
 {
+	DoSearchQuery(m_pTextSimpleQuery->GetValue());
+}
+void CSearchBox::OnTextEnter(wxCommandEvent &)
+{
+	m_Timer.Stop();// enter was pressed => stop the timer, so we do not DoSearchQuery again after timer is expired.
 	DoSearchQuery(m_pTextSimpleQuery->GetValue());
 }
 

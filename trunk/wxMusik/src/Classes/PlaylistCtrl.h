@@ -235,6 +235,7 @@ public:
 	~CSearchBox();
 	void DoSearchQuery( wxString sQueryVal );
 	void OnTextInput(wxCommandEvent &event);
+	void OnTextEnter(wxCommandEvent &event);
 	void OnSearchMode(wxCommandEvent&	event);
 	void OnFuzzySearchMode(wxCommandEvent&	event);
 	void OnTimer(wxTimerEvent& event);

@@ -63,6 +63,12 @@ static void XF86AudioKeyGrab_cleanup();
 #include "../images/tray.xpm"
 DECLARE_APP( MusikApp )
 
+#ifdef __WXMSW__
+#define MUSIK_TRAY_ICON  wxICON( musicbox )
+#else
+#define MUSIK_TRAY_ICON   wxIcon(tray_xpm)
+#endif
+
 #ifdef wxHAS_TASK_BAR_ICON
 enum {
     PU_RESTORE = 11101,
@@ -594,14 +600,18 @@ void MusikFrame::EnableProgress( bool enable )
 
 void MusikFrame::SetTitle(const wxString& title)
 {
-	wxFrame::SetTitle(wxT( "[ " ) + title + wxT( " ] " )+ wxString( MUSIKAPPNAME_VERSION ));
+    if(title.IsEmpty())
+        wxFrame::SetTitle(wxString( MUSIKAPPNAME_VERSION ));
+    else
+	    wxFrame::SetTitle(wxT( "[ " ) + title + wxT( " ] " )+ wxString( MUSIKAPPNAME_VERSION ));
 }
 void MusikFrame::SetSongInfoText(const wxString & sSongInfoText)
 {
 #ifdef wxHAS_TASK_BAR_ICON
 	if(	m_pTaskBarIcon )
 	{
-		m_pTaskBarIcon->SetIcon(wxIcon(tray_xpm), sSongInfoText);
+
+		m_pTaskBarIcon->SetIcon(MUSIK_TRAY_ICON, sSongInfoText);
 	}
 #endif
 }
@@ -638,7 +648,7 @@ void MusikFrame::SetSongInfoText(const CMusikSong& song)
 
 	if(	m_pTaskBarIcon )
 	{
-		m_pTaskBarIcon->SetIcon(wxIcon(tray_xpm), sTitle + wxT("\n") + sInfo );
+		m_pTaskBarIcon->SetIcon(MUSIK_TRAY_ICON, sTitle + wxT("\n") + sInfo );
 #ifdef __WXMSW__
 		if(wxGetApp().Prefs.bEnableBalloonSongInfo)
 			m_pTaskBarIcon->ShowBalloonInfo(sTitle,sInfo);
@@ -727,8 +737,7 @@ void MusikFrame::SetSongInfoText(const CMusikSong& song)
 #include <X11/Xlib.h>
 #include <X11/Xatom.h>
 #include <string.h>
-#undef _
-#define _(string) (string)
+
 enum xf86audio_value {
        XF86AUDIO_PLAY = 0,
 //       XF86AUDIO_PAUSE,
@@ -786,7 +795,7 @@ static GdkFilterReturn xf86audio_filter(GdkXEvent *xevent, GdkEvent *event, gpoi
 			break;
 	}
 	if (i == XF86AUDIO_MAX) {
-		g_warning(_("Received KeyRelease event for unrequested keycode %d"),
+		g_warning("Received KeyRelease event for unrequested keycode %d",
 				keyevent->keycode);
 		return GDK_FILTER_CONTINUE;
 	}
@@ -833,7 +842,7 @@ static KeyCode grab_key(char *keystring)
 
 	gdk_flush();
 	if (gdk_error_trap_pop()) {
-		g_warning(_("Couldn't grab %s: another client may already have done so"),
+		g_warning("Couldn't grab %s: another client may already have done so",
 				keystring);
 		return 0;
 	}
@@ -876,7 +885,7 @@ static void ungrab_key(KeyCode code)
 				AnyModifier, RootWindow(GDK_DISPLAY(),i));
 	gdk_flush();
 	if (gdk_error_trap_pop())
-		g_warning(_("Couldn't ungrab keycode %d"), code);
+		g_warning("Couldn't ungrab keycode %d", code);
 }
 
 static void ungrab_keys()

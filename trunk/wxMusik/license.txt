@@ -1,7 +1,13 @@
+WxMusik as a whole is licensed under the GPL V2 ( see below for license text)
+, because it uses some code which is licensed under the GPL.
+
+But code written by the authors of wxMusik for wxMusik is licensed under BSD License.
 ----------------------------------------------------------------------------
-Musik (http://musik.berlios.de) License Agreement
+wxMusik (http://musik.berlios.de) License Agreement
 ----------------------------------------------------------------------------
-Copyright (c) 2004, Casey Langen, Gunnar Roth, Simon Windmill
+Copyright (c) 2005 Gunnar Roth
+
+Contributors Casey Langen,  Simon Windmill
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -95,10 +101,9 @@ a legal notice, here is a blessing:
 
 
 
-----------------------------------------------------------------------------
-id3lib (http://www.id3lib.org) License Agreement
-vcedit (http://www.vorbis.com) License Agreement
-----------------------------------------------------------------------------
+---------------------------------------------------------------------------
+taglib etc.
+---------------------------------------------------------------------------
 
 GNU GENERAL PUBLIC LICENSE
 

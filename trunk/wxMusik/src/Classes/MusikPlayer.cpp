@@ -790,7 +790,7 @@ void CMusikPlayer::Stop( bool bCheckFade, bool bExit )
 	//-------------------------------------------------//
 	//--- update the ui.							---//
 	//-------------------------------------------------//
-	g_MusikFrame->SetTitle( MUSIKAPPNAME_VERSION );
+	g_MusikFrame->SetTitle();
 	g_MusikFrame->m_pNowPlayingCtrl->ResetInfo();
 	g_MusikFrame->m_pNowPlayingCtrl->PauseBtnToPlayBtn();
 

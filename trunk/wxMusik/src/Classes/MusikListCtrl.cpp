@@ -107,7 +107,7 @@ void CMusikListCtrl::SelectClickedItem(wxMouseEvent &event)
 	long item = HitTest(event.GetPosition(),HitFlags);
 	if(item != -1)
 	{
-        if((wxLIST_STATE_SELECTED & GetItemState(item,wxLIST_STATE_SELECTED)) == wxLIST_STATE_SELECTED) // bug in MSW GetItemState (mask param is ignored)
+        if((wxLIST_STATE_SELECTED & GetItemState(item,wxLIST_STATE_SELECTED)) != wxLIST_STATE_SELECTED) // bug in MSW GetItemState (mask param is ignored)
         {    
             if(!event.CmdDown())
             {

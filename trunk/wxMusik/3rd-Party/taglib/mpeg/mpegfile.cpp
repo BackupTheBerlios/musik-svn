@@ -440,16 +440,19 @@ long MPEG::File::nextFrameOffset(long position)
 {
   // TODO: This will miss syncs spanning buffer read boundaries.
 
+  seek(position);
   ByteVector buffer = readBlock(bufferSize());
-
+  char firstByte = 0;	
   while(buffer.size() > 0) {
-    seek(position);
-    ByteVector buffer = readBlock(bufferSize());
-
-    for(uint i = 0; i < buffer.size(); i++) {
-      if(uchar(buffer[i]) == 0xff && secondSynchByte(buffer[i + 1]))
+    for(uint i = 0; i < buffer.size() - 1; i++) {
+      firstByte = buffer[i];
+	  if( (firstByte == (char)0xff) && secondSynchByte(buffer[i + 1]))
     	return position + i;
     }
+    firstByte = buffer[i];
+	buffer = readBlock(bufferSize());
+    if( (buffer.size() > 0) && (firstByte == (char)0xff) && secondSynchByte(buffer[0]))
+        return position + i;
     position += bufferSize();
   }
 

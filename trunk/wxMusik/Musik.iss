@@ -44,8 +44,8 @@ Source: Release Unicode\BlackBox.dll; DestDir: {app}; Flags: ignoreversion
 Source: Release Unicode\fmod.dll; DestDir: {app}; Flags: ignoreversion
 Source: license.txt; DestDir: {app}; Flags: ignoreversion
 Source: _release\MMShellHook.dll; DestDir: {app}; Flags: ignoreversion
-Source: ..\..\WINDOWS\SYSTEM32\msvcp71.dll; DestDir: {app}; Flags: promptifolder onlyifdoesntexist
-Source: ..\..\WINDOWS\SYSTEM32\msvcr71.dll; DestDir: {app}; Flags: promptifolder onlyifdoesntexist
+Source: c:\WINDOWS\SYSTEM32\msvcp71.dll; DestDir: {app}; Flags: promptifolder onlyifdoesntexist
+Source: c:\WINDOWS\SYSTEM32\msvcr71.dll; DestDir: {app}; Flags: promptifolder onlyifdoesntexist
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 Source: contrib\playlists\*.mpd; DestDir: {userappdata}\..\.Musik\playlists; Flags: overwritereadonly; Components: Dynamic_Playlist_Examples
@@ -65,6 +65,7 @@ Source: locale\it\*.mo; DestDir: {app}\locale\it; Flags: overwritereadonly; Lang
 Source: locale\ru\*.mo; DestDir: {app}\locale\ru; Flags: overwritereadonly; Languages: ru
 Source: _release\{#MyAppPdb}; DestDir: {app}; Flags: promptifolder; MinVersion: 4.1.1998,0; OnlyBelowVersion: 0,4.0.1381
 Source: Release Unicode\{#MyAppPdb}; DestDir: {app}; MinVersion: 0,4.0.1381sp6; Flags: promptifolder
+Source: locale\pl\*.mo; DestDir: {app}\locale\pl; Flags: overwritereadonly; Languages: pl
 [Icons]
 Name: {group}\{#MyAppName}; Filename: {app}\{#MyAppExe}; WorkingDir: {app}; IconIndex: 0
 Name: {group}\{cm:UninstallProgram,{#MyAppName}}; Filename: {uninstallexe}
@@ -93,6 +94,7 @@ Name: es; MessagesFile: compiler:Languages\Spanish.isl
 Name: nl; MessagesFile: compiler:Languages\Dutch.isl
 Name: it; MessagesFile: compiler:Languages\Italian-3-4.2.1.isl
 Name: ru; MessagesFile: compiler:Languages\Russian.isl
+Name: pl; MessagesFile: compiler:Languages\Polish.isl
 
 [CustomMessages]
 en.Examples_of_Dynamic_Playlists=Examples of Dynamic Playlists
@@ -117,3 +119,5 @@ it.Examples_of_Dynamic_Playlists=Esempi di Playlist Dinamiche
 it.Examples_of_Net_Radio_Channels=Esempi di Canali Radio in Rete
 ru.Examples_of_Dynamic_Playlists=Examples of Dynamic Playlists
 ru.Examples_of_Net_Radio_Channels=Examples of Net Radio Channels
+pl.Examples_of_Dynamic_Playlists=Examples of Dynamic Playlists
+pl.Examples_of_Net_Radio_Channels=Examples of Net Radio Channels

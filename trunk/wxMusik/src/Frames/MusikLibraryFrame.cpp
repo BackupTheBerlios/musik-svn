@@ -87,11 +87,12 @@ MusikLibraryDialog::MusikLibraryDialog( wxWindow* pParent ,const wxArrayString &
 	//------------------------------------------//
 	vsTopSizer->Show( lcPaths, false );
 	vsTopSizer->Show( hsSysButtons, true );
-	hsLibraryButtons->Show(hsLibraryButtons,false);
-	#ifdef __WXGTK__
+	vsTopSizer->Show(hsLibraryButtons,false);
+    Layout();
+//	#ifdef __WXGTK__
 	wxSize size = vsTopSizer->GetMinSize();
-	SetSize( 480, size.GetHeight() );
-	#endif
+	SetClientSize( 600, size.GetHeight() );
+//	#endif
 
 	Centre();
 }
@@ -128,6 +129,7 @@ MusikLibraryDialog::MusikLibraryDialog( wxWindow* pParent, const wxPoint &pos, c
 	m_AutoStart		= false;
 	m_Close			= false;
 	m_flagsUpdate = 0;
+    PathsResize();
 	//--------------------//
 	//--- center frame ---//
 	//--------------------//
@@ -576,11 +578,6 @@ void MusikLibraryDialog::EnableProgress( bool enable )
 			continue;
 		current->Enable(!enable);
 	}	
-
-//	lcPaths->Enable		( !enable );
-//	btnOK->Enable		( !enable );
-//	btnCancel->Enable	( !enable );
-//	Enable( !enable );
 	Layout();
 }
 

@@ -224,7 +224,7 @@ bool MusikApp::OnInit()
 		pMain->SetSize( Size );
 		pMain->Center();
 	}
-	pMain->SetTitle( MUSIKAPPNAME_VERSION );
+	pMain->SetTitle();
 	pMain->SetSongInfoText(MUSIKAPPNAME);
 	new MusikLogWindow(pMain,wxString::Format(_("%s Logging Window"),MUSIKAPPNAME),MUSIK_LW_ClearContentOnClose|MUSIK_LW_ShowOnLog); 
 	
@@ -243,19 +243,20 @@ bool MusikApp::OnInit()
 		pMain->OnSetupPaths(dummy_ev);
 	}
 	else if (Prefs.bAutoAdd || arrParams.GetCount() > 0)
-	{	if(Prefs.bAutoAdd)
+	{	
+        if(Prefs.bAutoAdd)
 			pMain->AutoUpdate();
 		if(arrParams.GetCount() > 0)
 			pMain->AutoUpdate(arrParams,MUSIK_UpdateFlags::InsertFilesIntoPlayer|MUSIK_UpdateFlags::PlayFiles);
 	}
+	
+    if (Prefs.bShowLibraryOnStart)
+		g_SourcesCtrl->SelectLibrary();
 	else
-	{	if (Prefs.bShowLibraryOnStart)
-			g_SourcesCtrl->SelectLibrary();
-		else
-			g_SourcesCtrl->SelectNowPlaying();
-		g_PlaylistBox->Update();
-	}
-	pMain->Show();
+		g_SourcesCtrl->SelectNowPlaying();
+	g_PlaylistBox->Update();
+
+    pMain->Show();
 	//--- startup the crossfader			---//
 	g_FaderThread = new MusikFaderThread();
 	g_FaderThread->Create();

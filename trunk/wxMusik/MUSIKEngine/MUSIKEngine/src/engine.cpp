@@ -52,7 +52,7 @@ bool MUSIKDefaultDecoder::OpenMedia(const char *FileName)
 		m_Info.LengthMS = m_pIMUSIKStreamOutDefault->GetLengthMs();
 		unsigned int lenbytes = m_pIMUSIKStreamOutDefault->GetLength();
 		if(m_Info.LengthMS)// can be 0 for netstreams 
-			m_Info.bitrate = lenbytes / (m_Info.LengthMS  / 1000) /1000 * 8;
+			m_Info.bitrate = lenbytes / m_Info.LengthMS  * 8;
 
 		m_Info.frequency = 44100;
 		m_Info.channels = 2;

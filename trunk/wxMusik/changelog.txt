@@ -1,5 +1,9 @@
 0.4.1.0
-+ the playing control area can now be placed on top of the winow instead of the bottom.
++ new program icon by ben oakes
+- enhanced taglib mpeg header parsing code
+- several bugs fixed, i cannot remember.
++ middle mouse click on album(or artist) in selection box starts playing of whole album (artist)
++ the playing control area can now be placed on top of the window instead of the bottom.
 - return key press in search box no longer starts song play 
 + using taglib for tag reading on writing of ogg,flac,mpc,mp3/2 files.(for ape files the mac sdk code is still used). taglib is faster and supports unicode for tags (even id3v2 tags) easily.
 - scrolling using cursor keys was not possible on win32
@@ -20,14 +24,14 @@
 + make most frame a dialog.
 + utilize buttons in Library setup instead of a menu.
 + use taglib from scott wheeler  for tag reading and writing
-. fix selection box scrolling on linux. Now it scrolls while you type a name
+- fix selection box scrolling on linux. Now it scrolls while you type a name
 - workaround for  a weird linux crash , if sources listctrl is in edit mode and right click is made.
 + on linux you can cancel library build now
 - fix hardcoded button sizes in library setup, which lead to unreadable labels on gtk
 + use system font ,not hardcoded font face name
 - fix crash while (re)building the library on systems where sizeof(wchar_t) != 2, bug in idtag.cpp
 - add files missing in hotfix1 tag.gz
-- fix bug in autodj,only at least once played songs were chosen.
+- fix bug in autodj, only at least once played songs were chosen.
 Hotfix1 0.3.1.6
 - Fixed linux segfault on prefs win open
 - Fixed linux data path access for about and picture view

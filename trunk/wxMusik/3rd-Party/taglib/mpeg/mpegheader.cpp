@@ -174,7 +174,10 @@ void MPEG::Header::parse(const ByteVector &data)
     d->version = Version2;
   else if(flags[20] && flags[19])
     d->version = Version1;
-
+  else {
+      debug("MPEG::Header::parse() -- Invalid version.");
+      return;
+  }
   // Set the MPEG layer
 
   if(!flags[18] && flags[17])
@@ -183,7 +186,10 @@ void MPEG::Header::parse(const ByteVector &data)
     d->layer = 2;
   else if(flags[18] && flags[17])
     d->layer = 1;
-
+  else {
+      debug("MPEG::Header::parse() -- Invalid layer.");
+      return;
+  }
   d->protectionEnabled = !flags[16];
 
   // Set the bitrate
@@ -210,7 +216,10 @@ void MPEG::Header::parse(const ByteVector &data)
   int i = uchar(data[2]) >> 4;
 
   d->bitrate = bitrates[versionIndex][layerIndex][i];
-
+  if( d->bitrate == 0 ){
+      debug("MPEG::Header::parse() -- Bitrate is 0.");
+      return;
+  }
   // Set the sample rate
 
   static const int sampleRates[3][4] = {

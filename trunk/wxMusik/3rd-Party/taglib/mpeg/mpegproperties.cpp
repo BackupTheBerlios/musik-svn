@@ -37,7 +37,8 @@ public:
     length(0),
     bitrate(0),
     sampleRate(0),
-	isVbr(false){}
+    channels(0),
+    isVbr(false){}
 
   File *file;
   ReadStyle style;
@@ -173,6 +174,23 @@ void MPEG::Properties::read()
   d->file->seek(first);
   Header firstHeader(d->file->readBlock(4));
 
+  if(!firstHeader.isValid()) {
+      // seek next valid header
+      long pos = first;
+      while(pos++ < last) {
+          pos = d->file->nextFrameOffset(pos);
+          d->file->seek(pos);
+          Header header(d->file->readBlock(4));
+
+          if(header.isValid()) {
+              firstHeader = header;
+              first = pos;
+              break;
+          }
+      }
+  }
+
+
   if(!firstHeader.isValid() || !lastHeader.isValid()) {
     debug("MPEG::Properties::read() -- Page headers were invalid.");
     return;
@@ -199,7 +217,7 @@ void MPEG::Properties::read()
       timePerFrame = firstHeader.sampleRate() > 0 ? timePerFrame / firstHeader.sampleRate() : 0;
       d->length = int(timePerFrame * xingHeader.totalFrames());
       d->bitrate = d->length > 0 ? xingHeader.totalSize() * 8 / d->length / 1000 : 0;
-	  d->isVbr = true;
+      d->isVbr = true;
   }
 
   // Since there was no valid Xing header found, we hope that we're in a constant

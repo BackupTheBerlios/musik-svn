@@ -6,14 +6,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: wxMusik-0.3.1.5\n"
-"POT-Creation-Date: 2005-01-19 18:23+0100\n"
-"PO-Revision-Date: 2004-11-09 00:53+0100\n"
-"Last-Translator: Gunnar Roth <gunnar.roth@gmx.de>\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2005-02-20 19:51+0100\n"
+"PO-Revision-Date: 2005-02-18 23:01+0100\n"
+"Last-Translator: \n"
 "Language-Team: wxMusik Team <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=koi8-r\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Report-Msgid-Bugs-To: \n"
 "X-Poedit-Language: Russian\n"
 "X-Poedit-Country: RUSSIAN FEDERATION\n"
 "X-Poedit-SourceCharset: iso-8859-1\n"
@@ -49,11 +49,11 @@ msgstr "авто тэг"
 msgid " FX"
 msgstr "FX"
 
-#: ../src/Frames/MusikLibraryFrame.cpp:105
+#: ../src/Frames/MusikLibraryFrame.cpp:106
 msgid " Library Setup"
 msgstr "Настройки библиотеки"
 
-#: ../src/Frames/MusikLibraryFrame.cpp:675
+#: ../src/Frames/MusikLibraryFrame.cpp:670
 msgid " Library Setup - Elapsed Time: "
 msgstr "Настройки библиотеки - Прошло времени"
 
@@ -73,7 +73,7 @@ msgstr ""
 "обновите внутреннюю библиотеку,которая включает добавление новых песен."
 "продолжить?"
 
-#: ../src/MusikApp.cpp:291
+#: ../src/MusikApp.cpp:295
 msgid ""
 " has detected version 0.1.2 or earlier was previously installed.\n"
 "\n"
@@ -105,8 +105,8 @@ msgstr "вторая буферная длина"
 msgid " will not delete empty directories!"
 msgstr "пустые папки не будут удалены"
 
-#: ../src/Classes/SourcesBox.cpp:980 ../src/Classes/SourcesBox.cpp:1054
-#: ../src/Classes/SourcesBox.cpp:1158
+#: ../src/Classes/SourcesBox.cpp:964 ../src/Classes/SourcesBox.cpp:1038
+#: ../src/Classes/SourcesBox.cpp:1142
 msgid ""
 "\" already exists, but does not appear to be visible in the panel.\n"
 "\n"
@@ -164,7 +164,7 @@ msgstr "%d.%02d мб"
 msgid "%d.%02d TB"
 msgstr "%d.%02d тб"
 
-#: ../src/MusikApp.cpp:226
+#: ../src/MusikApp.cpp:229
 #, c-format
 msgid "%s Logging Window"
 msgstr "%s регистрационное окно "
@@ -193,11 +193,11 @@ msgstr ""
 "пробелы в маске для соответствования '_'.\n"
 "\n"
 
-#: ../src/Frames/MusikFrame.cpp:378
+#: ../src/Frames/MusikFrame.cpp:385
 msgid "&About"
 msgstr "&о"
 
-#: ../src/Frames/MusikLibraryFrame.cpp:112
+#: ../src/Frames/MusikLibraryFrame.cpp:113
 msgid "&Add Directory"
 msgstr "&добавить папку"
 
@@ -205,47 +205,47 @@ msgstr "&добавить папку"
 msgid "&Auto Rename"
 msgstr "&автоматическое перена"
 
-#: ../src/Classes/PlaylistCtrl.cpp:425 ../src/Classes/SourcesBox.cpp:300
+#: ../src/Classes/PlaylistCtrl.cpp:425 ../src/Classes/SourcesBox.cpp:299
 msgid "&Clear List"
 msgstr "&очистить лист"
 
-#: ../src/Classes/SourcesBox.cpp:322
+#: ../src/Classes/SourcesBox.cpp:321
 msgid "&Create New"
 msgstr "&создать "
 
-#: ../src/Frames/MusikFrame.cpp:374
+#: ../src/Frames/MusikFrame.cpp:381
 msgid "&Custom Query"
 msgstr "&вопрос"
 
-#: ../src/Classes/SourcesBox.cpp:309
+#: ../src/Classes/SourcesBox.cpp:308
 msgid "&Delete"
 msgstr "&удалить"
 
-#: ../src/Classes/SourcesBox.cpp:293
+#: ../src/Classes/SourcesBox.cpp:292
 msgid "&Edit Query"
 msgstr "&редактировать вопрос"
 
-#: ../src/Classes/SourcesBox.cpp:296
+#: ../src/Classes/SourcesBox.cpp:295
 msgid "&Edit URL"
 msgstr "&редактировать линк"
 
-#: ../src/Frames/MusikFrame.cpp:384
+#: ../src/Frames/MusikFrame.cpp:391
 msgid "&File"
 msgstr "&файл"
 
-#: ../src/Frames/MusikFrame.cpp:387
+#: ../src/Frames/MusikFrame.cpp:394
 msgid "&Help"
 msgstr "&помощь"
 
-#: ../src/Frames/MusikFrame.cpp:162
+#: ../src/Frames/MusikFrame.cpp:168
 msgid "&Hide wxMusik"
 msgstr "&спрятать wxMusic"
 
-#: ../src/Frames/MusikFrame.cpp:386
+#: ../src/Frames/MusikFrame.cpp:393
 msgid "&Library"
 msgstr "&библиотека"
 
-#: ../src/Frames/MusikFrame.cpp:172
+#: ../src/Frames/MusikFrame.cpp:178
 msgid "&Next"
 msgstr "&следующий"
 
@@ -253,32 +253,32 @@ msgstr "&следующий"
 msgid "&Open Folder in File Manager"
 msgstr "&открыть папку в файловом менеджере"
 
-#: ../src/Frames/MusikFrame.cpp:166
+#: ../src/Frames/MusikFrame.cpp:172
 msgid "&Pause"
 msgstr "&пауза"
 
-#: ../src/Frames/MusikFrame.cpp:376
+#: ../src/Frames/MusikFrame.cpp:383
 msgid "&Pending Tags"
 msgstr "&ожидание тэгов"
 
-#: ../src/Classes/ActivityBox.cpp:875 ../src/Classes/PlaylistCtrl.cpp:422
-#: ../src/Frames/MusikFrame.cpp:170
+#: ../src/Classes/ActivityBox.cpp:877 ../src/Classes/PlaylistCtrl.cpp:422
+#: ../src/Frames/MusikFrame.cpp:176
 msgid "&Play"
 msgstr "&играть"
 
-#: ../src/Frames/MusikFrame.cpp:342
+#: ../src/Frames/MusikFrame.cpp:349
 msgid "&Preferences\tCtrl-P"
 msgstr "&настройки\tCtrl-P"
 
-#: ../src/Frames/MusikFrame.cpp:171
+#: ../src/Frames/MusikFrame.cpp:177
 msgid "&Previous"
 msgstr "&предыдущий"
 
-#: ../src/Classes/PlaylistCtrl.cpp:444 ../src/Frames/MusikFrame.cpp:182
+#: ../src/Classes/PlaylistCtrl.cpp:444 ../src/Frames/MusikFrame.cpp:188
 msgid "&Rating"
 msgstr "&оценка"
 
-#: ../src/Frames/MusikLibraryFrame.cpp:162
+#: ../src/Frames/MusikLibraryFrame.cpp:164
 msgid "&Rebuild Library"
 msgstr "&восстановить библиотеку"
 
@@ -286,31 +286,31 @@ msgstr "&восстановить библиотеку"
 msgid "&Rebuild Tag"
 msgstr "&восстановить тэг"
 
-#: ../src/Frames/MusikLibraryFrame.cpp:113
+#: ../src/Frames/MusikLibraryFrame.cpp:114
 msgid "&Remove &Selected Directories"
 msgstr "&удалить &выбранные папки"
 
-#: ../src/Classes/SourcesBox.cpp:308
+#: ../src/Classes/SourcesBox.cpp:307
 msgid "&Rename"
 msgstr "&переименовать"
 
-#: ../src/Classes/ActivityBox.cpp:876
+#: ../src/Classes/ActivityBox.cpp:878
 msgid "&Rename\t F2"
 msgstr "&переименовать\t F2"
 
-#: ../src/Frames/MusikFrame.cpp:160
+#: ../src/Frames/MusikFrame.cpp:166
 msgid "&Restore wxMusik"
 msgstr "&восстановить wxMusik"
 
-#: ../src/Frames/MusikFrame.cpp:168
+#: ../src/Frames/MusikFrame.cpp:174
 msgid "&Resume"
 msgstr "&продолжить"
 
-#: ../src/Frames/MusikFrame.cpp:372
+#: ../src/Frames/MusikFrame.cpp:379
 msgid "&Setup Library\tCtrl-L"
 msgstr "&настройки библиотеки\tCtrl-L"
 
-#: ../src/Classes/SourcesBox.cpp:326
+#: ../src/Classes/SourcesBox.cpp:325
 msgid "&Show Icons"
 msgstr "&показать иконы"
 
@@ -318,31 +318,31 @@ msgstr "&показать иконы"
 msgid "&Show in Library"
 msgstr "&показать в библиотеке"
 
-#: ../src/Frames/MusikFrame.cpp:174
+#: ../src/Frames/MusikFrame.cpp:180
 msgid "&Stop"
 msgstr "&стоп"
 
-#: ../src/Frames/MusikLibraryFrame.cpp:161
+#: ../src/Frames/MusikLibraryFrame.cpp:163
 msgid "&Update Library"
 msgstr "&обновить библиотеку"
 
-#: ../src/Frames/MusikFrame.cpp:385
+#: ../src/Frames/MusikFrame.cpp:392
 msgid "&View"
 msgstr "&показать"
 
-#: ../src/Classes/SourcesBox.cpp:1131
+#: ../src/Classes/SourcesBox.cpp:1115
 msgid "(all low quality, non-VBR)\n"
 msgstr "(низкий квалитет, постоянный битрейт)\n"
 
-#: ../src/Classes/SourcesBox.cpp:1135
+#: ../src/Classes/SourcesBox.cpp:1119
 msgid "(all songs played this month)"
 msgstr "(все песни играли в этом месяце)"
 
-#: ../src/Classes/SourcesBox.cpp:1129
+#: ../src/Classes/SourcesBox.cpp:1113
 msgid "(all titles containing funky)\n"
 msgstr "(все названия содержащие)\n"
 
-#: ../src/Classes/SourcesBox.cpp:1133
+#: ../src/Classes/SourcesBox.cpp:1117
 msgid "(your popular tracks)\n"
 msgstr "(популярные песни)\n"
 
@@ -370,11 +370,11 @@ msgstr ": обновление тэгов (ESC чтобы прервать)"
 msgid ": Writing dirty tags to file (ESC to abort)"
 msgstr ": запись тэгов в файл (ESC чтобы прервать)"
 
-#: ../src/Classes/ActivityBox.cpp:223 ../src/Classes/PlaylistCtrl.cpp:799
+#: ../src/Classes/ActivityBox.cpp:237 ../src/Classes/PlaylistCtrl.cpp:795
 msgid "<unknown>"
 msgstr "<неизвестный>"
 
-#: ../src/Classes/SourcesBox.cpp:1066
+#: ../src/Classes/SourcesBox.cpp:1050
 msgid ""
 "A dynamic playlist with this name already exists, would you like to edit the "
 "existing query?"
@@ -382,7 +382,7 @@ msgstr ""
 "динамический плейлист с таким названием уже существует,хотели бы Вы "
 "редактировать существующий вопрос?"
 
-#: ../src/Classes/SourcesBox.cpp:995
+#: ../src/Classes/SourcesBox.cpp:979
 msgid ""
 "A playlist with this name already exists, would you like to append to the "
 "existing one?"
@@ -411,31 +411,31 @@ msgstr "прибавляемый"
 msgid "Album"
 msgstr "альбом"
 
-#: ../src/Classes/ActivityBox.cpp:532
+#: ../src/Classes/ActivityBox.cpp:546
 msgid "Albums"
 msgstr "альбомы"
 
-#: ../src/Classes/PlaylistCtrl.cpp:1778
+#: ../src/Classes/PlaylistCtrl.cpp:1777
 msgid "All words"
 msgstr "все слова"
 
-#: ../src/Frames/MusikLibraryFrame.cpp:163
+#: ../src/Frames/MusikLibraryFrame.cpp:165
 msgid "Allow tag guessing from filename"
-msgstr ""
+msgstr "разрешить тэг от названия файла"
 
-#: ../src/Frames/MusikFrame.cpp:360
+#: ../src/Frames/MusikFrame.cpp:367
 msgid "Always On Top\tCtrl-T"
 msgstr "всегда показывать\tCtrl-T"
 
 #: ../src/Frames/MusikPrefsFrame.cpp:958
 msgid "An error occured when setting the Auto DJ Filter"
-msgstr "Ошибка произошла, устанавливая авто фильтр ди-джея"
+msgstr "Ошибка произошла, при установке авто фильтра ди-джея"
 
 #: ../src/Classes/MusikLibrary.cpp:1138
 msgid "An error occurred when attempting to update the database"
-msgstr "Ошибка произошла, пытаясь обновить базу данных"
+msgstr "Ошибка произошла, при обновлении базы данных"
 
-#: ../src/Classes/PlaylistCtrl.cpp:1778
+#: ../src/Classes/PlaylistCtrl.cpp:1777
 msgid "Any word"
 msgstr "любое слово"
 
@@ -452,7 +452,7 @@ msgstr "добавить"
 msgid "Artist"
 msgstr "исполнитель"
 
-#: ../src/Classes/ActivityBox.cpp:529
+#: ../src/Classes/ActivityBox.cpp:543
 msgid "Artists"
 msgstr "исполнители"
 
@@ -498,20 +498,20 @@ msgid "Buffer Size (bytes):"
 msgstr "размер буфера (байт):"
 
 #: ../src/Frames/MusikAutoTaggerFrame.cpp:160
-#: ../src/Frames/MusikLibraryFrame.cpp:184
+#: ../src/Frames/MusikLibraryFrame.cpp:186
 #: ../src/Frames/MusikPrefsFrame.cpp:558 ../src/Frames/MusikTagFrame.cpp:145
 msgid "Cancel"
 msgstr "отменить"
 
-#: ../src/Classes/SourcesBox.cpp:161
+#: ../src/Classes/SourcesBox.cpp:158
 msgid "Cannot drag songs into a dynamic playlist."
 msgstr "невозможно перетянуть песни в динамический плейлист"
 
-#: ../src/Classes/SourcesBox.cpp:156
+#: ../src/Classes/SourcesBox.cpp:153
 msgid "Cannot drag songs into a net stream."
 msgstr "невозможно перетянуть песни в инет вещание"
 
-#: ../src/Classes/SourcesBox.cpp:142
+#: ../src/Classes/SourcesBox.cpp:139
 msgid "Cannot drag songs into the library, they already exist here."
 msgstr "невозможно перетянуть песни в библиотеку,они уже существуют здесь."
 
@@ -527,11 +527,11 @@ msgstr ""
 msgid "Censor common swearwords"
 msgstr "Цензор общие ругательства"
 
-#: ../src/Classes/PlaylistCtrl.cpp:1777
+#: ../src/Classes/PlaylistCtrl.cpp:1776
 msgid "Clear"
 msgstr "очистить"
 
-#: ../src/Frames/MusikLibraryFrame.cpp:165
+#: ../src/Frames/MusikLibraryFrame.cpp:167
 msgid "Clear &Library"
 msgstr "очистить &библиотеку"
 
@@ -548,9 +548,8 @@ msgid "Clear old tags    "
 msgstr "очистить старые тэги"
 
 #: ../src/Frames/MusikFXFrame.cpp:142
-#, fuzzy
 msgid "Close"
-msgstr "очистить"
+msgstr "закрыть"
 
 #: ../src/Frames/MusikPrefsFrame.cpp:360
 msgid "Command line:"
@@ -560,19 +559,9 @@ msgstr "командная строка:"
 msgid "Convert '_' to Space"
 msgstr "конвертировать '_' в пробел"
 
-#: ../src/Classes/SourcesBox.cpp:331
+#: ../src/Classes/SourcesBox.cpp:330
 msgid "Copy files to directory"
 msgstr "копировать файлы в папку"
-
-#: ../src/Frames/MusikFrame.cpp:835
-#, c-format
-msgid "Couldn't grab %s: another client may already have done so"
-msgstr ""
-
-#: ../src/Frames/MusikFrame.cpp:878
-#, c-format
-msgid "Couldn't ungrab keycode %d"
-msgstr ""
 
 #: ../src/Classes/NowPlayingCtrl.cpp:169
 msgid "Crossfade"
@@ -606,11 +595,11 @@ msgstr "кроссфейдер"
 msgid "Delete"
 msgstr "удалить"
 
-#: ../src/Classes/PlaylistCtrl.cpp:1392
+#: ../src/Classes/PlaylistCtrl.cpp:1389
 msgid "Delete the selected songs from wxMusik's internal database?"
 msgstr "удалить выбранные песни из внутренней базы wxMusik?"
 
-#: ../src/Classes/PlaylistCtrl.cpp:1386
+#: ../src/Classes/PlaylistCtrl.cpp:1383
 msgid "Delete the selected songs from your computer?"
 msgstr "удалить выбранные песни с вашего компьютера?"
 
@@ -634,15 +623,15 @@ msgstr "драйвер"
 msgid "Dynamic"
 msgstr "активный"
 
-#: ../src/Classes/SourcesBox.cpp:319
+#: ../src/Classes/SourcesBox.cpp:318
 msgid "Dynamic Playlist"
 msgstr "динамический плейлист"
 
-#: ../src/Classes/SourcesBox.cpp:1054
+#: ../src/Classes/SourcesBox.cpp:1038
 msgid "Dynamic playlist \""
 msgstr "динамический плейлист \""
 
-#: ../src/Frames/MusikFrame.cpp:185 ../src/Frames/MusikFrame.cpp:344
+#: ../src/Frames/MusikFrame.cpp:191 ../src/Frames/MusikFrame.cpp:351
 msgid "E&xit"
 msgstr "выход"
 
@@ -701,9 +690,9 @@ msgstr "включить питч контроль"
 
 #: ../src/Frames/MusikPrefsFrame.cpp:237
 msgid "Enable balloon song info"
-msgstr ""
+msgstr "показывать всплывающие окна"
 
-#: ../src/Classes/ActivityBox.cpp:870 ../src/Classes/PlaylistCtrl.cpp:417
+#: ../src/Classes/ActivityBox.cpp:872 ../src/Classes/PlaylistCtrl.cpp:417
 msgid "Enqueue"
 msgstr "очередь"
 
@@ -711,41 +700,41 @@ msgstr "очередь"
 msgid "Enter Tag Mask:"
 msgstr "введите маску тэга:"
 
-#: ../src/Classes/SourcesBox.cpp:377
+#: ../src/Classes/SourcesBox.cpp:365
 msgid "Enter name for new dynamic playlist:"
 msgstr "введите название для нового динамического плейлиста"
 
-#: ../src/Classes/SourcesBox.cpp:131 ../src/Classes/SourcesBox.cpp:357
-#: ../src/Classes/SourcesBox.cpp:367
+#: ../src/Classes/SourcesBox.cpp:128 ../src/Classes/SourcesBox.cpp:345
+#: ../src/Classes/SourcesBox.cpp:355
 msgid "Enter name for new playlist:"
 msgstr "введите название для нового плейлиста"
 
-#: ../src/Classes/SourcesBox.cpp:386
+#: ../src/Classes/SourcesBox.cpp:374
 msgid "Enter name of the net stream:"
 msgstr "введите название нетстрима"
 
-#: ../src/Classes/SourcesBox.cpp:1184
+#: ../src/Classes/SourcesBox.cpp:1168
 msgid "Enter net stream address(URL):"
 msgstr "введите адрес стрима (URL):"
 
-#: ../src/Classes/PlaylistCtrl.cpp:1778
+#: ../src/Classes/PlaylistCtrl.cpp:1777
 msgid "Exact phrase"
 msgstr "точная фраза"
 
-#: ../src/Classes/SourcesBox.cpp:1127
+#: ../src/Classes/SourcesBox.cpp:1111
 msgid "Examples:\n"
 msgstr "пример:\n"
 
-#: ../src/Frames/MusikFrame.cpp:357
+#: ../src/Frames/MusikFrame.cpp:364
 msgid "FX\tCtrl-F"
 msgstr "FX\tCtrl-F"
 
-#: ../src/MusikApp.cpp:391
+#: ../src/MusikApp.cpp:395
 #, c-format
 msgid "Failed to copy file %s. Continue?"
 msgstr "неудалось скопировать файл %s. продолжить?"
 
-#: ../src/Classes/PlaylistCtrl.cpp:1448
+#: ../src/Classes/PlaylistCtrl.cpp:1445
 msgid ""
 "Failed to delete the following files from your computer:\n"
 "\n"
@@ -763,11 +752,11 @@ msgstr "файл"
 msgid "File Associations"
 msgstr "ассоциации файла"
 
-#: ../src/MusikApp.cpp:392
+#: ../src/MusikApp.cpp:396
 msgid "File copy error"
 msgstr "ошибка копии файла"
 
-#: ../src/MusikApp.cpp:352
+#: ../src/MusikApp.cpp:356
 msgid "File copy warning"
 msgstr "предуперждение о копировании файла"
 
@@ -783,7 +772,7 @@ msgstr "имя файла:"
 msgid "Filesize"
 msgstr "размер файла"
 
-#: ../src/Frames/MusikFrame.cpp:368
+#: ../src/Frames/MusikFrame.cpp:375
 msgid "Finalize for Database &Only"
 msgstr "завершить для базы данных &  только"
 
@@ -808,19 +797,19 @@ msgstr "с базы данных\tAlt+Del"
 msgid "From Playlist\tDel"
 msgstr "с плейлиста\tDel"
 
-#: ../src/Classes/PlaylistCtrl.cpp:1781
+#: ../src/Classes/PlaylistCtrl.cpp:1780
 msgid "Fuzzy High"
 msgstr "высокие нечетко"
 
-#: ../src/Classes/PlaylistCtrl.cpp:1781
+#: ../src/Classes/PlaylistCtrl.cpp:1780
 msgid "Fuzzy Low"
 msgstr "низкие нечетко"
 
-#: ../src/Classes/PlaylistCtrl.cpp:1781
+#: ../src/Classes/PlaylistCtrl.cpp:1780
 msgid "Fuzzy Middle"
 msgstr "средние нечетко"
 
-#: ../src/Classes/PlaylistCtrl.cpp:1781
+#: ../src/Classes/PlaylistCtrl.cpp:1780
 msgid "Fuzzy None"
 msgstr "нечеткий ни один"
 
@@ -833,7 +822,7 @@ msgstr "основной"
 msgid "Genre"
 msgstr "жанр"
 
-#: ../src/Classes/ActivityBox.cpp:535
+#: ../src/Classes/ActivityBox.cpp:549
 msgid "Genres"
 msgstr "жанры"
 
@@ -850,19 +839,19 @@ msgstr "основной момент"
 msgid "Hotkey %s cannot be registered."
 msgstr "горячии кнопки %s невозможно зарегистрировать."
 
-#: ../src/MusikApp.cpp:207
+#: ../src/MusikApp.cpp:210
 msgid "Initialization of FMOD sound system failed."
 msgstr "инициализация FMOD звуковой системы неудалась."
 
-#: ../src/MusikApp.cpp:200
+#: ../src/MusikApp.cpp:203
 msgid "Initialization of library failed."
 msgstr "инициализация библиотеки неудалась"
 
-#: ../src/Classes/ActivityBox.cpp:871 ../src/Classes/PlaylistCtrl.cpp:418
+#: ../src/Classes/ActivityBox.cpp:873 ../src/Classes/PlaylistCtrl.cpp:418
 msgid "Instantly"
 msgstr "немедленно"
 
-#: ../src/Classes/SourcesBox.cpp:922
+#: ../src/Classes/SourcesBox.cpp:906
 msgid "Invalid playlist name."
 msgstr "недействительное название плейлиста."
 
@@ -910,27 +899,27 @@ msgstr "Monkey's аудио файл"
 msgid "Musepack Audio File"
 msgstr "Musepack аудио файл"
 
-#: ../src/Classes/SourcesBox.cpp:756
+#: ../src/Classes/SourcesBox.cpp:742
 msgid "Musik Library"
 msgstr "библиотека музыки"
 
-#: ../src/Classes/SourcesBox.cpp:320 ../src/Classes/SourcesBox.cpp:1309
+#: ../src/Classes/SourcesBox.cpp:319 ../src/Classes/SourcesBox.cpp:1293
 msgid "Net Stream"
 msgstr "инет вещание"
 
-#: ../src/Classes/SourcesBox.cpp:1158
+#: ../src/Classes/SourcesBox.cpp:1142
 msgid "Net Stream \""
 msgstr "инет вещание \""
 
-#: ../src/Classes/PlaylistCtrl.cpp:868
+#: ../src/Classes/PlaylistCtrl.cpp:864
 msgid "Never"
 msgstr "никогда"
 
-#: ../src/Frames/MusikLibraryFrame.cpp:159
+#: ../src/Frames/MusikLibraryFrame.cpp:161
 msgid "New"
 msgstr "новый"
 
-#: ../src/Classes/ActivityBox.cpp:869 ../src/Classes/PlaylistCtrl.cpp:416
+#: ../src/Classes/ActivityBox.cpp:871 ../src/Classes/PlaylistCtrl.cpp:416
 msgid "Next"
 msgstr "следующий"
 
@@ -949,7 +938,7 @@ msgstr "нормальный"
 #: ../src/MusikAboutDlg.cpp:89 ../src/MusikAboutDlg.cpp:97
 #: ../src/MusikAboutDlg.cpp:105
 msgid "Not supported"
-msgstr ""
+msgstr "не поддерживается"
 
 #: ../src/MusikGlobals.cpp:61
 msgid "Notes"
@@ -959,7 +948,7 @@ msgstr "записки"
 msgid "Notes "
 msgstr "записки"
 
-#: ../src/Classes/SourcesBox.cpp:758
+#: ../src/Classes/SourcesBox.cpp:744
 msgid "Now Playing"
 msgstr "играет сейчас"
 
@@ -981,7 +970,7 @@ msgid "OGG Vorbis Audio File"
 msgstr "OGG Vorbis аудио файл"
 
 #: ../src/Frames/MusikAutoTaggerFrame.cpp:156
-#: ../src/Frames/MusikLibraryFrame.cpp:185
+#: ../src/Frames/MusikLibraryFrame.cpp:187
 #: ../src/Frames/MusikPrefsFrame.cpp:560 ../src/Frames/MusikTagFrame.cpp:147
 #: ../src/MusikAboutDlg.cpp:149
 msgid "OK"
@@ -1010,7 +999,7 @@ msgstr "парсинг файла %s не поддерживается. установите название на имя файла."
 msgid "Parsing of file %s not supported. Song data is not updated."
 msgstr "парсинг файла %s не поддерживается. данные песни не обновлены."
 
-#: ../src/Frames/MusikLibraryFrame.cpp:157
+#: ../src/Frames/MusikLibraryFrame.cpp:159
 msgid "Path"
 msgstr "путь"
 
@@ -1018,7 +1007,7 @@ msgstr "путь"
 msgid "Pitch control, right-click to reset"
 msgstr "питч контроль, правый щелчек для сброса"
 
-#: ../src/Classes/MusikPlayer.cpp:539
+#: ../src/Classes/MusikPlayer.cpp:534
 msgid "Play failed, please try again."
 msgstr "неудалось воспроизвести,попробуйте еще раз."
 
@@ -1054,7 +1043,7 @@ msgstr "время игры плейлиста:"
 msgid "Playlist Songs: "
 msgstr "песни плейлиста:"
 
-#: ../src/Classes/SourcesBox.cpp:315
+#: ../src/Classes/SourcesBox.cpp:314
 msgid "Playlist from Current"
 msgstr "плейлист от текущего"
 
@@ -1062,7 +1051,7 @@ msgstr "плейлист от текущего"
 msgid "Playlist size: "
 msgstr "размер плейлиста:"
 
-#: ../src/MusikApp.cpp:338
+#: ../src/MusikApp.cpp:342
 msgid "Please choose location to copy songs to:"
 msgstr "пожалуйста выберите папку,чтобы скопировать песни:"
 
@@ -1102,7 +1091,7 @@ msgstr "порт проски сервера:"
 msgid "Proxy server user:"
 msgstr "пользователь прокси сервера:"
 
-#: ../src/Frames/MusikLibraryFrame.cpp:164
+#: ../src/Frames/MusikLibraryFrame.cpp:166
 msgid "Purge &Missing Songs"
 msgstr "произвести чистку отсутствующих песен"
 
@@ -1114,12 +1103,7 @@ msgstr "рейтинг"
 msgid "Rebuffering (%):"
 msgstr "кэширование (%):"
 
-#: ../src/Frames/MusikFrame.cpp:788
-#, c-format
-msgid "Received KeyRelease event for unrequested keycode %d"
-msgstr ""
-
-#: ../src/Frames/MusikLibraryFrame.cpp:114
+#: ../src/Frames/MusikLibraryFrame.cpp:115
 msgid "Remove All Directories"
 msgstr "удалить все каталоги"
 
@@ -1150,7 +1134,7 @@ msgstr "повторная песня"
 msgid "Replace current playlist with all"
 msgstr "заменить текущий плейлист всеми"
 
-#: ../src/Classes/ActivityBox.cpp:872 ../src/Classes/PlaylistCtrl.cpp:419
+#: ../src/Classes/ActivityBox.cpp:874 ../src/Classes/PlaylistCtrl.cpp:419
 msgid "Replace current playlist with selection"
 msgstr "заменить текущий плейлист выделенным"
 
@@ -1171,12 +1155,12 @@ msgstr "правый канал: %d гц"
 msgid "Run a program"
 msgstr "запустить программу"
 
-#: ../src/Frames/MusikLibraryFrame.cpp:736
+#: ../src/Frames/MusikLibraryFrame.cpp:731
 #, c-format
 msgid "Scanning directory for audio files: %d files scanned"
 msgstr "сканирование каталогов на аудио файлы: %d файлов просмотренно"
 
-#: ../src/Frames/MusikLibraryFrame.cpp:711
+#: ../src/Frames/MusikLibraryFrame.cpp:706
 #, c-format
 msgid "Scanning for and adding new files: %d / %d (ESC to abort)"
 msgstr "сканирование и добавление новых аудио файлов: %d / %d (ESC для отмены)"
@@ -1185,13 +1169,13 @@ msgstr "сканирование и добавление новых аудио файлов: %d / %d (ESC для отмены)"
 msgid "Scanning for changed attributes"
 msgstr "сканирование на измененные атрибуты"
 
-#: ../src/Frames/MusikLibraryFrame.cpp:723
+#: ../src/Frames/MusikLibraryFrame.cpp:718
 #, c-format
 msgid "Scanning library for obsolete files: %d / %d (ESC to abort)"
 msgstr ""
 "сканирование библиотеки для устаревших файлов: %d / %d (ESC для отмены)"
 
-#: ../src/Classes/PlaylistCtrl.cpp:1772
+#: ../src/Classes/PlaylistCtrl.cpp:1771
 msgid "Search:"
 msgstr "поиск:"
 
@@ -1199,11 +1183,11 @@ msgstr "поиск:"
 msgid "Searching for and Adding New Files"
 msgstr "поиск и добавление новых файлов"
 
-#: ../src/Frames/MusikFrame.cpp:354
+#: ../src/Frames/MusikFrame.cpp:361
 msgid "Select Library\tCtrl-F1"
 msgstr "выбор библиотеки\tCtrl-F1"
 
-#: ../src/Frames/MusikFrame.cpp:355
+#: ../src/Frames/MusikFrame.cpp:362
 msgid "Select Now Playing\tCtrl-F2"
 msgstr "выбор для проигрывания\tCtrl-F2"
 
@@ -1245,7 +1229,7 @@ msgstr "показывать \"полоски\" в блоках выбора"
 msgid "Show \"stripes\" in sources box"
 msgstr "показывать \"полоски\" в блоке источников"
 
-#: ../src/Frames/MusikFrame.cpp:351
+#: ../src/Frames/MusikFrame.cpp:358
 msgid "Show Album Info\tCtrl-4"
 msgstr "показывать информацию альбома\tCtrl-4"
 
@@ -1253,24 +1237,23 @@ msgstr "показывать информацию альбома\tCtrl-4"
 msgid "Show Library on startup"
 msgstr "показывать библиотеку при старте"
 
-#: ../src/Frames/MusikFrame.cpp:352
-#, fuzzy
+#: ../src/Frames/MusikFrame.cpp:359
 msgid "Show Playing Control on top\tCtrl-5"
-msgstr "показывать информацию плейлиста\tCtrl-3"
+msgstr "показывать кнопки управления\tCtrl-5"
 
-#: ../src/Frames/MusikFrame.cpp:350
+#: ../src/Frames/MusikFrame.cpp:357
 msgid "Show Playlist Info\tCtrl-3"
 msgstr "показывать информацию плейлиста\tCtrl-3"
 
-#: ../src/Frames/MusikFrame.cpp:349
+#: ../src/Frames/MusikFrame.cpp:356
 msgid "Show Selections\tCtrl-2"
 msgstr "показывать выбранное\tCtrl-2"
 
-#: ../src/Frames/MusikFrame.cpp:348
+#: ../src/Frames/MusikFrame.cpp:355
 msgid "Show Sources\tCtrl-1"
 msgstr "показывать источники\tCtrl-1"
 
-#: ../src/Classes/ActivityBox.cpp:238
+#: ../src/Classes/ActivityBox.cpp:252
 msgid "Show all "
 msgstr "показывать все"
 
@@ -1299,7 +1282,7 @@ msgstr "звук"
 msgid "Sound Device:"
 msgstr "звуковое устройство"
 
-#: ../src/Classes/SourcesBox.cpp:264 ../src/Classes/SourcesBox.h:92
+#: ../src/Classes/SourcesBox.h:92 ../src/Classes/SourcesBox.cpp:263
 msgid "Sources"
 msgstr "источники"
 
@@ -1307,11 +1290,11 @@ msgstr "источники"
 msgid "Standard"
 msgstr "стандарт"
 
-#: ../src/Classes/SourcesBox.cpp:318
+#: ../src/Classes/SourcesBox.cpp:317
 msgid "Standard Playlist"
 msgstr "стандарт плейлист"
 
-#: ../src/Classes/SourcesBox.cpp:980
+#: ../src/Classes/SourcesBox.cpp:964
 msgid "Standard playlist \""
 msgstr "стандарт плейлист \""
 
@@ -1343,11 +1326,11 @@ msgstr "редактирование информации тега (единственный)"
 msgid "Tagging"
 msgstr "отмечать"
 
-#: ../src/Classes/SourcesBox.cpp:1115
+#: ../src/Classes/SourcesBox.cpp:1099
 msgid "The following fields can be used in your query"
 msgstr "следующие области могут использоваться в вашем вопросе"
 
-#: ../src/Classes/PlaylistCtrl.cpp:1516
+#: ../src/Classes/PlaylistCtrl.cpp:1513
 msgid "There are no pending tags available to display."
 msgstr "нет никаких незаконченных тэгов для показа"
 
@@ -1355,7 +1338,7 @@ msgstr "нет никаких незаконченных тэгов для показа"
 msgid "There are no pending tags to finalize."
 msgstr "нет никаких незаконченных тэгов для завершения."
 
-#: ../src/MusikApp.cpp:351
+#: ../src/MusikApp.cpp:355
 #, c-format
 msgid ""
 "There is not enough free space in directory \"%s\". You need %s bytes more "
@@ -1382,7 +1365,7 @@ msgstr "этот исполнитель"
 msgid "This genre"
 msgstr "этот жанр"
 
-#: ../src/Frames/MusikLibraryFrame.cpp:233
+#: ../src/Frames/MusikLibraryFrame.cpp:235
 #, c-format
 msgid ""
 "This is the first time %s has been run.\n"
@@ -1430,7 +1413,7 @@ msgstr "играемое время"
 msgid "Title"
 msgstr "название"
 
-#: ../src/Frames/MusikLibraryFrame.cpp:158
+#: ../src/Frames/MusikLibraryFrame.cpp:160
 msgid "Total"
 msgstr "сумма"
 
@@ -1470,7 +1453,7 @@ msgstr "неизвестный исполнитель"
 msgid "Unknown Song"
 msgstr "неизвестная песня"
 
-#: ../src/Classes/PlaylistCtrl.cpp:370 ../src/Frames/MusikFrame.cpp:180
+#: ../src/Classes/PlaylistCtrl.cpp:370 ../src/Frames/MusikFrame.cpp:186
 msgid "Unrated"
 msgstr "неоцененный"
 
@@ -1502,7 +1485,7 @@ msgstr "использование выбранного цвета границы"
 msgid "Use this filter to select songs:"
 msgstr "использование этого фильтра для выбора песен:"
 
-#: ../src/Frames/MusikFrame.cpp:365
+#: ../src/Frames/MusikFrame.cpp:372
 msgid "Vie&w"
 msgstr "показать"
 
@@ -1514,7 +1497,7 @@ msgstr "WAVE аудто файл"
 msgid "Windows Media Audio File"
 msgstr "Windows Media аудио файл"
 
-#: ../src/Frames/MusikFrame.cpp:367
+#: ../src/Frames/MusikFrame.cpp:374
 msgid "Write Changes to &File"
 msgstr "записать изменения в &файл"
 
@@ -1561,7 +1544,7 @@ msgstr "Год"
 msgid "Year  "
 msgstr "Год"
 
-#: ../src/Classes/ActivityBox.cpp:538
+#: ../src/Classes/ActivityBox.cpp:552
 msgid "Years"
 msgstr "Годы"
 
@@ -1577,15 +1560,15 @@ msgstr "bitch"
 msgid "buffering ..."
 msgstr "буферизация..."
 
-#: ../src/Frames/MusikFrame.cpp:633
+#: ../src/Frames/MusikFrame.cpp:644
 msgid "by "
-msgstr ""
+msgstr "от"
 
 #: ../src/Classes/MusikPlayer.cpp:1231
 msgid "connecting ..."
 msgstr "соединение...."
 
-#: ../src/MusikApp.cpp:384
+#: ../src/MusikApp.cpp:388
 #, c-format
 msgid "copying %s"
 msgstr "копирование %s"
@@ -1602,9 +1585,9 @@ msgstr "dick"
 msgid "dildo"
 msgstr "dildo"
 
-#: ../src/Frames/MusikFrame.cpp:635
+#: ../src/Frames/MusikFrame.cpp:646
 msgid "from the album"
-msgstr ""
+msgstr "из альбома"
 
 #: ../src/MusikUtils.cpp:282
 msgid "fuck"
@@ -1645,9 +1628,3 @@ msgstr "wank"
 #: ../src/MusikUtils.cpp:287
 msgid "whore"
 msgstr "whore"
-
-#~ msgid "&Directories"
-#~ msgstr "&директории"
-
-#~ msgid "Remove A&ll Directories"
-#~ msgstr "удалить все каталоги"

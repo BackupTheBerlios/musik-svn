@@ -317,7 +317,7 @@ void MusikFrame::OnTranslateKeys( wxKeyEvent& event )
 	{
 		if ( GetActiveThread() != NULL )
 		{
-			SetTitle( wxString( MUSIKAPPNAME_VERSION ) + _( ": Aborting process, please wait..." ) );
+			SetTitle( _( ": Aborting process, please wait..." ) );
 			GetActiveThread()->Delete();
 		}
 	}
@@ -400,15 +400,15 @@ void MusikFrame::OnStartProgress( wxCommandEvent& WXUNUSED(event) )
 
 	if ( GetProgressType() == MUSIK_ACTIVITY_RENAME_THREAD )
 	{
-		SetTitle( wxString( MUSIKAPPNAME_VERSION ) + _( ": Updating tags from selection box (ESC to abort)" ) );
+		SetTitle( _( ": Updating tags from selection box (ESC to abort)" ) );
 	}
 	else if ( GetProgressType() == MUSIK_PLAYLIST_RENAME_THREAD )
 	{
-		SetTitle( wxString( MUSIKAPPNAME_VERSION ) + _( ": Renaming selected playlist items (ESC to abort)" ) );
+		SetTitle( _( ": Renaming selected playlist items (ESC to abort)" ) );
 	}
 	else if ( GetProgressType() == MUSIK_WRITE_DIRTY_THREAD )
 	{
-		SetTitle( wxString( MUSIKAPPNAME_VERSION ) + _( ": Writing dirty tags to file (ESC to abort)" ) );
+		SetTitle( _( ": Writing dirty tags to file (ESC to abort)" ) );
 	}
 }
 
@@ -430,7 +430,7 @@ void MusikFrame::OnEndProgress( wxCommandEvent& WXUNUSED(event) )
 	SetProgressType	( 0 );
 	SetActiveThread	( NULL );
 
-	SetTitle( MUSIKAPPNAME_VERSION );
+	SetTitle();
 }
 
 void MusikFrame::OnSashDraggedSourcesBox	(wxSashEvent & WXUNUSED(ev))

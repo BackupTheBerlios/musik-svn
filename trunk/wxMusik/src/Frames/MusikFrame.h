@@ -199,7 +199,7 @@ public:
 	//-------------------------//
 	//--- virtual overrides ---//
 	//-------------------------//
-	virtual void SetTitle(const wxString& title);
+	virtual void SetTitle(const wxString& title = wxEmptyString);
 	virtual void SetSongInfoText(const CMusikSong& song);
 	virtual void SetSongInfoText(const wxString & sSongInfoText);
 

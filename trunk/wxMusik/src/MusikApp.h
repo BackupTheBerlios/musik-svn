@@ -46,10 +46,10 @@ public:
 	}
 	virtual bool OnInit();
 	virtual int OnExit();
-//#if defined(__linux__)
+#if defined(__linux__) || defined(__WXMSW__)
 	//! fatal exeption handling
 	void OnFatalException();
-//#endif
+#endif
 
 	void OnPlayFiles(const wxArrayString &aFilelist);
 	void CopyFiles(const CMusikSongArray &songs);

@@ -220,8 +220,7 @@ public:
 	wxBitmap		bmpNowplaying;
 	wxBitmap		bmpNetstream;
 
-	//--- rating bitmaps ---//
-	wxBitmap		bmpRating[(MUSIK_MAX_RATING - MUSIK_MIN_RATING) + 1];
+	
 
 	//--- sizers ---//
 	wxBoxSizer *vsTopBottom;

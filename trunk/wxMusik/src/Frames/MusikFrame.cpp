@@ -404,6 +404,13 @@ void MusikFrame::AutoUpdate	( const wxArrayString & Filenames ,unsigned long fla
 	p->Show	( TRUE	); 
 }
 
+#define LOAD_IMAGELISTPNG(Name,ImageList) \
+    wxBitmap bm##Name;      \
+    if(!bm##Name.LoadFile(MusikGetStaticDataPath() + wxT("ratingart/") MUSIK_STRINGIZE_T(Name) wxT(".png"),wxBITMAP_TYPE_PNG))\
+        bm##Name = wxBitmap( Name##_xpm);\
+    ImageList->Add( bm##Name );
+    
+        
 
 //----------------------------------//
 //--- Image and image list stuff ---//
@@ -415,11 +422,11 @@ void MusikFrame::LoadImageLists()
 
 	//--- sources image list ---//
 	g_SourcesImages = new wxImageList( 20, 20, true );
-	bmpLibrary	= wxIcon( library_xpm );
-	bmpPlaylist = wxIcon( standard_xpm );
-	bmpDynamic	= wxIcon( dynamic_xpm );
-	bmpNowplaying =  wxIcon( nowplaying_xpm );
-	bmpNetstream =  wxIcon( netstream_xpm );
+	bmpLibrary	= wxBitmap( library_xpm );
+	bmpPlaylist = wxBitmap( standard_xpm );
+	bmpDynamic	= wxBitmap( dynamic_xpm );
+	bmpNowplaying =  wxBitmap( nowplaying_xpm );
+	bmpNetstream =  wxBitmap( netstream_xpm );
 	g_SourcesImages->Add( bmpLibrary );
 	g_SourcesImages->Add( bmpPlaylist );
 	g_SourcesImages->Add( bmpDynamic );
@@ -430,32 +437,28 @@ void MusikFrame::LoadImageLists()
 
 	//--- ratings image list ---//
 	g_RatingImages = new wxImageList( 32, 14, true );
-	int rateidx = 0;
-	bmpRating[rateidx++] = wxIcon( ratingminus9_xpm);
-	bmpRating[rateidx++] = wxIcon( ratingminus8_xpm);
-	bmpRating[rateidx++] = wxIcon( ratingminus7_xpm);
-	bmpRating[rateidx++] = wxIcon( ratingminus6_xpm);
-	bmpRating[rateidx++] = wxIcon( ratingminus5_xpm);
-	bmpRating[rateidx++] = wxIcon( ratingminus4_xpm);
-	bmpRating[rateidx++] = wxIcon( ratingminus3_xpm);
-	bmpRating[rateidx++] = wxIcon( ratingminus2_xpm);
-	bmpRating[rateidx++] = wxIcon( ratingminus1_xpm);
-	bmpRating[rateidx++] = wxIcon( rating0_xpm);
-	bmpRating[rateidx++] = wxIcon( rating1_xpm);
-	bmpRating[rateidx++] = wxIcon( rating2_xpm);
-	bmpRating[rateidx++] = wxIcon( rating3_xpm);
-	bmpRating[rateidx++] = wxIcon( rating4_xpm);
-	bmpRating[rateidx++] = wxIcon( rating5_xpm);
-	bmpRating[rateidx++] = wxIcon( rating6_xpm);
-	bmpRating[rateidx++] = wxIcon( rating7_xpm);
-	bmpRating[rateidx++] = wxIcon( rating8_xpm);
-	bmpRating[rateidx++] = wxIcon( rating9_xpm);
 
-	wxASSERT(rateidx == (MUSIK_MAX_RATING - MUSIK_MIN_RATING) + 1);
-	for(int i = 0 ;  i < (MUSIK_MAX_RATING - MUSIK_MIN_RATING) + 1;i ++)
-	{
-		g_RatingImages->Add( bmpRating[i] );
-	}
+    wxLogNull lognull; // disable logging in this scope
+
+	LOAD_IMAGELISTPNG( ratingminus9,g_RatingImages);
+	LOAD_IMAGELISTPNG( ratingminus8,g_RatingImages);
+	LOAD_IMAGELISTPNG( ratingminus7,g_RatingImages);
+	LOAD_IMAGELISTPNG( ratingminus6,g_RatingImages);
+	LOAD_IMAGELISTPNG( ratingminus5,g_RatingImages);
+	LOAD_IMAGELISTPNG( ratingminus4,g_RatingImages);
+	LOAD_IMAGELISTPNG( ratingminus3,g_RatingImages);
+	LOAD_IMAGELISTPNG( ratingminus2,g_RatingImages);
+	LOAD_IMAGELISTPNG( ratingminus1,g_RatingImages);
+	LOAD_IMAGELISTPNG( rating0,g_RatingImages);
+	LOAD_IMAGELISTPNG( rating1,g_RatingImages);
+	LOAD_IMAGELISTPNG( rating2,g_RatingImages);
+	LOAD_IMAGELISTPNG( rating3,g_RatingImages);
+	LOAD_IMAGELISTPNG( rating4,g_RatingImages);
+	LOAD_IMAGELISTPNG( rating5,g_RatingImages);
+	LOAD_IMAGELISTPNG( rating6,g_RatingImages);
+	LOAD_IMAGELISTPNG( rating7,g_RatingImages);
+	LOAD_IMAGELISTPNG( rating8,g_RatingImages);
+	LOAD_IMAGELISTPNG( rating9,g_RatingImages);
 }
 
 void MusikFrame::DeleteImageLists()

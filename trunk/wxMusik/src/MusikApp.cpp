@@ -406,45 +406,47 @@ void MusikApp::CopyFiles(const CMusikSongArray &songs)
 #include <cxxabi.h>      // Needed for __cxa_demangle
 #include <unistd.h>
 #endif
-
-void App::OnFatalException () 
+#include <string>
+#include <vector>
+void MusikApp::OnFatalException () 
 {
 	const int maxBtCount = 100;
 	void *btBuffer [maxBtCount];
 	char ** btStrings;
-	wxString appname = wxTheApp->GetAppName();
+	std::string appname = (const char *)wxTheApp->GetAppName().mb_str();
 
 	// get the backtrace with synbols
 	int btCount;
 	btCount = backtrace (btBuffer, maxBtCount);
 	if (btCount < 0) {
-		printf (_T("\n%s: Backtrace could not be created\n"), appname.c_str());
+		printf ("\n%s: Backtrace could not be created\n",(const char*) appname.c_str());
 	}
 	btStrings = backtrace_symbols (btBuffer, btCount);
 	if (!btStrings) {
-		printf (_T("\n%s: Backtrace could not get symbols\n"), appname.c_str());
+		printf ("\n%s: Backtrace could not get symbols\n", (const char *)appname.c_str());
 	}
 
 	// print backtrace announcement
-	printf (_T("\n*** %s (%s) crashed ***, see backtrace!\n"), appname.c_str(), wxVERSION_STRING);
+	printf ("\n*** %s (%s) crashed ***, see backtrace!\n", (const char *)appname.c_str(),(const char *) wxString(wxVERSION_STRING).mb_str());
 
 	// format backtrace lines
 	int status;
-	wxString cur, addr, func, addrs;
-	wxArrayString lines;
+	std::string cur, addr, func, addrs;
+	std::vector<std::string> lines;
 	int pos1, pos2;
 	for (int i = 0; i < btCount; ++i) {
 		cur = btStrings[i];
 		pos1 = cur.rfind ('[');
 		pos2 = cur.rfind (']');
-		if ((pos1 != wxString::npos) && (pos2 != wxString::npos)) {
+		if ((pos1 != std::string::npos) && (pos2 != std::string::npos)) {
 			addr = cur.substr (pos1 + 1, pos2 - pos1 - 1);
-			addrs.Append (addr + _T(" "));
+			addrs += addr;
+			addrs +=" ";
 		}
 		pos1 = cur.rfind ("(_Z");
 		pos2 = cur.rfind ('+');
-		if (pos2 != wxString::npos) {
-			if (pos1 != wxString::npos) {
+		if (pos2 != std::string::npos) {
+			if (pos1 != std::string::npos) {
 				func = cur.substr (pos1 + 1, pos2 - pos1 - 1);
 				func = abi::__cxa_demangle (func.c_str(), 0, 0, &status);
 			}else{
@@ -452,20 +454,20 @@ void App::OnFatalException ()
 				func = cur.substr (pos1 + 1, pos2 - pos1 - 1);
 			}
 		}
-		lines.Add (addr + _T(" in ") + func);
+		lines.push_back (addr + " in " + func);
 		if (func == "main") break;
 	}
 
 	// determine line from address
-	wxString cmd = wxString::Format ("addr2line -e /proc/%d/exe -s ", getpid());
+	wxString cmd = wxString::Format (_T("addr2line -e /proc/%d/exe -s "), getpid());
 	wxArrayString fnames;
-	if (wxExecute (cmd + addrs, fnames) != -1) {
+	if (wxExecute (cmd + wxString(addrs.c_str(),wxConvLibc), fnames) != -1) {
 		for (int i = 0; i < fnames.GetCount(); ++i) {
-			printf ("%s at %s\n", lines[i].c_str(), fnames[i].c_str());
+			printf ("%s at %s\n", (const char *)lines[i].c_str(),(const char*) fnames[i].mb_str());
 		}
 	}else{
-		for (int i = 0; i < lines.GetCount(); ++i) {
-			printf ("%s\n", lines[i].c_str());
+		for (int i = 0; i < lines.size(); ++i) {
+			printf ("%s\n", (const char *)lines[i].c_str());
 		}
 	}
 

@@ -52,8 +52,8 @@ BEGIN_EVENT_TABLE( CMusikPlayer, wxEvtHandler )
 END_EVENT_TABLE()
 
 CMusikPlayer::CMusikPlayer()
-	:m_SndEngine(44100,2,0)
-	,wxEvtHandler()
+	:wxEvtHandler()
+        ,m_SndEngine(44100,2,0)
 	
 {
 	m_Playing		= false;

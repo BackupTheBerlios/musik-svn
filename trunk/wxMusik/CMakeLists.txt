@@ -45,7 +45,7 @@ FIND_LIBRARY(SQLITE_LIBRARY NAMES sqlite PATHS /usr/lib /usr/local/lib)
 
 
 # fmod library
-FIND_LIBRARY(FMOD_LIBRARY NAMES fmod-3.74 fmod PATHS /usr/lib /usr/local/lib)
+FIND_LIBRARY(FMOD_LIBRARY NAMES fmod-3.74.1 fmod-3.74 fmod PATHS /usr/lib /usr/local/lib)
 
 # Vorbis library
 #FIND_LIBRARY(VORBIS_LIBRARY NAMES vorbis PATHS /usr/lib /usr/local/lib)

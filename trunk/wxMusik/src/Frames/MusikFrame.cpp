@@ -177,7 +177,7 @@ void MusikTaskBarIcon::OnRButtonUp(wxTaskBarIconEvent&)
 	wxMenu *rating_menu = new wxMenu;
 	for(int i = MUSIK_MIN_RATING; i <= MUSIK_MAX_RATING ;i++)
 	{
-		rating_menu->Append(  MUSIK_PLAYLIST_CONTEXT_RATING  + (i - MUSIK_MIN_RATING), (i == 0) ? _( "Unrated" ) : wxString() << i, wxT( "" ), wxITEM_CHECK );
+		rating_menu->Append(  MUSIK_PLAYLIST_CONTEXT_RATING  + (i - MUSIK_MIN_RATING), (i == 0) ?wxString( _( "Unrated" )) : wxString() << i, wxT( "" ), wxITEM_CHECK );
 	}
 	menu.Append( MUSIK_PLAYLIST_CONTEXT_RATENODE,_( "&Rating" ),	rating_menu );
 

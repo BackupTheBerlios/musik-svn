@@ -367,7 +367,7 @@ wxMenu * CPlaylistCtrl::CreateContextMenu()
 	wxMenu *playlist_context_rating_menu = new wxMenu;
 	for(int i = MUSIK_MIN_RATING; i <= MUSIK_MAX_RATING ;i++)
 	{
-		playlist_context_rating_menu->Append(  MUSIK_PLAYLIST_CONTEXT_RATING  + (i - MUSIK_MIN_RATING), (i == 0) ? _( "Unrated" ) : wxString() << i, wxT( "" ), wxITEM_CHECK );
+		playlist_context_rating_menu->Append(  MUSIK_PLAYLIST_CONTEXT_RATING  + (i - MUSIK_MIN_RATING), (i == 0) ? wxString(_( "Unrated" )) : wxString() << i, wxT( "" ), wxITEM_CHECK );
 	}
 	//--- tag edit menu ---//
 	wxMenu *playlist_context_edit_tag_menu = new wxMenu;

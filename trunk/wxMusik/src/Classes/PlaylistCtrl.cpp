@@ -337,9 +337,6 @@ CPlaylistCtrl::CPlaylistCtrl( CPlaylistBox *parent, const wxWindowID id, const w
 	,m_pParent(parent)
 	
 {
-#ifndef __WXMAC__
-	SetBackgroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_BTNHIGHLIGHT ) );
-#endif
 	//--- setup headers ---//
 	m_ColSaveNeeded = false;
 	ResetColumns();

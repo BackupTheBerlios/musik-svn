@@ -252,8 +252,8 @@ END_EVENT_TABLE()
 CSourcesListBox::CSourcesListBox( wxWindow* parent )
 	: CMusikListCtrl( parent, MUSIK_SOURCES_LISTCTRL, wxPoint( -1, -1 ), wxSize( -1, -1 ), wxLC_ALIGN_LEFT |wxLC_EDIT_LABELS | wxLC_SINGLE_SEL | wxNO_BORDER|wxLC_NO_SORT_HEADER)
 {
-#ifndef __WXMAC__
-	SetBackgroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_BTNHIGHLIGHT ) );
+#ifdef __WXMSW__
+    m_bHideHorzScrollbar = true;
 #endif
 	//--- initialize variables ---//
 	m_CurSel = 0;

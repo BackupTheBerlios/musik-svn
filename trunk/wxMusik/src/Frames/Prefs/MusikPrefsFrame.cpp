@@ -139,11 +139,11 @@ MusikPrefsDialog::MusikPrefsDialog( wxWindow *pParent, const wxString &sTitle )
 	hsSplitter->Add( tcPreferencesTree,		1, wxEXPAND | wxRIGHT, 8 );
     hsSplitter->Add( vsRight,	3 ,wxEXPAND|wxALL,5);
     
-    wxPanel *HeaderPanel = new wxPanel(this,-1,wxDefaultPosition,wxSize(-1,30),wxBORDER);
+    wxPanel *HeaderPanel = new wxPanel(this,-1,wxDefaultPosition,wxSize(-1,40),wxBORDER);
     HeaderPanel->SetBackgroundColour ( wxSystemSettings::GetColour( wxSYS_COLOUR_HIGHLIGHT ) );
     m_stPanelHeader = new wxStaticText(HeaderPanel,-1,wxEmptyString);
     wxBoxSizer *hsHeaderPanel = new wxBoxSizer( wxHORIZONTAL );
-    hsHeaderPanel->Add( m_stPanelHeader,1,wxALIGN_CENTER_VERTICAL);   
+    hsHeaderPanel->Add( m_stPanelHeader,1,wxALIGN_CENTER_VERTICAL|wxLEFT,10);   
     HeaderPanel->SetSizer(hsHeaderPanel);
     
     wxFont f = m_stPanelHeader->GetFont();

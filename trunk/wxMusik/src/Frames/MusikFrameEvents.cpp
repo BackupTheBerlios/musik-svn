@@ -247,8 +247,8 @@ void MusikFrame::OnNowPlayingControlOnTopState( wxCommandEvent& WXUNUSED(event) 
 	wxGetApp().Prefs.bShowNowPlayingControlOnTop = !wxGetApp().Prefs.bShowNowPlayingControlOnTop;
 	m_pBottomPanel->SetAlignment(wxGetApp().Prefs.bShowNowPlayingControlOnTop == true ? wxLAYOUT_TOP : wxLAYOUT_BOTTOM);
 	SendSizeEvent();	
-	Show(false); // HACK to force complete redraw
-	Show(true); 			
+	//Show(false); // HACK to force complete redraw
+	//Show(true); 			
 }
 void MusikFrame::OnUpdateUINowPlayingControlOnTopState( wxUpdateUIEvent& event)
 {

@@ -1063,8 +1063,9 @@ bool MusikPrefsDialog::SavePrefs()
 	if(bSourcesUpdate || bActivityUpdate || bPlaylistUpdate)
 	{
 		// force update of evrything
-		g_MusikFrame->Show(false);
-		g_MusikFrame->Show();	
+		g_MusikFrame->SendSizeEvent();
+	//	g_MusikFrame->Show(false);
+	//	g_MusikFrame->Show();	
 	}
 	DoFileAssociations();
 	TransferDataFromWindow();

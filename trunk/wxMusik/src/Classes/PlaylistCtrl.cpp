@@ -1722,7 +1722,6 @@ void CPlaylistCtrl::OnShowInLibrary( wxCommandEvent& event )
 		pBox->SetFocus();
         wxGetApp().Yield(true);
 		pBox->SetSel(sEntry);
-        
 	}
 }
 void CPlaylistCtrl::OnOpenFolderInFileManager( wxCommandEvent&  )

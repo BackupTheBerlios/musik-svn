@@ -63,10 +63,13 @@ bool MUSIKAPEDecoder::OpenMedia(const char *FileName)
 {
 
 	int nRetVal=0;
+#ifdef __APPLE__
+	IAPEDecompress * pAPEDecompress = CreateIAPEDecompress(FileName, &nRetVal);
+#else
 	CSmartPtr<wchar_t> wsFileName;
 	wsFileName.Assign(GetUTF16FromANSI(FileName),TRUE);
 	IAPEDecompress * pAPEDecompress = CreateIAPEDecompress(wsFileName, &nRetVal);
-
+#endif
 	if (pAPEDecompress != NULL)
 	{
 		m_ApeInfo.pAPEDecompress = pAPEDecompress;

@@ -63,8 +63,11 @@ bool  CMyAPEInfo::WriteMetaData(const CSongMetaData & MetaData,bool bClearAll)
 bool CMyAPEInfo::ReadFileData(CSongMetaData & MetaData) const
 {
 	int nRetVal=0;
+#ifdef __WXMAC__
+	IAPEDecompress * pAPEDecompress = CreateIAPEDecompress(MetaData.Filename.GetFullPath().mb_str(wxConvFile), &nRetVal);
+#else
 	IAPEDecompress * pAPEDecompress = CreateIAPEDecompress(MetaData.Filename.GetFullPath().wc_str(wxConvFile), &nRetVal);
-
+#endif
 	if (pAPEDecompress != NULL)
 	{
 		MetaData.nBitrate = pAPEDecompress->GetInfo(APE_INFO_AVERAGE_BITRATE);

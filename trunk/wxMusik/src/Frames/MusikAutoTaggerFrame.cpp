@@ -126,11 +126,15 @@ void CMusikAutoTaggerFrame::CreateControls()
 
     wxBoxSizer* item7 = new wxBoxSizer(wxHORIZONTAL);
     item5->Add(item7, 0, wxALIGN_CENTER_VERTICAL, 5);
-
-    wxButton* item8 = new wxButton( item1, ID_BN_ADDMASK, _("+"), wxDefaultPosition, item1->ConvertDialogToPixels(wxSize(12, -1)), 0 );
+#ifdef __WXMAC__
+	wxSize sizeSmallButton(20, -1);
+#else
+	wxSize sizeSmallButton(12, -1);
+#endif	
+    wxButton* item8 = new wxButton( item1, ID_BN_ADDMASK, _("+"), wxDefaultPosition, item1->ConvertDialogToPixels(sizeSmallButton), 0 );
     item7->Add(item8, 0, wxALIGN_CENTER_VERTICAL, 5);
 
-    wxButton* item9 = new wxButton( item1, ID_BN_REMOVEMASK, _("-"), wxDefaultPosition, item1->ConvertDialogToPixels(wxSize(12, -1)), 0 );
+    wxButton* item9 = new wxButton( item1, ID_BN_REMOVEMASK, _("-"), wxDefaultPosition, item1->ConvertDialogToPixels(sizeSmallButton), 0 );
     item7->Add(item9, 0, wxALIGN_CENTER_VERTICAL, 5);
 
     wxCheckBox* item10 = new wxCheckBox( item1, ID_CHECKBOX, _("Convert '_' to Space"), wxDefaultPosition, wxDefaultSize, 0 );

@@ -1,19 +1,20 @@
-# this is the makefile for generating wxMusik.po message catalog file and
+# this is the makefile for generating PROJECT_NAME message catalog file and
 # building lang.mo files from the translated lang.po catalogs
 
-# this makefile may be invoked to build either wxMusik.po or any lang.mo
+# this makefile may be invoked to build either PROJECT_NAME.po or any lang.mo
 
 # Autodetect the languages we support.  Currently this relies on make
 # being called with this dir as the cwd, but if we generate this file
 # with configure an explicit path should be specified -- RL.
+PROJECT_NAME=wxMusik
 
-WX_LINGUAS := `ls *.po 2> /dev/null | sed -n 's/\(wxMusik\)\?\.po//p'`
+WX_LINGUAS := `ls *.po 2> /dev/null | sed  's/\(\).po/\1/'| sed 's/$(PROJECT_NAME)//'`
 
 # the programs we use (TODO: use configure to detect them)
 MSGFMT=msgfmt --verbose
 MSGMERGE=msgmerge
 XGETTEXT=xgettext
-XARGS=xargs -ixxx echo "\"xxx\""|xargs 
+XARGS=xargs -Ixxx echo "\"xxx\""|xargs 
 
 
 # common xgettext args: C++ syntax, use the specified macro names as markers
@@ -23,14 +24,14 @@ XGETTEXT_ARGS=-C -k_ -kwxGetTranslation -kwxTRANSLATE -s -j
 %.mo: %.po
 	$(MSGFMT) -o $@ $<
 
-# a PO file must be updated from wxMusik.po to include new translations
-%.po: wxMusik.po
-	if [ -f $@ ]; then $(MSGMERGE) $@ wxMusik.po > $@.new && mv $@.new $@; else cp wxMusik.po $@; fi
+# a PO file must be updated from $(PROJECT_NAME).po to include new translations
+%.po: $(PROJECT_NAME).po
+	if [ -f $@ ]; then $(MSGMERGE) $@ $(PROJECT_NAME).po > $@.new && mv $@.new $@; else cp $(PROJECT_NAME).po $@; fi
 
-wxMusik.po:
+$(PROJECT_NAME).po:
 	touch $@
-	find .. -name "*.h" | $(XARGS) $(XGETTEXT) $(XGETTEXT_ARGS) -o wxMusik.po
-	find .. -name "*.cpp" | $(XARGS) $(XGETTEXT) $(XGETTEXT_ARGS) -o wxMusik.po
+	find .. -name "*.h" | $(XARGS) $(XGETTEXT) $(XGETTEXT_ARGS) -o $(PROJECT_NAME).po
+	find .. -name "*.cpp" | $(XARGS) $(XGETTEXT) $(XGETTEXT_ARGS) -o $(PROJECT_NAME).po
 
 allpo: force-update
 	@-for t in $(WX_LINGUAS); do $(MAKE) $$t.po; done
@@ -39,10 +40,11 @@ allmo:
 	@for t in $(WX_LINGUAS); do \
 		$(MAKE) $$t.mo; \
 		mkdir -p ../locale/$$t; \
-		mv -f $$t.mo ../locale/$$t/wxMusik.mo; \
+		mv -f $$t.mo ../locale/$$t/$(PROJECT_NAME).mo; \
 	done
+
 force-update:
-	$(RM) wxMusik.po
+	$(RM) $(PROJECT_NAME).po
 
 # print out the percentage of the translated strings
 stats: FORCE

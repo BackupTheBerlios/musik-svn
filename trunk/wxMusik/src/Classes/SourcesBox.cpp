@@ -775,7 +775,9 @@ void CSourcesListBox::Update()
 	//----------------------------------------------------------------------------------//
 
 	m_Light		= wxListItemAttr( wxSystemSettings::GetColour( wxSYS_COLOUR_WINDOWTEXT), wxSystemSettings::GetColour( wxSYS_COLOUR_BTNHIGHLIGHT ), wxNullFont	);
-	m_LightBold	= wxListItemAttr( wxSystemSettings::GetColour( wxSYS_COLOUR_WINDOWTEXT), wxSystemSettings::GetColour( wxSYS_COLOUR_BTNHIGHLIGHT ), g_fntListBold		);
+//	m_LightBold	= wxListItemAttr( wxSystemSettings::GetColour( wxSYS_COLOUR_WINDOWTEXT), wxSystemSettings::GetColour( wxSYS_COLOUR_BTNHIGHLIGHT ), g_fntListBold		);
+	m_LightBold	= wxListItemAttr( GetForegroundColour(), GetBackgroundColour(), g_fntListBold		);
+
 	m_Dark		= wxListItemAttr( wxSystemSettings::GetColour( wxSYS_COLOUR_WINDOWTEXT), StringToColour( wxGetApp().Prefs.sSourcesStripeColour ), wxNullFont );
 	m_DarkBold	= wxListItemAttr( wxSystemSettings::GetColour( wxSYS_COLOUR_WINDOWTEXT), StringToColour( wxGetApp().Prefs.sSourcesStripeColour ), g_fntListBold );
 

@@ -482,9 +482,8 @@ void MusikFrame::GetFonts()
 
 		g_fntTime.SetFaceName	( sFace );
 		g_fntTime.SetWeight		( wxBOLD );
-		g_fntTime.SetPointSize	( 8 );
+		g_fntTime.SetPointSize	( 9 );
 
-		g_fntInfo = g_fntTime;
 
 		g_fntRegular.SetFaceName( sFace );
 
@@ -500,12 +499,11 @@ void MusikFrame::GetFonts()
 		g_fntArtist.SetPointSize( 10 );
 
 		g_fntTime.SetFaceName	( sFace );
-		g_fntTime.SetPointSize	( 8 );
+		g_fntTime.SetPointSize	( 9 );
 
-		g_fntInfo = g_fntTime;
 
 		g_fntRegular.SetFaceName( sFace );
-		g_fntRegular.SetPointSize( 9 );
+		//g_fntRegular.SetPointSize( 9 );
 
 		g_fntBold.SetFaceName	( sFace );
 		g_fntBold.SetWeight		( wxBOLD );

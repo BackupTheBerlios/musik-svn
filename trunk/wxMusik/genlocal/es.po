@@ -6,14 +6,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: wxMusik\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-01-04 19:29+0100\n"
+"POT-Creation-Date: 2005-01-19 18:23+0100\n"
 "PO-Revision-Date: 2004-10-10 10:31-0500\n"
 "Last-Translator: Iván G. Campaña N. <ivan.campana@gmail.com>\n"
 "Language-Team: wxMusik Team <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Report-Msgid-Bugs-To: \n"
 "X-Poedit-Language: Spanish\n"
 "X-Poedit-Country: ECUADOR\n"
 "X-Poedit-SourceCharset: iso-8859-1\n"
@@ -106,8 +106,8 @@ msgstr " tamaño del segundo buffer"
 msgid " will not delete empty directories!"
 msgstr "no eliminará directorios vacíos!"
 
-#: ../src/Classes/SourcesBox.cpp:972 ../src/Classes/SourcesBox.cpp:1046
-#: ../src/Classes/SourcesBox.cpp:1150
+#: ../src/Classes/SourcesBox.cpp:980 ../src/Classes/SourcesBox.cpp:1054
+#: ../src/Classes/SourcesBox.cpp:1158
 msgid ""
 "\" already exists, but does not appear to be visible in the panel.\n"
 "\n"
@@ -145,22 +145,22 @@ msgstr ""
 "%6 - Número de pista\n"
 "\n"
 
-#: ../src/MusikUtils.cpp:585
+#: ../src/MusikUtils.cpp:590
 #, c-format
 msgid "%d.%02d GB"
 msgstr "%d.%02d GB"
 
-#: ../src/MusikUtils.cpp:591
+#: ../src/MusikUtils.cpp:596
 #, c-format
 msgid "%d.%02d KB"
 msgstr "%d.%02d KB"
 
-#: ../src/MusikUtils.cpp:588
+#: ../src/MusikUtils.cpp:593
 #, c-format
 msgid "%d.%02d MB"
 msgstr "%d.%02d MB"
 
-#: ../src/MusikUtils.cpp:582
+#: ../src/MusikUtils.cpp:587
 #, c-format
 msgid "%d.%02d TB"
 msgstr "%d.%02d TB"
@@ -170,7 +170,7 @@ msgstr "%d.%02d TB"
 msgid "%s Logging Window"
 msgstr "%s Ventana de Registro"
 
-#: ../src/Frames/MusikAutoTaggerFrame.cpp:144
+#: ../src/Frames/MusikAutoTaggerFrame.cpp:148
 msgid ""
 "%t for Title, %a for Artist, %b for album,%n for tracknumber \n"
 "and %y for year.\n"
@@ -196,7 +196,7 @@ msgstr ""
 "espacios en la máscara para igualar el  '_'. \n"
 "\n"
 
-#: ../src/Frames/MusikFrame.cpp:361
+#: ../src/Frames/MusikFrame.cpp:378
 msgid "&About"
 msgstr "&Acerca de..."
 
@@ -204,80 +204,80 @@ msgstr "&Acerca de..."
 msgid "&Add Directory"
 msgstr "&Agregar Directorio"
 
-#: ../src/Classes/PlaylistCtrl.cpp:373
+#: ../src/Classes/PlaylistCtrl.cpp:382
 msgid "&Auto Rename"
 msgstr "Renombrado &Automático"
 
-#: ../src/Classes/PlaylistCtrl.cpp:416 ../src/Classes/SourcesBox.cpp:299
+#: ../src/Classes/PlaylistCtrl.cpp:425 ../src/Classes/SourcesBox.cpp:300
 msgid "&Clear List"
 msgstr "&Borrar Lista"
 
-#: ../src/Classes/SourcesBox.cpp:321
+#: ../src/Classes/SourcesBox.cpp:322
 msgid "&Create New"
 msgstr "&Crear Nueva"
 
-#: ../src/Frames/MusikFrame.cpp:357
+#: ../src/Frames/MusikFrame.cpp:374
 msgid "&Custom Query"
 msgstr "&Consulta Personalizada"
 
-#: ../src/Classes/SourcesBox.cpp:308
+#: ../src/Classes/SourcesBox.cpp:309
 msgid "&Delete"
 msgstr "&Eliminar"
 
-#: ../src/Classes/SourcesBox.cpp:292
+#: ../src/Classes/SourcesBox.cpp:293
 msgid "&Edit Query"
 msgstr "&Editar Consulta"
 
-#: ../src/Classes/SourcesBox.cpp:295
+#: ../src/Classes/SourcesBox.cpp:296
 msgid "&Edit URL"
 msgstr "&Editar URL"
 
-#: ../src/Frames/MusikFrame.cpp:367
+#: ../src/Frames/MusikFrame.cpp:384
 msgid "&File"
 msgstr "&Archivo"
 
-#: ../src/Frames/MusikFrame.cpp:370
+#: ../src/Frames/MusikFrame.cpp:387
 msgid "&Help"
 msgstr "Ayu&da"
 
-#: ../src/Frames/MusikFrame.cpp:159
+#: ../src/Frames/MusikFrame.cpp:162
 msgid "&Hide wxMusik"
 msgstr "&Ocultar wxMusik"
 
-#: ../src/Frames/MusikFrame.cpp:369
+#: ../src/Frames/MusikFrame.cpp:386
 msgid "&Library"
 msgstr "&Biblioteca"
 
-#: ../src/Frames/MusikFrame.cpp:169
+#: ../src/Frames/MusikFrame.cpp:172
 msgid "&Next"
 msgstr "&Siguiente"
 
-#: ../src/Classes/PlaylistCtrl.cpp:432
+#: ../src/Classes/PlaylistCtrl.cpp:441
 msgid "&Open Folder in File Manager"
 msgstr "&Abrir Carpeta en el Administrador de Archivos"
 
-#: ../src/Frames/MusikFrame.cpp:163
+#: ../src/Frames/MusikFrame.cpp:166
 msgid "&Pause"
 msgstr "&Pausa"
 
-#: ../src/Frames/MusikFrame.cpp:359
+#: ../src/Frames/MusikFrame.cpp:376
 msgid "&Pending Tags"
 msgstr "Etiquetas &Pendientes"
 
-#: ../src/Classes/ActivityBox.cpp:868 ../src/Classes/PlaylistCtrl.cpp:413
-#: ../src/Frames/MusikFrame.cpp:167
+#: ../src/Classes/ActivityBox.cpp:875 ../src/Classes/PlaylistCtrl.cpp:422
+#: ../src/Frames/MusikFrame.cpp:170
 msgid "&Play"
 msgstr "&Reproducir"
 
-#: ../src/Frames/MusikFrame.cpp:325
+#: ../src/Frames/MusikFrame.cpp:342
 msgid "&Preferences\tCtrl-P"
 msgstr "&Preferencias\tCtrl-P"
 
-#: ../src/Frames/MusikFrame.cpp:168
+#: ../src/Frames/MusikFrame.cpp:171
 msgid "&Previous"
 msgstr "&Anterior"
 
-#: ../src/Classes/PlaylistCtrl.cpp:435 ../src/Frames/MusikFrame.cpp:179
+#: ../src/Classes/PlaylistCtrl.cpp:444 ../src/Frames/MusikFrame.cpp:182
 msgid "&Rating"
 msgstr "&Calificación"
 
@@ -285,7 +285,7 @@ msgstr "&Calificación"
 msgid "&Rebuild Library"
 msgstr "&Reconstruir Biblioteca"
 
-#: ../src/Classes/PlaylistCtrl.cpp:375
+#: ../src/Classes/PlaylistCtrl.cpp:384
 msgid "&Rebuild Tag"
 msgstr "&Reconstruir Etiquetas"
 
@@ -293,35 +293,35 @@ msgstr "&Reconstruir Etiquetas"
 msgid "&Remove &Selected Directories"
 msgstr "&Eliminar Directorios &Seleccionados"
 
-#: ../src/Classes/SourcesBox.cpp:307
+#: ../src/Classes/SourcesBox.cpp:308
 msgid "&Rename"
 msgstr "&Renombrar"
 
-#: ../src/Classes/ActivityBox.cpp:869
+#: ../src/Classes/ActivityBox.cpp:876
 msgid "&Rename\t F2"
 msgstr "&Renombrar\t F2"
 
-#: ../src/Frames/MusikFrame.cpp:157
+#: ../src/Frames/MusikFrame.cpp:160
 msgid "&Restore wxMusik"
 msgstr "&Restaurar wxMusik"
 
-#: ../src/Frames/MusikFrame.cpp:165
+#: ../src/Frames/MusikFrame.cpp:168
 msgid "&Resume"
 msgstr "&Resumir"
 
-#: ../src/Frames/MusikFrame.cpp:355
+#: ../src/Frames/MusikFrame.cpp:372
 msgid "&Setup Library\tCtrl-L"
 msgstr "&Configurar Biblioteca\tCtrl-L"
 
-#: ../src/Classes/SourcesBox.cpp:325
+#: ../src/Classes/SourcesBox.cpp:326
 msgid "&Show Icons"
 msgstr "&Mostrar Íconos"
 
-#: ../src/Classes/PlaylistCtrl.cpp:431
+#: ../src/Classes/PlaylistCtrl.cpp:440
 msgid "&Show in Library"
 msgstr "&Mostrar en Biblioteca"
 
-#: ../src/Frames/MusikFrame.cpp:171
+#: ../src/Frames/MusikFrame.cpp:174
 msgid "&Stop"
 msgstr "&Detener"
 
@@ -329,31 +329,31 @@ msgstr "&Detener"
 msgid "&Update Library"
 msgstr "&Actualizar Biblioteca"
 
-#: ../src/Frames/MusikFrame.cpp:368
+#: ../src/Frames/MusikFrame.cpp:385
 msgid "&View"
 msgstr "&Ver"
 
-#: ../src/Classes/SourcesBox.cpp:1123
+#: ../src/Classes/SourcesBox.cpp:1131
 msgid "(all low quality, non-VBR)\n"
 msgstr "(todas las de baja calidad, no-VBR)\n"
 
-#: ../src/Classes/SourcesBox.cpp:1127
+#: ../src/Classes/SourcesBox.cpp:1135
 msgid "(all songs played this month)"
 msgstr "(todas las canciones reproducidas este mes)"
 
-#: ../src/Classes/SourcesBox.cpp:1121
+#: ../src/Classes/SourcesBox.cpp:1129
 msgid "(all titles containing funky)\n"
 msgstr "(todos los títulos que contengan funky)\n"
 
-#: ../src/Classes/SourcesBox.cpp:1125
+#: ../src/Classes/SourcesBox.cpp:1133
 msgid "(your popular tracks)\n"
 msgstr "(sus pistas más populares)\n"
 
-#: ../src/Frames/MusikAutoTaggerFrame.cpp:130
+#: ../src/Frames/MusikAutoTaggerFrame.cpp:134
 msgid "+"
 msgstr "+"
 
-#: ../src/Frames/MusikAutoTaggerFrame.cpp:133
+#: ../src/Frames/MusikAutoTaggerFrame.cpp:137
 msgid "-"
 msgstr "-"
 
@@ -375,11 +375,11 @@ msgstr ": Actualizando etiquetas de la caja de selección (ESC para abortar)"
 msgid ": Writing dirty tags to file (ESC to abort)"
 msgstr ": Escribiendo etiquetas en la BD (ESC para abortar)"
 
-#: ../src/Classes/ActivityBox.cpp:220 ../src/Classes/PlaylistCtrl.cpp:790
+#: ../src/Classes/ActivityBox.cpp:223 ../src/Classes/PlaylistCtrl.cpp:799
 msgid "<unknown>"
 msgstr "<desconocido>"
 
-#: ../src/Classes/SourcesBox.cpp:1058
+#: ../src/Classes/SourcesBox.cpp:1066
 msgid ""
 "A dynamic playlist with this name already exists, would you like to edit the "
 "existing query?"
@@ -387,7 +387,7 @@ msgstr ""
 "Una lista de reproducción dinámica ya existe con este nombre. ¿Quisiera "
 "editar la consulta existente?"
 
-#: ../src/Classes/SourcesBox.cpp:987
+#: ../src/Classes/SourcesBox.cpp:995
 msgid ""
 "A playlist with this name already exists, would you like to append to the "
 "existing one?"
@@ -395,15 +395,15 @@ msgstr ""
 "Una lista de reproducción con este nombre ya existe. ¿Le gustaría añadir "
 "canciones a la existente?"
 
-#: ../src/Classes/PlaylistCtrl.cpp:374
+#: ../src/Classes/PlaylistCtrl.cpp:383
 msgid "A&uto Retag..."
 msgstr "Re-Etiquetado A&utomático"
 
-#: ../src/Classes/Library/MetaDataHandler.cpp:90
+#: ../src/Classes/Library/MetaDataHandler.cpp:106
 msgid "AIFF Audio File"
 msgstr "Archivo de Audio AIFF"
 
-#: ../src/MusikAboutDlg.cpp:116
+#: ../src/MusikAboutDlg.cpp:132
 msgid "About"
 msgstr "Acerca de"
 
@@ -416,11 +416,11 @@ msgstr "Agregado en"
 msgid "Album"
 msgstr "Album"
 
-#: ../src/Classes/ActivityBox.cpp:526
+#: ../src/Classes/ActivityBox.cpp:532
 msgid "Albums"
 msgstr "Albums"
 
-#: ../src/Classes/PlaylistCtrl.cpp:1754
+#: ../src/Classes/PlaylistCtrl.cpp:1778
 msgid "All words"
 msgstr "Todas las palabras"
 
@@ -428,7 +428,7 @@ msgstr "Todas las palabras"
 msgid "Allow tag guessing from filename"
 msgstr ""
 
-#: ../src/Frames/MusikFrame.cpp:343
+#: ../src/Frames/MusikFrame.cpp:360
 msgid "Always On Top\tCtrl-T"
 msgstr "Siempre al Frente\tCtrl-T"
 
@@ -440,7 +440,7 @@ msgstr "Ocurrió un error mientras se establecía el filtro de DJ Automático"
 msgid "An error occurred when attempting to update the database"
 msgstr "Ocurrió un error mientras se intentaba actualizar la base de datos"
 
-#: ../src/Classes/PlaylistCtrl.cpp:1754
+#: ../src/Classes/PlaylistCtrl.cpp:1778
 msgid "Any word"
 msgstr "Cualquier palabra"
 
@@ -457,7 +457,7 @@ msgstr "Aplicar"
 msgid "Artist"
 msgstr "Artista"
 
-#: ../src/Classes/ActivityBox.cpp:523
+#: ../src/Classes/ActivityBox.cpp:529
 msgid "Artists"
 msgstr "Artistas"
 
@@ -503,7 +503,7 @@ msgstr "Buffer"
 msgid "Buffer Size (bytes):"
 msgstr "Tamaño del Buffer (bytes):"
 
-#: ../src/Frames/MusikAutoTaggerFrame.cpp:156
+#: ../src/Frames/MusikAutoTaggerFrame.cpp:160
 #: ../src/Frames/MusikLibraryFrame.cpp:184
 #: ../src/Frames/MusikPrefsFrame.cpp:558 ../src/Frames/MusikTagFrame.cpp:145
 msgid "Cancel"
@@ -533,7 +533,7 @@ msgstr ""
 msgid "Censor common swearwords"
 msgstr "Censurar las malas palabras comunes"
 
-#: ../src/Classes/PlaylistCtrl.cpp:1753
+#: ../src/Classes/PlaylistCtrl.cpp:1777
 msgid "Clear"
 msgstr "Limpiar"
 
@@ -562,13 +562,23 @@ msgstr "Limpiar"
 msgid "Command line:"
 msgstr "Línea de Comandos:"
 
-#: ../src/Frames/MusikAutoTaggerFrame.cpp:136
+#: ../src/Frames/MusikAutoTaggerFrame.cpp:140
 msgid "Convert '_' to Space"
 msgstr "Convertir '_' a Espacio en blanco"
 
-#: ../src/Classes/SourcesBox.cpp:330
+#: ../src/Classes/SourcesBox.cpp:331
 msgid "Copy files to directory"
 msgstr "Copiar archivos al directorio"
+
+#: ../src/Frames/MusikFrame.cpp:835
+#, c-format
+msgid "Couldn't grab %s: another client may already have done so"
+msgstr ""
+
+#: ../src/Frames/MusikFrame.cpp:878
+#, c-format
+msgid "Couldn't ungrab keycode %d"
+msgstr ""
 
 #: ../src/Classes/NowPlayingCtrl.cpp:169
 msgid "Crossfade"
@@ -598,21 +608,21 @@ msgstr "Mezclar al buscar pista (segs.)"
 msgid "Crossfader"
 msgstr "Mezclador"
 
-#: ../src/Classes/PlaylistCtrl.cpp:438
+#: ../src/Classes/PlaylistCtrl.cpp:447
 msgid "Delete"
 msgstr "Eliminar"
 
-#: ../src/Classes/PlaylistCtrl.cpp:1378
+#: ../src/Classes/PlaylistCtrl.cpp:1392
 msgid "Delete the selected songs from wxMusik's internal database?"
 msgstr ""
 "¿Eliminar las canciones seleccionadas de la base de datos interna de  "
 "wxMusik?"
 
-#: ../src/Classes/PlaylistCtrl.cpp:1372
+#: ../src/Classes/PlaylistCtrl.cpp:1386
 msgid "Delete the selected songs from your computer?"
 msgstr "¿Eliminar las canciones seleccionadas de su computador?"
 
-#: ../src/Classes/PlaylistCtrl.cpp:436
+#: ../src/Classes/PlaylistCtrl.cpp:445
 msgid "Display"
 msgstr "Mostrar"
 
@@ -632,15 +642,15 @@ msgstr "Controlador"
 msgid "Dynamic"
 msgstr "Dinámico"
 
-#: ../src/Classes/SourcesBox.cpp:318
+#: ../src/Classes/SourcesBox.cpp:319
 msgid "Dynamic Playlist"
 msgstr "Lista de Reproducción Dinámica"
 
-#: ../src/Classes/SourcesBox.cpp:1046
+#: ../src/Classes/SourcesBox.cpp:1054
 msgid "Dynamic playlist \""
 msgstr "Lista de Reproducción Dinámica \""
 
-#: ../src/Frames/MusikFrame.cpp:182 ../src/Frames/MusikFrame.cpp:327
+#: ../src/Frames/MusikFrame.cpp:185 ../src/Frames/MusikFrame.cpp:344
 msgid "E&xit"
 msgstr "&Salir"
 
@@ -648,39 +658,39 @@ msgstr "&Salir"
 msgid "ERROR: failed to open stream:"
 msgstr "ERROR: no se pudo abrir el stream:"
 
-#: ../src/Classes/PlaylistCtrl.cpp:440
+#: ../src/Classes/PlaylistCtrl.cpp:449
 msgid "Edit &Tag"
 msgstr "Editar &Etiqueta"
 
-#: ../src/Classes/PlaylistCtrl.cpp:368
+#: ../src/Classes/PlaylistCtrl.cpp:377
 msgid "Edit Album\tF5"
 msgstr "Editar Album\tF5"
 
-#: ../src/Classes/PlaylistCtrl.cpp:367
+#: ../src/Classes/PlaylistCtrl.cpp:376
 msgid "Edit Artist\tF4"
 msgstr "Editar Artista\tF4"
 
-#: ../src/Classes/PlaylistCtrl.cpp:369
+#: ../src/Classes/PlaylistCtrl.cpp:378
 msgid "Edit Genre\tF6"
 msgstr "Editar Género\tF6"
 
-#: ../src/Classes/PlaylistCtrl.cpp:371
+#: ../src/Classes/PlaylistCtrl.cpp:380
 msgid "Edit Notes\tF8"
 msgstr "Editar Notas\tF8"
 
-#: ../src/Classes/PlaylistCtrl.cpp:365
+#: ../src/Classes/PlaylistCtrl.cpp:374
 msgid "Edit Title\tF2"
 msgstr "Editar Título\tF2"
 
-#: ../src/Classes/PlaylistCtrl.cpp:366
+#: ../src/Classes/PlaylistCtrl.cpp:375
 msgid "Edit Track Number\tF3"
 msgstr "Editar Número de Pista\tF3"
 
-#: ../src/Classes/PlaylistCtrl.cpp:370
+#: ../src/Classes/PlaylistCtrl.cpp:379
 msgid "Edit Year\tF7"
 msgstr "Editar Año\tF7"
 
-#: ../src/MusikUtils.cpp:593
+#: ../src/MusikUtils.cpp:598
 msgid "Empty"
 msgstr "Vacio"
 
@@ -701,7 +711,7 @@ msgstr "Habilitar control de Tono"
 msgid "Enable balloon song info"
 msgstr ""
 
-#: ../src/Classes/ActivityBox.cpp:863 ../src/Classes/PlaylistCtrl.cpp:408
+#: ../src/Classes/ActivityBox.cpp:870 ../src/Classes/PlaylistCtrl.cpp:417
 msgid "Enqueue"
 msgstr "Poner en cola"
 
@@ -709,32 +719,32 @@ msgstr "Poner en cola"
 msgid "Enter Tag Mask:"
 msgstr "Ingrese la máscara de etiqueta:"
 
-#: ../src/Classes/SourcesBox.cpp:376
+#: ../src/Classes/SourcesBox.cpp:377
 msgid "Enter name for new dynamic playlist:"
 msgstr "Ingrese el nombre para la nueva lista de reproducción dinámica:"
 
-#: ../src/Classes/SourcesBox.cpp:131 ../src/Classes/SourcesBox.cpp:356
-#: ../src/Classes/SourcesBox.cpp:366
+#: ../src/Classes/SourcesBox.cpp:131 ../src/Classes/SourcesBox.cpp:357
+#: ../src/Classes/SourcesBox.cpp:367
 msgid "Enter name for new playlist:"
 msgstr "Ingrese el nombre para la nueva lista de reproducción:"
 
-#: ../src/Classes/SourcesBox.cpp:385
+#: ../src/Classes/SourcesBox.cpp:386
 msgid "Enter name of the net stream:"
 msgstr "Ingrese el nombre para el stream de red:"
 
-#: ../src/Classes/SourcesBox.cpp:1176
+#: ../src/Classes/SourcesBox.cpp:1184
 msgid "Enter net stream address(URL):"
 msgstr "Ingrese la dirección (URL) del stream de red:"
 
-#: ../src/Classes/PlaylistCtrl.cpp:1754
+#: ../src/Classes/PlaylistCtrl.cpp:1778
 msgid "Exact phrase"
 msgstr "Frase exacta"
 
-#: ../src/Classes/SourcesBox.cpp:1119
+#: ../src/Classes/SourcesBox.cpp:1127
 msgid "Examples:\n"
 msgstr "Ejemplos:\n"
 
-#: ../src/Frames/MusikFrame.cpp:340
+#: ../src/Frames/MusikFrame.cpp:357
 msgid "FX\tCtrl-F"
 msgstr "FX\tCtrl-F"
 
@@ -743,7 +753,7 @@ msgstr "FX\tCtrl-F"
 msgid "Failed to copy file %s. Continue?"
 msgstr "Falló la copia del archivo %s. ¿Continuar?"
 
-#: ../src/Classes/PlaylistCtrl.cpp:1434
+#: ../src/Classes/PlaylistCtrl.cpp:1448
 msgid ""
 "Failed to delete the following files from your computer:\n"
 "\n"
@@ -781,44 +791,44 @@ msgstr "Nombre de archivo:"
 msgid "Filesize"
 msgstr "Tamaño de archivo"
 
-#: ../src/Frames/MusikFrame.cpp:351
+#: ../src/Frames/MusikFrame.cpp:368
 msgid "Finalize for Database &Only"
 msgstr "Finalizar sólo para la Base de &Datos"
 
-#: ../src/Classes/PlaylistCtrl.cpp:390
+#: ../src/Classes/PlaylistCtrl.cpp:399
 msgid "Fit Columns"
 msgstr "Ajustar Columnas"
 
-#: ../src/Classes/Library/MetaDataHandler.cpp:78
-#: ../src/Classes/Library/MetaDataHandler.cpp:85
+#: ../src/Classes/Library/MetaDataHandler.cpp:87
+#: ../src/Classes/Library/MetaDataHandler.cpp:98
 msgid "Flac Lossless Audio File"
 msgstr "Archivo de Audio sin pérdida FLAC"
 
-#: ../src/Classes/PlaylistCtrl.cpp:381
+#: ../src/Classes/PlaylistCtrl.cpp:390
 msgid "From Computer\tCtrl+Del"
 msgstr "Del Computador\tCtrl+Del"
 
-#: ../src/Classes/PlaylistCtrl.cpp:380
+#: ../src/Classes/PlaylistCtrl.cpp:389
 msgid "From Database\tAlt+Del"
 msgstr "De la Base de Datos\tAlt+Del"
 
-#: ../src/Classes/PlaylistCtrl.cpp:379
+#: ../src/Classes/PlaylistCtrl.cpp:388
 msgid "From Playlist\tDel"
 msgstr "De la lista de reproducción\tDel"
 
-#: ../src/Classes/PlaylistCtrl.cpp:1757
+#: ../src/Classes/PlaylistCtrl.cpp:1781
 msgid "Fuzzy High"
 msgstr "Variación Alta"
 
-#: ../src/Classes/PlaylistCtrl.cpp:1757
+#: ../src/Classes/PlaylistCtrl.cpp:1781
 msgid "Fuzzy Low"
 msgstr "Variación Baja"
 
-#: ../src/Classes/PlaylistCtrl.cpp:1757
+#: ../src/Classes/PlaylistCtrl.cpp:1781
 msgid "Fuzzy Middle"
 msgstr "Variación Media"
 
-#: ../src/Classes/PlaylistCtrl.cpp:1757
+#: ../src/Classes/PlaylistCtrl.cpp:1781
 msgid "Fuzzy None"
 msgstr "Sin Variación"
 
@@ -831,7 +841,7 @@ msgstr "General"
 msgid "Genre"
 msgstr "Género"
 
-#: ../src/Classes/ActivityBox.cpp:529
+#: ../src/Classes/ActivityBox.cpp:535
 msgid "Genres"
 msgstr "Géneros"
 
@@ -856,11 +866,11 @@ msgstr "Inicialización del sistema de sonido FMOD falló."
 msgid "Initialization of library failed."
 msgstr "La inicialización de la biblioteca falló"
 
-#: ../src/Classes/ActivityBox.cpp:864 ../src/Classes/PlaylistCtrl.cpp:409
+#: ../src/Classes/ActivityBox.cpp:871 ../src/Classes/PlaylistCtrl.cpp:418
 msgid "Instantly"
 msgstr "Instantáneamente"
 
-#: ../src/Classes/SourcesBox.cpp:914
+#: ../src/Classes/SourcesBox.cpp:922
 msgid "Invalid playlist name."
 msgstr "Nombre de lista de reproducción inválido."
 
@@ -881,13 +891,13 @@ msgstr "Línea a escribir:"
 msgid "Lock channels"
 msgstr "Bloquear canales"
 
-#: ../src/Classes/Library/MetaDataHandler.cpp:79
-#: ../src/Classes/Library/MetaDataHandler.cpp:86
+#: ../src/Classes/Library/MetaDataHandler.cpp:89
+#: ../src/Classes/Library/MetaDataHandler.cpp:100
 msgid "MPEG Layer 2 Audio File"
 msgstr "Archivo de Audio MPEG Capa 2"
 
-#: ../src/Classes/Library/MetaDataHandler.cpp:75
-#: ../src/Classes/Library/MetaDataHandler.cpp:82
+#: ../src/Classes/Library/MetaDataHandler.cpp:81
+#: ../src/Classes/Library/MetaDataHandler.cpp:92
 msgid "MPEG Layer 3 Audio File"
 msgstr "Archivo de Audio MPEG Capa 3"
 
@@ -899,28 +909,28 @@ msgstr "Nº Máximo de canales de sonido:"
 msgid "Misc."
 msgstr "Misc."
 
-#: ../src/Classes/Library/MetaDataHandler.cpp:88
+#: ../src/Classes/Library/MetaDataHandler.cpp:103
 msgid "Monkey's Audio File"
 msgstr "Archivo de Audio Monkey"
 
-#: ../src/Classes/Library/MetaDataHandler.cpp:77
 #: ../src/Classes/Library/MetaDataHandler.cpp:84
+#: ../src/Classes/Library/MetaDataHandler.cpp:95
 msgid "Musepack Audio File"
 msgstr "Archivo de Audio Musepack"
 
-#: ../src/Classes/SourcesBox.cpp:750
+#: ../src/Classes/SourcesBox.cpp:756
 msgid "Musik Library"
 msgstr "Biblioteca de Música"
 
-#: ../src/Classes/SourcesBox.cpp:319 ../src/Classes/SourcesBox.cpp:1301
+#: ../src/Classes/SourcesBox.cpp:320 ../src/Classes/SourcesBox.cpp:1309
 msgid "Net Stream"
 msgstr "Stream de Red"
 
-#: ../src/Classes/SourcesBox.cpp:1150
+#: ../src/Classes/SourcesBox.cpp:1158
 msgid "Net Stream \""
 msgstr "Reproducción de Red \""
 
-#: ../src/Classes/PlaylistCtrl.cpp:859
+#: ../src/Classes/PlaylistCtrl.cpp:868
 msgid "Never"
 msgstr "Nunca"
 
@@ -928,11 +938,11 @@ msgstr "Nunca"
 msgid "New"
 msgstr "Nuevo"
 
-#: ../src/Classes/ActivityBox.cpp:862 ../src/Classes/PlaylistCtrl.cpp:407
+#: ../src/Classes/ActivityBox.cpp:869 ../src/Classes/PlaylistCtrl.cpp:416
 msgid "Next"
 msgstr "Siguiente"
 
-#: ../src/Classes/PlaylistCtrl.cpp:391
+#: ../src/Classes/PlaylistCtrl.cpp:400
 msgid "No Horizontal Scroll"
 msgstr "Sin Desplazamiento (Scroll) horizontal"
 
@@ -944,6 +954,11 @@ msgstr "Ninguna"
 msgid "Normal"
 msgstr "Normal"
 
+#: ../src/MusikAboutDlg.cpp:89 ../src/MusikAboutDlg.cpp:97
+#: ../src/MusikAboutDlg.cpp:105
+msgid "Not supported"
+msgstr ""
+
 #: ../src/MusikGlobals.cpp:61
 msgid "Notes"
 msgstr "Notas"
@@ -952,7 +967,7 @@ msgstr "Notas"
 msgid "Notes "
 msgstr "Notas"
 
-#: ../src/Classes/SourcesBox.cpp:752
+#: ../src/Classes/SourcesBox.cpp:758
 msgid "Now Playing"
 msgstr "En Reproducción Ahora"
 
@@ -970,15 +985,15 @@ msgstr ""
 msgid "Number of songs to choose in advance:"
 msgstr "Número de canciones a escoger en avance:"
 
-#: ../src/Classes/Library/MetaDataHandler.cpp:76
-#: ../src/Classes/Library/MetaDataHandler.cpp:83
+#: ../src/Classes/Library/MetaDataHandler.cpp:82
+#: ../src/Classes/Library/MetaDataHandler.cpp:93
 msgid "OGG Vorbis Audio File"
 msgstr "Archivo de Audio OGG Vorbis"
 
-#: ../src/Frames/MusikAutoTaggerFrame.cpp:152
+#: ../src/Frames/MusikAutoTaggerFrame.cpp:156
 #: ../src/Frames/MusikLibraryFrame.cpp:185
 #: ../src/Frames/MusikPrefsFrame.cpp:560 ../src/Frames/MusikTagFrame.cpp:147
-#: ../src/MusikAboutDlg.cpp:133
+#: ../src/MusikAboutDlg.cpp:149
 msgid "OK"
 msgstr "Aceptar"
 
@@ -1053,7 +1068,7 @@ msgstr "Tiempo de Duración:"
 msgid "Playlist Songs: "
 msgstr "Canciones de la lista de reproducción: "
 
-#: ../src/Classes/SourcesBox.cpp:314
+#: ../src/Classes/SourcesBox.cpp:315
 msgid "Playlist from Current"
 msgstr "Lista desde lo actual"
 
@@ -1114,6 +1129,11 @@ msgstr "Calificación"
 msgid "Rebuffering (%):"
 msgstr "Rebuffering (%):"
 
+#: ../src/Frames/MusikFrame.cpp:788
+#, c-format
+msgid "Received KeyRelease event for unrequested keycode %d"
+msgstr ""
+
 #: ../src/Frames/MusikLibraryFrame.cpp:114
 msgid "Remove All Directories"
 msgstr "Eliminar Todos los Directorios"
@@ -1141,11 +1161,11 @@ msgstr "Repetir Lista"
 msgid "Repeat Song"
 msgstr "Repetir Canción"
 
-#: ../src/Classes/PlaylistCtrl.cpp:411
+#: ../src/Classes/PlaylistCtrl.cpp:420
 msgid "Replace current playlist with all"
 msgstr "Reemplazar lista de reproducción actual con todos"
 
-#: ../src/Classes/ActivityBox.cpp:865 ../src/Classes/PlaylistCtrl.cpp:410
+#: ../src/Classes/ActivityBox.cpp:872 ../src/Classes/PlaylistCtrl.cpp:419
 msgid "Replace current playlist with selection"
 msgstr "Reemplazar lista de reproducción actual con la selección"
 
@@ -1186,7 +1206,7 @@ msgid "Scanning library for obsolete files: %d / %d (ESC to abort)"
 msgstr ""
 "Buscando en la biblioteca archivos obsoletos: %d / %d (ESC para abortar)"
 
-#: ../src/Classes/PlaylistCtrl.cpp:1751
+#: ../src/Classes/PlaylistCtrl.cpp:1772
 msgid "Search:"
 msgstr "Buscar:"
 
@@ -1194,11 +1214,11 @@ msgstr "Buscar:"
 msgid "Searching for and Adding New Files"
 msgstr "Analizando y Agregando Archivos Nuevos"
 
-#: ../src/Frames/MusikFrame.cpp:337
+#: ../src/Frames/MusikFrame.cpp:354
 msgid "Select Library\tCtrl-F1"
 msgstr "Seleccionar Biblioteca\tCtrl-F1"
 
-#: ../src/Frames/MusikFrame.cpp:338
+#: ../src/Frames/MusikFrame.cpp:355
 msgid "Select Now Playing\tCtrl-F2"
 msgstr "Seleccionar Reproducción en Curso\tCtrl-F2"
 
@@ -1242,7 +1262,7 @@ msgstr "Mostrar \"Franjas\" en las cajas de selección"
 msgid "Show \"stripes\" in sources box"
 msgstr "Mostrar \"Franjas\" en la caja de fuentes"
 
-#: ../src/Frames/MusikFrame.cpp:334
+#: ../src/Frames/MusikFrame.cpp:351
 msgid "Show Album Info\tCtrl-4"
 msgstr "Mostrar Información del Album\tCtrl-4"
 
@@ -1250,24 +1270,24 @@ msgstr "Mostrar Información del Album\tCtrl-4"
 msgid "Show Library on startup"
 msgstr "Mostrar Biblioteca al inicio"
 
-#: ../src/Frames/MusikFrame.cpp:335
+#: ../src/Frames/MusikFrame.cpp:352
 #, fuzzy
 msgid "Show Playing Control on top\tCtrl-5"
 msgstr "Mostrar Información de la lista de reproducción\tCtrl-3"
 
-#: ../src/Frames/MusikFrame.cpp:333
+#: ../src/Frames/MusikFrame.cpp:350
 msgid "Show Playlist Info\tCtrl-3"
 msgstr "Mostrar Información de la lista de reproducción\tCtrl-3"
 
-#: ../src/Frames/MusikFrame.cpp:332
+#: ../src/Frames/MusikFrame.cpp:349
 msgid "Show Selections\tCtrl-2"
 msgstr "Mostrar Selecciones\tCtrl-2"
 
-#: ../src/Frames/MusikFrame.cpp:331
+#: ../src/Frames/MusikFrame.cpp:348
 msgid "Show Sources\tCtrl-1"
 msgstr "Mostrar Fuentes\tCtrl-1"
 
-#: ../src/Classes/ActivityBox.cpp:235
+#: ../src/Classes/ActivityBox.cpp:238
 msgid "Show all "
 msgstr "Mostrar todas"
 
@@ -1296,7 +1316,7 @@ msgstr "Sonido"
 msgid "Sound Device:"
 msgstr "Dispositivo de Sonido:"
 
-#: ../src/Classes/SourcesBox.h:92 ../src/Classes/SourcesBox.cpp:263
+#: ../src/Classes/SourcesBox.cpp:264 ../src/Classes/SourcesBox.h:92
 msgid "Sources"
 msgstr "Fuentes"
 
@@ -1304,11 +1324,11 @@ msgstr "Fuentes"
 msgid "Standard"
 msgstr "Estándar"
 
-#: ../src/Classes/SourcesBox.cpp:317
+#: ../src/Classes/SourcesBox.cpp:318
 msgid "Standard Playlist"
 msgstr "Lista de Reproducción Estándar"
 
-#: ../src/Classes/SourcesBox.cpp:972
+#: ../src/Classes/SourcesBox.cpp:980
 msgid "Standard playlist \""
 msgstr "Lista de Reproducción Estándar \""
 
@@ -1340,11 +1360,11 @@ msgstr "Edición de información de la etiqueta (único)"
 msgid "Tagging"
 msgstr "Etiquetado"
 
-#: ../src/Classes/SourcesBox.cpp:1107
+#: ../src/Classes/SourcesBox.cpp:1115
 msgid "The following fields can be used in your query"
 msgstr "Los siguientes campos pueden ser utilizados en su consulta (query)"
 
-#: ../src/Classes/PlaylistCtrl.cpp:1502
+#: ../src/Classes/PlaylistCtrl.cpp:1516
 msgid "There are no pending tags available to display."
 msgstr "No hay etiquetas pendientes disponibles para mostrar."
 
@@ -1367,15 +1387,15 @@ msgstr ""
 "Estas variables pueden ser utilizadas en la la line de archivo, URL o linea "
 "de comandos"
 
-#: ../src/Classes/PlaylistCtrl.cpp:423
+#: ../src/Classes/PlaylistCtrl.cpp:432
 msgid "This album"
 msgstr "Este album"
 
-#: ../src/Classes/PlaylistCtrl.cpp:421
+#: ../src/Classes/PlaylistCtrl.cpp:430
 msgid "This artist"
 msgstr "Este artista"
 
-#: ../src/Classes/PlaylistCtrl.cpp:425
+#: ../src/Classes/PlaylistCtrl.cpp:434
 msgid "This genre"
 msgstr "Este género"
 
@@ -1409,7 +1429,7 @@ msgstr ""
 "Esto borrará toda la biblioteca. ¿Está ABSOLUTAMENTE SEGURO que quiere hacer "
 "esto?"
 
-#: ../src/Classes/PlaylistCtrl.cpp:427
+#: ../src/Classes/PlaylistCtrl.cpp:436
 msgid "This year"
 msgstr "Este año"
 
@@ -1470,7 +1490,7 @@ msgstr "Artista Desconocido"
 msgid "Unknown Song"
 msgstr "Canción Desconocida"
 
-#: ../src/Classes/PlaylistCtrl.cpp:361 ../src/Frames/MusikFrame.cpp:177
+#: ../src/Classes/PlaylistCtrl.cpp:370 ../src/Frames/MusikFrame.cpp:180
 msgid "Unrated"
 msgstr "Sin Calificación"
 
@@ -1482,7 +1502,7 @@ msgstr "Actualizar cuando se haya detenido la reproducción"
 msgid "Updating tags - (ESC to abort)"
 msgstr "Actualizando etiquetas - (ESC para cancelar)"
 
-#: ../src/Frames/MusikAutoTaggerFrame.cpp:140
+#: ../src/Frames/MusikAutoTaggerFrame.cpp:144
 msgid "Usage:"
 msgstr "Uso:"
 
@@ -1502,19 +1522,19 @@ msgstr "Utilizar color de borde seleccionado"
 msgid "Use this filter to select songs:"
 msgstr "Utilizar este filtro para seleccionar canciones:"
 
-#: ../src/Frames/MusikFrame.cpp:348
+#: ../src/Frames/MusikFrame.cpp:365
 msgid "Vie&w"
 msgstr "V&er"
 
-#: ../src/Classes/Library/MetaDataHandler.cpp:89
+#: ../src/Classes/Library/MetaDataHandler.cpp:105
 msgid "WAVE Audio File"
 msgstr "Archivo de Audio WAVE"
 
-#: ../src/Classes/Library/MetaDataHandler.cpp:92
+#: ../src/Classes/Library/MetaDataHandler.cpp:108
 msgid "Windows Media Audio File"
 msgstr "Archivo de Audio de Windows Media"
 
-#: ../src/Frames/MusikFrame.cpp:350
+#: ../src/Frames/MusikFrame.cpp:367
 msgid "Write Changes to &File"
 msgstr "Escribir Cambios a &Archivo"
 
@@ -1562,7 +1582,7 @@ msgstr "Año"
 msgid "Year  "
 msgstr "Año"
 
-#: ../src/Classes/ActivityBox.cpp:532
+#: ../src/Classes/ActivityBox.cpp:538
 msgid "Years"
 msgstr "Años"
 
@@ -1578,7 +1598,7 @@ msgstr "perra"
 msgid "buffering ..."
 msgstr "almacenando en cache ..."
 
-#: ../src/Frames/MusikFrame.cpp:618
+#: ../src/Frames/MusikFrame.cpp:633
 msgid "by "
 msgstr ""
 
@@ -1603,7 +1623,7 @@ msgstr "verga"
 msgid "dildo"
 msgstr "dildo"
 
-#: ../src/Frames/MusikFrame.cpp:620
+#: ../src/Frames/MusikFrame.cpp:635
 msgid "from the album"
 msgstr ""
 

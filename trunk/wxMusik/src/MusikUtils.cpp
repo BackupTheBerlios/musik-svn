@@ -1137,7 +1137,7 @@ BEGIN_EVENT_TABLE(wxButton_NoFlicker,wxButton)
 EVT_ERASE_BACKGROUND(wxButton_NoFlicker::OnEraseBackground)
 END_EVENT_TABLE()
 
-BEGIN_EVENT_TABLE(wxTextCtrl_NoFlicker,wxWindow)
+BEGIN_EVENT_TABLE(wxTextCtrl_NoFlicker,wxTextCtrl)
 EVT_ERASE_BACKGROUND(wxTextCtrl_NoFlicker::OnEraseBackground)
 END_EVENT_TABLE()
 

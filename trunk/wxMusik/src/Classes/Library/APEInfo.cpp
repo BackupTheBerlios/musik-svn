@@ -22,7 +22,11 @@ bool CMyAPEInfo::ReadMetaData(CSongMetaData & MetaData) const
 }
 bool CMyAPEInfo::ReadTagData(CSongMetaData & MetaData) const
 {
-	CAPETag tag(MetaData.Filename.GetFullPath().wc_str(wxConvFile));
+#ifdef __WXMAC__
+        CAPETag tag(MetaData.Filename.GetFullPath().mb_str(wxConvFile));
+#else
+        CAPETag tag(MetaData.Filename.GetFullPath().wc_str(wxConvFile));
+#endif
 	GetFieldAsUtf8(APE_TAG_FIELD_TITLE,tag,MetaData.Title);
 	GetFieldAsUtf8(APE_TAG_FIELD_ARTIST,tag,MetaData.Artist);
 	GetFieldAsUtf8(APE_TAG_FIELD_ALBUM,tag,MetaData.Album);
@@ -37,7 +41,11 @@ bool CMyAPEInfo::ReadTagData(CSongMetaData & MetaData) const
 
 bool  CMyAPEInfo::WriteMetaData(const CSongMetaData & MetaData,bool bClearAll)
 {
+#ifdef __WXMAC__
+	CAPETag tag(MetaData.Filename.GetFullPath().mb_str(wxConvFile));
+#else
 	CAPETag tag(MetaData.Filename.GetFullPath().wc_str(wxConvFile));
+#endif
 	if(bClearAll)
 		tag.ClearFields();
 	tag.SetFieldString(APE_TAG_FIELD_TITLE,MetaData.Title,TRUE);

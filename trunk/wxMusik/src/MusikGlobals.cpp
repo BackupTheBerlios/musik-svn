@@ -111,7 +111,6 @@ wxFont g_fntSong;
 wxFont g_fntTime;
 wxFont g_fntRegular;
 wxFont g_fntBold;
-wxFont g_fntInfo;
 wxFont g_fntListBold;
 
 //------------//

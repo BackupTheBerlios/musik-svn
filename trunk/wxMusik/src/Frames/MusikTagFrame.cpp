@@ -297,7 +297,7 @@ void MusikTagFrame::SetCaption()
 
 bool MusikTagFrame::Show( bool show )
 {
-	bool bRet = wxWindow::Show( show );
+	bool bRet = wxFrame::Show( show );
 	
 	if ( show )
 	{

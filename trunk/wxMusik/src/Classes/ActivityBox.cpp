@@ -184,7 +184,7 @@ void CActivityListBox::RefreshCaption()
 void CActivityListBox::SetList( const wxArrayString &  aList ,bool selectnone,bool bEnsureVisibilityOfCurrentTopItem )
 {
 	wxString sCurrentTopItem;
-    long  nTopItem = HasShowAllRow()? GetTopItem() - 1 : GetTopItem();
+    long  nTopItem = HasShowAllRow() && GetTopItem() > 0 ? GetTopItem() - 1 : GetTopItem();
 	if(bEnsureVisibilityOfCurrentTopItem && m_Items.GetCount() && nTopItem < (long)m_Items.GetCount())
 	{
 		sCurrentTopItem = m_Items[nTopItem];

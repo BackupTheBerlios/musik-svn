@@ -48,7 +48,7 @@ bool CFMODInfo::ReadMetaData(CSongMetaData & MetaData) const
 
 	MetaData.nDuration_ms	=  FSOUND_Stream_GetLengthMs( pStream );
 	MetaData.nFilesize		= FSOUND_Stream_GetLength( pStream );
-	MetaData.nBitrate		= MetaData.nFilesize * 8 / MetaData.nDuration_ms  ;
+	MetaData.nBitrate		= MetaData.nDuration_ms ? MetaData.nFilesize * 8 / MetaData.nDuration_ms : 0;
 	FSOUND_Stream_Close( pStream );
 	return true;
 }

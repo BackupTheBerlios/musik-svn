@@ -513,6 +513,7 @@ bool CMusikPlayer::Play( size_t nItem, int nStartPos, int nFadeType )
 	//---------------------------------------------//
 	int retries = 2;
 	bool bPlaySucceeded = false;
+	pNewStream->SetTime( nStartPos * 1000 );
 	while( retries -- && (!bPlaySucceeded))
 	{
 		if(!pNewStream->Play())
@@ -542,7 +543,6 @@ bool CMusikPlayer::Play( size_t nItem, int nStartPos, int nFadeType )
 		FSOUND_Stream_Net_SetMetadataCallback((FSOUND_STREAM*)pNewStream->GetStreamOut()->STREAM(), MetadataCallback, this);
 	}
 	pNewStream->SetVolume(  0.0 );
-	pNewStream->SetTime( nStartPos * 1000 );
 	m_Playing = true;
 	m_Paused = false;
 	g_FaderThread->CrossfaderAbort();

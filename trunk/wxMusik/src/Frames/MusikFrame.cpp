@@ -231,7 +231,7 @@ MusikFrame::MusikFrame()
 
 	m_pBottomPanel = new wxSashLayoutWindow(this,-1,wxDefaultPosition,wxDefaultSize,wxNO_BORDER|wxCLIP_CHILDREN);
 	m_pBottomPanel->SetDefaultSize(wxSize(1000,70));
-	m_pBottomPanel->SetAlignment(wxLAYOUT_BOTTOM);
+	m_pBottomPanel->SetAlignment(wxGetApp().Prefs.bShowNowPlayingControlOnTop == true ? wxLAYOUT_TOP : wxLAYOUT_BOTTOM);
 	m_pBottomPanel->SetOrientation(wxLAYOUT_HORIZONTAL);
 	//----------------//
 	//--- playlist ---//
@@ -332,6 +332,7 @@ void MusikFrame::CreateMainMenu()
 	view_menu->Append	( MUSIK_MENU_ACTIVITIES_STATE, _("Show Selections\tCtrl-2"), wxT(""), wxITEM_CHECK );
 	view_menu->Append	( MUSIK_MENU_PLAYLISTINFO_STATE, _("Show Playlist Info\tCtrl-3"), wxT(""), wxITEM_CHECK );
 	view_menu->Append	( MUSIK_MENU_ALBUMART_STATE, _("Show Album Info\tCtrl-4"), wxT(""), wxITEM_CHECK );
+	view_menu->Append	( MUSIK_MENU_NOWPLAYINGCONTROL_ONTOP_STATE, _("Show Playing Control on top\tCtrl-5"), wxT(""), wxITEM_CHECK );
 	view_menu->AppendSeparator();
 	view_menu->Append	( MUSIK_MENU_SELECT_SOURCES_LIBRARY, _("Select Library\tCtrl-F1"), wxT("") );
 	view_menu->Append	( MUSIK_MENU_SELECT_SOURCES_NOWPLAYING, _("Select Now Playing\tCtrl-F2"), wxT(""));

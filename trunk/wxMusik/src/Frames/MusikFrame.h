@@ -173,6 +173,8 @@ public:
 	void OnUpdateUIActivitiesState	( wxUpdateUIEvent&	event			);
 	void OnPlaylistInfoState		( wxCommandEvent&	WXUNUSED(event) );
 	void OnUpdateUIPlaylistInfoState( wxUpdateUIEvent&	event			);
+	void OnNowPlayingControlOnTopState( wxCommandEvent& WXUNUSED(event) );
+	void OnUpdateUINowPlayingControlOnTopState	( wxUpdateUIEvent&	event			);
 	void OnAlbumartState			( wxCommandEvent&	WXUNUSED(event) );
 	void OnUpdateUIAlbumartState	( wxUpdateUIEvent&	event			);
 

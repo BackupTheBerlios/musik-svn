@@ -1,3 +1,11 @@
+0.4.1.0
++ the playing control area can now be placed on top of the winow instead of the bottom.
+- return key press in search box no longer starts song play 
++ using taglib for tag reading on writing of ogg,flac,mpc,mp3/2 files.(for ape files the mac sdk code is still used). taglib is faster and supports unicode for tags (even id3v2 tags) easily.
+- scrolling using cursor keys was not possible on win32
++ added crashhandler for win32 (using BlackBox.dll) and for linux (using code from wxcode)
++ supports ape,mpc and flac on linux
++ moved from cvs to subversion as version control software.
 0.4.0.1 
 - fixed bug: MPEGACCURATE flag was lost, so mp3 vbr were sometimes not played in full length.
 - all bug fixes and enhancements  from 0.3.1.7

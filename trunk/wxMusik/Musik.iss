@@ -3,6 +3,7 @@
 #define MyAppName "wxMusik" ; define variable
 #define MyAppVer GetFileVersion("Release Unicode\" + MyAppName + ".exe") ; define variable
 #define MyAppExe MyAppName + ".exe" ;
+#define MyAppPdb MyAppName + ".pdb" ;
 [Setup]
 AppName={#MyAppName}
 #emit 'AppVerName=' + MyAppName + ' ' + MyAppVer
@@ -39,6 +40,7 @@ Name: quicklaunchicon; Description: {cm:CreateQuickLaunchIcon}; GroupDescription
 [Files]
 Source: _release\{#MyAppExe}; DestDir: {app}; Flags: promptifolder; MinVersion: 4.1.1998,0; OnlyBelowVersion: 0,4.0.1381
 Source: changelog.txt; DestDir: {app}; Flags: ignoreversion
+Source: Release Unicode\BlackBox.dll; DestDir: {app}; Flags: ignoreversion
 Source: Release Unicode\fmod.dll; DestDir: {app}; Flags: ignoreversion
 Source: license.txt; DestDir: {app}; Flags: ignoreversion
 Source: _release\MMShellHook.dll; DestDir: {app}; Flags: ignoreversion
@@ -51,15 +53,18 @@ Source: contrib\playlists\*.mpu; DestDir: {userappdata}\..\.Musik\playlists; Fla
 Source: contrib\playlists\*.mpu; DestDir: {app}\.Musik\playlists; Flags: overwritereadonly; Components: Radio_Channels_win9x
 Source: contrib\playlists\*.mpd; DestDir: {app}\.Musik\playlists; Flags: overwritereadonly; Components: Dynamic_Playlist_Examples_win9x
 Source: Release Unicode\{#MyAppExe}; DestDir: {app}; MinVersion: 0,4.0.1381sp6; Flags: promptifolder
-Source: locale\de\*.mo; DestDir: {app}\locale\de; Flags: overwritereadonly; Languages: de
 Source: data\*; DestDir: {app}\data; Flags: overwritereadonly
+Source: locale\de\*.mo; DestDir: {app}\locale\de; Flags: overwritereadonly; Languages: de
 Source: locale\fr\*.mo; DestDir: {app}\locale\fr; Flags: overwritereadonly; Languages: fr
 Source: locale\cs\*.mo; DestDir: {app}\locale\cs; Flags: overwritereadonly; Languages: cs
 Source: locale\nb\*.mo; DestDir: {app}\locale\nb; Flags: overwritereadonly; Languages: nb
-Source: locale\pt_BR\*.mo; DestDir: {app}\locale\pt_BR; Flags: overwritereadonly; Languages: de pt
+Source: locale\pt_BR\*.mo; DestDir: {app}\locale\pt_BR; Flags: overwritereadonly; Languages: pt
 Source: locale\es\*.mo; DestDir: {app}\locale\es; Flags: overwritereadonly; Languages: es
 Source: locale\nl\*.mo; DestDir: {app}\locale\nl; Flags: overwritereadonly; Languages: nl
 Source: locale\it\*.mo; DestDir: {app}\locale\it; Flags: overwritereadonly; Languages: it
+Source: locale\ru\*.mo; DestDir: {app}\locale\ru; Flags: overwritereadonly; Languages: ru
+Source: _release\{#MyAppPdb}; DestDir: {app}; Flags: promptifolder; MinVersion: 4.1.1998,0; OnlyBelowVersion: 0,4.0.1381
+Source: Release Unicode\{#MyAppPdb}; DestDir: {app}; MinVersion: 0,4.0.1381sp6; Flags: promptifolder
 [Icons]
 Name: {group}\{#MyAppName}; Filename: {app}\{#MyAppExe}; WorkingDir: {app}; IconIndex: 0
 Name: {group}\{cm:UninstallProgram,{#MyAppName}}; Filename: {uninstallexe}
@@ -90,6 +95,7 @@ Name: pt; MessagesFile: compiler:Languages\PortugueseStd.isl
 Name: es; MessagesFile: compiler:Languages\Spanish.isl
 Name: nl; MessagesFile: compiler:Languages\Dutch.isl
 Name: it; MessagesFile: compiler:Languages\Italian-3-4.2.1.isl
+Name: ru; MessagesFile: compiler:Languages\Russian.isl
 
 [CustomMessages]
 en.Examples_of_Dynamic_Playlists=Examples of Dynamic Playlists
@@ -112,3 +118,5 @@ nl.Examples_of_Dynamic_Playlists=Voorbeelden van dynamische afspeellijsten
 nl.Examples_of_Net_Radio_Channels=Voorbeelden van webradiokanalen
 it.Examples_of_Dynamic_Playlists=Esempi di Playlist Dinamiche
 it.Examples_of_Net_Radio_Channels=Esempi di Canali Radio in Rete
+ru.Examples_of_Dynamic_Playlists=Examples of Dynamic Playlists
+ru.Examples_of_Net_Radio_Channels=Examples of Net Radio Channels

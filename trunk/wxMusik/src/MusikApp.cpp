@@ -15,6 +15,9 @@
 #include <wx/textfile.h>
 #include <wx/cmdline.h>
 #include <wx/progdlg.h>
+
+
+
 #include "MusikApp.h"
 /***** the XInitThreads call leads to strange behaviour when doing 
 ****** drag in a listview. the whole xserver is locked, until the app is 
@@ -102,6 +105,19 @@ void MusikApp::OnPlayFiles(const wxArrayString &aFilelist)
 }
 bool MusikApp::OnInit()
 {
+	if(Prefs.bEnableCrashHandling)
+	{
+#if defined(__WINDOWS__)
+		// BlackBox dll (crash handling)
+		m_blackboxDll.Load (_T("BlackBox.dll"));
+#endif
+#if defined(__linux__)
+		// fatal exceptions handling
+		wxHandleFatalExceptions (true);
+#endif
+	}
+
+
 	m_locale.AddCatalogLookupPathPrefix(wxT("locale"));
 
 	const wxLanguageInfo * pLangInfo = wxLocale::FindLanguageInfo(Prefs.sLocale);
@@ -382,3 +398,79 @@ void MusikApp::CopyFiles(const CMusikSongArray &songs)
 	dialog.Update(100,wxT(""));
 
 }
+
+#if defined(__linux__)
+//! standard header
+#if defined(__linux__)
+#include <execinfo.h>    // Needed for backtrace
+#include <cxxabi.h>      // Needed for __cxa_demangle
+#include <unistd.h>
+#endif
+
+void App::OnFatalException () 
+{
+	const int maxBtCount = 100;
+	void *btBuffer [maxBtCount];
+	char ** btStrings;
+	wxString appname = wxTheApp->GetAppName();
+
+	// get the backtrace with synbols
+	int btCount;
+	btCount = backtrace (btBuffer, maxBtCount);
+	if (btCount < 0) {
+		printf (_T("\n%s: Backtrace could not be created\n"), appname.c_str());
+	}
+	btStrings = backtrace_symbols (btBuffer, btCount);
+	if (!btStrings) {
+		printf (_T("\n%s: Backtrace could not get symbols\n"), appname.c_str());
+	}
+
+	// print backtrace announcement
+	printf (_T("\n*** %s (%s) crashed ***, see backtrace!\n"), appname.c_str(), wxVERSION_STRING);
+
+	// format backtrace lines
+	int status;
+	wxString cur, addr, func, addrs;
+	wxArrayString lines;
+	int pos1, pos2;
+	for (int i = 0; i < btCount; ++i) {
+		cur = btStrings[i];
+		pos1 = cur.rfind ('[');
+		pos2 = cur.rfind (']');
+		if ((pos1 != wxString::npos) && (pos2 != wxString::npos)) {
+			addr = cur.substr (pos1 + 1, pos2 - pos1 - 1);
+			addrs.Append (addr + _T(" "));
+		}
+		pos1 = cur.rfind ("(_Z");
+		pos2 = cur.rfind ('+');
+		if (pos2 != wxString::npos) {
+			if (pos1 != wxString::npos) {
+				func = cur.substr (pos1 + 1, pos2 - pos1 - 1);
+				func = abi::__cxa_demangle (func.c_str(), 0, 0, &status);
+			}else{
+				pos1 = cur.rfind ('(');
+				func = cur.substr (pos1 + 1, pos2 - pos1 - 1);
+			}
+		}
+		lines.Add (addr + _T(" in ") + func);
+		if (func == "main") break;
+	}
+
+	// determine line from address
+	wxString cmd = wxString::Format ("addr2line -e /proc/%d/exe -s ", getpid());
+	wxArrayString fnames;
+	if (wxExecute (cmd + addrs, fnames) != -1) {
+		for (int i = 0; i < fnames.GetCount(); ++i) {
+			printf ("%s at %s\n", lines[i].c_str(), fnames[i].c_str());
+		}
+	}else{
+		for (int i = 0; i < lines.GetCount(); ++i) {
+			printf ("%s\n", lines[i].c_str());
+		}
+	}
+
+
+
+
+}
+#endif

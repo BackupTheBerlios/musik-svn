@@ -1748,7 +1748,7 @@ CSearchBox::CSearchBox( wxWindow *parent )
 	//--------------------//
 	wxBoxSizer *pSizer = new wxBoxSizer( wxHORIZONTAL );
 
-	wxStaticText *stSearch	= new wxStaticText_NoFlicker( this, -1, _( "Search:" ),wxPoint( -1, -1 ), wxSize( -1, -1 ), wxALIGN_RIGHT | wxTRANSPARENT_WINDOW );
+	wxStaticText *stSearch	= new wxStaticText_NoFlicker( this, -1, _( "Search:" ),wxPoint( -1, -1 ), wxSize( -1, -1 ), wxALIGN_RIGHT  );
 	m_pTextSimpleQuery		= new wxTextCtrl_NoFlicker( this, MUSIK_SEARCHBOX_TEXT, wxT( "" ), wxPoint( -1, -1 ), wxSize( -1, -1 ), wxSIMPLE_BORDER|wxTE_PROCESS_ENTER );
 	wxButton *buttonClear =new wxButton_NoFlicker(this,MUSIK_SEARCHBOX_CLEAR,_("Clear"),wxDefaultPosition,wxDefaultSize,wxBU_EXACTFIT );
 	const wxString searchmode_choices[] ={_("All words"),_("Exact phrase"),_("Any word")};

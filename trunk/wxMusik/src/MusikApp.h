@@ -20,6 +20,7 @@
 #include <wx/snglinst.h>
 #include <wx/ipc.h>
 #include "wx/intl.h"
+#include <wx/dynlib.h>   // dynamic library support
 
 #include "Classes/MusikLibrary.h"
 #include "Classes/MusikPlayer.h"
@@ -44,6 +45,11 @@ public:
 	}
 	virtual bool OnInit();
 	virtual int OnExit();
+#if defined(__linux__)
+	//! fatal exeption handling
+	void OnFatalException();
+#endif
+
 	void OnPlayFiles(const wxArrayString &aFilelist);
 	void CopyFiles(const CMusikSongArray &songs);
 public:
@@ -58,6 +64,12 @@ private:
 	wxSingleInstanceChecker *m_pSingleInstanceChecker;
 	MusikAppServer *m_pServer;
 	wxLocale m_locale; // locale we'll be using
+#if defined(__WINDOWS__)
+	//! BlackBox dll (crash handling)
+	wxDynamicLibrary  m_blackboxDll;
+#endif
+
+
 };
 
 DECLARE_APP(MusikApp)

@@ -36,11 +36,12 @@ enum EMUSIK_FXFRAME_ID
 
 BEGIN_EVENT_TABLE(MusikFXDialog, wxDialog)
 	EVT_CLOSE				(					MusikFXDialog::OnClose			)
+	EVT_BUTTON				(wxID_CANCEL		,MusikFXDialog::OnCancel			)
 	EVT_CONTEXT_MENU		(					MusikFXDialog::OnRightClick		)
 	EVT_COMMAND_SCROLL		( SLD_PITCH,		MusikFXDialog::OnSlidePitch		)
 	EVT_CHECKBOX			( CHK_PITCHENABLE,	MusikFXDialog::OnTogglePitchEnable )
 #ifndef __WXMAC__
-	EVT_ERASE_BACKGROUND		( MusikFXDialog::OnEraseBackground )
+//	EVT_ERASE_BACKGROUND		( MusikFXDialog::OnEraseBackground )
 #endif
 END_EVENT_TABLE()
 
@@ -131,14 +132,14 @@ MusikFXDialog::MusikFXDialog( wxWindow *pParent, const wxString &sTitle, const w
 	
 	chkPitchEnable = new wxCheckBox( this, CHK_PITCHENABLE, _("Enable Pitch control") );
 	chkPitchEnable->SetValue( wxGetApp().Prefs.bUsePitch );
-	hsPitch->Add( chkPitchEnable, 1, wxALIGN_CENTER | wxALIGN_CENTER_VERTICAL );
-	hsPitch->Add( slPitch, 0, wxALL, 4 );
+	hsPitch->Add( chkPitchEnable, 0, wxALIGN_CENTER | wxALIGN_CENTER_VERTICAL );
+	hsPitch->Add( slPitch, 1, wxALL, 4 );
 
 	vsMain->Add( pEQ, 1, wxEXPAND|wxALL, 4 );
 	
 	vsMain->Add( hsPitch, 0,wxEXPAND | wxALL, 4 );
 	
-
+	vsMain->Add( new wxButton(this,wxID_CANCEL,_("Close")), 0,wxALIGN_RIGHT|wxALL, 4 );
 	SetSizerAndFit( vsMain );
 
 	//--------------//
@@ -155,7 +156,10 @@ void MusikFXDialog::Close()
 {
 	this->Destroy();
 }
-
+void MusikFXDialog::OnCancel(wxCommandEvent& WXUNUSED(event))
+{
+	Close();
+}
 void MusikFXDialog::OnClose ( wxCloseEvent& WXUNUSED(event) )
 {
 	Close();

@@ -46,6 +46,8 @@ BEGIN_EVENT_TABLE(MusikFrame, wxFrame)
 	EVT_UPDATE_UI				(MUSIK_MENU_PLAYLISTINFO_STATE,		MusikFrame::OnUpdateUIPlaylistInfoState	)	
 	EVT_MENU					(MUSIK_MENU_ALBUMART_STATE,			MusikFrame::OnAlbumartState		)	// View->Show Album Art
 	EVT_UPDATE_UI				(MUSIK_MENU_ALBUMART_STATE,			MusikFrame::OnUpdateUIAlbumartState	)	
+	EVT_MENU					(MUSIK_MENU_NOWPLAYINGCONTROL_ONTOP_STATE,			MusikFrame::OnNowPlayingControlOnTopState		)	// View->Show Album Art
+	EVT_UPDATE_UI				(MUSIK_MENU_NOWPLAYINGCONTROL_ONTOP_STATE,			MusikFrame::OnUpdateUINowPlayingControlOnTopState	)	
 	EVT_MENU_RANGE				(MUSIK_MENU_SELECT_SOURCES_LIBRARY,MUSIK_MENU_SELECT_SOURCES_NOWPLAYING	,		MusikFrame::OnSelectSources			)	// View->Select xxx
 
 	EVT_MENU					(MUSIK_MENU_STAY_ON_TOP,			MusikFrame::OnStayOnTop				)	// View->Stay On Top
@@ -240,6 +242,19 @@ void MusikFrame::OnUpdateUIPlaylistInfoState( wxUpdateUIEvent& event)
 {
 	event.Check(wxGetApp().Prefs.bShowPLInfo);
 }
+void MusikFrame::OnNowPlayingControlOnTopState( wxCommandEvent& WXUNUSED(event) )	
+{ 
+	wxGetApp().Prefs.bShowNowPlayingControlOnTop = !wxGetApp().Prefs.bShowNowPlayingControlOnTop;
+	m_pBottomPanel->SetAlignment(wxGetApp().Prefs.bShowNowPlayingControlOnTop == true ? wxLAYOUT_TOP : wxLAYOUT_BOTTOM);
+	SendSizeEvent();	
+	Show(false); // HACK to force complete redraw
+	Show(true); 			
+}
+void MusikFrame::OnUpdateUINowPlayingControlOnTopState( wxUpdateUIEvent& event)
+{
+	event.Check(wxGetApp().Prefs.bShowNowPlayingControlOnTop);
+}
+
 void MusikFrame::OnAlbumartState( wxCommandEvent& WXUNUSED(event) )	
 { 
 	wxGetApp().Prefs.bShowAlbumArt = !wxGetApp().Prefs.bShowAlbumArt;

@@ -39,6 +39,7 @@ public:
 	//--- events ---//
 	//--------------//
 	void OnClose			( wxCloseEvent& WXUNUSED(event) );
+	void OnCancel			( wxCommandEvent& WXUNUSED(event) );
 	void OnSlidePitch		( wxScrollEvent& event );
 	void OnRightClick		( wxContextMenuEvent& event );
 	void OnTogglePitchEnable	( wxCommandEvent& WXUNUSED(event) );

@@ -297,6 +297,8 @@ public:
 		,bTagDlgClear(this,wxT( "TagDialogClear" ),false)
 		,bTagDlgRename(this,wxT( "TagDialogRename" ),false)
 
+		,bShowNowPlayingControlOnTop(this,wxT( "ShowNowPlayingControlOnTop" ),false)
+
 		,ePlaymode(this,wxT( "Playmode" ),MUSIK_PLAYMODE_NORMAL)
 		,nMaxShuffleHistory(this,wxT( "MaxShuffleHistory" ),500)
 		,nAutoDjDoNotPlaySongPlayedTheLastNHours(this,wxT( "AutoDjDoNotPlaySongPlayedTheLastNHours" ),5*24)
@@ -371,6 +373,7 @@ public:
 		,bEnablePlayerHotkeys(this,	wxT("EnablePlayerHotkeys"),false)
 		,sPlayerHotkeys(this,wxT("PlayerHotkey%d"),DefaultPlayerHotkeys)
 #endif
+		,bEnableCrashHandling(this,wxT("EnableCrashHandling"),true)	
 	{
 		LoadPrefs();
 	}
@@ -428,7 +431,7 @@ public:
 	CConfigSettingBool bTagDlgClear;
 	CConfigSettingBool bTagDlgRename;
 
-
+	CConfigSettingBool bShowNowPlayingControlOnTop;
 
 
 	CConfigSetting<Value<int>,EMUSIK_PLAYMODE> ePlaymode;
@@ -504,6 +507,8 @@ public:
 	CConfigSettingBool bEnablePlayerHotkeys;			
 	CConfigSettingArray<wxString,MUSIK_HOTKEYID_LAST> sPlayerHotkeys;
 #endif
+
+	CConfigSettingBool bEnableCrashHandling;
 	wxString sDataPath;
 
 

@@ -32,7 +32,7 @@ void CMusikEQCtrl::OnEraseBackground( wxEraseEvent& WXUNUSED(event) )
 }
 
 CMusikEQCtrl::CMusikEQCtrl( wxWindow* pParent )
-	: wxPanel( pParent, -1, wxDefaultPosition, wxDefaultSize, wxNO_BORDER |wxCLIP_CHILDREN| wxTRANSPARENT_WINDOW )
+	: wxPanel( pParent, -1, wxDefaultPosition, wxDefaultSize, wxNO_BORDER |wxCLIP_CHILDREN )
 {
 	//-------------------------------------//
 	//--- initialize the sizers			---//

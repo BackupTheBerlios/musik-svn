@@ -28,19 +28,19 @@ EVT_ERASE_BACKGROUND(CPlaylistInfoCtrl::OnEraseBackground)
 END_EVENT_TABLE()
 
 CPlaylistInfoCtrl::CPlaylistInfoCtrl( wxWindow *parent ,IPlaylistInfo *pIPlaylistInfo )
-	: wxPanel( parent, -1, wxPoint( -1, -1 ), wxSize( -1, -1 ),wxNO_FULL_REPAINT_ON_RESIZE| wxCLIP_CHILDREN|wxTRANSPARENT_WINDOW )
+	: wxPanel( parent, -1, wxPoint( -1, -1 ), wxSize( -1, -1 ),wxNO_FULL_REPAINT_ON_RESIZE| wxCLIP_CHILDREN )
 	,m_pIPlaylistInfo( pIPlaylistInfo )
 {
 
  	//--- static text objects ---/
-	stTotal			= new wxStaticText_NoFlicker( this, -1, _( "Total Songs: " ),			wxPoint( -1, -1 ), wxSize( -1, -1 ), wxALIGN_LEFT | wxTRANSPARENT_WINDOW );
-	stTotalVal		= new wxStaticText_NoFlicker( this, -1, wxT( "0" ),					wxPoint( -1, -1 ), wxSize( -1, -1 ), wxALIGN_LEFT | wxTRANSPARENT_WINDOW );
-	stPlaylist		= new wxStaticText_NoFlicker( this, -1, _( "Playlist Songs: " ),		wxPoint( -1, -1 ), wxSize( -1, -1 ), wxALIGN_LEFT | wxTRANSPARENT_WINDOW );
-	stPlaylistVal	= new wxStaticText_NoFlicker( this, -1, wxT( "0" ),					wxPoint( -1, -1 ), wxSize( -1, -1 ), wxALIGN_LEFT | wxTRANSPARENT_WINDOW );
-	stRuntime		= new wxStaticText_NoFlicker( this, -1, _( "Playlist Runtime: " ),	wxPoint( -1, -1 ), wxSize( -1, -1 ), wxALIGN_LEFT | wxTRANSPARENT_WINDOW );
-	stRuntimeVal	= new wxStaticText_NoFlicker( this, -1, wxT( "0:00" ),				wxPoint( -1, -1 ), wxSize( -1, -1 ), wxALIGN_LEFT | wxTRANSPARENT_WINDOW );
-	stFilesize		= new wxStaticText_NoFlicker( this, -1, _( "Playlist size: " ),		wxPoint( -1, -1 ), wxSize( -1, -1 ), wxALIGN_LEFT | wxTRANSPARENT_WINDOW );
-	stFilesizeVal	= new wxStaticText_NoFlicker( this, -1, wxT( "Empty" ),				wxPoint( -1, -1 ), wxSize( -1, -1 ), wxALIGN_LEFT | wxTRANSPARENT_WINDOW );
+	stTotal			= new wxStaticText_NoFlicker( this, -1, _( "Total Songs: " ),			wxPoint( -1, -1 ), wxSize( -1, -1 ), wxALIGN_LEFT  );
+	stTotalVal		= new wxStaticText_NoFlicker( this, -1, wxT( "0" ),					wxPoint( -1, -1 ), wxSize( -1, -1 ), wxALIGN_LEFT  );
+	stPlaylist		= new wxStaticText_NoFlicker( this, -1, _( "Playlist Songs: " ),		wxPoint( -1, -1 ), wxSize( -1, -1 ), wxALIGN_LEFT  );
+	stPlaylistVal	= new wxStaticText_NoFlicker( this, -1, wxT( "0" ),					wxPoint( -1, -1 ), wxSize( -1, -1 ), wxALIGN_LEFT  );
+	stRuntime		= new wxStaticText_NoFlicker( this, -1, _( "Playlist Runtime: " ),	wxPoint( -1, -1 ), wxSize( -1, -1 ), wxALIGN_LEFT  );
+	stRuntimeVal	= new wxStaticText_NoFlicker( this, -1, wxT( "0:00" ),				wxPoint( -1, -1 ), wxSize( -1, -1 ), wxALIGN_LEFT  );
+	stFilesize		= new wxStaticText_NoFlicker( this, -1, _( "Playlist size: " ),		wxPoint( -1, -1 ), wxSize( -1, -1 ), wxALIGN_LEFT  );
+	stFilesizeVal	= new wxStaticText_NoFlicker( this, -1, wxT( "Empty" ),				wxPoint( -1, -1 ), wxSize( -1, -1 ), wxALIGN_LEFT  );
 	
 
 	//--- font stuff ---//

@@ -25,7 +25,7 @@
 #include "MUSIKEngine/inc/imusikstreamout.h"
 
 #ifdef MP3DEC_NEW
-
+#ifdef MUSIKENGINE_USE_LIBMUSEPACK_103
 MUSIKMPCDecoder::MUSIKMPCDecoder(IMUSIKStreamOut * pIMUSIKStreamOut)
 :MUSIKDecoder(pIMUSIKStreamOut)
 {
@@ -112,10 +112,155 @@ bool MUSIKMPCDecoder::OpenMedia(const char *FileName)
 }
 
 bool MUSIKMPCDecoder::Close()
-{
+{    
 	return MUSIKDecoder::Close();
 }
 
+#else // MUSIKENGINE_USE_LIBMUSEPACK_103
+
+/*
+  Our implementations of the mpc_reader callback functions.
+*/
+
+mpc_int32_t
+MUSIKMPCDecoder::MPCStream::read_impl(void *data, void *ptr, mpc_int32_t size)
+{
+    reader_data *d = (reader_data *) data;
+    return fread(ptr, 1, size, d->file);
+}
+
+BOOL
+MUSIKMPCDecoder::MPCStream::seek_impl(void *data, mpc_int32_t offset)
+{
+    reader_data *d = (reader_data *) data;
+    return d->seekable ? !fseek(d->file, offset, SEEK_SET) : false;
+}
+
+mpc_int32_t
+MUSIKMPCDecoder::MPCStream::tell_impl(void *data)
+{
+    reader_data *d = (reader_data *) data;
+    return ftell(d->file);
+}
+
+mpc_int32_t
+MUSIKMPCDecoder::MPCStream::get_size_impl(void *data)
+{
+    reader_data *d = (reader_data *) data;
+    return d->size;
+}
+
+BOOL
+MUSIKMPCDecoder::MPCStream::canseek_impl(void *data)
+{
+    reader_data *d = (reader_data *) data;
+    return d->seekable;
+}
+MUSIKMPCDecoder::MPCStream::MPCStream()
+{
+    memset(&data,0,sizeof(data));
+    memset(sample_buffer,0,sizeof(sample_buffer));
+    // set reader functions
+    reader.read = read_impl;
+    reader.seek = seek_impl;
+    reader.tell = tell_impl;
+    reader.get_size = get_size_impl;
+    reader.canseek = canseek_impl;
+    reader.data = &data;
+
+    mpc_streaminfo_init(&info);
+    mpc_decoder_setup(&decoder, &reader);    
+}
+
+bool MUSIKMPCDecoder::MPCStream::Init(FILE * input)
+{
+    data.file = input;
+    data.seekable = true;
+    fseek(data.file, 0, SEEK_END);
+    data.size = ftell(data.file);
+    fseek(data.file, 0, SEEK_SET);
+    if( mpc_streaminfo_read(&info, &reader) != ERROR_CODE_OK )
+        return false;
+    mpc_decoder_setup(&decoder, &reader);
+    return mpc_decoder_initialize(&decoder, &info);
+}
+
+void MUSIKMPCDecoder::MPCStream::Close()
+{
+    if(data.file != NULL)
+        fclose(data.file);
+}
+
+MUSIKMPCDecoder::MUSIKMPCDecoder(IMUSIKStreamOut * pIMUSIKStreamOut)
+:MUSIKDecoder(pIMUSIKStreamOut)
+{
+}
+
+MUSIKMPCDecoder::~MUSIKMPCDecoder()
+{
+}
+
+bool MUSIKMPCDecoder::DoSeek(int nTimeMS)
+{	
+    bool bRes = m_MPCStream.SeekSample((mpc_int64_t )(nTimeMS * (double)m_Info.frequency/1000.0 + 0.5)); 
+    if( bRes )
+        SetDecodePos(nTimeMS);
+	return bRes;
+}
+int MUSIKMPCDecoder::DecodeBlocks(unsigned char *buff,int len)
+{
+	int bytes = 0;
+	unsigned valid_samples = m_MPCStream.Decode();
+	if (valid_samples == (unsigned)(-1))
+	{
+		//decode error
+		return -1;		
+	}
+	else if ( valid_samples > 0 )
+	{
+		bytes = CopySamplesToBuffer(m_MPCStream.sample_buffer,valid_samples * m_Info.channels,buff);
+	}
+	IncDecodePos((valid_samples*1000 +  m_Info.frequency/2)/ m_Info.frequency);
+	return bytes;
+
+}
+
+
+
+bool MUSIKMPCDecoder::OpenMedia(const char *FileName)
+{
+
+
+	FILE *fp = fopen ( FileName, "rb" );
+	if (fp) 
+    {
+		if(!m_MPCStream.Init(fp))
+        {
+            Close();
+            return false;
+        }
+    }
+	else 
+		return false;
+ 	m_Info.channels	 = m_MPCStream.info.channels;
+	m_Info.frequency = (int) m_MPCStream.info.sample_freq;
+	m_Info.FileSize  = m_MPCStream.info.total_file_length;
+	m_Info.LengthMS  = (int)(m_MPCStream.info.pcm_samples * 1000 / m_Info.frequency);
+	m_Info.bitrate	 = (int) m_MPCStream.info.average_bitrate;
+	m_Info.bits_per_sample  = 16;
+    return CreateBuffer(MPC_DECODER_BUFFER_LENGTH *sizeof(MPC_SAMPLE_FORMAT) ,4608*32);
+}
+
+
+bool MUSIKMPCDecoder::Close()
+{
+	bool res = MUSIKDecoder::Close();
+    m_MPCStream.Close();
+    return res;
+}
+
+
+#endif// else MUSIKENGINE_USE_LIBMUSEPACK_103
 
 #ifdef MPC_FIXED_POINT
 static int shift_signed(MPC_SAMPLE_FORMAT val,int shift)

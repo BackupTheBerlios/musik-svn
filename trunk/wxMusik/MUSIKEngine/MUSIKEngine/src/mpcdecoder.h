@@ -29,6 +29,9 @@
 #endif
 
 #ifdef MP3DEC_NEW
+
+#ifdef MUSIKENGINE_USE_LIBMUSEPACK_103
+
 #include "musepack/mpc_dec.h"
 class MUSIKMPCDecoder: public MUSIKDecoder
 {
@@ -94,8 +97,83 @@ private:
 
 	friend class MUSIKEngine;
 };
+#else //MUSIKENGINE_USE_LIBMUSEPACK_103
+#include "musepack/musepack.h"
+
+class MUSIKMPCDecoder: public MUSIKDecoder
+{
+
+	struct MPCStream
+	{
+        /*
+          The data bundle we pass around with our reader to store file
+          position and size etc. 
+        */
+        typedef struct reader_data_t {
+            FILE *file;
+            long size;
+            BOOL seekable;
+        } reader_data;
+
+        MPCStream();
+        bool Init(FILE * input);
+        bool CanSeek() 
+        {
+            return reader.canseek(&data) != 0;
+        }
+        unsigned Decode()
+        {
+            return mpc_decoder_decode(&decoder,sample_buffer, 0, 0);
+        }
+        bool SeekSample(mpc_int64_t samplenr)
+        {
+            return  mpc_decoder_seek_sample(&decoder,samplenr);
+        }
+        void Close();
+        
+		MPC_SAMPLE_FORMAT sample_buffer[MPC_DECODER_BUFFER_LENGTH];
+		mpc_streaminfo info;
+    private:    
+        mpc_decoder decoder;
+        mpc_reader reader;
+        reader_data data;
+    private:
+        static mpc_int32_t read_impl(void *data, void *ptr, mpc_int32_t size);
+        static BOOL seek_impl(void *data, mpc_int32_t offset);
+        static mpc_int32_t tell_impl(void *data);
+        static mpc_int32_t get_size_impl(void *data);
+        static BOOL canseek_impl(void *data);
+
+    };
+
+	MUSIKMPCDecoder(IMUSIKStreamOut * pIMUSIKStreamOut);
+public:
+
+	~MUSIKMPCDecoder();
+	virtual bool CanSeek()
+	{
+		return m_MPCStream.CanSeek();
+	}
+	bool Close();
+	virtual const char * Type()
+	{
+		return "Musepack";
+	}
+protected:
+	virtual bool OpenMedia(const char *FileName);
+
+	virtual int DecodeBlocks(unsigned char *buff,int len);
+	virtual bool DoSeek(int nTimeMS);
+
+	int CopySamplesToBuffer(const MPC_SAMPLE_FORMAT * p_buffer,unsigned p_size,unsigned char *pDestbuf);
 
 
+private:
+	MPCStream m_MPCStream;
+
+	friend class MUSIKEngine;
+};
+#endif // else MUSIKENGINE_USE_LIBMUSEPACK_103
 
 #else //#ifdef MP3DEC_NEW
 

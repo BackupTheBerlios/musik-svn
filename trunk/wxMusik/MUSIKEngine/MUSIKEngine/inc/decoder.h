@@ -103,7 +103,8 @@ protected:
 	virtual bool OpenMedia(const char *FileName)=0;
 	virtual int DecodeBlocks(unsigned char *buff,int len)=0;
 	virtual bool DoSeek(int nTimeMS)=0;
-	void	SetDecodePos(int pos)
+    bool SeekIfNeeded();
+	void SetDecodePos(int pos)
 	{
 		m_decode_pos_ms = pos;
 	}

@@ -50,24 +50,22 @@ bool MUSIKDecoder::CreateBuffer(int decoderbuffersize,int streambuffersize )
 
 bool MUSIKDecoder::DoFillBuffer(unsigned char * buff,int len)
 {
-	if ( m_seek_needed != -1 ) 
-	{                          // SEEK
-		bool bRes = DoSeek(m_seek_needed);
-		m_seek_needed = -1;
-		if(bRes == false)
-		{
-			memset(buff,0,len);
-			SetDecodePos(GetLengthMs());
-			return false;// stop
-		}
-		m_sample_buffer_filled = 0; // reset buffer, because we did a seek. so buffer is filled with the new data
-	}
+    if(!SeekIfNeeded())
+    {
+        memset(buff,0,len);
+        return false;
+    }
 	int buff_filled = 0;
 	if(len >= m_sample_buffer_filled)
 	{
 
 		while (len >= m_sample_buffer_filled)
 		{
+            if(!SeekIfNeeded())
+            {
+                memset(buff,0,len);
+                return false;
+            }
 			memcpy(buff + buff_filled, m_sample_buffer, m_sample_buffer_filled); /* copy samples to buff */
 			buff_filled += m_sample_buffer_filled;
 			len -= m_sample_buffer_filled;
@@ -91,6 +89,21 @@ bool MUSIKDecoder::DoFillBuffer(unsigned char * buff,int len)
         }
 	}
 	return true;
+}
+bool MUSIKDecoder::SeekIfNeeded()
+{
+	if ( m_seek_needed != -1 ) 
+	{                          // SEEK
+		bool bRes = DoSeek(m_seek_needed);
+		m_seek_needed = -1;
+		if(bRes == false)
+		{
+			SetDecodePos(GetLengthMs());
+			return false;// stop
+		}
+		m_sample_buffer_filled = 0; // reset buffer, because we did a seek. so buffer will be filled with the new data
+	}
+    return true;
 }
 
 bool MUSIKDecoder::Start()

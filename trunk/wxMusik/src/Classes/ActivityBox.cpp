@@ -72,7 +72,7 @@ CActivityListBox::CActivityListBox( CActivityBox *parent,  wxWindowID id )
 	SetBackgroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_BTNHIGHLIGHT ) );
 #endif
 	InsertColumn( 0, wxT(""), wxLIST_FORMAT_LEFT, 0 );
-	InsertColumn( 1, wxT(""), wxLIST_FORMAT_LEFT, 0 );
+//	InsertColumn( 1, wxT(""), wxLIST_FORMAT_LEFT, 0 );
 	m_bIgnoreSetItemStateEvents = false;
 }
 BEGIN_EVENT_TABLE(CActivityListBox, CMusikListCtrl)
@@ -150,15 +150,15 @@ void CActivityListBox::RescaleColumns( bool bFreeze )
 		Freeze();
 	int nWidth, nHeight;
 	GetClientSize	( &nWidth, &nHeight );
-	if(GetColumnWidth( 0 ) != 0)
-		SetColumnWidth	( 0, 0 );
-
-	if ( GetColumnWidth( 1 ) != nWidth )
+//	if(GetColumnWidth( 0 ) != 0)
+//		SetColumnWidth	( 0, 0 );
+    const int main_col = 0;
+	if ( GetColumnWidth( main_col ) != nWidth )
 	{
 		#ifndef __WXGTK__
-			SetColumnWidth	( 1, nWidth );
+			SetColumnWidth	( main_col, nWidth );
 		#else
-			SetColumnWidth( 1, nWidth - wxSystemSettings::GetMetric(wxSYS_HSCROLL_Y) - GetColumnWidth( 0 ) - 1 );			
+			SetColumnWidth( main_col, nWidth - wxSystemSettings::GetMetric(wxSYS_HSCROLL_Y) /*- GetColumnWidth( 0 )*/ - 1 );			
 		#endif 
 	}
 	if( bFreeze )
@@ -176,7 +176,7 @@ void CActivityListBox::RefreshCaption()
 	item.SetId( 1 );
 	item.SetMask( wxLIST_MASK_TEXT );
 	item.SetText( wxString::Format(wxT("%s (%d)"), m_sCaption.c_str(),m_Items.GetCount()));
-	SetColumn( 1, item );
+	SetColumn( 0, item );
 }
 
 void CActivityListBox::SetList( const wxArrayString &  aList )
@@ -217,10 +217,10 @@ wxString CActivityListBox::OnGetItemText(long item, long column) const
 {
 	switch ( column )
 	{
-	case 0:
-		break;
+//	case 0:
+//		break;
 
-	case 1:
+	case 0:
 		{
 			wxString text(GetRowText( item ));
 			if(text.IsEmpty())

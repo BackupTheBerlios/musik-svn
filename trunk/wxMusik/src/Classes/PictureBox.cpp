@@ -132,6 +132,7 @@ void CPictureBox::TryToLoadImage(const CSongPath &sSongPath)
 		m_image	= m_DefImage;
 		return;
 	}
+    wxLogNull lognull; // disable logging in this scope
 	m_img_files.Clear();
 	wxDir d(sSongPath.GetPath());
 	wxDirTraverserImages t(m_img_files);
@@ -166,6 +167,7 @@ void CPictureBox::OnPaint(wxPaintEvent &)
 
 	if(m_DefImage.Ok() == false && m_bDefaultImageFailed == false)
 	{
+        wxLogNull lognull; // disable logging in this scope
 		m_image = m_DefImage = wxImage(MusikGetStaticDataPath() + wxT("musik.png"), wxBITMAP_TYPE_PNG);
 		if(!m_DefImage.Ok())
 		{
@@ -180,53 +182,55 @@ void CPictureBox::OnPaint(wxPaintEvent &)
 	wxRect cliprect;
 	dc.GetClippingBox(cliprect); 
 	MyRegion.Subtract(cliprect);
-
-	const int offset= 5;
-	width -= 2*offset;
-	height -= 2*offset;
-	int bmpwidth = m_image.GetWidth(),bmpheight = m_image.GetHeight();
-	if((double)width/(double)height > (double)bmpwidth/(double)bmpheight)
-	{
-		if(bmpwidth > bmpheight)
-		{
-			bmpwidth = width;
-			bmpheight = (int)(((double)height * bmpwidth)/((double)width) + 0.5);			
-		}
-		else
-		{
-			bmpheight = height;
-			bmpwidth = (int)(((double)width * bmpheight)/((double)height) + 0.5);
-			
-		}
-	}
-	else
-	{
-		if(bmpheight > bmpwidth)
-		{
-			bmpheight = height;
-			bmpwidth = (int)(((double)width * bmpheight)/((double)height) + 0.5);
-		}
-		else
-		{
-			bmpwidth = width;
-			bmpheight = (int)(((double)height * bmpwidth)/((double)width) + 0.5);
-		}
-	}
-	m_image.ConvertAlphaToMask();
-	wxBitmap bmp = wxBitmap(m_image.Scale(bmpwidth, bmpheight));
-	wxCoord x = abs(bmpwidth - width)/2 + offset;
-	wxCoord y = abs(bmpheight - height)/2 + offset ;
-	dc.DrawBitmap(bmp,x,y,true);
-	wxColour BGColor =  GetBackgroundColour();
-	wxBrush MyBrush(BGColor ,wxSOLID);
-	dc.SetBackground(MyBrush);
-	wxRegion regionBmp(bmp);
-	regionBmp.Offset(x,y);
-	MyRegion.Subtract(regionBmp);
-	// now destroy the old clipping region
-	dc.DestroyClippingRegion();
-	//and set the new one
-	dc.SetClippingRegion(MyRegion);
+    if(m_image.Ok())
+    {
+	    const int offset= 5;
+	    width -= 2*offset;
+	    height -= 2*offset;
+	    int bmpwidth = m_image.GetWidth(),bmpheight = m_image.GetHeight();
+	    if((double)width/(double)height > (double)bmpwidth/(double)bmpheight)
+	    {
+		    if(bmpwidth > bmpheight)
+		    {
+			    bmpwidth = width;
+			    bmpheight = (int)(((double)height * bmpwidth)/((double)width) + 0.5);			
+		    }
+		    else
+		    {
+			    bmpheight = height;
+			    bmpwidth = (int)(((double)width * bmpheight)/((double)height) + 0.5);
+    			
+		    }
+	    }
+	    else
+	    {
+		    if(bmpheight > bmpwidth)
+		    {
+			    bmpheight = height;
+			    bmpwidth = (int)(((double)width * bmpheight)/((double)height) + 0.5);
+		    }
+		    else
+		    {
+			    bmpwidth = width;
+			    bmpheight = (int)(((double)height * bmpwidth)/((double)width) + 0.5);
+		    }
+	    }
+	    m_image.ConvertAlphaToMask();
+	    wxBitmap bmp = wxBitmap(m_image.Scale(bmpwidth, bmpheight));
+	    wxCoord x = abs(bmpwidth - width)/2 + offset;
+	    wxCoord y = abs(bmpheight - height)/2 + offset ;
+	    dc.DrawBitmap(bmp,x,y,true);
+	    wxRegion regionBmp(bmp);
+	    regionBmp.Offset(x,y);
+	    MyRegion.Subtract(regionBmp);
+	    // now destroy the old clipping region
+	    dc.DestroyClippingRegion();
+	    //and set the new one
+	    dc.SetClippingRegion(MyRegion);
+    }
+    wxColour BGColor =  GetBackgroundColour();
+    wxBrush MyBrush(BGColor ,wxSOLID);
+    dc.SetBackground(MyBrush);
 	dc.Clear();
 }
 

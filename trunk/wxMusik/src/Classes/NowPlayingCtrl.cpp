@@ -59,6 +59,12 @@ BEGIN_EVENT_TABLE(CNowPlayingCtrl, wxPanel)
 #endif
 END_EVENT_TABLE()
 
+#define LOAD_BUTTONPNG(Name) \
+    if(!bm##Name.LoadFile(MusikGetStaticDataPath() + wxT("playbackart/") MUSIK_STRINGIZE_T(Name) wxT(".png"),wxBITMAP_TYPE_PNG))\
+        bm##Name = wxBitmap(##Name##_xpm);\
+    if(!bm##Name##Down.LoadFile(MusikGetStaticDataPath() + wxT("playbackart/") MUSIK_STRINGIZE_T(Name) wxT("_down.png"),wxBITMAP_TYPE_PNG))\
+        bm##Name = wxBitmap(##Name##_xpm);
+
 CNowPlayingCtrl::CNowPlayingCtrl( wxWindow *parent )
 	: wxPanel( parent, -1, wxDefaultPosition, wxDefaultSize, wxCLIP_CHILDREN| wxTAB_TRAVERSAL |wxFULL_REPAINT_ON_RESIZE)
 {
@@ -79,32 +85,26 @@ CNowPlayingCtrl::CNowPlayingCtrl( wxWindow *parent )
 	//--- buttons and bitmaps ---//
 	//---------------------------//
 	//--- bitmaps ---//
-	bmPrev			= wxBitmap( prev_xpm );
-	bmPrevDown		= wxBitmap( prev_down_xpm );
-	bmNext			= wxBitmap( next_xpm );
-	bmNextDown		= wxBitmap( next_down_xpm );
-	bmPlay			= wxBitmap( play_xpm );
-	bmPlayDown		= wxBitmap( play_down_xpm );
-	bmPause			= wxBitmap( pause_xpm );
-	bmPauseDown		= wxBitmap( pause_down_xpm );
-	bmStop			= wxBitmap( stop_xpm );
-	bmStopDown		= wxBitmap( stop_down_xpm );
-	bmVolume		= wxBitmap( volume_xpm );
-	bmVolumeDown	= wxBitmap( volume_down_xpm );
+    {
+         wxLogNull lognull; // disable logging in this scope
+         LOAD_BUTTONPNG(Prev);
+         LOAD_BUTTONPNG(Play);
+         LOAD_BUTTONPNG(Pause);
+         LOAD_BUTTONPNG(Stop);
+         LOAD_BUTTONPNG(Next);
+         LOAD_BUTTONPNG(Volume);
+    }
+
+
 
 	//--- buttons ---//
-	btnPrev			= new wxBitmapButton( this, MUSIK_NOWPLAYINGCTRL_PREV, bmPrev, wxDefaultPosition, wxSize( 40, -1 ), 0 );
-	btnNext			= new wxBitmapButton( this, MUSIK_NOWPLAYINGCTRL_NEXT, bmNext, wxDefaultPosition, wxSize( 40, -1 ), 0 );
-	btnPlayPause	= new wxBitmapButton( this, MUSIK_NOWPLAYINGCTRL_PLAYPAUSE, bmPlay, wxDefaultPosition, wxSize( 40, -1 ), 0 );	
-	btnStop			= new wxBitmapButton( this, MUSIK_NOWPLAYINGCTRL_STOP, bmStop, wxDefaultPosition, wxSize( 40, -1), 0 );
-	btnVolume		= new wxBitmapButton( this, MUSIK_NOWPLAYINGCTRL_VOLUME, bmVolume, wxDefaultPosition, wxSize( 40, -1), 0 );
+	btnPrev			= new wxBitmapButton( this, MUSIK_NOWPLAYINGCTRL_PREV, bmPrev ,wxDefaultPosition,wxDefaultSize,0);
+	btnNext			= new wxBitmapButton( this, MUSIK_NOWPLAYINGCTRL_NEXT, bmNext,wxDefaultPosition,wxDefaultSize,0);
+	btnPlayPause	= new wxBitmapButton( this, MUSIK_NOWPLAYINGCTRL_PLAYPAUSE, bmPlay,wxDefaultPosition,wxDefaultSize,0);	
+	btnStop			= new wxBitmapButton( this, MUSIK_NOWPLAYINGCTRL_STOP, bmStop,wxDefaultPosition,wxDefaultSize,0);
+	btnVolume		= new wxBitmapButton( this, MUSIK_NOWPLAYINGCTRL_VOLUME, bmVolume,wxDefaultPosition,wxDefaultSize,0);
 
 	//--- events ---//
-	btnPrev->SetBitmapLabel				( bmPrev );
-	btnNext->SetBitmapLabel				( bmNext );
-	btnPlayPause->SetBitmapLabel		( bmPlay );
-	btnStop->SetBitmapLabel				( bmStop );
-	btnVolume->SetBitmapLabel			( bmVolume );
 	#ifdef __WXGTK__
 	btnPrev->SetBitmapFocus				( bmPrevDown );
 	btnNext->SetBitmapFocus				( bmNextDown );
@@ -128,7 +128,7 @@ CNowPlayingCtrl::CNowPlayingCtrl( wxWindow *parent )
 	//----------------//
 	//--- seek bar ---//
 	//----------------//
-	gSeek		= new wxGauge		( this, MUSIK_NOWPLAYINGCTRL_SEEK, 100, wxDefaultPosition, wxSize( 12* wxSystemSettings::GetMetric( wxSYS_HSCROLL_Y ), wxSystemSettings::GetMetric( wxSYS_HSCROLL_Y ) ), wxGA_SMOOTH | wxGA_HORIZONTAL | wxCLIP_CHILDREN );
+	gSeek		= new wxGauge		( this, MUSIK_NOWPLAYINGCTRL_SEEK, 100, wxDefaultPosition, wxSize( 4* wxSystemSettings::GetMetric( wxSYS_HSCROLL_Y ), wxSystemSettings::GetMetric( wxSYS_HSCROLL_Y ) ), wxGA_SMOOTH | wxGA_HORIZONTAL | wxCLIP_CHILDREN );
 	pSeekEvt	= new CGaugeSeekEvt	( gSeek );
 	gSeek->PushEventHandler( pSeekEvt );
 
@@ -146,12 +146,12 @@ CNowPlayingCtrl::CNowPlayingCtrl( wxWindow *parent )
 
 
 	//--- buttons, seek bar panel ---//
-	wxGridSizer *hsButtons = new wxGridSizer(1,5,2,2);
-	hsButtons->Add( btnPrev ,0,wxALIGN_CENTRE_HORIZONTAL | wxLEFT ,10);
-	hsButtons->Add( btnPlayPause ,0,wxALIGN_CENTRE_HORIZONTAL | wxLEFT ,10);
-	hsButtons->Add( btnStop ,0,wxALIGN_CENTRE_HORIZONTAL | wxLEFT ,10);
-	hsButtons->Add( btnNext ,0,wxALIGN_CENTRE_HORIZONTAL | wxLEFT ,10);
-	hsButtons->Add( btnVolume,0,wxALIGN_CENTRE_HORIZONTAL | wxLEFT ,10);
+	wxGridSizer *hsButtons = new wxGridSizer(5);
+	hsButtons->Add( btnPrev ,0,wxALIGN_CENTRE_HORIZONTAL | wxLEFT ,1);
+	hsButtons->Add( btnPlayPause ,0,wxALIGN_CENTRE_HORIZONTAL | wxLEFT ,1);
+	hsButtons->Add( btnStop ,0,wxALIGN_CENTRE_HORIZONTAL | wxLEFT ,1);
+	hsButtons->Add( btnNext ,0,wxALIGN_CENTRE_HORIZONTAL | wxLEFT ,1);
+	hsButtons->Add( btnVolume,0,wxALIGN_CENTRE_HORIZONTAL | wxLEFT ,1);
 
 	vsRightCol = new wxBoxSizer( wxVERTICAL );
 
@@ -166,7 +166,7 @@ CNowPlayingCtrl::CNowPlayingCtrl( wxWindow *parent )
 	int playmode = wxGetApp().Prefs.ePlaymode.val;
 	choicePlaymode->SetSelection(playmode);
 	vsPlayModeCol->Add( choicePlaymode,0, wxRIGHT|wxLEFT|wxALIGN_CENTRE_VERTICAL, 5 ); //-- small top border --//
-	wxCheckBox * pCrossfade = new wxCheckBox_NoFlicker( this, MUSIK_CHK_CROSSFADE, _("Crossfade"), wxPoint( -1, -1 ), wxSize( -1, -1 ) );
+	wxCheckBox * pCrossfade = new wxCheckBox_NoFlicker( this, MUSIK_CHK_CROSSFADE, _("Crossfade"));
 	vsPlayModeCol->Add( pCrossfade,0, wxALIGN_CENTRE_VERTICAL|wxRIGHT, 2 ); //-- small top border --//
 	pCrossfade->SetValue( wxGetApp().Prefs.bGlobalFadeEnable );
   	vsRightCol->Add( vsPlayModeCol, 0 ); //-- small top border --//

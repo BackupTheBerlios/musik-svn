@@ -1,5 +1,5 @@
 /* XPM */
-static char * stop_xpm[] = {
+static char * Stop_xpm[] = {
 "16 16 2 1",
 " 	c None",
 ".	c #000000",

@@ -1720,7 +1720,9 @@ void CPlaylistCtrl::OnShowInLibrary( wxCommandEvent& event )
 		g_ActivityAreaCtrl->ResetAllContents();
 		g_SourcesCtrl->SelectLibrary();
 		pBox->SetFocus();
+        wxGetApp().Yield(true);
 		pBox->SetSel(sEntry);
+        
 	}
 }
 void CPlaylistCtrl::OnOpenFolderInFileManager( wxCommandEvent&  )

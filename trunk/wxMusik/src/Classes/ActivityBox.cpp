@@ -145,7 +145,6 @@ void CActivityListBox::ScrollToItem(const wxString & sItem, wxString::caseCompar
 void CActivityListBox::OnFocused( wxListEvent& event )
 {
 	event.Skip(m_bIgnoreSetItemStateEvents == false);
-	
 }
 void CActivityListBox::RescaleColumns( bool bFreeze )
 {
@@ -310,9 +309,15 @@ void CActivityListBox::SetSel( const wxString & sel,bool bEnsureVisible , bool b
 	{
 		if (GetRowText(i) == sel )
 		{
-			SetItemState( i, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED );
 			if(bEnsureVisible && !bFound)
+			{
 				EnsureVisible(i);
+				SetItemState( i, wxLIST_STATE_SELECTED|wxLIST_STATE_FOCUSED, wxLIST_STATE_SELECTED|wxLIST_STATE_FOCUSED );
+            }
+            else
+            {
+            	SetItemState( i, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
+            }
 			bFound = true;
 		}
 		else if(bFound)

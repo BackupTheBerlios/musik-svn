@@ -53,7 +53,7 @@ void* MusikActivityRenameThread::Entry()
 	float fPos = 0;
 	int nLastProg = 0;
 	int nCurrProg = 0;
-
+	wxGetApp().Library.BeginTransaction();
 	for ( size_t i = 0; i < m_Songs.GetCount(); i++ )
 	{
 		//-----------------------//
@@ -112,7 +112,7 @@ void* MusikActivityRenameThread::Entry()
 
 		}
 	}
-
+	wxGetApp().Library.EndTransaction();
 	g_Playlist = m_Songs;
 	return NULL;
 }

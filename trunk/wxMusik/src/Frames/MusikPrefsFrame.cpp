@@ -667,7 +667,7 @@ void MusikPrefsDialog::LoadPrefs()
 	for(size_t i = 0 ;i < NPLAYLISTCOLUMNS; i ++)
 	{
 		chkPLColumnEnable[i]->SetValue			( wxGetApp().Prefs.bPlaylistColumnEnable[i]);
-		cmbPLColumnStatic[i]->SetSelection		( wxGetApp().Prefs.bPlaylistColumnDynamic[PLAYLISTCOLUMN_RATING]			);
+		cmbPLColumnStatic[i]->SetSelection		( wxGetApp().Prefs.bPlaylistColumnDynamic[i]);
 	}
 
 	//---------------------------//

@@ -191,6 +191,7 @@ BEGIN_EVENT_TABLE(CPlaylistCtrl, CMusikListCtrl)
 	EVT_UPDATE_UI_RANGE			( MUSIK_PLAYLIST_CONTEXT_RATING, MUSIK_PLAYLIST_CONTEXT_RATING + (MUSIK_MAX_RATING - MUSIK_MIN_RATING) + 1,			CPlaylistCtrl::OnUpdateUIRateSel	)
 	EVT_MENU_RANGE				( MUSIK_PLAYLIST_CONTEXT_TAG_TITLE,	MUSIK_PLAYLIST_CONTEXT_TAG_NOTES,	CPlaylistCtrl::OnClickEditTag		)
 	EVT_MENU					( MUSIK_PLAYLIST_DISPLAY_SMART,											CPlaylistCtrl::OnDisplaySmart		)
+	EVT_UPDATE_UI				( MUSIK_PLAYLIST_DISPLAY_SMART,											CPlaylistCtrl::OnUpdateUIDisplaySmart)
 	EVT_MENU					( MUSIK_PLAYLIST_DISPLAY_FIT,											CPlaylistCtrl::OnDisplayFit			)
 	EVT_MENU					( MUSIK_PLAYLIST_CLEARPLAYERLIST,										CPlaylistCtrl::OnClearPlayerlist	)
 	EVT_CONTEXT_MENU			(																		CPlaylistCtrl::ShowMenu				)
@@ -628,6 +629,10 @@ void CPlaylistCtrl::OnDisplaySmart( wxCommandEvent& WXUNUSED(event) )
 	RescaleColumns();
 }
 
+void CPlaylistCtrl::OnUpdateUIDisplaySmart ( wxUpdateUIEvent &event)
+{
+	event.Check( wxGetApp().Prefs.bPlaylistSmartColumns );
+}
 void CPlaylistCtrl::BeginDrag( wxListEvent& WXUNUSED(event) )
 {
 	//--- pass selected items ---//
@@ -1277,7 +1282,8 @@ void CPlaylistCtrl::RescaleColumns( bool bFreeze, bool WXUNUSED(bSave), bool bAu
 				f_Per = ( (float)wxGetApp().Prefs.nPlaylistColumnSize[nCurrItem] / 100.0f ) * nRemainingWidth;
 				n_Per = (int)f_Per;		
 			}
-
+			if(n_Per > client_size.GetWidth()/2)
+				n_Per = client_size.GetWidth()/2;
 			nDynamicWidth += (int)n_Per;
 			SetColumnWidth( i, n_Per );
 		}

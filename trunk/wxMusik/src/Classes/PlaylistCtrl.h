@@ -85,6 +85,7 @@ public:
 	void OnDisplayMenu	( wxCommandEvent& event				);
 	void OnUpdateUIDisplayMenu ( wxUpdateUIEvent &event);
 	void OnDisplaySmart	( wxCommandEvent& WXUNUSED(event)	);
+	void OnUpdateUIDisplaySmart ( wxUpdateUIEvent &event);
 	void OnDisplayFit	( wxCommandEvent& WXUNUSED(event)	);
 	void OnColumnClick	( wxListEvent& event );
 	//--- other ---//

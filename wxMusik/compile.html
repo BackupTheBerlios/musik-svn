@@ -1,0 +1,547 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <title>Musik | Compiling How-To</title>
+  <meta http-equiv="Content-Type"
+ content="text/html; charset=iso-8859-1">
+  <link href="../css/index.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<a href="#win32">compiling in win32</a>
+<p><a href="#linux">compiling in linux</a></p>
+<h1 id="win32"><span style="font-style: italic;">Important&nbsp; note:
+Only wxWidgets version 2.5.3 is supported</span></h1>
+<br>
+<br>
+<table border="0" width="95%">
+  <tbody>
+    <tr>
+      <td>
+      <h1>Compiling in Windows...</h1>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      <h2>setup the wxMusik dependencies</h2>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<div style="left: 10px; position: relative;"> <br>
+<table border="0" width="95%">
+  <tbody>
+    <tr>
+      <td>
+      <h3>Assure the following are available on your system...</h3>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      <h4>notes: as of right now only VS.C++ 2003 is supported in cvs.
+To use VS.Net 7.0 you have to change the version number from 7.10 (
+8.00) to 7.00 in the .sln and vcproj files.</h4>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      <ul>
+        <li> Microsoft Visual C++ .NET 2003 </li>
+        <li> <a href="#id3lib">id3lib</a> </li>
+        <li> <a href="#ogg">libogg</a></li>
+        <li><a href="#flac">libflac</a></li>
+        <li> <a href="#ogg">libvorbis</a> </li>
+        <li> <a href="#fmod">fmod sound system</a> </li>
+        <li><a href="#ape">Monkeys Audio SDK</a></li>
+        <li> <a href="#sqlite">sqlite</a> </li>
+        <li> <a href="#wxwindows">wxWindows</a> </li>
+      </ul>
+      <p><font size="2">You have to manually change the include and lib
+pathes to this libraries in the .vcproj file or set some environment
+variables. Be sure to build all libs as static libs using the c-runtime
+(msvcrt) as a dll.</font></p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<table border="0" width="95%">
+  <tbody>
+    <tr>
+      <td>
+      <h3 id="id3lib"> id3lib: <a href="http://www.id3lib.org"
+ target="_blank">homepage</a> or <a
+ href="http://prdownloads.sourceforge.net/id3lib/id3lib-3.8.3.tar.gz?download"
+ target="_blank"> download</a> </h3>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      <h4>notes: just build as normal. consult package's readme.</h4>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<br>
+<table border="0" width="95%">
+  <tbody>
+    <tr>
+      <td>
+      <h3 id="ogg"> libogg and libvorbis: <a
+ href="http://www.vorbis.com" target="_blank">homepage</a> or <a
+ href="http://www.vorbis.com/files/1.0/windows/libogg-1.0.zip"
+ target="_blank"> download libogg</a> and <a
+ href="http://www.vorbis.com/files/1.0/windows/libvorbis-1.0.zip"
+ target="_blank"> download libvorbis</a> </h3>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      <h4>notes: build as static libs. consult package's readme.</h4>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<table border="0" width="95%">
+  <tbody>
+    <tr>
+      <td>
+      <h3 id="flac"> libflac: <a href="http://flac.sourceforge.net/"
+ target="_blank">homepage</a> or <a
+ href="http://flac.sourceforge.net/download.html" target="_blank">
+download libflac</a> </h3>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      <h4>notes: You need flac 1.1.1. build as static libs. consult
+package's readme.</h4>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<table border="0" width="95%">
+  <tbody>
+    <tr>
+      <td>
+      <h3 id="ape">MAC SDK(Monkey's Audio aka APE): <a
+ href="http://www.monkeysaudio.com/" target="_blank">homepage</a> or <a
+ href="http://www.monkeysaudio.com/files/MAC_SDK_399.zip"
+ target="_blank">
+download MAC SDK</a> </h3>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      <h4>notes: You need version 3.99&nbsp; build as static libs.
+consult package's readme.</h4>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<table border="0" width="95%">
+  <tbody>
+    <tr>
+      <td>
+      <h3 id="fmod"> fmod sound system: <a href="http://www.fmod.org"
+ target="_blank">homepage</a> or <a
+ href="http://www.fmod.org/files/fmodapi372win32.zip" target="_blank">download</a>
+      </h3>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      <ul>
+        <li> download the 3.73 version </li>
+        <li> unarchive </li>
+        <li> <code>add</code> <code>fmodapi373win/api/include/</code>
+directory to your include path </li>
+        <li> <code>add fmodapi373win/api/lib/</code> to your include
+path&nbsp; </li>
+        <li> <code>copy fmodapi373win/api/fmod.dll </code>to&nbsp;the
+subdirectories Debug Unicode , Release Unicode (_debug and _release for
+non-unicode builds) of wxMusik root directory<br>
+        </li>
+      </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<table border="0" width="95%">
+  <tbody>
+    <tr>
+      <td height="18">
+      <h3 id="sqlite"> sqlite: <a href="http://www.sqlite.org/">homepage</a>
+or <a href="http://www.sqlite.org/download.html"> download</a> binary
+and source </h3>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      <h4>notes: make sure <code>sqlite.h</code> from the source
+packages is in an include path.</h4>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      <ul>
+        <li> download sqlite 2.8.15 or later </li>
+        <li> unarchive </li>
+        <li> create a new static library project&nbsp;named sqlite and
+add all .c files besides shell.c </li>
+        <li> add _LIB;THREADSAFE to preprocessor definitions to each
+configuration(debug,release) to build build a static threadsafe version
+of sqlite.</li>
+      </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<table border="0" width="95%">
+  <tbody>
+    <tr>
+      <td>
+      <h3 id="wxwindows"> wxWidgets 2.5.3 : <a
+ href="http:///www.wxwindows.org/">homepage </a> </h3>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      <h4>notes: only wxWidgets 2.5.3 version is supported by now!<br>
+      </h4>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      <h4 style="font-weight: bold;">IMPORTANT: Use unicode build of
+wxWigets is encouraged. This is now the official used build. Only for
+win98 builds the non-unicode version is used.<br>
+      </h4>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<br>
+<br>
+</div>
+<table border="0" width="95%">
+  <tbody>
+    <tr>
+      <td>
+      <h2>Compile wxMusik once you have all the dependencies...</h2>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<div style="left: 10px; position: relative;">
+<table border="0" width="95%">
+  <tbody>
+    <tr>
+      <td>
+      <h3>wxMusik Source: <a
+ href="http://developer.berlios.de/project/showfiles.php?group_id=925">
+download</a></h3>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      <ul>
+        <li> unarchive the source </li>
+        <li> set environment variables in windows
+(Setting/System/Advanced)
+          <ul>
+            <li> set WXDIR&nbsp; to the wxwindows dir (e.g.
+c:\src\wxwidgets-2.5.3) </li>
+            <li> set SQLITEDIR (e.g. c:\src\sqlite) be sure to create
+the sqlite.lib in Debug/Release subdirectories there. </li>
+            <li> set OGGDIR (e.g. c:\src\ogg) </li>
+            <li> set VORBISDIR (e.g. c:\src\vorbis) </li>
+            <li> set FMODDIR (e.g. c:\src\fmodapi373win) </li>
+            <li> set ID3LIBDIR (e.g. c:\src\id3lib-3.8.3)</li>
+            <li> set FLACLIBDIR (e.g. c:\src\flac-1.1.1)</li>
+            <li> set MAC_SDKDIR (e.g. c:\src\MAC_SDK_399)</li>
+          </ul>
+        </li>
+        <li> load <code>Musik.sln</code> into Visual C++.NET 2003 </li>
+        <li> compile! (only Debug Unicode,Release Unicode, Release and
+Debug version work.)</li>
+      </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+</div>
+<h1 id="linux">&nbsp;</h1>
+<table border="0" width="95%">
+  <tbody>
+    <tr>
+      <td>
+      <h1>Compiling in Linux...</h1>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      <h2>setup the wxMusik dependencies ( note that currently only
+Version 0.3.1.6 compiles on linux, but not the new version 0.4)<br>
+      </h2>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<div style="left: 10px; position: relative;"> <br>
+<table border="0" width="95%">
+  <tbody>
+    <tr>
+      <td>
+      <h3>Assure the following are available on your system...</h3>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      <h4>Note: a "make install" target is available now.</h4>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      <ul>
+        <li> CMake </li>
+        <li> id3lib </li>
+        <li> libogg </li>
+        <li> libvorbis </li>
+        <li> fmod sound system </li>
+        <li> sqlite </li>
+        <li> GTK1 or GTK2 </li>
+        <li> wxWidgets </li>
+      </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<table border="0" width="95%">
+  <tbody>
+    <tr>
+      <td>
+      <h3>CMake: <a href="http://www.cmake.org/">homepage</a> or
+download linux binary or download source</h3>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      <h4>notes: just build as normal. consult package's readme.</h4>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<table border="0" width="95%">
+  <tbody>
+    <tr>
+      <td>
+      <h3>GTK2: homepage or download</h3>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      <h4>notes: read the gtk2 official installation guide or just use
+the install mechanism of your distribution. dont forget to install the
+devel packages</h4>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<table border="0" width="95%">
+  <tbody>
+    <tr>
+      <td height="15">
+      <h3>id3lib: <a href="http://www.id3lib.org" target="_blank">homepage</a>
+or <a
+ href="http://sourceforge.net/project/showfiles.php?group_id=979&amp;package_id=974&amp;release_id=143687"
+ target="_blank">download</a></h3>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      <h4>notes: just build as normal. consult package's readme or just
+use the install mechanism of your distribution. dont forget to install
+the devel packages</h4>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<br>
+<table border="0" width="95%">
+  <tbody>
+    <tr>
+      <td>
+      <h3>libogg and libvorbis: <a href="http://www.vorbis.com"
+ target="_blank">homepage</a> or download libogg and download libvorbis</h3>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      <h4>notes: just build as normal. consult package's readme or just
+use the install mechanism of your distribution. dont forget to install
+the devel packages</h4>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<br>
+<table border="0" width="95%">
+  <tbody>
+    <tr>
+      <td>
+      <h3>fmod sound system: <a href="http://www.fmod.org/"
+ target="_blank">homepage</a> or <a
+ href="http://www.fmod.org/files/fmodapi374linux.tar.gz" target="_blank">download</a></h3>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      <ul>
+        <li> download the 3.74 version (alsa should work with this version finally)</li>
+        <li> unarchive </li>
+        <li> <code>cp fmodapi374linux/api/inc/* /usr/include</code>
+(or your prefered include path) </li>
+        <li> <code>cp fmodapi374linux/api/libfmod-3.74.so /usr/lib</code>
+(or your prefered lib path) </li>
+        <li> <code>ldconfig</code> </li>
+      </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<table border="0" width="95%">
+  <tbody>
+    <tr>
+      <td>
+      <h3>sqlite: <a href="http://www.sqlite.org/">homepage</a>, or <a
+ href="http://www.sqlite.org/download.html"> download</a> binary and
+download source</h3>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      <h4>notes: make sure <code>sqlite.h</code> from the source
+packages is in an include path.</h4>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      <ul>
+        <li> download sqlite 2.8.15 or later </li>
+        <li> unarchive </li>
+        <li> ./configure --enable-utf8;make; make install </li>
+        <li> move enclosed library to a library path </li>
+        <li> <code>ldconfig</code> </li>
+        <li> get <code>sqlite.h</code> from the source distribution </li>
+        <li> copy <code>sqlite.h</code> to an include path </li>
+      </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<table id="Table1" border="0" width="95%">
+  <tbody>
+    <tr>
+      <td>
+      <h3>wxWidgets 2.5.3: <a href="http://www.wxwindows.org">homepage</a>
+or download</h3>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      <h4> </h4>
+      <h4>notes: for the cvs version use <code>./configure --with-gtk
+--enable-gtk2 --enable unicode or</code><code><code> ./configure
+--with-gtk</code></code> </h4>
+      <h4> gtk1 is somewhat faster than gtk2,but does not support
+unicode!</h4>
+&lt;&gt;Some Linux users have experienced problems when scanning their
+media files.<br>
+One of them told me that using wxGTK 2.4.1 solved the problems for him.<br>
+But wxGTK version below wxGTK 2.5.3 are not supported by wxMusik
+anymore. I would be glad if someone,who also has this problem could
+this debug for me.<br>
+As mirko_3 found out the problem arises, if the environment variables
+settings are not set correctly.<br>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      <h4 style="font-weight: bold;">IMPORTANT: use gtk2 unicode build
+if possible!<br>
+      </h4>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<br>
+<br>
+</div>
+<table id="Table2" border="0" width="95%">
+  <tbody>
+    <tr>
+      <td>
+      <h2>Compile wxMusik once you have all the dependencies...</h2>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<div style="left: 10px; position: relative;">
+<table id="Table3" border="0" width="95%">
+  <tbody>
+    <tr>
+      <td>
+      <h3>wxMusik Source: <a
+ href="http://developer.berlios.de/project/showfiles.php?group_id=925"
+ target="_blank"> download</a></h3>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      <ul>
+        <li> unarchive the source </li>
+        <li> <code>cd wxMusik-0.3.1.6/</code> </li>
+        <li> execute " <code>ccmake ."</code>, and assure all the
+libraries listed above are found. </li>
+        <li> while inside "ccmake", set CMAKE_BUILD_TYPE to Release (or
+Debug if you want a Debug Build) and CMAKE_INSTALL_PREFIX</li>
+        <li> ( unicode or not unicode build depends on the installed
+version wxGtk respective the current wx-config script)<br>
+        </li>
+        <li> press "c" to configure(maybe several times, until the [g]
+option apears), then "g" to generate the makefile </li>
+        <li> run <code>make</code> </li>
+        <li> if all is right, an executable named "wxMusik" will be
+generated. </li>
+        <li> run <code>./wxMusik</code> in the root source dir to try
+it out </li>
+        <li> do a 'make install' to install binary and data to CMAKE_INSTALL_PREFIX. All languages will be installed</li>
+        <li>copy the example playlists and radio channels from
+wxMusik-0.3.1.6/contrib/playlists to ~/.Musik/playlists<br>
+        </li>
+        <br>
+        <br>
+      </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+</div>
+(last changed 16th october 2004)
+</body>
+</html>

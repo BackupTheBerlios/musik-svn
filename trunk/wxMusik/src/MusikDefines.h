@@ -23,8 +23,10 @@
 #endif
 
 
-#ifdef __WXGTK__
+#if defined( __WXGTK__ ) || defined( __WXMAC__)
 #define WXLISTCTRL_SETITEMSTATE_IS_BUGGY 1
+#endif
+#ifdef __WXGTK__
 #define WXMUSIK_BUGWORKAROUND_LISTCTRL_CONTEXTMENU 1
 #endif
 

@@ -297,7 +297,7 @@ wxString SanitizedString( const wxString & str )
 void wxListCtrlSelAll( wxListCtrl *pList )
 {
 #ifdef WXLISTCTRL_SETITEMSTATE_IS_BUGGY
-	for(int i = 0; i < = pList->GetItemCount();i++)
+	for(int i = 0; i < pList->GetItemCount();i++)
     {
 		pList->SetItemState( i, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED );
     }

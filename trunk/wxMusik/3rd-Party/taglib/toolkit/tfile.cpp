@@ -79,7 +79,22 @@ File::File(const Filename & file)
   d->file = fopen(file, d->readOnly ? "r" : "r+");
 #endif
   if(!d->file)
-    debug("Could not open file " + String(file));
+  {
+    // at leasst on Mac OSX  with a samba share
+    // i had the problem, that isWritable ( which uses access() internally ) return true
+    // but a fopen for read/write failed)
+    // so lets retry with fopen readonly
+#ifdef _WIN32
+    d->file = _tfopen(file,  _T("rb"));
+#else
+    d->file = fopen(file, "r");
+#endif
+
+    if(d->file)
+        d->readOnly = true;
+    else
+        debug("Could not open file " + String(file));
+  }
 }
 
 File::~File()
@@ -102,7 +117,7 @@ ByteVector File::readBlock(ulong length)
   }
 
   ByteVector v(static_cast<uint>(length));
-  const int count = fread(v.data(), sizeof(char), length, d->file);
+  size_t count = fread(v.data(), sizeof(char), length, d->file);
   v.resize(count);
   return v;
 }
@@ -330,7 +345,7 @@ void File::insert(const ByteVector &data, ulong start, ulong replace)
   // That's a bit slower than using char *'s so, we're only doing it here.
 
   seek(readPosition);
-  int bytesRead = fread(aboutToOverwrite.data(), sizeof(char), bufferLength, d->file);
+  size_t bytesRead = fread(aboutToOverwrite.data(), sizeof(char), bufferLength, d->file);
   readPosition += bufferLength;
 
   seek(writePosition);

@@ -55,6 +55,8 @@ public:
   {
     delete ID3v1Tag;
     delete properties;
+    delete APETag;
+    delete ID3v2Header;
   }
 
   APE::Tag *APETag;

@@ -65,6 +65,11 @@ namespace TagLib {
       Item(const String &key, const StringList &values);
 
       /*!
+      * Destroys this instance of the Item.
+      */
+      virtual ~Item();
+
+      /*!
        * Construct an item as a copy of \a item.
        */
       Item(const Item &item);

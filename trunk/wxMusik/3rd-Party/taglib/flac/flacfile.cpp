@@ -64,6 +64,7 @@ public:
     delete ID3v1Tag;
     delete comment;
     delete properties;
+    delete tag;
   }
 
   const ID3v2::FrameFactory *ID3v2FrameFactory;

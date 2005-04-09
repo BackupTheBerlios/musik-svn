@@ -85,7 +85,7 @@ extern const wxString g_PlaylistColumnDBNames[NPLAYLISTCOLUMNS] =
 //------------------------//
 
 CMusikPaths			g_Paths;
-CMusikSongArray		g_Playlist;	
+CMusikSongArray		g_thePlaylist;	
 
 
 MusikFaderThread*	g_FaderThread;

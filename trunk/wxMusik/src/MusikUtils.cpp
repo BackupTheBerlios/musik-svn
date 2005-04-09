@@ -493,17 +493,6 @@ long GetRandomNumber(void)
 	return (long)(y>>1);
 }
 
-wxLongLong GetTotalFilesize(const CMusikSongArray &songs)
-{
-	wxLongLong filesize = 0;
-	for ( size_t i = 0; i < songs.GetCount(); i++ )
-	{
-		const CMusikSong &song = songs.Item( i );
-		filesize += song.MetaData.nFilesize;
-	}
-
-	return filesize;
-}
 
 ///////////////////////////////////////////////////////////////////////////////
 

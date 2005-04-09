@@ -294,8 +294,17 @@ void MusikFrame::OnCustomQuery( wxCommandEvent& WXUNUSED(event) )
 
 void MusikFrame::OnViewDirtyTags( wxCommandEvent& WXUNUSED(event) )
 { 
-	if ( g_PlaylistBox->PlaylistCtrl().ViewDirtyTags() )
+	static CMusikSongArray s_dirty;
+	wxGetApp().Library.QuerySongsWhere( wxT( "dirty = 1" ), s_dirty );
+	if ( s_dirty.GetCount() > 0 )
+	{
+
+		g_PlaylistBox->SetPlaylist(&s_dirty);
+		g_SourcesCtrl->SelectLibrary(false);  // only change selection, not the view( to protect playlist from being changed. ok that is a hack, but else i would have to change too much of the structure. this will be done sometime later)
 		ShowActivityArea( false );
+	}
+	else
+		wxMessageBox( _( "There are no pending tags available to display." ), MUSIKAPPNAME_VERSION, wxICON_INFORMATION );
 }
 
 void MusikFrame::OnWriteTags( wxCommandEvent& WXUNUSED(event) )
@@ -356,8 +365,8 @@ void MusikFrame::LibraryCustomQuery()
 	if ( !sQuery.IsEmpty() )
 	{
 		g_SourcesCtrl->SelectLibrary(false);  // only change selection, not the view( to protect playlist from being changed. ok that is a hack, but else i would have to much of the structure. this will be done sometime later)
-		wxGetApp().Library.QuerySongsWhere( sQuery, g_Playlist );
-		g_PlaylistBox->Update( );
+		wxGetApp().Library.QuerySongsWhere( sQuery, g_thePlaylist );
+		g_PlaylistBox->SetPlaylist(&g_thePlaylist);
 	}
 }
 

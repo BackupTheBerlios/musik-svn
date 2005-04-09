@@ -61,9 +61,9 @@ void* MusikPlaylistRenameThread::Entry()
 
 		if ( TestDestroy() )
 			break;
-
-		if(false == wxGetApp().Library.RenameFile( m_Songs.Item( i ) ))
-			::wxLogWarning(_("Renaming of file %s failed."),(const wxChar *)m_Songs.Item( i ).MetaData.Filename.GetFullPath());
+        std::auto_ptr<CMusikSong> pSong(m_Songs.Item( i ).Song());
+		if(false == wxGetApp().Library.RenameFile( *pSong ))
+			::wxLogWarning(_("Renaming of file %s failed."),(const wxChar *)pSong->MetaData.Filename.GetFullPath());
 
 	}
 	return NULL;
@@ -122,7 +122,7 @@ void* MusikPlaylistRetagThread::Entry()
 		if ( TestDestroy() )
 			break;
 
-		wxGetApp().Library.RetagFile(tagger, &m_Songs.Item( i ) );
+		wxGetApp().Library.RetagFile(tagger, *m_Songs.Item( i ).Song() );
 		Yield();
 	}
 	wxGetApp().Library.EndTransaction();

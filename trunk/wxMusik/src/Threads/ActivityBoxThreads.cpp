@@ -73,22 +73,24 @@ void* MusikActivityRenameThread::Entry()
 
 		else
 		{
+            MusikSongId & songid = m_Songs.Item( i );
+            CMusikSong &song = songid.SongRef();
 			//-------------------------------//
 			//--- update the current item ---//
 			//-------------------------------//
 			switch( m_Type )
 			{
 			case MUSIK_LBTYPE_ARTISTS:
-				m_Songs.Item( i ).MetaData.Artist = m_Replace;
+				song.MetaData.Artist = m_Replace;
 				break;
 			case MUSIK_LBTYPE_ALBUMS:
-				m_Songs.Item( i ).MetaData.Album	= m_Replace;
+				song.MetaData.Album	= m_Replace;
 				break;
 			case MUSIK_LBTYPE_GENRES:
-				m_Songs.Item( i ).MetaData.Genre = m_Replace;
+				song.MetaData.Genre = m_Replace;
 				break;
 			case MUSIK_LBTYPE_YEARS:
-				m_Songs.Item( i ).MetaData.Year = m_Replace;
+				song.MetaData.Year = m_Replace;
 				break;
 			}
 
@@ -96,24 +98,25 @@ void* MusikActivityRenameThread::Entry()
 			//--- write tags to file ---//
 			//--------------------------//
 			if ( wxGetApp().Prefs.bActBoxWrite == 1 )
-				wxGetApp().Library.WriteTag( m_Songs.Item( i ), (bool)wxGetApp().Prefs.bActBoxClear );
-
+				wxGetApp().Library.WriteTag( songid, (bool)wxGetApp().Prefs.bActBoxClear );
+			else
+			{
+				//----------------------------------//
+				//--- if not writing, update db and flag dirty ---//
+				//----------------------------------//
+				wxGetApp().Library.UpdateItem(songid, wxGetApp().Prefs.bActBoxWrite == 0 );
+			}	
 			//-------------------//
 			//--- rename file ---//
 			//-------------------//
 			if ( wxGetApp().Prefs.bActBoxRename == 1 )
-				if(false == wxGetApp().Library.RenameFile( m_Songs.Item( i ) ))
-					::wxLogWarning(_("Renaming of file %s failed."),(const wxChar *)m_Songs.Item( i ).MetaData.Filename.GetFullPath());
+				if(false == wxGetApp().Library.RenameFile( song ))
+					::wxLogWarning(_("Renaming of file %s failed."),(const wxChar *)song.MetaData.Filename.GetFullPath());
 
-			//----------------------------------//
-			//--- if not writing, flag dirty ---//
-			//----------------------------------//
-			wxGetApp().Library.UpdateItem(m_Songs.Item( i ), wxGetApp().Prefs.bActBoxWrite == 0 );
 
 		}
 	}
 	wxGetApp().Library.EndTransaction();
-	g_Playlist = m_Songs;
 	return NULL;
 }
 

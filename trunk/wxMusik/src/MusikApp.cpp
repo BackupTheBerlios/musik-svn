@@ -103,6 +103,11 @@ void MusikApp::OnPlayFiles(const wxArrayString &aFilelist)
 	}
 	bRecursiveEntry = false;
 }
+#if wxCHECK_VERSION(2,5,4)
+#ifdef __WXMSW__
+#include <wx/stdpaths.h>
+#endif
+#endif
 bool MusikApp::OnInit()
 {
 	if(Prefs.bEnableCrashHandling)
@@ -116,7 +121,13 @@ bool MusikApp::OnInit()
 #ifdef __WXMAC__
 	m_locale.AddCatalogLookupPathPrefix( MusikGetStaticDataPath() );
 #else
-	m_locale.AddCatalogLookupPathPrefix(wxT("locale"));
+#ifdef __WXMSW__
+    m_locale.AddCatalogLookupPathPrefix(wxT("locale"));
+#if wxCHECK_VERSION(2,5,4)
+    wxStandardPaths stdpaths;
+    m_locale.AddCatalogLookupPathPrefix(stdpaths.GetDataDir() + wxT("/locale"));
+#endif
+#endif
 #endif
 
 	const wxLanguageInfo * pLangInfo = wxLocale::FindLanguageInfo(Prefs.sLocale);
@@ -342,7 +353,7 @@ void MusikApp::CopyFiles(const CMusikSongArray &songs)
 		return;
 	wxLongLong llFree;
 	wxGetDiskSpace(destdir.GetFullPath(),NULL,&llFree);
-	wxLongLong llNeeded =  GetTotalFilesize(songs);
+	wxLongLong llNeeded =  songs.GetTotalFileSize();
 	if(llFree  < llNeeded)
 	{
 		wxLongLong_t  ToLessBytes = llNeeded.GetValue() - llFree.GetValue();
@@ -375,7 +386,7 @@ void MusikApp::CopyFiles(const CMusikSongArray &songs)
 
 	for ( size_t n = 0; n < songs.GetCount(); n++ )
 	{
-		const wxFileName & sourcename = songs[n].MetaData.Filename;
+		const wxFileName & sourcename = songs[n].Song()->MetaData.Filename;
 		wxFileName destname( sourcename );
 		destname.SetPath(destdir.GetPath(0));   // GetPath(0) because the default is GetPath(int flags = wxPATH_GET_VOLUME,
 		destname.SetVolume(destdir.GetVolume());	  // i do it this complicated way, because wxFileName::SetPath() is buggy, as it does not handle the volume of path
@@ -392,7 +403,7 @@ void MusikApp::CopyFiles(const CMusikSongArray &songs)
 			if(wxMessageBox(errmsg,	_("File copy error"),wxYES|wxNO|wxCENTER|wxICON_ERROR ) == wxNO)
 				break;
 		}
-		llRemaining -= songs[n].MetaData.nFilesize;
+		llRemaining -= songs[n].Song()->MetaData.nFilesize;
 	}
 	dialog.Update(99,wxT(""));	// this is needed to make the gauge fill the whole area.
 	dialog.Update(100,wxT(""));
@@ -477,6 +488,8 @@ void MusikApp::OnFatalException ()
 
 }
 #endif
+
+#if wxCHECK_VERSION(2,5,4)
 #if defined(__WXMSW__)
 #include "wx/log.h"
 #include "wx/datetime.h"
@@ -485,9 +498,7 @@ void MusikApp::OnFatalException ()
 #include "wx/filename.h"
 #include "wx/dynlib.h"
 #include "wx/debugrpt.h"
-
 #include "wx/msgdlg.h"
-
 #include "wx/net/email.h"
 
 void MusikApp::OnFatalException ()
@@ -517,5 +528,10 @@ void MusikApp::OnFatalException ()
         }
     }
     //else: user cancelled the report
+}
+#endif
+#else
+void MusikApp::OnFatalException ()
+{
 }
 #endif

@@ -27,12 +27,11 @@
 #include <wx/filename.h>
 
 #include "3rd-Party/Bitap/libbitap.h"
-#include <wx/arrimpl.cpp>
+
 
 #include "Library/MetaDataHandler.h"
 
-WX_DEFINE_OBJARRAY( CMusikSongArray )
-WX_DECLARE_STRING_HASH_MAP( CMusikSong *, myStringToMusikSongPtrMap );
+WX_DECLARE_STRING_HASH_MAP( MusikSongId *, myStringToMusikSongIdPtrMap );
 
 //--- frames ---//
 //#include "../Frames/MusikFrame.h"
@@ -41,11 +40,8 @@ CMusikSong::CMusikSong()
 {
 	Rating 		= 0;
 	TimesPlayed = 0;
-	Check1 		= 0;
 	songid		= -1;
 	LastPlayed = TimeAdded	= 0.0;
-	bChosenByUser = 1;
-	bForcePlay = 0;
 
 }
 
@@ -402,9 +398,9 @@ bool CMusikLibrary::FileInLibrary( const wxString & filename, bool fullpath )
 
 	char *query;
 	if ( fullpath )
-		query = sqlite_mprintf( "select songid from songs where filename = %Q;", ( const char* )ConvToUTF8(filename) );
+		query = sqlite_mprintf( "select songs.songid from songs where filename = %Q;", ( const char* )ConvToUTF8(filename) );
 	else
-		query = sqlite_mprintf( "select songid from songs where filename like '%%%q%%';", ( const char* )ConvToUTF8(filename) );
+		query = sqlite_mprintf( "select songs.songid from songs where filename like '%%%q%%';", ( const char* )ConvToUTF8(filename) );
 	
 	//--- run query ---//
 	const char *pTail;
@@ -472,7 +468,7 @@ bool CMusikLibrary::AddSongDataFromFile( const wxString & filename )
 			MetaData.nDuration_ms, 
 			MetaData.nFilesize,
 			0); //dirty
-	
+	       
 	}
 	else if(rc == CMetaDataHandler::fail)
 	{
@@ -502,25 +498,30 @@ bool CMusikLibrary::UpdateSongDataFromFile( const wxString & filename )
 	}
 	if(rc == CMetaDataHandler::success )
 	{
-
-		//--- run the query ---//
-		wxCriticalSectionLocker lock( m_csDBAccess );
-		sqlite_exec_printf( m_pDB, "update songs set format=%d, vbr=%d, artist=%Q, title=%Q, album=%Q, tracknum=%d, year=%Q, genre=%Q, notes=%Q, bitrate=%d, duration=%d, filesize=%d, dirty=0 where filename = %Q;", NULL, NULL, NULL, 
-			(int)MetaData.eFormat,	
-			MetaData.bVBR, 
-			( const char* )MetaData.Artist, 
-			( const char* )MetaData.Title, 
-			( const char* )MetaData.Album, 
-			MetaData.nTracknum, 
-			( const char* )MetaData.Year, 
-			( const char* )MetaData.Genre, 
-			( const char* )MetaData.Notes, 
-			MetaData.nBitrate, 
-			MetaData.nDuration_ms, 
-			MetaData.nFilesize,
-			( const char* )ConvToUTF8(MetaData.Filename.GetFullPath())
-			);
-	
+        char *query = sqlite_mprintf( "select songs.songid from songs where filename = %Q;", ( const char* )ConvToUTF8(MetaData.Filename.GetFullPath()) );
+        int songid = QueryCount(query);
+        sqlite_freemem( query );
+        wxASSERT(songid >= 0);
+        {
+		    //--- run the query ---//
+		    wxCriticalSectionLocker lock( m_csDBAccess );
+		    sqlite_exec_printf( m_pDB, "update songs set format=%d, vbr=%d, artist=%Q, title=%Q, album=%Q, tracknum=%d, year=%Q, genre=%Q, notes=%Q, bitrate=%d, duration=%d, filesize=%d, dirty=0 where songid = %d;", NULL, NULL, NULL, 
+			    (int)MetaData.eFormat,	
+			    MetaData.bVBR, 
+			    ( const char* )MetaData.Artist, 
+			    ( const char* )MetaData.Title, 
+			    ( const char* )MetaData.Album, 
+			    MetaData.nTracknum, 
+			    ( const char* )MetaData.Year, 
+			    ( const char* )MetaData.Genre, 
+			    ( const char* )MetaData.Notes, 
+			    MetaData.nBitrate, 
+			    MetaData.nDuration_ms, 
+			    MetaData.nFilesize,
+			    songid
+			    );
+        }
+        OnSongDataChange(songid);
 	}
 	else if(rc == CMetaDataHandler::fail)
 	{
@@ -530,15 +531,16 @@ bool CMusikLibrary::UpdateSongDataFromFile( const wxString & filename )
 	{
 		wxASSERT(false);
 	}
-
+    
 	return rc != CMetaDataHandler::fail;
 }
 
 
-bool CMusikLibrary::WriteTag(  CMusikSong & song, bool ClearAll , bool bUpdateDB )
+bool CMusikLibrary::WriteTag(  MusikSongId & songid, bool ClearAll , bool bUpdateDB )
 {
 
 	CMetaDataHandler::RetCode rc  = CMetaDataHandler::success;
+    CMusikSong & song = songid.SongRef();
 	if(false == wxFileExists(song.MetaData.Filename.GetFullPath()))
 	{
 		::wxLogWarning(_("Writing tags to file %s failed,because the file does not exist.\nPlease purge the database."),(const wxChar *)song.MetaData.Filename.GetFullPath());
@@ -553,9 +555,10 @@ bool CMusikLibrary::WriteTag(  CMusikSong & song, bool ClearAll , bool bUpdateDB
 	if(( rc != CMetaDataHandler::fail) && bUpdateDB )
 	{
 		//-----------------------------//
-		//--- flag item as clean	---//
-		//-----------------------------//
-		UpdateItem( song , false );
+		//--- tag writing succeeded
+        //--- so update the db and flag as  clean	
+        //-----------------------------//
+		UpdateItem( songid , false );
 	}
 	else if(rc == CMetaDataHandler::fail)
 		::wxLogWarning(_("Writing tags to file %s failed."),(const wxChar *)song.MetaData.Filename.GetFullPath());
@@ -715,16 +718,12 @@ void CMusikLibrary::GetInfo( const wxArrayString & aList, int nInType, int nOutT
 	}
 	
 }
- int CMusikLibrary::sqlite_callbackAddToSongArray(void *args, int WXUNUSED(numCols), char **results, char ** WXUNUSED(columnNames))
+ int CMusikLibrary::sqlite_callbackAddToSongIdArray(void *args, int WXUNUSED(numCols), char **results, char ** WXUNUSED(columnNames))
 {
 
 	
 	CMusikSongArray * p = (CMusikSongArray*)args;
-
-	CMusikSong *pLibItem = new CMusikSong();
-	_AssignSongTableColumnDataToSong(pLibItem,(const char**)results);
-	p->Add( pLibItem );
-
+	p->Add(MusikSongId( StringToInt(results[0])));
     return 0;
 }
 void CMusikLibrary::GetSongs( const wxArrayString & aList, int nInType, CMusikSongArray & aReturn )
@@ -789,7 +788,7 @@ void CMusikLibrary::Query( const wxString & query, wxArrayInt & aReturn ,bool bC
 	sqlite_exec(m_pDB, ConvQueryToMB( query ), &sqlite_callbackAddToIntArray, &aReturn, NULL);
 }
 
-int CMusikLibrary::sqlite_callbackAddToSongMap(void *args, int WXUNUSED(numCols), char **results, char ** WXUNUSED(columnNames))
+int CMusikLibrary::sqlite_callbackAddToSongIdMap(void *args, int WXUNUSED(numCols), char **results, char ** WXUNUSED(columnNames))
 {
 	//-------------------------------------------------------------------------//
 	//--- maps filename to CMusingSong objects ptrs, ptrs because this		---//
@@ -797,11 +796,8 @@ int CMusikLibrary::sqlite_callbackAddToSongMap(void *args, int WXUNUSED(numCols)
 	//--- the objects to the map											---//
 	//-------------------------------------------------------------------------//
 
-	myStringToMusikSongPtrMap * p = (myStringToMusikSongPtrMap*)args;
-
-	CMusikSong *pLibItem = new CMusikSong();
-	_AssignSongTableColumnDataToSong(pLibItem,(const char **)results);
-	(*p)[pLibItem->MetaData.Filename.GetFullPath()]= pLibItem;
+	myStringToMusikSongIdPtrMap * p = (myStringToMusikSongIdPtrMap*)args;
+	(*p)[ConvFromUTF8( results[1] )]= new MusikSongId(StringToInt(results[0]));
 
     return 0;
 }
@@ -809,7 +805,7 @@ void CMusikLibrary::GetFilelistSongs( const wxArrayString & aFiles, CMusikSongAr
 {
 	aReturn.Clear();
 	
-	wxString sQuery = wxT("select ")  MUSIK_LIB_ALL_SONGCOLUMNS  wxT(" from songs where filename in (");
+	wxString sQuery = wxT("select songs.songid,songs.filename from songs where filename in (");
 
 	sQuery.Alloc(sQuery.Len() + aFiles.GetCount() * 30); // optimization ( the 30 is a wild guess)
 	for ( size_t i = 0; i < aFiles.GetCount(); i++ )
@@ -828,35 +824,35 @@ void CMusikLibrary::GetFilelistSongs( const wxArrayString & aFiles, CMusikSongAr
 			sQuery += wxT("' );");
 	}
 
-	myStringToMusikSongPtrMap theMap;
+	myStringToMusikSongIdPtrMap theMap;
 	//---------------------------------------------------------------------//
 	//--- we fill the map and afterwards a array from the map because	---//
 	//--- we can have multiple filenames in the same list				---//
 	//---------------------------------------------------------------------//
 	{
 		wxCriticalSectionLocker lock( m_csDBAccess );
-		sqlite_exec(m_pDB, ConvQueryToMB( sQuery ), &sqlite_callbackAddToSongMap, &theMap, NULL);
+		sqlite_exec(m_pDB, ConvQueryToMB( sQuery ), &sqlite_callbackAddToSongIdMap, &theMap, NULL);
 	}
 
 	aReturn.Alloc( aFiles.GetCount() );
 	for ( size_t i = 0; i < aFiles.GetCount(); i++ )
 	{
-		CMusikSong *pSong = theMap[ aFiles.Item( i ) ];
+		MusikSongId * pSongid = theMap[ aFiles.Item( i ) ];
 	//	wxASSERT_MSG( pSong, wxString(aFiles.Item( i ) + wxT( " is not on the map!" ) ) );
 
 		//---------------------------------------------------------------------//
 		//--- add the object(of the map) by value, to create duplicate		---// 
 		//--- entries if needed.											---//
 		//---------------------------------------------------------------------//
-		if( pSong )
-			aReturn.Add( *pSong ); 
+		if( pSongid )
+			aReturn.Add( *pSongid ); 
 	}
 
 	//-------------------------------------------------------------------------//
 	//--- delete all map objects( this is done explicitly, because the map	---//
 	//--- contains pointers to objects)										---//
 	//-------------------------------------------------------------------------//
-	WX_CLEAR_HASH_MAP(myStringToMusikSongPtrMap, theMap); 
+	WX_CLEAR_HASH_MAP(myStringToMusikSongIdPtrMap, theMap); 
 
 	return;
 }
@@ -872,7 +868,7 @@ void CMusikLibrary::SetSortOrderField( int nField, bool descending )
 
 	if ( !numeric )
 	{
-		m_sSortAllSongsQuery = wxT("select ") MUSIK_LIB_ALL_SONGCOLUMNS wxT(", UPPER(");
+		m_sSortAllSongsQuery = wxT("select distinct songs.songid, UPPER(");
 		if(wxGetApp().Prefs.bSortArtistWithoutPrefix && (sortstr == wxT("artist")) )
 		{
 			m_sSortAllSongsQuery += wxT("REMPREFIX(");
@@ -887,7 +883,7 @@ void CMusikLibrary::SetSortOrderField( int nField, bool descending )
 		m_sSortAllSongsQuery += wxT(" from songs ");
 	}
 	else
-		m_sSortAllSongsQuery = wxT("select ") MUSIK_LIB_ALL_SONGCOLUMNS wxT(" from songs ");
+		m_sSortAllSongsQuery = wxT("select distinct songs.songid from songs ");
 
 	m_sSortAllSongsQuery += wxT("%s"); // add placeholder for possible where clause
 
@@ -914,13 +910,13 @@ void CMusikLibrary::SetSortOrderField( int nField, bool descending )
 
 ///////////////////////////////////////////////////////////////////////////////
 
-double CMusikLibrary::GetTotalPlaylistSize()
+double CMusikLibrary::GetSum(const wxString & sField, const CMusikSongArray &  idarray ) const
 {
 	wxString sQuery;
 	
-	sQuery = wxT("select sum(filesize) from songs where songid in (");
+	sQuery = wxT("select sum(") + sField +wxT(") from songs where songid in (");
 
-	size_t count = g_Playlist.GetCount();
+	size_t count = idarray.GetCount();
 	if ( count < 1 )
 		return 0.0;
 
@@ -928,9 +924,9 @@ double CMusikLibrary::GetTotalPlaylistSize()
 	for ( size_t i = 0; i < count ; i++ )
 	{
 		//--- if song has a ' ---//	
-		const CMusikSong& song = g_Playlist.Item ( i );
+		const MusikSongId & songid = idarray.Item ( i );
 		
-		sQuery += wxString::Format(wxT("%d"),song.songid);
+		sQuery += wxString::Format(wxT("%d"),(int)songid);
 		//--- not at the end ---//
 		if ( i != count - 1 )
 			sQuery += wxT(", ");
@@ -985,7 +981,7 @@ void CMusikLibrary::QuerySongsWhere( const wxString & queryWhere, CMusikSongArra
 	}
 	else
 	{
-		query = wxT("select ") MUSIK_LIB_ALL_SONGCOLUMNS wxT(" from songs");
+		query = wxT("select distinct songs.songid from songs ");
 		query += myqueryWhere; 
 		query += wxT(";");		
 	}
@@ -995,7 +991,7 @@ void CMusikLibrary::QuerySongsWhere( const wxString & queryWhere, CMusikSongArra
 	{
 		// keep lock as short as possible by using {} scope
 		wxCriticalSectionLocker lock( m_csDBAccess );
-		sqlite_exec(m_pDB, pQuery, &sqlite_callbackAddToSongArray, &aReturn, NULL);
+		sqlite_exec(m_pDB, pQuery, &sqlite_callbackAddToSongIdArray, &aReturn, NULL);
 	}
 
 	aReturn.Shrink();
@@ -1015,7 +1011,7 @@ void CMusikLibrary::QuerySongsFrom( const wxString & queryFrom, CMusikSongArray 
 	}
 	else
 	{
-		query = wxT("select ") MUSIK_LIB_ALL_SONGCOLUMNS;
+		query = wxT("select distinct songs.songid ");
 		query += myqueryFrom; 
 		query += wxT(";");		
 	}
@@ -1025,50 +1021,44 @@ void CMusikLibrary::QuerySongsFrom( const wxString & queryFrom, CMusikSongArray 
 	{
 		// keep lock as short as possible by using {} scope
 		wxCriticalSectionLocker lock( m_csDBAccess );
-		sqlite_exec(m_pDB, pQuery, &sqlite_callbackAddToSongArray, &aReturn, NULL);
+		sqlite_exec(m_pDB, pQuery, &sqlite_callbackAddToSongIdArray, &aReturn, NULL);
 	}
 
 	aReturn.Shrink();
 	return;
 }
 
-void CMusikLibrary::UpdateItemLastPlayed( const CMusikSong & song )
+void CMusikLibrary::UpdateItemLastPlayed( int  songid  )
 {
 
 	wxCriticalSectionLocker lock( m_csDBAccess );
 	sqlite_exec_printf( m_pDB, "update songs set lastplayed = julianday('now'), timesplayed = timesplayed + 1 where songid = %d;",
-		NULL, NULL, NULL, song.songid );
+		NULL, NULL, NULL, songid );
+    OnSongDataChange(songid);
 }
 
 
-void CMusikLibrary::RecordSongHistory( const CMusikSong & song ,int playedtime)
+void CMusikLibrary::RecordSongHistory( const MusikSongId & songid ,int playedtime)
 {
 
 	{
-		bool bSelectedByUser = song.bChosenByUser == 1;
-		
-		int percentplayed = playedtime * 100 / (song.MetaData.nDuration_ms ? song.MetaData.nDuration_ms : playedtime); // be safe against integer division by zero
+		bool bSelectedByUser = songid.bChosenByUser == 1;
+		int nDuration_ms = songid.Song()->MetaData.nDuration_ms;
+		int percentplayed = playedtime * 100 / (nDuration_ms ? nDuration_ms : playedtime); // be safe against integer division by zero
 		wxCriticalSectionLocker lock( m_csDBAccess );
 		sqlite_exec_printf( m_pDB, "insert into songhistory values ( %d, julianday('now'),%d,%d );",
-			NULL, NULL, NULL,song.songid ,percentplayed ,bSelectedByUser);
+			NULL, NULL, NULL,songid.Id() ,percentplayed ,bSelectedByUser);
 
 	}
 }
 
-void CMusikLibrary::UpdateItemResetDirty( const CMusikSong & song )
+void CMusikLibrary::UpdateItemResetDirty( int  songid )
 {
 	{
 		wxCriticalSectionLocker lock( m_csDBAccess );
 		sqlite_exec_printf( m_pDB, "update songs set dirty = 0 where songid = %d;",
-			NULL, NULL, NULL,  song.songid );
+			NULL, NULL, NULL,  songid );
 	}
-}
-int CMusikLibrary::GetTimesPlayed( const CMusikSong & song )
-{
-	char *query = sqlite_mprintf( "select timesplayed from songs where songid = %d;", song.songid );
-	int result = QueryCount(query);
-	sqlite_freemem( query );
-	return result;
 }
 
 int CMusikLibrary::GetSongCount()
@@ -1083,6 +1073,26 @@ int CMusikLibrary::GetSongCount()
 }
 
 bool CMusikLibrary::GetSongFromSongid( int songid, CMusikSong *pSong )
+{
+    wxCriticalSectionLocker lock( m_csCacheAccess );
+    tSongCacheMap::const_iterator i = m_mapSongCache.find(songid);
+    if(i == m_mapSongCache.end())
+    { // songid is not in cache
+        // load to cache
+        CMusikSong &songref = m_mapSongCache[songid];
+        if(!QuerySongFromSongid(songid,&songref))
+        { // songid not found in db, erase from map 
+            m_mapSongCache.erase(songid);
+            return false;
+        }
+        *pSong = songref;
+        return true;
+    }
+    *pSong = (*i).second;
+    return true;
+}
+
+bool CMusikLibrary::QuerySongFromSongid( int songid, CMusikSong *pSong )
 {
 	char *query = sqlite_mprintf(ConvQueryToMB( wxT("select ") MUSIK_LIB_ALL_SONGCOLUMNS wxT(" from songs where songid = %d;")), songid );
 		
@@ -1112,17 +1122,22 @@ bool CMusikLibrary::GetSongFromSongid( int songid, CMusikSong *pSong )
 
 	return bFoundSong;
 }
-
-void CMusikLibrary::UpdateItem( CMusikSong & newsonginfo, bool bDirty )
+bool CMusikLibrary::UpdateItem( MusikSongId &songinfoid, bool bDirty )
 {
-	// this only updates user changeable properties of the song.	
+   bool bRes = UpdateItem(songinfoid.SongRef(),bDirty);
+   if(bRes)
+    songinfoid.Check1 = 0;
+   return bRes;
+}
+bool CMusikLibrary::UpdateItem( const CMusikSong & newsonginfo, bool bDirty )
+{
+    // this only updates user changeable properties of the song.	
 	int result = 0;
 	{// keep lock as short as possible by using {} scope
 		wxCriticalSectionLocker lock( m_csDBAccess );
-		result = sqlite_exec_printf( m_pDB, "update songs set filename=%Q, artist=%Q, title=%Q,"
+		result = sqlite_exec_printf( m_pDB, "update songs set artist=%Q, title=%Q,"
 											"album=%Q, tracknum=%d, year=%Q, genre=%Q, rating=%d,"
 											"notes=%Q, dirty=%d where songid = %d;", NULL, NULL, NULL, 
-			( const char* )ConvToUTF8( newsonginfo.MetaData.Filename.GetFullPath() ), 
 			( const char* )newsonginfo.MetaData.Artist, 
 			( const char* )newsonginfo.MetaData.Title , 
 			( const char * )newsonginfo.MetaData.Album , 
@@ -1135,9 +1150,14 @@ void CMusikLibrary::UpdateItem( CMusikSong & newsonginfo, bool bDirty )
 			 newsonginfo.songid);
 	}
 	if ( result != SQLITE_OK )
+    {
 		wxMessageBox( _( "An error occurred when attempting to update the database" ), MUSIKAPPNAME_VERSION, wxOK | wxICON_ERROR );
+        return false;
+    }
+    OnSongDataChange(newsonginfo.songid);
 
-	newsonginfo.Check1 = 0;
+    return true;
+
 }
 
 
@@ -1175,11 +1195,12 @@ int CMusikLibrary::QueryCount(const char * szQuery )
 void CMusikLibrary::SetRating( int songid, int nVal )
 {
 	nVal = wxMin(wxMax(nVal,MUSIK_MIN_RATING),MUSIK_MAX_RATING);
-
-	wxCriticalSectionLocker lock( m_csDBAccess );
-	sqlite_exec_printf( m_pDB, "update songs set rating = %d where songid = %d;",
-		NULL, NULL, NULL, nVal, songid );
-
+    {
+	    wxCriticalSectionLocker lock( m_csDBAccess );
+	    sqlite_exec_printf( m_pDB, "update songs set rating = %d where songid = %d;",
+		    NULL, NULL, NULL, nVal, songid );
+    }
+    OnSongDataChange(songid);
 }
 
 bool CMusikLibrary::CheckAndPurge( const wxString & filename )
@@ -1197,6 +1218,7 @@ void CMusikLibrary::RemoveSongDir( const wxString &  sDir )
 	wxCriticalSectionLocker lock( m_csDBAccess );
 	sqlite_exec_printf( m_pDB, "delete from songs where filename like '%q%%'", NULL, NULL, NULL, ( const char* )ConvToUTF8(sDir) );	
 	m_nCachedSongCount = -1;
+    OnSongDataChange();
 }
 
 void CMusikLibrary::RemoveSong( const wxString & sSong	)	
@@ -1207,9 +1229,12 @@ void CMusikLibrary::RemoveSong( const wxString & sSong	)
 }
 void CMusikLibrary::RemoveSong( int songid )	
 {
-	wxCriticalSectionLocker lock( m_csDBAccess );
-	sqlite_exec_printf( m_pDB, "delete from songs where songid = %d", NULL, NULL, NULL,songid);
-	m_nCachedSongCount = -1;
+    {
+        wxCriticalSectionLocker lock( m_csDBAccess );
+	    sqlite_exec_printf( m_pDB, "delete from songs where songid = %d", NULL, NULL, NULL,songid);
+    	m_nCachedSongCount = -1;
+    }
+    OnSongDataChange(songid);
 }
 
 void CMusikLibrary::RemoveAll()
@@ -1217,6 +1242,7 @@ void CMusikLibrary::RemoveAll()
 	wxCriticalSectionLocker lock( m_csDBAccess );
 	sqlite_exec_printf( m_pDB, "delete from songs;", NULL, NULL, NULL );	
 	m_nCachedSongCount = 0;
+    OnSongDataChange();
 }
 
 bool CMusikLibrary::ReplaceMask( wxString *sTarget,const  wxString & sMask, const wxString &sReplaceBy,const  wxString &sDefault,bool bReplaceAll )
@@ -1338,6 +1364,7 @@ bool CMusikLibrary::RenameFile( CMusikSong & song )
 				( const char* )ConvToUTF8( song.MetaData.Filename.GetFullPath() ),
 				 song.songid );
 		}
+        OnSongDataChange(song.songid);
 		return true;
 	}
 	
@@ -1348,12 +1375,12 @@ bool CMusikLibrary::RenameFile( CMusikSong & song )
 	return false;
 }
 
-bool CMusikLibrary::RetagFile(const CMusikTagger & tagger, CMusikSong* Song )
+bool CMusikLibrary::RetagFile(const CMusikTagger & tagger, CMusikSong & Song )
 {
 	
-	if(!tagger.Retag(Song))
+	if(!tagger.Retag(&Song))
 		return false;
-	UpdateItem( *Song, true );
+	UpdateItem( Song, true );
 	return true;
 }
 

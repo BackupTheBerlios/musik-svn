@@ -38,8 +38,7 @@ public:
 	void OnSize						( wxSizeEvent& event );
 	//--- member functions ---//
 	void UpdateSel( CActivityBox *pSel );
-	bool Create();
-	void Delete();
+	bool ReCreate();
 	void ResetAllContents( bool bUpdatePlaylist = true );
 	CActivityBox* GetActivityBox(EMUSIK_ACTIVITY_TYPE eType);
 	bool Show(bool show = true);
@@ -49,6 +48,10 @@ public:
 	CActivityBox* GetParentBox(){ return m_ParentBox; }
 
 	DECLARE_EVENT_TABLE()
+
+protected:
+    bool Create();
+    void Delete();
 
 private:
 	int m_ParentId;

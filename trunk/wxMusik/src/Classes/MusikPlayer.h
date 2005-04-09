@@ -145,17 +145,15 @@ public:
 	
 	wxString GetTimeStr			( );
 	wxString GetTimeLeftStr		( );
-	int GetCurrentSongid		() { return m_CurrentSong.songid; }
-	wxString  GetCurrentFilename() { return m_CurrentSong.MetaData.Filename.GetFullPath(); }
+	MusikSongId GetCurrentSongid		() { return m_CurrentSong; }
+	wxString  GetCurrentFilename() { return m_CurrentSong.Song()->MetaData.Filename.GetFullPath(); }
 	int GetCrossfadeType		() { return m_CrossfadeType; }
 	size_t GetShuffledSong		();
 	EMUSIK_PLAYMODE GetPlaymode () { return m_Playmode; }
-	const CMusikSongArray &	GetPlaylist	( ) 
+	CMusikSongArray &	GetPlaylist	( ) 
 	{
-		RefreshInternalPlaylist();
 		return  m_Playlist;
 	}
-	void RefreshInternalPlaylist();
 	
 	//------------//
 	//--- sets ---//
@@ -165,11 +163,11 @@ public:
 	void SetPlaymode		( EMUSIK_PLAYMODE pm );
 	void SetVolume			( );
 	void SetTime			( int nSec );
+	void ClearPlaylist		();
 	void SetPlaylist		(const  CMusikSongArray &playlist ) { m_Playlist = playlist;m_arrHistory.Clear(); }
 	void AddToPlaylist		( CMusikSongArray &songstoadd ,bool bPlayFirstAdded = true);	// NOTE this method, empties the songstoadd array.
 	void InsertToPlaylist(	 CMusikSongArray & songstoadd ,bool bPlayFirstInserted = true);  // NOTE this method, empties the songstoadd array.
-	void RemovePlaylistEntry( size_t index );
-	void MovePlaylistEntrys	(size_t nMoveTo ,const wxArrayInt &arrToMove);
+	void OnPlaylistEntryRemoved( size_t index );
 	void SetStartingNext	( bool bStart = true ){ m_StartingNext = bStart; }
 	void SetCrossfadeType	( int nType ){ m_CrossfadeType = nType; }
 
@@ -204,7 +202,7 @@ private:
 	bool			m_Fading;			//--- currently (cross)fading?						---//
 	bool			m_StartingNext;		//--- in the middle of starting up a next song?		---//
 	bool			m_Stopping;			//--- is the player currently stopping?				---//
-	CMusikSong		m_CurrentSong;		//--- copy of current song						---//0
+	MusikSongId		m_CurrentSong;		//--- id of current song						---//0
 	int				m_CrossfadeType;	
 	wxArrayInt		m_arrHistory;		//--- history of songs played, to avoid repeats		---//
 	size_t			m_nMaxHistory;

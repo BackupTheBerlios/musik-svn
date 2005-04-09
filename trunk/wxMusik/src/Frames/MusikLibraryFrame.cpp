@@ -517,8 +517,8 @@ void MusikLibraryDialog::ClearLibrary()
 	{
 		wxGetApp().Library.RemoveAll();
 		g_ActivityAreaCtrl->ResetAllContents();
-		g_Playlist.Clear();
-		g_PlaylistBox->Update();
+		g_thePlaylist.Clear();
+		g_PlaylistBox->SetPlaylist(&g_thePlaylist);
 
 		ScanNew();
 	}
@@ -643,8 +643,8 @@ void MusikLibraryDialog::OnThreadEnd( wxCommandEvent& event )
 		}
 		else if (bDatabaseChanged && wxGetApp().Prefs.bShowAllSongs == 1 && (g_SourcesCtrl->GetSelType() == MUSIK_SOURCES_LIBRARY))
 		{
-			wxGetApp().Library.GetAllSongs( g_Playlist );
-			g_PlaylistBox->Update();
+			wxGetApp().Library.GetAllSongs( g_thePlaylist );
+			g_PlaylistBox->SetPlaylist(&g_thePlaylist);
 		}
 		bRebuild = false;
 	}
@@ -657,8 +657,8 @@ void MusikLibraryDialog::OnThreadEnd( wxCommandEvent& event )
 			g_ActivityAreaCtrl->ResetAllContents();
 			if ( wxGetApp().Prefs.bShowAllSongs == 1 )
 			{
-				wxGetApp().Library.GetAllSongs( g_Playlist );
-				g_PlaylistBox->Update();
+				wxGetApp().Library.GetAllSongs( g_thePlaylist );
+				g_PlaylistBox->SetPlaylist(&g_thePlaylist);
 			}
 		}
 	}

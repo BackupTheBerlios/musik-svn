@@ -43,13 +43,14 @@ void CPictureBox::OnIdle(wxIdleEvent & event)
 		event.Skip();
 		return;
 	}
-	int nSel = g_PlaylistBox->PlaylistCtrl().GetNextItem( -1, wxLIST_NEXT_ALL , wxLIST_STATE_SELECTED|wxLIST_STATE_FOCUSED );
-	if(g_Playlist.GetCount())
+	int nSel = g_PlaylistBox->PlaylistCtrl().GetCurrentSelection();
+	if(nSel > -1)
 	{// 
-		int i = wxMax(nSel,0);
-		if(m_currSongPath != g_Playlist[i].MetaData.Filename)
+        std::auto_ptr<CMusikSong> pSong = g_PlaylistBox->PlaylistCtrl().Playlist()[nSel].Song();
+
+		if(m_currSongPath != pSong->MetaData.Filename)
 		{// select song has changed
-			m_currSongPath = g_Playlist[i].MetaData.Filename;
+			m_currSongPath = pSong->MetaData.Filename;
 			TryToLoadImage(m_currSongPath);
 		//	bAllowShowPlaying =false;
 			m_Timer.Start(3000,wxTIMER_ONE_SHOT);
@@ -66,7 +67,7 @@ void CPictureBox::OnIdle(wxIdleEvent & event)
 		}
 		return;
 	}
-	if(!g_Playlist.GetCount())
+	if(nSel == -1)
 	{
 		if(m_image	!= m_DefImage)
 		{

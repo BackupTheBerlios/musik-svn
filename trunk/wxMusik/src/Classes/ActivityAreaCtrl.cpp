@@ -56,9 +56,15 @@ CActivityAreaCtrl::~CActivityAreaCtrl()
 
 }
 
+bool CActivityAreaCtrl::ReCreate()
+{
+    Delete();
+    Create();
+    Show();
+    return true;
+}
 bool CActivityAreaCtrl::Create()
 {
-	Delete();
 	for(size_t i = 0; i < ActivityBoxesMaxCount;i++)
 	{
 		if ( wxGetApp().Prefs.nActBoxType[i] > 0 && m_ActivityBox[i] == NULL )
@@ -72,9 +78,7 @@ bool CActivityAreaCtrl::Create()
 	//	SetSize( pTopSizer->GetMinSize() );
 
 	SetParent( 0, false );
-
 	return true;
-
 }
 
 void CActivityAreaCtrl::Delete()
@@ -92,6 +96,7 @@ void CActivityAreaCtrl::Delete()
 			m_ActivityBox[i] = NULL;
 		}
 	}
+    m_bContentInvalid = true;
 }
 
 void CActivityAreaCtrl::ResetAllContents( bool bUpdatePlaylist )
@@ -153,7 +158,7 @@ void CActivityAreaCtrl::UpdateSel( CActivityBox *pSelectedBox )
 	if ( !pSelectedBox )
 	{
 		if ( wxGetApp().Prefs.bShowAllSongs == 1 )
-			wxGetApp().Library.GetAllSongs( g_Playlist );
+			wxGetApp().Library.GetAllSongs( g_thePlaylist );
 		return;
 	}
 	//-------------------------------------//
@@ -213,8 +218,8 @@ void CActivityAreaCtrl::UpdateSel( CActivityBox *pSelectedBox )
 		}
 		if ( wxGetApp().Prefs.bShowAllSongs == 1 )
 		{
-			wxGetApp().Library.GetAllSongs( g_Playlist );
-			g_PlaylistBox->Update();
+			wxGetApp().Library.GetAllSongs( g_thePlaylist );
+			g_PlaylistBox->SetPlaylist( &g_thePlaylist);
 			return;
 		}
 	}
@@ -255,8 +260,8 @@ void CActivityAreaCtrl::UpdateSel( CActivityBox *pSelectedBox )
 
 		if ( wxGetApp().Prefs.bShowAllSongs == 1 )
 		{
-			wxGetApp().Library.GetAllSongs( g_Playlist );
-			g_PlaylistBox->Update();
+			wxGetApp().Library.GetAllSongs( g_thePlaylist );
+			g_PlaylistBox->SetPlaylist(&g_thePlaylist);
 			return;
 		}		
 	}
@@ -303,8 +308,8 @@ void CActivityAreaCtrl::UpdateSel( CActivityBox *pSelectedBox )
 
 	if ( ( wxGetApp().Prefs.eSelStyle == MUSIK_SELECTION_TYPE_STANDARD || wxGetApp().Prefs.eSelStyle == MUSIK_SELECTION_TYPE_SLOPPY ) && ( pSelectedBox->IsSelected( 0 ) || pSelectedBox->GetSelectedItemCount() < 1 ) )
 	{
-		g_Playlist.Clear();
-		g_PlaylistBox->Update();
+		g_thePlaylist.Clear();
+		g_PlaylistBox->SetPlaylist(&g_thePlaylist);
 	}
 	else
 		pSelectedBox->SetPlaylist();

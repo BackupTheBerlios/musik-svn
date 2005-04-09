@@ -69,7 +69,7 @@ class CMusikPrefs;
 class CMusikPaths;
 
 extern CMusikPaths			g_Paths;			
-extern CMusikSongArray		g_Playlist;	
+extern CMusikSongArray		g_thePlaylist;	
 extern MusikFaderThread*	g_FaderThread;
 extern wxImageList*			g_SourcesImages; 
 extern wxImageList*			g_NullImageList;

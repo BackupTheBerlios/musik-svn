@@ -107,15 +107,18 @@ public:
 	//------------//
 	//--- gets ---//
 	//------------//
-	int				GetIndex		() { return m_nCurSel; }
-	wxString		GetSubitemText	( int nItem, int Subitem );
+	const CMusikSongArray & Playlist();
+	int				GetCurrentSelection() { return m_pPlaylist && m_nCurSel < (int)m_pPlaylist->GetCount() ?  m_nCurSel : -1; }
 	wxString		GetAllFiles		();
-	wxString		GetSelFiles		();
+	wxString		GetSelSongIds	();
 	void			GetSelItems		(wxArrayInt & aResult);
 	void			GetSelFilesList	( wxArrayString & aResult );
 	void			GetSelectedSongs( CMusikSongArray & aResult );
 	const wxString 	&	GetFilename		( int nItem );
-	CMusikSongArray * GetPlaylist	();
+	void			SetPlaylist(CMusikSongArray * playlist)
+	{
+		m_pPlaylist = playlist;
+	}
 //IPlaylistInfo
 	int				GetTotalPlayingTimeInSeconds();
 	wxLongLong		GetTotalFilesize();
@@ -129,8 +132,7 @@ public:
 	//--------------//
 	//--- others ---//
 	//--------------//
-	void ResynchItem		( int item, int lastitem = -1, bool refreshonly = true );
-	void ResynchItem		( int item, const CMusikSong & song);
+	void ResynchItem		( int listindex, const MusikSongId & song);
 	void Update				( bool bSelFirstItem = true);
 	void ResetColumns		( bool update = false, bool rescale = false );
 	void RateSel			( int nVal );
@@ -139,7 +141,6 @@ public:
 	void RenameSelFiles		( );
 	void RetagSelFiles		( );
 	void RebuildTagSelFiles ( );
-	bool ViewDirtyTags		( );
 	void ShowIcons			( );
 	void SaveColumns		( );
 	void FindColumnOrder	( );
@@ -151,7 +152,6 @@ public:
 	//---------------------------------------------//
 	//--- functions ---//
 	void DNDSetCurSel	();
-	size_t DNDDelSongs	();
 	void MovePlaylistEntrys(int nMoveTo ,const wxArrayInt &arrToMove,bool bSelectItems = true);
 	bool DNDIsSel		( int nVal );
 	void DNDDone		();
@@ -197,6 +197,8 @@ private:
     virtual int				OnGetItemImage	(long item) const;
     virtual	wxListItemAttr*	OnGetItemAttr	(long item) const;
 
+
+	CMusikSongArray * m_pPlaylist;
 	//-------------------------------//
 	//--- colors for the playlist ---//
 	//-------------------------------//
@@ -253,6 +255,11 @@ public:
 	CPlaylistBox( wxWindow *parent );
 	~CPlaylistBox();
 	void ShowPlaylistInfo();
+	void SetPlaylist(CMusikSongArray * playlist)
+	{
+		m_pPlaylistCtrl->SetPlaylist(playlist);
+		Update();
+	}
 	CPlaylistInfoCtrl & PlaylistInfoCtrl()	{return *m_pPlaylistInfoCtrl;}
 	CPlaylistCtrl & PlaylistCtrl()			{return *m_pPlaylistCtrl;}
 //	CSearchBox    & SearchBox()		{return *m_pSearchBox;}

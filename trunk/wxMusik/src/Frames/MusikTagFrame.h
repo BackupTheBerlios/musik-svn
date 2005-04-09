@@ -133,7 +133,6 @@ public:
 
 	void Close();
 	//--- thread related functions ---//
-	CMusikSongArray* GetSongs	()						{ return &m_Songs;			}
 
 	void EnableProgress			( bool enable = true );
 
@@ -143,7 +142,7 @@ private:
 
 	CThreadController m_ActiveThreadController;
 
-	CMusikSongArray & m_Songs;
+	CMusikSongArray  m_Songs;
 	bool			m_WriteTag;
 	int				nIndex;
 	int				nFrame;

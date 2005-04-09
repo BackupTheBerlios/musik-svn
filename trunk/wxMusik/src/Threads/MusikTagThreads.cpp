@@ -60,42 +60,41 @@ void *MusikTagApplyThread::Entry()
 			break;
 		else
 		{
-			if ( m_Songs.Item( i ).Check1 == 1 )
+            MusikSongId & songid = m_Songs.Item( i );
+			if ( songid.Check1 == 1 )
 			{
+               
+                CMusikSong &song = songid.SongRef();
 				//-----------------------//
 				//--- rename the file ---//
 				//-----------------------//
 				bRenameOK = true;
 				if ( wxGetApp().Prefs.bTagDlgRename == 1 )
 				{
-					bRenameOK = wxGetApp().Library.RenameFile( m_Songs.Item( i ));
+					bRenameOK = wxGetApp().Library.RenameFile( song);
 					if(false == bRenameOK)
-						::wxLogWarning(_("Renaming of file %s failed."),(const wxChar *)m_Songs.Item( i ).MetaData.Filename.GetFullPath());
+						::wxLogWarning(_("Renaming of file %s failed."),(const wxChar *)song.MetaData.Filename.GetFullPath());
 
-					m_Songs.Item( i ).Check1 = 0;
+					songid.Check1 = 0;
 				}
 
 				//--------------------------//
 				//--- write tags to file ---//
 				//--------------------------//
-				if ( bRenameOK )
+				if ( wxGetApp().Prefs.bTagDlgWrite)
 				{
-					if ( wxGetApp().Prefs.bTagDlgWrite == 1 )
-					{
-						//-----------------------------------------//
-						//--- rename will update the lib, so if	---//
-						//--- we're not renaming, update db too	---//
-						//-----------------------------------------//
-						wxGetApp().Library.WriteTag( m_Songs.Item( i ),wxGetApp().Prefs.bTagDlgClear ,wxGetApp().Prefs.bTagDlgRename == false );
-					}
-
+					//-----------------------------------------//
+					//--- rename will update the lib, so if	---//
+					//--- we're not renaming, update db too	---//
+					//-----------------------------------------//
+					wxGetApp().Library.WriteTag( songid,wxGetApp().Prefs.bTagDlgClear);
+				}
+				else 
+				{
 					//-----------------------------//
-					//--- write tag for db only ---//
+					//--- write tag for db only ,flag as dirty ---//
 					//-----------------------------//
-					if ( wxGetApp().Prefs.bTagDlgWrite == false && wxGetApp().Prefs.bTagDlgRename == false )
-					{
-						wxGetApp().Library.UpdateItem( m_Songs.Item( i ), true );
-					}
+					wxGetApp().Library.UpdateItem( songid, true );
 				}
 			}
 		}

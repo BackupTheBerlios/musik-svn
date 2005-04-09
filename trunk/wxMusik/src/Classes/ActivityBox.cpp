@@ -179,7 +179,7 @@ void CActivityListBox::SetList( const wxArrayString &  aList ,bool selectnone,bo
 {
 	wxString sCurrentTopItem;
     long  nTopItem = HasShowAllRow() && GetTopItem() > 0 ? GetTopItem() - 1 : GetTopItem();
-	if(bEnsureVisibilityOfCurrentTopItem && m_Items.GetCount() && nTopItem < (long)m_Items.GetCount())
+	if(bEnsureVisibilityOfCurrentTopItem && m_Items.GetCount() && nTopItem >= 0 && nTopItem < (long)m_Items.GetCount())
 	{
 		sCurrentTopItem = m_Items[nTopItem];
 	}
@@ -191,6 +191,7 @@ void CActivityListBox::SetList( const wxArrayString &  aList ,bool selectnone,bo
 
 void CActivityListBox::Update( bool selnone )
 {
+	Freeze();
 	//----------------------------------------------------------------------------------//
 	//---        note that the activity box control is now virtual, so we don't      ---//
 	//---    add items directly to it.  Instead, we have the object pItems a		 ---//
@@ -208,9 +209,7 @@ void CActivityListBox::Update( bool selnone )
 	if ( selnone )
 		wxListCtrlSelNone( this );
 	RefreshCaption();
-//#ifndef __WXMAC__	
-//	wxWindow::Update(); // instantly update window content
-//#endif
+	Thaw();
 }
 
 
@@ -758,8 +757,8 @@ void CActivityBox::GetSelectedSongs( CMusikSongArray& array )
 
 void CActivityBox::SetPlaylist()
 {
-	GetSelectedSongs( g_Playlist );
-	g_PlaylistBox->Update( true );
+	GetSelectedSongs( g_thePlaylist );
+	g_PlaylistBox->SetPlaylist( &g_thePlaylist );
 }
 
 void CActivityBox::SetContents( const wxArrayString & aList , bool selectnone ,bool bEnsureVisibilityOfCurrentTopItem )
@@ -851,7 +850,7 @@ wxString CActivityBox::DNDGetList()
 	sRet.Alloc(255 * songs.GetCount());
 	for ( size_t i = 0; i < songs.GetCount(); i++ )
 	{
-		sRet += songs.Item( i ).MetaData.Filename.GetFullPath();
+		sRet += IntToString(songs.Item( i ));
 		if	( i != ( songs.GetCount() - 1 ) )
 			sRet += wxT("\n");
 	}

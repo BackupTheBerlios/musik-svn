@@ -2,6 +2,8 @@ SET(PROJECT_VERSION_MAJOR "0.4.1.1")
 
 SET(MAIN_SRCS
         ./MusikApp
+        ./MusikId
+        ./Playlist
         ./MusikGlobals
         ./MusikUtils
         ./MusikAboutDlg

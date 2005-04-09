@@ -251,7 +251,9 @@ class CMusikSong
 {
 public:
 	CMusikSong();
-
+    ~CMusikSong()
+    {
+    }
 public:
 	int			songid;
 	CSongMetaData MetaData;
@@ -259,11 +261,6 @@ public:
 	int			Rating;
 	int			TimesPlayed;
 	double		TimeAdded;
-	unsigned int			Check1:1;		//--- for tag dlg stuff, checks to see if it needs to be written to file / db ---//
-	unsigned int			bChosenByUser:1;
-	unsigned int			bForcePlay:1;
-
-
 };
 
 #define MUSIK_LIB_ALL_SONGCOLUMNS	wxT(" songs.songid,")	  \
@@ -284,8 +281,6 @@ public:
 									wxT("songs.timesplayed,")\
 									wxT("songs.timeadded,")  \
 									wxT("songs.filesize ")
-
-WX_DECLARE_OBJARRAY( CMusikSong, CMusikSongArray );
 
 
 //------------------------------------------------------------------//
@@ -414,10 +409,22 @@ inline void InternalErrorMessageBox( const wxString &sText)
 	wxMessageBox( sMessage,MUSIKAPPNAME_VERSION, wxOK|wxICON_ERROR );
 
 }
+#if wxCHECK_VERSION(2,5,4)
+#ifdef __WXMSW__
+#include <wx/stdpaths.h>
+#endif
+#endif
 inline wxString MusikGetStaticDataPath()
 {
 #ifdef __WXMSW__
-	return wxT("data/");		
+
+    wxString sDataPath(wxT("data/"));
+	if(wxDirExists(sDataPath))
+        return sDataPath;	
+#if wxCHECK_VERSION(2,5,4)
+    wxStandardPaths stdpaths;
+    return stdpaths.GetDataDir()+ wxT("/") + sDataPath;
+#endif
 #elif __WXMAC__
 	wxFileName fname( wxTheApp->argv[0] );
 	wxString path = fname.GetPath();
@@ -433,9 +440,8 @@ inline wxString MusikGetStaticDataPath()
 	sDataPath = wxT("~/") MUSIKAPPNAME wxT("/data/");	
 	if(wxDirExists(sDataPath))
 		return sDataPath;
-	return wxT("data/");
-
 #endif	
+    return wxT("data/");
 }
 double CharStringToDouble(const char *z);
 void DoubleToCharString(double r, char *z);
@@ -443,7 +449,6 @@ wxString GetForbiddenChars(wxPathFormat format = wxPATH_NATIVE);
 
 void  ReplaceChars(wxString &s,const wxString &chars,wxChar replaceby = wxT('_'));
 
-wxLongLong GetTotalFilesize(const CMusikSongArray &songs);
 
 wxString SecToStr	( int nSec );
 

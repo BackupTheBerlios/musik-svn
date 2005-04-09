@@ -55,13 +55,12 @@ BEGIN_EVENT_TABLE(CMusikListCtrl, wxListCtrl)
 	EVT_PAINT ( CMusikListCtrl::OnPaint )
 #endif
 	EVT_SIZE  (	CMusikListCtrl::OnSize )	
-    EVT_SIZING  (	CMusikListCtrl::OnSize )
 END_EVENT_TABLE()
 
 void CMusikListCtrl::OnSize( wxSizeEvent& event )
 {
 	OnRescaleColumns();
-    event.Skip();
+    event.Skip(); 
 }
 // enable wheel scroll, no matter if the bug in wxWidgets/src/generic/listctrl is fixed or not
 void CMusikListCtrl::OnMouseWheel(wxMouseEvent &event)
@@ -176,8 +175,6 @@ void CMusikListCtrl::OnPaint(wxPaintEvent& event)
 	}
 	wxBufferedPaintDC dc(this);
 
-//	wxEraseEvent erase_event(m_windowId, &dc);
-//	wxWindow::OnEraseBackground(erase_event);
 	MSWDefWindowProc(WM_ERASEBKGND, (WPARAM) (HDC) dc.GetHDC(), 0);
 	MSWDefWindowProc(WM_PAINT, (WPARAM) (HDC) dc.GetHDC(), 0);
 

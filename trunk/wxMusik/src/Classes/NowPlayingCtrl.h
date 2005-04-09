@@ -108,7 +108,7 @@ public:
 	//--- funcs ---//
 	void PlayBtnToPauseBtn();
 	void PauseBtnToPlayBtn();
-	void UpdateInfo( const CMusikSong &song );
+	void UpdateInfo(const MusikSongId &songid );
 	void SetTime( wxString sTimeStr );
 	void ResetInfo();
 

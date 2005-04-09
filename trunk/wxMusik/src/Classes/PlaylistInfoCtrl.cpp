@@ -115,7 +115,7 @@ void CPlaylistInfoCtrl::Update()
 	{
 		stTotalVal->SetLabel( wxString::Format( wxT( "%d" ), wxGetApp().Library.GetSongCount() ) );
 		stPlaylistVal->SetLabel( wxString::Format( wxT( "%d" ), m_pIPlaylistInfo->GetCount() ) );
-		int nPlaylistTime = m_pIPlaylistInfo->GetTotalPlayingTimeInSeconds();
+		int nPlaylistTime = (int)m_pIPlaylistInfo->GetTotalPlayingTimeInSeconds();
 		wxTimeSpan PlayTime( 0, 0, nPlaylistTime );
 		stRuntimeVal->SetLabel ( PlayTime.Format() );
 		wxString strsize( wxT("0.0 mb") );

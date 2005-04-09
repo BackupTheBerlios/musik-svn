@@ -31,7 +31,9 @@
 #include <wx/regex.h>
 #include <wx/filename.h>
 
-#include "../MusikUtils.h"
+#include <map>
+#include "MusikUtils.h"
+#include "Playlist.h"
 
 class CMusikLibrary : public wxEvtHandler
 {
@@ -39,6 +41,14 @@ public:
 	CMusikLibrary();
 	~CMusikLibrary();
 
+    void OnSongDataChange(int songid = -1)
+    {
+        wxCriticalSectionLocker lock( m_csCacheAccess );
+        if(songid == -1)
+            m_mapSongCache.clear();
+        else
+            m_mapSongCache.erase(songid);
+    }
 	//---------------//
 	//--- loading ---//
 	//---------------//
@@ -58,19 +68,20 @@ public:
 	//----------------//
 	//--- updating ---//
 	//----------------//
-	void UpdateItem				( CMusikSong &newsonginfo, bool bDirty );
-	void UpdateItemLastPlayed	( const CMusikSong & song  );
-	void UpdateItemResetDirty	( const CMusikSong & song );
+    bool UpdateItem				( MusikSongId &songinfoid, bool bDirty );
+	bool UpdateItem				( const CMusikSong &newsonginfo, bool bDirty );
+	void UpdateItemLastPlayed	( int  songid   );
+	void UpdateItemResetDirty	( int  songid  );
 	void SetRating				( int songid, int nVal );
 
 	//--------------------//
 	//--- writing tags ---//
 	//--------------------//
 	bool RenameFile			( CMusikSong & song );
-	bool RetagFile			( const CMusikTagger & tagger, CMusikSong* song );
+	bool RetagFile			( const CMusikTagger & tagger, CMusikSong & song );
 	bool ReplaceMask		( wxString *sTarget,const  wxString & sMask, const wxString &sReplaceBy,const  wxString &sDefault = wxT("-Unknown-"),bool bReplaceAll = true  );
 	int  ClearDirtyTags		( );
-	bool WriteTag			(  CMusikSong & song, bool ClearAll, bool bUpdateDB = true );
+	bool WriteTag			(  MusikSongId & songid, bool ClearAll, bool bUpdateDB = true );
 	
 	//----------------//
 	//--- removing ---//
@@ -85,15 +96,15 @@ public:
 	//--- getting items ---//
 	//---------------------//
 	void GetFilelistSongs		( const wxArrayString & aFiles, CMusikSongArray & aReturn );
-	bool GetSongFromSongid	( int songid, CMusikSong *pSong );
+	bool QuerySongFromSongid	( int songid, CMusikSong *pSong );
+    bool GetSongFromSongid	( int songid, CMusikSong *pSong );
 
 	void SetSortOrderField( int nField, bool descending = false);
-	double GetTotalPlaylistSize();
+	double GetSum(const wxString & sField, const CMusikSongArray &  idarray )const ;
 
 	//--------------------//
 	//--- getting info ---//
 	//--------------------//
-	int	GetTimesPlayed	( const CMusikSong & song );
 	int	GetSongCount	();
 	int	GetSongDirCount ( wxString sDir );
 
@@ -102,7 +113,7 @@ public:
 	//------------//
 	bool FileInLibrary		( const wxString & filename, bool fullpath );
 
-	void RecordSongHistory( const CMusikSong & song ,int playedtime);
+	void RecordSongHistory( const MusikSongId & songid ,int playedtime);
 	//------------------------//
 	//--- generic querying ---//
 	//------------------------//
@@ -129,10 +140,15 @@ public:
 
 private:
 
+
 	void CheckVersion();
 
 	sqlite		  *m_pDB;
 	void CreateDB();
+
+    mutable wxCriticalSection m_csCacheAccess;
+    typedef std::map<int,CMusikSong>  tSongCacheMap;
+    tSongCacheMap m_mapSongCache;
 
 	wxString  m_sSortAllSongsQuery;
 	wxString m_lastQueryWhere;
@@ -140,7 +156,7 @@ private:
 
 	void VerifyYearList ( const wxArrayString & aList,wxArrayString & aVerifiedList );
 
-	wxCriticalSection m_csDBAccess; // to lock all accesses to m_pDB. 
+	mutable wxCriticalSection m_csDBAccess; // to lock all accesses to m_pDB. 
 									// used instead of wxMutex, because this is faster on windows. on linux 
 									// a wxMutex is used automatically instead
 	void CreateDBFuncs();
@@ -173,8 +189,8 @@ private:
 	}
 	static int sqlite_callbackAddToIntArray(void *args, int numCols, char **results, char ** columnNames);
 	static int sqlite_callbackAddToStringArray(void *args, int numCols, char **results, char ** columnNames);
-	static int sqlite_callbackAddToSongArray(void *args, int numCols, char **results, char ** columnNames);
-	static int sqlite_callbackAddToSongMap(void *args, int numCols, char **results, char ** columnNames);
+	static int sqlite_callbackAddToSongIdArray(void *args, int numCols, char **results, char ** columnNames);
+	static int sqlite_callbackAddToSongIdMap(void *args, int numCols, char **results, char ** columnNames);
 };
 
 #endif

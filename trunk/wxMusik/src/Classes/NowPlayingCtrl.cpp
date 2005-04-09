@@ -16,8 +16,8 @@
 //--- globals ---//
 #include "NowPlayingCtrl.h"
 #include "Tunage.h"
-#include "../MusikGlobals.h"
-#include "../MusikUtils.h"
+#include "MusikGlobals.h"
+#include "Playlist.h"
 
 //--- frames ---//
 #include "../Frames/MusikFrame.h"
@@ -418,26 +418,27 @@ void CNowPlayingCtrl::ResetInfo()
 	Layout();
 }
 
-void CNowPlayingCtrl::UpdateInfo( const CMusikSong &song )
+void CNowPlayingCtrl::UpdateInfo( const MusikSongId &songid )
 {
+    std::auto_ptr<CMusikSong> pSong = songid.Song();
 	//--- first things first, verify data in song ---//
-	wxString sArtist = SanitizedString( ConvFromUTF8( song.MetaData.Artist ));
-	wxString sTitle = SanitizedString( ConvFromUTF8( song.MetaData.Title ));
-	wxString sAlbum = SanitizedString( ConvFromUTF8( song.MetaData.Album ));
+	wxString sArtist = SanitizedString( ConvFromUTF8( pSong->MetaData.Artist ));
+	wxString sTitle = SanitizedString( ConvFromUTF8( pSong->MetaData.Title ));
+	wxString sAlbum = SanitizedString( ConvFromUTF8( pSong->MetaData.Album ));
 	if ( sArtist.IsEmpty())
 		sArtist = _( "Unknown Artist" );
 	if ( sTitle.IsEmpty() )
 		sTitle = _( "Unknown Song" );
 
 	// tell Tunage to do it's thing if file has changed
-	if ( m_LastFile != song.MetaData.Filename )
-		m_pTunage->Execute( song );
+	if ( m_LastFile != pSong->MetaData.Filename )
+		m_pTunage->Execute( *pSong );
 
-	m_LastFile = song.MetaData.Filename;
+	m_LastFile = pSong->MetaData.Filename;
 
 	//--- caption bar title ---//
 	g_MusikFrame->SetTitle( sArtist + wxT( " - " ) +  sTitle + (!sAlbum.IsEmpty() ? wxString(wxT( " - " )) + sAlbum : wxString()) );
-	g_MusikFrame->SetSongInfoText( song );
+	g_MusikFrame->SetSongInfoText( *pSong );
 
 	//--- title / artist / time -//
 	sTitle.Replace	( wxT( "&" ), wxT( "&&" ), TRUE );

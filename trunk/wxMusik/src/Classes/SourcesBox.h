@@ -112,18 +112,18 @@ public:
 	int  FindInSources		( wxString sName, int nType );
 	wxString GetSourceEntry(long i) const;
 	//---standard / dynamic ---//
-	bool CreateStdPlaylist			( wxString sName, wxString sSongs );
+	bool CreateStdPlaylist			( wxString sName, wxString sSongIds );
 	bool CreateDynPlaylist			( wxString sName );
 	bool CreateNetStream			( wxString sName);
-    void AppendStdPlaylist			( wxString sName, wxString sSongs );
+    void AppendStdPlaylist			( wxString sName, wxString sSongIds );
 	void RewriteStdPlaylist			();
 	void UpdateDynPlaylist			( int nIndex );
-	void LoadStdPlaylist			( wxString sName, wxArrayString & aReturn );
+	void LoadStdPlaylist			( wxString sName, CMusikSongArray & songids );
 	void RealizeDynPlaylist			( const wxString & sQuery, CMusikSongArray & aReturn );
 	wxString LoadDynPlaylist		( wxString sName );
 	void LoadNetStream				(wxString sName, CMusikSong & song );
 	void UpdateNetStream			( int nIndex );
-	bool PlaylistToFile				( wxString sName, wxString* sItems, int type, bool bDelOld = true );
+	bool PlaylistToFile				( wxString sName, wxString sSongIds, int type, bool bDelOld = true );
 	wxString PromptDynamicPlaylist	( wxString sQuery );
 	wxString PromptNetStreamAddress	( const wxString & sAddress );
 	wxString GetPlaylistName		( int nIndex );

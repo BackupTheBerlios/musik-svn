@@ -43,13 +43,15 @@ public:
 	void Freeze();
 	void Thaw();
 #endif
-#ifdef __WXMAC__
+#ifdef __WXMSW__
 	void SetItemCount(long count)
 	{
 		if(count != GetItemCount())
 		{
+			Freeze();
 			EnsureVisible(0); // hack to circumvent bug, if SetItemCount is callec but the listview is scrolled down.
 			wxListCtrl::SetItemCount(count);
+			Thaw();
 		}	
 	}
 #endif

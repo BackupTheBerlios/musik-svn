@@ -112,7 +112,7 @@ void CPlaylistBox::ShowPlaylistInfo()
 void CPlaylistBox::Update( bool bSelFirstItem )
 {
 #ifndef __WXMAC__ 
-	SetBackgroundColour(wxGetApp().Prefs.bPlaylistBorder ?  
+	SetOwnBackgroundColour(wxGetApp().Prefs.bPlaylistBorder ?  
 										StringToColour(wxGetApp().Prefs.sPlaylistBorderColour)
 										:wxSystemSettings::GetColour(wxSYS_COLOUR_BTNFACE));
 #endif										
@@ -334,6 +334,7 @@ bool PlaylistDropTarget::HighlightSel( const  wxPoint & pPos )
 CPlaylistCtrl::CPlaylistCtrl( CPlaylistBox *parent, const wxWindowID id, const wxPoint& pos, const wxSize& size )
 	:	CMusikListCtrl		( parent, id, pos, size,wxNO_BORDER)
 	,m_bInternalDragInProcess(false)
+	,m_pPlaylist(NULL)
 	,m_pParent(parent)
 	
 {
@@ -400,7 +401,7 @@ wxMenu * CPlaylistCtrl::CreateContextMenu()
 	if ( GetSelectedItemCount() > 0 )
 	{
 		int nFirstIndex = GetNextItem( -1, wxLIST_NEXT_ALL , wxLIST_STATE_SELECTED );
-		bNetStreamSel  = (g_Playlist.Item ( nFirstIndex ).MetaData.eFormat == MUSIK_FORMAT_NETSTREAM);
+		bNetStreamSel  =  m_pPlaylist && m_pPlaylist->Item ( nFirstIndex ).IsFormat(MUSIK_FORMAT_NETSTREAM);
 	}
 	bool bIsNowPlayingSelected = (g_SourcesCtrl->GetSelType() == MUSIK_SOURCES_NOW_PLAYING);
 
@@ -461,6 +462,8 @@ wxMenu * CPlaylistCtrl::CreateContextMenu()
 }
 void CPlaylistCtrl::OnColumnClick( wxListEvent& event )
 {
+	if(m_pPlaylist == NULL)
+		return;
 	if(g_SourcesCtrl->GetSelType() != MUSIK_SOURCES_LIBRARY) // only sort in library view, else we will destroy the user playlist
 		return;
 	int ActualColumn = m_ColumnOrder.Item( event.GetColumn() );
@@ -474,7 +477,7 @@ void CPlaylistCtrl::OnColumnClick( wxListEvent& event )
 	bool desc = ( m_aColumnSorting.Item( ActualColumn ) < 0 );
 
 	wxGetApp().Library.SetSortOrderField( ActualColumn, desc );
-	wxGetApp().Library.RedoLastQuerySongsWhere( g_Playlist ,true);//sorted
+	wxGetApp().Library.RedoLastQuerySongsWhere( *m_pPlaylist ,true);//sorted
 	Update();
 }
 
@@ -568,10 +571,7 @@ void CPlaylistCtrl::OnDisplayFit( wxCommandEvent& WXUNUSED(event) )
 void CPlaylistCtrl::OnClearPlayerlist( wxCommandEvent& WXUNUSED(event) )
 {
 
-	if(wxGetApp().Prefs.bStopSongOnNowPlayingClear)
-		wxGetApp().Player.Stop();
-	g_Playlist.Clear();
-	wxGetApp().Player.SetPlaylist(g_Playlist);
+	wxGetApp().Player.ClearPlaylist();
 	Update(false);
 }
 void CPlaylistCtrl::OnUpdateUIDisplayMenu ( wxUpdateUIEvent &event)
@@ -586,11 +586,11 @@ void CPlaylistCtrl::OnUpdateUIDelete ( wxUpdateUIEvent &event)
 	bool bEnable = true;
 			
 	int nFirstIndex = GetNextItem( -1, wxLIST_NEXT_ALL , wxLIST_STATE_SELECTED );
-	if(nFirstIndex >= 0 && g_Playlist.Item ( nFirstIndex ).MetaData.eFormat == MUSIK_FORMAT_NETSTREAM)
-	{
+	if(nFirstIndex >= 0 && m_pPlaylist && m_pPlaylist->Item ( nFirstIndex ).IsFormat(MUSIK_FORMAT_NETSTREAM))
+	{// first selected item is a netstream
 		if((event.GetId() == MUSIK_PLAYLIST_DELETE_CONTEXT_DELETE_FROM_PLAYLIST) 
 			&&(g_SourcesCtrl->GetSelType() == MUSIK_SOURCES_NOW_PLAYING))
-			bEnable = true;
+			bEnable = true;//enable "delete from playlist" for netsreams only if "now playing" is active.
 		else
 			bEnable = false;
 
@@ -603,9 +603,9 @@ void CPlaylistCtrl::OnUpdateUIRateSel ( wxUpdateUIEvent &event)
 	//--- get rating for first sel ---//
 	int item = GetNextItem( -1, wxLIST_NEXT_ALL , wxLIST_STATE_SELECTED );
 	
-	if(item > -1)
+	if(item > -1 && m_pPlaylist)
 	{
-		int nRating = g_Playlist.Item( item ).Rating;
+		int nRating = m_pPlaylist->Item( item ).Song()->Rating;
 		wxASSERT(nRating >= MUSIK_MIN_RATING && nRating <= MUSIK_MAX_RATING);
 		event.Check( event.GetId() == (MUSIK_PLAYLIST_CONTEXT_RATING + (nRating  - MUSIK_MIN_RATING)));
 	}
@@ -624,8 +624,8 @@ void CPlaylistCtrl::OnUpdateUIDisplaySmart ( wxUpdateUIEvent &event)
 void CPlaylistCtrl::BeginDrag( wxListEvent& WXUNUSED(event) )
 {
 	//--- pass selected items ---//
-	wxString sValidSelFiles = GetSelFiles();
-	if(!sValidSelFiles.IsEmpty())
+	wxString sValidSelFiles = GetSelSongIds();
+	if(!sValidSelFiles.IsEmpty() && m_pPlaylist)
 	{
 		wxString sDrop (sValidSelFiles);
 		DNDSetCurSel();
@@ -636,7 +636,7 @@ void CPlaylistCtrl::BeginDrag( wxListEvent& WXUNUSED(event) )
 		wxFileDataObject *pfile_data = new wxFileDataObject;
 		for (size_t i = 0; i < aCurSel.GetCount();i++)
 		{
-			pfile_data->AddFile(g_Playlist[aCurSel[i]].MetaData.Filename.GetFullPath());
+			pfile_data->AddFile(m_pPlaylist->Item(aCurSel[i]).Song()->MetaData.Filename.GetFullPath());
 		}
 		wxDataObjectComposite dobj;
 		dobj.Add(psong_data,true);
@@ -811,67 +811,67 @@ wxString CPlaylistCtrl::EmptyColumnString()	const
 
 wxString CPlaylistCtrl::GetItemText(long item, EPLAYLISTCOLUMNS eColumnType) const
 {
-	if(item >= (long)g_Playlist.GetCount())
+	if(m_pPlaylist && item >= (long)m_pPlaylist->GetCount())
 		return wxT( "" );
-	const CMusikSong & song = g_Playlist.Item ( item );
+    const std::auto_ptr<CMusikSong> pSong = m_pPlaylist->Item ( item ).Song();
 	switch ( eColumnType )
 	{
 	case PLAYLISTCOLUMN_RATING:
 		break;
 
 	case PLAYLISTCOLUMN_TRACK:
-		if ( song.MetaData.nTracknum > 0 )
-			return wxString::Format( wxT( "%d" ), song.MetaData.nTracknum );
+		if ( pSong->MetaData.nTracknum > 0 )
+			return wxString::Format( wxT( "%d" ), pSong->MetaData.nTracknum );
 		else
 			return wxT( "-" );
 		break;
 
 	case PLAYLISTCOLUMN_TITLE:
-		return SanitizedString(ConvFromUTF8( song.MetaData.Title ));		
+		return SanitizedString(ConvFromUTF8( pSong->MetaData.Title ));		
 		break;
 
 	case PLAYLISTCOLUMN_ARTIST:
-		if ( song.MetaData.Artist.IsEmpty() )
+		if ( pSong->MetaData.Artist.IsEmpty() )
 			return EmptyColumnString();
 			
 		else 
 		{
-			return SanitizedString(ConvFromUTF8( song.MetaData.Artist ));
+			return SanitizedString(ConvFromUTF8( pSong->MetaData.Artist ));
 		}
 		break;
 
 	case PLAYLISTCOLUMN_ALBUM:
-		if ( song.MetaData.Album.IsEmpty() )
+		if ( pSong->MetaData.Album.IsEmpty() )
 			return  EmptyColumnString();
 		else
-			return SanitizedString(ConvFromUTF8( song.MetaData.Album ));
+			return SanitizedString(ConvFromUTF8( pSong->MetaData.Album ));
 		break;
 
 	case PLAYLISTCOLUMN_YEAR:
-		if ( song.MetaData.Year.IsEmpty() )
+		if ( pSong->MetaData.Year.IsEmpty() )
 			return  EmptyColumnString();
 		else
-			return ConvFromUTF8(song.MetaData.Year);
+			return ConvFromUTF8(pSong->MetaData.Year);
 		break;
 
 	case PLAYLISTCOLUMN_GENRE:
-		if ( song.MetaData.Genre.IsEmpty() )
+		if ( pSong->MetaData.Genre.IsEmpty() )
 			return  EmptyColumnString();
 		else
-			return SanitizedString(ConvFromUTF8( song.MetaData.Genre ));
+			return SanitizedString(ConvFromUTF8( pSong->MetaData.Genre ));
 		break;
 
 	case PLAYLISTCOLUMN_TIMES_PLAYED:
 		{
 
-			return (song.TimesPlayed > 0) ? wxString() << song.TimesPlayed : wxString(wxT("-"));
+			return (pSong->TimesPlayed > 0) ? wxString() << pSong->TimesPlayed : wxString(wxT("-"));
 		}
 		break;
 
 	case PLAYLISTCOLUMN_LAST_PLAYED:
-		if ( song.LastPlayed != 0.0 )
+		if ( pSong->LastPlayed != 0.0 )
 		{
-			wxDateTime dt(song.LastPlayed);
+			wxDateTime dt(pSong->LastPlayed);
 			return dt.Format(wxT("%x %X"));
 		}
 		else
@@ -879,23 +879,23 @@ wxString CPlaylistCtrl::GetItemText(long item, EPLAYLISTCOLUMNS eColumnType) con
 		break;
 
 	case PLAYLISTCOLUMN_TIME:
-		return MStoStr( song.MetaData.nDuration_ms );
+		return MStoStr( pSong->MetaData.nDuration_ms );
 		break;
 
 	case PLAYLISTCOLUMN_BITRATE:
-		return IntTowxString( song.MetaData.nBitrate );
+		return IntTowxString( pSong->MetaData.nBitrate );
 		break;
 
 	case PLAYLISTCOLUMN_FILENAME:
 		{
-			return song.MetaData.Filename.GetFullPath();
+			return pSong->MetaData.Filename.GetFullPath();
 		}
 		break;
 	case PLAYLISTCOLUMN_NOTES:
-		return ConvFromUTF8(song.MetaData.Notes);
+		return ConvFromUTF8(pSong->MetaData.Notes);
 	case PLAYLISTCOLUMN_TIMEADDED:
 		{
-		wxDateTime dt(song.TimeAdded);
+		wxDateTime dt(pSong->TimeAdded);
 		return dt.Format(wxT("%x %X"));
 		}
 		break;
@@ -924,9 +924,9 @@ void CPlaylistCtrl::FindColumnOrder()
 
 int CPlaylistCtrl::OnGetItemImage(long item) const
 {
-	if(item >= (long)g_Playlist.GetCount())
+	if(m_pPlaylist && item >= (long)m_pPlaylist->GetCount())
 		return 0;  // this actually did happen on macos.dont know why.
-	return g_Playlist.Item ( item ).Rating - MUSIK_MIN_RATING;
+	return m_pPlaylist->Item ( item ).Song()->Rating - MUSIK_MIN_RATING;
 }
 
 wxListItemAttr* CPlaylistCtrl::OnGetItemAttr(long item) const
@@ -936,11 +936,12 @@ wxListItemAttr* CPlaylistCtrl::OnGetItemAttr(long item) const
 #else
 	wxListItemAttr *pDefAttr = 	(wxListItemAttr *)&m_LightAttr;
 #endif
-	if(item >= (long)g_Playlist.GetCount())
+	if(m_pPlaylist && item >= (long)m_pPlaylist->GetCount())
 		return pDefAttr;
-	const CMusikSong & song = g_Playlist.Item ( item );
+    const std::auto_ptr<CMusikSong> pSong = m_pPlaylist->Item ( item ).Song();
+	
 	if(wxGetApp().Player.IsPlaying() && (g_SourcesCtrl->GetSelType() == MUSIK_SOURCES_NOW_PLAYING) 
-		&& (wxGetApp().Player.GetCurIndex() == (size_t)item ) && (song.songid == wxGetApp().Player.GetCurrentSongid()))
+		&& (wxGetApp().Player.GetCurIndex() == (size_t)item ) && (pSong->songid == wxGetApp().Player.GetCurrentSongid()))
 	{
 		if ( wxGetApp().Prefs.bPLStripes == 1 )
 			return item % 2 ? (wxListItemAttr *)&m_SelectedDarkAttr : (wxListItemAttr *)&m_SelectedLightAttr;
@@ -948,7 +949,7 @@ wxListItemAttr* CPlaylistCtrl::OnGetItemAttr(long item) const
 			return (wxListItemAttr *)&m_SelectedLightAttr;
 	}
 	else if ( wxGetApp().Player.IsPlaying() && (g_SourcesCtrl->GetSelType() != MUSIK_SOURCES_NOW_PLAYING) 
-		&& song.songid == wxGetApp().Player.GetCurrentSongid() && song.MetaData.Filename.GetFullPath() == wxGetApp().Player.GetCurrentFilename() )
+		&& pSong->songid == wxGetApp().Player.GetCurrentSongid() && pSong->MetaData.Filename.GetFullPath() == wxGetApp().Player.GetCurrentFilename() )
 	{
 		if ( wxGetApp().Prefs.bPLStripes == 1 )
 			return item % 2 ? (wxListItemAttr *)&m_SelectedDarkAttr : (wxListItemAttr *)&m_SelectedLightAttr;
@@ -967,15 +968,6 @@ wxListItemAttr* CPlaylistCtrl::OnGetItemAttr(long item) const
 //--------------------------------------------------//
 //--- functions to get information from the list ---//
 //--------------------------------------------------//
-wxString CPlaylistCtrl::GetSubitemText( int nItem, int nSubitem )
-{
-	wxListItem iInfo;
-	iInfo.SetMask		( wxLIST_MASK_TEXT );
-	iInfo.SetId			( nItem );
-	iInfo.SetColumn		( nSubitem );
-	GetItem				( iInfo );
-	return				( iInfo.GetText() );
-}
 
 wxString CPlaylistCtrl::GetAllFiles()
 {
@@ -990,20 +982,20 @@ wxString CPlaylistCtrl::GetAllFiles()
 	return sResult;
 }
 
-wxString CPlaylistCtrl::GetSelFiles()
+wxString CPlaylistCtrl::GetSelSongIds()
 {
 	wxString sResult;
 	int nIndex = -1;
-	int itemcount = GetSelectedItemCount();
+	int itemcount = m_pPlaylist ? GetSelectedItemCount():0;
 	sResult.Alloc(itemcount * 50); // 50 is just a for the average file name length
 	for ( int i = 0; i < itemcount; i++ )
 	{
 		nIndex = GetNextItem( nIndex, wxLIST_NEXT_ALL , wxLIST_STATE_SELECTED );
 		if( nIndex == -1)
 			break;
-		if(g_Playlist.Item( nIndex ).MetaData.eFormat != MUSIK_FORMAT_NETSTREAM)
+		if(m_pPlaylist->Item( nIndex ).IsFormat(MUSIK_FORMAT_NETSTREAM) == false)
 		{
-			sResult += GetFilename( nIndex );
+			sResult += IntToString(m_pPlaylist->Item( nIndex ));
 			sResult+= wxT( "\n" ); // only add \n if it is not the last name
 		}
 	}
@@ -1046,14 +1038,14 @@ void CPlaylistCtrl::GetSelectedSongs(CMusikSongArray & aResult)
 	aResult.Clear();
 	int nIndex = -1;
 	
-	if( GetSelectedItemCount() > 0 )
+	if( m_pPlaylist && GetSelectedItemCount() > 0 )
 	{
 		for( int i = 0; i < GetSelectedItemCount(); i++ )
 		{
 			nIndex = GetNextItem( nIndex, wxLIST_NEXT_ALL , wxLIST_STATE_SELECTED );
 			if ( nIndex == -1 )
 				break;
-			aResult.Add( g_Playlist.Item ( nIndex ) ); 
+			aResult.Add( m_pPlaylist->Item ( nIndex ) ); 
 			
 		}
 	}
@@ -1069,45 +1061,26 @@ void CPlaylistCtrl::RefreshSelectedSongs()
 	{
 		while((nIndex = GetNextItem( nIndex, wxLIST_NEXT_ALL , wxLIST_STATE_SELECTED )) != -1)
 		{
-			CMusikSong & refSong = g_Playlist[nIndex];
-			if(refSong.MetaData.eFormat == MUSIK_FORMAT_NETSTREAM)
-				continue; // skip net streams
-			 wxGetApp().Library.GetSongFromSongid(refSong.songid,&refSong);
 			 RefreshItem(nIndex);
 		}	
 	}
 }
 wxLongLong CPlaylistCtrl::GetTotalFilesize()
 {
-	wxLongLong filesize = 0;
-	for ( size_t i = 0; i < g_Playlist.GetCount(); i++ )
-	{
-		const CMusikSong &song = g_Playlist.Item( i );
-		filesize += song.MetaData.nFilesize;
-	}
-
-	return filesize;
+	return m_pPlaylist ? m_pPlaylist->GetTotalFileSize(): 0;
 }
 
 int CPlaylistCtrl::GetTotalPlayingTimeInSeconds()
 {
-	int Duration = 0;
-	for ( int i = 0; i < GetItemCount(); i++ )
-	{
-		const CMusikSong & song = g_Playlist.Item ( i );
-		Duration += song.MetaData.nDuration_ms/1000;
-	}
-	return Duration;
+	return m_pPlaylist ? m_pPlaylist->GetTotalPlayingTimeInSeconds():0;
 }
 
 const wxString & CPlaylistCtrl::GetFilename( int nItem )
 {
-	if ( nItem > -1 )
+	if ( m_pPlaylist && nItem >= 0 )
 	{
-		const CMusikSong & song = g_Playlist.Item ( nItem );
-		return song.MetaData.Filename.GetFullPath();
+		return m_pPlaylist->Item ( nItem ).Song()->MetaData.Filename.GetFullPath();
 	}
-
 	//--- not found? return a null string ---//
 	return m_EmptyString;
 }
@@ -1130,41 +1103,18 @@ void CPlaylistCtrl::UpdateSel( wxListEvent& event )
 	m_nCurSel = event.GetIndex();
 }
 
-void CPlaylistCtrl::ResynchItem( int item, int lastitem, bool refreshonly )
-{
-	if ( !refreshonly )
-	{
-		int songid = g_Playlist.Item( item ).songid;
-		wxGetApp().Library.GetSongFromSongid( songid, &g_Playlist.Item( item ) );
-		
-		if ( lastitem > -1 && lastitem != item )
-		{
-			int songid = g_Playlist.Item( lastitem ).songid;
-			wxGetApp().Library.GetSongFromSongid( songid, &g_Playlist.Item(lastitem ) );		
-		}			
-	}
 
-	if(lastitem == -1)
-		 RefreshItem( item );
-	else
-		Refresh();
-}
-void CPlaylistCtrl::ResynchItem( int item, const CMusikSong & song)
+void CPlaylistCtrl::ResynchItem( int listindex, const MusikSongId & songid)
 {
-	if(g_Playlist.GetCount() && (item < (int)g_Playlist.GetCount()) && (g_SourcesCtrl->GetSelType() == MUSIK_SOURCES_NOW_PLAYING))
+	if(m_pPlaylist && m_pPlaylist->GetCount() && listindex >= 0 &&(listindex < (int)m_pPlaylist->GetCount()) && (g_SourcesCtrl->GetSelType() == MUSIK_SOURCES_NOW_PLAYING))
 	{
-		g_Playlist.Item( item ) = song;
-		RefreshItem( item );
+		m_pPlaylist->Item( listindex ) = songid;
+		RefreshItem( listindex );
 	}
 }
 
 void CPlaylistCtrl::Update( bool bSelFirst)
 {
-	//----------------------------------------------------------------------------------//
-	//---         note that the playlist control is now virtual, so we don't         ---//
-	//---    add items directly to it.  Instead, we have MusikFrame::g_Playlist, a   ---//
-	//---  CMusikSongArray, that the virtual listctrl then references via callbacks  ---//
-	//----------------------------------------------------------------------------------//
 
 	//--- setup listbox colours from prefs	---//
 	wxColour bk_col_light_active( wxGetApp().Prefs.bPlaylistBorder ? StringToColour( wxGetApp().Prefs.sPlaylistBorderColour ) : wxSystemSettings::GetColour( wxSYS_COLOUR_BTNHIGHLIGHT ) );
@@ -1177,7 +1127,7 @@ void CPlaylistCtrl::Update( bool bSelFirst)
 
 	//--- SetItemCount() kinda tells the virtual list control to udpate ---//
 	// no Freeze() here , because RescaleColumns(); will not work correctly then
-	SetItemCount( ( long )g_Playlist.GetCount() );
+	SetItemCount( ( long ) m_pPlaylist ? m_pPlaylist->GetCount():0 );
 	RescaleColumns();
 
 	wxListCtrlSelNone( this );
@@ -1311,7 +1261,7 @@ void CPlaylistCtrl::RescaleColumns( bool bFreeze, bool WXUNUSED(bSave), bool bAu
 	if ( bFreeze )
 	{
 		Thaw();
-		wxWindow::Update(); // instantly update window content
+		CMusikListCtrl::Update(); // instantly update window content
 	}
 
 	if ( bAutoFit )
@@ -1353,6 +1303,8 @@ void CPlaylistCtrl::ResetColumns( bool update, bool rescale )
 
 void CPlaylistCtrl::RateSel( int nVal )
 {
+	if(m_pPlaylist == NULL)
+		return;
 	wxASSERT(nVal >= MUSIK_MIN_RATING && nVal <= MUSIK_MAX_RATING);
 	int nIndex = -1;
 	//--- yeah, we can rate multiple items. find whats selected ---//
@@ -1363,12 +1315,17 @@ void CPlaylistCtrl::RateSel( int nVal )
 		if ( nIndex == -1 )
 			break;
 		//--- set db entry, then resync item(s) ---//
-		wxGetApp().Library.SetRating( g_Playlist.Item ( nIndex ).songid, nVal );
-		g_Playlist.Item( nIndex ).Rating = nVal;
-		RefreshItem( nIndex );
-		
+		wxGetApp().Library.SetRating( m_pPlaylist->Item ( nIndex ), nVal );		
 	}
 	wxGetApp().Library.EndTransaction();
+    nIndex = -1;
+    for ( int i = 0; i < GetSelectedItemCount(); i++ )
+    {
+        nIndex = GetNextItem( nIndex, wxLIST_NEXT_ALL , wxLIST_STATE_SELECTED );
+        if ( nIndex == -1 )
+            break;
+        RefreshItem( nIndex );
+    }
 }
 
 void CPlaylistCtrl::EditTag( int i )
@@ -1390,7 +1347,7 @@ void CPlaylistCtrl::EditTag( int i )
 void CPlaylistCtrl::DelSelSongs(bool bDeleteFromDB, bool bDeleteFromComputer)
 {
 	int nSelCount = GetSelectedItemCount();
-	if( nSelCount == 0)
+	if( m_pPlaylist == NULL || nSelCount == 0)
 		return;
 	if( bDeleteFromComputer )
 	{
@@ -1430,7 +1387,7 @@ void CPlaylistCtrl::DelSelSongs(bool bDeleteFromDB, bool bDeleteFromComputer)
 		// correct nIndex by nIndex - nDeletedSongs, substract the number of entry,
 		// which have been already deleted from the array
 		// because GetNextItem() still returns the old index values
-		if(g_Playlist.Item( nIndex - nDeletedSongs).MetaData.eFormat == MUSIK_FORMAT_NETSTREAM)
+		if(m_pPlaylist->Item( nIndex - nDeletedSongs).IsFormat(MUSIK_FORMAT_NETSTREAM))
 		{
 			if( MUSIK_SOURCES_NOW_PLAYING != g_SourcesCtrl->GetSelType() )
 				continue;// net streams cannot be deleted from the playlist, except from now playing list  ( they are deleted in the sources box)
@@ -1438,19 +1395,20 @@ void CPlaylistCtrl::DelSelSongs(bool bDeleteFromDB, bool bDeleteFromComputer)
 	   //--- if its valid, delete ---//
 		if( bDeleteFromDB )
 		{
-	    	const CMusikSong &song = g_Playlist.Item( nIndex - nDeletedSongs); // get the filename before song is deleted from the array
+            MusikSongId & songid = m_pPlaylist->Item( nIndex - nDeletedSongs);
+	    	wxString songpath = songid.Song()->MetaData.Filename.GetFullPath(); // get the filename before song is deleted from the array
 			if( bDeleteFromComputer )
 			{
-				if ( !wxRemoveFile( song.MetaData.Filename.GetFullPath() ) )
-					sError += song.MetaData.Filename.GetFullPath() + wxT( "\n" );
+				if ( !wxRemoveFile( songpath ) )
+					sError += songpath + wxT( "\n" );
 			}
-			wxGetApp().Library.RemoveSong( song.songid );
+			wxGetApp().Library.RemoveSong( songid );
 		}
-		g_Playlist.RemoveAt( nIndex - nDeletedSongs, 1 );
+		m_pPlaylist->RemoveAt( nIndex - nDeletedSongs, 1 );
 		if(bSourceNowPlayingSelected)
 		{
-			// active playlist is "now playing" list => delete songs from players playlist too
-			wxGetApp().Player.RemovePlaylistEntry(nIndex - nDeletedSongs);
+			// HACK: active playlist is "now playing" list => tell player about it.
+			wxGetApp().Player.OnPlaylistEntryRemoved(nIndex - nDeletedSongs);
 		}
 		nDeletedSongs ++;
 	}
@@ -1511,23 +1469,6 @@ void CPlaylistCtrl::RebuildTagSelFiles()
 		RefreshSelectedSongs();
 }
 
-bool CPlaylistCtrl::ViewDirtyTags()
-{
-	CMusikSongArray dirty;
-	wxGetApp().Library.QuerySongsWhere( wxT( "dirty = 1" ), dirty );
-	if ( dirty.GetCount() > 0 )
-	{
-
-		g_Playlist = dirty;
-		g_SourcesCtrl->SelectLibrary(false);  // only change selection, not the view( to protect playlist from being changed. ok that is a hack, but else i would have to much of the structure. this will be done sometime later)
-		Update();
-		return true;
-	}
-	else
-		wxMessageBox( _( "There are no pending tags available to display." ), MUSIKAPPNAME_VERSION, wxICON_INFORMATION );
-
-	return false;
-}
 
 //--------------------------------------//
 //--- dnd related playlist functions ---//	//--- please don't call these functions manually, just let dnd do it ---//
@@ -1537,14 +1478,14 @@ void CPlaylistCtrl::DNDSetCurSel()
 	//--- find whats currently selected for dnd ---//
 	aCurSel.Clear();
 	int nIndex = -1;
-	if( GetSelectedItemCount() > 0 )
+	if(m_pPlaylist && GetSelectedItemCount() > 0 )
 	{
 		for( int i = 0; i < GetSelectedItemCount(); i++ )
 		{
 			nIndex = GetNextItem( nIndex, wxLIST_NEXT_ALL , wxLIST_STATE_SELECTED );
 			if ( nIndex == -1 )
 				break;
-			if(g_Playlist.Item( nIndex ).MetaData.eFormat != MUSIK_FORMAT_NETSTREAM)
+			if(m_pPlaylist->Item( nIndex ).IsFormat(MUSIK_FORMAT_NETSTREAM) == false)
 			{
 				aCurSel.Add( nIndex );
 			}
@@ -1562,34 +1503,25 @@ bool CPlaylistCtrl::DNDIsSel( int nVal )
 	return false;
 }
 
-size_t CPlaylistCtrl::DNDDelSongs()
-{
-	//--- delete songs we're moving around ---//
-	for ( size_t i = 0; i < aCurSel.GetCount(); i++ )
-		g_Playlist.RemoveAt( aCurSel.Item( i ) - i, 1 );
-	return aCurSel.GetCount();
-}
 void  CPlaylistCtrl::MovePlaylistEntrys(int nMoveTo ,const wxArrayInt &arrToMove,bool bSelectItems)
 {
 	// assumes that arrToMove is sorted in ascending order
 
-	wxASSERT(nMoveTo >= 0 && nMoveTo <= (int)g_Playlist.GetCount()); 
+	wxASSERT(m_pPlaylist && nMoveTo >= 0 && nMoveTo <= (int)m_pPlaylist->GetCount()); 
+	if(m_pPlaylist == NULL)
+		return;
 	int i = arrToMove.GetCount() - 1;
 	// first move all entrys which are behind nMoveTo position
 	for(;i >= 0 ; i--)
 	{
 		if(nMoveTo > arrToMove[i])
 			break;
-		g_Playlist.Insert(g_Playlist.Detach(arrToMove[i] + ( arrToMove.GetCount() - 1 - i)),nMoveTo);
+		m_pPlaylist->Insert(m_pPlaylist->Detach(arrToMove[i] + ( arrToMove.GetCount() - 1 - i)),nMoveTo);
 	}
 	// now move all entry which are before
 	for(int j = i; j >= 0; j--)
 	{
-		g_Playlist.Insert(g_Playlist.Detach(arrToMove[j]),nMoveTo - (i - j)-1);
-	}
-	if(g_SourcesCtrl->GetSelType() == MUSIK_SOURCES_NOW_PLAYING)
-	{
-		wxGetApp().Player.MovePlaylistEntrys(	nMoveTo , arrToMove );
+		m_pPlaylist->Insert(m_pPlaylist->Detach(arrToMove[j]),nMoveTo - (i - j)-1);
 	}
 	if(bSelectItems)
 	{
@@ -1663,9 +1595,9 @@ void CPlaylistCtrl::OnThreadEnd( wxCommandEvent& WXUNUSED(event) )
 	wxPostEvent( g_MusikFrame, MusikEndProgEvt );
 }
 
-CMusikSongArray * CPlaylistCtrl::GetPlaylist()
+const CMusikSongArray & CPlaylistCtrl::Playlist()
 {
-	return &g_Playlist;
+	return *m_pPlaylist;
 }
 
 void CPlaylistCtrl::OnPlayInstantly( wxCommandEvent& WXUNUSED(event) )
@@ -1690,9 +1622,9 @@ void CPlaylistCtrl::OnPlayEnqueued	( wxCommandEvent& WXUNUSED(event) )
 }
 void CPlaylistCtrl::OnPlayReplace	( wxCommandEvent& WXUNUSED(event) )
 {	
-	if ( m_nCurSel > -1 )
+	if ( m_pPlaylist && m_nCurSel > -1 )
 	{
-		wxGetApp().Player.PlayReplaceList(m_nCurSel,g_Playlist);
+		wxGetApp().Player.PlayReplaceList(m_nCurSel,*m_pPlaylist);
 	}
 }
 
@@ -1740,9 +1672,9 @@ void CPlaylistCtrl::OnShowInLibrary( wxCommandEvent& event )
 }
 void CPlaylistCtrl::OnOpenFolderInFileManager( wxCommandEvent&  )
 {
-	if ( m_nCurSel > -1 && m_nCurSel < (int)g_Playlist.GetCount() )
+	if ( m_pPlaylist && m_nCurSel > -1 && m_nCurSel < (int)m_pPlaylist->GetCount() )
 	{
-		wxString sCommand = wxString::Format(wxGetApp().Prefs.sFilemanagerCmd, g_Playlist[m_nCurSel].MetaData.Filename.GetPath().c_str());
+		wxString sCommand = wxString::Format(wxGetApp().Prefs.sFilemanagerCmd, m_pPlaylist->Item(m_nCurSel).Song()->MetaData.Filename.GetPath().c_str());
 		wxExecute(sCommand);
 	}
 }	
@@ -1882,14 +1814,14 @@ void CSearchBox::DoSearchQuery( wxString sQueryVal )
 				sQuery += sSetOperator;
 		}
 
-		wxGetApp().Library.QuerySongsWhere( sQuery, g_Playlist ,true);  // true means query sorted
+		wxGetApp().Library.QuerySongsWhere( sQuery, g_thePlaylist ,true);  // true means query sorted
 	}
 	else
 	{
 		if ( wxGetApp().Prefs.bShowAllSongs == 1 )
-			wxGetApp().Library.GetAllSongs(g_Playlist);
+			wxGetApp().Library.GetAllSongs(g_thePlaylist);
 	}
-	g_PlaylistBox->Update( );
+	g_PlaylistBox->SetPlaylist(&g_thePlaylist);
 }
 void CSearchBox::OnTextInput(wxCommandEvent &)
 {

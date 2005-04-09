@@ -183,7 +183,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="odbc32.lib odbccp32.lib comctl32.lib rpcrt4.lib wsock32.lib fmodvc.lib sqlite.lib vorbisfile_static_d.lib ogg_static_d.lib vorbis_static_d.lib MMShellHook.lib wxmsw25ud_core.lib wxbase25ud.lib plugin_common_static.lib mpclib.lib libFLAC_static.lib grabbag_static.lib MACLib.lib wxbase25ud_net.lib wxregexud.lib wxmsw25ud_adv.lib wxbase25ud_xml.lib wxmsw25ud_qa.lib wxmsw25ud_netutils.lib wxexpatd.lib wxzlibd.lib wxmsw25ud_html.lib wxpngd.lib wxjpegd.lib fmodengined.lib MUSIKengined.lib TagLib.lib"
+				AdditionalDependencies="odbc32.lib odbccp32.lib comctl32.lib rpcrt4.lib wsock32.lib fmodvc.lib sqlite.lib vorbisfile_static_d.lib ogg_static_d.lib vorbis_static_d.lib MMShellHook.lib wxmsw25ud_core.lib wxbase25ud.lib plugin_common_static.lib mpclib.lib libFLAC_static.lib grabbag_static.lib MACLib.lib wxbase25ud_net.lib wxregexud.lib wxmsw25ud_qa.lib wxmsw25ud_netutils.lib wxmsw25ud_adv.lib wxbase25ud_xml.lib wxexpatd.lib wxzlibd.lib wxmsw25ud_html.lib wxpngd.lib wxjpegd.lib fmodengined.lib MUSIKengined.lib TagLib.lib"
 				OutputFile="$(OutDir)/wxMusik.exe"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="&quot;$(FLACDIR)\obj\debug\lib&quot;;&quot;$(ProjectDir)\MUSIKEngine\MPC\Debug&quot;;&quot;$(MAC_SDKDIR)\Source\MACLib\Debug Unicode&quot;;&quot;$(ProjectDir)\MUSIKEngine\FMODEngine\lib&quot;;&quot;$(ProjectDir)\MUSIKEngine\MUSIKEngine\lib&quot;;&quot;$(SQLITEDIR)\Debug&quot;;&quot;$(WXDIR)\lib\vc_lib&quot;;&quot;$(FMODDIR)\api\lib&quot;;&quot;$(VORBISDIR)\win32\Vorbis_Static_Debug&quot;;&quot;$(VORBISDIR)\win32\VorbisFile_Static_Debug&quot;;&quot;$(VORBISDIR)\win32\VorbisEnc_Static_Debug&quot;;&quot;$(OGGDIR)\win32\Static_Debug&quot;;&quot;$(ProjectDir)/3rd-Party/taglib/Debug Unicode&quot;;..\MMShellHook\Debug;_Debug"
@@ -379,6 +379,12 @@
 				RelativePath=".\src\MusikGlobals.h">
 			</File>
 			<File
+				RelativePath=".\src\MusikId.cpp">
+			</File>
+			<File
+				RelativePath=".\src\MusikId.h">
+			</File>
+			<File
 				RelativePath=".\src\MusikUtils.cpp">
 			</File>
 			<File
@@ -386,6 +392,12 @@
 			</File>
 			<File
 				RelativePath=".\src\MusikVersion.h">
+			</File>
+			<File
+				RelativePath=".\src\Playlist.cpp">
+			</File>
+			<File
+				RelativePath=".\src\Playlist.h">
 			</File>
 			<File
 				RelativePath=".\src\ThreadController.h">

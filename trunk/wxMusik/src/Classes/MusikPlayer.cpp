@@ -236,7 +236,11 @@ int CMusikPlayer::InitializeFMOD( int nFunction )
 		}
 
 		// initialize system
+#ifdef __WXMAC__
+		FSOUND_SetBufferSize( 1000 );
+#else        
 		FSOUND_SetBufferSize( 100 );
+#endif        
 		InitFMOD_NetBuffer();	
 		InitFMOD_ProxyServer();
 		if ( FSOUND_Init( wxGetApp().Prefs.nSndRate , wxGetApp().Prefs.nSndMaxChan, 0 ) == FALSE )

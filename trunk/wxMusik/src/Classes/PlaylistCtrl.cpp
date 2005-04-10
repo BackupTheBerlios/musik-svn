@@ -1261,7 +1261,7 @@ void CPlaylistCtrl::RescaleColumns( bool bFreeze, bool WXUNUSED(bSave), bool bAu
 	if ( bFreeze )
 	{
 		Thaw();
-		CMusikListCtrl::Update(); // instantly update window content
+		//CMusikListCtrl::Update(); // instantly update window content
 	}
 
 	if ( bAutoFit )

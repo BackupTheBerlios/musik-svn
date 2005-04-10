@@ -112,7 +112,7 @@ bool MusikApp::OnInit()
 {
 	if(Prefs.bEnableCrashHandling)
 	{
-#if defined(__WXMSW__) || defined(__linux__)
+#if wxUSE_DEBUGREPORT
 		// fatal exceptions handling
 		wxHandleFatalExceptions (true);
 #endif
@@ -410,7 +410,7 @@ void MusikApp::CopyFiles(const CMusikSongArray &songs)
 
 }
 
-#if defined(__linux__)
+#if 0
 //! standard header
 #if defined(__linux__)
 #include <execinfo.h>    // Needed for backtrace
@@ -489,8 +489,7 @@ void MusikApp::OnFatalException ()
 }
 #endif
 
-#if wxCHECK_VERSION(2,5,4)
-#if defined(__WXMSW__)
+#if wxUSE_DEBUGREPORT
 #include "wx/log.h"
 #include "wx/datetime.h"
 #include "wx/ffile.h"
@@ -499,7 +498,14 @@ void MusikApp::OnFatalException ()
 #include "wx/dynlib.h"
 #include "wx/debugrpt.h"
 #include "wx/msgdlg.h"
+
+#ifdef __WXMSW__
+#define USEWX_EMAIL
+#endif
+
+#ifdef USE_WXEMAIL
 #include "wx/net/email.h"
+#endif
 
 void MusikApp::OnFatalException ()
 {
@@ -520,18 +526,15 @@ void MusikApp::OnFatalException ()
     {
         if ( report.Process() )
         {
+#ifdef USE_WXEMAIL
             wxMailMessage mail(GetAppName() +  _T(" Crash-Report"),_T("gunnar67@users.berlios.de"),
                 MUSIKAPPNAME_VERSION wxT("crashed."),
                 wxEmptyString,report.GetCompressedFileName(),_T("CrashReportZip"));
             if(!wxEmail::Send(mail))
                 wxMessageBox(_T("Sending email failed!"));
+#endif                
         }
     }
     //else: user cancelled the report
-}
-#endif
-#else
-void MusikApp::OnFatalException ()
-{
 }
 #endif

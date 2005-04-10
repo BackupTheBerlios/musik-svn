@@ -46,7 +46,7 @@ public:
 	}
 	virtual bool OnInit();
 	virtual int OnExit();
-#if defined(__linux__) || defined(__WXMSW__)
+#if wxUSE_DEBUGREPORT
 	//! fatal exeption handling
 	void OnFatalException();
 #endif

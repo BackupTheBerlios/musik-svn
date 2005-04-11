@@ -334,9 +334,8 @@ bool PlaylistDropTarget::HighlightSel( const  wxPoint & pPos )
 CPlaylistCtrl::CPlaylistCtrl( CPlaylistBox *parent, const wxWindowID id, const wxPoint& pos, const wxSize& size )
 	:	CMusikListCtrl		( parent, id, pos, size,wxNO_BORDER)
 	,m_bInternalDragInProcess(false)
-	,m_pPlaylist(NULL)
 	,m_pParent(parent)
-	
+    ,m_pPlaylist(NULL)	
 {
 	//--- setup headers ---//
 	m_ColSaveNeeded = false;
@@ -1075,7 +1074,7 @@ int CPlaylistCtrl::GetTotalPlayingTimeInSeconds()
 	return m_pPlaylist ? m_pPlaylist->GetTotalPlayingTimeInSeconds():0;
 }
 
-const wxString & CPlaylistCtrl::GetFilename( int nItem )
+wxString CPlaylistCtrl::GetFilename( int nItem )
 {
 	if ( m_pPlaylist && nItem >= 0 )
 	{
@@ -1597,7 +1596,8 @@ void CPlaylistCtrl::OnThreadEnd( wxCommandEvent& WXUNUSED(event) )
 
 const CMusikSongArray & CPlaylistCtrl::Playlist()
 {
-	return *m_pPlaylist;
+    static CMusikSongArray empty;
+	return m_pPlaylist ? *m_pPlaylist:empty;
 }
 
 void CPlaylistCtrl::OnPlayInstantly( wxCommandEvent& WXUNUSED(event) )

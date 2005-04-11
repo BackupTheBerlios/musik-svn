@@ -114,7 +114,7 @@ public:
 	void			GetSelItems		(wxArrayInt & aResult);
 	void			GetSelFilesList	( wxArrayString & aResult );
 	void			GetSelectedSongs( CMusikSongArray & aResult );
-	const wxString 	&	GetFilename		( int nItem );
+	wxString 		GetFilename		( int nItem );
 	void			SetPlaylist(CMusikSongArray * playlist)
 	{
 		m_pPlaylist = playlist;

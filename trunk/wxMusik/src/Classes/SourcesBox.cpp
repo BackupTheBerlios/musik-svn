@@ -117,6 +117,9 @@ bool SourcesDropTarget::OnDropSonglist( wxCoord x, wxCoord y, const wxString &sS
 {
 	if ( !sSongIds.IsEmpty() )
 	{
+		wxArrayString aSongIdList;
+		DelimitStr(sSongIds,wxT("\n"),aSongIdList);
+		CMusikSongArray arrSongs(aSongIdList);
 		//--- where did we land? ---//
 		const wxPoint& pt = wxPoint( x, y );
 		int nFlags;
@@ -129,7 +132,7 @@ bool SourcesDropTarget::OnDropSonglist( wxCoord x, wxCoord y, const wxString &sS
 			if ( dlg.ShowModal() == wxID_OK )
 			{
 				wxString sName = dlg.GetValue();
-				m_SourcesListBox->NewPlaylist( sName, sSongIds, MUSIK_SOURCES_PLAYLIST_STANDARD );		
+				m_SourcesListBox->NewPlaylist( sName, arrSongs, MUSIK_SOURCES_PLAYLIST_STANDARD );		
 			}
 		}
 
@@ -141,9 +144,6 @@ bool SourcesDropTarget::OnDropSonglist( wxCoord x, wxCoord y, const wxString &sS
 		}
 		else if ( m_SourcesListBox->GetType( n ) == MUSIK_SOURCES_NOW_PLAYING )
 		{
-			wxArrayString aSongIdList;
-			DelimitStr(sSongIds,wxT("\n"),aSongIdList);
-			CMusikSongArray arrSongs(aSongIdList);
 			wxGetApp().Player.AddToPlaylist(arrSongs,false);
 			
 		}
@@ -162,7 +162,7 @@ bool SourcesDropTarget::OnDropSonglist( wxCoord x, wxCoord y, const wxString &sS
 		else if ( n > 0 )
 		{
 			wxString sName = m_SourcesListBox->GetItemText( n );
-			m_SourcesListBox->AppendStdPlaylist( sName, sSongIds );
+			m_SourcesListBox->AppendStdPlaylist( sName, arrSongs );
 		}
 		
 	}
@@ -345,7 +345,7 @@ void CSourcesListBox::CreateCurPlaylist( wxCommandEvent& WXUNUSED(event) )
 	if ( dlg.ShowModal() == wxID_OK )
 	{
 		wxString sName = dlg.GetValue();
-		NewPlaylist( sName, g_PlaylistBox->PlaylistCtrl().GetAllFiles(), MUSIK_SOURCES_PLAYLIST_STANDARD );
+		NewPlaylist( sName, g_PlaylistBox->PlaylistCtrl().Playlist(), MUSIK_SOURCES_PLAYLIST_STANDARD );
 	}
 }
 
@@ -355,7 +355,7 @@ void CSourcesListBox::StandardPlaylist( wxCommandEvent& WXUNUSED(event) )
 	if ( dlg.ShowModal() == wxID_OK )
 	{
 		wxString sName = dlg.GetValue();
-		NewPlaylist( sName, wxT( "" ), MUSIK_SOURCES_PLAYLIST_STANDARD );
+		NewPlaylist( sName, CMusikSongArray(), MUSIK_SOURCES_PLAYLIST_STANDARD );
 	}
 }
 
@@ -365,7 +365,7 @@ void CSourcesListBox::DynamicPlaylist( wxCommandEvent& WXUNUSED(event) )
 	if ( dlg.ShowModal() == wxID_OK )
 	{
 		wxString sName = dlg.GetValue();
-		NewPlaylist( sName, wxT( "" ), MUSIK_SOURCES_PLAYLIST_DYNAMIC );
+		NewPlaylist( sName,CMusikSongArray(), MUSIK_SOURCES_PLAYLIST_DYNAMIC );
 	}
 }
 void CSourcesListBox::NetStream( wxCommandEvent& WXUNUSED(event) )
@@ -374,7 +374,7 @@ void CSourcesListBox::NetStream( wxCommandEvent& WXUNUSED(event) )
 	if ( dlg.ShowModal() == wxID_OK )
 	{
 		wxString sName = dlg.GetValue();
-		NewPlaylist( sName, wxT( "" ), MUSIK_SOURCES_NETSTREAM );
+		NewPlaylist( sName, CMusikSongArray(), MUSIK_SOURCES_NETSTREAM );
 	}
 }
 void CSourcesListBox::EditQuery( wxCommandEvent& WXUNUSED(event) )
@@ -898,7 +898,7 @@ void CSourcesListBox::ToggleIcons()
 	ShowIcons();
 }
 
-void CSourcesListBox::NewPlaylist( wxString sName, wxString sVal, int nType )
+void CSourcesListBox::NewPlaylist( wxString sName, const CMusikSongArray & arrSongIds, int nType )
 {
 	//--- check validity ---//
 	wxString sCheck = sName;
@@ -914,7 +914,7 @@ void CSourcesListBox::NewPlaylist( wxString sName, wxString sVal, int nType )
 	{
 	case MUSIK_SOURCES_PLAYLIST_STANDARD:
     //--- create standard playlist ---//
-		CreateStdPlaylist( sName, sVal );
+		CreateStdPlaylist( sName, arrSongIds );
 		break;
 	//--- create dynamic playlist
 	case MUSIK_SOURCES_PLAYLIST_DYNAMIC:
@@ -945,11 +945,10 @@ void CSourcesListBox::RewriteStdPlaylist()
 	wxRemoveFile( sFilename );
 	
 	//--- write the new file ---//
-	wxString sFiles = g_PlaylistBox->PlaylistCtrl().GetAllFiles();
-	PlaylistToFile( sItemText, sFiles, MUSIK_SOURCES_PLAYLIST_STANDARD );
+	PlaylistToFile( sItemText, g_PlaylistBox->PlaylistCtrl().Playlist(), MUSIK_SOURCES_PLAYLIST_STANDARD );
 }
 
-bool CSourcesListBox::CreateStdPlaylist( wxString sName, wxString sSongIds )
+bool CSourcesListBox::CreateStdPlaylist( wxString sName, const CMusikSongArray & arrSongIds )
 {
 	//-------------------------------------------------------------//
 	//--- see if the playlist exists, if it does check to see	---//
@@ -976,10 +975,10 @@ bool CSourcesListBox::CreateStdPlaylist( wxString sName, wxString sSongIds )
 		//--- will happen when the context menu is used	to	---//
 		//--- create the list.								---//
 		//-----------------------------------------------------//
-		if ( sSongIds != wxT( "" ) )
+		if ( arrSongIds.GetCount())
 		{
 			if ( wxMessageBox( _( "A playlist with this name already exists, would you like to append to the existing one?" ), MUSIKAPPNAME_VERSION, wxYES_NO | wxICON_QUESTION ) == wxYES )
-				AppendStdPlaylist( sName, sSongIds );
+				AppendStdPlaylist( sName, arrSongIds );
 		}
 
 		return true;
@@ -990,7 +989,7 @@ bool CSourcesListBox::CreateStdPlaylist( wxString sName, wxString sSongIds )
 	//--- need to add it to the sources list and update the		---//
 	//--- control.												---//
 	//-------------------------------------------------------------//
-	if ( PlaylistToFile( sName, sSongIds, MUSIK_SOURCES_PLAYLIST_STANDARD ) )
+	if ( PlaylistToFile( sName, arrSongIds, MUSIK_SOURCES_PLAYLIST_STANDARD ) )
 	{    
 		m_SourcesList.Add( wxT( "[s] " ) + sName );
 		Update();
@@ -999,7 +998,7 @@ bool CSourcesListBox::CreateStdPlaylist( wxString sName, wxString sSongIds )
 	return true;
 }
 
-bool CSourcesListBox::PlaylistToFile( wxString sName, wxString  sSongs, int nType, bool bDelOld )
+bool CSourcesListBox::PlaylistToFile( wxString sName, const CMusikSongArray & arrSongIds, int nType, bool bDelOld )
 {
 	SourcesToFilename( &sName, nType );
 	if ( bDelOld )
@@ -1015,12 +1014,35 @@ bool CSourcesListBox::PlaylistToFile( wxString sName, wxString  sSongs, int nTyp
 	if ( !Out.IsOpened() )
 		return false;
 
-    wxArrayString Ids;
-    DelimitStr(sSongs,wxT("\n"),Ids);
-    for(size_t i = 0 ; i < Ids.GetCount();i++)  
+    
+    for(size_t i = 0 ; i < arrSongIds.GetCount();i++)  
     {
-        Out.AddLine( Ids[i] );
+    
+        Out.AddLine( arrSongIds[i].Song()->MetaData.Filename.GetFullPath() );
     }
+	Out.Write( Out.GuessType() );
+	Out.Close();
+    
+	return true;
+}
+
+bool CSourcesListBox::PlaylistToFile( wxString sName, const wxString & sData, int nType, bool bDelOld )
+{
+	SourcesToFilename( &sName, nType );
+	if ( bDelOld )
+	{
+		if ( wxFileExists( sName ) )
+			wxRemoveFile( sName );
+	}
+
+	wxTextFile Out;	
+	Out.Create( sName );
+	Out.Open();
+
+	if ( !Out.IsOpened() )
+		return false;
+
+    Out.AddLine( sData );
 	Out.Write( Out.GuessType() );
 	Out.Close();
     
@@ -1204,7 +1226,7 @@ wxString CSourcesListBox::GetPlaylistName( int nIndex )
 	return sRet;
 }
 
-void CSourcesListBox::AppendStdPlaylist( wxString sName, wxString sSongIds )
+void CSourcesListBox::AppendStdPlaylist( wxString sName, const CMusikSongArray &arrSongIds )
 {
 	wxString origname( sName );
 
@@ -1214,14 +1236,9 @@ void CSourcesListBox::AppendStdPlaylist( wxString sName, wxString sSongIds )
 	In.Open();
 	if ( !In.IsOpened() )
 			return;
-    
-    wxArrayString Ids;
-    DelimitStr(sSongIds,wxT("\n"),Ids);
-    if(Ids.GetCount())
-        In.AddLine( wxT("\n") );
-    for(size_t i = 0 ; i < Ids.GetCount();i++)  
+    for(size_t i = 0 ; i < arrSongIds.GetCount();i++)  
     {
-       In.AddLine( Ids[i] );
+       In.AddLine( wxString() << arrSongIds[i] );
     }
 	In.Write();
 	In.Close();
@@ -1243,20 +1260,20 @@ void CSourcesListBox::LoadStdPlaylist(wxString sName, CMusikSongArray & songids 
 	{
 		return;
 	}
-	
+	wxArrayString arrFilenames;
+	arrFilenames.Alloc(In.GetLineCount());
 	for ( size_t i = 0; i < In.GetLineCount(); i++ )
 	{
 		wxString sCheck = In.GetLine( i );
 		sCheck.Replace( wxT( " " ), wxT( "" ), TRUE );
-		if ( sCheck != wxT( "" ) )
+		if ( !sCheck.IsEmpty() )
         {
-            int id = wxStringToInt(In.GetLine( i ));
-            if(id >= 0)
-                songids.Add(MusikSongId(id));
+            arrFilenames.Add(In.GetLine( i ));
         }
 	}
 	In.Close();
 
+    wxGetApp().Library.GetFilelistSongs(arrFilenames,songids);
 	return;
 }
 

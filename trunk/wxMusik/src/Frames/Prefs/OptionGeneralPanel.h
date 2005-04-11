@@ -32,3 +32,4 @@ private:
     wxButton	*btnPlaylistBorderColour;
 };
 #endif
+

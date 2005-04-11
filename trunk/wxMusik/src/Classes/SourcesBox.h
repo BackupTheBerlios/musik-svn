@@ -115,7 +115,6 @@ public:
 	bool CreateStdPlaylist			( wxString sName, const CMusikSongArray &arrSongIds );
 	bool CreateDynPlaylist			( wxString sName );
 	bool CreateNetStream			( wxString sName);
-    void AppendStdPlaylist			( wxString sName, const CMusikSongArray &arrSongIds );
 	void RewriteStdPlaylist			();
 	void UpdateDynPlaylist			( int nIndex );
 	void LoadStdPlaylist			( wxString sName, CMusikSongArray & songids );

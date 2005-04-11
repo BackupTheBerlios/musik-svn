@@ -777,6 +777,12 @@ void CPlaylistCtrl::OnKeyDown( wxKeyEvent& event )
 						OnPlayAsNext( dummy );
 					}
 					break;
+                case 'C':
+                    {
+                        wxCommandEvent dummy;
+                        OnClearPlayerlist( dummy );
+                    }
+                    break;
 				default:
 					event.Skip();
 					return;

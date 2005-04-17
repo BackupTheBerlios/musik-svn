@@ -11,7 +11,7 @@
 */
 
 //--- For compilers that support precompilation, includes "wx/wx.h". ---//
-#include "wx/wxprec.h"
+#include "myprec.h"
 
 #include "ActivityBoxThreads.h"
 
@@ -74,7 +74,7 @@ void* MusikActivityRenameThread::Entry()
 		else
 		{
             MusikSongId & songid = m_Songs.Item( i );
-            CMusikSong &song = songid.SongRef();
+            CMusikSong &song = songid.SongCopy();
 			//-------------------------------//
 			//--- update the current item ---//
 			//-------------------------------//

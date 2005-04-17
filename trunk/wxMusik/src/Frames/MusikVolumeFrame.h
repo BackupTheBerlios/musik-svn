@@ -13,7 +13,7 @@
 #ifndef MUSIK_VOLUME_FRAME_H
 #define MUSIK_VOLUME_FRAME_H
 
-#include "wx/wxprec.h"
+#include "myprec.h"
 #ifndef WX_PRECOMP
 	#include "wx/wx.h"
 #endif 

@@ -11,7 +11,7 @@
 */
 
 //--- For compilers that support precompilation, includes "wx/wx.h". ---//
-#include "wx/wxprec.h"
+#include "myprec.h"
 
 #include "MusikTagThreads.h"
 
@@ -22,7 +22,7 @@
 //-------------------------//
 //---	 apply thread	---//
 //-------------------------//
-MusikTagApplyThread::MusikTagApplyThread(wxEvtHandler *dest ,const CMusikSongArray & songs)
+MusikTagApplyThread::MusikTagApplyThread(wxEvtHandler *dest ,const MusikSongIdArray & songs)
         : wxThread(wxTHREAD_JOINABLE),m_Songs(songs),m_pPostDest(dest)
 {
 }
@@ -64,7 +64,7 @@ void *MusikTagApplyThread::Entry()
 			if ( songid.Check1 == 1 )
 			{
                
-                CMusikSong &song = songid.SongRef();
+                CMusikSong &song = songid.SongCopy();
 				//-----------------------//
 				//--- rename the file ---//
 				//-----------------------//

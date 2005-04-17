@@ -11,7 +11,7 @@
 */
 
 //--- For compilers that support precompilation, includes "wx/wx.h". ---//
-#include "wx/wxprec.h"
+#include "myprec.h"
 
 #include "MusikFrame.h"
 
@@ -294,7 +294,7 @@ void MusikFrame::OnCustomQuery( wxCommandEvent& WXUNUSED(event) )
 
 void MusikFrame::OnViewDirtyTags( wxCommandEvent& WXUNUSED(event) )
 { 
-	static CMusikSongArray s_dirty;
+	static MusikSongIdArray s_dirty;
 	wxGetApp().Library.QuerySongsWhere( wxT( "dirty = 1" ), s_dirty );
 	if ( s_dirty.GetCount() > 0 )
 	{

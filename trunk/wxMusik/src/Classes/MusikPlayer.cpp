@@ -14,7 +14,7 @@
 */
 
 // For compilers that support precompilation, includes "wx/wx.h".
-#include "wx/wxprec.h"
+#include "myprec.h"
 
 #include "MusikPlayer.h"
 #include "../Frames/MusikFrame.h"
@@ -53,7 +53,7 @@ END_EVENT_TABLE()
 
 CMusikPlayer::CMusikPlayer()
 	:wxEvtHandler()
-        ,m_SndEngine(44100,2,0)
+        ,m_SndEngine(wxGetApp().Prefs.nSndRate,2,0)
 	
 {
 	m_Playing		= false;
@@ -176,8 +176,6 @@ int CMusikPlayer::InitializeFMOD( int nFunction )
 		Shutdown( false );
 	FSOUND_Close();
 
-	g_FX.InitEQ();
-	g_FX.SetFrequency( 44100 );
 
 	//---------------------//
 	//--- setup driver	---//
@@ -300,7 +298,7 @@ void CMusikPlayer::PlayPause()
 		}
 	}
 }
-void CMusikPlayer::PlayReplaceList(int nItemToPlay,const CMusikSongArray & playlist)
+void CMusikPlayer::PlayReplaceList(int nItemToPlay,const MusikSongIdArray & playlist)
 {
 	if ( IsPaused() )
 	{
@@ -354,7 +352,7 @@ void CMusikPlayer::_UpdateNetstreamMetadata(wxCommandEvent& WXUNUSED(event))
 		{
 			{
 				wxCriticalSectionLocker locker( m_critMetadata );
-				CMusikSong & cursong = m_Playlist.Item( m_SongIndex ).SongRef();
+				CMusikSong & cursong = m_Playlist.Item( m_SongIndex ).SongCopy();
 				cursong.MetaData.Artist = m_MetaDataSong.MetaData.Artist;
 				cursong.MetaData.nTracknum = m_MetaDataSong.MetaData.nTracknum;
 				cursong.MetaData.Genre = m_MetaDataSong.MetaData.Genre;
@@ -558,11 +556,6 @@ bool CMusikPlayer::Play( size_t nItem, int nStartPos, int nFadeType )
 		wxCriticalSectionLocker lock(m_protectingStreamArrays);
 		m_ActiveStreams.Add( pNewStream );
 	}
-	
-
-	SetFrequency();
-
-	
 	//---------------------------------------------//
 	//--- playback has been started, update the	---//
 	//--- user interface to reflect it			---//
@@ -599,7 +592,7 @@ bool CMusikPlayer::Play( size_t nItem, int nStartPos, int nFadeType )
 int CMusikPlayer::_NetStreamStatusUpdate(MUSIKStream * pStream)
 {
 	int status = 0;
-	CMusikSong & song = m_CurrentSong.SongRef();
+	CMusikSong & song = m_CurrentSong.SongCopy();
 	FSOUND_Stream_Net_GetStatus((FSOUND_STREAM*)pStream->GetStreamOut()->STREAM(), &status, &m_NETSTREAM_read_percent, &m_NETSTREAM_bitrate, &m_NETSTREAM_flags);
 	if(m_NETSTREAM_status != status)
 	{
@@ -632,14 +625,19 @@ void CMusikPlayer::InitDSP()
 {
 	if ( !m_DSP )
 		m_DSP = FSOUND_DSP_Create( &dspcallback, FSOUND_DSP_DEFAULTPRIORITY_USER, 0 );			
-
-	if ( m_DSP )
-		FSOUND_DSP_SetActive( m_DSP, wxGetApp().Prefs.bUseEQ );
+	ActivateDSP();
 }
 
 void CMusikPlayer::ActivateDSP()
 {
-	FSOUND_DSP_SetActive( m_DSP, wxGetApp().Prefs.bUseEQ );
+	if ( m_DSP )
+	{
+		if(wxGetApp().Prefs.bUseEQ)
+		{
+			g_FX.InitEQ(wxGetApp().Prefs.nSndRate);
+		}
+		FSOUND_DSP_SetActive( m_DSP, wxGetApp().Prefs.bUseEQ );
+	}
 }
 
 void CMusikPlayer::FreeDSP()
@@ -651,7 +649,7 @@ void CMusikPlayer::FreeDSP()
 	}
 }
 
-void CMusikPlayer::SetFrequency()
+void CMusikPlayer::SetFrequency(int freq)
 {
 	//-------------------------------------------------//
 	//--- SiW: this causes problems. mp3s play fine	---//
@@ -660,7 +658,7 @@ void CMusikPlayer::SetFrequency()
 	//--- See Also: MusikFXDialog::MusikFXDialog()	---//
 	//-------------------------------------------------//
 	if ( wxGetApp().Prefs.bUsePitch )
-		FSOUND_SetFrequency( FSOUND_ALL, (int)g_FX.GetFrequency() );
+		FSOUND_SetFrequency( FSOUND_ALL, freq );
 	
 }
 
@@ -1011,7 +1009,7 @@ void CMusikPlayer::PrevSong()
 
 void CMusikPlayer::_AddRandomSongs()
 {
-	CMusikSongArray  arrSongs;
+	MusikSongIdArray  arrSongs;
 
 	if(m_SongIndex + 1 > m_Playlist.GetCount())
 		m_SongIndex = 0;
@@ -1034,7 +1032,7 @@ void CMusikPlayer::_AddRandomSongs()
 	AddToPlaylist(arrSongs,false);
 }
 
-void CMusikPlayer::_ChooseRandomSongs(int nSongsToAdd,CMusikSongArray &arrSongs)
+void CMusikPlayer::_ChooseRandomSongs(int nSongsToAdd,MusikSongIdArray &arrSongs)
 {
 	if(nSongsToAdd <= 0)
 		return;
@@ -1062,7 +1060,7 @@ void CMusikPlayer::_ChooseRandomSongs(int nSongsToAdd,CMusikSongArray &arrSongs)
 		}
 	} 
 }
-void CMusikPlayer::_ChooseRandomAlbumSongs(int nAlbumsToAdd,CMusikSongArray &arrAlbumSongs)
+void CMusikPlayer::_ChooseRandomAlbumSongs(int nAlbumsToAdd,MusikSongIdArray &arrAlbumSongs)
 {
 	if(nAlbumsToAdd <= 0)
 		return;
@@ -1322,10 +1320,10 @@ void CMusikPlayer::ClearPlaylist()
 { 
 	if(wxGetApp().Prefs.bStopSongOnNowPlayingClear)
 		wxGetApp().Player.Stop();
-	SetPlaylist(CMusikSongArray());	
+	SetPlaylist(MusikSongIdArray());	
 }
 
-void CMusikPlayer::AddToPlaylist( CMusikSongArray & songstoadd ,bool bPlayFirstAdded )
+void CMusikPlayer::AddToPlaylist( MusikSongIdArray & songstoadd ,bool bPlayFirstAdded )
 {
 	size_t size = songstoadd.GetCount();
 	if(size)
@@ -1344,7 +1342,7 @@ void CMusikPlayer::AddToPlaylist( CMusikSongArray & songstoadd ,bool bPlayFirstA
 		}
 	}
 }
-void CMusikPlayer::InsertToPlaylist( CMusikSongArray & songstoadd ,bool bPlayFirstInserted)
+void CMusikPlayer::InsertToPlaylist( MusikSongIdArray & songstoadd ,bool bPlayFirstInserted)
 {
 	//wxCriticalSectionLocker locker( m_critInternalData);
 	size_t size = songstoadd.GetCount();

@@ -15,7 +15,7 @@
 #ifndef MUSIK_ACTIVITYAREA_CTRL
 #define MUSIK_ACTIVITYAREA_CTRL
 
-#include "wx/wxprec.h"
+#include "myprec.h"
 #ifndef WX_PRECOMP
 	#include "wx/wx.h"
 #endif 

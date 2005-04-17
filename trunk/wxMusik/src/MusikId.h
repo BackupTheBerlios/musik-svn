@@ -67,7 +67,7 @@ public:
         std::auto_ptr<CMusikSong> pSong = Song();
         return pSong->MetaData.eFormat == ft;
     }
-    bool IsInLibrary()
+    bool IsInLibrary() const
     {
         return m_Id >= 0;
     }
@@ -95,7 +95,7 @@ public:
     }
     std::auto_ptr<CMusikSong> Song() const;
 
-    CMusikSong& SongRef()
+    CMusikSong& SongCopy()
     {
         if(m_pSong ==  NULL)
         {

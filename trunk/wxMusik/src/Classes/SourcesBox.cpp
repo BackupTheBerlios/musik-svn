@@ -13,7 +13,7 @@
 */
 
 //--- For compilers that support precompilation, includes "wx/wx.h". ---//
-#include "wx/wxprec.h"
+#include "myprec.h"
 
 #include "PictureBox.h"
 //--- globals ---//
@@ -119,7 +119,7 @@ bool SourcesDropTarget::OnDropSonglist( wxCoord x, wxCoord y, const wxString &sS
 	{
 		wxArrayString aSongIdList;
 		DelimitStr(sSongIds,wxT("\n"),aSongIdList);
-		CMusikSongArray arrSongIds(aSongIdList);
+		MusikSongIdArray arrSongIds(aSongIdList);
 		//--- where did we land? ---//
 		const wxPoint& pt = wxPoint( x, y );
 		int nFlags;
@@ -355,7 +355,7 @@ void CSourcesListBox::StandardPlaylist( wxCommandEvent& WXUNUSED(event) )
 	if ( dlg.ShowModal() == wxID_OK )
 	{
 		wxString sName = dlg.GetValue();
-		NewPlaylist( sName, CMusikSongArray(), MUSIK_SOURCES_PLAYLIST_STANDARD );
+		NewPlaylist( sName, MusikSongIdArray(), MUSIK_SOURCES_PLAYLIST_STANDARD );
 	}
 }
 
@@ -365,7 +365,7 @@ void CSourcesListBox::DynamicPlaylist( wxCommandEvent& WXUNUSED(event) )
 	if ( dlg.ShowModal() == wxID_OK )
 	{
 		wxString sName = dlg.GetValue();
-		NewPlaylist( sName,CMusikSongArray(), MUSIK_SOURCES_PLAYLIST_DYNAMIC );
+		NewPlaylist( sName,MusikSongIdArray(), MUSIK_SOURCES_PLAYLIST_DYNAMIC );
 	}
 }
 void CSourcesListBox::NetStream( wxCommandEvent& WXUNUSED(event) )
@@ -374,7 +374,7 @@ void CSourcesListBox::NetStream( wxCommandEvent& WXUNUSED(event) )
 	if ( dlg.ShowModal() == wxID_OK )
 	{
 		wxString sName = dlg.GetValue();
-		NewPlaylist( sName, CMusikSongArray(), MUSIK_SOURCES_NETSTREAM );
+		NewPlaylist( sName, MusikSongIdArray(), MUSIK_SOURCES_NETSTREAM );
 	}
 }
 void CSourcesListBox::EditQuery( wxCommandEvent& WXUNUSED(event) )
@@ -898,7 +898,7 @@ void CSourcesListBox::ToggleIcons()
 	ShowIcons();
 }
 
-void CSourcesListBox::NewPlaylist( wxString sName, const CMusikSongArray & arrSongIds, int nType )
+void CSourcesListBox::NewPlaylist( wxString sName, const MusikSongIdArray & arrSongIds, int nType )
 {
 	//--- check validity ---//
 	wxString sCheck = sName;
@@ -948,7 +948,7 @@ void CSourcesListBox::RewriteStdPlaylist()
 	PlaylistToFile( sItemText, g_PlaylistBox->PlaylistCtrl().Playlist(), MUSIK_SOURCES_PLAYLIST_STANDARD );
 }
 
-bool CSourcesListBox::CreateStdPlaylist( wxString sName, const CMusikSongArray & arrSongIds )
+bool CSourcesListBox::CreateStdPlaylist( wxString sName, const MusikSongIdArray & arrSongIds )
 {
 	//-------------------------------------------------------------//
 	//--- see if the playlist exists, if it does check to see	---//
@@ -998,7 +998,7 @@ bool CSourcesListBox::CreateStdPlaylist( wxString sName, const CMusikSongArray &
 	return true;
 }
 
-bool CSourcesListBox::PlaylistToFile( wxString sName, const CMusikSongArray & arrSongIds, int nType, bool bDelOld )
+bool CSourcesListBox::PlaylistToFile( wxString sName, const MusikSongIdArray & arrSongIds, int nType, bool bDelOld )
 {
 	SourcesToFilename( &sName, nType );
 	if ( bDelOld )
@@ -1231,7 +1231,7 @@ wxString CSourcesListBox::GetPlaylistName( int nIndex )
 	return sRet;
 }
 
-void CSourcesListBox::LoadStdPlaylist(wxString sName, CMusikSongArray & songids )
+void CSourcesListBox::LoadStdPlaylist(wxString sName, MusikSongIdArray & songids )
 {
 	songids.Clear();
 
@@ -1283,7 +1283,7 @@ wxString CSourcesListBox::LoadDynPlaylist( wxString sName )
 	}
 	return sReturn;
 }
-void CSourcesListBox::RealizeDynPlaylist(  const wxString & sQuery, CMusikSongArray & aReturn )
+void CSourcesListBox::RealizeDynPlaylist(  const wxString & sQuery, MusikSongIdArray & aReturn )
 {
 	wxString myQuery = sQuery;
 	if(sQuery.StartsWith(wxT("FROM "),&myQuery))
@@ -1446,7 +1446,7 @@ void CSourcesListBox::SourcesToFilename( wxString* sSources, int nType )
 bool CSourcesListBox::AddSourceContentToNowPlaying(int nIndex)
 {
 	int nType = GetType(nIndex);
-	CMusikSongArray songids;
+	MusikSongIdArray songids;
 	if (nType == MUSIK_SOURCES_PLAYLIST_STANDARD )
 	{
 		LoadStdPlaylist( GetItemText( nIndex ), songids );

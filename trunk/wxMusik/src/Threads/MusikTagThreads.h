@@ -14,7 +14,7 @@
 #define MUSIK_TAG_THREADS_H
 
 //--- wx ---//
-#include "wx/wxprec.h"
+#include "myprec.h"
 #ifndef WX_PRECOMP
 	#include "wx/wx.h"
 #endif 
@@ -26,12 +26,12 @@
 class MusikTagApplyThread : public wxThread
 {
 public:
-	MusikTagApplyThread(wxEvtHandler *dest ,const CMusikSongArray & songs);
+	MusikTagApplyThread(wxEvtHandler *dest ,const MusikSongIdArray & songs);
 	virtual void *Entry();
 	virtual void OnExit();
 
 private:
-	const CMusikSongArray & m_Songs;
+	const MusikSongIdArray & m_Songs;
 	wxEvtHandler * m_pPostDest;
 };
 

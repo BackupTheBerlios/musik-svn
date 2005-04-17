@@ -13,7 +13,7 @@
 #ifndef MUSIKLISTCTRL_H
 #define MUSIKLISTCTRL_H
 
-#include "wx/wxprec.h"
+#include "myprec.h"
 
 
 #ifndef WX_PRECOMP

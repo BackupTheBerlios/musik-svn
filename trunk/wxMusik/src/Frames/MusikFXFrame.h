@@ -18,7 +18,7 @@
 #define MusikFXDialog_H
 
 //--- wx ---//
-#include "wx/wxprec.h"
+#include "myprec.h"
 #ifndef WX_PRECOMP
 	#include "wx/wx.h"
 #endif 

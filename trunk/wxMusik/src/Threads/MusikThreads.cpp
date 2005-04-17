@@ -12,7 +12,7 @@
 */
 
 //--- For compilers that support precompilation, includes "wx/wx.h". ---//
-#include "wx/wxprec.h"
+#include "myprec.h"
 
 #include "MusikThreads.h"
 
@@ -359,7 +359,7 @@ void *MusikWriteDirtyThread::Entry()
 
 	wxPostEvent( g_MusikFrame, WriteTagStartEvt );
 
-	CMusikSongArray aDirty;
+	MusikSongIdArray aDirty;
 	wxGetApp().Library.QuerySongsWhere( wxT("dirty = 1"), aDirty );
 
 	if ( aDirty.GetCount() > 0 )

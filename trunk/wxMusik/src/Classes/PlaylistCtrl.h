@@ -16,14 +16,14 @@
 
 
 //--- wx ---//
-#include "wx/wxprec.h"
+#include "myprec.h"
 #ifndef WX_PRECOMP
 	#include "wx/wx.h"
 #endif
 #include "../ThreadController.h"
 
 #include "PlaylistInfoCtrl.h"
-//--- definition CMusikSongArray is here ---//
+//--- definition MusikSongIdArray is here ---//
 #include "MusikLibrary.h"
 
 #include <wx/dnd.h>
@@ -107,15 +107,15 @@ public:
 	//------------//
 	//--- gets ---//
 	//------------//
-	const CMusikSongArray & Playlist();
+	const MusikSongIdArray & Playlist();
 	int				GetCurrentSelection() { return m_pPlaylist && m_nCurSel < (int)m_pPlaylist->GetCount() ?  m_nCurSel : -1; }
 	wxString		GetAllFiles		();
 	wxString		GetSelSongIds	();
 	void			GetSelItems		(wxArrayInt & aResult);
 	void			GetSelFilesList	( wxArrayString & aResult );
-	void			GetSelectedSongs( CMusikSongArray & aResult );
+	void			GetSelectedSongs( MusikSongIdArray & aResult );
 	wxString 		GetFilename		( int nItem );
-	void			SetPlaylist(CMusikSongArray * playlist)
+	void			SetPlaylist(MusikSongIdArray * playlist)
 	{
 		m_pPlaylist = playlist;
 	}
@@ -198,7 +198,7 @@ private:
     virtual	wxListItemAttr*	OnGetItemAttr	(long item) const;
 
 
-	CMusikSongArray * m_pPlaylist;
+	MusikSongIdArray * m_pPlaylist;
 	//-------------------------------//
 	//--- colors for the playlist ---//
 	//-------------------------------//
@@ -255,7 +255,7 @@ public:
 	CPlaylistBox( wxWindow *parent );
 	~CPlaylistBox();
 	void ShowPlaylistInfo();
-	void SetPlaylist(CMusikSongArray * playlist)
+	void SetPlaylist(MusikSongIdArray * playlist)
 	{
 		m_pPlaylistCtrl->SetPlaylist(playlist);
 		Update();

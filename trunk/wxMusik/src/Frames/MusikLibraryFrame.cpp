@@ -11,7 +11,7 @@
 */
 
 //--- For compilers that support precompilation, includes "wx/wx.h". ---//
-#include "wx/wxprec.h"
+#include "myprec.h"
 
 #include "MusikLibraryFrame.h"
 
@@ -35,13 +35,14 @@ BEGIN_EVENT_TABLE(MusikLibraryDialog, wxDialog)
 	EVT_MENU			( MUSIK_PATHS_MENU_ADD,				MusikLibraryDialog::OnClickAdd				)
 	EVT_MENU			( MUSIK_PATHS_MENU_REMOVESEL,		MusikLibraryDialog::OnClickRemoveSel			)
 	EVT_MENU			( MUSIK_PATHS_MENU_REMOVEALL,		MusikLibraryDialog::OnClickRemoveAll			)
+	EVT_UPDATE_UI		( MUSIK_PATHS_MENU_REMOVESEL,		MusikLibraryDialog::OnUpdateUIRemoveSel	)
 	EVT_BUTTON			( MUSIK_PATHS_CLEAR_LIBRARY,	MusikLibraryDialog::OnClickClearLibrary		)
 	EVT_BUTTON			( MUSIK_PATHS_REBUILD_LIBRARY,	MusikLibraryDialog::OnRebuildAll				)
 	EVT_BUTTON			( MUSIK_PATHS_UPDATE_LIBRARY,	MusikLibraryDialog::OnUpdateAll				)
 	EVT_BUTTON			( MUSIK_PATHS_PURGE_LIBRARY,	MusikLibraryDialog::OnPurgeLibrary			)
 	EVT_BUTTON			( wxID_OK,							MusikLibraryDialog::OnClickOK				)
 	EVT_BUTTON			( wxID_CANCEL,						MusikLibraryDialog::OnClickCancel			)
-	EVT_LIST_KEY_DOWN	( MUSIK_PATHS_LIST,					MusikLibraryDialog::OnKeyPress				)
+	EVT_LIST_KEY_DOWN	( MUSIK_PATHS_LIST,					MusikLibraryDialog::OnListKeyDown				)
 	EVT_CLOSE			(									MusikLibraryDialog::OnClose					)
 	EVT_SIZE			(									MusikLibraryDialog::OnSize					)
 
@@ -111,7 +112,7 @@ MusikLibraryDialog::MusikLibraryDialog( wxWindow* pParent, const wxPoint &pos, c
 	//--------------------//
 	paths_context_menu = new wxMenu;
     paths_context_menu->Append( MUSIK_PATHS_MENU_ADD, _("&Add Directory") );
-	paths_context_menu->Append( MUSIK_PATHS_MENU_REMOVESEL, _("&Remove &Selected Directories") );
+	paths_context_menu->Append( MUSIK_PATHS_MENU_REMOVESEL, _("&Remove") );
 	paths_context_menu->Append( MUSIK_PATHS_MENU_REMOVEALL, _("Remove All Directories") );
 	
 	//-----------------------//
@@ -160,6 +161,22 @@ void MusikLibraryDialog::CreateControls()
 	lcPaths->InsertColumn( 1, _("Total"), wxLIST_FORMAT_RIGHT, -1 );
 	lcPaths->InsertColumn( 2, _("New"), wxLIST_FORMAT_RIGHT, -1 );
 
+
+	wxButton *btnAddDir  =	new wxButton( this, MUSIK_PATHS_MENU_ADD,_("&Add") );
+	wxButton *btnRemDir  =	new wxButton( this, MUSIK_PATHS_MENU_REMOVESEL, _("&Remove") );
+	wxButton *btnRemAll  =	new wxButton( this, MUSIK_PATHS_MENU_REMOVEALL, _("Remove All")) ;
+
+	wxSizer *sizerPaths = new wxBoxSizer(wxHORIZONTAL);
+	sizerPaths->Add(lcPaths,1,wxEXPAND);
+	wxSizer *sizerPathsButtons = new wxBoxSizer(wxVERTICAL);
+	
+	sizerPathsButtons->Add(btnAddDir,0,wxALL,2);
+	sizerPathsButtons->Add(btnRemDir,0,wxALL,2);
+	sizerPathsButtons->Add(btnRemAll,0,wxALL,2);
+
+	sizerPaths->Add(sizerPathsButtons);
+
+
 	wxButton *btnUPDATE_LIBRARY  =	new wxButton( this, MUSIK_PATHS_UPDATE_LIBRARY, _("&Update Library") );
 	wxButton *btnREBUILD_LIBRARY =	new wxButton( this, MUSIK_PATHS_REBUILD_LIBRARY, _("&Rebuild Library") );
 	PREF_CREATE_CHECKBOX(AllowTagGuessing,_("Allow tag guessing from filename"));
@@ -198,7 +215,7 @@ void MusikLibraryDialog::CreateControls()
 	//--- top sizer ---//
 	//-----------------//
 	vsTopSizer = new wxBoxSizer( wxVERTICAL );
-	vsTopSizer->Add( lcPaths, 1, wxEXPAND | wxALL, 2 );
+	vsTopSizer->Add( sizerPaths, 1, wxEXPAND | wxALL, 2 );
 	vsTopSizer->Add(hsLibraryButtons,0,wxALL,2);
 	vsTopSizer->Add( gProgress, 0, wxEXPAND | wxALL, 2 );
 	vsTopSizer->Add( hsSysButtons, 0, wxEXPAND | wxALL, 2 );
@@ -344,18 +361,19 @@ void MusikLibraryDialog::PathsGetSel( wxArrayString &aReturn )
 
 void MusikLibraryDialog::PathsPopupMenu( wxContextMenuEvent& WXUNUSED(event) )
 {
-	int nSel = lcPaths->GetSelectedItemCount();
-
-	if ( nSel == 0 || nSel == -1 )
-		paths_context_menu->Enable( MUSIK_PATHS_MENU_REMOVESEL, false );
-	else
-		paths_context_menu->Enable( MUSIK_PATHS_MENU_REMOVESEL, true );
 	PopupMenu( paths_context_menu);
 }
 
 //-----------------------//
 //--- ListCtrl Events ---//
 //-----------------------//
+
+void MusikLibraryDialog::OnUpdateUIRemoveSel(wxUpdateUIEvent & event)
+{
+	int nSel = lcPaths->GetSelectedItemCount();
+	event.Enable( nSel > 0 );
+}
+
 void MusikLibraryDialog::PathsListRemoveSel()
 {
 	for ( int i = 0; i < lcPaths->GetItemCount(); i++ )
@@ -383,7 +401,7 @@ void MusikLibraryDialog::PathsListRemoveAll()
 	m_arrScannedFiles.Clear(); // we have to rescan the files
 }
 
-void MusikLibraryDialog::PathsListProcessKeys( wxListEvent & event )
+void MusikLibraryDialog::OnListKeyDown( wxListEvent & event )
 {
 	if ( event.GetKeyCode() == WXK_DELETE || event.GetKeyCode() == WXK_BACK )
 		PathsListRemoveSel();
@@ -629,7 +647,7 @@ void MusikLibraryDialog::OnThreadEnd( wxCommandEvent& event )
 
 		if((m_flagsUpdate & (MUSIK_UpdateFlags::InsertFilesIntoPlayer | MUSIK_UpdateFlags::EnquequeFilesIntoPlayer)) && m_arrScannedFiles.GetCount())
 		{
-			CMusikSongArray songs;
+			MusikSongIdArray songs;
 			wxGetApp().Library.GetFilelistSongs( m_arrScannedFiles, songs );
 			if(	songs.GetCount())
 			{

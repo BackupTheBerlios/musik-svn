@@ -22,7 +22,7 @@
 #include "sqlite.h"
 
 //--- wx ---//
-#include "wx/wxprec.h"
+#include "myprec.h"
 #ifndef WX_PRECOMP
 	#include "wx/wx.h"
 #endif
@@ -95,12 +95,12 @@ public:
 	//---------------------//
 	//--- getting items ---//
 	//---------------------//
-	void GetFilelistSongs		( const wxArrayString & aFiles, CMusikSongArray & aReturn );
+	void GetFilelistSongs		( const wxArrayString & aFiles, MusikSongIdArray & aReturn );
 	bool QuerySongFromSongid	( int songid, CMusikSong *pSong );
     bool GetSongFromSongid	( int songid, CMusikSong *pSong );
 
 	void SetSortOrderField( int nField, bool descending = false);
-	double GetSum(const wxString & sField, const CMusikSongArray &  idarray )const ;
+	double GetSum(const wxString & sField, const MusikSongIdArray &  idarray )const ;
 
 	//--------------------//
 	//--- getting info ---//
@@ -119,20 +119,20 @@ public:
 	//------------------------//
 	void Query				( const wxString & query, wxArrayString & aReturn ,bool bClearArray = true);
 	void Query				( const wxString & query, wxArrayInt & aReturn ,bool bClearArray = true);
-	void QuerySongsWhere	( const wxString & query, CMusikSongArray & aReturn ,bool bSorted = false,bool bClearArray=true);	  //if bSorted ==true,  use SetSortOrderField to set sorting string
-	void QuerySongsFrom		( const wxString & queryFrom, CMusikSongArray & aReturn ,bool bSorted = false);
-	void RedoLastQuerySongsWhere( CMusikSongArray & aReturn ,bool bSorted = false);
+	void QuerySongsWhere	( const wxString & query, MusikSongIdArray & aReturn ,bool bSorted = false,bool bClearArray=true);	  //if bSorted ==true,  use SetSortOrderField to set sorting string
+	void QuerySongsFrom		( const wxString & queryFrom, MusikSongIdArray & aReturn ,bool bSorted = false);
+	void RedoLastQuerySongsWhere( MusikSongIdArray & aReturn ,bool bSorted = false);
 	//-----------------------------------//
 	//--- pre-defined queries to make ---//
 	//---   life a little bit easier  ---//
 	//-----------------------------------//
-	void GetAllSongs		( CMusikSongArray & aReturn	,bool bSorted = true);
+	void GetAllSongs		( MusikSongIdArray & aReturn	,bool bSorted = true);
 	void GetAllArtists		( wxArrayString & aReturn ,bool bSorted = true);
 	void GetAllAlbums		( wxArrayString & aReturn ,bool bSorted = true);
 	void GetAllGenres		( wxArrayString & aReturn ,bool bSorted = true);
 	void GetAllYears		( wxArrayString & aReturn );
 	void GetInfo			( const wxArrayString & aInfo, int nInType, int nOutType, wxArrayString & aReturn, bool bSorted = true);
-	void GetSongs			( const wxArrayString & aInfo, int nInType, CMusikSongArray & aReturn );
+	void GetSongs			( const wxArrayString & aInfo, int nInType, MusikSongIdArray & aReturn );
 	int QueryCount			(const char * szQuery );
 
 	//misc

@@ -15,7 +15,7 @@
 */
 
 
-#include "wx/wxprec.h"	   // For compilers that support precompilation, includes "wx/wx.h".
+#include "myprec.h"	   // For compilers that support precompilation, includes "wx/wx.h".
 
 #include "MusikFX.h"
 #include "MusikGlobals.h"
@@ -63,18 +63,24 @@ void CMusikFX::ResetBands()
 		m_LeftBands[n] = 1.0f;
 		m_RightBands[n] = 1.0f;
 	}
-	MakeTable( wxGetApp().Prefs.nSndRate );
+	MakeTable( m_Frequency );
 }
 
-void CMusikFX::InitEQ()
+void CMusikFX::InitEQ(float freq)
 {
-	equ_init( 14 );		//--- no one knows why, 14 is the magic number ---//
-	MakeTable( wxGetApp().Prefs.nSndRate );
+	if(!m_bIsInitialized)
+	{
+		m_bIsInitialized = true;
+		m_Frequency = freq;
+		equ_init( 14 );		//--- no one knows why, 14 is the magic number ---//
+		MakeTable( m_Frequency );
+	}
 }
 
 void CMusikFX::EndEQ()
 {
 	equ_quit();
+	m_bIsInitialized = false;
 }
 
 void CMusikFX::MakeTable( float samplerate )
@@ -176,8 +182,3 @@ void CMusikFX::SaveBands( wxFileConfig *pConfig )
 	pConfig->Write( wxT( "EQR17" ),		(double)m_RightBands[17] );	
 }
 
-void CMusikFX::SetFrequency( float newfreq )
-{
-	m_Frequency = newfreq;
-	wxGetApp().Player.SetFrequency();
-}

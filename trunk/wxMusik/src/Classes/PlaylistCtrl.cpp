@@ -12,7 +12,7 @@
 */
 
 //--- For compilers that support precompilation, includes "wx/wx.h". ---//
-#include "wx/wxprec.h"
+#include "myprec.h"
 
 #include "wx/file.h"
 
@@ -1000,7 +1000,7 @@ wxString CPlaylistCtrl::GetSelSongIds()
 			break;
 		if(m_pPlaylist->Item( nIndex ).IsFormat(MUSIK_FORMAT_NETSTREAM) == false)
 		{
-			sResult += IntToString(m_pPlaylist->Item( nIndex ));
+			sResult += wxString() << (int)m_pPlaylist->Item( nIndex );
 			sResult+= wxT( "\n" ); // only add \n if it is not the last name
 		}
 	}
@@ -1038,7 +1038,7 @@ void CPlaylistCtrl::GetSelFilesList( wxArrayString & aResult )
 	return;
 }
 
-void CPlaylistCtrl::GetSelectedSongs(CMusikSongArray & aResult)
+void CPlaylistCtrl::GetSelectedSongs(MusikSongIdArray & aResult)
 {
 	aResult.Clear();
 	int nIndex = -1;
@@ -1439,7 +1439,7 @@ void CPlaylistCtrl::RenameSelFiles()
 {
 	if ( m_ActiveThreadController.IsAlive() == false )
     {
-		CMusikSongArray songs;
+		MusikSongIdArray songs;
 		GetSelectedSongs( songs );
 		m_ActiveThreadController.AttachAndRun( new MusikPlaylistRenameThread(this, songs ) );
     }
@@ -1457,7 +1457,7 @@ void CPlaylistCtrl::RetagSelFiles()
 		if(dlg.ShowModal()==wxID_CANCEL)
 			return;
 		wxGetApp().Prefs.bAutoTagConvertUnderscoresToSpaces = dlg.GetConvertUnderscoresToSpaces() ?1:0;
-		CMusikSongArray songs;
+		MusikSongIdArray songs;
 		GetSelectedSongs( songs );
 		m_ActiveThreadController.AttachAndRun( new MusikPlaylistRetagThread(this, dlg.GetMask(), songs ) );
 	}
@@ -1600,29 +1600,29 @@ void CPlaylistCtrl::OnThreadEnd( wxCommandEvent& WXUNUSED(event) )
 	wxPostEvent( g_MusikFrame, MusikEndProgEvt );
 }
 
-const CMusikSongArray & CPlaylistCtrl::Playlist()
+const MusikSongIdArray & CPlaylistCtrl::Playlist()
 {
-    static CMusikSongArray empty;
+    static MusikSongIdArray empty;
 	return m_pPlaylist ? *m_pPlaylist:empty;
 }
 
 void CPlaylistCtrl::OnPlayInstantly( wxCommandEvent& WXUNUSED(event) )
 {
-	CMusikSongArray aResult;
+	MusikSongIdArray aResult;
 	GetSelectedSongs(aResult);
 	wxGetApp().Player.InsertToPlaylist(aResult);
 
 }
 void CPlaylistCtrl::OnPlayAsNext ( wxCommandEvent& WXUNUSED(event) )
 {
-	CMusikSongArray aResult;
+	MusikSongIdArray aResult;
 	GetSelectedSongs(aResult);
 	wxGetApp().Player.InsertToPlaylist(aResult,wxGetApp().Player.IsPlaying() ? false : true);
 
 }
 void CPlaylistCtrl::OnPlayEnqueued	( wxCommandEvent& WXUNUSED(event) )
 {
-	CMusikSongArray aResult;
+	MusikSongIdArray aResult;
 	GetSelectedSongs(aResult);
 	wxGetApp().Player.AddToPlaylist(aResult,wxGetApp().Player.IsPlaying() ? false : true);
 }
@@ -1638,7 +1638,7 @@ void CPlaylistCtrl::OnPlayReplaceWithSel( wxCommandEvent& WXUNUSED(event) )
 {	
 	if ( m_nCurSel > -1 )
 	{
-		CMusikSongArray aResult;
+		MusikSongIdArray aResult;
 		GetSelectedSongs(aResult);
 		wxGetApp().Player.PlayReplaceList(0,aResult);
 	}

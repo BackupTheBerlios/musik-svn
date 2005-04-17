@@ -1,7 +1,7 @@
 #ifndef CFMODINFO_H
 #define CFMODINFO_H
 //--- For compilers that support precompilation, includes "wx/wx.h". ---//
-#include "wx/wxprec.h"
+#include "myprec.h"
 #ifndef WX_PRECOMP
 #include "wx/wx.h"
 #endif 

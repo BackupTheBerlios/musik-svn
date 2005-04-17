@@ -14,7 +14,7 @@
 #define MUSIK_ACTIVITYBOX_THREADS_H
 
 //--- wx ---//
-#include "wx/wxprec.h"
+#include "myprec.h"
 #ifndef WX_PRECOMP
 	#include "wx/wx.h"
 #endif 
@@ -49,7 +49,7 @@ private:
 	wxString		m_TypeStr;
 	CSongMetaData::StringData m_Replace;
 
-	CMusikSongArray m_Songs;
+	MusikSongIdArray m_Songs;
 };
 
 

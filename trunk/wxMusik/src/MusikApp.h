@@ -13,7 +13,7 @@
 #ifndef MUSIK_APP_H
 #define MUSIK_APP_H
 
-#include "wx/wxprec.h"
+#include "myprec.h"
 #ifndef WX_PRECOMP
 	#include "wx/wx.h"
 #endif 
@@ -52,7 +52,7 @@ public:
 #endif
 
 	void OnPlayFiles(const wxArrayString &aFilelist);
-	void CopyFiles(const CMusikSongArray &songs);
+	void CopyFiles(const MusikSongIdArray &songs);
 public:
 	CMusikPrefs			Prefs;
 	CMusikLibrary		Library;

@@ -17,7 +17,7 @@
 #ifndef MUSIKFX_H
 #define MUSIKFX_H
 
-#include "wx/wxprec.h"
+#include "myprec.h"
 #ifndef WX_PRECOMP
 	#include "wx/wx.h"
 #endif 
@@ -29,27 +29,30 @@
 class CMusikFX
 {
 public:
+	CMusikFX()
+	{
+		m_bIsInitialized = false;
+	}
 	void	SetLeftBands	( float data[18] );
 	void	SetRightBands	( float data[18] );
 	void	GetLeftBands	( float *data );
 	void	GetRightBands	( float *data );
 	void	MakeTable		( float samplerate );
 	void	ResetBands		();
-	void	InitEQ			();
+	void	InitEQ			( float freq );
 	void	EndEQ			();
 	void	ProcessSamples	( void *pBuffer, int length, int channels, int bitspersample );
 
 	void	SaveBands		( wxFileConfig *pConfig );
 	void	LoadBands		( wxFileConfig *pConfig );
 
-	void	SetFrequency	( float newfreq );
-	float	GetFrequency	( ) { return m_Frequency; }
 
 private:
 	float m_LeftBands[18];
 	float m_RightBands[18];
 
 	float	m_Frequency;
+	bool	m_bIsInitialized;
 };
 
 #endif

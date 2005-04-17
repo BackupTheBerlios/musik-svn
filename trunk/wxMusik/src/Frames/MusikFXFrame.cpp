@@ -15,7 +15,7 @@
 */
 
 //--- For compilers that support precompilation, includes "wx/wx.h". ---//
-#include "wx/wxprec.h"
+#include "myprec.h"
 
 #include "MusikFXFrame.h"
 
@@ -167,7 +167,7 @@ void MusikFXDialog::OnClose ( wxCloseEvent& WXUNUSED(event) )
 
 void MusikFXDialog::OnSlidePitch( wxScrollEvent &WXUNUSED(event) )
 {
-	g_FX.SetFrequency( (( (float)slPitch->GetValue()) / 50.0f) * 44100.0f );
+	wxGetApp().Player.SetFrequency( (( (float)slPitch->GetValue()) / 50.0f) * wxGetApp().Prefs.nSndRate );
 }
 
 void MusikFXDialog::OnRightClick( wxContextMenuEvent& event )
@@ -175,7 +175,7 @@ void MusikFXDialog::OnRightClick( wxContextMenuEvent& event )
 	if ( event.GetId() == SLD_PITCH )
 	{
 		slPitch->SetValue( 50 );
-		g_FX.SetFrequency( 44100 );
+		wxGetApp().Player.SetFrequency( wxGetApp().Prefs.nSndRate );
 	}
 }
 

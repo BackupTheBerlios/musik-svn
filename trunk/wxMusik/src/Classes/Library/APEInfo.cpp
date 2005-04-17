@@ -1,4 +1,4 @@
-#include "wx/wxprec.h"
+#include "myprec.h"
 #ifndef MUSIKENGINE_NO_APE_SUPPORT
 #ifdef _WIN32
 #include "All.h"							/* Monkey's Audio include file */

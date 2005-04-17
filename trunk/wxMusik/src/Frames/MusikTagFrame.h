@@ -13,13 +13,13 @@
 #ifndef MUSIK_TAG_FRAME_H
 #define MUSIK_TAG_FRAME_H
 
-#include "wx/wxprec.h"
+#include "myprec.h"
 #ifndef WX_PRECOMP
 	#include "wx/wx.h"
 #endif 
 #include "wx/thread.h"
 
-//--- CMusikSongArray defined here ---//
+//--- MusikSongIdArray defined here ---//
 #include "../Classes/MusikLibrary.h"
 #include "../ThreadController.h"
 
@@ -142,7 +142,7 @@ private:
 
 	CThreadController m_ActiveThreadController;
 
-	CMusikSongArray  m_Songs;
+	MusikSongIdArray  m_Songs;
 	bool			m_WriteTag;
 	int				nIndex;
 	int				nFrame;

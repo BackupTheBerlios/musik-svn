@@ -12,7 +12,7 @@
 *  of this file, and for a DISCLAIMER OF ALL WARRANTIES.
 */
 //--- For compilers that support precompilation, includes "wx/wx.h". ---//
-#include "wx/wxprec.h"
+#include "myprec.h"
 
 #include "PictureBox.h"
 #include <wx/dir.h>

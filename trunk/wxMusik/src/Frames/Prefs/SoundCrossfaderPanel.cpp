@@ -13,7 +13,7 @@
 
 //--- For compilers that support precompilation, includes "wx/wx.h". ---//
 //--- wx ---//
-#include "wx/wxprec.h"
+#include "myprec.h"
 #ifndef WX_PRECOMP
 #include <wx/wx.h>
 #endif 

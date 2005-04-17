@@ -14,7 +14,7 @@
 #define MUSIK_PLAYLISTCTRL_THREADS_H
 
 //--- wx ---//
-#include "wx/wxprec.h"
+#include "myprec.h"
 #ifndef WX_PRECOMP
 	#include "wx/wx.h"
 #endif 
@@ -30,27 +30,27 @@
 class MusikPlaylistRenameThread : public wxThread
 {
 public:
-	MusikPlaylistRenameThread( wxEvtHandler * pEvtHandler, const  CMusikSongArray & songs );
+	MusikPlaylistRenameThread( wxEvtHandler * pEvtHandler, const  MusikSongIdArray & songs );
 
 	virtual void *Entry();
 	virtual void OnExit();
 
 private:
 
-	CMusikSongArray m_Songs;
+	MusikSongIdArray m_Songs;
 	wxEvtHandler * m_pEvtHandler;
 };
 
 class MusikPlaylistRetagThread : public wxThread
 {
 public:
-	MusikPlaylistRetagThread(wxEvtHandler * pEvtHandler , const wxString &TagMask, const  CMusikSongArray & songs );
+	MusikPlaylistRetagThread(wxEvtHandler * pEvtHandler , const wxString &TagMask, const  MusikSongIdArray & songs );
 
 	virtual void *Entry();
 	virtual void OnExit();
-	const CMusikSongArray & GetReTaggedSongs(){return m_Songs;}
+	const MusikSongIdArray & GetReTaggedSongs(){return m_Songs;}
 private:
-	CMusikSongArray m_Songs;
+	MusikSongIdArray m_Songs;
 	wxString m_sTagMask;
 	wxEvtHandler * m_pEvtHandler;
 };

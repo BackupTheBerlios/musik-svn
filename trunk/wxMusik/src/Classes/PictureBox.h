@@ -15,7 +15,7 @@
 #ifndef MUSIK_PICTURE_BOX_H
 #define MUSIK_PICTURE_BOX_H
 
-#include "wx/wxprec.h"
+#include "myprec.h"
 #ifndef WX_PRECOMP
 #include "wx/wx.h"
 #endif 

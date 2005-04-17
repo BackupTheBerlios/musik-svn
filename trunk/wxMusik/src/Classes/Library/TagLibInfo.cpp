@@ -1,4 +1,4 @@
-#include "wx/wxprec.h"
+#include "myprec.h"
 #include "wx/mstream.h"
 #include <string.h>
 #include "TagLibInfo.h"

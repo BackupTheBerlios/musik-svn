@@ -15,7 +15,7 @@
 #ifndef MUSIK_SOURCES_BOX_H
 #define MUSIK_SOURCES_BOX_H
 
-#include "wx/wxprec.h"
+#include "myprec.h"
 #ifndef WX_PRECOMP
 	#include "wx/wx.h"
 #endif 
@@ -105,24 +105,24 @@ public:
 	//--- playlist routines ---//
 	//-------------------------//
 	void AddMissing			( const wxArrayString & playlists,EMUSIK_SOURCES_TYPE t);
-	void NewPlaylist		( wxString sName, const CMusikSongArray &arrSongIds, int nType );
+	void NewPlaylist		( wxString sName, const MusikSongIdArray &arrSongIds, int nType );
 	bool PlaylistExists		( wxString sName, int type = MUSIK_SOURCES_PLAYLIST_STANDARD );
 	void FilenameToSources	( wxString* sFilename );
 	void SourcesToFilename	( wxString* sSources, int type = MUSIK_SOURCES_PLAYLIST_STANDARD );
 	int  FindInSources		( wxString sName, int nType );
 	wxString GetSourceEntry(long i) const;
 	//---standard / dynamic ---//
-	bool CreateStdPlaylist			( wxString sName, const CMusikSongArray &arrSongIds );
+	bool CreateStdPlaylist			( wxString sName, const MusikSongIdArray &arrSongIds );
 	bool CreateDynPlaylist			( wxString sName );
 	bool CreateNetStream			( wxString sName);
 	void RewriteStdPlaylist			();
 	void UpdateDynPlaylist			( int nIndex );
-	void LoadStdPlaylist			( wxString sName, CMusikSongArray & songids );
-	void RealizeDynPlaylist			( const wxString & sQuery, CMusikSongArray & aReturn );
+	void LoadStdPlaylist			( wxString sName, MusikSongIdArray & songids );
+	void RealizeDynPlaylist			( const wxString & sQuery, MusikSongIdArray & aReturn );
 	wxString LoadDynPlaylist		( wxString sName );
 	void LoadNetStream				(wxString sName, CMusikSong & song );
 	void UpdateNetStream			( int nIndex );
-	bool PlaylistToFile				( wxString sName, const CMusikSongArray &arrSongIds, int type, bool bDelOld = true );
+	bool PlaylistToFile				( wxString sName, const MusikSongIdArray &arrSongIds, int type, bool bDelOld = true );
 	bool PlaylistToFile				( wxString sName, const wxString &sData, int type, bool bDelOld = true );
 	wxString PromptDynamicPlaylist	( wxString sQuery );
 	wxString PromptNetStreamAddress	( const wxString & sAddress );

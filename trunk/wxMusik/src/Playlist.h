@@ -3,15 +3,15 @@
 #include <map>
 #include "MusikId.h"
 
-WX_DECLARE_OBJARRAY( MusikSongId, CMusikSongIdArray );
+WX_DECLARE_OBJARRAY( MusikSongId, MusikSongIdArrayBase );
 
-class CMusikSongArray : public CMusikSongIdArray
+class MusikSongIdArray : public MusikSongIdArrayBase
 {
 public:
-	CMusikSongArray()
+	MusikSongIdArray()
 	{
 	}
-	CMusikSongArray(const wxArrayString & Ids)
+	MusikSongIdArray(const wxArrayString & Ids)
 	{
 		Assign(Ids);
 	}
@@ -31,6 +31,26 @@ public:
 
 };
 #if 0
+class Playlist
+{
+public:
+	Playlist(const wxString & name);
+	const wxString & Name()
+	{
+		return m_sName;
+	}
+	const MusikSongIdArray & SongIdArray()
+	{
+		return m_SongIdArray;
+	}
+	virtual ~Playlist();
+
+protected:
+private:
+	wxString m_sName;
+q	MusikSongIdArray m_SongIdArray;
+};
+
 class PlaylistManager
 {
 public:
@@ -39,11 +59,11 @@ public:
 	}
 	~PlaylistManager();
 
-	CMusikSongArray & CreatePlaylist(const wxString & sName);
+	MusikSongIdArray & CreatePlaylist(const wxString & sName);
 
-
+	
 private:
-	typedef std::map<wxString,CMusikSongArray *> tPlaylistMap;
+	typedef std::map<wxString,MusikSongIdArray *> tPlaylistMap;
 
 	tPlaylistMap m_mapPlaylists;
 

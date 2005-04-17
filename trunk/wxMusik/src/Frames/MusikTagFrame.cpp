@@ -11,7 +11,7 @@
 */
 
 //--- For compilers that support precompilation, includes "wx/wx.h". ---//
-#include "wx/wxprec.h"
+#include "myprec.h"
 #include <mpeg/id3v1/id3v1genres.h>
 #include "MusikTagFrame.h"
 
@@ -499,7 +499,7 @@ void MusikTagFrame::SaveSong(int n)
 {
 
     MusikSongId & songid = m_Songs.Item( n );
-    CMusikSong & song = songid.SongRef();
+    CMusikSong & song = songid.SongCopy();
 	//--- update title ---//
 	if ( tcTitle->IsEnabled() && ( tcTitle->GetValue() != ConvFromUTF8( song.MetaData.Title )) )
 	{

@@ -13,7 +13,7 @@
 */
 
 // For compilers that support precompilation, includes "wx/wx.h".
-#include "wx/wxprec.h"
+#include "myprec.h"
 #include "ActivityBox.h"
 
 //--- globals ---//
@@ -643,7 +643,7 @@ void CActivityBox::GetFullList( wxArrayString & aReturn ,bool bSorted)
   	}
 }
 
-void CActivityBox::GetSelectedSongs( CMusikSongArray& array )
+void CActivityBox::GetSelectedSongs( MusikSongIdArray& array )
 {
 	//-----------------------------------------------------//
 	//--- if we have "highlight" entries, or this is	---//
@@ -842,7 +842,7 @@ void CActivityBox::DNDBegin()
 wxString CActivityBox::DNDGetList()
 {
 	//--- get selected items ---//
-	CMusikSongArray songs;
+	MusikSongIdArray songs;
 	GetSelectedSongs( songs );
 
 	//--- add songs to dnd string ---//
@@ -850,7 +850,7 @@ wxString CActivityBox::DNDGetList()
 	sRet.Alloc(255 * songs.GetCount());
 	for ( size_t i = 0; i < songs.GetCount(); i++ )
 	{
-		sRet += IntToString(songs.Item( i ));
+		sRet += wxString() << (int)songs.Item( i );
 		if	( i != ( songs.GetCount() - 1 ) )
 			sRet += wxT("\n");
 	}
@@ -882,27 +882,27 @@ void CActivityBox::OnListItemMiddleClick( wxListEvent& WXUNUSED(event))
 
 void CActivityBox::OnPlayInstantly( wxCommandEvent& WXUNUSED(event) )
 {
-	CMusikSongArray aResult;
+	MusikSongIdArray aResult;
 	GetSelectedSongs(aResult);
 	wxGetApp().Player.InsertToPlaylist(aResult);
 
 }
 void CActivityBox::OnPlayAsNext ( wxCommandEvent& WXUNUSED(event) )
 {
-	CMusikSongArray aResult;
+	MusikSongIdArray aResult;
 	GetSelectedSongs(aResult);
 	wxGetApp().Player.InsertToPlaylist(aResult,wxGetApp().Player.IsPlaying() ? false : true);
 
 }
 void CActivityBox::OnPlayEnqueued	( wxCommandEvent& WXUNUSED(event) )
 {
-	CMusikSongArray aResult;
+	MusikSongIdArray aResult;
 	GetSelectedSongs(aResult);
 	wxGetApp().Player.AddToPlaylist(aResult,wxGetApp().Player.IsPlaying() ? false : true);
 }
 void CActivityBox::OnPlayReplaceWithSel	( wxCommandEvent& WXUNUSED(event) )
 {
-	CMusikSongArray aResult;
+	MusikSongIdArray aResult;
 	GetSelectedSongs(aResult);
 	wxGetApp().Player.PlayReplaceList(0,aResult);
 }

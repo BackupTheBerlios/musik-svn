@@ -13,7 +13,7 @@
 #ifndef MUSIK_EQ_CTRL_H
 #define MUSIK_EQ_CTRL_H
 
-#include "wx/wxprec.h"
+#include "myprec.h"
 #ifndef WX_PRECOMP
 	#include "wx/wx.h"
 #endif 

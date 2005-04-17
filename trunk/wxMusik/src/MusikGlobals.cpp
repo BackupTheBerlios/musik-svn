@@ -11,7 +11,7 @@
  *  of this file, and for a DISCLAIMER OF ALL WARRANTIES.
 */
 // For compilers that support precompilation, includes "wx/wx.h".
-#include "wx/wxprec.h"
+#include "myprec.h"
 
 //----------------//
 //--- includes ---//
@@ -85,7 +85,7 @@ extern const wxString g_PlaylistColumnDBNames[NPLAYLISTCOLUMNS] =
 //------------------------//
 
 CMusikPaths			g_Paths;
-CMusikSongArray		g_thePlaylist;	
+MusikSongIdArray		g_thePlaylist;	
 
 
 MusikFaderThread*	g_FaderThread;

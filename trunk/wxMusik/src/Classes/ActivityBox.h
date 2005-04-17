@@ -15,7 +15,7 @@
 #ifndef ACTIVITY_BOX
 #define ACTIVITY_BOX
 
-#include "wx/wxprec.h"
+#include "myprec.h"
 #ifndef WX_PRECOMP
 	#include "wx/wx.h"
 #endif 
@@ -28,7 +28,7 @@
 #define MUSIK_ACT_TEXT 9998
 
 #include "../ThreadController.h"
-//--- for CMusikSongArray ---//
+//--- for MusikSongIdArray ---//
 #include "MusikLibrary.h"
 
 #include "MusikListCtrl.h"
@@ -171,7 +171,7 @@ public:
 	void		GetRelatedList			( CActivityBox *pDst, wxArrayString & aReturn );
 	wxString	GetActivityTypeStr		();
 	wxString	GetActivityTypeStringTranslated		();
-	void		GetSelectedSongs		( CMusikSongArray& array );
+	void		GetSelectedSongs		( MusikSongIdArray& array );
 
 	CActivityListBox*		GetListBox		()												{ return pListBox;										}
 	EMUSIK_ACTIVITY_TYPE	GetActivityType	()												{ return m_ActivityType;								}

@@ -14,7 +14,7 @@
 #ifndef MUSIK_THREADS_H
 #define MUSIK_THREADS_H
 
-#include "wx/wxprec.h"
+#include "myprec.h"
 #ifndef WX_PRECOMP
 	#include "wx/wx.h"
 #endif

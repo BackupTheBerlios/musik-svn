@@ -14,7 +14,7 @@
 #ifndef MUSIKUTILS_H
 #define MUSIKUTILS_H
 
-#include "wx/wxprec.h"
+#include "myprec.h"
 #ifndef WX_PRECOMP
 	#include "wx/wx.h"
 #endif

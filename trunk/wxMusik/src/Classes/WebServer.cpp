@@ -12,7 +12,7 @@
 */
 
 //--- For compilers that support precompilation, includes "wx/wx.h". ---//
-#include "wx/wxprec.h"
+#include "myprec.h"
 
 #include "WebServer.h"
 #include "../Frames/MusikFrame.h"

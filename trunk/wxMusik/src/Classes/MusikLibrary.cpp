@@ -15,7 +15,7 @@
  *  of this file, and for a DISCLAIMER OF ALL WARRANTIES.
 */
 // For compilers that support precompilation, includes "wx/wx.h".
-#include "wx/wxprec.h"
+#include "myprec.h"
 #include "MusikLibrary.h"
 
 //--- globals ---//
@@ -540,7 +540,7 @@ bool CMusikLibrary::WriteTag(  MusikSongId & songid, bool ClearAll , bool bUpdat
 {
 
 	CMetaDataHandler::RetCode rc  = CMetaDataHandler::success;
-    CMusikSong & song = songid.SongRef();
+    CMusikSong & song = songid.SongCopy();
 	if(false == wxFileExists(song.MetaData.Filename.GetFullPath()))
 	{
 		::wxLogWarning(_("Writing tags to file %s failed,because the file does not exist.\nPlease purge the database."),(const wxChar *)song.MetaData.Filename.GetFullPath());
@@ -722,11 +722,11 @@ void CMusikLibrary::GetInfo( const wxArrayString & aList, int nInType, int nOutT
 {
 
 	
-	CMusikSongArray * p = (CMusikSongArray*)args;
+	MusikSongIdArray * p = (MusikSongIdArray*)args;
 	p->Add(MusikSongId( StringToInt(results[0])));
     return 0;
 }
-void CMusikLibrary::GetSongs( const wxArrayString & aList, int nInType, CMusikSongArray & aReturn )
+void CMusikLibrary::GetSongs( const wxArrayString & aList, int nInType, MusikSongIdArray & aReturn )
 {
 	aReturn.Clear();
 	wxString sInfo;
@@ -770,7 +770,7 @@ void CMusikLibrary::Query( const wxString & query, wxArrayString & aReturn ,bool
 
 	aReturn.Clear();
 	//--- run the query ---//
-	aReturn.Alloc( GetSongCount() );
+	aReturn.Alloc( GetSongCount() );// just a guess
 	}
 	wxCriticalSectionLocker lock( m_csDBAccess );
 	sqlite_exec(m_pDB, ConvQueryToMB( query ), &sqlite_callbackAddToStringArray, &aReturn, NULL);
@@ -801,7 +801,7 @@ int CMusikLibrary::sqlite_callbackAddToSongIdMap(void *args, int WXUNUSED(numCol
 
     return 0;
 }
-void CMusikLibrary::GetFilelistSongs( const wxArrayString & aFiles, CMusikSongArray & aReturn )
+void CMusikLibrary::GetFilelistSongs( const wxArrayString & aFiles, MusikSongIdArray & aReturn )
 {
 	aReturn.Clear();
 	
@@ -910,7 +910,7 @@ void CMusikLibrary::SetSortOrderField( int nField, bool descending )
 
 ///////////////////////////////////////////////////////////////////////////////
 
-double CMusikLibrary::GetSum(const wxString & sField, const CMusikSongArray &  idarray ) const
+double CMusikLibrary::GetSum(const wxString & sField, const MusikSongIdArray &  idarray ) const
 {
 	wxString sQuery;
 	
@@ -963,11 +963,11 @@ double CMusikLibrary::GetSum(const wxString & sField, const CMusikSongArray &  i
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void CMusikLibrary::RedoLastQuerySongsWhere( CMusikSongArray & aReturn ,bool bSorted)
+void CMusikLibrary::RedoLastQuerySongsWhere( MusikSongIdArray & aReturn ,bool bSorted)
 {
 	QuerySongsWhere(m_lastQueryWhere,aReturn,bSorted);
 }
-void CMusikLibrary::QuerySongsWhere( const wxString & queryWhere, CMusikSongArray & aReturn ,bool bSorted,bool bClearArray)
+void CMusikLibrary::QuerySongsWhere( const wxString & queryWhere, MusikSongIdArray & aReturn ,bool bSorted,bool bClearArray)
 {
 	if(bClearArray)
 		aReturn.Clear();
@@ -999,7 +999,7 @@ void CMusikLibrary::QuerySongsWhere( const wxString & queryWhere, CMusikSongArra
 }
 
 
-void CMusikLibrary::QuerySongsFrom( const wxString & queryFrom, CMusikSongArray & aReturn ,bool bSorted)
+void CMusikLibrary::QuerySongsFrom( const wxString & queryFrom, MusikSongIdArray & aReturn ,bool bSorted)
 {
 	aReturn.Clear();
 	//--- run query ---//
@@ -1079,13 +1079,13 @@ bool CMusikLibrary::GetSongFromSongid( int songid, CMusikSong *pSong )
     if(i == m_mapSongCache.end())
     { // songid is not in cache
         // load to cache
-        CMusikSong &songref = m_mapSongCache[songid];
-        if(!QuerySongFromSongid(songid,&songref))
+        CMusikSong &SongCopy = m_mapSongCache[songid];
+        if(!QuerySongFromSongid(songid,&SongCopy))
         { // songid not found in db, erase from map 
             m_mapSongCache.erase(songid);
             return false;
         }
-        *pSong = songref;
+        *pSong = SongCopy;
         return true;
     }
     *pSong = (*i).second;
@@ -1124,7 +1124,7 @@ bool CMusikLibrary::QuerySongFromSongid( int songid, CMusikSong *pSong )
 }
 bool CMusikLibrary::UpdateItem( MusikSongId &songinfoid, bool bDirty )
 {
-   bool bRes = UpdateItem(songinfoid.SongRef(),bDirty);
+   bool bRes = UpdateItem(songinfoid.SongCopy(),bDirty);
    if(bRes)
     songinfoid.Check1 = 0;
    return bRes;
@@ -1398,7 +1398,7 @@ void CMusikLibrary::GetAllYears(wxArrayString & years)
 	return;
 }
 
-void CMusikLibrary::GetAllSongs( CMusikSongArray & aReturn, bool bSorted )
+void CMusikLibrary::GetAllSongs( MusikSongIdArray & aReturn, bool bSorted )
 {
 	//QuerySongsWhere( wxT(""), aReturn ,bSorted); for some unknown reason linux (suse 8.2 with wxGTK2.5.1 segfaults
 	QuerySongsWhere( wxString(), aReturn ,bSorted);

@@ -13,7 +13,9 @@
 #ifndef MUSIK_PREFS_FRAME_H
 #define MUSIK_PREFS_FRAME_H
 
-#include <wx/treectrl.h>
+class wxTreeCtrl;
+class wxTreeEvent;
+class wxTreeItemId;
 
 class PrefPanel;
 

@@ -14,7 +14,7 @@
 #define MUSIK_LIBRARY_FRAME_H
 
 //--- wx ---//
-#include "wx/wxprec.h"
+#include "myprec.h"
 #ifndef WX_PRECOMP
 	#include "wx/wx.h"
 #endif 
@@ -54,10 +54,11 @@ public:
 	//--- regular events ---//
 	void OnClickAdd				( wxCommandEvent  &WXUNUSED(event)	)		{ PathsListAdd();												}
 	void OnClickRemoveSel		( wxCommandEvent  &WXUNUSED(event)	)		{ PathsListRemoveSel();											}
+	void OnUpdateUIRemoveSel	( wxUpdateUIEvent & event);
 	void OnClickRemoveAll		( wxCommandEvent  &WXUNUSED(event)	)		{ PathsListRemoveAll();											}
 	void OnClose				( wxCloseEvent  &WXUNUSED(event)	)		{ Close( true );												}
 	void OnSize					( wxSizeEvent	  &WXUNUSED(event)	)		{ PathsResize();												}
-	void OnKeyPress				( wxListEvent	  &event			)		{ PathsListProcessKeys( event );								}
+	void OnListKeyDown			( wxListEvent	  &event			);
 	void OnClickOK				( wxCommandEvent  &WXUNUSED(event)	)		{ Close( false );												}
 	void OnClickCancel			( wxCommandEvent  &WXUNUSED(event)	)		
 	{

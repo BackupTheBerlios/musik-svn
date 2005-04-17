@@ -17,7 +17,7 @@
 #define MUSIK_PLAYER_H
 
 //--- wx stuff ---//
-#include "wx/wxprec.h"
+#include "myprec.h"
 #ifndef WX_PRECOMP
 	#include "wx/wx.h"
 #endif
@@ -35,7 +35,7 @@ enum EMUSIK_CROSSFADER_TYPE
 };
 
 
-//--- CMusikSongArray defined here ---//
+//--- MusikSongIdArray defined here ---//
 #include "MusikLibrary.h"
 #include "MUSIKEngine/FMODEngine/inc/fmodengine.h"
 //--- CMusikStreamArray declaration ---//
@@ -82,7 +82,7 @@ public:
 
 	void Shutdown			( bool bClose = true );
 	void ClearOldStreams	( bool bClearAll = false );
-	void SetFrequency		( );
+	void SetFrequency		( int freq );
 	void InitDSP			( );
 	void ActivateDSP		( );
 	void FreeDSP			( );
@@ -119,7 +119,7 @@ public:
 	//-------------------------//
 	//--- playback controls ---//
 	//-------------------------//
-	void PlayReplaceList(int nItemToPlay,const CMusikSongArray & playlist);
+	void PlayReplaceList(int nItemToPlay,const MusikSongIdArray & playlist);
 	void PlayPause();
     bool Play		( size_t nItem, int nStartPos = 0, int nFadeType = CROSSFADE_NORMAL );
 	bool PlayByUser	( size_t nItem)
@@ -150,7 +150,7 @@ public:
 	int GetCrossfadeType		() { return m_CrossfadeType; }
 	size_t GetShuffledSong		();
 	EMUSIK_PLAYMODE GetPlaymode () { return m_Playmode; }
-	CMusikSongArray &	GetPlaylist	( ) 
+	MusikSongIdArray &	GetPlaylist	( ) 
 	{
 		return  m_Playlist;
 	}
@@ -164,9 +164,9 @@ public:
 	void SetVolume			( );
 	void SetTime			( int nSec );
 	void ClearPlaylist		();
-	void SetPlaylist		(const  CMusikSongArray &playlist ) { m_Playlist = playlist;m_arrHistory.Clear(); }
-	void AddToPlaylist		( CMusikSongArray &songstoadd ,bool bPlayFirstAdded = true);	// NOTE this method, empties the songstoadd array.
-	void InsertToPlaylist(	 CMusikSongArray & songstoadd ,bool bPlayFirstInserted = true);  // NOTE this method, empties the songstoadd array.
+	void SetPlaylist		(const  MusikSongIdArray &playlist ) { m_Playlist = playlist;m_arrHistory.Clear(); }
+	void AddToPlaylist		( MusikSongIdArray &songstoadd ,bool bPlayFirstAdded = true);	// NOTE this method, empties the songstoadd array.
+	void InsertToPlaylist(	 MusikSongIdArray & songstoadd ,bool bPlayFirstInserted = true);  // NOTE this method, empties the songstoadd array.
 	void OnPlaylistEntryRemoved( size_t index );
 	void SetStartingNext	( bool bStart = true ){ m_StartingNext = bStart; }
 	void SetCrossfadeType	( int nType ){ m_CrossfadeType = nType; }
@@ -188,12 +188,12 @@ private:
 	void _SetMetaData(char *name, char *value);
 	void _UpdateNetstreamMetadata( wxCommandEvent& event );
 	void _AddRandomSongs();
-	void _ChooseRandomSongs(int nSongsToAdd,CMusikSongArray &arrSongs);
-	void _ChooseRandomAlbumSongs(int nAlbumsToAdd,CMusikSongArray &arrAlbumSongs);
+	void _ChooseRandomSongs(int nSongsToAdd,MusikSongIdArray &arrSongs);
+	void _ChooseRandomAlbumSongs(int nAlbumsToAdd,MusikSongIdArray &arrAlbumSongs);
 	int _NetStreamStatusUpdate(MUSIKStream * pStream);
 
 	
-	CMusikSongArray m_Playlist;			//--- heart and soul.								---//
+	MusikSongIdArray m_Playlist;			//--- heart and soul.								---//
 	EMUSIK_PLAYMODE	m_Playmode;			//--- repeat, shuffle, etc							---//
 	size_t			m_SongIndex;		//--- current index in playlist						---//
 	bool			m_Playing;			//--- currently playing?							---//

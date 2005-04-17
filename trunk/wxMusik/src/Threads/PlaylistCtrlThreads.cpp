@@ -11,7 +11,7 @@
 */
 
 //--- For compilers that support precompilation, includes "wx/wx.h". ---//
-#include "wx/wxprec.h"
+#include "myprec.h"
 #include "PlaylistCtrlThreads.h"
 #include "../Classes/PlaylistCtrl.h"
 //--- globals ---//
@@ -20,7 +20,7 @@
 
 #include "../Frames/MusikFrame.h"
 
-MusikPlaylistRenameThread::MusikPlaylistRenameThread(wxEvtHandler * pEvtHandler, const  CMusikSongArray & songs )
+MusikPlaylistRenameThread::MusikPlaylistRenameThread(wxEvtHandler * pEvtHandler, const  MusikSongIdArray & songs )
 	:wxThread(wxTHREAD_JOINABLE)
 	,m_pEvtHandler(pEvtHandler)
 {
@@ -75,7 +75,7 @@ void MusikPlaylistRenameThread::OnExit()
 	wxPostEvent( m_pEvtHandler, RenameEndEvt );
 }
 
-MusikPlaylistRetagThread::MusikPlaylistRetagThread(wxEvtHandler * pEvtHandler, const wxString &TagMask, const  CMusikSongArray & songs )
+MusikPlaylistRetagThread::MusikPlaylistRetagThread(wxEvtHandler * pEvtHandler, const wxString &TagMask, const  MusikSongIdArray & songs )
 	:wxThread(wxTHREAD_JOINABLE)
 	,m_pEvtHandler(pEvtHandler)
 {

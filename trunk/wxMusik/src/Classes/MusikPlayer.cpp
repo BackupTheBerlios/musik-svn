@@ -1246,7 +1246,7 @@ wxString CMusikPlayer::GetTimeStr()
 		
 	}
 	else
-		return SecToStr( GetTime( FMOD_SEC ) );
+		return SecToStr( GetTime( FMOD_SEC ) ) + wxT("/") + SecToStr(GetDuration( FMOD_SEC ));
 }
 wxString CMusikPlayer::GetTimeLeftStr()
 {

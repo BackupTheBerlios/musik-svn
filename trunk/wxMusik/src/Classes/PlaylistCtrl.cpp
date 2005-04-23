@@ -876,8 +876,7 @@ wxString CPlaylistCtrl::GetItemText(long item, EPLAYLISTCOLUMNS eColumnType) con
 	case PLAYLISTCOLUMN_LAST_PLAYED:
 		if ( pSong->LastPlayed != 0.0 )
 		{
-			wxDateTime dt(pSong->LastPlayed);
-			return dt.Format(wxT("%x %X"));
+			return JDN2LocalTimeString( pSong->LastPlayed );
 		}
 		else
 			return _("Never");
@@ -900,8 +899,7 @@ wxString CPlaylistCtrl::GetItemText(long item, EPLAYLISTCOLUMNS eColumnType) con
 		return ConvFromUTF8(pSong->MetaData.Notes);
 	case PLAYLISTCOLUMN_TIMEADDED:
 		{
-		wxDateTime dt(pSong->TimeAdded);
-		return dt.Format(wxT("%x %X"));
+		    return JDN2LocalTimeString( pSong->TimeAdded );
 		}
 		break;
 	

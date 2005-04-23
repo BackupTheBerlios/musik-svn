@@ -328,7 +328,20 @@ inline const wxCharBuffer ConvW2A( const wxString &s )
 }
 inline const wxCharBuffer ConvFn2A( const wxString &s )
 {
-	return wxConvFile.cWX2MB( s );
+#ifdef wxUSE_UNICODE
+    const wxCharBuffer buf = wxConvFile.cWX2MB( s );
+#ifdef __WXMSW__
+    if(buf.data() == NULL)
+    {
+        WCHAR szShortNameBuff[MAX_PATH+1];
+        GetShortPathNameW(s.c_str(),szShortNameBuff,MAX_PATH);
+        return wxConvFile.cWX2MB( szShortNameBuff );
+    }
+#endif
+	return buf;
+#else
+    return wxConvFile.cWX2MB( s );
+#endif
 }
 
 
@@ -461,6 +474,15 @@ inline bool FileTypeIsAssociated(const wxString &sExt)
 bool FileTypeIsAssociated(const wxFileType &ft);
 void AssociateWithFileType(const wxString &sExt,const wxString &sDescription);
 void UnassociateWithFileType(const wxString &sExt);
+
+inline wxString JDN2LocalTimeString(double jdn)
+{
+    wxDateTime dt(jdn);
+    dt.MakeGMT();
+    return dt.Format(wxT("%x %X"));
+}
+
+
 class CNiceFilesize
 {
 public:

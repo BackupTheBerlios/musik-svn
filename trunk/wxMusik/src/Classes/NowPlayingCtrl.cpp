@@ -367,12 +367,7 @@ static int nTimeDisplayMode = 0;
 
 void CNowPlayingCtrl::OnClickTimeDisplay(wxMouseEvent & WXUNUSED(event))
 {
-	
-	//if(stCurtime && stCurtime->GetRect().Inside(event.GetPosition()))
-	{
-		nTimeDisplayMode++;
-		nTimeDisplayMode %= 2;
-	}
+		++nTimeDisplayMode %= 2;
 }
 void CNowPlayingCtrl::UpdateTime()
 {
@@ -475,12 +470,15 @@ void CNowPlayingCtrl::PlayerPrev( wxCommandEvent& WXUNUSED(event) )
 
 void CNowPlayingCtrl::PlayerVolume( wxCommandEvent& WXUNUSED(event) )	
 {	
-	wxPoint pos = wxGetMousePosition();
+	wxPoint pos = ClientToScreen(btnVolume->GetPosition());
 	wxFrame *pDlg = new MusikVolumeFrame( ( wxFrame* )g_MusikFrame, pos );
-
+    
 	wxSize DlgSize = pDlg->GetSize();
-	pos.x -= DlgSize.GetWidth();
-	pos.y -= DlgSize.GetHeight();	
+	pos.y -= DlgSize.GetHeight();
+    if(pos.y < 0)
+    {
+        pos = ClientToScreen(wxPoint(btnVolume->GetPosition().x,btnVolume->GetPosition().y + btnVolume->GetSize().GetHeight()));
+    }
 	pDlg->Move( pos );
 	pDlg->Show();
 }

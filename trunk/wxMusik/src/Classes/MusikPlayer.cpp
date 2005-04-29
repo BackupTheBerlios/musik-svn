@@ -17,12 +17,16 @@
 #include "myprec.h"
 
 #include "MusikPlayer.h"
-#include "../Frames/MusikFrame.h"
+#include "Frames/MusikFrame.h"
+#include "Threads/MusikThreads.h"
+#include "Classes/NowPlayingCtrl.h" //TODO: remove the dependancy
+#include "Classes/PlaylistCtrl.h" //TODO: remove the dependancy
+#include "Classes/SourcesBox.h" //TODO: remove the dependancy
 //--- globals: library / player / prefs ---//
-#include "../MusikGlobals.h"
-#include "../MusikUtils.h"
+#include "MusikGlobals.h"
+#include "MusikUtils.h"
 
-#include "../MusikApp.h"
+#include "MusikApp.h"
 #include "MUSIKEngine/MUSIKEngine/inc/imusikstreamout.h"
 //--- CMusikStreamArray ---//
 #include <wx/arrimpl.cpp>

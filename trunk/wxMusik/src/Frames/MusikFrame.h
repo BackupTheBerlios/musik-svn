@@ -14,12 +14,6 @@
 #define MUSIK_FRAME_H
 
 //--- objects ---//
-#include "../Classes/PlaylistCtrl.h"
-#include "../Classes/ActivityBox.h"
-#include "../Classes/SourcesBox.h"
-#include "../Classes/NowPlayingCtrl.h"
-//--- crossfader, other threads ---//
-#include "../Threads/MusikThreads.h"
 
 #include <wx/socket.h>
 #ifdef wxHAS_TASK_BAR_ICON
@@ -45,8 +39,10 @@ private:
 
 #endif
 
-//class CNowPlayingCtrl;
+class CNowPlayingCtrl;
 class MusikLibraryFrame;
+class CMusikSong;
+class MusikWriteDirtyThread;
 
 //quite hackish attempt to be able to compile with release 2.5.2 and cvs HEAD before 2.5.3 release
 #if wxVERSION_NUMBER < 2503
@@ -57,66 +53,11 @@ class MusikLibraryFrame;
 class MusikTaskBarIcon: public wxTaskBarIcon
 {
 public:
-	MusikTaskBarIcon(wxFrame * frame) 
-	{
-#ifdef __WXMSW__
-		m_dwShellDllVersion = GetDllVersion(wxT("shell32.dll"));
-#endif			
-		m_pFrame = frame;
-	};
+	MusikTaskBarIcon(wxFrame * frame);
 	virtual bool SetIcon(const wxIcon& icon,
-		const wxString& tooltip = wxEmptyString)
-	{
-		bool bRes = false;
-#ifndef __WXMSW__
-		bRes =  wxTaskBarIcon::SetIcon(icon,tooltip);
-#else
-		if(m_dwShellDllVersion < PACKVERSION(5,00))
-			 bRes =  wxTaskBarIcon::SetIcon(icon,tooltip);
-		else
-		{
-			// we can use NOTIFYICONDATA V2,where the szTip has 128 chars instead of 64
-			bRes =  wxTaskBarIcon::SetIcon(icon,wxEmptyString);//just set the icon.
-			if(!tooltip.empty())
-			{// now set the tooltip text with the help of NOTIFYICONDATA V2 struct.
-				NOTIFYICONDATA nid;
-				memset(&nid,0,sizeof(nid));
-				nid.cbSize = NOTIFYICONDATAW_V2_SIZE;
-				nid.hWnd = (HWND)m_win->GetHWND();
-				nid.uID = 99;
-				nid.uFlags = NIF_TIP;
-				wxStrncpy(nid.szTip, tooltip.c_str(), WXSIZEOF(nid.szTip));
-				Shell_NotifyIcon(NIM_MODIFY, &nid);
-			}
-		}
-#endif
-		return bRes;
-	}
+		const wxString& tooltip = wxEmptyString);
 #ifdef __WXMSW__
-	virtual bool ShowBalloonInfo(const wxString &sTitle,const wxString & sText)
-	{
-		bool bRes = true;
-		if(m_dwShellDllVersion >= PACKVERSION(5,00))
-		{
-			NOTIFYICONDATA nid;
-			memset(&nid,0,sizeof(nid));
-			nid.cbSize = NOTIFYICONDATAW_V2_SIZE;
-			nid.hWnd = (HWND)m_win->GetHWND();
-			nid.uID = 99;
-			nid.uFlags = NIF_INFO;
-			wxStrncpy(nid.szInfo, sText.c_str(), WXSIZEOF(nid.szInfo));
-			wxStrncpy(nid.szInfoTitle, sTitle.c_str(), WXSIZEOF(nid.szInfoTitle));
-			nid.dwInfoFlags = NIIF_NOSOUND|NIIF_INFO;
-			nid.uTimeout = 5000;
-
-
-			Shell_NotifyIcon(NIM_MODIFY, &nid);
-		}
-		else
-			return false;
-
-		return bRes;
-	}
+	virtual bool ShowBalloonInfo(const wxString &sTitle,const wxString & sText);
 #endif
 	void RestoreFrame();
     void OnRButtonUp(wxTaskBarIconEvent&);

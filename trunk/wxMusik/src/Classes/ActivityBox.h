@@ -66,7 +66,6 @@ public:
 	void Update			( bool selectnone );
 
 	void OnChar( wxKeyEvent& event );
-	void OnFocused( wxListEvent& event );
 
   DECLARE_EVENT_TABLE()
 protected:

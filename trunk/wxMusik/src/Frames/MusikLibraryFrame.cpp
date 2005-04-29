@@ -12,7 +12,9 @@
 
 //--- For compilers that support precompilation, includes "wx/wx.h". ---//
 #include "myprec.h"
-
+#include "Classes/PlaylistCtrl.h" //TODO: remove the dependancy
+#include "Classes/ActivityAreaCtrl.h" //TODO: remove the dependancy
+#include "Classes/SourcesBox.h" //TODO: remove the dependancy
 #include "MusikLibraryFrame.h"
 
 //--- globals ---//

@@ -329,7 +329,7 @@ void CActivityAreaCtrl::UpdateSel( CActivityBox *pSelectedBox )
 //--- On Windows EVT_LIST_ITEM_FOCUSED is not fired if the item already has the focus.			---//
 //--- So in windows, we cannot use  EVT_LIST_ITEM_FOCUSED alone.								---//
 //--- Order of  EVT_LIST_ITEM_SELECTED and EVT_LIST_ITEM_FOCUSED is different on linux and win. ---//
-//--- we have to assure only one is execute, because if they are both called, the selection		---//
+//--- we have to assure only one is executed, because if they are both called, the selection	---//
 //--- event will be called twice. no good. thats why there are three events that do the same	---//
 //--- thing.																					---//
 //--- to save the #ifdef code on linux and win is the same, would not be						---//

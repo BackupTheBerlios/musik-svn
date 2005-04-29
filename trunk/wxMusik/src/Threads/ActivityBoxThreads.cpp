@@ -47,8 +47,8 @@ void* MusikActivityRenameThread::Entry()
 
 	if ( m_Mode == ACTIVITY_RENAME_ACTIVITY )
 		m_ParentBox->GetSelectedSongs( m_Songs );
-	else
-		g_PlaylistBox->PlaylistCtrl().GetSelectedSongs( m_Songs );
+//	else
+//		g_PlaylistBox->PlaylistCtrl().GetSelectedSongs( m_Songs );
 
 	float fPos = 0;
 	int nLastProg = 0;

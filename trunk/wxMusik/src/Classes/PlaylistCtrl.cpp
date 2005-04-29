@@ -17,21 +17,22 @@
 #include "wx/file.h"
 
 #include "PlaylistCtrl.h"
-
+#include "Classes/ActivityAreaCtrl.h"
+#include "Classes/SourcesBox.h"
 //--- globals ---//
-#include "../MusikGlobals.h"
-#include "../MusikUtils.h"
+#include "MusikGlobals.h"
+#include "MusikUtils.h"
 
 //--- frames ---//
-#include "../Frames/MusikFrame.h"
-#include "../Frames/MusikTagFrame.h"
-#include "../Frames/MusikAutoTaggerFrame.h"
+#include "Frames/MusikFrame.h"
+#include "Frames/MusikTagFrame.h"
+#include "Frames/MusikAutoTaggerFrame.h"
 //--- threads ---//
-#include "../Threads/PlaylistCtrlThreads.h"
+#include "Threads/PlaylistCtrlThreads.h"
 
 // other
-#include "../DataObjectCompositeEx.h"
-#include "../DNDHelper.h"
+#include "DataObjectCompositeEx.h"
+#include "DNDHelper.h"
 
 
 class PlaylistDropTarget : public wxDropTarget

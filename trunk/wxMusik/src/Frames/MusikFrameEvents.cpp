@@ -14,21 +14,25 @@
 #include "myprec.h"
 
 #include "MusikFrame.h"
+#include "Classes/PlaylistCtrl.h"
+#include "Classes/SourcesBox.h"
+//--- crossfader, other threads ---//
+#include "Threads/MusikThreads.h"
 
 //--- frames ---//
 #include "MusikLibraryFrame.h"
 #include "Prefs/MusikPrefsFrame.h"
 #include "MusikFXFrame.h"
 
-#include "../MusikAboutDlg.h"
+#include "MusikAboutDlg.h"
 //--- globals ---//
-#include "../MusikGlobals.h"
-#include "../MusikUtils.h"
-#include "../MusikApp.h"
+#include "MusikGlobals.h"
+#include "MusikUtils.h"
+#include "MusikApp.h"
 #ifdef __WXMSW__
 	#include "../MMShellHook/MMShellHook.h"
 #endif
-#include "../images/tray.xpm"
+#include "images/tray.xpm"
 
 DECLARE_APP( MusikApp )
 //--- wx stuff we need ---//
@@ -441,6 +445,7 @@ void MusikFrame::OnEndProgress( wxCommandEvent& WXUNUSED(event) )
 	SetActiveThread	( NULL );
 
 	SetTitle();
+    g_PlaylistBox->Update();
 }
 
 void MusikFrame::OnSashDraggedSourcesBox	(wxSashEvent & WXUNUSED(ev))

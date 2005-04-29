@@ -19,6 +19,7 @@
 
 #include "OptionPlaylistPanel.h"
 #include "MusikGlobals.h"
+#include "Classes/PlaylistCtrl.h"
 
 IMPLEMENT_PREFPANEL_CONSTRUCTOR(OptionPlaylistPanel)
 

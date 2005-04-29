@@ -21,6 +21,8 @@
 #include <commctrl.h>
 #endif
 
+const wxEventType wxEVT_LISTSEL_CHANGED_COMMAND = wxNewEventType();
+
 
 CMusikListCtrl::CMusikListCtrl( wxWindow *parent, const wxWindowID id, const wxPoint& pos, const wxSize& size, long style)
 	:	wxListCtrl		( parent, id, pos, size, wxLC_REPORT | wxLC_VIRTUAL | wxCLIP_CHILDREN | style)
@@ -36,18 +38,22 @@ CMusikListCtrl::CMusikListCtrl( wxWindow *parent, const wxWindowID id, const wxP
 	ListView_SetExtendedListViewStyleEx(hwnd,LVS_EX_LABELTIP,LVS_EX_LABELTIP);
 #endif
 #endif
+    m_bSuppressListItemStateEvents = false;
 }
 
 
 BEGIN_EVENT_TABLE(CMusikListCtrl, wxListCtrl)
+    EVT_LIST_ITEM_SELECTED(wxID_ANY,CMusikListCtrl::OnListItemSel)	
+    EVT_LIST_ITEM_FOCUSED( wxID_ANY, CMusikListCtrl::OnListItemFocused)
+    EVT_LISTSEL_CHANGED_COMMAND (wxID_ANY, CMusikListCtrl::OnListSelChanged)    
+
 	EVT_MIDDLE_DOWN(  CMusikListCtrl::OnMiddleDown)
 	EVT_RIGHT_DOWN(  CMusikListCtrl::OnRightDown)
     EVT_MOUSEWHEEL(CMusikListCtrl::OnMouseWheel)
 #ifdef WXMUSIK_BUGWORKAROUND_LISTCTRL_CONTEXTMENU
-	EVT_LIST_ITEM_RIGHT_CLICK(-1, CMusikListCtrl::ShowMenu)
+	EVT_LIST_ITEM_RIGHT_CLICK(wxID_ANY, CMusikListCtrl::ShowMenu)
 #else
 	EVT_CONTEXT_MENU( CMusikListCtrl::ShowMenu)
-
 #endif	
 
 #ifdef __WXMSW__
@@ -124,6 +130,35 @@ void CMusikListCtrl::SelectClickedItem(wxMouseEvent &event)
         }
     }
 }
+
+void CMusikListCtrl::OnListItemFocused( wxListEvent& event )
+{
+    event.Skip( m_bSuppressListItemStateEvents == false); 
+}
+
+void CMusikListCtrl::OnListItemSel( wxListEvent& event )
+{
+    if (  m_bSuppressListItemStateEvents )
+        return;
+    wxCommandEvent eventCustom(wxEVT_LISTSEL_CHANGED_COMMAND); 
+    eventCustom.SetInt(event.GetIndex());
+    eventCustom.SetId(event.GetId());
+    wxPostEvent(this,eventCustom);
+    event.Skip();
+}
+
+void CMusikListCtrl::OnListSelChanged(wxCommandEvent& event )
+{
+//    static int i = 0;
+//    if(i++ < 2)
+//    {
+//        wxPostEvent(this,event);
+//        return;
+//    }
+//    i = 0;
+    event.Skip();
+}
+
 bool CMusikListCtrl::OnRescaleColumns()	
 {
 	return true;

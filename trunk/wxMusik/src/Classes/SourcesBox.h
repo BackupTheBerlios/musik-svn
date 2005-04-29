@@ -35,9 +35,9 @@ enum EMUSIK_SOURCES_TYPE
 	MUSIK_SOURCES_NOW_PLAYING,
 	MUSIK_SOURCES_NONE
 };
-
+  
 #include "MusikListCtrl.h"
-
+               
 class SourcesDropTarget;
 class CPictureBox;
 
@@ -67,7 +67,7 @@ public:
 	void ToggleIconsEvt			( wxCommandEvent& event );
 	void CopyFiles				( wxCommandEvent& event );
 	void BeginDrag				( wxListEvent& event );
-	void OnUpdateSel			( wxListEvent& event );
+	void OnUpdateSel			( wxCommandEvent& event );
 	void BeginEditLabel			( wxListEvent& event );
 	void EndEditLabel			( wxListEvent& event );
 	void TranslateKeys			( wxListEvent& event );

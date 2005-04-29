@@ -58,7 +58,6 @@ extern	MusikFrame *g_MusikFrame;
 //------------------------//
 //--- internal objects ---//
 //------------------------//
-#include "Threads/MusikThreads.h"
 #include <wx/image.h>
 #include <wx/imaglist.h>
 #include "Classes/MusikFX.h"
@@ -67,6 +66,7 @@ extern	MusikFrame *g_MusikFrame;
 //forward declarations
 class CMusikPrefs;
 class CMusikPaths;
+class MusikFaderThread;
 
 extern CMusikPaths			g_Paths;			
 extern MusikSongIdArray		g_thePlaylist;	
@@ -80,12 +80,10 @@ extern CMusikFX				g_FX;
 //----------------//
 //--- controls ---//
 //----------------//
-#include "Classes/ActivityAreaCtrl.h"
-#include "Classes/SourcesBox.h"
-#include "Classes/NowPlayingCtrl.h"
-#include "Classes/PlaylistInfoCtrl.h"
 
+class CActivityAreaCtrl;
 class CPlaylistBox;
+class CSourcesBox;
 
 extern CActivityAreaCtrl	*g_ActivityAreaCtrl;
 extern CPlaylistBox		*g_PlaylistBox;	

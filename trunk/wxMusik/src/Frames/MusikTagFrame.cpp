@@ -14,7 +14,8 @@
 #include "myprec.h"
 #include <mpeg/id3v1/id3v1genres.h>
 #include "MusikTagFrame.h"
-
+#include "Classes/PlaylistCtrl.h" //TODO: remove the dependancy
+#include "Classes/ActivityAreaCtrl.h" //TODO: remove the dependancy
 
 //--- related frames ---//
 #include "../Frames/MusikFrame.h"

@@ -15,18 +15,19 @@
 // For compilers that support precompilation, includes "wx/wx.h".
 #include "myprec.h"
 #include "ActivityBox.h"
-
+#include "ActivityAreaCtrl.h"
+#include "Classes/PlaylistCtrl.h" //TODO: remove the dependancy
 //--- globals ---//
-#include "../MusikUtils.h"
-#include "../MusikGlobals.h"
+#include "MusikUtils.h"
+#include "MusikGlobals.h"
 
 //--- frames ---//
-#include "../Frames/MusikFrame.h"
+#include "Frames/MusikFrame.h"
 
 //--- threads ---//
-#include "../Threads/ActivityBoxThreads.h"
+#include "Threads/ActivityBoxThreads.h"
 
-#include "../DNDHelper.h"
+#include "DNDHelper.h"
 //-----------------------//
 //--- CActivityBoxEvt ---//
 //-----------------------//
@@ -73,14 +74,9 @@ CActivityListBox::CActivityListBox( CActivityBox *parent,  wxWindowID id )
 #endif
     InsertColumn( 0, wxT(""), wxLIST_FORMAT_LEFT, 0 );
 //	InsertColumn( 1, wxT(""), wxLIST_FORMAT_LEFT, 0 );
-	m_bIgnoreSetItemStateEvents = false;
 }
 BEGIN_EVENT_TABLE(CActivityListBox, CMusikListCtrl)
 	EVT_CHAR	( CActivityListBox::OnChar )
-	EVT_LIST_ITEM_FOCUSED	( -1, CActivityListBox::OnFocused	)
-//	EVT_LIST_ITEM_SELECTED	( -1, CActivityListBox::OnFocused	)
-//	EVT_LIST_ITEM_ACTIVATED	( -1, CActivityListBox::OnFocused	)
-
 END_EVENT_TABLE()
 
 wxMenu * CActivityListBox::CreateContextMenu()
@@ -133,18 +129,13 @@ void CActivityListBox::ScrollToItem(const wxString & sItem, wxString::caseCompar
 				showitem = wxMax(0, i-centeroffset);
 			}
 			EnsureVisible(showitem);
-			m_bIgnoreSetItemStateEvents = true;
+			SuppressListItemStateEventsWrapper(*this);
 			// Move the focus (*not* the selection) to the matching item.
 			SetItemState(i,wxLIST_STATE_FOCUSED,wxLIST_STATE_FOCUSED);
-			m_bIgnoreSetItemStateEvents = false;
 			break;
 		}
 	}
 
-}
-void CActivityListBox::OnFocused( wxListEvent& event )
-{
-	event.Skip(m_bIgnoreSetItemStateEvents == false);
 }
 void CActivityListBox::RescaleColumns( )
 {
@@ -950,7 +941,6 @@ void CActivityBox::OnRenameThreadEnd( wxCommandEvent& WXUNUSED(event) )
 	m_ActiveThreadController.Join();// waits until threads really ends
 	ResetContents(false);
 	EnableProgress( false );
-	g_PlaylistBox->Update();
 
 	//--- update locally ---//
 	SetProgressType	( 0 );

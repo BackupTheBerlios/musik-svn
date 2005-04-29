@@ -20,24 +20,23 @@
 #endif
 #include "wx/socket.h"
 
-#include "MusikLibrary.h"
+class CMusikSong;
 
 class CTunage
 {
 public:
 	CTunage();
 	~CTunage();
-
+                         
 	void Execute(const CMusikSong& song );
 	void Stopped();
 
 private:
-	CMusikSong m_Song;
 
-	void PostURL();
-	void WriteFile();
-	void RunApp();
+	void PostURL(const CMusikSong& song );
+	void WriteFile(const CMusikSong& song );
+	void RunApp(const CMusikSong& song );
 
-	void ParseTags( wxString& str );
+	void ParseTags( wxString& str ,const CMusikSong& song );
 };
 #endif

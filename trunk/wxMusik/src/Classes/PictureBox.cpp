@@ -17,8 +17,9 @@
 #include "PictureBox.h"
 #include <wx/dir.h>
 //--- globals ---//
-#include "../MusikGlobals.h"
-#include "../MusikUtils.h"
+#include "MusikGlobals.h"
+#include "MusikUtils.h"
+#include "Classes/PlaylistCtrl.h" //TODO: remove the dependancy
 #include "Library/TagLibInfo.h"
 
 BEGIN_EVENT_TABLE(CPictureBox, wxPanel)

@@ -398,9 +398,9 @@ bool CMusikLibrary::FileInLibrary( const wxString & filename, bool fullpath )
 
 	char *query;
 	if ( fullpath )
-		query = sqlite_mprintf( "select songs.songid from songs where filename = %Q;", ( const char* )ConvToUTF8(filename) );
+		query = sqlite_mprintf( "select distinct songs.songid from songs where filename = %Q;", ( const char* )ConvToUTF8(filename) );
 	else
-		query = sqlite_mprintf( "select songs.songid from songs where filename like '%%%q%%';", ( const char* )ConvToUTF8(filename) );
+		query = sqlite_mprintf( "select distinct songs.songid from songs where filename like '%%%q%%';", ( const char* )ConvToUTF8(filename) );
 	
 	//--- run query ---//
 	const char *pTail;
@@ -498,7 +498,7 @@ bool CMusikLibrary::UpdateSongDataFromFile( const wxString & filename )
 	}
 	if(rc == CMetaDataHandler::success )
 	{
-        char *query = sqlite_mprintf( "select songs.songid from songs where filename = %Q;", ( const char* )ConvToUTF8(MetaData.Filename.GetFullPath()) );
+        char *query = sqlite_mprintf( "select distinct songs.songid from songs where filename = %Q;", ( const char* )ConvToUTF8(MetaData.Filename.GetFullPath()) );
         int songid = QueryCount(query);
         sqlite_freemem( query );
         wxASSERT(songid >= 0);

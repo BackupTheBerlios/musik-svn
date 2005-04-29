@@ -61,6 +61,10 @@
 			CharacterSet="2">
 			<Tool
 				Name="VCCLCompilerTool"
+				Optimization="1"
+				GlobalOptimizations="TRUE"
+				FavorSizeOrSpeed="2"
+				OmitFramePointers="TRUE"
 				AdditionalIncludeDirectories="..;&quot;$(FLACDIR)/src&quot;;&quot;$(FLACDIR)/include&quot;;&quot;$(MAC_SDKDIR)&quot;"
 				PreprocessorDefinitions="FLAC__NO_DLL"
 				StringPooling="TRUE"

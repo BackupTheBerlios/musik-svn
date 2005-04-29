@@ -13,8 +13,11 @@
 // For compilers that support precompilation, includes "wx/wx.h".
 #include "myprec.h"
 #include "GaugeSeek.h"
-#include "../MusikGlobals.h"
-#include "../MusikUtils.h" 
+#include "MusikGlobals.h"
+#include "MusikUtils.h" 
+#include "Classes/NowPlayingCtrl.h"
+//--- crossfader, other threads ---//
+#include "Threads/MusikThreads.h"
 
 BEGIN_EVENT_TABLE(CGaugeSeekEvt, wxEvtHandler)
 	EVT_LEFT_DOWN			(CGaugeSeekEvt::OnLeftDown		) 

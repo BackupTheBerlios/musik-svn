@@ -22,6 +22,16 @@
 #include "wx/listctrl.h"
 #include "MusikDefines.h"
 
+extern const wxEventType wxEVT_LISTSEL_CHANGED_COMMAND;
+#define EVT_LISTSEL_CHANGED_COMMAND(id, fn) \
+    DECLARE_EVENT_TABLE_ENTRY( \
+    wxEVT_LISTSEL_CHANGED_COMMAND, id, wxID_ANY, \
+    (wxObjectEventFunction)(wxEventFunction) wxStaticCastEvent( wxCommandEventFunction, &fn ), \
+    (wxObject *) NULL \
+    ),
+
+
+class SuppressListItemStateEventsWrapper;
 
 class CMusikListCtrl : public wxListCtrl
 {
@@ -57,6 +67,15 @@ public:
 #endif
 	DECLARE_EVENT_TABLE()
 protected:
+    void SuppressListItemStateEvents(bool suppress)
+    {
+        m_bSuppressListItemStateEvents = suppress;
+    }
+
+    void OnListItemSel          ( wxListEvent& event );
+    void OnListItemFocused      ( wxListEvent& event );
+    void OnListSelChanged       (wxCommandEvent& event );
+
     void OnSize					( wxSizeEvent& event );
 
     void OnMouseWheel(wxMouseEvent & event);
@@ -85,5 +104,26 @@ private:
 #ifdef __WXMSW__
 	int m_freezeCount;
 #endif
+    bool m_bSuppressListItemStateEvents;
+
+    
+   friend class SuppressListItemStateEventsWrapper;
 };
+
+class SuppressListItemStateEventsWrapper
+{
+public:
+    SuppressListItemStateEventsWrapper(CMusikListCtrl &lc)
+        :m_lc(lc)
+    {
+        m_lc.SuppressListItemStateEvents(true);
+    }
+    ~SuppressListItemStateEventsWrapper()
+    {
+        m_lc.SuppressListItemStateEvents(false);
+    }
+private:
+    CMusikListCtrl & m_lc; 
+};
+
 #endif

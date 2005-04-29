@@ -39,6 +39,10 @@ IMPLEMENT_APP(MusikApp)
 
 //--- related frames ---//
 #include "Frames/MusikFrame.h"
+#include "Classes/PlaylistCtrl.h"
+#include "Classes/SourcesBox.h"
+//--- crossfader, other threads ---//
+#include "Threads/MusikThreads.h"
 
 
 //--- globals ---//

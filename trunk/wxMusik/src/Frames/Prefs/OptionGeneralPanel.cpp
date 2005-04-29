@@ -21,7 +21,9 @@
 
 #include <wx/colordlg.h>
 #include "Frames/MusikFrame.h"
-#include "Classes/ActivityBox.h"
+#include "Classes/ActivityAreaCtrl.h"
+#include "Classes/PlaylistCtrl.h"
+#include "Classes/SourcesBox.h"
 #include "MusikGlobals.h"
 
 enum OBJECT_ID

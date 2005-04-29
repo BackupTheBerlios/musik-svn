@@ -15,20 +15,24 @@
 //--- For compilers that support precompilation, includes "wx/wx.h". ---//
 #include "myprec.h"
 
+#include "Classes/SourcesBox.h"
 #include "PictureBox.h"
+#include "Classes/PlaylistCtrl.h" //TODO: remove the dependancy
+#include "Classes/ActivityAreaCtrl.h" //TODO: remove the dependancy
 //--- globals ---//
-#include "../MusikGlobals.h"
-#include "../MusikUtils.h"
+#include "MusikGlobals.h"
+#include "MusikUtils.h"
 
 //--- frames ---//
-#include "../Frames/MusikFrame.h"
+#include "Frames/MusikFrame.h"
 
 //--- file ops ---//
 #include <wx/textfile.h>
 
 //other
-#include "../DataObjectCompositeEx.h"
-#include "../DNDHelper.h"
+#include "DataObjectCompositeEx.h"
+#include "DNDHelper.h"
+
 
 
 //-------------------------//
@@ -239,13 +243,12 @@ BEGIN_EVENT_TABLE(CSourcesListBox, CMusikListCtrl)
 	EVT_MENU					(MUSIK_SOURCE_CONTEXT_RENAME,					CSourcesListBox::Rename					)	// Sources Context -> Rename
 	EVT_MENU					(MUSIK_SOURCE_CONTEXT_SHOW_ICONS,				CSourcesListBox::ToggleIconsEvt			)	// Sources Context -> Show Icons
 	EVT_MENU					(MUSIK_SOURCE_CONTEXT_COPY_FILES,				CSourcesListBox::CopyFiles				)	// Sources Context -> Copy files
-	EVT_LIST_BEGIN_DRAG			(MUSIK_SOURCES_LISTCTRL,									CSourcesListBox::BeginDrag				)	// user drags files from sources
-	EVT_LIST_ITEM_SELECTED		(MUSIK_SOURCES_LISTCTRL,									CSourcesListBox::OnUpdateSel			)	// sources list sel
-	EVT_LIST_BEGIN_LABEL_EDIT	(MUSIK_SOURCES_LISTCTRL,									CSourcesListBox::BeginEditLabel			)   // user edits a playlist filename
-	EVT_LIST_END_LABEL_EDIT		(MUSIK_SOURCES_LISTCTRL,									CSourcesListBox::EndEditLabel			)   // user edits a playlist filename
-	EVT_LIST_KEY_DOWN			(MUSIK_SOURCES_LISTCTRL,									CSourcesListBox::TranslateKeys			)	// user presses a key in the sources list
-	EVT_LIST_ITEM_ACTIVATED		(MUSIK_SOURCES_LISTCTRL,									CSourcesListBox::OnUpdateSel			)	// user wants to redisplay playlist
-	EVT_LIST_COL_BEGIN_DRAG		(MUSIK_SOURCES_LISTCTRL,									CSourcesListBox::OnSourcesColSize		)
+	EVT_LIST_BEGIN_DRAG			(wxID_ANY,									CSourcesListBox::BeginDrag				)	// user drags files from sources
+	EVT_LIST_BEGIN_LABEL_EDIT	(wxID_ANY,									CSourcesListBox::BeginEditLabel			)   // user edits a playlist filename
+	EVT_LIST_END_LABEL_EDIT		(wxID_ANY,									CSourcesListBox::EndEditLabel			)   // user edits a playlist filename
+	EVT_LIST_KEY_DOWN			(wxID_ANY,									CSourcesListBox::TranslateKeys			)	// user presses a key in the sources list
+	EVT_LIST_COL_BEGIN_DRAG		(wxID_ANY,									CSourcesListBox::OnSourcesColSize		)
+    EVT_LISTSEL_CHANGED_COMMAND       (wxID_ANY,							CSourcesListBox::OnUpdateSel			)    
 END_EVENT_TABLE()
 
 CSourcesListBox::CSourcesListBox( wxWindow* parent )
@@ -441,10 +444,11 @@ void CSourcesListBox::BeginDrag( wxListEvent &WXUNUSED(event) )
 	}
 }
 
-void CSourcesListBox::OnUpdateSel( wxListEvent& pEvent )
+
+void CSourcesListBox::OnUpdateSel( wxCommandEvent& pEvent )
 {
-	if (  !m_Deleting )
-        UpdateSel( pEvent.GetIndex() );	
+    wxTheApp->Yield(true);   // call yield to let the SetItemState changes go through the system.
+    UpdateSel( pEvent.GetInt() );	
 }
 
 void CSourcesListBox::UpdateSel( size_t index )
@@ -455,6 +459,7 @@ void CSourcesListBox::UpdateSel( size_t index )
 	if(	bInFunction )
 		return;
 	bInFunction = true;
+    wxBusyCursor  busycursor;
 	if((index == (size_t)-2) || (index == (size_t)-4))
 	{	// IF -2, this is used to protect playlists from being accidently changed
 		// if -4 we actually want to change ciew(not only selection)
@@ -775,7 +780,8 @@ void CSourcesListBox::DelSel()
 	//--- as there is no need to update the sel until	---//
 	//--- we're done									---//
 	//-----------------------------------------------------//
-	m_Deleting = true;
+    SuppressListItemStateEventsWrapper(*this);
+    m_Deleting = true;
 
 	//--- where are we selected? ---//
 	int nIndex = - 1;

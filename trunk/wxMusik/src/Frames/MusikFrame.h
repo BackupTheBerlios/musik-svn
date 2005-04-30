@@ -241,7 +241,6 @@ private:
 	
 	wxGauge	  *	m_pProgressGauge;
 	wxSashLayoutWindow *m_pBottomPanel;
-kde-icons-nuvola 
 };
 
 #endif

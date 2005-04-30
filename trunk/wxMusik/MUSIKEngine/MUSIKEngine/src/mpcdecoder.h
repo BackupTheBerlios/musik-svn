@@ -112,7 +112,7 @@ class MUSIKMPCDecoder: public MUSIKDecoder
         typedef struct reader_data_t {
             FILE *file;
             long size;
-            BOOL seekable;
+            mpc_bool_t seekable;
         } reader_data;
 
         MPCStream();
@@ -139,10 +139,10 @@ class MUSIKMPCDecoder: public MUSIKDecoder
         reader_data data;
     private:
         static mpc_int32_t read_impl(void *data, void *ptr, mpc_int32_t size);
-        static BOOL seek_impl(void *data, mpc_int32_t offset);
+        static mpc_bool_t seek_impl(void *data, mpc_int32_t offset);
         static mpc_int32_t tell_impl(void *data);
         static mpc_int32_t get_size_impl(void *data);
-        static BOOL canseek_impl(void *data);
+        static mpc_bool_t canseek_impl(void *data);
 
     };
 

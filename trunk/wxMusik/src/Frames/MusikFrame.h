@@ -14,7 +14,10 @@
 #define MUSIK_FRAME_H
 
 //--- objects ---//
-
+#include <wx/frame.h>
+#include <wx/sizer.h>
+#include <wx/bitmap.h>
+#include <wx/gauge.h>
 #include <wx/socket.h>
 #ifdef wxHAS_TASK_BAR_ICON
 #include "wx/taskbar.h"
@@ -38,6 +41,10 @@ private:
 };
 
 #endif
+
+
+class wxSashEvent;
+class wxSashLayoutWindow;
 
 class CNowPlayingCtrl;
 class MusikLibraryFrame;
@@ -234,7 +241,7 @@ private:
 	
 	wxGauge	  *	m_pProgressGauge;
 	wxSashLayoutWindow *m_pBottomPanel;
-
+kde-icons-nuvola 
 };
 
 #endif

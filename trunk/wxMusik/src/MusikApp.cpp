@@ -127,7 +127,7 @@ IMPLEMENT_APP(MusikApp)
 #pragma comment(lib,"comctl32")
 #pragma comment(lib,"wsock32")
 #pragma comment(lib,"rpcrt4")
-#endif __VISUALC__
+#endif //__VISUALC__
 
 
 

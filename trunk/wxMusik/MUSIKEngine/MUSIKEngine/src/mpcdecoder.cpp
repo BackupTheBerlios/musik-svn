@@ -129,7 +129,7 @@ MUSIKMPCDecoder::MPCStream::read_impl(void *data, void *ptr, mpc_int32_t size)
     return fread(ptr, 1, size, d->file);
 }
 
-BOOL
+mpc_bool_t
 MUSIKMPCDecoder::MPCStream::seek_impl(void *data, mpc_int32_t offset)
 {
     reader_data *d = (reader_data *) data;
@@ -150,7 +150,7 @@ MUSIKMPCDecoder::MPCStream::get_size_impl(void *data)
     return d->size;
 }
 
-BOOL
+mpc_bool_t
 MUSIKMPCDecoder::MPCStream::canseek_impl(void *data)
 {
     reader_data *d = (reader_data *) data;

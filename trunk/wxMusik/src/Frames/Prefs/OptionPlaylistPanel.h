@@ -20,7 +20,7 @@ protected:
 
 
 private:
-    wxCheckBox* chkPLColumnEnable[NPLAYLISTCOLUMNS];
-    wxComboBox*	cmbPLColumnStatic[NPLAYLISTCOLUMNS];
+    wxCheckBox* chkPLColumnEnable[PlaylistColumn::NCOLUMNS];
+    wxComboBox*	cmbPLColumnStatic[PlaylistColumn::NCOLUMNS];
 };
 #endif

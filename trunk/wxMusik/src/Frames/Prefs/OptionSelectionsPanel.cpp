@@ -86,7 +86,7 @@ bool OptionSelectionsPanel::DoSavePrefs()
     {
         if ( cmbActivityBoxes[i]->GetSelection() != wxGetApp().Prefs.nActBoxType[i] )
         {
-            wxGetApp().Prefs.nActBoxType[i] = (EMUSIK_ACTIVITY_TYPE)cmbActivityBoxes[i]->GetSelection();
+            wxGetApp().Prefs.nActBoxType[i] = (PlaylistColumn::eId)cmbActivityBoxes[i]->GetSelection();
             g_ActivityAreaCtrl->ReCreate();
             g_MusikFrame->Layout();
         }

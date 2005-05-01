@@ -40,7 +40,9 @@ public:
 	void UpdateSel( CActivityBox *pSel );
 	bool ReCreate();
 	void ResetAllContents( bool bUpdatePlaylist = true );
-	CActivityBox* GetActivityBox(EMUSIK_ACTIVITY_TYPE eType);
+    CActivityBox* GetActivityBox(size_t nIndex);
+    CActivityBox* GetActivityBox(PlaylistColumn::eType Type);
+    size_t GetActivityBoxCount();
 	bool Show(bool show = true);
 	void SetParent( int ACTIVITY_BOX_ID, bool bUpdate = false );
 

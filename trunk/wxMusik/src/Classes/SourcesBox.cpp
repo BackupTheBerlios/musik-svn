@@ -1138,10 +1138,10 @@ wxString CSourcesListBox::PromptDynamicPlaylist( wxString sQuery )
 	wxString sInfo;
 	sInfo += _("The following fields can be used in your query");
 	sInfo +=wxT(":\n");
-	for( size_t i = 0; i < NPLAYLISTCOLUMNS ; i ++)
+	for( size_t i = 0; i < PlaylistColumn::NCOLUMNS ; i ++)
 	{
-		sInfo += g_PlaylistColumnDBNames[i];
-		if(i < NPLAYLISTCOLUMNS - 1)
+		sInfo += g_PlaylistColumn[i].DBName;
+		if(i < PlaylistColumn::NCOLUMNS - 1)
 			sInfo += wxT(", ");
 		if((i % 8) == 7)
 			sInfo += wxT("\n");

@@ -20,8 +20,8 @@
 #ifndef WX_PRECOMP
 	#include "wx/wx.h"
 #endif
-#include "../ThreadController.h"
-
+#include "ThreadController.h"
+#include "PlaylistColumn.h"
 #include "PlaylistInfoCtrl.h"
 //--- definition MusikSongIdArray is here ---//
 #include "MusikLibrary.h"
@@ -193,7 +193,7 @@ private:
 	//--- virtual functions ---//
 	//-------------------------//
     virtual	wxString		OnGetItemText	(long item, long column) const;
-	virtual	wxString		GetItemText(long item, EPLAYLISTCOLUMNS eColumnType) const;
+    virtual	wxString		GetItemText(long item, PlaylistColumn::eId eColumnId) const;
     virtual int				OnGetItemImage	(long item) const;
     virtual	wxListItemAttr*	OnGetItemAttr	(long item) const;
 

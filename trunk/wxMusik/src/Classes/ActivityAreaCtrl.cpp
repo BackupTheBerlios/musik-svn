@@ -361,11 +361,15 @@ void CActivityAreaCtrl::OnActivityBoxSelected( wxListEvent& event )
 	::wxPostEvent( this, ev );
 }
 
-CActivityBox* CActivityAreaCtrl::GetActivityBox(EMUSIK_ACTIVITY_TYPE eType)
+CActivityBox* CActivityAreaCtrl::GetActivityBox(size_t nIndex)
+{
+    return m_ActivityBox[nIndex];
+}
+CActivityBox* CActivityAreaCtrl::GetActivityBox(PlaylistColumn::eType Type)
 {
 	for(size_t i = 0; i < ActivityBoxesMaxCount; i++)
 	{
-		if( m_ActivityBox[i] && m_ActivityBox[i]->GetActivityType() == eType )
+		if( m_ActivityBox[i] && m_ActivityBox[i]->Type() == Type )
 		{
 			return m_ActivityBox[i];
 		}
@@ -373,6 +377,17 @@ CActivityBox* CActivityAreaCtrl::GetActivityBox(EMUSIK_ACTIVITY_TYPE eType)
 	return NULL;
 }
 
+size_t CActivityAreaCtrl::GetActivityBoxCount()
+{
+    for(size_t i = 0; i < ActivityBoxesMaxCount; i++)
+    {
+        if( m_ActivityBox[i] == NULL)
+        {
+            return i;
+        }
+    }
+    return ActivityBoxesMaxCount;
+}
 //----------------------------//
 //--- item activated event ---//
 //----------------------------//

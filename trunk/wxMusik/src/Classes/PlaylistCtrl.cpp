@@ -389,9 +389,9 @@ wxMenu * CPlaylistCtrl::CreateContextMenu()
 
 	//--- columns context menu ---//
 	wxMenu *playlist_context_display_menu = new wxMenu;
-	for(size_t i = 0 ; i < NPLAYLISTCOLUMNS;i ++)
+	for(size_t i = 0 ; i < PlaylistColumn::NCOLUMNS;i ++)
 	{
-		playlist_context_display_menu->AppendCheckItem( MUSIK_PLAYLIST_DISPLAY_FIRST + i,wxGetTranslation(g_PlaylistColumnLabels[i]) );
+		playlist_context_display_menu->AppendCheckItem( MUSIK_PLAYLIST_DISPLAY_FIRST + i,wxGetTranslation(g_PlaylistColumn[i].Label) );
 	}
 	playlist_context_display_menu->AppendSeparator();
 	playlist_context_display_menu->AppendCheckItem( MUSIK_PLAYLIST_DISPLAY_FIT,				_( "Fit Columns" ) );
@@ -423,18 +423,13 @@ wxMenu * CPlaylistCtrl::CreateContextMenu()
 		playlist_context_menu->Append( MUSIK_PLAYLIST_CLEARPLAYERLIST,			_( "&Clear List" ),					wxT("") );
 
 	wxMenu *  playlist_context_show_in_library_menu = new wxMenu;
-
-	if(g_ActivityAreaCtrl->GetActivityBox(MUSIK_LBTYPE_ARTISTS))
-		playlist_context_show_in_library_menu->Append( MUSIK_PLAYLIST_CONTEXT_SHOW_IN_LIBRARY_ARTIST,_( "This artist" ),	wxT("") );
-	if(g_ActivityAreaCtrl->GetActivityBox(MUSIK_LBTYPE_ALBUMS))
-		playlist_context_show_in_library_menu->Append( MUSIK_PLAYLIST_CONTEXT_SHOW_IN_LIBRARY_ALBUM,_( "This album" ),	wxT("") );
-	if(g_ActivityAreaCtrl->GetActivityBox(MUSIK_LBTYPE_GENRES))
-		playlist_context_show_in_library_menu->Append( MUSIK_PLAYLIST_CONTEXT_SHOW_IN_LIBRARY_GENRE,_( "This genre" ),	wxT("") );
-	if(g_ActivityAreaCtrl->GetActivityBox(MUSIK_LBTYPE_YEARS))
-		playlist_context_show_in_library_menu->Append( MUSIK_PLAYLIST_CONTEXT_SHOW_IN_LIBRARY_YEAR,_( "This year" ),	wxT("") );
-
-
-
+    size_t cnt = g_ActivityAreaCtrl->GetActivityBoxCount();
+    for(size_t i = 0; i < cnt; i ++)
+    {
+        playlist_context_show_in_library_menu->Append( MUSIK_PLAYLIST_CONTEXT_SHOW_IN_LIBRARY_ARTIST,
+                                                        _( "This ") + g_ActivityAreaCtrl->GetActivityBox(i)->TypeAsTranslatedString()
+                                                        ,	wxT("") );
+    }
 	playlist_context_menu->Append( MUSIK_PLAYLIST_CONTEXT_SHOW_IN_LIBRARY_NODE,_( "&Show in Library" ),	playlist_context_show_in_library_menu );
 	playlist_context_menu->Append( MUSIK_PLAYLIST_CONTEXT_OPEN_FOLDER_IN_FILEMANAGER,_( "&Open Folder in File Manager" ),wxT(""));
 	
@@ -476,7 +471,7 @@ void CPlaylistCtrl::OnColumnClick( wxListEvent& event )
 
 	bool desc = ( m_aColumnSorting.Item( ActualColumn ) < 0 );
 
-	wxGetApp().Library.SetSortOrderField( ActualColumn, desc );
+	wxGetApp().Library.SetSortOrderColumn( g_PlaylistColumn[ActualColumn], desc );
 	wxGetApp().Library.RedoLastQuerySongsWhere( *m_pPlaylist ,true);//sorted
 	Update();
 }
@@ -509,7 +504,7 @@ void CPlaylistCtrl::SaveColumns()
 
 		if ( wxGetApp().Prefs.bPlaylistColumnDynamic[nCurrCol] == 0 )
 		{
-			wxGetApp().Prefs.nPlaylistColumnSize[nCurrCol] = GetColumnWidth( i );
+			wxGetApp().Prefs.PlaylistColumnSize[nCurrCol] = GetColumnWidth( i );
 			nStaticWidth += GetColumnWidth( i );
 		}
 	}
@@ -532,7 +527,7 @@ void CPlaylistCtrl::SaveColumns()
 			if ( n_Pos < 1 )
 				n_Pos = 1;
 
-			wxGetApp().Prefs.nPlaylistColumnSize[nCurrCol] = n_Pos;
+			wxGetApp().Prefs.PlaylistColumnSize[nCurrCol] = n_Pos;
 		}
 	}
 }
@@ -805,7 +800,7 @@ wxString CPlaylistCtrl::OnGetItemText(long item, long column) const
 	//--- so go ahead and add the items.				---//
 	//-----------------------------------------------------//
 
-	EPLAYLISTCOLUMNS eCurrType = (EPLAYLISTCOLUMNS)m_ColumnOrder.Item( column );
+    PlaylistColumn::eId eCurrType = (PlaylistColumn::eId)m_ColumnOrder.Item( column );
 	return GetItemText(item,eCurrType);
 
 }
@@ -815,28 +810,28 @@ wxString CPlaylistCtrl::EmptyColumnString()	const
 	return wxGetApp().Prefs.bDisplayEmptyPlaylistColumnAsUnkown == true ? _( "<unknown>" ):wxEmptyString;
 }
 
-wxString CPlaylistCtrl::GetItemText(long item, EPLAYLISTCOLUMNS eColumnType) const
+wxString CPlaylistCtrl::GetItemText(long item, PlaylistColumn::eId eColumnId) const
 {
 	if(m_pPlaylist && item >= (long)m_pPlaylist->GetCount())
 		return wxT( "" );
     const std::auto_ptr<CMusikSong> pSong = m_pPlaylist->Item ( item ).Song();
-	switch ( eColumnType )
+	switch ( eColumnId )
 	{
-	case PLAYLISTCOLUMN_RATING:
+	case PlaylistColumn::RATING:
 		break;
 
-	case PLAYLISTCOLUMN_TRACK:
+	case PlaylistColumn::TRACK:
 		if ( pSong->MetaData.nTracknum > 0 )
 			return wxString::Format( wxT( "%d" ), pSong->MetaData.nTracknum );
 		else
 			return wxT( "-" );
 		break;
 
-	case PLAYLISTCOLUMN_TITLE:
+	case PlaylistColumn::TITLE:
 		return SanitizedString(ConvFromUTF8( pSong->MetaData.Title ));		
 		break;
 
-	case PLAYLISTCOLUMN_ARTIST:
+	case PlaylistColumn::ARTIST:
 		if ( pSong->MetaData.Artist.IsEmpty() )
 			return EmptyColumnString();
 			
@@ -846,35 +841,35 @@ wxString CPlaylistCtrl::GetItemText(long item, EPLAYLISTCOLUMNS eColumnType) con
 		}
 		break;
 
-	case PLAYLISTCOLUMN_ALBUM:
+	case PlaylistColumn::ALBUM:
 		if ( pSong->MetaData.Album.IsEmpty() )
 			return  EmptyColumnString();
 		else
 			return SanitizedString(ConvFromUTF8( pSong->MetaData.Album ));
 		break;
 
-	case PLAYLISTCOLUMN_YEAR:
+	case PlaylistColumn::YEAR:
 		if ( pSong->MetaData.Year.IsEmpty() )
 			return  EmptyColumnString();
 		else
 			return ConvFromUTF8(pSong->MetaData.Year);
 		break;
 
-	case PLAYLISTCOLUMN_GENRE:
+	case PlaylistColumn::GENRE:
 		if ( pSong->MetaData.Genre.IsEmpty() )
 			return  EmptyColumnString();
 		else
 			return SanitizedString(ConvFromUTF8( pSong->MetaData.Genre ));
 		break;
 
-	case PLAYLISTCOLUMN_TIMES_PLAYED:
+	case PlaylistColumn::TIMES_PLAYED:
 		{
 
 			return (pSong->TimesPlayed > 0) ? wxString() << pSong->TimesPlayed : wxString(wxT("-"));
 		}
 		break;
 
-	case PLAYLISTCOLUMN_LAST_PLAYED:
+	case PlaylistColumn::LAST_PLAYED:
 		if ( pSong->LastPlayed != 0.0 )
 		{
 			return JDN2LocalTimeString( pSong->LastPlayed );
@@ -883,22 +878,22 @@ wxString CPlaylistCtrl::GetItemText(long item, EPLAYLISTCOLUMNS eColumnType) con
 			return _("Never");
 		break;
 
-	case PLAYLISTCOLUMN_TIME:
+	case PlaylistColumn::TIME:
 		return MStoStr( pSong->MetaData.nDuration_ms );
 		break;
 
-	case PLAYLISTCOLUMN_BITRATE:
+	case PlaylistColumn::BITRATE:
 		return IntTowxString( pSong->MetaData.nBitrate );
 		break;
 
-	case PLAYLISTCOLUMN_FILENAME:
+	case PlaylistColumn::FILENAME:
 		{
 			return pSong->MetaData.Filename.GetFullPath();
 		}
 		break;
-	case PLAYLISTCOLUMN_NOTES:
+	case PlaylistColumn::NOTES:
 		return ConvFromUTF8(pSong->MetaData.Notes);
-	case PLAYLISTCOLUMN_TIMEADDED:
+	case PlaylistColumn::TIMEADDED:
 		{
 		    return JDN2LocalTimeString( pSong->TimeAdded );
 		}
@@ -916,7 +911,7 @@ void CPlaylistCtrl::FindColumnOrder()
 {
 	m_ColumnOrder.Clear();
 	m_aColumnSorting.Clear();
-	for ( int i = 0; i < NPLAYLISTCOLUMNS; i++ )
+	for ( int i = 0; i < PlaylistColumn::NCOLUMNS; i++ )
 	{
 		if ( wxGetApp().Prefs.bPlaylistColumnEnable[i] == 1 )
 		{
@@ -1096,7 +1091,7 @@ wxString CPlaylistCtrl::GetFilename( int nItem )
 //----------------------------------------//
 void CPlaylistCtrl::ShowIcons()
 {
-	if ( wxGetApp().Prefs.bPlaylistColumnEnable[PLAYLISTCOLUMN_RATING] == 0 )
+	if ( wxGetApp().Prefs.bPlaylistColumnEnable[PlaylistColumn::RATING] == 0 )
 		SetImageList( g_NullImageList, wxIMAGE_LIST_SMALL );
 	else
 		SetImageList( g_RatingImages, wxIMAGE_LIST_SMALL );
@@ -1180,7 +1175,7 @@ void CPlaylistCtrl::RescaleColumns( bool bFreeze, bool WXUNUSED(bSave), bool bAu
 	{
 		nCurrItem = m_ColumnOrder.Item( i );
 		if ( wxGetApp().Prefs.bPlaylistColumnDynamic[nCurrItem] == 0 )
-			nStaticWidth += wxGetApp().Prefs.nPlaylistColumnSize[nCurrItem];
+			nStaticWidth += wxGetApp().Prefs.PlaylistColumnSize[nCurrItem];
 	}
 
 	//-------------------------------------------------//
@@ -1193,7 +1188,7 @@ void CPlaylistCtrl::RescaleColumns( bool bFreeze, bool WXUNUSED(bSave), bool bAu
 		{
 			nCurrItem = m_ColumnOrder.Item( i );
 			if ( wxGetApp().Prefs.bPlaylistColumnDynamic[nCurrItem] == 1 )
-				nTotalPercent += wxGetApp().Prefs.nPlaylistColumnSize[nCurrItem];
+				nTotalPercent += wxGetApp().Prefs.PlaylistColumnSize[nCurrItem];
 		}
 
 		if ( nTotalPercent == 0 )
@@ -1221,7 +1216,7 @@ void CPlaylistCtrl::RescaleColumns( bool bFreeze, bool WXUNUSED(bSave), bool bAu
 		//--- set static size	---//
 		//-------------------------//
 		if ( wxGetApp().Prefs.bPlaylistColumnDynamic[nCurrItem] == 0 )
-			SetColumnWidth( i, wxGetApp().Prefs.nPlaylistColumnSize[nCurrItem] );
+			SetColumnWidth( i, wxGetApp().Prefs.PlaylistColumnSize[nCurrItem] );
 
 		//-------------------------//
 		//--- set dynamic size	---//
@@ -1232,13 +1227,13 @@ void CPlaylistCtrl::RescaleColumns( bool bFreeze, bool WXUNUSED(bSave), bool bAu
 
 			if ( wxGetApp().Prefs.bPlaylistSmartColumns == 1 || bAutoFit )
 			{
-				f_Per = ( (float)wxGetApp().Prefs.nPlaylistColumnSize[nCurrItem] / (float)nTotalPercent ) * nRemainingWidth;
+				f_Per = ( (float)wxGetApp().Prefs.PlaylistColumnSize[nCurrItem] / (float)nTotalPercent ) * nRemainingWidth;
 				n_Per = (int)f_Per;
 			}
 
 			else
 			{
-				f_Per = ( (float)wxGetApp().Prefs.nPlaylistColumnSize[nCurrItem] / 100.0f ) * nRemainingWidth;
+				f_Per = ( (float)wxGetApp().Prefs.PlaylistColumnSize[nCurrItem] / 100.0f ) * nRemainingWidth;
 				n_Per = (int)f_Per;		
 			}
 			if(n_Per > client_size.GetWidth()/2)
@@ -1293,7 +1288,7 @@ void CPlaylistCtrl::ResetColumns( bool update, bool rescale )
 	for ( size_t i = 0; i < m_ColumnOrder.GetCount(); i++ )
 	{
 		nCurrType = m_ColumnOrder.Item( i );
-		InsertColumn( i, wxGetTranslation(g_PlaylistColumnLabels[nCurrType]), g_PlaylistColumnAlign[nCurrType], 50 );
+		InsertColumn( i, wxGetTranslation(g_PlaylistColumn[nCurrType].Label), g_PlaylistColumn[nCurrType].Aligned, 50 );
 	}
 
 	ShowIcons();
@@ -1647,27 +1642,11 @@ void CPlaylistCtrl::OnShowInLibrary( wxCommandEvent& event )
 {
 	int id = event.GetId() - MUSIK_PLAYLIST_CONTEXT_SHOW_IN_LIBRARY_ARTIST;
 
-	CActivityBox * pBox = g_ActivityAreaCtrl->GetActivityBox((EMUSIK_ACTIVITY_TYPE)(MUSIK_LBTYPE_ARTISTS + id));
+	CActivityBox * pBox = g_ActivityAreaCtrl->GetActivityBox((size_t)id);
 	wxString sEntry;
 	if ( m_nCurSel > -1 && pBox)
 	{
-		EPLAYLISTCOLUMNS column = PLAYLISTCOLUMN_ARTIST;
-		switch(MUSIK_LBTYPE_ARTISTS + id)
-		{
-		case MUSIK_LBTYPE_ARTISTS:
-			column = PLAYLISTCOLUMN_ARTIST;
-			break;
-		case MUSIK_LBTYPE_ALBUMS:
-			column = PLAYLISTCOLUMN_ALBUM;
-			break;
-		case MUSIK_LBTYPE_GENRES:
-			column = PLAYLISTCOLUMN_GENRE;
-			break;
-		case MUSIK_LBTYPE_YEARS:
-			column = PLAYLISTCOLUMN_YEAR;
-			break;
-		}
-		sEntry = GetItemText( m_nCurSel, column);
+		sEntry = GetItemText( m_nCurSel, pBox->Type());
 		g_ActivityAreaCtrl->ResetAllContents();
 		g_SourcesCtrl->SelectLibrary();
 		pBox->SetFocus();
@@ -1735,12 +1714,12 @@ CSearchBox::CSearchBox( wxWindow *parent )
 	pSizer->Add( buttonClear, 0, wxADJUST_MINSIZE |wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM,4);
 	pSizer->Add( choiceSearchmode, 0, wxADJUST_MINSIZE |wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM,4);
 	pSizer->Add( choiceFuzzySearchmode, 0, wxADJUST_MINSIZE |wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM,4);
-	m_arrFieldsToSearch.Add(g_PlaylistColumnDBNames[PLAYLISTCOLUMN_ARTIST]);
-	m_arrFieldsToSearch.Add(g_PlaylistColumnDBNames[PLAYLISTCOLUMN_ALBUM]);
-	m_arrFieldsToSearch.Add(g_PlaylistColumnDBNames[PLAYLISTCOLUMN_TITLE]);
-	m_arrFieldsToSearch.Add(g_PlaylistColumnDBNames[PLAYLISTCOLUMN_FILENAME]);
-	m_arrFieldsToSearch.Add(g_PlaylistColumnDBNames[PLAYLISTCOLUMN_NOTES]);
-	m_arrFieldsToSearch.Add(g_PlaylistColumnDBNames[PLAYLISTCOLUMN_GENRE]);
+	m_arrFieldsToSearch.Add(g_PlaylistColumn[PlaylistColumn::ARTIST].DBName);
+	m_arrFieldsToSearch.Add(g_PlaylistColumn[PlaylistColumn::ALBUM].DBName);
+	m_arrFieldsToSearch.Add(g_PlaylistColumn[PlaylistColumn::TITLE].DBName);
+	m_arrFieldsToSearch.Add(g_PlaylistColumn[PlaylistColumn::FILENAME].DBName);
+	m_arrFieldsToSearch.Add(g_PlaylistColumn[PlaylistColumn::NOTES].DBName);
+	m_arrFieldsToSearch.Add(g_PlaylistColumn[PlaylistColumn::GENRE].DBName);
 	SetSizer(pSizer);
 }
 CSearchBox::~CSearchBox()

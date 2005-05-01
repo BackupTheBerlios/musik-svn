@@ -19,8 +19,8 @@
 #ifndef WX_PRECOMP
 	#include "wx/wx.h"
 #endif 
-#include "../MusikDefines.h"
-#include "../MusikUtils.h"
+#include "PlaylistColumn.h"
+#include "MusikUtils.h"
 #include <wx/config.h> 
 #include <wx/confbase.h>
 #include <wx/fileconf.h> 
@@ -194,7 +194,7 @@ typedef CConfigSetting<wxString,wxString,PathEncoder>  CConfigSettingPath;
 #endif
 
 
-static const bool DefaultPlaylistColumnEnable[NPLAYLISTCOLUMNS] = {
+static const bool DefaultPlaylistColumnEnable[PlaylistColumn::NCOLUMNS] = {
 	true,
 	true,
 	true,
@@ -210,7 +210,7 @@ static const bool DefaultPlaylistColumnEnable[NPLAYLISTCOLUMNS] = {
 	false,
 	false
 };
-static const int DefaultPlaylistColumnSize[NPLAYLISTCOLUMNS]   ={
+static const int DefaultPlaylistColumnSize[PlaylistColumn::NCOLUMNS]   ={
 		50,
 		50,
 		40,
@@ -227,7 +227,7 @@ static const int DefaultPlaylistColumnSize[NPLAYLISTCOLUMNS]   ={
 		40
 };
 
-static const bool DefaultPlaylistColumnDynamic[NPLAYLISTCOLUMNS] = {
+static const bool DefaultPlaylistColumnDynamic[PlaylistColumn::NCOLUMNS] = {
 		false,
 		false,
 		true,
@@ -253,7 +253,14 @@ static const wxString DefaultPlayerHotkeys[MUSIK_HOTKEYID_LAST] =
 		wxT("ALT SHIFT + N")
 };
 #endif
-static const EMUSIK_ACTIVITY_TYPE DefaultActBoxType[ActivityBoxesMaxCount] = {MUSIK_LBTYPE_ARTISTS,MUSIK_LBTYPE_ALBUMS,MUSIK_LBTYPE_NULL,MUSIK_LBTYPE_NULL};
+static const PlaylistColumn::eId DefaultActBoxType[ActivityBoxesMaxCount] = 
+{
+    PlaylistColumn::ARTIST,
+    PlaylistColumn::ALBUM,
+    PlaylistColumn::INVALID,
+    PlaylistColumn::INVALID
+};
+
 #ifdef _MSC_VER
 #pragma warning(disable : 4355)	
 #endif
@@ -370,10 +377,10 @@ public:
 		,nStreamingReBufferPercent(this,wxT( "StreamingReBufferPercent" ),80)
 
 		,bPlaylistColumnEnable(this,wxT( "PlaylistColumn%dEnable"	),DefaultPlaylistColumnEnable)
-		,nPlaylistColumnSize(this,wxT( "PlaylistColumn%dSize"	),DefaultPlaylistColumnSize)
+		,PlaylistColumnSize(this,wxT( "PlaylistColumn%dSize"	),DefaultPlaylistColumnSize)
 		,bPlaylistColumnDynamic(this,wxT( "PlaylistColumn%dDynamic"	),DefaultPlaylistColumnDynamic)
 
-		,nActBoxType(this,	wxT( "ActivityBox%d" )   ,DefaultActBoxType)
+		,nActBoxType(this,	wxT( "ActivityBox%dType" )   ,DefaultActBoxType)
 
 		,eSearchmode(this,wxT( "Searchmode" ),MUSIK_SEARCHMODE_ALLWORDS)
 		,eFuzzySearchmode(this,wxT( "FuzzySearchmode" ),MUSIK_FUZZYSEARCHMODE_NONE)
@@ -504,11 +511,11 @@ public:
 	CConfigSettingInt nStreamingPreBufferPercent;
 	CConfigSettingInt nStreamingReBufferPercent;
 
-	CConfigSettingArray<bool,NPLAYLISTCOLUMNS>  bPlaylistColumnEnable;
-	CConfigSettingArray<int,NPLAYLISTCOLUMNS> nPlaylistColumnSize;
-	CConfigSettingArray<bool,NPLAYLISTCOLUMNS> bPlaylistColumnDynamic;
+	CConfigSettingArray<bool,PlaylistColumn::NCOLUMNS>  bPlaylistColumnEnable;
+	CConfigSettingArray<int,PlaylistColumn::NCOLUMNS> PlaylistColumnSize;
+	CConfigSettingArray<bool,PlaylistColumn::NCOLUMNS> bPlaylistColumnDynamic;
 
-	CConfigSettingArray<int,ActivityBoxesMaxCount,1,EMUSIK_ACTIVITY_TYPE> nActBoxType;
+    CConfigSettingArray<int,ActivityBoxesMaxCount,1,PlaylistColumn::eId> nActBoxType;
 
 	CConfigSetting<Value<int>,EMUSIK_SEARCHMODE> eSearchmode;
 	CConfigSetting<Value<int>,EMUSIK_FUZZYSEARCHMODE> eFuzzySearchmode;

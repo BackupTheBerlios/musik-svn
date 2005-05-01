@@ -274,7 +274,7 @@ MusikTagFrame::MusikTagFrame( wxFrame* pParent, CPlaylistCtrl * pPlaylistctrl, i
 	//-------------------//	
 	// get genre from db
 	wxArrayString arrGenre;
-	wxGetApp().Library.GetAllGenres(arrGenre);
+    wxGetApp().Library.GetAllOfColumn(g_PlaylistColumn[PlaylistColumn::GENRE], arrGenre);
 
 	// add standard id3v1 genres to array
 	for ( int i = 0; i < 148; i++ )

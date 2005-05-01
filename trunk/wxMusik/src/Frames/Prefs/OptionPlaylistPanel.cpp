@@ -30,16 +30,16 @@ wxSizer * OptionPlaylistPanel::CreateControls()
     //---------------------------------//
     wxBoxSizer *vsOptions_Playlist = new wxBoxSizer( wxVERTICAL );
 
-    wxFlexGridSizer *vsOptions_Playlist_Columns = new wxFlexGridSizer( NPLAYLISTCOLUMNS, 2, 2, 2 );
+    wxFlexGridSizer *vsOptions_Playlist_Columns = new wxFlexGridSizer( PlaylistColumn::NCOLUMNS, 2, 2, 2 );
     vsOptions_Playlist->Add(vsOptions_Playlist_Columns);
     //---------------------------//
     //--- Options -> Playlist ---//
     //---------------------------//
     const wxString choicesCMBStatic[] = {  _("Static"),	 _("Dynamic") };
 
-    for(size_t i = 0; i < NPLAYLISTCOLUMNS; i++)
+    for(size_t i = 0; i < PlaylistColumn::NCOLUMNS; i++)
     {
-        chkPLColumnEnable[i] = new  wxCheckBox_NoFlicker(	this, -1, wxString(wxGetTranslation(g_PlaylistColumnLabels[i]))+wxT(":"));
+        chkPLColumnEnable[i] = new  wxCheckBox_NoFlicker(	this, -1, wxString(wxGetTranslation(g_PlaylistColumn[i].Label))+wxT(":"));
         vsOptions_Playlist_Columns->Add(chkPLColumnEnable[i],		0, wxALIGN_CENTER_VERTICAL | wxADJUST_MINSIZE );
         cmbPLColumnStatic[i] = new wxComboBox( this, -1, wxT(""), wxDefaultPosition, wxDefaultSize, WXSIZEOF(choicesCMBStatic), choicesCMBStatic, wxCB_READONLY );
         vsOptions_Playlist_Columns->Add( cmbPLColumnStatic[i],		0 );
@@ -54,7 +54,7 @@ void OptionPlaylistPanel::DoLoadPrefs()
     //---------------------------//
     //--- options -> playlist ---//
     //---------------------------//
-    for(size_t i = 0 ;i < NPLAYLISTCOLUMNS; i ++)
+    for(size_t i = 0 ;i < PlaylistColumn::NCOLUMNS; i ++)
     {
         chkPLColumnEnable[i]->SetValue			( wxGetApp().Prefs.bPlaylistColumnEnable[i]);
         cmbPLColumnStatic[i]->SetSelection		( wxGetApp().Prefs.bPlaylistColumnDynamic[i]);
@@ -68,7 +68,7 @@ bool OptionPlaylistPanel::DoSavePrefs()
     //--- options -> playlist ---//
     //---------------------------//
     bool bResetColumns = false;
-    for(size_t i = 0 ;i < NPLAYLISTCOLUMNS; i ++)
+    for(size_t i = 0 ;i < PlaylistColumn::NCOLUMNS; i ++)
     {
         //--- enable / disable ---//
         if ( wxGetApp().Prefs.bPlaylistColumnEnable[i] != chkPLColumnEnable[i]->GetValue() )

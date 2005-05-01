@@ -33,6 +33,40 @@
 #include "wx/statline.h"
 #endif
 
+void CSongMetaData::SetData(PlaylistColumn::eId id,const wxString & sData)
+{
+    switch (id)
+    {
+    case PlaylistColumn::ARTIST:
+        Artist = ConvToUTF8(sData);
+        break;
+    case PlaylistColumn::ALBUM:
+        Album = ConvToUTF8(sData);
+        break;
+    case PlaylistColumn::TITLE:
+        Title = ConvToUTF8(sData);
+        break;
+    case PlaylistColumn::GENRE:
+        Genre = ConvToUTF8(sData);
+        break;
+    case PlaylistColumn::YEAR:
+        Year = ConvToUTF8(sData);
+        break;
+    case PlaylistColumn::NOTES:
+        Notes = ConvToUTF8(sData);
+        break;
+    case PlaylistColumn::FILENAME:
+        Filename = sData;
+        break;
+    case PlaylistColumn::TRACK:
+        nTracknum = wxStringToInt(sData);
+        break;
+
+    default:
+        wxASSERT(false);
+    }
+}
+
 
 class wxPlaylistTraverser : public wxDirTraverser
 {

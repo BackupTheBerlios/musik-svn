@@ -131,7 +131,7 @@ private:
 class CActivityBox : public wxPanel
 {
 public:
-	CActivityBox( wxWindow *parent, wxWindowID id, EMUSIK_ACTIVITY_TYPE nType );
+    CActivityBox( wxWindow *parent, wxWindowID id, PlaylistColumn::eId Type );
 	~CActivityBox();
 	
 	void OnActivityBoxSelDrag( wxListEvent& WXUNUSED(event) )
@@ -168,12 +168,12 @@ public:
 	void		GetSelected				( wxArrayString & aReturn )							{ pListBox->GetSelected( aReturn );return; 				}
 	int			GetSelectedItemCount	()													{ return pListBox->GetSelectedItemCount();				}
 	void		GetRelatedList			( CActivityBox *pDst, wxArrayString & aReturn );
-	wxString	GetActivityTypeStr		();
-	wxString	GetActivityTypeStringTranslated		();
+	const wxString	& TypeAsString		();
+	wxString	TypeAsTranslatedString		();
 	void		GetSelectedSongs		( MusikSongIdArray& array );
 
-	CActivityListBox*		GetListBox		()												{ return pListBox;										}
-	EMUSIK_ACTIVITY_TYPE	GetActivityType	()												{ return m_ActivityType;								}
+	CActivityListBox*	GetListBox	()		{ return pListBox;		}
+    PlaylistColumn::eId	Type	()			{ return m_ActivityType;}
 
 	//--- tag editing ---//
 	void EditBegin			();
@@ -208,8 +208,7 @@ protected:
 	wxMenu * CreateContextMenu();
 private:
 
-	EMUSIK_LIB_TYPE ACTIVITY_TYPE2LIB_TYPE ( EMUSIK_ACTIVITY_TYPE lbtype );
-	EMUSIK_ACTIVITY_TYPE   m_ActivityType;
+    PlaylistColumn::eId m_ActivityType;
 	bool m_EditVisible;
 
 	wxBoxSizer			*pSizer;

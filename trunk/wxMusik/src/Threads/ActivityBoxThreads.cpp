@@ -26,9 +26,7 @@ MusikActivityRenameThread::MusikActivityRenameThread( CActivityBox* parent_box, 
 {
 	m_ParentBox	= parent_box;
 	m_Mode		= mode;
-	m_Type		= m_ParentBox->GetActivityType();
-	m_TypeStr	= m_ParentBox->GetActivityTypeStr();
-	m_Replace	= ConvToUTF8(newvalue);
+	m_Replace	= newvalue;
 }
 
 void* MusikActivityRenameThread::Entry()
@@ -78,22 +76,7 @@ void* MusikActivityRenameThread::Entry()
 			//-------------------------------//
 			//--- update the current item ---//
 			//-------------------------------//
-			switch( m_Type )
-			{
-			case MUSIK_LBTYPE_ARTISTS:
-				song.MetaData.Artist = m_Replace;
-				break;
-			case MUSIK_LBTYPE_ALBUMS:
-				song.MetaData.Album	= m_Replace;
-				break;
-			case MUSIK_LBTYPE_GENRES:
-				song.MetaData.Genre = m_Replace;
-				break;
-			case MUSIK_LBTYPE_YEARS:
-				song.MetaData.Year = m_Replace;
-				break;
-			}
-
+            song.MetaData.SetData(m_ParentBox->Type() , m_Replace);
 			//--------------------------//
 			//--- write tags to file ---//
 			//--------------------------//

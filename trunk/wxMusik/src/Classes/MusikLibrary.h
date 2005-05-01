@@ -99,7 +99,7 @@ public:
 	bool QuerySongFromSongid	( int songid, CMusikSong *pSong );
     bool GetSongFromSongid	( int songid, CMusikSong *pSong );
 
-	void SetSortOrderField( int nField, bool descending = false);
+	void SetSortOrderColumn( const PlaylistColumn & Column, bool descending = false);
 	double GetSum(const wxString & sField, const MusikSongIdArray &  idarray )const ;
 
 	//--------------------//
@@ -119,7 +119,7 @@ public:
 	//------------------------//
 	void Query				( const wxString & query, wxArrayString & aReturn ,bool bClearArray = true);
 	void Query				( const wxString & query, wxArrayInt & aReturn ,bool bClearArray = true);
-	void QuerySongsWhere	( const wxString & query, MusikSongIdArray & aReturn ,bool bSorted = false,bool bClearArray=true);	  //if bSorted ==true,  use SetSortOrderField to set sorting string
+	void QuerySongsWhere	( const wxString & query, MusikSongIdArray & aReturn ,bool bSorted = false,bool bClearArray=true);	  //if bSorted ==true,  use SetSortOrderColumn to set sorting string
 	void QuerySongsFrom		( const wxString & queryFrom, MusikSongIdArray & aReturn ,bool bSorted = false);
 	void RedoLastQuerySongsWhere( MusikSongIdArray & aReturn ,bool bSorted = false);
 	//-----------------------------------//
@@ -127,12 +127,9 @@ public:
 	//---   life a little bit easier  ---//
 	//-----------------------------------//
 	void GetAllSongs		( MusikSongIdArray & aReturn	,bool bSorted = true);
-	void GetAllArtists		( wxArrayString & aReturn ,bool bSorted = true);
-	void GetAllAlbums		( wxArrayString & aReturn ,bool bSorted = true);
-	void GetAllGenres		( wxArrayString & aReturn ,bool bSorted = true);
-	void GetAllYears		( wxArrayString & aReturn );
-	void GetInfo			( const wxArrayString & aInfo, int nInType, int nOutType, wxArrayString & aReturn, bool bSorted = true);
-	void GetSongs			( const wxArrayString & aInfo, int nInType, MusikSongIdArray & aReturn );
+    void GetAllOfColumn		( const PlaylistColumn & Column,wxArrayString & aReturn ,bool bSorted = true);
+	void GetInfo			( const wxArrayString & aInfo, const PlaylistColumn & ColumnIn, const PlaylistColumn & ColumnOut , wxArrayString & aReturn, bool bSorted = true);
+	void GetSongs			( const wxArrayString & aInfo, const PlaylistColumn & Column, MusikSongIdArray & aReturn );
 	int QueryCount			(const char * szQuery );
 
 	//misc
@@ -153,8 +150,6 @@ private:
 	wxString  m_sSortAllSongsQuery;
 	wxString m_lastQueryWhere;
 	int m_nCachedSongCount;
-
-	void VerifyYearList ( const wxArrayString & aList,wxArrayString & aVerifiedList );
 
 	mutable wxCriticalSection m_csDBAccess; // to lock all accesses to m_pDB. 
 									// used instead of wxMutex, because this is faster on windows. on linux 

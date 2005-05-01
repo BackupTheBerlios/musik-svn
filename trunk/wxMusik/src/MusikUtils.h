@@ -229,7 +229,9 @@ public:
 		bVBR = false;
 		nDuration_ms = nBitrate  = nFilesize   =	nTracknum = 0;
 	}
-
+    
+    void SetData(PlaylistColumn::eId id,const wxString & sData);
+    
 	CSongPath			Filename;
 	StringData			Title;
 	StringData			Artist;

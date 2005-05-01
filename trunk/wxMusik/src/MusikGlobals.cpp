@@ -24,62 +24,8 @@
 //----------------------------//
 MusikFrame *g_MusikFrame;
 
-//-----------------------------//
-//--- playlist column stuff ---//
-//-----------------------------//
-const int g_PlaylistColumnAlign[NPLAYLISTCOLUMNS] =
-{
-	wxLIST_FORMAT_CENTER,
-	wxLIST_FORMAT_LEFT,
-	wxLIST_FORMAT_LEFT,
-	wxLIST_FORMAT_LEFT,
-	wxLIST_FORMAT_LEFT,
-	wxLIST_FORMAT_CENTER,
-	wxLIST_FORMAT_LEFT,
-	wxLIST_FORMAT_RIGHT,
-	wxLIST_FORMAT_RIGHT,
-	wxLIST_FORMAT_RIGHT,
-	wxLIST_FORMAT_RIGHT,
-	wxLIST_FORMAT_LEFT,
-	wxLIST_FORMAT_LEFT	
-};
 
-extern const wxString g_PlaylistColumnLabels[NPLAYLISTCOLUMNS] =
-{
-	wxTRANSLATE( "Rating"		),
-	wxTRANSLATE( "Track"		),
-	wxTRANSLATE( "Title"		),
-	wxTRANSLATE( "Artist"		),
-	wxTRANSLATE( "Album"		),
-	wxTRANSLATE( "Year"			),
-	wxTRANSLATE( "Genre"		),
-	wxTRANSLATE( "Times Played" ),
-	wxTRANSLATE( "Last Played"	),
-	wxTRANSLATE( "Time"			),
-	wxTRANSLATE( "Bitrate"		),
-	wxTRANSLATE( "Filename"		),
-	wxTRANSLATE( "Notes"		),
-	wxTRANSLATE( "Added on"		)
 
-};
-extern const wxString g_PlaylistColumnDBNames[NPLAYLISTCOLUMNS] =
-{
-	wxT( "rating"		),
-	wxT( "tracknum"		),
-	wxT( "title"		),
-	wxT( "artist"		),
-	wxT( "album"		),
-	wxT( "year"			),
-	wxT( "genre"		),
-	wxT( "timesplayed"  ),
-	wxT( "lastplayed"	),
-	wxT( "duration"		),
-	wxT( "bitrate"		),
-	wxT( "filename"		),
-	wxT( "notes"		),
-	wxT( "timeadded"	)
-
-};
 //------------------------//
 //--- internal objects ---//
 //------------------------//

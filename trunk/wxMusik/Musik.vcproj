@@ -400,6 +400,12 @@
 				RelativePath=".\src\Playlist.h">
 			</File>
 			<File
+				RelativePath=".\src\PlaylistColumn.cpp">
+			</File>
+			<File
+				RelativePath=".\src\PlaylistColumn.h">
+			</File>
+			<File
 				RelativePath=".\src\ThreadController.h">
 			</File>
 			<File

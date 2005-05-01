@@ -45,9 +45,7 @@ public:
 private:
 	CActivityBox*	m_ParentBox;
 	int				m_Mode;
-	int				m_Type;
-	wxString		m_TypeStr;
-	CSongMetaData::StringData m_Replace;
+	wxString        m_Replace;
 
 	MusikSongIdArray m_Songs;
 };

@@ -237,7 +237,7 @@ wxString CActivityListBox::GetRowText( long row, bool bPure ) const
 			return wxString::Format(wxT("%s%s"),_("Show all "), m_sCaption.c_str());
 		if(HasShowAllRow())
 			row--;
-		if(wxGetApp().Prefs.bSortArtistWithoutPrefix && !bPure && m_pParent->GetActivityType() == MUSIK_LBTYPE_ARTISTS)
+        if(wxGetApp().Prefs.bSortArtistWithoutPrefix && !bPure && g_PlaylistColumn[m_pParent->Type()].SortOrder  == PlaylistColumn::SortNoCaseNoPrefix)
 			return MoveArtistPrefixToEnd(SanitizedString( m_Items.Item( row ) ));
 		else
 			return SanitizedString( m_Items.Item( row ) );
@@ -448,14 +448,14 @@ void ActivityDropTarget::HighlightSel( wxPoint pPos )
 	nLastHit = n;
 }
 #endif // 0 old code
-CActivityBox::CActivityBox( wxWindow *parent, wxWindowID id, EMUSIK_ACTIVITY_TYPE nType )
+CActivityBox::CActivityBox( wxWindow *parent, wxWindowID id, PlaylistColumn::eId Type )
 	:  wxPanel( parent, -1, wxPoint( -1, -1 ), wxSize( -1, -1 ),wxTAB_TRAVERSAL | wxNO_BORDER | wxCLIP_CHILDREN )
 {
 	m_EditVisible = false;
-	m_ActivityType = nType;
+	m_ActivityType = Type;
 	//--- CActivityListBox ---//
 	pListBox	= new CActivityListBox	( this, id );
-	pListBox->SetCaption(GetActivityTypeStringTranslated());
+	pListBox->SetCaption(TypeAsTranslatedString());
 	//--- drag and drop handler ---//
 	// what is the drag and drop handler for in this case? it just disturbs dragging
 	// from playlist to sources box, if you cross the listbox area. after the dragging the playlist display changes to 
@@ -490,6 +490,7 @@ CActivityBox::CActivityBox( wxWindow *parent, wxWindowID id, EMUSIK_ACTIVITY_TYP
 
 }
 
+
 CActivityBox::~CActivityBox()
 {
 	delete pListBox;
@@ -498,68 +499,16 @@ CActivityBox::~CActivityBox()
 	delete pActivityEditEvt;
 }
 
-wxString CActivityBox::GetActivityTypeStr()
+const wxString & CActivityBox::TypeAsString()
 {
-	switch ( GetActivityType() )
-	{
-	case MUSIK_LBTYPE_ARTISTS:
-		return wxT( "artist" );
-		break;
-	case MUSIK_LBTYPE_ALBUMS:
-		return wxT( "album" );
-		break;
-	case MUSIK_LBTYPE_GENRES:
-		return wxT( "genre" );
-		break;
-	case MUSIK_LBTYPE_YEARS:
-		return wxT( "year" );
-		break;
-  	case MUSIK_LBTYPE_NULL:
-  	 	 wxASSERT(0);
-   		 break;  
-	}
-	return wxT( "" );
+    return g_PlaylistColumn[m_ActivityType].DBName;
 }
-wxString CActivityBox::GetActivityTypeStringTranslated()
+wxString CActivityBox::TypeAsTranslatedString()
 {
-	switch ( GetActivityType() )
-	{
-	case MUSIK_LBTYPE_ARTISTS:
-		return _( "Artists" );
-		break;
-	case MUSIK_LBTYPE_ALBUMS:
-		return _( "Albums" );
-		break;
-	case MUSIK_LBTYPE_GENRES:
-		return _( "Genres" );
-		break;
-	case MUSIK_LBTYPE_YEARS:
-		return _( "Years" );
-		break;
-	case MUSIK_LBTYPE_NULL:
-		wxASSERT(0);
-		break;  
-	}
-	return wxT( "" );
+    return wxGetTranslation(g_PlaylistColumn[m_ActivityType].Label);
 }
 
-EMUSIK_LIB_TYPE CActivityBox::ACTIVITY_TYPE2LIB_TYPE( EMUSIK_ACTIVITY_TYPE lbtype )
-{
-	switch (lbtype)
-	{
-	case MUSIK_LBTYPE_ARTISTS:
-		return  MUSIK_LIB_ARTIST;
-	case MUSIK_LBTYPE_ALBUMS:
-		return MUSIK_LIB_ALBUM;
-	case MUSIK_LBTYPE_GENRES:
-		return MUSIK_LIB_GENRE;
-	case MUSIK_LBTYPE_YEARS:
-		return MUSIK_LIB_YEAR;
-  	case MUSIK_LBTYPE_NULL:
-  	default:    
-		return MUSIK_LIB_INVALID;
-	}
-}
+
 wxString wxStringRemovePrefix(const wxString &s)
 {
 	const wxChar* Prefix = BeginsWithPreposition(s);
@@ -588,11 +537,11 @@ void CActivityBox::GetRelatedList( CActivityBox *pDst, wxArrayString & aReturn )
 	wxArrayString sel;
 	GetSelected( sel );
 
-	EMUSIK_LIB_TYPE InType	= ACTIVITY_TYPE2LIB_TYPE( m_ActivityType );
-	EMUSIK_LIB_TYPE OutType	= ACTIVITY_TYPE2LIB_TYPE( pDst->GetActivityType() );
+    const PlaylistColumn & ColumnIn	= g_PlaylistColumn[Type()];
+	const PlaylistColumn & ColumnOut=  g_PlaylistColumn[pDst->Type()];
 
-	wxGetApp().Library.GetInfo( sel, InType, OutType, aReturn ,false);
-	if(wxGetApp().Prefs.bSortArtistWithoutPrefix)
+	wxGetApp().Library.GetInfo( sel, ColumnIn, ColumnOut, aReturn ,false);
+    if(wxGetApp().Prefs.bSortArtistWithoutPrefix && g_PlaylistColumn[pDst->Type()].SortOrder  == PlaylistColumn::SortNoCaseNoPrefix)
 		aReturn.Sort(wxStringSortAscendingLocaleRemovePrefix);
 	else
 		aReturn.Sort(wxStringSortAscendingLocale);
@@ -604,7 +553,7 @@ void CActivityBox::ResetContents(bool selectnone, bool bEnsureVisibilityOfCurren
 {
 	wxArrayString list;
 	GetFullList(list,false);
-	if(wxGetApp().Prefs.bSortArtistWithoutPrefix)
+    if(wxGetApp().Prefs.bSortArtistWithoutPrefix && g_PlaylistColumn[Type()].SortOrder  == PlaylistColumn::SortNoCaseNoPrefix)
 		list.Sort(wxStringSortAscendingLocaleRemovePrefix);
 	else
 		list.Sort(wxStringSortAscendingLocale);
@@ -614,24 +563,7 @@ void CActivityBox::ResetContents(bool selectnone, bool bEnsureVisibilityOfCurren
 void CActivityBox::GetFullList( wxArrayString & aReturn ,bool bSorted)
 {
 	aReturn.Clear();
-	switch	( m_ActivityType)
-	{
-	case MUSIK_LBTYPE_ARTISTS:
-		wxGetApp().Library.GetAllArtists( aReturn ,bSorted);
-  		break;
-	case MUSIK_LBTYPE_ALBUMS:
-		wxGetApp().Library.GetAllAlbums( aReturn ,bSorted);
-    		break;
-	case MUSIK_LBTYPE_GENRES:
-		wxGetApp().Library.GetAllGenres( aReturn ,bSorted);
-    		break;
-	case MUSIK_LBTYPE_YEARS:
-		wxGetApp().Library.GetAllYears( aReturn );
-		break;
-  	case MUSIK_LBTYPE_NULL:
-    		wxASSERT(0);
-    		break;
-  	}
+	wxGetApp().Library.GetAllOfColumn( g_PlaylistColumn[Type()], aReturn ,bSorted);
 }
 
 void CActivityBox::GetSelectedSongs( MusikSongIdArray& array )
@@ -645,7 +577,7 @@ void CActivityBox::GetSelectedSongs( MusikSongIdArray& array )
 	{
 	  wxArrayString list;
 	  GetSelected( list );
-	  wxGetApp().Library.GetSongs( list, ACTIVITY_TYPE2LIB_TYPE( GetActivityType() ), array );
+	  wxGetApp().Library.GetSongs( list, g_PlaylistColumn[Type()], array );
 	  return;
 	}
  
@@ -664,12 +596,12 @@ void CActivityBox::GetSelectedSongs( MusikSongIdArray& array )
 			//-------------------------------------------------//
 			//--- what type of box is this?					---//
 			//-------------------------------------------------//
-			wxString sThisType = GetActivityTypeStr();
+			wxString sThisType = TypeAsString();
 
 			//-------------------------------------------------//
             //--- what type of box is the parent?			---//
 			//-------------------------------------------------//
-			wxString sParentType = pParentBox->GetActivityTypeStr();
+			wxString sParentType = pParentBox->TypeAsString();
 
 			//-------------------------------------------------//
             //--- return if there is an invalid type		---//

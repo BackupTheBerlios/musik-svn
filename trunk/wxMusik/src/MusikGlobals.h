@@ -42,13 +42,6 @@
 #include "Frames/MusikFrame.h"
 
 
-extern const int g_PlaylistColumnAlign[NPLAYLISTCOLUMNS];
-extern const wxString g_PlaylistColumnLabels[NPLAYLISTCOLUMNS];
-extern const wxString g_PlaylistColumnDBNames[NPLAYLISTCOLUMNS];
-
-
-
-
 //---------------------------//
 //--- pointer to main dlg ---//
 //---------------------------//

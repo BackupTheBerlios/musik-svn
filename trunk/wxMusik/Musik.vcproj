@@ -743,6 +743,9 @@
 				<File
 					RelativePath=".\src\Classes\MusikListCtrl.h">
 				</File>
+				<File
+					RelativePath=".\src\wxmod_listctrl.cpp">
+				</File>
 			</Filter>
 			<Filter
 				Name="PictureBox"

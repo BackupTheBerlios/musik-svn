@@ -8,6 +8,7 @@ SET(MAIN_SRCS
         ./MusikGlobals
         ./MusikUtils
         ./MusikAboutDlg
+        ./wxmod_listctrl
         ./Classes/ActivityBox
         ./Classes/ActivityAreaCtrl
         ./Classes/BtnDown

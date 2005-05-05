@@ -232,23 +232,24 @@ bool SourcesDropTarget::HighlightSel( const wxPoint &pPos )
 //--- CSourcesListBox ---//
 //-----------------------//
 BEGIN_EVENT_TABLE(CSourcesListBox, CMusikListCtrl)
-	EVT_MENU					(MUSIK_PLAYLIST_CLEARPLAYERLIST,				CSourcesListBox::OnClearPlayerlist		)	// Sources Context -> Create -> Create from Current
-	EVT_MENU					(MUSIK_SOURCE_CONTEXT_CREATE_CURRENT_PLAYLIST,	CSourcesListBox::CreateCurPlaylist		)	// Sources Context -> Create -> Create from Current
-	EVT_MENU					(MUSIK_SOURCE_CONTEXT_STANDARD_PLAYLIST,		CSourcesListBox::StandardPlaylist		)	// Sources Context -> Create -> Standard Playlist
-	EVT_MENU					(MUSIK_SOURCE_CONTEXT_DYNAMIC_PLAYLIST,			CSourcesListBox::DynamicPlaylist		)	// Sources Context -> Create -> Dynamic Playlist
-	EVT_MENU					(MUSIK_SOURCE_CONTEXT_CREATE_NETSTREAM,			CSourcesListBox::NetStream				)	// Sources Context -> Create -> Net Stream
-	EVT_MENU					(MUSIK_SOURCE_CONTEXT_EDIT_QUERY,				CSourcesListBox::EditQuery				)	// Sources Context -> Edit Query
-	EVT_MENU					(MUSIK_SOURCE_CONTEXT_EDIT_URL,					CSourcesListBox::EditURL				)	// Sources Context -> Edit Query
-	EVT_MENU					(MUSIK_SOURCE_CONTEXT_DELETE,					CSourcesListBox::Delete					)	// Sources Context -> Delete
-	EVT_MENU					(MUSIK_SOURCE_CONTEXT_RENAME,					CSourcesListBox::Rename					)	// Sources Context -> Rename
-	EVT_MENU					(MUSIK_SOURCE_CONTEXT_SHOW_ICONS,				CSourcesListBox::ToggleIconsEvt			)	// Sources Context -> Show Icons
-	EVT_MENU					(MUSIK_SOURCE_CONTEXT_COPY_FILES,				CSourcesListBox::CopyFiles				)	// Sources Context -> Copy files
-	EVT_LIST_BEGIN_DRAG			(wxID_ANY,									CSourcesListBox::BeginDrag				)	// user drags files from sources
-	EVT_LIST_BEGIN_LABEL_EDIT	(wxID_ANY,									CSourcesListBox::BeginEditLabel			)   // user edits a playlist filename
-	EVT_LIST_END_LABEL_EDIT		(wxID_ANY,									CSourcesListBox::EndEditLabel			)   // user edits a playlist filename
-	EVT_LIST_KEY_DOWN			(wxID_ANY,									CSourcesListBox::TranslateKeys			)	// user presses a key in the sources list
-	EVT_LIST_COL_BEGIN_DRAG		(wxID_ANY,									CSourcesListBox::OnSourcesColSize		)
-    EVT_LISTSEL_CHANGED_COMMAND       (wxID_ANY,							CSourcesListBox::OnUpdateSel			)    
+	EVT_MENU(MUSIK_PLAYLIST_CLEARPLAYERLIST,				CSourcesListBox::OnClearPlayerlist	)	// Sources Context -> Create -> Create from Current
+	EVT_MENU(MUSIK_SOURCE_CONTEXT_CREATE_CURRENT_PLAYLIST,	CSourcesListBox::CreateCurPlaylist	)	// Sources Context -> Create -> Create from Current
+	EVT_MENU(MUSIK_SOURCE_CONTEXT_STANDARD_PLAYLIST,		CSourcesListBox::StandardPlaylist	)	// Sources Context -> Create -> Standard Playlist
+	EVT_MENU(MUSIK_SOURCE_CONTEXT_DYNAMIC_PLAYLIST,			CSourcesListBox::DynamicPlaylist	)	// Sources Context -> Create -> Dynamic Playlist
+	EVT_MENU(MUSIK_SOURCE_CONTEXT_CREATE_NETSTREAM,			CSourcesListBox::NetStream			)	// Sources Context -> Create -> Net Stream
+	EVT_MENU(MUSIK_SOURCE_CONTEXT_EDIT_QUERY,				CSourcesListBox::EditQuery			)	// Sources Context -> Edit Query
+	EVT_MENU(MUSIK_SOURCE_CONTEXT_EDIT_URL,					CSourcesListBox::EditURL			)	// Sources Context -> Edit Query
+	EVT_MENU(MUSIK_SOURCE_CONTEXT_DELETE,					CSourcesListBox::Delete				)	// Sources Context -> Delete
+	EVT_MENU(MUSIK_SOURCE_CONTEXT_RENAME,					CSourcesListBox::Rename				)	// Sources Context -> Rename
+	EVT_MENU(MUSIK_SOURCE_CONTEXT_SHOW_ICONS,				CSourcesListBox::ToggleIconsEvt		)	// Sources Context -> Show Icons
+	EVT_MENU(MUSIK_SOURCE_CONTEXT_COPY_FILES,				CSourcesListBox::CopyFiles			)	// Sources Context -> Copy files
+    EVT_MENU(MUSIK_SOURCE_CONTEXT_EXPORT_PLAYLIST,			CSourcesListBox::ExportPlaylist		)	// Sources Context -> Export m3u
+	EVT_LIST_BEGIN_DRAG			(wxID_ANY,	CSourcesListBox::BeginDrag				)	// user drags files from sources
+	EVT_LIST_BEGIN_LABEL_EDIT	(wxID_ANY,	CSourcesListBox::BeginEditLabel			)   // user edits a playlist filename
+	EVT_LIST_END_LABEL_EDIT		(wxID_ANY,	CSourcesListBox::EndEditLabel			)   // user edits a playlist filename
+	EVT_LIST_KEY_DOWN			(wxID_ANY,	CSourcesListBox::TranslateKeys			)	// user presses a key in the sources list
+	EVT_LIST_COL_BEGIN_DRAG		(wxID_ANY,	CSourcesListBox::OnSourcesColSize		)
+    EVT_LISTSEL_CHANGED_COMMAND (wxID_ANY,	CSourcesListBox::OnUpdateSel			)    
 END_EVENT_TABLE()
 
 CSourcesListBox::CSourcesListBox( wxWindow* parent )
@@ -331,7 +332,7 @@ wxMenu * CSourcesListBox::CreateContextMenu()
 		context_menu->AppendSeparator();
 		context_menu->Append( MUSIK_SOURCE_CONTEXT_COPY_FILES, _("Copy files to directory") );
 		context_menu->Enable( MUSIK_SOURCE_CONTEXT_COPY_FILES,g_PlaylistBox->PlaylistCtrl().GetCount() > 0);
-
+		context_menu->Append( MUSIK_SOURCE_CONTEXT_EXPORT_PLAYLIST, _("Export Playlist (M3U)") );
 	}
 	return context_menu;
 
@@ -411,6 +412,36 @@ void CSourcesListBox::CopyFiles( wxCommandEvent& WXUNUSED(event) )
 }
 
 
+void CSourcesListBox::ExportPlaylist (wxCommandEvent& WXUNUSED(event) )
+{
+	//get the current list of files,
+	//build a playlist
+	//offer option to save it.
+	wxFileDialog fdlg (g_MusikFrame, _("Select the path and filename for your playlist"),
+						wxT(""), wxT(""), wxT("Winamp Playlist (.m3u)|*.m3u"), 
+						wxSAVE);
+	if ( fdlg.ShowModal() != wxID_OK )
+		return;
+	
+	//Test for file exist
+	wxTextFile f(fdlg.GetPath());
+	if (f.Exists())
+	{	
+		if ( wxMessageBox( _( "A playlist with this name already exists, would you like to replace it?" ), MUSIKAPPNAME_VERSION, wxYES_NO | wxICON_QUESTION ) == wxNO )
+				return;
+	}
+	f.Create();
+	const MusikSongIdArray &songs = g_PlaylistBox->PlaylistCtrl().Playlist();
+
+	for (size_t n =0; n< songs.GetCount();n++)
+	{
+		const wxFileName &name = songs[n].Song()->MetaData.Filename;
+		f.AddLine(name.GetFullPath());
+	}
+	f.Write();
+	
+
+}
 void CSourcesListBox::BeginDrag( wxListEvent &WXUNUSED(event) )
 {
     long n = m_CurSel;
@@ -864,7 +895,7 @@ void CSourcesListBox::RescaleColumns()
     const int main_col = 0;
 	if ( GetColumnWidth( main_col ) != nWidth )
 	{
-		#ifdef __WXMSW__
+		#if defined(__WXMSW__) && !defined(USE_GENERICLISTCTRL)
 			SetColumnWidth	( main_col, nWidth );
 		#else
 			SetColumnWidth( main_col, nWidth - wxSystemSettings::GetMetric(wxSYS_HSCROLL_Y) /*- GetColumnWidth( 0 )*/ - 1 );			

@@ -252,10 +252,10 @@ void CActivityAreaCtrl::UpdateSel( CActivityBox *pSelectedBox )
 	//-------------------------------------------//
 	else if ( wxGetApp().Prefs.eSelStyle == MUSIK_SELECTION_TYPE_HIGHLIGHT && pSelectedBox->GetSelectedItemCount() < 1 )
 	{
-		pSelectedBox->DeselectAll();
+		pSelectedBox->SelectNone();
 		for(size_t j = 0 ; j < WXSIZEOF(pOtherBoxes);j++)
 		{
-			if ( pOtherBoxes[j] != NULL )	pOtherBoxes[j]->DeselectAll();
+			if ( pOtherBoxes[j] != NULL )	pOtherBoxes[j]->SelectNone();
 		}
 
 		if ( wxGetApp().Prefs.bShowAllSongs == 1 )

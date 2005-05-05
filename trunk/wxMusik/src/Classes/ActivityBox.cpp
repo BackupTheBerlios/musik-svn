@@ -144,7 +144,7 @@ void CActivityListBox::RescaleColumns( )
     const int main_col = 0;
 	if ( GetColumnWidth( main_col ) != nWidth )
 	{
-		#ifdef __WXMSW__
+		#if defined(__WXMSW__) && !defined(USE_GENERICLISTCTRL)
 			SetColumnWidth	( main_col, nWidth );
 		#else
 			SetColumnWidth( main_col, nWidth - wxSystemSettings::GetMetric(wxSYS_HSCROLL_Y) /*- GetColumnWidth( 0 )*/ - 1 );			
@@ -198,7 +198,7 @@ void CActivityListBox::Update( bool selnone )
 	SetItemCount( GetRowCount() );
 	RescaleColumns();
 	if ( selnone )
-		wxListCtrlSelNone( this );
+		SelectNone( );
 	RefreshCaption();
 	Thaw();
 }
@@ -271,14 +271,10 @@ bool CActivityListBox::IsSelected( int n )
 		return false;
 }
 
-void CActivityListBox::DeselectAll()
-{
-	wxListCtrlSelNone( this );
-}
 
 void CActivityListBox::SetSel( const  wxArrayString & aList )
 {
-	DeselectAll();
+	SelectNone();
 	for ( size_t i = 0; i < aList.GetCount(); i++ )
 	{
 		SetSel(aList.Item( i ), false,false);
@@ -288,7 +284,7 @@ void CActivityListBox::SetSel( const  wxArrayString & aList )
 void CActivityListBox::SetSel( const wxString & sel,bool bEnsureVisible , bool bDeselectAllFirst )
 {
 	if(bDeselectAllFirst)
-		DeselectAll();
+		SelectNone();
 	bool bFound = false;
 	for ( size_t i = 0; i < GetRowCount(); i++ )
 	{

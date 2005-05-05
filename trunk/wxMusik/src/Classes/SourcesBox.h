@@ -66,6 +66,7 @@ public:
 	void Rename					( wxCommandEvent& WXUNUSED(event) )	{ RenameSel();	};
 	void ToggleIconsEvt			( wxCommandEvent& event );
 	void CopyFiles				( wxCommandEvent& event );
+	void ExportPlaylist			( wxCommandEvent& event );
 	void BeginDrag				( wxListEvent& event );
 	void OnUpdateSel			( wxCommandEvent& event );
 	void BeginEditLabel			( wxListEvent& event );

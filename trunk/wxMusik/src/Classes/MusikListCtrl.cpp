@@ -2,7 +2,7 @@
  *  MusikListCtrl.cpp
  *
  *  
- *  Inherited from a wxListCtrl
+ *  Inherited from a MUSIKLISTCTRLBASE
  *  
  *  Copyright (c) 2003 Casey Langen (casey@bak.rr.com)
  *	Contributors: Simon Windmill, Dustin Carter, Gunnar Roth, Wade Brainerd
@@ -21,11 +21,13 @@
 #include <commctrl.h>
 #endif
 
+
+
 const wxEventType wxEVT_LISTSEL_CHANGED_COMMAND = wxNewEventType();
 
 
 CMusikListCtrl::CMusikListCtrl( wxWindow *parent, const wxWindowID id, const wxPoint& pos, const wxSize& size, long style)
-	:	wxListCtrl		( parent, id, pos, size, wxLC_REPORT | wxLC_VIRTUAL | wxCLIP_CHILDREN | style)
+	:	MUSIKLISTCTRLBASE( parent, id, pos, size, wxLC_REPORT | wxLC_VIRTUAL | wxCLIP_CHILDREN | style)
 #ifdef __WXMSW__
 	,m_freezeCount(0)
     ,m_bHideHorzScrollbar(false)
@@ -42,11 +44,15 @@ CMusikListCtrl::CMusikListCtrl( wxWindow *parent, const wxWindowID id, const wxP
 }
 
 
-BEGIN_EVENT_TABLE(CMusikListCtrl, wxListCtrl)
+BEGIN_EVENT_TABLE(CMusikListCtrl, MUSIKLISTCTRLBASE)
     EVT_LIST_ITEM_SELECTED(wxID_ANY,CMusikListCtrl::OnListItemSel)	
     EVT_LIST_ITEM_FOCUSED( wxID_ANY, CMusikListCtrl::OnListItemFocused)
     EVT_LISTSEL_CHANGED_COMMAND (wxID_ANY, CMusikListCtrl::OnListSelChanged)    
-
+#ifdef USE_GENERICLISTCTRL
+#ifdef __WXMSW__
+    EVT_LEFT_DOWN(CMusikListCtrl::OnLeftDown)
+#endif
+#endif
 	EVT_MIDDLE_DOWN(  CMusikListCtrl::OnMiddleDown)
 	EVT_RIGHT_DOWN(  CMusikListCtrl::OnRightDown)
     EVT_MOUSEWHEEL(CMusikListCtrl::OnMouseWheel)
@@ -55,14 +61,39 @@ BEGIN_EVENT_TABLE(CMusikListCtrl, wxListCtrl)
 #else
 	EVT_CONTEXT_MENU( CMusikListCtrl::ShowMenu)
 #endif	
-
+#ifndef USE_GENERICLISTCTRL
 #ifdef __WXMSW__
 	EVT_ERASE_BACKGROUND	( CMusikListCtrl::OnEraseBackground )
 	EVT_PAINT ( CMusikListCtrl::OnPaint )
 #endif
+#endif
 	EVT_SIZE  (	CMusikListCtrl::OnSize )	
 END_EVENT_TABLE()
 
+void CMusikListCtrl::SelectAll( )
+{
+#ifdef WXLISTCTRL_SETITEMSTATE_IS_BUGGY
+    for(int i = 0; i < GetItemCount();i++)
+    {
+        SetItemState( i, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED );
+    }
+#else
+    SetItemState( -1, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED );
+#endif
+}
+
+void CMusikListCtrl::SelectNone( )
+{
+#ifdef WXLISTCTRL_SETITEMSTATE_IS_BUGGY
+    int i = -1;
+    while ( -1 != (i = GetNextItem(i, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED)))
+    {
+        SetItemState( i, 0, wxLIST_STATE_SELECTED );
+    }
+#else
+    SetItemState( -1, 0, wxLIST_STATE_SELECTED );
+#endif
+}
 void CMusikListCtrl::OnSize( wxSizeEvent& event )
 {
 	OnRescaleColumns();
@@ -73,6 +104,16 @@ void CMusikListCtrl::OnMouseWheel(wxMouseEvent &event)
 {
 	event.Skip();
 }
+#ifdef USE_GENERICLISTCTRL
+#ifdef __WXMSW__
+void CMusikListCtrl::OnLeftDown(wxMouseEvent &event)
+{
+    SetFocus();
+    event.Skip();
+}
+#endif
+#endif
+
 void CMusikListCtrl::OnRightDown(wxMouseEvent &event)
 {
 	SetFocus();
@@ -178,13 +219,13 @@ void CMusikListCtrl::ShowMenu( wxContextMenuEvent &WXUNUSED(event) )
     }
 }
 
-
+#ifndef USE_GENERICLISTCTRL
 #ifdef __WXMSW__
 #include "wx/dcbuffer.h"
 void CMusikListCtrl::Freeze()
 {
 	if(!m_freezeCount++)
-		wxListCtrl::Freeze();
+		MUSIKLISTCTRLBASE::Freeze();
 }
 void CMusikListCtrl::Thaw()
 {
@@ -192,7 +233,7 @@ void CMusikListCtrl::Thaw()
 
     if ( !--m_freezeCount )
     {
-        wxListCtrl::Thaw();
+        MUSIKLISTCTRLBASE::Thaw();
     }
 
 }
@@ -276,7 +317,9 @@ void CMusikListCtrl::OnPaint(wxPaintEvent& event)
     }
 }
 #endif
+#endif
 
+#ifndef USE_GENERICLISTCTRL
 #ifdef __WXMSW__
 BOOL ModifyStyle(HWND hWnd, 
             DWORD dwRemove, DWORD dwAdd, UINT nFlags)
@@ -301,6 +344,7 @@ long CMusikListCtrl::MSWWindowProc(WXUINT message, WXWPARAM wParam, WXLPARAM lPa
             if(m_bHideVertScrollbar)
                 ModifyStyle(((HWND)GetHWND()),WS_VSCROLL,0,0);
     }
-    return wxListCtrl::MSWWindowProc(message,wParam,lParam);
+    return MUSIKLISTCTRLBASE::MSWWindowProc(message,wParam,lParam);
 }	
+#endif
 #endif

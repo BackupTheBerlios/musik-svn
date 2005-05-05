@@ -19,7 +19,13 @@
 #ifndef WX_PRECOMP
 	#include "wx/wx.h"
 #endif 
+#define  USE_GENERICLISTCTRL   
+
+#ifdef USE_GENERICLISTCTRL
+#include "wxmod_listctrl.h"
+#else
 #include "wx/listctrl.h"
+#endif
 #include "MusikDefines.h"
 
 extern const wxEventType wxEVT_LISTSEL_CHANGED_COMMAND;
@@ -29,11 +35,19 @@ extern const wxEventType wxEVT_LISTSEL_CHANGED_COMMAND;
     (wxObjectEventFunction)(wxEventFunction) wxStaticCastEvent( wxCommandEventFunction, &fn ), \
     (wxObject *) NULL \
     ),
-
+#ifdef USE_GENERICLISTCTRL
+#define MUSIKLISTCTRLBASE  wxMod::wxGenericListCtrl
+#else
+#define MUSIKLISTCTRLBASE  wxListCtrl
+#endif
 
 class SuppressListItemStateEventsWrapper;
 
-class CMusikListCtrl : public wxListCtrl
+class CMusikListCtrl;
+
+
+
+class CMusikListCtrl : public MUSIKLISTCTRLBASE
 {
 public:
 	//--------------------------------//
@@ -42,11 +56,13 @@ public:
 	CMusikListCtrl( wxWindow *parent, const wxWindowID id, const wxPoint& pos, const wxSize& size ,long style);
 	~CMusikListCtrl(){};
 
+    void SelectAll	(  );
+    void SelectNone	(  );
 
 	//--------------//
 	//--- events ---//
 	//--------------//
-                                     
+#ifndef USE_GENERICLISTCTRL                                     
 #ifdef __WXMSW__
 	void OnEraseBackground(wxEraseEvent& event);
 	void OnPaint(wxPaintEvent& event);
@@ -60,11 +76,12 @@ public:
 		{
 			Freeze();
 			EnsureVisible(0); // hack to circumvent bug, if SetItemCount is callec but the listview is scrolled down.
-			wxListCtrl::SetItemCount(count);
+			MUSIKLISTCTRLBASE::SetItemCount(count);
 			Thaw();
 		}	
 	}
 #endif
+#endif//  !USE_GENERICLISTCTRL
 	DECLARE_EVENT_TABLE()
 protected:
     void SuppressListItemStateEvents(bool suppress)
@@ -78,6 +95,11 @@ protected:
 
     void OnSize					( wxSizeEvent& event );
 
+#ifdef USE_GENERICLISTCTRL
+#ifdef __WXMSW__
+    void OnLeftDown(wxMouseEvent &event);
+#endif
+#endif
     void OnMouseWheel(wxMouseEvent & event);
 	void OnMiddleDown(wxMouseEvent & event);
 	void OnRightDown(wxMouseEvent & event);
@@ -97,10 +119,13 @@ protected:
     bool m_bHideHorzScrollbar;
     bool m_bHideVertScrollbar;
 protected:
+#ifndef USE_GENERICLISTCTRL
     long MSWWindowProc(WXUINT message, WXWPARAM wParam, WXLPARAM lParam);
+#endif
 #endif
 
 private:
+
 #ifdef __WXMSW__
 	int m_freezeCount;
 #endif

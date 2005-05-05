@@ -61,7 +61,6 @@ public:
 	void SetRelated		( int n );
 
 	//--- others ---//
-	void DeselectAll	();
 	bool IsSelected		( int n );
 	void Update			( bool selectnone );
 
@@ -157,7 +156,7 @@ public:
 	void OnRenameThreadProg		( wxCommandEvent& WXUNUSED(event) );
 
 	//--- sets ---//
-	void DeselectAll			()															{ pListBox->DeselectAll();								}
+	void SelectNone			    ()															{ pListBox->SelectNone();								}
 	void SetSel					( const wxString & sel, bool bDeselectAllFirst = true )		{ pListBox->SetSel( sel , bDeselectAllFirst );			}
 	void SetSel					( const  wxArrayString & aList )							{ pListBox->SetSel( aList );							}	
 	void SetDropTarget			(wxDropTarget* target)										{ pListBox->SetDropTarget( target );					}	

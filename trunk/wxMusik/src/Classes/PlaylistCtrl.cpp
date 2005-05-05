@@ -44,7 +44,7 @@ public:
 	PlaylistDropTarget( CPlaylistCtrl *pPList )	
 	{ 
 		m_pPlaylistCtrl = pPList;	
-
+        nLastHit = n = -1;
 		wxDataObjectCompositeEx * dobj = new wxDataObjectCompositeEx;
 		dobj->Add(m_pSonglistDObj = new CMusikSonglistDataObject(),true);
 		dobj->Add(m_pFileDObj = new wxFileDataObject());
@@ -318,7 +318,7 @@ bool PlaylistDropTarget::HighlightSel( const  wxPoint & pPos )
 	//--- highlight what we're over, deselect old ---//
 	if ( n != nLastHit && n!= -1 )
 	{
-		//if ( !m_pPlaylistCtrl->DNDIsSel( nLastHit ) )
+		if ( nLastHit != -1 )
 			m_pPlaylistCtrl->SetItemState( nLastHit, 0, wxLIST_STATE_FOCUSED );
 
 		m_pPlaylistCtrl->SetItemState( n, wxLIST_STATE_FOCUSED, wxLIST_STATE_FOCUSED );
@@ -701,7 +701,7 @@ void CPlaylistCtrl::OnKeyDown( wxKeyEvent& event )
             case 'T':
                 OnRetagFiles(dummy);                        
             case 'D':	//--- d / D ---//
-                wxListCtrlSelNone( this );
+                SelectNone( );
                 break;
             case WXK_DELETE:
             case WXK_BACK:
@@ -714,7 +714,7 @@ void CPlaylistCtrl::OnKeyDown( wxKeyEvent& event )
         switch( nKeyCode )
 		{
 		case 'A':	//--- a / A ---//
-			wxListCtrlSelAll( this );
+			SelectAll( );
 			break;
 		default:
 			event.Skip();
@@ -1129,7 +1129,7 @@ void CPlaylistCtrl::Update( bool bSelFirst)
 	SetItemCount( ( long ) m_pPlaylist ? m_pPlaylist->GetCount():0 );
 	RescaleColumns();
 
-	wxListCtrlSelNone( this );
+	SelectNone( );
 
 	//--- sel first item, if we're supposed to ---//
 	if ( bSelFirst && GetItemCount() )
@@ -1525,7 +1525,7 @@ void  CPlaylistCtrl::MovePlaylistEntrys(int nMoveTo ,const wxArrayInt &arrToMove
 	if(bSelectItems)
 	{
 		//--- select new songs ---//
-		wxListCtrlSelNone( this );
+		SelectNone( );
 		for ( size_t i = 0; i < arrToMove.GetCount(); i++ )
 			SetItemState( nMoveTo + i, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED );
 

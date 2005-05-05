@@ -1,6 +1,7 @@
 #ifndef PLAYLISTCOLUMN_H
 #define PLAYLISTCOLUMN_H
 
+#include <wx/string.h>
 struct PlaylistColumn
 {
     enum eType {Textual=1,Numeric,Date,Duration};

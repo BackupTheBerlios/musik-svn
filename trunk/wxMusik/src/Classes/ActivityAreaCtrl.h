@@ -41,7 +41,7 @@ public:
 	bool ReCreate();
 	void ResetAllContents( bool bUpdatePlaylist = true );
     CActivityBox* GetActivityBox(size_t nIndex);
-    CActivityBox* GetActivityBox(PlaylistColumn::eType Type);
+    CActivityBox* GetActivityBox(PlaylistColumn::eId TypeId);
     size_t GetActivityBoxCount();
 	bool Show(bool show = true);
 	void SetParent( int ACTIVITY_BOX_ID, bool bUpdate = false );

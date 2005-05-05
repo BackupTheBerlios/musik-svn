@@ -11,7 +11,8 @@
 #include "myprec.h"
 
 #include "PlaylistColumn.h"
-
+#include <wx/listbase.h>
+#include <wx/intl.h>
 
 const PlaylistColumn g_PlaylistColumn[PlaylistColumn::NCOLUMNS] =
 {

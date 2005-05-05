@@ -167,7 +167,7 @@ void MusikFXDialog::OnClose ( wxCloseEvent& WXUNUSED(event) )
 
 void MusikFXDialog::OnSlidePitch( wxScrollEvent &WXUNUSED(event) )
 {
-	wxGetApp().Player.SetFrequency( (( (float)slPitch->GetValue()) / 50.0f) * wxGetApp().Prefs.nSndRate );
+	wxGetApp().Player.SetFrequency( slPitch->GetValue() * wxGetApp().Prefs.nSndRate / 50 );
 }
 
 void MusikFXDialog::OnRightClick( wxContextMenuEvent& event )

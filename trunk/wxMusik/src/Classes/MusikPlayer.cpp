@@ -844,12 +844,12 @@ void CMusikPlayer::FinalizeStop()
 	m_Paused = false;
 	m_Stopping = false;
 	g_PlaylistBox->PlaylistCtrl().RefreshItem( m_SongIndex );
+    wxCriticalSectionLocker lock(m_protectingStreamArrays);
 	int nStreamCount = m_ActiveStreams.GetCount();
 	for ( int i = 0; i < nStreamCount; i++ )
 	{
 		delete	m_ActiveStreams.Item( ( nStreamCount - 1 ) - i );
 	}
-	wxCriticalSectionLocker lock(m_protectingStreamArrays);
 	m_ActiveStreams.Clear();
 
 	//-----------------------------------------//

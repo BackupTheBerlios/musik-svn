@@ -19,8 +19,9 @@
 #ifndef WX_PRECOMP
 	#include "wx/wx.h"
 #endif 
+//#if !defined(__WXMAC__) 
 #define  USE_GENERICLISTCTRL   
-
+//#endif
 #ifdef USE_GENERICLISTCTRL
 #include "wxmod_listctrl.h"
 #else

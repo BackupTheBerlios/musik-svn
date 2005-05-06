@@ -43,6 +43,7 @@
     #include <wx/dcscreen.h>
     #include <wx/textctrl.h>
 	#include <wx/dcmemory.h>
+    #include <wx/dcbuffer.h>
 #endif
 
 // under Win32 we always use the native version and also may use the generic
@@ -52,6 +53,17 @@
     #define HAVE_NATIVE_LISTCTRL
 #endif
 
+#if defined(__WXMAC__)
+#define USE_DOUBLEBUFFERED_PAINTING 0
+#else
+#define USE_DOUBLEBUFFERED_PAINTING 1
+#endif
+
+#if USE_DOUBLEBUFFERED_PAINTING
+#define WXPAINTDC wxBufferedPaintDC 
+#else
+#define WXPAINTDC wxPaintDC
+#endif
 
 #include "wxmod_listctrl.h"
 
@@ -420,6 +432,9 @@ public:
     void OnPaint( wxPaintEvent &event );
     void OnErase( wxEraseEvent& event ) 
     {
+#if USE_DOUBLEBUFFERED_PAINTING == 0
+        event.Skip();
+#endif    
     }
     void OnMouse( wxMouseEvent &event );
     void OnSetFocus( wxFocusEvent &event );
@@ -604,6 +619,9 @@ public:
     void OnPaint( wxPaintEvent &event );
 	void OnErase( wxEraseEvent& event ) 
     {
+#if USE_DOUBLEBUFFERED_PAINTING == 0
+        event.Skip();
+#endif        
 	}
 
     void DrawImage( int index, wxDC *dc, int x, int y );
@@ -1695,7 +1713,7 @@ void wxListHeaderWindow::AdjustDC(wxDC& dc)
 
 void wxListHeaderWindow::OnPaint( wxPaintEvent &WXUNUSED(event) )
 {
-   wxBufferedPaintDC dc(this);
+    WXPAINTDC dc(this);
     PrepareDC( dc );
     AdjustDC( dc );
 
@@ -1708,10 +1726,11 @@ void wxListHeaderWindow::OnPaint( wxPaintEvent &WXUNUSED(event) )
     GetClientSize( &w, &h );
     m_owner->CalcUnscrolledPosition(w, 0, &w, NULL);
 
+#if USE_DOUBLEBUFFERED_PAINTING == 1
     dc.SetBrush(wxBrush(GetBackgroundColour(), wxSOLID));
     dc.SetPen( *wxTRANSPARENT_PEN );
     dc.DrawRectangle(0,0,w,h);
-
+#endif
     dc.SetBackgroundMode(wxTRANSPARENT);
     dc.SetTextForeground(GetForegroundColour());
 
@@ -2615,18 +2634,23 @@ void wxListMainWindow::OnPaint( wxPaintEvent &WXUNUSED(event) )
  
     if (  m_freezeCount )
     {
+#ifdef __WXMSW__    
         wxPaintDC dc(this);
+#endif        
         // nothing to draw or not the moment to draw it
         return;
     }
-
+#if 0
     if ( m_dirty )
     {
+#ifdef __WXMSW__    
         wxPaintDC dc(this);
+#endif        
         // delay the repainting until we calculate all the items positions
         return;
     }
-    wxBufferedPaintDC dc(this);
+#endif    
+    WXPAINTDC dc(this);
 
     PrepareDC( dc );
 
@@ -2679,6 +2703,7 @@ void wxListMainWindow::OnPaint( wxPaintEvent &WXUNUSED(event) )
 
 		    }
         }
+#if USE_DOUBLEBUFFERED_PAINTING == 1        
 		// Clean up empty spaces because we ignore ERASE_BACKGROUND events
 		// Get the item-rect after the last actual item
 		wxRect after = GetLineRect( GetItemCount() );
@@ -2706,7 +2731,7 @@ void wxListMainWindow::OnPaint( wxPaintEvent &WXUNUSED(event) )
 		if ( after.GetWidth() < width ) {
 			dc.DrawRectangle( after.GetWidth(), yOrig, width - after.GetWidth(), height );
 		}
-		
+#endif // #if USE_DOUBLEBUFFERED_PAINTING == 1		
         if ( HasFlag(wxLC_HRULES) )
         {
             wxPen pen(GetRuleColour(), 1, wxSOLID);

@@ -244,6 +244,12 @@ wxString CActivityListBox::GetRowText( long row, bool bPure ) const
 }
 wxListItemAttr* CActivityListBox::OnGetItemAttr(long item) const
 {
+#ifdef __WXMAC__
+	wxListItemAttr *pDefAttr = 	NULL;
+#else
+	wxListItemAttr *pDefAttr = 	(wxListItemAttr*)&m_LightAttr;
+#endif
+
 	if ( wxGetApp().Prefs.eSelStyle == MUSIK_SELECTION_TYPE_HIGHLIGHT && item < m_Related )
 		return ( wxListItemAttr* )&m_AllReset;
 
@@ -251,12 +257,8 @@ wxListItemAttr* CActivityListBox::OnGetItemAttr(long item) const
 		return ( wxListItemAttr* )&m_AllReset;
 
 	if ( wxGetApp().Prefs.bActStripes == 1 )
-		return item % 2 ? (wxListItemAttr *)&m_DarkAttr : (wxListItemAttr *)&m_LightAttr;
-#ifdef __WXMAC__
-	return NULL;
-#else
-	return ( wxListItemAttr* )&m_LightAttr;
-#endif	
+		return item % 2 ? (wxListItemAttr *)&m_DarkAttr : pDefAttr;
+	return pDefAttr;
 }
 
 CActivityListBox::~CActivityListBox()

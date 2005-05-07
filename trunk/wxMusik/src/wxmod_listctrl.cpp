@@ -53,7 +53,7 @@
     #define HAVE_NATIVE_LISTCTRL
 #endif
 
-#if defined(__WXMAC__)
+#if defined(__WXMAC__) || defined(__WXGTK__)
 #define USE_DOUBLEBUFFERED_PAINTING 0
 #else
 #define USE_DOUBLEBUFFERED_PAINTING 1

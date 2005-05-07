@@ -1,6 +1,5 @@
 //--- For compilers that support precompilation, includes "wx/wx.h" ---//
 #include "myprec.h"
-#include <wx/arrimpl.cpp>
 #include "MusikId.h"
 #include "MusikUtils.h"
 

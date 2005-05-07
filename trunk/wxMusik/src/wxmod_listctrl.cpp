@@ -3267,14 +3267,7 @@ void wxListMainWindow::OnChar( wxKeyEvent &event )
     }
 
     /* we propagate the char event up */
-    wxKeyEvent ke( wxEVT_CHAR );
-    ke.m_shiftDown = event.m_shiftDown;
-    ke.m_controlDown = event.m_controlDown;
-    ke.m_altDown = event.m_altDown;
-    ke.m_metaDown = event.m_metaDown;
-    ke.m_keyCode = event.m_keyCode;
-    ke.m_x = event.m_x;
-    ke.m_y = event.m_y;
+    wxKeyEvent ke( event );
     ke.SetEventObject( parent );
     if (parent->GetEventHandler()->ProcessEvent( ke )) return;
 

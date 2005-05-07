@@ -33,20 +33,17 @@ wxSizer * OptionSelectionsPanel::CreateControls()
     //----------------------------//
     //--- Options -> Selection ---//
     //----------------------------//
-    const wxString arrSelectionBoxes[] = 
-    {
-        _("None")  , 
-            _("Artist"),
-            _("Album") ,
-            _("Genre") ,
-            _("Year")  
-    };
-
+ 
     //--- activity boxes ---//
     for(size_t i = 0; i < WXSIZEOF(cmbActivityBoxes);i++)
     {
         vsOptions_Selections->Add(  PREF_STATICTEXT( wxString::Format(_("Selection Box %d:"),i + 1)),	0, wxCENTER | wxRIGHT | wxALIGN_CENTER_VERTICAL, 0 );
-        cmbActivityBoxes[i] = new wxComboBox( this, -1, wxEmptyString, wxDefaultPosition, wxDefaultSize, WXSIZEOF(arrSelectionBoxes), arrSelectionBoxes, wxCB_READONLY );
+        cmbActivityBoxes[i] = new wxComboBox( this, -1, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY );
+        cmbActivityBoxes[i]->Append( _("None"));
+        for(int n = 0; n < PlaylistColumn::NCOLUMNS;n++)
+        {
+            cmbActivityBoxes[i]->Append( wxGetTranslation( g_PlaylistColumn[n].Label ));
+        }
         vsOptions_Selections->Add( cmbActivityBoxes[i],	1, wxCENTER, 0 );
     }
     //--- selection style ---//
@@ -68,7 +65,7 @@ void OptionSelectionsPanel::DoLoadPrefs()
     //-----------------------------//
     cmbSelStyle->SetSelection		( wxGetApp().Prefs.eSelStyle.val );
     for(size_t i = 0; i < WXSIZEOF(cmbActivityBoxes);i++)
-        cmbActivityBoxes[i]->SetSelection	( wxGetApp().Prefs.nActBoxType[i] );
+        cmbActivityBoxes[i]->SetSelection	( wxGetApp().Prefs.nActBoxType[i] + 1 );
 
 }
 
@@ -86,7 +83,7 @@ bool OptionSelectionsPanel::DoSavePrefs()
     {
         if ( cmbActivityBoxes[i]->GetSelection() != wxGetApp().Prefs.nActBoxType[i] )
         {
-            wxGetApp().Prefs.nActBoxType[i] = (PlaylistColumn::eId)cmbActivityBoxes[i]->GetSelection();
+            wxGetApp().Prefs.nActBoxType[i] = (PlaylistColumn::eId)(cmbActivityBoxes[i]->GetSelection() - 1);
             g_ActivityAreaCtrl->ReCreate();
             g_MusikFrame->Layout();
         }

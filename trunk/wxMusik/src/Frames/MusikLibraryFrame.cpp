@@ -91,7 +91,7 @@ MusikLibraryDialog::MusikLibraryDialog( wxWindow* pParent ,const wxArrayString &
 	//------------------------------------------//
 	//--- load paths and hide unneeded stuff ---//
 	//------------------------------------------//
-	vsTopSizer->Show( lcPaths, false );
+	vsTopSizer->Show( sizerPaths, false );
 	vsTopSizer->Show( hsSysButtons, true );
 	vsTopSizer->Show(hsLibraryButtons,false);
     Layout();
@@ -171,7 +171,7 @@ void MusikLibraryDialog::CreateControls()
 	wxButton *btnRemDir  =	new wxButton( this, MUSIK_PATHS_MENU_REMOVESEL, _("&Remove") );
 	wxButton *btnRemAll  =	new wxButton( this, MUSIK_PATHS_MENU_REMOVEALL, _("Remove All")) ;
 
-	wxSizer *sizerPaths = new wxBoxSizer(wxHORIZONTAL);
+	sizerPaths = new wxBoxSizer(wxHORIZONTAL);
 	sizerPaths->Add(lcPaths,1,wxEXPAND);
 	wxSizer *sizerPathsButtons = new wxBoxSizer(wxVERTICAL);
 	

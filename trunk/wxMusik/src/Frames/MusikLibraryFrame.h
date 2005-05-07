@@ -96,6 +96,7 @@ public:
 	wxButton		*btnOK;
 	wxButton		*btnCancel;
 	wxBoxSizer		*hsSysButtons;
+    wxSizer         *sizerPaths;
 	wxGridSizer		*hsLibraryButtons;
 	wxBoxSizer		*vsTopSizer;
 

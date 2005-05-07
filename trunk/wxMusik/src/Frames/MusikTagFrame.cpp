@@ -498,6 +498,9 @@ void MusikTagFrame::SaveCurSong()
 }
 void MusikTagFrame::SaveSong(int n)
 {
+    wxASSERT(!(n < 0 || n >= m_Songs.GetCount()));
+    if(n < 0 || n >= m_Songs.GetCount())
+        return;
 
     MusikSongId & songid = m_Songs.Item( n );
     CMusikSong & song = songid.SongCopy();

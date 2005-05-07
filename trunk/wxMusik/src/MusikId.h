@@ -31,28 +31,14 @@ public:
     ~MusikSongId();
     MusikSongId( const MusikSongId & id)
     {
-        if(id.m_pSong)
-        {
-            m_pSong = new CMusikSong(*id.m_pSong);
-        }
-        else
-           m_pSong = NULL;
-        m_Id = id.m_Id;
+        m_pSong = NULL;
+        Copy(id);
     }
     MusikSongId & operator=(const MusikSongId &id)
     {
         if(this != &id)
         {
-            if(m_pSong)
-            {
-                delete m_pSong;
-            }
-            if(id.m_pSong)
-                m_pSong = new CMusikSong(*id.m_pSong);
-            else
-                m_pSong = NULL;
-            m_Id = id.m_Id;
-           
+            Copy(id);
         }
         return *this;
     }
@@ -108,7 +94,24 @@ public:
         }
         return *m_pSong;
     }
-
+ protected:
+     void Copy(const MusikSongId &id)
+     {
+         if(m_pSong)
+         {
+             delete m_pSong;
+         }
+         if(id.m_pSong)
+         {
+             m_pSong = new CMusikSong(*id.m_pSong);
+         }
+         else
+             m_pSong = NULL;
+         m_Id = id.m_Id;
+         Check1 = id.Check1;
+         bChosenByUser = id.bChosenByUser;
+         bForcePlay = id.bForcePlay;
+     }
  private:
     enum {ExternalSong = -1};
 

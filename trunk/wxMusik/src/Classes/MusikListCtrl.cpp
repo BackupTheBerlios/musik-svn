@@ -63,8 +63,10 @@ BEGIN_EVENT_TABLE(CMusikListCtrl, MUSIKLISTCTRLBASE)
 #endif	
 #ifndef USE_GENERICLISTCTRL
 #ifdef __WXMSW__
+#if USE_NATIVELISTCTRL_DOUBLEBUFFERED_PAINTING
 	EVT_ERASE_BACKGROUND	( CMusikListCtrl::OnEraseBackground )
 	EVT_PAINT ( CMusikListCtrl::OnPaint )
+#endif
 #endif
 #endif
 	EVT_SIZE  (	CMusikListCtrl::OnSize )	
@@ -237,7 +239,7 @@ void CMusikListCtrl::Thaw()
     }
 
 }
-
+#if USE_NATIVELISTCTRL_DOUBLEBUFFERED_PAINTING
 void CMusikListCtrl::OnEraseBackground(wxEraseEvent& WXUNUSED(event))
 {
 	// empty => no background erasing to avoid flicker
@@ -316,6 +318,7 @@ void CMusikListCtrl::OnPaint(wxPaintEvent& event)
         }
     }
 }
+#endif //USE_NATIVELISTCTRL_DOUBLEBUFFERED_PAINTING
 #endif
 #endif
 

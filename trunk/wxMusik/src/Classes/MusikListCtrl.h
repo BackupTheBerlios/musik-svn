@@ -20,8 +20,10 @@
 	#include "wx/wx.h"
 #endif 
 //#if !defined(__WXMAC__) 
-#define  USE_GENERICLISTCTRL   
+//#define  USE_GENERICLISTCTRL   
 //#endif
+#define USE_NATIVELISTCTRL_DOUBLEBUFFERED_PAINTING 1
+
 #ifdef USE_GENERICLISTCTRL
 #include "wxmod_listctrl.h"
 #else
@@ -65,8 +67,10 @@ public:
 	//--------------//
 #ifndef USE_GENERICLISTCTRL                                     
 #ifdef __WXMSW__
-	void OnEraseBackground(wxEraseEvent& event);
+#if USE_NATIVELISTCTRL_DOUBLEBUFFERED_PAINTING
+    void OnEraseBackground(wxEraseEvent& event);
 	void OnPaint(wxPaintEvent& event);
+#endif //USE_NATIVELISTCTRL_DOUBLEBUFFERED_PAINTING
 	void Freeze();
 	void Thaw();
 #endif

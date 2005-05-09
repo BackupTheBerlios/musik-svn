@@ -151,7 +151,7 @@ public:
 bool MusikAppConnection::OnPoke(const wxString& WXUNUSED(topic), const wxString& item, wxChar *data, int size, wxIPCFormat format)
 
 {
-#ifdef wxUSE_UNICODE
+#if wxUSE_UNICODE
 	if((item == wxT("PlayFiles")) && (format == wxIPC_UNICODETEXT) )
 #else
 	if((item == wxT("PlayFiles")) && (format == wxIPC_TEXT) )
@@ -251,7 +251,7 @@ bool MusikApp::OnInit()
 					sData += arrParams[i];
 					sData += wxT("\n");
 				}
-		#ifdef wxUSE_UNICODE
+		#if wxUSE_UNICODE
 				pConn->Poke(wxT("PlayFiles"),sData.GetWriteBuf(sData.Length()),sData.Length()*sizeof(wxChar),wxIPC_UNICODETEXT);
 		#else
 				pConn->Poke(wxT("PlayFiles"),sData.GetWriteBuf(sData.Length()),sData.Length(),wxIPC_TEXT);

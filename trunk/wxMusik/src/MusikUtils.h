@@ -330,7 +330,7 @@ inline const wxCharBuffer ConvW2A( const wxString &s )
 }
 inline const wxCharBuffer ConvFn2A( const wxString &s )
 {
-#ifdef wxUSE_UNICODE
+#if wxUSE_UNICODE
     const wxCharBuffer buf = wxConvFile.cWX2MB( s );
 #ifdef __WXMSW__
     if(buf.data() == NULL)

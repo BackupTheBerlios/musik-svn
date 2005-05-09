@@ -187,5 +187,5 @@ private:
 	static int sqlite_callbackAddToSongIdArray(void *args, int numCols, char **results, char ** columnNames);
 	static int sqlite_callbackAddToSongIdMap(void *args, int numCols, char **results, char ** columnNames);
 };
-
+            
 #endif

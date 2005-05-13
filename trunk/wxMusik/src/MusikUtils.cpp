@@ -628,14 +628,13 @@ CMusikTagger::CMusikTagger(const wxString &sTheMask, bool bConvertUnderscoresToS
 	sMask.Trim();
 	if(sMask.Left(1) != wxFileName::GetPathSeparator())
 	{
-		sMask.Prepend( wxT("/") );
+		sMask.Prepend( wxFileName::GetPathSeparator() );
 	}
+#ifdef __WXMSW__
+    sMask.Replace(wxT("/"),wxT("\\"));
+#endif
 	wxRegEx reMatchRegexSpecialChars(wxT("([{}\\:\\^\\*\\.\\+\\$\\(\\)\\|\\?\\\\]|\\[|\\])"));
 	reMatchRegexSpecialChars.ReplaceAll(&sMask,wxT("\\\\\\1"));// replace all special regex chars by \char
-#ifdef __WXMSW__
-    wxRegEx reMatchRegexDirSep(wxT("[\\\\/]"));
-    reMatchRegexDirSep.ReplaceAll(&sMask,wxT("[\\\\/]"));// replace all \ or / chars by [\/]
-#endif
 	wxRegEx reMatchPlaceHolder(wxT("%([[:alnum:]])"));
 	wxString sMaskParse = sMask;
 	while(reMatchPlaceHolder.Matches(sMaskParse))

@@ -29,9 +29,12 @@ bool CTagLibInfo::ReadMetaData(CSongMetaData & MetaData) const
 		MetaData.Title = tag->title().toCString(true);
 		MetaData.Artist  = tag->artist().toCString(true);
 		MetaData.Album = tag->album().toCString(true);
-		char szYear[20];
-		sprintf(szYear,"%d",tag->year());
-		MetaData.Year = szYear; 
+        if(tag->year() > 0)
+        {
+            char szYear[20];
+            sprintf(szYear,"%d",tag->year());
+            MetaData.Year = szYear; 
+        }
 		MetaData.Notes =  tag->comment().toCString(true);
 		MetaData.nTracknum = tag->track();
 		MetaData.Genre = tag->genre().toCString(true);

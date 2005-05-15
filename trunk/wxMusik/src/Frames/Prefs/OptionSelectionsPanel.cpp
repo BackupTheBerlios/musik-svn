@@ -81,7 +81,7 @@ bool OptionSelectionsPanel::DoSavePrefs()
     }
     for(size_t i = 0; i < WXSIZEOF(cmbActivityBoxes);i++)
     {
-        if ( cmbActivityBoxes[i]->GetSelection() != wxGetApp().Prefs.nActBoxType[i] )
+        if ( cmbActivityBoxes[i]->GetSelection() - 1 != wxGetApp().Prefs.nActBoxType[i] )
         {
             wxGetApp().Prefs.nActBoxType[i] = (PlaylistColumn::eId)(cmbActivityBoxes[i]->GetSelection() - 1);
             g_ActivityAreaCtrl->ReCreate();

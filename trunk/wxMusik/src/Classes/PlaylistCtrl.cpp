@@ -735,11 +735,11 @@ void CPlaylistCtrl::OnKeyDown( wxKeyEvent& event )
 				case WXK_F7:
 				case WXK_F8:
 					EditTag( nKeyCode -  WXK_F2);
-					break;
+					return;
 				case WXK_DELETE:
 				case WXK_BACK:
 					DelSelSongs();
-					break;
+					return;
 				case '0':
 				case '1':
 				case '2':
@@ -754,38 +754,40 @@ void CPlaylistCtrl::OnKeyDown( wxKeyEvent& event )
 						RateSel(-(nKeyCode - '0'));
 					else
 						RateSel(nKeyCode - '0');
-					break;
+					return;
 				case 'I':
 					{
 						wxCommandEvent dummy;
 						OnPlayInstantly( dummy );
 					}
-					break;
+					return;
 				case 'E':
 					{
 						wxCommandEvent dummy;
 						OnPlayEnqueued( dummy );
 					}
-					break;
+					return;
 				case 'N':
 					{
 						wxCommandEvent dummy;
 						OnPlayAsNext( dummy );
 					}
-					break;
-                case 'C':
-                    {
-                        wxCommandEvent dummy;
-                        OnClearPlayerlist( dummy );
-                    }
-                    break;
-				default:
-					event.Skip();
 					return;
 			}
 		}
-        else
-            event.Skip();   // we did not handle the key, so propagate it further
+        switch( nKeyCode )
+        {
+        case 'C':
+            {
+                wxCommandEvent dummy;
+                OnClearPlayerlist( dummy );
+            }
+            break;
+       default:
+            event.Skip();
+            break;
+        }
+        return;
 	}
 }
 

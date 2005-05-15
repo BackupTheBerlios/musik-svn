@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <ctype.h>
 #include "idtag.h"
 
 #ifdef _MSC_VER
@@ -87,6 +88,8 @@ const char ListSeparator[] = { "; " };
 // X: Discard
 
 const char *SchemeList[] = {
+    "%A/%L (%Y)/%A - %N %T",
+    "%A/%L (%Y)/%A - %N_%T",
     "%L -- [%N] -- %A -- %T",
     "%L/[%N] -- %A -- %T",
     "%L -- [%N] %A -- %T",
@@ -738,6 +741,7 @@ int CSimpleTagReader::GuessTagFromName ( const char* filename, const char* namin
     Comment[0] = '\0';
 
     for ( s_pos = 0; s_pos < strlen (scheme) + 1; s_pos++ ) {
+        bool bIsNumber = false;
         if ( scheme[s_pos] == '%' ) {
             s_pos++;
             sep = (char *)(scheme+s_pos+1);
@@ -768,11 +772,13 @@ int CSimpleTagReader::GuessTagFromName ( const char* filename, const char* namin
                 break;
             case 'n':   // track
             case 'N':
+                bIsNumber = true;
                 dest  = Track;
                 d_len = sizeof (Track);
                 break;
             case 'y':   // year
             case 'Y':
+                bIsNumber = true;
                 dest  = Year;
                 d_len = sizeof (Year);
                 break;
@@ -798,6 +804,8 @@ int CSimpleTagReader::GuessTagFromName ( const char* filename, const char* namin
             char *end = (char *)(dest + d_len);
 
             while ( f_pos < len && strncmp ((char*)(name+f_pos), sep, s_len) != 0 ) {
+                if(bIsNumber && !isdigit(name[f_pos]))
+                    break;
                 if ( dest < end ) {
                     char c = name[f_pos++];
                     if ( c == '_' ) c = ' ';

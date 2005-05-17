@@ -180,7 +180,7 @@ bool OptionGeneralPanel::DoSavePrefs()
         bActivityUpdate = true;
     }
     if ( bActivityUpdate )
-        g_ActivityAreaCtrl->ResetAllContents();
+        g_ActivityAreaCtrl->ReloadAllContents();
 
 
     if ( chkSourcesBoxStripes->GetValue() != wxGetApp().Prefs.bSourcesStripes )

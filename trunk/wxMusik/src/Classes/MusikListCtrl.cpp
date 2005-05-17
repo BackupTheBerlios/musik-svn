@@ -29,17 +29,10 @@ const wxEventType wxEVT_LISTSEL_CHANGED_COMMAND = wxNewEventType();
 CMusikListCtrl::CMusikListCtrl( wxWindow *parent, const wxWindowID id, const wxPoint& pos, const wxSize& size, long style)
 	:	MUSIKLISTCTRLBASE( parent, id, pos, size, wxLC_REPORT | wxLC_VIRTUAL | wxCLIP_CHILDREN | style)
 #ifdef __WXMSW__
-	,m_freezeCount(0)
     ,m_bHideHorzScrollbar(false)
     ,m_bHideVertScrollbar(false)
 #endif
 {
-#ifdef __WXMSW__
-#ifdef LVS_EX_LABELTIP
-	HWND hwnd = (HWND)GetHandle();
-	ListView_SetExtendedListViewStyleEx(hwnd,LVS_EX_LABELTIP,LVS_EX_LABELTIP);
-#endif
-#endif
     m_bSuppressListItemStateEvents = false;
 }
 
@@ -224,21 +217,7 @@ void CMusikListCtrl::ShowMenu( wxContextMenuEvent &WXUNUSED(event) )
 #ifndef USE_GENERICLISTCTRL
 #ifdef __WXMSW__
 #include "wx/dcbuffer.h"
-void CMusikListCtrl::Freeze()
-{
-	if(!m_freezeCount++)
-		MUSIKLISTCTRLBASE::Freeze();
-}
-void CMusikListCtrl::Thaw()
-{
-    wxCHECK_RET( m_freezeCount > 0, _T("thawing unfrozen list control?") );
 
-    if ( !--m_freezeCount )
-    {
-        MUSIKLISTCTRLBASE::Thaw();
-    }
-
-}
 #if USE_NATIVELISTCTRL_DOUBLEBUFFERED_PAINTING
 void CMusikListCtrl::OnEraseBackground(wxEraseEvent& WXUNUSED(event))
 {
@@ -246,11 +225,6 @@ void CMusikListCtrl::OnEraseBackground(wxEraseEvent& WXUNUSED(event))
 }
 void CMusikListCtrl::OnPaint(wxPaintEvent& event)
 {
-	if(m_freezeCount > 0)
-	{
-		wxControl::OnPaint(event);
-		return;
-	}
 	wxBufferedPaintDC dc(this);
 
 	MSWDefWindowProc(WM_ERASEBKGND, (WPARAM) (HDC) dc.GetHDC(), 0);

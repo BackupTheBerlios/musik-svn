@@ -1426,7 +1426,7 @@ void CPlaylistCtrl::DelSelSongs(bool bDeleteFromDB, bool bDeleteFromComputer)
 
 	Thaw();
 	if(bDeleteFromDB)
-		g_ActivityAreaCtrl->ResetAllContents();
+		g_ActivityAreaCtrl->ReloadAllContents();
 
 	
 }
@@ -1582,7 +1582,7 @@ void CPlaylistCtrl::OnThreadEnd( wxCommandEvent& WXUNUSED(event) )
 
 	if( GetProgressType() == MUSIK_PLAYLIST_RETAG_THREAD )
 	{
-  		g_ActivityAreaCtrl->ResetAllContents();
+  		g_ActivityAreaCtrl->ReloadAllContents();
 	}
 	g_SourcesCtrl->UpdateCurrent();
 	Update();

@@ -648,7 +648,7 @@ void MusikLibraryDialog::OnThreadEnd( wxCommandEvent& event )
 		
 		bool bDatabaseChanged = event.GetExtraLong()?true:false;
 		if(bDatabaseChanged)
-			g_ActivityAreaCtrl->ResetAllContents();
+			g_ActivityAreaCtrl->ReloadAllContents();
 
 		if((m_flagsUpdate & (MUSIK_UpdateFlags::InsertFilesIntoPlayer | MUSIK_UpdateFlags::EnquequeFilesIntoPlayer)) && m_arrScannedFiles.GetCount())
 		{
@@ -677,12 +677,7 @@ void MusikLibraryDialog::OnThreadEnd( wxCommandEvent& event )
 		bool bDatabaseChanged = event.GetExtraLong()?true:false;
 		if(bDatabaseChanged)
 		{
-			g_ActivityAreaCtrl->ResetAllContents();
-			if ( wxGetApp().Prefs.bShowAllSongs == 1 )
-			{
-				wxGetApp().Library.GetAllSongs( g_thePlaylist );
-				g_PlaylistBox->SetPlaylist(&g_thePlaylist);
-			}
+			g_ActivityAreaCtrl->ReloadAllContents();
 		}
 	}
 

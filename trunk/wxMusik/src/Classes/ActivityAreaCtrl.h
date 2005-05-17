@@ -29,24 +29,21 @@ public:
 	~CActivityAreaCtrl();
 
 	//--- events ---//
-	void OnActivityBoxFocused		( wxListEvent& event);
-	void OnActivityBoxSelected		( wxListEvent& event);
 	void OnActivityBoxColResize		( wxListEvent& event ){ event.Veto(); }
-	void OnActivityBoxActivated		( wxListEvent& event );
-
+	void OnActivityBoxSelChanged	( wxCommandEvent& event );
+    void OnActivityBoxActivated     (  wxListEvent& event );
 	void OnSashDragged				(wxSashEvent & ev);
 	void OnSize						( wxSizeEvent& event );
 	//--- member functions ---//
-	void UpdateSel( CActivityBox *pSel );
+	void UpdateSel( CActivityBox *pSel ,bool bForceShowAll = false);
 	bool ReCreate();
-	void ResetAllContents( bool bUpdatePlaylist = true );
+	void ResetAllContents( );
+    void ReloadAllContents(  );
     CActivityBox* GetActivityBox(size_t nIndex);
     CActivityBox* GetActivityBox(PlaylistColumn::eId TypeId);
     size_t GetActivityBoxCount();
 	bool Show(bool show = true);
-	void SetParent( int ACTIVITY_BOX_ID, bool bUpdate = false );
-
-	int GetParentId(){ return m_ParentId; }
+	void SetParent( CActivityBox* pBox, bool bUpdate = false );
 	CActivityBox* GetParentBox(){ return m_ParentBox; }
 
 	DECLARE_EVENT_TABLE()
@@ -62,10 +59,6 @@ private:
 	CActivityBox *m_ActivityBox[ActivityBoxesMaxCount];		
 	wxBoxSizer* pTopSizer;
 	wxPanel	  * m_pPanel;
-	bool m_bFocused; // this flags are used, to make instant selection working
-	bool m_Selected;
-	bool m_Selecting;
-	bool m_UpdatePlaylist;
 	bool m_bContentInvalid;
 };
 

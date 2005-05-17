@@ -71,8 +71,6 @@ public:
     void OnEraseBackground(wxEraseEvent& event);
 	void OnPaint(wxPaintEvent& event);
 #endif //USE_NATIVELISTCTRL_DOUBLEBUFFERED_PAINTING
-	void Freeze();
-	void Thaw();
 #endif
 #ifdef __WXMSW__
 	void SetItemCount(long count)
@@ -131,9 +129,6 @@ protected:
 
 private:
 
-#ifdef __WXMSW__
-	int m_freezeCount;
-#endif
     bool m_bSuppressListItemStateEvents;
 
     

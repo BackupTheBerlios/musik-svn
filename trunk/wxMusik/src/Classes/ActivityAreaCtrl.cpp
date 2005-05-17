@@ -23,13 +23,10 @@
 #include "PlaylistCtrl.h"
 
 BEGIN_EVENT_TABLE(CActivityAreaCtrl, wxSashLayoutWindow)
-	EVT_LIST_ITEM_FOCUSED		( -1, CActivityAreaCtrl::OnActivityBoxFocused	)
-	EVT_LIST_ITEM_SELECTED		( -1, CActivityAreaCtrl::OnActivityBoxSelected	)
-	EVT_LIST_ITEM_DESELECTED	( -1, CActivityAreaCtrl::OnActivityBoxSelected	) // just use the same method for deselection
-	EVT_LIST_COL_BEGIN_DRAG		( -1, CActivityAreaCtrl::OnActivityBoxColResize	)
-	EVT_LIST_ITEM_ACTIVATED		( -1, CActivityAreaCtrl::OnActivityBoxActivated	)
-	EVT_SASH_DRAGGED			( -1, CActivityAreaCtrl::OnSashDragged			)
-	EVT_SIZE					(					  CActivityAreaCtrl::OnSize					)
+	EVT_LISTSEL_CHANGED_COMMAND ( wxID_ANY,	CActivityAreaCtrl::OnActivityBoxSelChanged	)
+	EVT_LIST_ITEM_ACTIVATED		( wxID_ANY, CActivityAreaCtrl::OnActivityBoxActivated	)
+	EVT_SASH_DRAGGED			( wxID_ANY, CActivityAreaCtrl::OnSashDragged			)
+	EVT_SIZE					( CActivityAreaCtrl::OnSize )
 END_EVENT_TABLE()
 
 CActivityAreaCtrl::CActivityAreaCtrl( wxWindow *pParent )
@@ -40,8 +37,6 @@ CActivityAreaCtrl::CActivityAreaCtrl( wxWindow *pParent )
 	m_pPanel = new wxPanel( this, -1, wxPoint( -1, -1 ), wxSize( -1, -1 ), wxNO_BORDER|wxCLIP_CHILDREN|wxTAB_TRAVERSAL );
 	pTopSizer = new wxBoxSizer( wxHORIZONTAL );
 	m_pPanel->SetSizer( pTopSizer );
-	m_Selected = m_bFocused = m_Selecting = false;
-	m_UpdatePlaylist = true;
 	m_bContentInvalid = true;
 	m_pLastSelectedBox = NULL;
 	Create();
@@ -77,7 +72,7 @@ bool CActivityAreaCtrl::Create()
 	m_pPanel->Layout();
 	//	SetSize( pTopSizer->GetMinSize() );
 
-	SetParent( 0, false );
+	SetParent( NULL, false );
 	return true;
 }
 
@@ -99,20 +94,32 @@ void CActivityAreaCtrl::Delete()
     m_bContentInvalid = true;
 }
 
-void CActivityAreaCtrl::ResetAllContents( bool bUpdatePlaylist )
+void CActivityAreaCtrl::ReloadAllContents(  )
+{
+    if(!IsShown())
+    {
+        m_bContentInvalid = true;
+        return;
+    }
+    for(size_t i = 0; i < ActivityBoxesMaxCount;i++)
+    {
+        if ( m_ActivityBox[i] != NULL )	m_ActivityBox[i]->ReloadContents();
+    }
+    m_bContentInvalid = false;
+}
+
+void CActivityAreaCtrl::ResetAllContents(  )
 {
 	if(!IsShown())
 	{
 		m_bContentInvalid = true;
 		return;
 	}
-	m_UpdatePlaylist = bUpdatePlaylist;
 	for(size_t i = 0; i < ActivityBoxesMaxCount;i++)
 	{
-		if ( m_ActivityBox[i] != NULL )	m_ActivityBox[i]->ResetContents();
+		if ( m_ActivityBox[i] != NULL )	m_ActivityBox[i]->ResetContents(RCM_EnsureVisibilityOfCurrentTopItem);
 	}
 	m_bContentInvalid = false;
-	m_UpdatePlaylist = true;
 }
 
 bool CActivityAreaCtrl::Show(bool show /* = TRUE  */)
@@ -124,29 +131,23 @@ bool CActivityAreaCtrl::Show(bool show /* = TRUE  */)
 	}
 	return bRes;
 }
-void CActivityAreaCtrl::SetParent( int nID, bool bUpdate )
+void CActivityAreaCtrl::SetParent( CActivityBox* pBox, bool bUpdate )
 {
-	m_ParentId = nID;
-	if ( nID == 0 )
-{
+	if ( pBox == NULL )
+    {
 		m_ParentBox = NULL;
 		return;
 	}
-	else if ( nID >= MUSIK_ACTIVITYBOX1 && nID <= MUSIK_ACTIVITYBOX4)
+	else 
 	{
-		m_ParentBox = m_ActivityBox[nID - MUSIK_ACTIVITYBOX1];
-	}
-	else
-	{
-		wxASSERT(false);
+		m_ParentBox = pBox;
 	}
 	if ( m_ParentBox != NULL && bUpdate )
 		UpdateSel( m_ParentBox );
 	return;
-
 }
 
-void CActivityAreaCtrl::UpdateSel( CActivityBox *pSelectedBox )
+void CActivityAreaCtrl::UpdateSel( CActivityBox *pSelectedBox ,bool bForceShowAll)
 {
 	if(pSelectedBox == NULL)
 	{
@@ -197,168 +198,132 @@ void CActivityAreaCtrl::UpdateSel( CActivityBox *pSelectedBox )
 	//-------------------------------------------------//
 	if ( wxGetApp().Prefs.eSelStyle == MUSIK_SELECTION_TYPE_STANDARD )
 	{
-		if ( GetParentId() == 0 )
-			SetParent( pSelectedBox->GetListId(), false );
+		if(GetParentBox() == NULL)
+			SetParent( pSelectedBox , false );
 	}
- 
-	//---------------------------------------------------//
-	//--- if we're hiding unselected entries          ---//
-	//--- and reset is clicked or nothing is selected ---//
-	//--- reset all the boxes						  ---//
-	//---------------------------------------------------//
-	if ( ( wxGetApp().Prefs.eSelStyle == MUSIK_SELECTION_TYPE_STANDARD || wxGetApp().Prefs.eSelStyle == MUSIK_SELECTION_TYPE_SLOPPY ) && ( pSelectedBox->IsSelected( 0 ) || pSelectedBox->GetSelectedItemCount() < 1 ) )
-	{
-		SetParent( 0, false );
-		pSelectedBox->ResetContents(true,true); // ensure visiblility of top item before reset	
+    if ( wxGetApp().Prefs.eSelStyle == MUSIK_SELECTION_TYPE_STANDARD || wxGetApp().Prefs.eSelStyle == MUSIK_SELECTION_TYPE_SLOPPY )
+    {
+	    //---------------------------------------------------//
+	    //--- if we're hiding unselected entries          ---//
+	    //--- and reset is clicked or nothing is selected ---//
+	    //--- reset all the boxes						  ---//
+	    //---------------------------------------------------//
+	    if ( pSelectedBox->IsSelected( 0 ) || pSelectedBox->GetSelectedItemCount() == 0 )
+	    {
+		    SetParent( NULL, false );
+		    pSelectedBox->ResetContents(RCM_EnsureVisibilityOfCurrentTopItem); // ensure visiblility of top item before reset	
 
-		for(size_t j = 0 ; j < WXSIZEOF(pOtherBoxes);j++)
-		{
-			if ( pOtherBoxes[j] != NULL )	
-				pOtherBoxes[j]->ResetContents();	
-		}
-		if ( wxGetApp().Prefs.bShowAllSongs == 1 )
-		{
-			wxGetApp().Library.GetAllSongs( g_thePlaylist );
-			g_PlaylistBox->SetPlaylist( &g_thePlaylist);
-			return;
-		}
-	}
+		    for(size_t j = 0 ; j < WXSIZEOF(pOtherBoxes);j++)
+		    {
+			    if ( pOtherBoxes[j] != NULL )	
+				    pOtherBoxes[j]->ResetContents();	
+		    }
+		    if ( wxGetApp().Prefs.bShowAllSongs == 1 && pSelectedBox->GetSelectedItemCount() == 0)
+		    {
+			    wxGetApp().Library.GetAllSongs( g_thePlaylist );
+			    g_PlaylistBox->SetPlaylist( &g_thePlaylist);
+			    return;
+		    }
+            if ( !bForceShowAll &&(pSelectedBox->IsSelected( 0 ) || pSelectedBox->GetSelectedItemCount() == 0 ))
+            {
+                g_thePlaylist.Clear();
+                g_PlaylistBox->SetPlaylist(&g_thePlaylist);
+                return;
+            }
+	    }
 
-	//-----------------------------------------------//
-	//--- if we're hiding unselected entries      ---//
-	//--- and a valid item is clicked, update the ---//
-	//--- other controls with the right values    ---//
-	//-----------------------------------------------//
-	else if ( ( wxGetApp().Prefs.eSelStyle == MUSIK_SELECTION_TYPE_STANDARD || wxGetApp().Prefs.eSelStyle == MUSIK_SELECTION_TYPE_SLOPPY ) && ( !pSelectedBox->IsSelected( 0 ) && pSelectedBox->GetSelectedItemCount() > 0 ) )
-	{
-		wxArrayString temp_list;
-		if ( ( wxGetApp().Prefs.eSelStyle == MUSIK_SELECTION_TYPE_STANDARD && GetParentId() == pSelectedBox->GetListId() ) || wxGetApp().Prefs.eSelStyle == MUSIK_SELECTION_TYPE_SLOPPY )
-		{
-			for(size_t j = 0 ; j < WXSIZEOF(pOtherBoxes);j++)
-			{
-				if ( pOtherBoxes[j] != NULL )
-				{
-					pSelectedBox->GetRelatedList( pOtherBoxes[j], temp_list );
-					pOtherBoxes[j]->SetContents( temp_list );
-				}
-			}
-		}
-	}      
+	    //-----------------------------------------------//
+	    //--- if we're hiding unselected entries      ---//
+	    //--- and a valid item is clicked, update the ---//
+	    //--- other controls with the right values    ---//
+	    //-----------------------------------------------//
+	    else if ( !pSelectedBox->IsSelected( 0 ) && pSelectedBox->GetSelectedItemCount() > 0 )
+	    {
+            if(bForceShowAll)
+            {
+                SetParent( pSelectedBox , false );
+                pSelectedBox->ResetContents(RCM_PreserveSelectedItems); // ensure visiblility of top item before reset
+            }
+		    wxArrayString temp_list;
+		    if ( ( wxGetApp().Prefs.eSelStyle == MUSIK_SELECTION_TYPE_STANDARD && GetParentBox() == pSelectedBox ) 
+                || wxGetApp().Prefs.eSelStyle == MUSIK_SELECTION_TYPE_SLOPPY )
+		    {
+			    for(size_t j = 0 ; j < WXSIZEOF(pOtherBoxes);j++)
+			    {
+				    if ( pOtherBoxes[j] != NULL )
+				    {
+					    pOtherBoxes[j]->GetRelatedList(pSelectedBox , temp_list );
+					    pOtherBoxes[j]->SetContents( temp_list );
+				    }
+			    }
+		    }
+	    }  
+        pSelectedBox->SetPlaylist();
+    }
+	else if ( wxGetApp().Prefs.eSelStyle == MUSIK_SELECTION_TYPE_HIGHLIGHT)
+    {
+        //-------------------------------------------//
+        //--- if we're showing unselected entries ---//
+        //--- and no items are selected, unselect ---//
+        //--- all the corresponding items		  ---//
+        //-------------------------------------------//
+        if(pSelectedBox->GetSelectedItemCount() == 0)
+	    {
+		    pSelectedBox->SelectNone();
+		    for(size_t j = 0 ; j < WXSIZEOF(pOtherBoxes);j++)
+		    {
+			    if ( pOtherBoxes[j] != NULL )	pOtherBoxes[j]->SelectNone();
+		    }
 
-	//-------------------------------------------//
-	//--- if we're showing unselected entries ---//
-	//--- and no items are selected, unselect ---//
-	//--- all the corresponding items		  ---//
-	//-------------------------------------------//
-	else if ( wxGetApp().Prefs.eSelStyle == MUSIK_SELECTION_TYPE_HIGHLIGHT && pSelectedBox->GetSelectedItemCount() < 1 )
-	{
-		pSelectedBox->SelectNone();
-		for(size_t j = 0 ; j < WXSIZEOF(pOtherBoxes);j++)
-		{
-			if ( pOtherBoxes[j] != NULL )	pOtherBoxes[j]->SelectNone();
-		}
+		    if ( wxGetApp().Prefs.bShowAllSongs == 1 )
+		    {
+			    wxGetApp().Library.GetAllSongs( g_thePlaylist );
+			    g_PlaylistBox->SetPlaylist(&g_thePlaylist);
+			    return;
+		    }		
+	    }
 
-		if ( wxGetApp().Prefs.bShowAllSongs == 1 )
-		{
-			wxGetApp().Library.GetAllSongs( g_thePlaylist );
-			g_PlaylistBox->SetPlaylist(&g_thePlaylist);
-			return;
-		}		
-	}
+	    else 
+	    {
+            //----------------------------------------------------//
+            //--- if we're showing unselected entries          ---//
+            //--- and one or more items are selected, select   ---//
+            //--- all the corresponding items		           ---//
+            //----------------------------------------------------// 
+		    wxArrayString rel;
+		    wxArrayString all;
+		    wxListItem item;
+		    int n;
 
-	//-------------------------------------------//
-	//--- if we're showing unselected entries ---//
-	//--- and 1+ items are selected, select   ---//
-	//--- all the corresponding items		  ---//
-	//-------------------------------------------//
-	else if ( wxGetApp().Prefs.eSelStyle == MUSIK_SELECTION_TYPE_HIGHLIGHT && pSelectedBox->GetSelectedItemCount() > 0 )
-	{
-		wxArrayString rel;
-		wxArrayString all;
-		wxListItem item;
-		int n;
+		    for(size_t j = 0 ; j < WXSIZEOF(pOtherBoxes);j++)
+		    {
+			    if ( pOtherBoxes[j] != NULL )
+			    {
+				    pOtherBoxes[j]->GetRelatedList( pSelectedBox, rel );
+				    pOtherBoxes[j]->GetFullList( all );
 
-		for(size_t j = 0 ; j < WXSIZEOF(pOtherBoxes);j++)
-		{
-			if ( pOtherBoxes[j] != NULL )
-			{
-				pSelectedBox->GetRelatedList( pOtherBoxes[j], rel );
-				pOtherBoxes[j]->GetFullList( all );
+				    if ( all.GetCount() > 0 )
+				    {
+					    for ( size_t i = 0; i < rel.GetCount(); i++ )
+					    {
+						    n = FindStrInArray( &all, rel.Item( i ) );
+						    if ( n  > -1 )
+						    {
+							    all.RemoveAt( n );
+							    all.Insert( rel.Item( i ), i );
+						    }
+					    }
+					    pOtherBoxes[j]->SetRelated( rel.GetCount() );
+					    pOtherBoxes[j]->SetContents( all );
+				    }
+			    }
+		    }
+		    pSelectedBox->SetRelated( -1 );
+		    pSelectedBox->Update( false );
+            pSelectedBox->SetPlaylist();
 
-				if ( all.GetCount() > 0 )
-				{
-					for ( size_t i = 0; i < rel.GetCount(); i++ )
-					{
-						n = FindStrInArray( &all, rel.Item( i ) );
-						if ( n  > -1 )
-						{
-							all.RemoveAt( n );
-							all.Insert( rel.Item( i ), i );
-						}
-					}
-					pOtherBoxes[j]->SetRelated( rel.GetCount() );
-					pOtherBoxes[j]->SetContents( all );
-				}
-			}
-		}
-		pSelectedBox->SetRelated( -1 );
-		pSelectedBox->Update( false );
-
-	}
-
-	if ( ( wxGetApp().Prefs.eSelStyle == MUSIK_SELECTION_TYPE_STANDARD || wxGetApp().Prefs.eSelStyle == MUSIK_SELECTION_TYPE_SLOPPY ) && ( pSelectedBox->IsSelected( 0 ) || pSelectedBox->GetSelectedItemCount() < 1 ) )
-	{
-		g_thePlaylist.Clear();
-		g_PlaylistBox->SetPlaylist(&g_thePlaylist);
-	}
-	else
-		pSelectedBox->SetPlaylist();
-}
-
-
-
-//-------------------------------------------------------------------------------------------------//
-//---											events											---//
-//-------------------------------------------------------------------------------------------------//
-//---							*IMPORTANT* *IMPORTANT* *IMPORTANT*								---//
-//--- when using a virtual wxListCtrl, there are a few selection problems. specifically,		---//
-//--- if the user holds shift to select, the selection will never get updated if the			---//
-//--- event EVT_LIST_ITEM_SELECTED is used. so, instead we use EVT_LIST_ITEM_FOCUSED...			---//
-//--- EVT_LIST_ITEM_SELECTED is not fired on virtual list box if multi selection is done		---//
-//----by the user.																				---//			
-//--- On Windows EVT_LIST_ITEM_FOCUSED is not fired if the item already has the focus.			---//
-//--- So in windows, we cannot use  EVT_LIST_ITEM_FOCUSED alone.								---//
-//--- Order of  EVT_LIST_ITEM_SELECTED and EVT_LIST_ITEM_FOCUSED is different on linux and win. ---//
-//--- we have to assure only one is executed, because if they are both called, the selection	---//
-//--- event will be called twice. no good. thats why there are three events that do the same	---//
-//--- thing.																					---//
-//--- to save the #ifdef code on linux and win is the same, would not be						---//
-//--- neccessary but doesnt harm.																---//
-//-------------------------------------------------------------------------------------------------//
-
-void CActivityAreaCtrl::OnActivityBoxFocused( wxListEvent& event )
-{
-	if( m_Selected )
-	{
-		m_Selected = false;
-		return;
-	}
-
-	wxListEvent ev(wxEVT_COMMAND_LIST_ITEM_ACTIVATED, event.GetId() );
-	m_bFocused = true;
-	::wxPostEvent( this, ev );
-}
-
-void CActivityAreaCtrl::OnActivityBoxSelected( wxListEvent& event )
-{
-	if( m_bFocused )
-	{
-		m_bFocused = false;
-		return;
-	}
-	wxListEvent ev(wxEVT_COMMAND_LIST_ITEM_ACTIVATED,event.GetId());
-	m_Selected = true;
-	::wxPostEvent( this, ev );
+	    }
+    }		
 }
 
 CActivityBox* CActivityAreaCtrl::GetActivityBox(size_t nIndex)
@@ -391,14 +356,13 @@ size_t CActivityAreaCtrl::GetActivityBoxCount()
 //----------------------------//
 //--- item activated event ---//
 //----------------------------//
-void CActivityAreaCtrl::OnActivityBoxActivated	( wxListEvent& event)
+void CActivityAreaCtrl::OnActivityBoxActivated(  wxListEvent& event )
+{
+    UpdateSel( m_ActivityBox[event.GetId() - MUSIK_ACTIVITYBOX1] , true ); // true means force show all
+}
+void CActivityAreaCtrl::OnActivityBoxSelChanged	(  wxCommandEvent& event )
 {	
-	if ( !m_Selecting && m_UpdatePlaylist )
-	{
-		m_Selecting = true;
 		UpdateSel( m_ActivityBox[event.GetId() - MUSIK_ACTIVITYBOX1] );
-		m_Selected = m_bFocused = m_Selecting = false;
-	}
 }
 
 void CActivityAreaCtrl::OnSashDragged	(wxSashEvent & ev)

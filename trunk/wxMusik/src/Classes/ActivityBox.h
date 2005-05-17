@@ -34,6 +34,7 @@
 #include "MusikListCtrl.h"
 
 
+enum eResetContentMode{RCM_None,RCM_DeselectAll,RCM_EnsureVisibilityOfCurrentTopItem,RCM_PreserveSelectedItems};
 
 
 //--- forward declarations ---//
@@ -55,7 +56,7 @@ public:
 
 	//--- sets ---//
 	void SetCaption( const wxString & sCaption );
-	void SetList		(const  wxArrayString & aList,bool selectnone = true ,bool bEnsureVisibilityOfCurrentTopItem = false);
+	void SetList		(const  wxArrayString & aList,enum eResetContentMode rcm);
 	void SetSel			( const  wxArrayString & aList );
 	void SetSel			( const wxString & sel, bool bEnsureVisible = true,bool bDeselectAllFirst = true);
 	void SetRelated		( int n );
@@ -72,7 +73,8 @@ protected:
 	bool OnRescaleColumns() { RescaleColumns();return true;}
     wxMenu * CreateContextMenu();	
 
-	void ScrollToItem(const wxString & sItem, wxString::caseCompare cmp = wxString::exact);
+	void ScrollToItem(const wxString & sItem, bool bCenter = true,bool bSelectItem = false);
+    void ScrollToItem(long nItem, bool bCenter = true,bool bSelectItem = false);
 private:
 	//--- virtual functions ---//
     virtual	wxString		OnGetItemText	(long item, long column) const;
@@ -166,7 +168,7 @@ public:
 	wxString	GetFirstSel				()													{ return pListBox->GetFirstSel( ); 						}
 	void		GetSelected				( wxArrayString & aReturn )							{ pListBox->GetSelected( aReturn );return; 				}
 	int			GetSelectedItemCount	()													{ return pListBox->GetSelectedItemCount();				}
-	void		GetRelatedList			( CActivityBox *pDst, wxArrayString & aReturn );
+	void		GetRelatedList			( CActivityBox *pParentBox, wxArrayString & aReturn );
 	const wxString	& TypeAsString		();
 	wxString	TypeAsTranslatedString		();
 	void		GetSelectedSongs		( MusikSongIdArray& array );
@@ -188,8 +190,11 @@ public:
 	//---misc ---//
 	bool IsSelected			( int n )							{ return pListBox->IsSelected( n );		}
 	void Update				( bool selectnone = true )			{ pListBox->Update( selectnone );		}	
-	void ResetContents		(bool selectnone = true, bool bEnsureVisibilityOfCurrentTopItem = false);
-	void SetContents		( const wxArrayString &list ,bool selectnone = true, bool bEnsureVisibilityOfCurrentTopItem = false); 
+    void ReloadContents     ();
+    
+
+    void ResetContents		( enum eResetContentMode rcm = RCM_DeselectAll);
+	void SetContents		( const wxArrayString & aList ,  enum eResetContentMode rcm = RCM_DeselectAll); 
 	void GetFullList		( wxArrayString & aReturn, bool bSorted = true );
 	void SetPlaylist		();
 	void EnableProgress		( bool enable = true );
@@ -216,7 +221,7 @@ private:
 	CActivityListBox	*pListBox;
 	CActivityBoxEvt		*pActivityBoxEvt;
 	CActivityEditEvt	*pActivityEditEvt;
-
+    CActivityBox        *m_ParentBox;
 	//--- thread stuff ---//
 	CThreadController m_ActiveThreadController;
 	int m_Progress;

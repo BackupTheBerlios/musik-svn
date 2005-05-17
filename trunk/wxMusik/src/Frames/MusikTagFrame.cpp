@@ -498,8 +498,8 @@ void MusikTagFrame::SaveCurSong()
 }
 void MusikTagFrame::SaveSong(int n)
 {
-    wxASSERT(!(n < 0 || n >= m_Songs.GetCount()));
-    if(n < 0 || n >= m_Songs.GetCount())
+    wxASSERT(!(n < 0 || n >= (int)m_Songs.GetCount()));
+    if(n < 0 || n >= (int)m_Songs.GetCount())
         return;
 
     MusikSongId & songid = m_Songs.Item( n );
@@ -693,7 +693,7 @@ void MusikTagFrame::OnTagThreadEnd( wxCommandEvent& WXUNUSED(event) )
 	m_bDirty = false;
 	m_ActiveThreadController.Join();
 	g_PlaylistBox->Update();
-	g_ActivityAreaCtrl->ResetAllContents();
+	g_ActivityAreaCtrl->ReloadAllContents();
 
 	//------------------------------------------//
 	//--- make sure these are back to normal ---//

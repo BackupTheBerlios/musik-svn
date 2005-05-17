@@ -61,6 +61,30 @@ void CActivityEditEvt::TranslateKeys( wxKeyEvent& event )
   		event.Skip( TRUE );
 }
 
+
+//helpers
+wxString wxStringRemovePrefix(const wxString &s)
+{
+    const wxChar* Prefix = BeginsWithPreposition(s);
+    if(Prefix)
+    {
+        wxString r = s.Right(s.size() - wxStrlen(Prefix));
+        return r;
+    }
+    return s;
+}
+// NOTE: wxStrcoll sorts by using the current locale. This means they are sorted lexically.
+// case is ignored in th lexically order of most locales ( don't know why MS has a separate stricoll function)
+int wxCMPFUNC_CONV wxStringSortAscendingLocaleRemovePrefix(const wxString& s1, const wxString& s2)
+{
+    return wxStrcoll(wxStringRemovePrefix(s1).c_str(), wxStringRemovePrefix(s2).c_str());
+}
+
+int wxCMPFUNC_CONV wxStringSortAscendingLocale(const wxString& s1,const  wxString& s2)
+{
+    return wxStrcoll(s1.c_str(), s2.c_str());
+}
+
 //------------------------//
 //--- CActivityListBox ---//
 //------------------------//
@@ -102,40 +126,57 @@ void CActivityListBox::OnChar(wxKeyEvent& event)
 			m_sSearch.Empty();
 		}
 		m_sSearch+=keycode;
-		ScrollToItem(m_sSearch,wxString::ignoreCase);
+		ScrollToItem(m_sSearch);
 		m_OnCharStopWatch.Start();
 	} 
 	else 
 		event.Skip();
 }
-void CActivityListBox::ScrollToItem(const wxString & sItem, wxString::caseCompare cmp)
+void CActivityListBox::ScrollToItem(const wxString & sItem, bool bCenter,bool bSelectItem)
 {
+    bool bSortNoCaseNoPrefix = wxGetApp().Prefs.bSortArtistWithoutPrefix && g_PlaylistColumn[m_pParent->Type()].SortOrder  == PlaylistColumn::SortNoCaseNoPrefix;
 	for (int i=HasShowAllRow()?1:0;i<GetItemCount();++i)
 	{
-		if (GetRowText(i,false).Left(sItem.Len()).CompareTo(sItem,cmp) == 0)
-		{ // Move this item to the center of the list.
-			int centeroffset = (GetCountPerPage() - 1) / 2;
-			int showitem=0;
-			if (i >= GetTopItem()) 
-			{
-				// We need to ensure visibility of an item further down the list to
-				// move the matching item to the center of the list.
-				showitem = wxMin(i + centeroffset, GetItemCount()-1);
-			} 
-			else
-			{
-				// i < GetTopItem() , so EnsureVisible(m) will scroll backwards, 
-				// this will bring the item m automatically to the center
-				showitem = wxMax(0, i-centeroffset);
-			}
-			EnsureVisible(showitem);
-			SuppressListItemStateEventsWrapper(*this);
-			// Move the focus (*not* the selection) to the matching item.
-			SetItemState(i,wxLIST_STATE_FOCUSED,wxLIST_STATE_FOCUSED);
+        wxString rt = GetRowText(i,false).Left(sItem.Len());
+        if ((bSortNoCaseNoPrefix ? wxStringSortAscendingLocaleRemovePrefix (rt, sItem): wxStringSortAscendingLocale(rt, sItem)) >= 0)
+		{ // Scroll this item to right position in the list.
+            ScrollToItem(i,bCenter,bSelectItem);
 			break;
 		}
 	}
 
+}
+void CActivityListBox::ScrollToItem(long nItem, bool bCenter,bool bSelectItem)
+{
+    int showitem=0;
+    int offset = GetCountPerPage() - 1;// show item on top of list
+    if(bCenter)
+    {
+        offset = (GetCountPerPage() - 1) / 2;// show item in center of list
+    }
+    if (nItem >= GetTopItem()) 
+    {
+        // We need to ensure visibility of an item further down the list to
+        // move the matching item to the offset.
+        showitem = wxMin(nItem + offset, GetItemCount()-1);
+    } 
+    else
+    {
+        // nItem < GetTopItem() , so EnsureVisible(m) will scroll backwards, 
+        // this will bring the item m automatically to offset
+        showitem = wxMax(0, nItem - offset);
+    }
+    EnsureVisible(showitem);
+    if(bSelectItem)
+    {
+        SetItemState(nItem,wxLIST_STATE_SELECTED,wxLIST_STATE_SELECTED);
+    }
+    else
+    {
+        SuppressListItemStateEventsWrapper(*this);
+        // Move the focus (*not* the selection) to the matching item.
+        SetItemState(nItem,wxLIST_STATE_FOCUSED,wxLIST_STATE_FOCUSED);
+    }
 }
 void CActivityListBox::RescaleColumns( )
 {
@@ -166,18 +207,45 @@ void CActivityListBox::RefreshCaption()
 	SetColumn( 0, item );
 }
 
-void CActivityListBox::SetList( const wxArrayString &  aList ,bool selectnone,bool bEnsureVisibilityOfCurrentTopItem )
+void CActivityListBox::SetList( const wxArrayString &  aList ,enum eResetContentMode rcm)
 {
-	wxString sCurrentTopItem;
+    long nFirstVisibleSelectedItem = -1;
     long  nTopItem = HasShowAllRow() && GetTopItem() > 0 ? GetTopItem() - 1 : GetTopItem();
-	if(bEnsureVisibilityOfCurrentTopItem && m_Items.GetCount() && nTopItem >= 0 && nTopItem < (long)m_Items.GetCount())
-	{
-		sCurrentTopItem = m_Items[nTopItem];
-	}
-	m_Items = aList;
-	Update( selectnone );
-	if(	!sCurrentTopItem.IsEmpty())
-		ScrollToItem(sCurrentTopItem);
+    wxString sCurrentTopItem;
+    if(m_Items.GetCount() && nTopItem >= 0 && nTopItem < (long)m_Items.GetCount())
+    {
+        sCurrentTopItem = m_Items[nTopItem];
+    }
+
+    wxArrayString sSelectedItems;
+    if(rcm == RCM_PreserveSelectedItems)
+    {
+        nFirstVisibleSelectedItem = GetNextItem( nTopItem, wxLIST_NEXT_ALL , wxLIST_STATE_SELECTED );
+        GetSelected(sSelectedItems);
+    }
+    m_Items = aList;
+    Update( rcm == RCM_DeselectAll );
+    if(sSelectedItems.GetCount() == 0 && rcm == RCM_EnsureVisibilityOfCurrentTopItem && !sCurrentTopItem.IsEmpty())
+    {
+            ScrollToItem(sCurrentTopItem,false);
+    }
+    else if(sSelectedItems.GetCount())
+    {
+        // we have to preserve the selection
+        // in fact this means we have to restore the selection
+        {
+            // restore 1-(n-1) sel items, sel events will be suppressed
+            SuppressListItemStateEventsWrapper x(*this);
+            SelectNone( );
+            for ( size_t i = 1; i < sSelectedItems.GetCount(); i++ )
+            {
+                SetSel(sSelectedItems.Item( i ), false,false);
+            }
+        }
+        // select the previously first selected item
+        SetSel(sSelectedItems.Item( 0 ), false,false);// NOTE:this triggers a sel change event
+        ScrollToItem(nFirstVisibleSelectedItem,true);
+    }
 }
 
 void CActivityListBox::Update( bool selnone )
@@ -198,7 +266,10 @@ void CActivityListBox::Update( bool selnone )
 	SetItemCount( GetRowCount() );
 	RescaleColumns();
 	if ( selnone )
+    {
+        SuppressListItemStateEventsWrapper x(*this);
 		SelectNone( );
+    }
 	RefreshCaption();
 	Thaw();
 }
@@ -341,7 +412,7 @@ void CActivityListBox::SetRelated( int n )
 	if((n == -1) && (m_Related > 0)	)
 	{
 		//		int nIndex = GetNextItem( -1, wxLIST_NEXT_ALL , wxLIST_STATE_SELECTED );
-		m_pParent->ResetContents(false);
+		m_pParent->ResetContents();
 	}
 	m_Related = n; 
 }
@@ -449,6 +520,7 @@ void ActivityDropTarget::HighlightSel( wxPoint pPos )
 CActivityBox::CActivityBox( wxWindow *parent, wxWindowID id, PlaylistColumn::eId Type )
 	:  wxPanel( parent, -1, wxPoint( -1, -1 ), wxSize( -1, -1 ),wxTAB_TRAVERSAL | wxNO_BORDER | wxCLIP_CHILDREN )
 {
+    m_ParentBox = NULL;
 	m_EditVisible = false;
 	m_ActivityType = Type;
 	//--- CActivityListBox ---//
@@ -507,39 +579,26 @@ wxString CActivityBox::TypeAsTranslatedString()
 }
 
 
-wxString wxStringRemovePrefix(const wxString &s)
-{
-	const wxChar* Prefix = BeginsWithPreposition(s);
-	if(Prefix)
-	{
-		wxString r = s.Right(s.size() - wxStrlen(Prefix));
-		return r;
-	}
-	return s;
-}
-// NOTE: wxStrcoll sorts by using the current locale. This means they are sorted lexically.
-// case is ignored in th lexically order of most locales ( don't know why MS has a separate stricoll function)
-int wxCMPFUNC_CONV wxStringSortAscendingLocaleRemovePrefix(wxString* s1, wxString* s2)
-{
-	return wxStrcoll(wxStringRemovePrefix(*s1).c_str(), wxStringRemovePrefix(*s2).c_str());
-}
 
-int wxCMPFUNC_CONV wxStringSortAscendingLocale(wxString* s1, wxString* s2)
-{
-	return wxStrcoll(s1->c_str(), s2->c_str());
-}
 
-void CActivityBox::GetRelatedList( CActivityBox *pDst, wxArrayString & aReturn )
+void CActivityBox::GetRelatedList( CActivityBox *pParentBox, wxArrayString & aReturn )
 {
+    m_ParentBox = pParentBox;
+
 	aReturn.Clear();
-	wxArrayString sel;
-	GetSelected( sel );
-
-    const PlaylistColumn & ColumnIn	= g_PlaylistColumn[Type()];
-	const PlaylistColumn & ColumnOut=  g_PlaylistColumn[pDst->Type()];
-
-	wxGetApp().Library.GetInfo( sel, ColumnIn, ColumnOut, aReturn ,false);
-    if(wxGetApp().Prefs.bSortArtistWithoutPrefix && g_PlaylistColumn[pDst->Type()].SortOrder  == PlaylistColumn::SortNoCaseNoPrefix)
+    if(m_ParentBox)
+    {
+        const PlaylistColumn & ColumnIn	= g_PlaylistColumn[m_ParentBox->Type()];
+        const PlaylistColumn & ColumnOut=  g_PlaylistColumn[Type()];
+        wxArrayString sel;
+        m_ParentBox->GetSelected( sel );
+        wxGetApp().Library.GetInfo( sel, ColumnIn, ColumnOut, aReturn ,false);
+    }
+    else
+    {
+        GetFullList(aReturn,false);
+    }
+    if(wxGetApp().Prefs.bSortArtistWithoutPrefix && g_PlaylistColumn[Type()].SortOrder  == PlaylistColumn::SortNoCaseNoPrefix)
 		aReturn.Sort(wxStringSortAscendingLocaleRemovePrefix);
 	else
 		aReturn.Sort(wxStringSortAscendingLocale);
@@ -547,15 +606,23 @@ void CActivityBox::GetRelatedList( CActivityBox *pDst, wxArrayString & aReturn )
 }
 
 
-void CActivityBox::ResetContents(bool selectnone, bool bEnsureVisibilityOfCurrentTopItem)
+void CActivityBox::ResetContents(enum eResetContentMode rcm)
 {
+    m_ParentBox = NULL;
 	wxArrayString list;
-	GetFullList(list,false);
-    if(wxGetApp().Prefs.bSortArtistWithoutPrefix && g_PlaylistColumn[Type()].SortOrder  == PlaylistColumn::SortNoCaseNoPrefix)
-		list.Sort(wxStringSortAscendingLocaleRemovePrefix);
-	else
-		list.Sort(wxStringSortAscendingLocale);
-	SetContents( list , selectnone ,bEnsureVisibilityOfCurrentTopItem);
+	GetRelatedList(NULL,list);
+ 	SetContents( list , rcm);
+}
+void CActivityBox::ReloadContents()
+{
+    if ( m_ParentBox == NULL)
+    {
+        ResetContents(RCM_PreserveSelectedItems);
+        return;
+    }
+    wxArrayString list;
+    GetRelatedList( m_ParentBox , list );
+    SetContents( list , RCM_PreserveSelectedItems);
 }
 
 void CActivityBox::GetFullList( wxArrayString & aReturn ,bool bSorted)
@@ -682,10 +749,10 @@ void CActivityBox::SetPlaylist()
 	g_PlaylistBox->SetPlaylist( &g_thePlaylist );
 }
 
-void CActivityBox::SetContents( const wxArrayString & aList , bool selectnone ,bool bEnsureVisibilityOfCurrentTopItem )
+void CActivityBox::SetContents( const wxArrayString & aList , enum eResetContentMode rcm)
 {
 
-	pListBox->SetList( aList, selectnone ,bEnsureVisibilityOfCurrentTopItem);
+	pListBox->SetList( aList, rcm);
 	
 }
 //------------------------//
@@ -869,7 +936,7 @@ void CActivityBox::OnRenameThreadProg( wxCommandEvent& WXUNUSED(event) )
 void CActivityBox::OnRenameThreadEnd( wxCommandEvent& WXUNUSED(event) )
 {
 	m_ActiveThreadController.Join();// waits until threads really ends
-	ResetContents(false);
+	ReloadContents();
 	EnableProgress( false );
 
 	//--- update locally ---//

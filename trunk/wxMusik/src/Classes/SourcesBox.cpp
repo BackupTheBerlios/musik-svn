@@ -105,7 +105,7 @@ bool SourcesDropTarget::OnDropSources( wxCoord x, wxCoord y, const wxString &sSo
 		m_SourcesListBox->m_SourcesList.Add( sSource );
 
 	//--- dragged above old pos, insert, push down... old item is + 1 ---//
-	else if ( n < m_SourcesListBox->GetDragIndex() )		
+	else if (n >= 0 && n < m_SourcesListBox->GetDragIndex() )		
 		m_SourcesListBox->m_SourcesList.Insert	( sSource, n );
 
 	//--- dragged below old pos, insert there, then push all others down ---//

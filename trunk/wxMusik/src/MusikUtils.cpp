@@ -645,11 +645,11 @@ CMusikTagger::CMusikTagger(const wxString &sTheMask, bool bConvertUnderscoresToS
 		m_PlaceHolderArray.Add(nPlaceHolder);
 		sMaskParse = sMaskParse.Right(sMaskParse.Length() - (start + len));
 	}
-	wxRegEx reMatchPlaceHolderRemoveTracknum(wxT("(%6|%n)"));// tracknum
-	reMatchPlaceHolderRemoveTracknum.ReplaceAll(&sMask,wxT("([[:digit:]]+)"));
+	wxRegEx reMatchPlaceHolderRemoveNumber(wxT("(%6|%n|%y|%h)"));// tracknum,year, 
+	reMatchPlaceHolderRemoveNumber.ReplaceAll(&sMask,wxT("([[:digit:]]+)"));
 
-	wxRegEx reMatchPlaceHolderRemoveTracknumUC(wxT("(%N)"));// tracknum ( eat up surrounding spaces)
-	reMatchPlaceHolderRemoveTracknumUC.ReplaceAll(&sMask,wxT("\\ *([[:digit:]]+)\\ *"));
+	wxRegEx reMatchPlaceHolderRemoveNumberUC(wxT("(%N|%Y|%H)"));// tracknum etc. ( eat up surrounding spaces)
+	reMatchPlaceHolderRemoveNumberUC.ReplaceAll(&sMask,wxT("\\ *([[:digit:]]+)\\ *"));
 	// replace all other %x by ([^\\/]+)
 	wxRegEx reMatchPlaceHolderRemove(wxT("(%[a-z0-9])"));
 	reMatchPlaceHolderRemove.ReplaceAll(&sMask,wxT("([^\\\\/]+)"));
@@ -670,7 +670,7 @@ bool CMusikTagger::Retag(CMusikSong * Song) const
 	wxStripExtension(sFile);
 	if(m_bConvertUnderscoresToSpaces)
 		sFile.Replace(wxT( "_" ), wxT( " " ));
-
+    Song->MetaData.nTracknum = 0;
 	if(m_reMask.Matches(sFile))
 	{
 		for(size_t i = 0;i < m_PlaceHolderArray.GetCount(); i++ )
@@ -711,8 +711,12 @@ bool CMusikTagger::Retag(CMusikSong * Song) const
 			case '6':
 			case 'n':
 			case 'N':
-				Song->MetaData.nTracknum = atoi( sField);
+				Song->MetaData.nTracknum += atoi( sField);
 				break;
+            case 'h':
+            case 'H':
+                Song->MetaData.nTracknum += atoi( sField)*100;
+                break;
 			default:
 				// skip
 				break;

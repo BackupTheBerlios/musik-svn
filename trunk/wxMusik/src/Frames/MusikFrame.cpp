@@ -434,7 +434,7 @@ void MusikFrame::CreateMainMenu()
 	view_menu->Append	( MUSIK_MENU_FX, _("FX\tCtrl-F") );
 #ifdef __WXMSW__
 	view_menu->AppendSeparator();
-	view_menu->Append	( MUSIK_MENU_STAY_ON_TOP, _("Always On Top\tCtrl-T"), wxT(""), wxITEM_CHECK );
+	view_menu->Append	( MUSIK_MENU_STAY_ON_TOP, _("Always On Top\tCtrl-Alt-T"), wxT(""), wxITEM_CHECK );
 #endif
 
 	//--- library -> pending tags ---//

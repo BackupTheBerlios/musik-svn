@@ -209,7 +209,7 @@ void CActivityListBox::RefreshCaption()
 
 void CActivityListBox::SetList( const wxArrayString &  aList ,enum eResetContentMode rcm)
 {
-    long nFirstVisibleSelectedItem = -1;
+    
     long  nTopItem = HasShowAllRow() && GetTopItem() > 0 ? GetTopItem() - 1 : GetTopItem();
     wxString sCurrentTopItem;
     if(m_Items.GetCount() && nTopItem >= 0 && nTopItem < (long)m_Items.GetCount())
@@ -218,9 +218,16 @@ void CActivityListBox::SetList( const wxArrayString &  aList ,enum eResetContent
     }
 
     wxArrayString sSelectedItems;
+    wxString sFirstVisibleSelectedItem;
     if(rcm == RCM_PreserveSelectedItems)
     {
-        nFirstVisibleSelectedItem = GetNextItem( nTopItem, wxLIST_NEXT_ALL , wxLIST_STATE_SELECTED );
+        long nFirstVisibleSelectedItem =  GetNextItem( nTopItem, wxLIST_NEXT_ALL , wxLIST_STATE_SELECTED );
+        nFirstVisibleSelectedItem = HasShowAllRow() && nFirstVisibleSelectedItem > 0 ? nFirstVisibleSelectedItem - 1 : nFirstVisibleSelectedItem;
+        if(m_Items.GetCount() && nFirstVisibleSelectedItem >= 0 && nFirstVisibleSelectedItem < (long)m_Items.GetCount())
+        {
+            sFirstVisibleSelectedItem = m_Items[nFirstVisibleSelectedItem];
+        }
+  
         GetSelected(sSelectedItems);
     }
     m_Items = aList;
@@ -244,7 +251,7 @@ void CActivityListBox::SetList( const wxArrayString &  aList ,enum eResetContent
         }
         // select the previously first selected item
         SetSel(sSelectedItems.Item( 0 ), false,false);// NOTE:this triggers a sel change event
-        ScrollToItem(nFirstVisibleSelectedItem,true);
+        ScrollToItem(sFirstVisibleSelectedItem,true);
     }
 }
 

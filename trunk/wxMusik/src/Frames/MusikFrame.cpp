@@ -432,7 +432,7 @@ void MusikFrame::CreateMainMenu()
 	view_menu->Append	( MUSIK_MENU_SELECT_SOURCES_NOWPLAYING, _("Select Now Playing\tCtrl-F2"), wxT(""));
 	view_menu->AppendSeparator();
 	view_menu->Append	( MUSIK_MENU_FX, _("FX\tCtrl-F") );
-#ifdef __WXMSW__
+#if defined (__WXMSW__) || defined (__WXGTK__)
 	view_menu->AppendSeparator();
 	view_menu->Append	( MUSIK_MENU_STAY_ON_TOP, _("Always On Top\tCtrl-Alt-T"), wxT(""), wxITEM_CHECK );
 #endif
@@ -631,16 +631,23 @@ void MusikFrame::ToggleSources()
 
 	ShowSources();
 }
+
+#if defined (__WXGTK__)
+#include <gtk/gtk.h>
+#endif
+
 void MusikFrame::SetStayOnTop( bool bStayOnTop )
 {
-#ifdef __WXMSW__
+#if defined (__WXGTK__)
+    gtk_window_set_keep_above(GTK_WINDOW(GetHandle()),bStayOnTop ? TRUE:FALSE);
+#else
 	long style = GetWindowStyle();
 	if ( bStayOnTop )
 		style |= wxSTAY_ON_TOP;
 	else
 		style &= ~wxSTAY_ON_TOP;
 	SetWindowStyle( style );
-#endif
+#endif	
 }
 void MusikFrame::ShowActivityArea( bool bShow )
 {

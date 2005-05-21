@@ -230,10 +230,8 @@ void MusikFrame::OnFX( wxCommandEvent &WXUNUSED(event) )
 
 void MusikFrame::OnStayOnTop( wxCommandEvent &WXUNUSED(event) )	
 { 
-	#ifdef __WXMSW__
-		wxGetApp().Prefs.bStayOnTop = !wxGetApp().Prefs.bStayOnTop;
-		SetStayOnTop(wxGetApp().Prefs.bStayOnTop);
-	#endif
+	wxGetApp().Prefs.bStayOnTop = !wxGetApp().Prefs.bStayOnTop;
+	SetStayOnTop(wxGetApp().Prefs.bStayOnTop);
 }
 void MusikFrame::OnUpdateUIStayOnTop( wxUpdateUIEvent& event)
 {

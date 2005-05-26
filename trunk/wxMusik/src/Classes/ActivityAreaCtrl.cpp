@@ -159,7 +159,10 @@ void CActivityAreaCtrl::UpdateSel( CActivityBox *pSelectedBox ,bool bForceShowAl
 	if ( !pSelectedBox )
 	{
 		if ( wxGetApp().Prefs.bShowAllSongs == 1 )
+		{
 			wxGetApp().Library.GetAllSongs( g_thePlaylist );
+			g_PlaylistBox->SetPlaylist( &g_thePlaylist);
+		}
 		return;
 	}
 	//-------------------------------------//
@@ -218,13 +221,13 @@ void CActivityAreaCtrl::UpdateSel( CActivityBox *pSelectedBox ,bool bForceShowAl
 			    if ( pOtherBoxes[j] != NULL )	
 				    pOtherBoxes[j]->ResetContents();	
 		    }
-		    if ( wxGetApp().Prefs.bShowAllSongs == 1 && pSelectedBox->GetSelectedItemCount() == 0)
+		    if ( wxGetApp().Prefs.bShowAllSongs == 1)
 		    {
 			    wxGetApp().Library.GetAllSongs( g_thePlaylist );
 			    g_PlaylistBox->SetPlaylist( &g_thePlaylist);
 			    return;
 		    }
-            if ( !bForceShowAll &&(pSelectedBox->IsSelected( 0 ) || pSelectedBox->GetSelectedItemCount() == 0 ))
+            else if ( !bForceShowAll &&(pSelectedBox->IsSelected( 0 ) || pSelectedBox->GetSelectedItemCount() == 0 ))
             {
                 g_thePlaylist.Clear();
                 g_PlaylistBox->SetPlaylist(&g_thePlaylist);

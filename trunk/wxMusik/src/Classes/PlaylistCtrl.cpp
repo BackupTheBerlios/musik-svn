@@ -179,7 +179,7 @@ BEGIN_EVENT_TABLE(CPlaylistCtrl, CMusikListCtrl)
 	EVT_MENU					( MUSIK_PLAYLIST_CONTEXT_PLAY_REPLACE_PLAYERLIST,						CPlaylistCtrl::OnPlayReplace		)
 	EVT_MENU					( MUSIK_PLAYLIST_CONTEXT_PLAY_REPLACE_PLAYERLIST_WITH_SELECTION,		CPlaylistCtrl::OnPlayReplaceWithSel	)
 	EVT_MENU					( MUSIK_PLAYLIST_CONTEXT_OPEN_FOLDER_IN_FILEMANAGER,							CPlaylistCtrl::OnOpenFolderInFileManager	)
-	EVT_MENU_RANGE				( MUSIK_PLAYLIST_CONTEXT_SHOW_IN_LIBRARY_ARTIST,MUSIK_PLAYLIST_CONTEXT_SHOW_IN_LIBRARY_YEAR, CPlaylistCtrl::OnShowInLibrary)
+	EVT_MENU_RANGE				( MUSIK_PLAYLIST_CONTEXT_SHOW_IN_LIBRARY_FIRST_ENTRY,MUSIK_PLAYLIST_CONTEXT_SHOW_IN_LIBRARY_LAST_ENTRY, CPlaylistCtrl::OnShowInLibrary)
 	EVT_MENU					( MUSIK_PLAYLIST_DELETE_CONTEXT_DELETE_FROM_PLAYLIST,					CPlaylistCtrl::OnDelSel				)
 	EVT_MENU					( MUSIK_PLAYLIST_DELETE_CONTEXT_DELETE_FILES,							CPlaylistCtrl::OnDelFiles			)
 	EVT_MENU					( MUSIK_PLAYLIST_DELETE_CONTEXT_DELETE_FROM_DB,							CPlaylistCtrl::OnDelFilesDB			)
@@ -426,7 +426,7 @@ wxMenu * CPlaylistCtrl::CreateContextMenu()
     size_t cnt = g_ActivityAreaCtrl->GetActivityBoxCount();
     for(size_t i = 0; i < cnt; i ++)
     {
-        playlist_context_show_in_library_menu->Append( MUSIK_PLAYLIST_CONTEXT_SHOW_IN_LIBRARY_ARTIST,
+        playlist_context_show_in_library_menu->Append( MUSIK_PLAYLIST_CONTEXT_SHOW_IN_LIBRARY_FIRST_ENTRY + i,
                                                         _( "This ") + g_ActivityAreaCtrl->GetActivityBox(i)->TypeAsTranslatedString()
                                                         ,	wxT("") );
     }
@@ -434,12 +434,12 @@ wxMenu * CPlaylistCtrl::CreateContextMenu()
 	playlist_context_menu->Append( MUSIK_PLAYLIST_CONTEXT_OPEN_FOLDER_IN_FILEMANAGER,_( "&Open Folder in File Manager" ),wxT(""));
 	
 
-	playlist_context_menu->Append( MUSIK_PLAYLIST_CONTEXT_RATENODE,			_( "&Rating" ),					playlist_context_rating_menu );
-	playlist_context_menu->Append( MUSIK_PLAYLIST_CONTEXT_DISPLAYNODE,		_( "Display" ),					playlist_context_display_menu );
+	playlist_context_menu->Append( MUSIK_PLAYLIST_CONTEXT_RATENODE,	_( "&Rating" ),	playlist_context_rating_menu );
+	playlist_context_menu->Append( MUSIK_PLAYLIST_CONTEXT_DISPLAYNODE,	_( "Display" ),	playlist_context_display_menu );
 	playlist_context_menu->AppendSeparator();
-	playlist_context_menu->Append( MUSIK_PLAYLIST_CONTEXT_DELETENODE,		_( "Delete" ),		playlist_context_delete_menu );
+	playlist_context_menu->Append( MUSIK_PLAYLIST_CONTEXT_DELETENODE,	_( "Delete" ),	playlist_context_delete_menu );
 	playlist_context_menu->AppendSeparator();
-	playlist_context_menu->Append( MUSIK_PLAYLIST_CONTEXT_TAGNODE,			_( "Edit &Tag" ),				playlist_context_edit_tag_menu );
+	playlist_context_menu->Append( MUSIK_PLAYLIST_CONTEXT_TAGNODE,	_( "Edit &Tag" ),playlist_context_edit_tag_menu );
 
 	//if(!bIsNowPlayingSelected)
 	//	playlist_context_menu->Enable( MUSIK_PLAYLIST_CONTEXT_PLAYNODE,		!bNetStreamSel );
@@ -1642,14 +1642,14 @@ void CPlaylistCtrl::OnPlayReplaceWithSel( wxCommandEvent& WXUNUSED(event) )
 
 void CPlaylistCtrl::OnShowInLibrary( wxCommandEvent& event )
 {
-	int id = event.GetId() - MUSIK_PLAYLIST_CONTEXT_SHOW_IN_LIBRARY_ARTIST;
+	int id = event.GetId() - MUSIK_PLAYLIST_CONTEXT_SHOW_IN_LIBRARY_FIRST_ENTRY;
 
 	CActivityBox * pBox = g_ActivityAreaCtrl->GetActivityBox((size_t)id);
 	wxString sEntry;
 	if ( m_nCurSel > -1 && pBox)
 	{
 		sEntry = GetItemText( m_nCurSel, pBox->Type());
-		g_ActivityAreaCtrl->ResetAllContents();
+		g_ActivityAreaCtrl->UpdateSel(pBox,true);
 		g_SourcesCtrl->SelectLibrary();
 		pBox->SetFocus();
         wxGetApp().Yield(true);

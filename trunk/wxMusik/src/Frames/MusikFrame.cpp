@@ -313,7 +313,7 @@ MusikFrame::MusikFrame()
 	//-------------------------//
 	vsTopBottom			= new wxBoxSizer	( wxVERTICAL	);
 
-
+    
 
 	m_pBottomPanel = new wxSashLayoutWindow(this,-1,wxDefaultPosition,wxDefaultSize,wxNO_BORDER|wxCLIP_CHILDREN);
 	m_pBottomPanel->SetDefaultSize(wxSize(1000,70));

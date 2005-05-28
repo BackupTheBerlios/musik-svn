@@ -33,12 +33,14 @@ CMusikListCtrl::CMusikListCtrl( wxWindow *parent, const wxWindowID id, const wxP
     ,m_bHideVertScrollbar(false)
 #endif
 {
+    m_bLISTSEL_CHANGED_Fired = false;
     m_bSuppressListItemStateEvents = false;
 }
 
 
 BEGIN_EVENT_TABLE(CMusikListCtrl, MUSIKLISTCTRLBASE)
     EVT_LIST_ITEM_SELECTED(wxID_ANY,CMusikListCtrl::OnListItemSel)	
+    EVT_LIST_ITEM_DESELECTED(wxID_ANY,CMusikListCtrl::OnListItemSel)	
     EVT_LIST_ITEM_FOCUSED( wxID_ANY, CMusikListCtrl::OnListItemFocused)
     EVT_LISTSEL_CHANGED_COMMAND (wxID_ANY, CMusikListCtrl::OnListSelChanged)    
 #ifdef USE_GENERICLISTCTRL
@@ -46,6 +48,7 @@ BEGIN_EVENT_TABLE(CMusikListCtrl, MUSIKLISTCTRLBASE)
     EVT_LEFT_DOWN(CMusikListCtrl::OnLeftDown)
 #endif
 #endif
+
 	EVT_MIDDLE_DOWN(  CMusikListCtrl::OnMiddleDown)
 	EVT_RIGHT_DOWN(  CMusikListCtrl::OnRightDown)
     EVT_MOUSEWHEEL(CMusikListCtrl::OnMouseWheel)
@@ -170,28 +173,33 @@ void CMusikListCtrl::SelectClickedItem(wxMouseEvent &event)
 void CMusikListCtrl::OnListItemFocused( wxListEvent& event )
 {
     event.Skip( m_bSuppressListItemStateEvents == false); 
+    if(!m_bLISTSEL_CHANGED_Fired )
+    {
+        m_bLISTSEL_CHANGED_Fired = true;
+        wxCommandEvent eventCustom(wxEVT_LISTSEL_CHANGED_COMMAND); 
+        eventCustom.SetInt(event.GetIndex());
+        eventCustom.SetId(event.GetId());
+        wxPostEvent(this,eventCustom);
+    }
 }
 
 void CMusikListCtrl::OnListItemSel( wxListEvent& event )
 {
-    if (  m_bSuppressListItemStateEvents )
-        return;
-    wxCommandEvent eventCustom(wxEVT_LISTSEL_CHANGED_COMMAND); 
-    eventCustom.SetInt(event.GetIndex());
-    eventCustom.SetId(event.GetId());
-    wxPostEvent(this,eventCustom);
-    event.Skip();
+    event.Skip( m_bSuppressListItemStateEvents == false); 
+    if(!m_bLISTSEL_CHANGED_Fired)
+    {
+        m_bLISTSEL_CHANGED_Fired = true;
+        wxCommandEvent eventCustom(wxEVT_LISTSEL_CHANGED_COMMAND); 
+        eventCustom.SetInt(event.GetIndex());
+        eventCustom.SetId(event.GetId());
+        wxPostEvent(this,eventCustom);
+    }
+
 }
 
 void CMusikListCtrl::OnListSelChanged(wxCommandEvent& event )
 {
-//    static int i = 0;
-//    if(i++ < 2)
-//    {
-//        wxPostEvent(this,event);
-//        return;
-//    }
-//    i = 0;
+    m_bLISTSEL_CHANGED_Fired = false;
     event.Skip();
 }
 

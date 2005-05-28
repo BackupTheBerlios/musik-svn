@@ -98,11 +98,7 @@ protected:
 
     void OnSize					( wxSizeEvent& event );
 
-#ifdef USE_GENERICLISTCTRL
-#ifdef __WXMSW__
     void OnLeftDown(wxMouseEvent &event);
-#endif
-#endif
     void OnMouseWheel(wxMouseEvent & event);
 	void OnMiddleDown(wxMouseEvent & event);
 	void OnRightDown(wxMouseEvent & event);
@@ -130,7 +126,8 @@ protected:
 private:
 
     bool m_bSuppressListItemStateEvents;
-
+    
+    bool m_bLISTSEL_CHANGED_Fired;
     
    friend class SuppressListItemStateEventsWrapper;
 };

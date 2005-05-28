@@ -66,7 +66,7 @@ END_EVENT_TABLE()
         bm##Name = wxBitmap( Name##_down_xpm);
 
 CNowPlayingCtrl::CNowPlayingCtrl( wxWindow *parent )
-	: wxPanel( parent, -1, wxDefaultPosition, wxDefaultSize, wxCLIP_CHILDREN| wxTAB_TRAVERSAL |wxFULL_REPAINT_ON_RESIZE)
+	: wxPanel( parent, -1, wxDefaultPosition, wxDefaultSize, wxCLIP_CHILDREN| wxTAB_TRAVERSAL )
 {
 	//-----------------------------//
 	//--- title / artist / time ---//

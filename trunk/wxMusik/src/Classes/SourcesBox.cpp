@@ -476,10 +476,11 @@ void CSourcesListBox::BeginDrag( wxListEvent &WXUNUSED(event) )
 }
 
 
-void CSourcesListBox::OnUpdateSel( wxCommandEvent& pEvent )
+void CSourcesListBox::OnUpdateSel( wxCommandEvent& event )
 {
+    event.Skip();
     wxTheApp->Yield(true);   // call yield to let the SetItemState changes go through the system.
-    UpdateSel( pEvent.GetInt() );	
+    UpdateSel( event.GetInt() );	
 }
 
 void CSourcesListBox::UpdateSel( size_t index )
@@ -1530,7 +1531,7 @@ CSourcesBox::CSourcesBox( wxWindow *parent )
 	//--- top sizer ---//
 	wxBoxSizer *pSizer = new wxBoxSizer( wxVERTICAL );
 	pSizer->Add( m_pListBox, 1, wxEXPAND|wxALIGN_TOP , 0 );
-	pSizer->Add( m_pPictureBox, 0, wxEXPAND|wxALIGN_BOTTOM , 0 );
+	m_pPictureBox && pSizer->Add( m_pPictureBox, 0, wxEXPAND|wxALIGN_BOTTOM , 0 );
 	m_pPanel->SetSizer( pSizer );
 	Update();
 }
@@ -1543,7 +1544,7 @@ void CSourcesBox::OnSashDragged	(wxSashEvent & ev)
 }
 void CSourcesBox::OnSize( wxSizeEvent& event )
 {
-	if(m_pPictureBox->IsShown())
+	if(m_pPictureBox && m_pPictureBox->IsShown())
 	{
 		wxSize s =GetClientSize();
 		s.SetHeight(s.GetWidth());
@@ -1553,14 +1554,14 @@ void CSourcesBox::OnSize( wxSizeEvent& event )
 	}
 	else
 	{	
-		m_pPictureBox->SetSizeHints(0,0);
+		//m_pPictureBox->SetSizeHints(0,0);
 		event.Skip();
 	}
 }
 void CSourcesBox::ShowAlbumArt(bool bShow)
 {
-	m_pPictureBox->Show(bShow);
-	if(bShow)
+	m_pPictureBox && m_pPictureBox->Show(bShow);
+	if(m_pPictureBox && bShow)
 	{
 		wxSize s =GetClientSize();
 		s.SetHeight(s.GetWidth());
@@ -1568,7 +1569,7 @@ void CSourcesBox::ShowAlbumArt(bool bShow)
 	}
 	else
 	{	
-		m_pPictureBox->SetSizeHints(0,0);
+		//m_pPictureBox->SetSizeHints(0,0);
 	}
 	m_pPanel->Layout();
 }
@@ -1579,7 +1580,7 @@ void CSourcesBox::Update( )
 	SetBackgroundColour(wxGetApp().Prefs.bPlaylistBorder ?  
 		StringToColour(wxGetApp().Prefs.sPlaylistBorderColour)
 		:wxSystemSettings::GetColour(wxSYS_COLOUR_BTNFACE));
-	m_pPictureBox->SetBackgroundColour(wxGetApp().Prefs.bPlaylistBorder ?  
+	m_pPictureBox && m_pPictureBox->SetBackgroundColour(wxGetApp().Prefs.bPlaylistBorder ?  
 		StringToColour(wxGetApp().Prefs.sPlaylistBorderColour)
 		:wxSystemSettings::GetColour(wxSYS_COLOUR_BTNFACE));
 #endif		

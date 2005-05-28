@@ -149,6 +149,7 @@ void CActivityAreaCtrl::SetParent( CActivityBox* pBox, bool bUpdate )
 
 void CActivityAreaCtrl::UpdateSel( CActivityBox *pSelectedBox ,bool bForceShowAll)
 {
+    wxBusyCursor  busycursor;
 	if(pSelectedBox == NULL)
 	{
 	   pSelectedBox =  m_pLastSelectedBox;
@@ -365,7 +366,8 @@ void CActivityAreaCtrl::OnActivityBoxActivated(  wxListEvent& event )
 }
 void CActivityAreaCtrl::OnActivityBoxSelChanged	(  wxCommandEvent& event )
 {	
-		UpdateSel( m_ActivityBox[event.GetId() - MUSIK_ACTIVITYBOX1] );
+	UpdateSel( m_ActivityBox[event.GetId() - MUSIK_ACTIVITYBOX1] );
+    event.Skip();
 }
 
 void CActivityAreaCtrl::OnSashDragged	(wxSashEvent & ev)

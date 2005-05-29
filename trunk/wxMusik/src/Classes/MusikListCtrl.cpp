@@ -40,7 +40,7 @@ CMusikListCtrl::CMusikListCtrl( wxWindow *parent, const wxWindowID id, const wxP
 
 BEGIN_EVENT_TABLE(CMusikListCtrl, MUSIKLISTCTRLBASE)
     EVT_LIST_ITEM_SELECTED(wxID_ANY,CMusikListCtrl::OnListItemSel)	
-    EVT_LIST_ITEM_DESELECTED(wxID_ANY,CMusikListCtrl::OnListItemSel)	
+    EVT_LIST_ITEM_DESELECTED(wxID_ANY,CMusikListCtrl::OnListItemDesel)	
     EVT_LIST_ITEM_FOCUSED( wxID_ANY, CMusikListCtrl::OnListItemFocused)
     EVT_LISTSEL_CHANGED_COMMAND (wxID_ANY, CMusikListCtrl::OnListSelChanged)    
 #ifdef USE_GENERICLISTCTRL
@@ -173,28 +173,41 @@ void CMusikListCtrl::SelectClickedItem(wxMouseEvent &event)
 void CMusikListCtrl::OnListItemFocused( wxListEvent& event )
 {
     event.Skip( m_bSuppressListItemStateEvents == false); 
-    if(!m_bLISTSEL_CHANGED_Fired )
-    {
-        m_bLISTSEL_CHANGED_Fired = true;
-        wxCommandEvent eventCustom(wxEVT_LISTSEL_CHANGED_COMMAND); 
-        eventCustom.SetInt(event.GetIndex());
-        eventCustom.SetId(event.GetId());
-        wxPostEvent(this,eventCustom);
-    }
+    if((wxLC_SINGLE_SEL & GetWindowStyle()) == 0)
+      FireListSelChanged(event);
 }
 
 void CMusikListCtrl::OnListItemSel( wxListEvent& event )
 {
     event.Skip( m_bSuppressListItemStateEvents == false); 
-    if(!m_bLISTSEL_CHANGED_Fired)
+    FireListSelChanged(event);
+}
+void CMusikListCtrl::OnListItemDesel( wxListEvent& event )
+{
+    event.Skip( m_bSuppressListItemStateEvents == false); 
+    if((wxLC_SINGLE_SEL & GetWindowStyle()) == 0)
+        FireListSelChanged(event);
+}
+
+void CMusikListCtrl::FireListSelChanged(wxListEvent &event)
+{
+    if(!m_bSuppressListItemStateEvents &&!m_bLISTSEL_CHANGED_Fired )
     {
         m_bLISTSEL_CHANGED_Fired = true;
         wxCommandEvent eventCustom(wxEVT_LISTSEL_CHANGED_COMMAND); 
-        eventCustom.SetInt(event.GetIndex());
+        if(((wxLC_SINGLE_SEL & GetWindowStyle()) == wxLC_SINGLE_SEL)
+            || (wxLIST_STATE_SELECTED & GetItemState(event.GetIndex(),wxLIST_STATE_SELECTED)) == wxLIST_STATE_SELECTED)
+        {
+            eventCustom.SetInt(event.GetIndex());
+        }
+        else
+        {
+            long i = GetNextItem(-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+            eventCustom.SetInt(i);
+        }
         eventCustom.SetId(event.GetId());
         wxPostEvent(this,eventCustom);
     }
-
 }
 
 void CMusikListCtrl::OnListSelChanged(wxCommandEvent& event )

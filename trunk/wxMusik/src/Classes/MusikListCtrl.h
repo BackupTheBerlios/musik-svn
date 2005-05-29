@@ -93,6 +93,7 @@ protected:
     }
 
     void OnListItemSel          ( wxListEvent& event );
+    void OnListItemDesel         ( wxListEvent& event );
     void OnListItemFocused      ( wxListEvent& event );
     void OnListSelChanged       (wxCommandEvent& event );
 
@@ -114,6 +115,7 @@ protected:
 	virtual wxMenu * CreateContextMenu(){ return NULL;}
 
 	void SelectClickedItem(wxMouseEvent &event);
+    void FireListSelChanged(wxListEvent &event);
 #ifdef __WXMSW__
     bool m_bHideHorzScrollbar;
     bool m_bHideVertScrollbar;

@@ -146,9 +146,35 @@ void CActivityAreaCtrl::SetParent( CActivityBox* pBox, bool bUpdate )
 		UpdateSel( m_ParentBox );
 	return;
 }
+class ReentrantProtect
+{
+public:
+    ReentrantProtect(int & cnt)
+        :m_RepCnt(cnt)
+    {
+        m_RepCnt++;
+    }
+    bool Active()
+    {
+        return m_RepCnt > 1;
+    }
+    ~ReentrantProtect()
+    {
+        m_RepCnt--;
+    }
+private:
+    int & m_RepCnt;       
+};
+
+#define RETURN_ON_REENTRY \
+    static int repcnt_xx = 0;          \
+    ReentrantProtect rep_xx(repcnt_xx);   \
+    if(rep_xx.Active())                \
+        return;                     
 
 void CActivityAreaCtrl::UpdateSel( CActivityBox *pSelectedBox ,bool bForceShowAll)
 {
+    RETURN_ON_REENTRY;
     wxBusyCursor  busycursor;
 	if(pSelectedBox == NULL)
 	{

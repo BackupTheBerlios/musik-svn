@@ -596,30 +596,36 @@ void CMusikLibrary::GetInfo( const wxArrayString & aList, const PlaylistColumn &
 	wxString sInfo;
 	wxString query;
 	query.Alloc(50 * aList.GetCount()+ 40);
+    wxString sColumnOut = wxString::Format(ColumnOut.ColQueryMask,ColumnOut.DBName);
+    sColumnOut += wxT(" as OutColumn ");
 	if(bSorted)
 	{
 		if( wxGetApp().Prefs.bSortArtistWithoutPrefix && ColumnOut.SortOrder == PlaylistColumn::SortNoCaseNoPrefix)
-			query = wxT("select distinct ") + ColumnOut.DBName + wxT(",UPPER(REMPREFIX(") + ColumnOut.DBName + wxT(")) as UP from songs where ");
+			query = wxT("select distinct ") + sColumnOut + wxT(",UPPER(REMPREFIX(") + sColumnOut + wxT(")) as UP from songs where ");
 		else if(ColumnOut.SortOrder == PlaylistColumn::SortNoCase)
-			query = wxT("select distinct ") + ColumnOut.DBName + wxT(",UPPER(") + ColumnOut.DBName +wxT(") as UP from songs where ");
+			query = wxT("select distinct ") + sColumnOut + wxT(",UPPER(") + sColumnOut +wxT(") as UP from songs where ");
         else
-            query = wxT("select distinct ") + ColumnOut.DBName + wxT(" from songs where ");
+            query = wxT("select distinct ") + sColumnOut + wxT(" from songs where ");
 	}
 	else
-		query = wxT("select distinct ") + ColumnOut.DBName + wxT(" from songs where ");
+		query = wxT("select distinct ") + sColumnOut + wxT(" from songs where ");
 
-	
+    bool bQuote = (ColumnIn.Type == PlaylistColumn::Textual);
+
 	for ( int i = 0; i < (int)aList.GetCount(); i++ )
 	{
 		wxString itemstr = aList.Item( i );
 		itemstr.Replace( wxT("'"), wxT("''") );
 
 		if ( i > 0 )
-			query += wxT("or ");
-        query += ColumnIn.DBName;
-        query += wxT(" = '");
+			query += wxT(" or ");
+        query += wxString::Format(ColumnIn.ColQueryMask,ColumnIn.DBName);
+        query += wxT(" = ");
+        if(bQuote)
+            query += wxT("'");
 		query += itemstr;
-		query += wxT("' ");
+        if(bQuote)
+    		query += wxT("' ");
 
 	}
 
@@ -633,7 +639,7 @@ void CMusikLibrary::GetInfo( const wxArrayString & aList, const PlaylistColumn &
 			break;
 
         case PlaylistColumn::SortCase:
-			query += wxT("order by ") + ColumnOut.DBName;
+			query += wxT("order by OutColumn");
 			break;
 
         case PlaylistColumn::SortNone:
@@ -663,7 +669,7 @@ void CMusikLibrary::GetSongs( const wxArrayString & aList, const PlaylistColumn 
 	aReturn.Alloc(GetSongCount()); // optimize item adding performance,
   	wxString sQuery;
   
-    sQuery = Column.DBName + wxT(" in(");
+    sQuery =  wxString::Format(Column.ColQueryMask,Column.DBName) + wxT(" in(");
 	sQuery.Alloc(sQuery.Len() + 30 + aList.GetCount() * 30); // optimization ( the 30 is a wild guess)
 
 	//--- for each item in the input list, we're going to query the database ---//
@@ -1314,17 +1320,18 @@ void CMusikLibrary::GetAllSongs( MusikSongIdArray & aReturn, bool bSorted )
 
 void CMusikLibrary::GetAllOfColumn( const PlaylistColumn & Column, wxArrayString & aReturn, bool bSorted  )
 {
+    wxString sColumn = wxString::Format(Column.ColQueryMask,Column.DBName);
 	if(bSorted)
 	{
         if(wxGetApp().Prefs.bSortArtistWithoutPrefix && Column.SortOrder == PlaylistColumn::SortNoCaseNoPrefix)
-			Query( wxT("select distinct ") + Column.DBName + wxT(",UPPER(REMPREFIX(") + Column.DBName + wxT(")) as UP from songs order by UP;"), aReturn );
+            Query( wxT("select distinct ") + sColumn + wxT(",UPPER(REMPREFIX(") + sColumn + wxT(")) as UP from songs order by UP;"), aReturn );
 		else if(Column.SortOrder == PlaylistColumn::SortNoCase)	
-			Query( wxT("select distinct ") + Column.DBName + wxT(",UPPER(") + Column.DBName +wxT(") as UP from songs order by UP;"), aReturn );
+			Query( wxT("select distinct ") + sColumn + wxT(",UPPER(") + sColumn + wxT(") as UP from songs order by UP;"), aReturn );
         else
-            Query( wxT("select distinct ") +  Column.DBName + wxT(" from songs order by ")+ Column.DBName +  wxT(";"), aReturn );
+            Query( wxT("select distinct ") +  sColumn + wxT(" from songs order by ")+ sColumn +  wxT(";"), aReturn );
 	}
 	else
-		Query( wxT("select distinct ") +  Column.DBName + wxT(" from songs;"), aReturn );
+		Query( wxT("select distinct ") +  sColumn + wxT(" from songs;"), aReturn );
 
 
 }

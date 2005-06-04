@@ -294,7 +294,7 @@ int				GetGenreID			(  const CSongMetaData::StringData & sGenre  );
 void			DelimitStr			( wxString sStr, wxString sDel, wxArrayString &aReturn, bool bRemoveDelimiter = true );
 
 void			GetPlaylistDir		( wxArrayString & aFiles );
-wxString		MStoStr				( int timems );
+wxString		MStoStr				( int timems ,bool bAlwaysHours = false);
 wxArrayString	FileToStringArray	(  const wxString &  sFilename );
 int				MusikRound			( float x );
 int				FindStrInArray		( wxArrayString* array, wxString pattern );
@@ -477,11 +477,11 @@ bool FileTypeIsAssociated(const wxFileType &ft);
 void AssociateWithFileType(const wxString &sExt,const wxString &sDescription);
 void UnassociateWithFileType(const wxString &sExt);
 
-inline wxString JDN2LocalTimeString(double jdn)
+inline wxString JDN2LocalTimeString(double jdn, const wxString & sFormatMask = wxT("%x %X"))
 {
     wxDateTime dt(jdn);
     dt.MakeGMT();
-    return dt.Format(wxT("%x %X"));
+    return dt.Format(sFormatMask);
 }
 
 

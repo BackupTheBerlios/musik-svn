@@ -16,18 +16,18 @@
 
 const PlaylistColumn g_PlaylistColumn[PlaylistColumn::NCOLUMNS] =
 {
-    {PlaylistColumn::RATING,		wxT( "rating"		),  wxTRANSLATE( "Rating"		),	wxLIST_FORMAT_CENTER,PlaylistColumn::Numeric ,PlaylistColumn::SortCase     },
-    {PlaylistColumn::TRACK,			wxT( "tracknum"	    ),  wxTRANSLATE( "Track"		),	wxLIST_FORMAT_LEFT  ,PlaylistColumn::Numeric ,PlaylistColumn::SortCase     },
-    {PlaylistColumn::TITLE,			wxT( "title"		),  wxTRANSLATE( "Title"		),	wxLIST_FORMAT_LEFT  ,PlaylistColumn::Textual ,PlaylistColumn::SortNoCase   },
-    {PlaylistColumn::ARTIST,		wxT( "artist"		),  wxTRANSLATE( "Artist"		),	wxLIST_FORMAT_LEFT  ,PlaylistColumn::Textual ,PlaylistColumn::SortNoCaseNoPrefix},
-    {PlaylistColumn::ALBUM,			wxT( "album"		),  wxTRANSLATE( "Album"		),	wxLIST_FORMAT_LEFT  ,PlaylistColumn::Textual ,PlaylistColumn::SortNoCase   },
-    {PlaylistColumn::YEAR,			wxT( "year"		    ),  wxTRANSLATE( "Year"		    ),	wxLIST_FORMAT_CENTER,PlaylistColumn::Textual ,PlaylistColumn::SortCase     },
-    {PlaylistColumn::GENRE,			wxT( "genre"		),  wxTRANSLATE( "Genre"		),	wxLIST_FORMAT_LEFT  ,PlaylistColumn::Textual ,PlaylistColumn::SortCase     },
-    {PlaylistColumn::TIMES_PLAYED,	wxT( "timesplayed"  ),  wxTRANSLATE( "Times Played"),	wxLIST_FORMAT_RIGHT ,PlaylistColumn::Numeric ,PlaylistColumn::SortCase     },
-    {PlaylistColumn::LAST_PLAYED,	wxT( "lastplayed"	),  wxTRANSLATE( "Last Played"	),	wxLIST_FORMAT_RIGHT ,PlaylistColumn::Date    ,PlaylistColumn::SortCase     },
-    {PlaylistColumn::TIME,			wxT( "duration"	    ),  wxTRANSLATE( "Time"		    ),	wxLIST_FORMAT_RIGHT ,PlaylistColumn::Duration,PlaylistColumn::SortCase     },
-    {PlaylistColumn::BITRATE,		wxT( "bitrate"		),  wxTRANSLATE( "Bitrate"		),	wxLIST_FORMAT_RIGHT ,PlaylistColumn::Numeric ,PlaylistColumn::SortCase     },
-    {PlaylistColumn::FILENAME,		wxT( "filename"	    ),  wxTRANSLATE( "Filename"	    ),	wxLIST_FORMAT_LEFT  ,PlaylistColumn::Textual ,PlaylistColumn::SortCase     },
-    {PlaylistColumn::NOTES,			wxT( "notes"		),  wxTRANSLATE( "Notes"		),	wxLIST_FORMAT_LEFT	,PlaylistColumn::Textual ,PlaylistColumn::SortCase     },
-    {PlaylistColumn::TIMEADDED,		wxT( "timeadded"	),  wxTRANSLATE( "Added on"	    ),  wxLIST_FORMAT_RIGHT ,PlaylistColumn::Date    ,PlaylistColumn::SortCase     }
+    {PlaylistColumn::RATING,		wxT( "rating"		), wxT("%s"),  wxTRANSLATE( "Rating"		),	wxLIST_FORMAT_CENTER,PlaylistColumn::Numeric ,PlaylistColumn::SortCase     },
+    {PlaylistColumn::TRACK,			wxT( "tracknum"	    ), wxT("%s"),  wxTRANSLATE( "Track"		),	wxLIST_FORMAT_LEFT  ,PlaylistColumn::Numeric ,PlaylistColumn::SortCase     },
+    {PlaylistColumn::TITLE,			wxT( "title"		), wxT("%s"), wxTRANSLATE( "Title"		),	wxLIST_FORMAT_LEFT  ,PlaylistColumn::Textual ,PlaylistColumn::SortNoCase   },
+    {PlaylistColumn::ARTIST,		wxT( "artist"		), wxT("%s"), wxTRANSLATE( "Artist"		),	wxLIST_FORMAT_LEFT  ,PlaylistColumn::Textual ,PlaylistColumn::SortNoCaseNoPrefix},
+    {PlaylistColumn::ALBUM,			wxT( "album"		), wxT("%s"), wxTRANSLATE( "Album"		),	wxLIST_FORMAT_LEFT  ,PlaylistColumn::Textual ,PlaylistColumn::SortNoCase   },
+    {PlaylistColumn::YEAR,			wxT( "year"		    ), wxT("%s"), wxTRANSLATE( "Year"		    ),	wxLIST_FORMAT_CENTER,PlaylistColumn::Textual ,PlaylistColumn::SortCase     },
+    {PlaylistColumn::GENRE,			wxT( "genre"		), wxT("%s"), wxTRANSLATE( "Genre"		),	wxLIST_FORMAT_LEFT  ,PlaylistColumn::Textual ,PlaylistColumn::SortCase     },
+    {PlaylistColumn::TIMES_PLAYED,	wxT( "timesplayed"  ), wxT("%s"), wxTRANSLATE( "Times Played"),	wxLIST_FORMAT_RIGHT ,PlaylistColumn::Numeric ,PlaylistColumn::SortCase     },
+    {PlaylistColumn::LAST_PLAYED,	wxT( "lastplayed"	), wxT("julianday(%s,'start of day')"), wxTRANSLATE( "Last Played"	),	wxLIST_FORMAT_RIGHT ,PlaylistColumn::Date    ,PlaylistColumn::SortCase     },
+    {PlaylistColumn::TIME,			wxT( "duration"	    ), wxT("round(%s/60000)"), wxTRANSLATE( "Time"		    ),	wxLIST_FORMAT_RIGHT ,PlaylistColumn::Duration,PlaylistColumn::SortCase     },
+    {PlaylistColumn::BITRATE,		wxT( "bitrate"		), wxT("%s"), wxTRANSLATE( "Bitrate"		),	wxLIST_FORMAT_RIGHT ,PlaylistColumn::Numeric ,PlaylistColumn::SortCase     },
+    {PlaylistColumn::FILENAME,		wxT( "filename"	    ), wxT("%s"), wxTRANSLATE( "Filename"	    ),	wxLIST_FORMAT_LEFT  ,PlaylistColumn::Textual ,PlaylistColumn::SortCase     },
+    {PlaylistColumn::NOTES,			wxT( "notes"		), wxT("%s"), wxTRANSLATE( "Notes"		),	wxLIST_FORMAT_LEFT	,PlaylistColumn::Textual ,PlaylistColumn::SortCase     },
+    {PlaylistColumn::TIMEADDED,		wxT( "timeadded"	), wxT("julianday(%s,'start of day')"), wxTRANSLATE( "Added on"	    ),  wxLIST_FORMAT_RIGHT ,PlaylistColumn::Date    ,PlaylistColumn::SortCase     }
 };	 			

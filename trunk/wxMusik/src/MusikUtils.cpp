@@ -173,7 +173,7 @@ int GetGenreID( const CSongMetaData::StringData & sGenre )
 //	return -1; //--- return -1 if unknown ---//
 }
 
-wxString MStoStr( int timems )
+wxString MStoStr( int timems ,bool bAlwaysHours)
 {
 	wxString result;
 
@@ -184,10 +184,10 @@ wxString MStoStr( int timems )
 	ms -= minutes * 1000 * 60;
 	int seconds = ms / 1000;
 
-	if ( hours > 0 )
-		result.sprintf( wxT("%d:%02d:%02d"), hours, minutes, seconds );
+	if ( bAlwaysHours || hours > 0 )
+		result.sprintf( wxT("%02d:%02d:%02d"), hours, minutes, seconds );
 	else
-		result.sprintf( wxT("%d:%02d"), minutes, seconds );
+		result.sprintf( wxT("%02d:%02d"), minutes, seconds );
 	
 	return result;
 }

@@ -34,6 +34,7 @@ struct PlaylistColumn
 
     eId         Id;
     wxString    DBName;
+    wxString    ColQueryMask;
     wxString    Label;
     int         Aligned;
     eType       Type;

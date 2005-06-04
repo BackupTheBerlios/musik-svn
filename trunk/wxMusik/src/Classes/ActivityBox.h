@@ -169,7 +169,6 @@ public:
 	void		GetSelected				( wxArrayString & aReturn )							{ pListBox->GetSelected( aReturn );return; 				}
 	int			GetSelectedItemCount	()													{ return pListBox->GetSelectedItemCount();				}
 	void		GetRelatedList			( CActivityBox *pParentBox, wxArrayString & aReturn );
-	const wxString	& TypeAsString		();
 	wxString	TypeAsTranslatedString		();
 	void		GetSelectedSongs		( MusikSongIdArray& array );
 

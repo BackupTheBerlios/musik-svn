@@ -295,7 +295,7 @@ wxString CActivityListBox::OnGetItemText(long item, long column) const
 
 	case 0:
 		{
-			wxString text(GetRowText( item ));
+			wxString text(GetRowText( item,false ));
 			if(text.IsEmpty())
 				return _( "<unknown>" );
 			else
@@ -315,7 +315,19 @@ wxString CActivityListBox::GetRowText( long row, bool bPure ) const
 			return wxString::Format(wxT("%s%s"),_("Show all "), m_sCaption.c_str());
 		if(HasShowAllRow())
 			row--;
-        if(wxGetApp().Prefs.bSortArtistWithoutPrefix && !bPure && g_PlaylistColumn[m_pParent->Type()].SortOrder  == PlaylistColumn::SortNoCaseNoPrefix)
+        if(!bPure && g_PlaylistColumn[m_pParent->Type()].Type == PlaylistColumn::Date)
+        {
+            double dbl = CharStringToDouble(ConvW2A(m_Items.Item( row ))); //CharStringToDouble always uses "." as decimal point no matter what the locale is.
+            
+            return  JDN2LocalTimeString(dbl,wxT("%x"));
+        }
+        else if(!bPure && g_PlaylistColumn[m_pParent->Type()].Type == PlaylistColumn::Duration)
+        {
+            long l=0;
+            m_Items.Item( row ).ToLong(&l); 
+            return MStoStr(l*60000,true);
+        }
+        else if(wxGetApp().Prefs.bSortArtistWithoutPrefix && !bPure && g_PlaylistColumn[m_pParent->Type()].SortOrder  == PlaylistColumn::SortNoCaseNoPrefix)
 			return MoveArtistPrefixToEnd(SanitizedString( m_Items.Item( row ) ));
 		else
 			return SanitizedString( m_Items.Item( row ) );
@@ -576,10 +588,7 @@ CActivityBox::~CActivityBox()
 	delete pActivityEditEvt;
 }
 
-const wxString & CActivityBox::TypeAsString()
-{
-    return g_PlaylistColumn[m_ActivityType].DBName;
-}
+
 wxString CActivityBox::TypeAsTranslatedString()
 {
     return wxGetTranslation(g_PlaylistColumn[m_ActivityType].Label);
@@ -593,23 +602,28 @@ void CActivityBox::GetRelatedList( CActivityBox *pParentBox, wxArrayString & aRe
     m_ParentBox = pParentBox;
 
 	aReturn.Clear();
+    const PlaylistColumn & ColumnOut =  g_PlaylistColumn[Type()];
+    bool bLetDBSort = ColumnOut.Type != PlaylistColumn::Textual; // texts cannot be sorted by the db right now, 
+                                                                 //because it does not sort utf-8 strings correctly.
+                                                                 // this will change if sqlite 3 is used.
     if(m_ParentBox)
     {
         const PlaylistColumn & ColumnIn	= g_PlaylistColumn[m_ParentBox->Type()];
-        const PlaylistColumn & ColumnOut=  g_PlaylistColumn[Type()];
         wxArrayString sel;
         m_ParentBox->GetSelected( sel );
-        wxGetApp().Library.GetInfo( sel, ColumnIn, ColumnOut, aReturn ,false);
+        wxGetApp().Library.GetInfo( sel, ColumnIn, ColumnOut, aReturn ,bLetDBSort);
     }
     else
     {
-        GetFullList(aReturn,false);
+        GetFullList(aReturn,bLetDBSort);
     }
-    if(wxGetApp().Prefs.bSortArtistWithoutPrefix && g_PlaylistColumn[Type()].SortOrder  == PlaylistColumn::SortNoCaseNoPrefix)
-		aReturn.Sort(wxStringSortAscendingLocaleRemovePrefix);
-	else
-		aReturn.Sort(wxStringSortAscendingLocale);
-
+    if(!bLetDBSort)
+    {
+        if(wxGetApp().Prefs.bSortArtistWithoutPrefix && g_PlaylistColumn[Type()].SortOrder  == PlaylistColumn::SortNoCaseNoPrefix)
+            aReturn.Sort(wxStringSortAscendingLocaleRemovePrefix);
+        else
+            aReturn.Sort(wxStringSortAscendingLocale);
+    }
 }
 
 
@@ -668,12 +682,12 @@ void CActivityBox::GetSelectedSongs( MusikSongIdArray& array )
 			//-------------------------------------------------//
 			//--- what type of box is this?					---//
 			//-------------------------------------------------//
-			wxString sThisType = TypeAsString();
+			wxString sThisType = wxString::Format(g_PlaylistColumn[Type()].ColQueryMask,g_PlaylistColumn[Type()].DBName);
 
 			//-------------------------------------------------//
             //--- what type of box is the parent?			---//
 			//-------------------------------------------------//
-			wxString sParentType = pParentBox->TypeAsString();
+			wxString sParentType = wxString::Format(g_PlaylistColumn[pParentBox->Type()].ColQueryMask,g_PlaylistColumn[pParentBox->Type()].DBName);
 
 			//-------------------------------------------------//
             //--- return if there is an invalid type		---//

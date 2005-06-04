@@ -241,7 +241,7 @@ void CActivityAreaCtrl::UpdateSel( CActivityBox *pSelectedBox ,bool bForceShowAl
 	    if ( pSelectedBox->IsSelected( 0 ) || pSelectedBox->GetSelectedItemCount() == 0 )
 	    {
 		    SetParent( NULL, false );
-		    pSelectedBox->ResetContents(RCM_EnsureVisibilityOfCurrentTopItem); // ensure visiblility of top item before reset	
+		    pSelectedBox->ResetContents(RCM_EnsureVisibilityOfCurrentTopItem); // ensure visibility of top item before reset	
 
 		    for(size_t j = 0 ; j < WXSIZEOF(pOtherBoxes);j++)
 		    {

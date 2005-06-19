@@ -147,6 +147,7 @@ public:
 	wxString GetTimeLeftStr		( );
 	MusikSongId GetCurrentSongid		() { return m_CurrentSong; }
 	wxString  GetCurrentFilename() { return m_CurrentSong.Song()->MetaData.Filename.GetFullPath(); }
+    void GetSongsToPlay( MusikSongIdArray & arrSongs);
 	int GetCrossfadeType		() { return m_CrossfadeType; }
 	size_t GetShuffledSong		();
 	EMUSIK_PLAYMODE GetPlaymode () { return m_Playmode; }

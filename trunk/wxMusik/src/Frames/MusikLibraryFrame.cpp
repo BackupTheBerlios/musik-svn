@@ -713,7 +713,8 @@ void MusikLibraryDialog::OnThreadProg( wxCommandEvent& event )
 			//----------------------------------------------------------//
 			lcPaths->SetItem( event.GetExtraLong(), 1, IntTowxString( m_Total ), -1 );
 			lcPaths->SetItem( event.GetExtraLong(), 2, (m_New >= 0) ? IntTowxString( m_New ): wxString(wxT("-")), -1 );
-			gProgress->SetValue( ( event.GetExtraLong() * 100 ) /  g_Paths.GetCount() );
+			if(g_Paths.GetCount())
+                gProgress->SetValue( ( event.GetExtraLong() * 100 ) /  g_Paths.GetCount() );
 		}
 
 	}
@@ -735,7 +736,9 @@ void MusikLibraryDialog::OnThreadProg( wxCommandEvent& event )
 		{
 			m_Title.sprintf( _( "Scanning library for obsolete files: %d / %d (ESC to abort)" ), event.GetExtraLong(), GetTotal() );
 			SetTitle( m_Title );
-			gProgress->SetValue( ( event.GetExtraLong() * 100 ) / GetTotal() );
+            size_t total = GetTotal();
+			if(total) 
+                gProgress->SetValue( ( event.GetExtraLong() * 100 ) / total );
 
 		}
 	}

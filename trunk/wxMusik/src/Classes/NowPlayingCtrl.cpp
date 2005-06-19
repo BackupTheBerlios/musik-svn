@@ -374,7 +374,8 @@ void CNowPlayingCtrl::UpdateTime()
 
 	if ( !g_TimeSeeking )
 	{
-	 	float fPos = (float)100* ( (float)wxGetApp().Player.GetTime( FMOD_SEC ) / (float)wxGetApp().Player.GetDuration( FMOD_SEC ) );
+        int duration = wxGetApp().Player.GetDuration( FMOD_SEC ); 
+        float fPos = duration ? (float)100* ( (float)wxGetApp().Player.GetTime( FMOD_SEC ) / duration) : 0;
 	    
 		//--- now, if we're in gtk and we set the wxGauge 	---//
 		//--- to a value below 2.0, it changes to 100%		---//

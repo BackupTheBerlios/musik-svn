@@ -514,7 +514,9 @@ void CPlaylistCtrl::SaveColumns()
 	//--- these are the percent of the window the current	---//
 	//--- column takes up.									---//
 	//---------------------------------------------------------//
-	size_t nRemaining = client_size.GetWidth() - nStaticWidth;
+	int nRemaining = client_size.GetWidth() - nStaticWidth;
+    if( nRemaining < 0 || (nRemaining / m_ColumnOrder.GetCount() < 50))
+       nRemaining = 50*m_ColumnOrder.GetCount();
 	for ( size_t i = 0; i < m_ColumnOrder.GetCount(); i++ )
 	{
 		nCurrCol = m_ColumnOrder.Item( i );

@@ -13,6 +13,7 @@ public:
     }
 
 protected:
+    virtual void DoLoadPrefs();
     virtual bool DoSavePrefs();
     wxSizer *CreateControls();
 private:

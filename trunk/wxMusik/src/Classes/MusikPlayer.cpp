@@ -1010,7 +1010,13 @@ void CMusikPlayer::PrevSong()
 		}
 	}
 }
-
+void CMusikPlayer::GetSongsToPlay( MusikSongIdArray & arrSongs)
+{
+    size_t cnt = m_Playlist.GetCount() - GetCurIndex();
+    arrSongs.Alloc(cnt);
+    for(size_t i = GetCurIndex(); i < m_Playlist.GetCount();i++)
+    arrSongs.Add(m_Playlist[i]);
+}
 void CMusikPlayer::_AddRandomSongs()
 {
 	MusikSongIdArray  arrSongs;
@@ -1040,16 +1046,47 @@ void CMusikPlayer::_ChooseRandomSongs(int nSongsToAdd,MusikSongIdArray &arrSongs
 {
 	if(nSongsToAdd <= 0)
 		return;
-	wxString sQuerySongs = wxString::Format(wxT(" select autodj_songs.songid from autodj_songs ") 
-		wxT("where lastplayed = '' or lastplayed < julianday('now','-%d hours');"),(int)wxGetApp().Prefs.nAutoDjDoNotPlaySongPlayedTheLastNHours);	 //(int) cast to make gcc 2.95 happy
+    MusikSongIdArray arrSongsToPlay;
+    GetSongsToPlay(arrSongsToPlay);
+
+    wxString sQueryBase(wxT("select autodj_songs.songid from autodj_songs "));
+    wxString sWhereNotSongsToPlay;
+    wxString sQuerySum(wxT(" select (sum(duration)/60000) from autodj_songs"));
+    if(arrSongsToPlay.GetCount())
+    {
+        sWhereNotSongsToPlay << wxT(" autodj_songs.songid not in(")
+                  << arrSongsToPlay.AsCommaSeparatedString()
+                  << wxT(") ");
+        sQuerySum << wxT(" where ") << sWhereNotSongsToPlay;
+
+    }
+    sQuerySum <<  wxT(";"); 
+
+
+    int nTotalPlayTimeMinutes = wxGetApp().Library.QueryCount(ConvToUTF8(sQuerySum));
+    // we dont want to play songs which have been played the last n minutes.
+    // n is a user config option
+    // but sometimes our possible songs  have a total playing time which is smaller than n
+    // in this case we use the the half of the total playing time of the songlist instead of n
+
+    int nDoNotPlaySongPlayedTheLastNMinutes = wxMin(nTotalPlayTimeMinutes / 2 , (int)wxGetApp().Prefs.nAutoDjDoNotPlaySongPlayedTheLastNHours * 60);
+
+    wxString sWhereNotPlayedTheLastNMinutes;
+    sWhereNotPlayedTheLastNMinutes << wxT(" lastplayed = '' or lastplayed < julianday('now','-") << nDoNotPlaySongPlayedTheLastNMinutes << wxT(" minutes') ") ;
+    wxString sQuerySongs;
+    sQuerySongs << sQueryBase << wxT("where ");
+    if(sWhereNotSongsToPlay.IsEmpty())
+    {
+        sQuerySongs << sWhereNotPlayedTheLastNMinutes;
+    }
+    else
+    {
+       sQuerySongs << wxT("(") << sWhereNotSongsToPlay << wxT(") and (") << sWhereNotPlayedTheLastNMinutes << wxT(")");
+    }
+    sQuerySongs <<  wxT(";"); 
+
 	wxArrayInt arrSongIds;
 	wxGetApp().Library.Query(sQuerySongs,arrSongIds);
-	if(arrSongIds.GetCount() < (size_t)nSongsToAdd )
-	{  // not enough songs found, so relax the DoNotPlaySongPlayedTheLastNHours condition to 2 hours
-		sQuerySongs = wxString::Format(wxT(" select autodj_songs.songid from autodj_songs ") 
-			wxT("where lastplayed = '' or lastplayed < julianday('now','-2 hours');"));	 //(int) cast to make gcc 2.95 happy
-		wxGetApp().Library.Query(sQuerySongs,arrSongIds);
-	}
 	while (arrSongIds.GetCount() && (arrSongs.GetCount() < (size_t)nSongsToAdd))
 	{
 		int r = (size_t) (arrSongIds.GetCount() * (GetRandomNumber() / (RandomMax + 1.0)));  // random range  [0 , arrSongIds.GetCount()-1] 
@@ -1069,16 +1106,17 @@ void CMusikPlayer::_ChooseRandomAlbumSongs(int nAlbumsToAdd,MusikSongIdArray &ar
 	if(nAlbumsToAdd <= 0)
 		return;
 	int nMaxRepeatCount = 30;
-	int hours = wxGetApp().Prefs.nAutoDjDoNotPlaySongPlayedTheLastNHours;
-	char * count_query = sqlite_mprintf("select count(*) from autodj_albums where most_lastplayed = '' or most_lastplayed < julianday('now','-%d hours');",hours);
+    int nTotalPlayTimeMinutes = wxGetApp().Library.QueryCount(" select (sum(duration)/60000) from autodj_albums;");
+    int nDoNotPlaySongPlayedTheLastNMinutes = wxMin(nTotalPlayTimeMinutes / 2 , (int)wxGetApp().Prefs.nAutoDjDoNotPlaySongPlayedTheLastNHours * 60);
+	char * count_query = sqlite_mprintf("select count(*) from autodj_albums where most_lastplayed = '' or most_lastplayed < julianday('now','-%d minutes');",nDoNotPlaySongPlayedTheLastNMinutes);
 	int albums_count = wxGetApp().Library.QueryCount(count_query);
 	sqlite_freemem( count_query );
 	wxArrayString arrAlbums;
 	while ( (nMaxRepeatCount > 0) && ( arrAlbums.GetCount() < (size_t)nAlbumsToAdd ))
 	{
 		int r = (size_t) (albums_count * (GetRandomNumber() / (RandomMax + 1.0)));  // random range  [0 , albums_count-1] 
-		wxString sQueryRandomAlbum = wxString::Format(wxT("select album||'|'||artist from autodj_albums where most_lastplayed = '' or most_lastplayed < julianday('now','-%d hours') limit 1 offset %d;") 
-											,nMaxRepeatCount < 5 ? 1 : (int)wxGetApp().Prefs.nAutoDjDoNotPlaySongPlayedTheLastNHours,r);
+		wxString sQueryRandomAlbum = wxString::Format(wxT("select album||'|'||artist from autodj_albums where most_lastplayed = '' or most_lastplayed < julianday('now','-%d minutes') limit 1 offset %d;") 
+											,nMaxRepeatCount < 5 ? 1 : nDoNotPlaySongPlayedTheLastNMinutes,r);
 
 		wxArrayString newAlbums;
 		wxGetApp().Library.Query(sQueryRandomAlbum,newAlbums,false);

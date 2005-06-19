@@ -20,6 +20,7 @@ public:
 	void Assign(const wxArrayString & Ids)
 	{
 		Clear();
+        Alloc(Ids.GetCount());
 		for(size_t i = 0; i < Ids.GetCount();i++)  
 		{
 			int id = wxStringToInt(Ids[i]);
@@ -29,14 +30,28 @@ public:
 	}
 	wxLongLong GetTotalFileSize() const;
 	int GetTotalPlayingTimeInSeconds() const;
+    wxString AsCommaSeparatedString()
+    {
+        wxString sList;
+        sList.Alloc(GetCount() * 7);
+        for(size_t i = 0 ; i < GetCount();i++)
+        {
+            sList << Item(i);
+            if(i != GetCount() - 1)
+                sList << wxT(",");
+        }
+        return sList;
+    }
 
 };
 #if 1
+class Playlist;
+
 class PlaylistDataProvider
 {
 public:
-    virtual bool LoadIdArray(const wxString &name,MusikSongIdArray  &idarr)= 0;
-    virtual bool QueryIdArray(const wxString & query,MusikSongIdArray  &idarr) = 0;
+    virtual bool RetrieveIdArray(Playlist & pl,MusikSongIdArray  &idarr)= 0;
+    virtual bool Save(Playlist & pl) const  = 0;
 };
 
 class Playlist
@@ -52,8 +67,9 @@ public:
 	{
 		return m_sName;
 	}
+
 	virtual const MusikSongIdArray & SongIdArray() const = 0;
-	virtual ~Playlist();
+    virtual ~Playlist(){}
 
 protected:
     PlaylistDataProvider & m_refDataProvider;
@@ -85,7 +101,7 @@ protected:
 
     bool Load()
     {
-        return m_refDataProvider.LoadIdArray(Name(),m_SongIdArray);
+        return m_refDataProvider.RetrieveIdArray(*this,m_SongIdArray);
     }
     MusikSongIdArray m_SongIdArray;
 };
@@ -101,6 +117,15 @@ public:
     {
         
     }
+    wxString & Query() 
+    {
+        return m_sQuery;
+    }
+    const wxString & Query() const
+    {
+        return m_sQuery;
+    }
+
     bool SetSortColumn(PlaylistColumn::eId id,bool bSortAscending)
     {
         m_SortColumn = id;
@@ -123,7 +148,7 @@ protected:
     void Realize()
     {
 
-        m_refDataProvider.QueryIdArray(m_sQuery,m_SongIdArray);          
+        m_refDataProvider.RetrieveIdArray(*this,m_SongIdArray);          
     }
 
  
@@ -142,8 +167,8 @@ public:
     {
     }
 
-    virtual bool LoadIdArray(const wxString &name,MusikSongIdArray  &idarr);
-    virtual bool QueryIdArray(const wxString & query,MusikSongIdArray  &idarr);
+    virtual bool RetrieveIdArray(Playlist & pl,MusikSongIdArray  &idarr);
+    virtual bool Save(Playlist & pl) const;
 
 protected:
     CMusikLibrary &m_refLib;

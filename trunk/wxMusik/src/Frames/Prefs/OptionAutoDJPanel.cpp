@@ -31,7 +31,7 @@ wxSizer * OptionAutoDJPanel::CreateControls()
     // controls which should be placed inside
     // or else they wont be displayed on wxGTK						
 
-    PREF_CREATE_MULTILINETEXTCTRL2(AutoDjFilter,80,wxFILTER_NONE);
+    tcAutoDjFilter = new wxTextCtrl_NoFlicker( this, -1,wxEmptyString,wxDefaultPosition,wxSize(-1,80),wxTE_MULTILINE);
 
     PREF_CREATE_SPINCTRL(AutoDjDoNotPlaySongPlayedTheLastNHours,1,2000000,1);
     PREF_CREATE_SPINCTRL(AutoDJChooseSongsToPlayInAdvance,1,1000,1);
@@ -72,6 +72,11 @@ wxSizer * OptionAutoDJPanel::CreateControls()
     vsOptions_AutoDj->Add( vsShuffle,		0, wxALL | wxEXPAND, 2 );
     vsOptions_AutoDj->Add( vsAutoDj,		0, wxALL | wxEXPAND, 2 );
     return vsOptions_AutoDj;
+}
+
+void OptionAutoDJPanel::DoLoadPrefs()
+{
+    tcAutoDjFilter->SetValue(wxGetApp().Prefs.sAutoDjFilter);    
 }
 bool OptionAutoDJPanel::DoSavePrefs()
 {

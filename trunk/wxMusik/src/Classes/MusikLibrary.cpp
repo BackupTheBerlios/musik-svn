@@ -148,7 +148,7 @@ bool CMusikLibrary::Load()
 
 		CreateDBFuncs();
 		//sqlite_exec( m_pDB, "PRAGMA synchronous = OFF;", NULL, NULL, NULL );
-		sqlite_exec( m_pDB, "PRAGMA cache_size = 10000;", NULL, NULL, NULL );
+		sqlite_exec( m_pDB, "PRAGMA cache_size = 100000;", NULL, NULL, NULL );
 		CheckVersion();
 		SetAutoDjFilter(wxGetApp().Prefs.sAutoDjFilter );
 		sqlite_exec( m_pDB,	"CREATE VIEW valid_albums as select album,artist,most_lastplayed from ("
@@ -596,7 +596,7 @@ void CMusikLibrary::GetInfo( const wxArrayString & aList, const PlaylistColumn &
 	wxString sInfo;
 	wxString query;
 	query.Alloc(50 * aList.GetCount()+ 40);
-    wxString sColumnOut = wxString::Format(ColumnOut.ColQueryMask,ColumnOut.DBName);
+    wxString sColumnOut = wxString::Format(ColumnOut.ColQueryMask,ColumnOut.DBName.c_str());
     sColumnOut += wxT(" as OutColumn ");
 	if(bSorted)
 	{
@@ -619,7 +619,7 @@ void CMusikLibrary::GetInfo( const wxArrayString & aList, const PlaylistColumn &
 
 		if ( i > 0 )
 			query += wxT(" or ");
-        query += wxString::Format(ColumnIn.ColQueryMask,ColumnIn.DBName);
+        query += wxString::Format(ColumnIn.ColQueryMask,ColumnIn.DBName.c_str());
         query += wxT(" = ");
         if(bQuote)
             query += wxT("'");
@@ -669,7 +669,7 @@ void CMusikLibrary::GetSongs( const wxArrayString & aList, const PlaylistColumn 
 	aReturn.Alloc(GetSongCount()); // optimize item adding performance,
   	wxString sQuery;
   
-    sQuery =  wxString::Format(Column.ColQueryMask,Column.DBName) + wxT(" in(");
+    sQuery =  wxString::Format(Column.ColQueryMask,Column.DBName.c_str()) + wxT(" in(");
 	sQuery.Alloc(sQuery.Len() + 30 + aList.GetCount() * 30); // optimization ( the 30 is a wild guess)
 
 	//--- for each item in the input list, we're going to query the database ---//
@@ -1320,7 +1320,7 @@ void CMusikLibrary::GetAllSongs( MusikSongIdArray & aReturn, bool bSorted )
 
 void CMusikLibrary::GetAllOfColumn( const PlaylistColumn & Column, wxArrayString & aReturn, bool bSorted  )
 {
-    wxString sColumn = wxString::Format(Column.ColQueryMask,Column.DBName);
+    wxString sColumn = wxString::Format(Column.ColQueryMask,Column.DBName.c_str());
 	if(bSorted)
 	{
         if(wxGetApp().Prefs.bSortArtistWithoutPrefix && Column.SortOrder == PlaylistColumn::SortNoCaseNoPrefix)

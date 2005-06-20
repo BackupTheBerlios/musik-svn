@@ -682,12 +682,12 @@ void CActivityBox::GetSelectedSongs( MusikSongIdArray& array )
 			//-------------------------------------------------//
 			//--- what type of box is this?					---//
 			//-------------------------------------------------//
-			wxString sThisType = wxString::Format(g_PlaylistColumn[Type()].ColQueryMask,g_PlaylistColumn[Type()].DBName);
+			wxString sThisType = wxString::Format(g_PlaylistColumn[Type()].ColQueryMask,g_PlaylistColumn[Type()].DBName.c_str());
 
 			//-------------------------------------------------//
             //--- what type of box is the parent?			---//
 			//-------------------------------------------------//
-			wxString sParentType = wxString::Format(g_PlaylistColumn[pParentBox->Type()].ColQueryMask,g_PlaylistColumn[pParentBox->Type()].DBName);
+			wxString sParentType = wxString::Format(g_PlaylistColumn[pParentBox->Type()].ColQueryMask,g_PlaylistColumn[pParentBox->Type()].DBName.c_str());
 
 			//-------------------------------------------------//
             //--- return if there is an invalid type		---//

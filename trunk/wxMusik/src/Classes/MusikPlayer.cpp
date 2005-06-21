@@ -551,7 +551,8 @@ bool CMusikPlayer::Play( size_t nItem, int nStartPos, int nFadeType )
 	pNewStream->SetVolume(  0.0 );
 	m_Playing = true;
 	m_Paused = false;
-	g_FaderThread->CrossfaderAbort();
+	if(g_FaderThread)
+    	g_FaderThread->CrossfaderAbort();
 	//---------------------------------------------//
 	//--- update the global arrays containing	---//
 	//--- active channels and streams			---//

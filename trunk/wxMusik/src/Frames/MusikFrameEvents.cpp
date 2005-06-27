@@ -175,10 +175,6 @@ void MusikFrame::OnClose( wxCloseEvent& WXUNUSED(event) )
     if ( wxGetApp().Prefs.bWebServerEnable )
 		wxGetApp().WebServer.Stop();
 
-    //-------------------------------------------------//
-    //--- clear up the image lists					---//
-    //-------------------------------------------------//
-    DeleteImageLists();
 
 
 	//-------------------------------------------------//

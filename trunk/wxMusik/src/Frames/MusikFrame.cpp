@@ -401,6 +401,11 @@ MusikFrame::MusikFrame()
 
 MusikFrame::~MusikFrame()
 {
+    //-------------------------------------------------//
+    //--- clear up the image lists					---//
+    //-------------------------------------------------//
+    DeleteImageLists();
+
 #ifdef __WXGTK__
 	XF86AudioKeyGrab_cleanup();
 #endif
@@ -538,9 +543,6 @@ void MusikFrame::DeleteImageLists()
 	//--- it apparently does. 						---//
 	//-------------------------------------------------//
 	#ifdef __WXMSW__
-		g_SourcesImages->RemoveAll();
-		g_NullImageList->RemoveAll();
-		g_RatingImages->RemoveAll();
 		delete g_SourcesImages;
 		delete g_NullImageList;
 		delete g_RatingImages;

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-03-31 11:54+0200\n"
+"POT-Creation-Date: 2005-06-23 13:19+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -38,23 +38,23 @@ msgstr ""
 msgid " Autotagger"
 msgstr ""
 
-#: ../src/Frames/MusikFrameEvents.cpp:221
+#: ../src/Frames/MusikFrameEvents.cpp:222
 msgid " FX"
 msgstr ""
 
-#: ../src/Frames/MusikLibraryFrame.cpp:106
+#: ../src/Frames/MusikLibraryFrame.cpp:112
 msgid " Library Setup"
 msgstr ""
 
-#: ../src/Frames/MusikLibraryFrame.cpp:670
+#: ../src/Frames/MusikLibraryFrame.cpp:688
 msgid " Library Setup - Elapsed Time: "
 msgstr ""
 
-#: ../src/Frames/MusikFrameEvents.cpp:207
+#: ../src/Frames/MusikFrameEvents.cpp:208
 msgid " Preferences"
 msgstr ""
 
-#: ../src/Frames/MusikLibraryFrame.cpp:544
+#: ../src/Frames/MusikLibraryFrame.cpp:567
 msgid ""
 " has detected that your library configuration has changed.\n"
 "\n"
@@ -62,7 +62,7 @@ msgid ""
 "the new songs. Proceed?"
 msgstr ""
 
-#: ../src/MusikApp.cpp:291
+#: ../src/MusikApp.cpp:384
 msgid ""
 " has detected version 0.1.2 or earlier was previously installed.\n"
 "\n"
@@ -70,7 +70,7 @@ msgid ""
 "Library must be reset. We apologize for any inconvenience this may cause."
 msgstr ""
 
-#: ../src/Classes/MusikPrefs.h:361
+#: ../src/Classes/MusikPrefs.h:368
 msgid " is not running"
 msgstr ""
 
@@ -95,8 +95,8 @@ msgstr ""
 msgid " will not delete empty directories!"
 msgstr ""
 
-#: ../src/Classes/SourcesBox.cpp:964 ../src/Classes/SourcesBox.cpp:1038
-#: ../src/Classes/SourcesBox.cpp:1142
+#: ../src/Classes/SourcesBox.cpp:1003 ../src/Classes/SourcesBox.cpp:1110
+#: ../src/Classes/SourcesBox.cpp:1214
 msgid ""
 "\" already exists, but does not appear to be visible in the panel.\n"
 "\n"
@@ -129,27 +129,27 @@ msgid ""
 "\n"
 msgstr ""
 
-#: ../src/MusikUtils.cpp:590
+#: ../src/MusikUtils.cpp:613
 #, c-format
 msgid "%d.%02d GB"
 msgstr ""
 
-#: ../src/MusikUtils.cpp:596
+#: ../src/MusikUtils.cpp:619
 #, c-format
 msgid "%d.%02d KB"
 msgstr ""
 
-#: ../src/MusikUtils.cpp:593
+#: ../src/MusikUtils.cpp:616
 #, c-format
 msgid "%d.%02d MB"
 msgstr ""
 
-#: ../src/MusikUtils.cpp:587
+#: ../src/MusikUtils.cpp:610
 #, c-format
 msgid "%d.%02d TB"
 msgstr ""
 
-#: ../src/MusikApp.cpp:225
+#: ../src/MusikApp.cpp:318
 #, c-format
 msgid "%s Logging Window"
 msgstr ""
@@ -168,156 +168,161 @@ msgid ""
 "\n"
 msgstr ""
 
-#: ../src/Frames/MusikFrame.cpp:386
+#: ../src/Frames/MusikFrame.cpp:460
 msgid "&About"
 msgstr ""
 
-#: ../src/Frames/MusikLibraryFrame.cpp:113
+#: ../src/Frames/MusikLibraryFrame.cpp:170
+msgid "&Add"
+msgstr ""
+
+#: ../src/Frames/MusikLibraryFrame.cpp:119
 msgid "&Add Directory"
 msgstr ""
 
-#: ../src/Classes/PlaylistCtrl.cpp:382
+#: ../src/Classes/PlaylistCtrl.cpp:380
 msgid "&Auto Rename"
 msgstr ""
 
-#: ../src/Classes/PlaylistCtrl.cpp:425 ../src/Classes/SourcesBox.cpp:299
+#: ../src/Classes/PlaylistCtrl.cpp:423 ../src/Classes/SourcesBox.cpp:302
 msgid "&Clear List"
 msgstr ""
 
-#: ../src/Classes/SourcesBox.cpp:321
+#: ../src/Classes/SourcesBox.cpp:324
 msgid "&Create New"
 msgstr ""
 
-#: ../src/Frames/MusikFrame.cpp:382
+#: ../src/Frames/MusikFrame.cpp:456
 msgid "&Custom Query"
 msgstr ""
 
-#: ../src/Classes/SourcesBox.cpp:308
+#: ../src/Classes/SourcesBox.cpp:311
 msgid "&Delete"
 msgstr ""
 
-#: ../src/Classes/SourcesBox.cpp:292
+#: ../src/Classes/SourcesBox.cpp:295
 msgid "&Edit Query"
 msgstr ""
 
-#: ../src/Classes/SourcesBox.cpp:295
+#: ../src/Classes/SourcesBox.cpp:298
 msgid "&Edit URL"
 msgstr ""
 
-#: ../src/Frames/MusikFrame.cpp:392
+#: ../src/Frames/MusikFrame.cpp:466
 msgid "&File"
 msgstr ""
 
-#: ../src/Frames/MusikFrame.cpp:395
+#: ../src/Frames/MusikFrame.cpp:469
 msgid "&Help"
 msgstr ""
 
-#: ../src/Frames/MusikFrame.cpp:169
+#: ../src/Frames/MusikFrame.cpp:238
 msgid "&Hide wxMusik"
 msgstr ""
 
-#: ../src/Frames/MusikFrame.cpp:394
+#: ../src/Frames/MusikFrame.cpp:468
 msgid "&Library"
 msgstr ""
 
-#: ../src/Frames/MusikFrame.cpp:179
+#: ../src/Frames/MusikFrame.cpp:248
 msgid "&Next"
 msgstr ""
 
-#: ../src/Classes/PlaylistCtrl.cpp:441
+#: ../src/Classes/PlaylistCtrl.cpp:434
 msgid "&Open Folder in File Manager"
 msgstr ""
 
-#: ../src/Frames/MusikFrame.cpp:173
+#: ../src/Frames/MusikFrame.cpp:242
 msgid "&Pause"
 msgstr ""
 
-#: ../src/Frames/MusikFrame.cpp:384
+#: ../src/Frames/MusikFrame.cpp:458
 msgid "&Pending Tags"
 msgstr ""
 
-#: ../src/Classes/ActivityBox.cpp:878 ../src/Classes/PlaylistCtrl.cpp:422
-#: ../src/Frames/MusikFrame.cpp:177
+#: ../src/Classes/ActivityBox.cpp:880 ../src/Classes/PlaylistCtrl.cpp:420
+#: ../src/Frames/MusikFrame.cpp:246
 msgid "&Play"
 msgstr ""
 
-#: ../src/Frames/MusikFrame.cpp:350
+#: ../src/Frames/MusikFrame.cpp:424
 msgid "&Preferences\tCtrl-P"
 msgstr ""
 
-#: ../src/Frames/MusikFrame.cpp:178
+#: ../src/Frames/MusikFrame.cpp:247
 msgid "&Previous"
 msgstr ""
 
-#: ../src/Classes/PlaylistCtrl.cpp:444 ../src/Frames/MusikFrame.cpp:189
+#: ../src/Classes/PlaylistCtrl.cpp:437 ../src/Frames/MusikFrame.cpp:258
 msgid "&Rating"
 msgstr ""
 
-#: ../src/Frames/MusikLibraryFrame.cpp:164
+#: ../src/Frames/MusikLibraryFrame.cpp:186
 msgid "&Rebuild Library"
 msgstr ""
 
-#: ../src/Classes/PlaylistCtrl.cpp:384
+#: ../src/Classes/PlaylistCtrl.cpp:382
 msgid "&Rebuild Tag"
 msgstr ""
 
-#: ../src/Frames/MusikLibraryFrame.cpp:114
-msgid "&Remove &Selected Directories"
+#: ../src/Frames/MusikLibraryFrame.cpp:120
+#: ../src/Frames/MusikLibraryFrame.cpp:171
+msgid "&Remove"
 msgstr ""
 
-#: ../src/Classes/SourcesBox.cpp:307
+#: ../src/Classes/SourcesBox.cpp:310
 msgid "&Rename"
 msgstr ""
 
-#: ../src/Classes/ActivityBox.cpp:879
+#: ../src/Classes/ActivityBox.cpp:881
 msgid "&Rename\t F2"
 msgstr ""
 
-#: ../src/Frames/MusikFrame.cpp:167
+#: ../src/Frames/MusikFrame.cpp:236
 msgid "&Restore wxMusik"
 msgstr ""
 
-#: ../src/Frames/MusikFrame.cpp:175
+#: ../src/Frames/MusikFrame.cpp:244
 msgid "&Resume"
 msgstr ""
 
-#: ../src/Frames/MusikFrame.cpp:380
+#: ../src/Frames/MusikFrame.cpp:454
 msgid "&Setup Library\tCtrl-L"
 msgstr ""
 
-#: ../src/Classes/SourcesBox.cpp:325
+#: ../src/Classes/SourcesBox.cpp:328
 msgid "&Show Icons"
 msgstr ""
 
-#: ../src/Classes/PlaylistCtrl.cpp:440
+#: ../src/Classes/PlaylistCtrl.cpp:433
 msgid "&Show in Library"
 msgstr ""
 
-#: ../src/Frames/MusikFrame.cpp:181
+#: ../src/Frames/MusikFrame.cpp:250
 msgid "&Stop"
 msgstr ""
 
-#: ../src/Frames/MusikLibraryFrame.cpp:163
+#: ../src/Frames/MusikLibraryFrame.cpp:185
 msgid "&Update Library"
 msgstr ""
 
-#: ../src/Frames/MusikFrame.cpp:393
+#: ../src/Frames/MusikFrame.cpp:467
 msgid "&View"
 msgstr ""
 
-#: ../src/Classes/SourcesBox.cpp:1115
+#: ../src/Classes/SourcesBox.cpp:1187
 msgid "(all low quality, non-VBR)\n"
 msgstr ""
 
-#: ../src/Classes/SourcesBox.cpp:1119
+#: ../src/Classes/SourcesBox.cpp:1191
 msgid "(all songs played this month)"
 msgstr ""
 
-#: ../src/Classes/SourcesBox.cpp:1113
+#: ../src/Classes/SourcesBox.cpp:1185
 msgid "(all titles containing funky)\n"
 msgstr ""
 
-#: ../src/Classes/SourcesBox.cpp:1117
+#: ../src/Classes/SourcesBox.cpp:1189
 msgid "(your popular tracks)\n"
 msgstr ""
 
@@ -329,39 +334,43 @@ msgstr ""
 msgid "-"
 msgstr ""
 
-#: ../src/Frames/MusikFrameEvents.cpp:320
+#: ../src/Frames/MusikFrameEvents.cpp:328
 msgid ": Aborting process, please wait..."
 msgstr ""
 
-#: ../src/Frames/MusikFrameEvents.cpp:407
+#: ../src/Frames/MusikFrameEvents.cpp:415
 msgid ": Renaming selected playlist items (ESC to abort)"
 msgstr ""
 
-#: ../src/Frames/MusikFrameEvents.cpp:403
+#: ../src/Frames/MusikFrameEvents.cpp:411
 msgid ": Updating tags from selection box (ESC to abort)"
 msgstr ""
 
-#: ../src/Frames/MusikFrameEvents.cpp:411
+#: ../src/Frames/MusikFrameEvents.cpp:419
 msgid ": Writing dirty tags to file (ESC to abort)"
 msgstr ""
 
-#: ../src/Classes/ActivityBox.cpp:238 ../src/Classes/PlaylistCtrl.cpp:812
+#: ../src/Classes/ActivityBox.cpp:300 ../src/Classes/PlaylistCtrl.cpp:814
 msgid "<unknown>"
 msgstr ""
 
-#: ../src/Classes/SourcesBox.cpp:1050
+#: ../src/Classes/SourcesBox.cpp:1122
 msgid ""
 "A dynamic playlist with this name already exists, would you like to edit the "
 "existing query?"
 msgstr ""
 
-#: ../src/Classes/SourcesBox.cpp:979
+#: ../src/Classes/SourcesBox.cpp:1018
 msgid ""
 "A playlist with this name already exists, would you like to append to the "
 "existing one?"
 msgstr ""
 
-#: ../src/Classes/PlaylistCtrl.cpp:383
+#: ../src/Classes/SourcesBox.cpp:430
+msgid "A playlist with this name already exists, would you like to replace it?"
+msgstr ""
+
+#: ../src/Classes/PlaylistCtrl.cpp:381
 msgid "A&uto Retag..."
 msgstr ""
 
@@ -373,37 +382,32 @@ msgstr ""
 msgid "About"
 msgstr ""
 
-#: ../src/MusikGlobals.cpp:62
+#: ../src/PlaylistColumn.cpp:32
 msgid "Added on"
 msgstr ""
 
-#: ../src/Frames/MusikTagFrame.cpp:122
-#: ../src/Frames/Prefs/OptionSelectionsPanel.cpp:40
-#: ../src/Frames/Prefs/OptionTunagePanel.cpp:99 ../src/MusikGlobals.cpp:53
+#: ../src/Frames/MusikTagFrame.cpp:123
+#: ../src/Frames/Prefs/OptionTunagePanel.cpp:99 ../src/PlaylistColumn.cpp:23
 msgid "Album"
 msgstr ""
 
-#: ../src/Classes/ActivityBox.cpp:547
-msgid "Albums"
-msgstr ""
-
-#: ../src/Classes/PlaylistCtrl.cpp:1793
+#: ../src/Classes/PlaylistCtrl.cpp:1710
 msgid "All words"
 msgstr ""
 
-#: ../src/Frames/MusikLibraryFrame.cpp:165
+#: ../src/Frames/MusikLibraryFrame.cpp:187
 msgid "Allow tag guessing from filename"
 msgstr ""
 
-#: ../src/Frames/MusikFrame.cpp:368
-msgid "Always On Top\tCtrl-T"
+#: ../src/Frames/MusikFrame.cpp:442
+msgid "Always On Top\tCtrl-Alt-T"
 msgstr ""
 
-#: ../src/Frames/Prefs/OptionAutoDJPanel.cpp:86
+#: ../src/Frames/Prefs/OptionAutoDJPanel.cpp:91
 msgid "An error occured when setting the Auto DJ Filter"
 msgstr ""
 
-#: ../src/Classes/MusikLibrary.cpp:1138
+#: ../src/Classes/MusikLibrary.cpp:1077
 msgid "An error occurred when attempting to update the database"
 msgstr ""
 
@@ -417,7 +421,7 @@ msgstr ""
 msgid "An exception (%s) occurred while writing tag of %s."
 msgstr ""
 
-#: ../src/Classes/PlaylistCtrl.cpp:1793
+#: ../src/Classes/PlaylistCtrl.cpp:1710
 msgid "Any word"
 msgstr ""
 
@@ -425,19 +429,14 @@ msgstr ""
 msgid "Append to file"
 msgstr ""
 
-#: ../src/Frames/MusikTagFrame.cpp:147
-#: ../src/Frames/Prefs/MusikPrefsFrame.cpp:120
+#: ../src/Frames/MusikTagFrame.cpp:148
+#: ../src/Frames/Prefs/MusikPrefsFrame.cpp:122
 msgid "Apply"
 msgstr ""
 
-#: ../src/Frames/MusikTagFrame.cpp:118
-#: ../src/Frames/Prefs/OptionSelectionsPanel.cpp:39
-#: ../src/Frames/Prefs/OptionTunagePanel.cpp:98 ../src/MusikGlobals.cpp:52
+#: ../src/Frames/MusikTagFrame.cpp:119
+#: ../src/Frames/Prefs/OptionTunagePanel.cpp:98 ../src/PlaylistColumn.cpp:22
 msgid "Artist"
-msgstr ""
-
-#: ../src/Classes/ActivityBox.cpp:544
-msgid "Artists"
 msgstr ""
 
 #: ../src/Frames/Prefs/OptionAutoDJPanel.h:12
@@ -454,11 +453,11 @@ msgstr ""
 msgid "Auto Rename"
 msgstr ""
 
-#: ../src/Frames/Prefs/OptionGeneralPanel.cpp:55
+#: ../src/Frames/Prefs/OptionGeneralPanel.cpp:57
 msgid "Automatically play song on startup"
 msgstr ""
 
-#: ../src/Frames/Prefs/OptionGeneralPanel.cpp:59
+#: ../src/Frames/Prefs/OptionGeneralPanel.cpp:61
 msgid "Automatically play songs, dropped into playlist"
 msgstr ""
 
@@ -467,11 +466,11 @@ msgstr ""
 msgid "Automatically rename file"
 msgstr ""
 
-#: ../src/Frames/Prefs/OptionGeneralPanel.cpp:67
+#: ../src/Frames/Prefs/OptionGeneralPanel.cpp:69
 msgid "Automatically scan for new songs on startup"
 msgstr ""
 
-#: ../src/Frames/Prefs/OptionTunagePanel.cpp:106 ../src/MusikGlobals.cpp:59
+#: ../src/Frames/Prefs/OptionTunagePanel.cpp:106 ../src/PlaylistColumn.cpp:29
 msgid "Bitrate"
 msgstr ""
 
@@ -484,38 +483,38 @@ msgid "Buffer Size (bytes):"
 msgstr ""
 
 #: ../src/Frames/MusikAutoTaggerFrame.cpp:160
-#: ../src/Frames/MusikLibraryFrame.cpp:186 ../src/Frames/MusikTagFrame.cpp:146
-#: ../src/Frames/Prefs/MusikPrefsFrame.cpp:119
+#: ../src/Frames/MusikLibraryFrame.cpp:208 ../src/Frames/MusikTagFrame.cpp:147
+#: ../src/Frames/Prefs/MusikPrefsFrame.cpp:121
 msgid "Cancel"
 msgstr ""
 
-#: ../src/Classes/SourcesBox.cpp:158
+#: ../src/Classes/SourcesBox.cpp:161
 msgid "Cannot drag songs into a dynamic playlist."
 msgstr ""
 
-#: ../src/Classes/SourcesBox.cpp:153
+#: ../src/Classes/SourcesBox.cpp:156
 msgid "Cannot drag songs into a net stream."
 msgstr ""
 
-#: ../src/Classes/SourcesBox.cpp:139
+#: ../src/Classes/SourcesBox.cpp:146
 msgid "Cannot drag songs into the library, they already exist here."
 msgstr ""
 
-#: ../src/Classes/MusikPlayer.cpp:425
+#: ../src/Classes/MusikPlayer.cpp:435
 msgid ""
 "Cannot find file.\n"
 " Filename:"
 msgstr ""
 
-#: ../src/Frames/Prefs/OptionGeneralPanel.cpp:69
+#: ../src/Frames/Prefs/OptionGeneralPanel.cpp:71
 msgid "Censor common swearwords"
 msgstr ""
 
-#: ../src/Classes/PlaylistCtrl.cpp:1792
+#: ../src/Classes/PlaylistCtrl.cpp:1709
 msgid "Clear"
 msgstr ""
 
-#: ../src/Frames/MusikLibraryFrame.cpp:167
+#: ../src/Frames/MusikLibraryFrame.cpp:189
 msgid "Clear &Library"
 msgstr ""
 
@@ -524,11 +523,11 @@ msgstr ""
 msgid "Clear old tag"
 msgstr ""
 
-#: ../src/Frames/MusikFrameEvents.cpp:334
+#: ../src/Frames/MusikFrameEvents.cpp:342
 msgid "Clear old tag information before writing?"
 msgstr ""
 
-#: ../src/Frames/MusikTagFrame.cpp:139
+#: ../src/Frames/MusikTagFrame.cpp:140
 msgid "Clear old tags    "
 msgstr ""
 
@@ -544,7 +543,7 @@ msgstr ""
 msgid "Convert '_' to Space"
 msgstr ""
 
-#: ../src/Classes/SourcesBox.cpp:330
+#: ../src/Classes/SourcesBox.cpp:333
 msgid "Copy files to directory"
 msgstr ""
 
@@ -576,27 +575,27 @@ msgstr ""
 msgid "Crossfader"
 msgstr ""
 
-#: ../src/Classes/PlaylistCtrl.cpp:447
+#: ../src/Classes/PlaylistCtrl.cpp:440
 msgid "Delete"
 msgstr ""
 
-#: ../src/Classes/PlaylistCtrl.cpp:1406
+#: ../src/Classes/PlaylistCtrl.cpp:1363
 msgid "Delete the selected songs from wxMusik's internal database?"
 msgstr ""
 
-#: ../src/Classes/PlaylistCtrl.cpp:1400
+#: ../src/Classes/PlaylistCtrl.cpp:1357
 msgid "Delete the selected songs from your computer?"
 msgstr ""
 
-#: ../src/Classes/PlaylistCtrl.cpp:445
+#: ../src/Classes/PlaylistCtrl.cpp:438
 msgid "Display"
 msgstr ""
 
-#: ../src/Frames/Prefs/OptionPlaylistPanel.cpp:46
+#: ../src/Frames/Prefs/OptionPlaylistPanel.cpp:47
 msgid "Display <unknown> in empty colums"
 msgstr ""
 
-#: ../src/Frames/Prefs/OptionGeneralPanel.cpp:57
+#: ../src/Frames/Prefs/OptionGeneralPanel.cpp:59
 msgid "Double click replaces playlist"
 msgstr ""
 
@@ -604,59 +603,59 @@ msgstr ""
 msgid "Driver"
 msgstr ""
 
-#: ../src/Frames/Prefs/OptionPlaylistPanel.cpp:37
+#: ../src/Frames/Prefs/OptionPlaylistPanel.cpp:38
 msgid "Dynamic"
 msgstr ""
 
-#: ../src/Classes/SourcesBox.cpp:318
+#: ../src/Classes/SourcesBox.cpp:321
 msgid "Dynamic Playlist"
 msgstr ""
 
-#: ../src/Classes/SourcesBox.cpp:1038
+#: ../src/Classes/SourcesBox.cpp:1110
 msgid "Dynamic playlist \""
 msgstr ""
 
-#: ../src/Frames/MusikFrame.cpp:192 ../src/Frames/MusikFrame.cpp:352
+#: ../src/Frames/MusikFrame.cpp:261 ../src/Frames/MusikFrame.cpp:426
 msgid "E&xit"
 msgstr ""
 
-#: ../src/Classes/MusikPlayer.cpp:482 ../src/Classes/MusikPlayer.cpp:613
+#: ../src/Classes/MusikPlayer.cpp:488 ../src/Classes/MusikPlayer.cpp:614
 msgid "ERROR: failed to open stream:"
 msgstr ""
 
-#: ../src/Classes/PlaylistCtrl.cpp:449
+#: ../src/Classes/PlaylistCtrl.cpp:442
 msgid "Edit &Tag"
 msgstr ""
 
-#: ../src/Classes/PlaylistCtrl.cpp:377
+#: ../src/Classes/PlaylistCtrl.cpp:375
 msgid "Edit Album\tF5"
 msgstr ""
 
-#: ../src/Classes/PlaylistCtrl.cpp:376
+#: ../src/Classes/PlaylistCtrl.cpp:374
 msgid "Edit Artist\tF4"
 msgstr ""
 
-#: ../src/Classes/PlaylistCtrl.cpp:378
+#: ../src/Classes/PlaylistCtrl.cpp:376
 msgid "Edit Genre\tF6"
 msgstr ""
 
-#: ../src/Classes/PlaylistCtrl.cpp:380
+#: ../src/Classes/PlaylistCtrl.cpp:378
 msgid "Edit Notes\tF8"
 msgstr ""
 
-#: ../src/Classes/PlaylistCtrl.cpp:374
+#: ../src/Classes/PlaylistCtrl.cpp:372
 msgid "Edit Title\tF2"
 msgstr ""
 
-#: ../src/Classes/PlaylistCtrl.cpp:375
+#: ../src/Classes/PlaylistCtrl.cpp:373
 msgid "Edit Track Number\tF3"
 msgstr ""
 
-#: ../src/Classes/PlaylistCtrl.cpp:379
+#: ../src/Classes/PlaylistCtrl.cpp:377
 msgid "Edit Year\tF7"
 msgstr ""
 
-#: ../src/MusikUtils.cpp:598
+#: ../src/MusikUtils.cpp:621
 msgid "Empty"
 msgstr ""
 
@@ -674,11 +673,11 @@ msgstr ""
 msgid "Enable Pitch control"
 msgstr ""
 
-#: ../src/Frames/Prefs/OptionGeneralPanel.cpp:64
+#: ../src/Frames/Prefs/OptionGeneralPanel.cpp:66
 msgid "Enable balloon song info"
 msgstr ""
 
-#: ../src/Classes/ActivityBox.cpp:873 ../src/Classes/PlaylistCtrl.cpp:417
+#: ../src/Classes/ActivityBox.cpp:875 ../src/Classes/PlaylistCtrl.cpp:415
 msgid "Enqueue"
 msgstr ""
 
@@ -686,48 +685,52 @@ msgstr ""
 msgid "Enter Tag Mask:"
 msgstr ""
 
-#: ../src/Classes/SourcesBox.cpp:365
+#: ../src/Classes/SourcesBox.cpp:368
 msgid "Enter name for new dynamic playlist:"
 msgstr ""
 
-#: ../src/Classes/SourcesBox.cpp:128 ../src/Classes/SourcesBox.cpp:345
-#: ../src/Classes/SourcesBox.cpp:355
+#: ../src/Classes/SourcesBox.cpp:135 ../src/Classes/SourcesBox.cpp:348
+#: ../src/Classes/SourcesBox.cpp:358
 msgid "Enter name for new playlist:"
 msgstr ""
 
-#: ../src/Classes/SourcesBox.cpp:374
+#: ../src/Classes/SourcesBox.cpp:377
 msgid "Enter name of the net stream:"
 msgstr ""
 
-#: ../src/Classes/SourcesBox.cpp:1168
+#: ../src/Classes/SourcesBox.cpp:1240
 msgid "Enter net stream address(URL):"
 msgstr ""
 
-#: ../src/Classes/PlaylistCtrl.cpp:1793
+#: ../src/Classes/PlaylistCtrl.cpp:1710
 msgid "Exact phrase"
 msgstr ""
 
-#: ../src/Classes/SourcesBox.cpp:1111
+#: ../src/Classes/SourcesBox.cpp:1183
 msgid "Examples:\n"
 msgstr ""
 
-#: ../src/Frames/MusikFrame.cpp:365
+#: ../src/Classes/SourcesBox.cpp:335
+msgid "Export Playlist (M3U)"
+msgstr ""
+
+#: ../src/Frames/MusikFrame.cpp:439
 msgid "FX\tCtrl-F"
 msgstr ""
 
-#: ../src/MusikApp.cpp:391
+#: ../src/MusikApp.cpp:484
 #, c-format
 msgid "Failed to copy file %s. Continue?"
 msgstr ""
 
-#: ../src/Classes/PlaylistCtrl.cpp:1462
+#: ../src/Classes/PlaylistCtrl.cpp:1420
 msgid ""
 "Failed to delete the following files from your computer:\n"
 "\n"
 " "
 msgstr ""
 
-#: ../src/Frames/MusikTagFrame.cpp:106
+#: ../src/Frames/MusikTagFrame.cpp:107
 msgid "File"
 msgstr ""
 
@@ -735,15 +738,15 @@ msgstr ""
 msgid "File Associations"
 msgstr ""
 
-#: ../src/MusikApp.cpp:392
+#: ../src/MusikApp.cpp:485
 msgid "File copy error"
 msgstr ""
 
-#: ../src/MusikApp.cpp:352
+#: ../src/MusikApp.cpp:445
 msgid "File copy warning"
 msgstr ""
 
-#: ../src/Frames/Prefs/OptionTunagePanel.cpp:104 ../src/MusikGlobals.cpp:60
+#: ../src/Frames/Prefs/OptionTunagePanel.cpp:104 ../src/PlaylistColumn.cpp:30
 msgid "Filename"
 msgstr ""
 
@@ -755,11 +758,11 @@ msgstr ""
 msgid "Filesize"
 msgstr ""
 
-#: ../src/Frames/MusikFrame.cpp:376
+#: ../src/Frames/MusikFrame.cpp:450
 msgid "Finalize for Database &Only"
 msgstr ""
 
-#: ../src/Classes/PlaylistCtrl.cpp:399
+#: ../src/Classes/PlaylistCtrl.cpp:397
 msgid "Fit Columns"
 msgstr ""
 
@@ -768,31 +771,31 @@ msgstr ""
 msgid "Flac Lossless Audio File"
 msgstr ""
 
-#: ../src/Classes/PlaylistCtrl.cpp:390
+#: ../src/Classes/PlaylistCtrl.cpp:388
 msgid "From Computer\tCtrl+Del"
 msgstr ""
 
-#: ../src/Classes/PlaylistCtrl.cpp:389
+#: ../src/Classes/PlaylistCtrl.cpp:387
 msgid "From Database\tAlt+Del"
 msgstr ""
 
-#: ../src/Classes/PlaylistCtrl.cpp:388
+#: ../src/Classes/PlaylistCtrl.cpp:386
 msgid "From Playlist\tDel"
 msgstr ""
 
-#: ../src/Classes/PlaylistCtrl.cpp:1796
+#: ../src/Classes/PlaylistCtrl.cpp:1713
 msgid "Fuzzy High"
 msgstr ""
 
-#: ../src/Classes/PlaylistCtrl.cpp:1796
+#: ../src/Classes/PlaylistCtrl.cpp:1713
 msgid "Fuzzy Low"
 msgstr ""
 
-#: ../src/Classes/PlaylistCtrl.cpp:1796
+#: ../src/Classes/PlaylistCtrl.cpp:1713
 msgid "Fuzzy Middle"
 msgstr ""
 
-#: ../src/Classes/PlaylistCtrl.cpp:1796
+#: ../src/Classes/PlaylistCtrl.cpp:1713
 msgid "Fuzzy None"
 msgstr ""
 
@@ -801,20 +804,15 @@ msgstr ""
 msgid "General"
 msgstr ""
 
-#: ../src/Frames/MusikTagFrame.cpp:126
-#: ../src/Frames/Prefs/OptionSelectionsPanel.cpp:41 ../src/MusikGlobals.cpp:55
+#: ../src/Frames/MusikTagFrame.cpp:127 ../src/PlaylistColumn.cpp:25
 msgid "Genre"
 msgstr ""
 
-#: ../src/Classes/ActivityBox.cpp:550
-msgid "Genres"
-msgstr ""
-
-#: ../src/Frames/Prefs/OptionGeneralPanel.cpp:62
+#: ../src/Frames/Prefs/OptionGeneralPanel.cpp:64
 msgid "Hide Window on Minimize"
 msgstr ""
 
-#: ../src/Frames/Prefs/OptionSelectionsPanel.cpp:56
+#: ../src/Frames/Prefs/OptionSelectionsPanel.cpp:53
 msgid "Highlight"
 msgstr ""
 
@@ -823,23 +821,23 @@ msgstr ""
 msgid "Hotkey %s cannot be registered."
 msgstr ""
 
-#: ../src/MusikApp.cpp:206
+#: ../src/MusikApp.cpp:299
 msgid "Initialization of FMOD sound system failed."
 msgstr ""
 
-#: ../src/MusikApp.cpp:199
+#: ../src/MusikApp.cpp:292
 msgid "Initialization of library failed."
 msgstr ""
 
-#: ../src/Classes/ActivityBox.cpp:874 ../src/Classes/PlaylistCtrl.cpp:418
+#: ../src/Classes/ActivityBox.cpp:876 ../src/Classes/PlaylistCtrl.cpp:416
 msgid "Instantly"
 msgstr ""
 
-#: ../src/Classes/SourcesBox.cpp:906
+#: ../src/Classes/SourcesBox.cpp:946
 msgid "Invalid playlist name."
 msgstr ""
 
-#: ../src/MusikGlobals.cpp:57
+#: ../src/PlaylistColumn.cpp:27
 msgid "Last Played"
 msgstr ""
 
@@ -883,35 +881,35 @@ msgstr ""
 msgid "Musepack Audio File"
 msgstr ""
 
-#: ../src/Classes/SourcesBox.cpp:742
+#: ../src/Classes/SourcesBox.cpp:773
 msgid "Musik Library"
 msgstr ""
 
-#: ../src/Classes/SourcesBox.cpp:319 ../src/Classes/SourcesBox.cpp:1293
+#: ../src/Classes/SourcesBox.cpp:322 ../src/Classes/SourcesBox.cpp:1352
 msgid "Net Stream"
 msgstr ""
 
-#: ../src/Classes/SourcesBox.cpp:1142
+#: ../src/Classes/SourcesBox.cpp:1214
 msgid "Net Stream \""
 msgstr ""
 
-#: ../src/Classes/PlaylistCtrl.cpp:881
+#: ../src/Classes/PlaylistCtrl.cpp:882
 msgid "Never"
 msgstr ""
 
-#: ../src/Frames/MusikLibraryFrame.cpp:161
+#: ../src/Frames/MusikLibraryFrame.cpp:167
 msgid "New"
 msgstr ""
 
-#: ../src/Classes/ActivityBox.cpp:872 ../src/Classes/PlaylistCtrl.cpp:416
+#: ../src/Classes/ActivityBox.cpp:874 ../src/Classes/PlaylistCtrl.cpp:414
 msgid "Next"
 msgstr ""
 
-#: ../src/Classes/PlaylistCtrl.cpp:400
+#: ../src/Classes/PlaylistCtrl.cpp:398
 msgid "No Horizontal Scroll"
 msgstr ""
 
-#: ../src/Frames/Prefs/OptionSelectionsPanel.cpp:38
+#: ../src/Frames/Prefs/OptionSelectionsPanel.cpp:42
 msgid "None"
 msgstr ""
 
@@ -924,15 +922,15 @@ msgstr ""
 msgid "Not supported"
 msgstr ""
 
-#: ../src/MusikGlobals.cpp:61
+#: ../src/PlaylistColumn.cpp:31
 msgid "Notes"
 msgstr ""
 
-#: ../src/Frames/MusikTagFrame.cpp:134
+#: ../src/Frames/MusikTagFrame.cpp:135
 msgid "Notes "
 msgstr ""
 
-#: ../src/Classes/SourcesBox.cpp:744
+#: ../src/Classes/SourcesBox.cpp:775
 msgid "Now Playing"
 msgstr ""
 
@@ -954,12 +952,12 @@ msgid "OGG Vorbis Audio File"
 msgstr ""
 
 #: ../src/Frames/MusikAutoTaggerFrame.cpp:156
-#: ../src/Frames/MusikLibraryFrame.cpp:187 ../src/Frames/MusikTagFrame.cpp:148
-#: ../src/Frames/Prefs/MusikPrefsFrame.cpp:121 ../src/MusikAboutDlg.cpp:149
+#: ../src/Frames/MusikLibraryFrame.cpp:209 ../src/Frames/MusikTagFrame.cpp:149
+#: ../src/Frames/Prefs/MusikPrefsFrame.cpp:123 ../src/MusikAboutDlg.cpp:149
 msgid "OK"
 msgstr ""
 
-#: ../src/Frames/Prefs/MusikPrefsFrame.cpp:108
+#: ../src/Frames/Prefs/MusikPrefsFrame.cpp:110
 msgid "Options"
 msgstr ""
 
@@ -967,22 +965,22 @@ msgstr ""
 msgid "Ouput Driver:"
 msgstr ""
 
-#: ../src/Classes/MusikLibrary.cpp:479 ../src/Classes/MusikLibrary.cpp:527
+#: ../src/Classes/MusikLibrary.cpp:475 ../src/Classes/MusikLibrary.cpp:528
 #, c-format
 msgid "Parsing of file %s failed."
 msgstr ""
 
-#: ../src/Classes/MusikLibrary.cpp:447
+#: ../src/Classes/MusikLibrary.cpp:443
 #, c-format
 msgid "Parsing of file %s not supported. Setting title to filename."
 msgstr ""
 
-#: ../src/Classes/MusikLibrary.cpp:500
+#: ../src/Classes/MusikLibrary.cpp:496
 #, c-format
 msgid "Parsing of file %s not supported. Song data is not updated."
 msgstr ""
 
-#: ../src/Frames/MusikLibraryFrame.cpp:159
+#: ../src/Frames/MusikLibraryFrame.cpp:165
 msgid "Path"
 msgstr ""
 
@@ -990,7 +988,7 @@ msgstr ""
 msgid "Pitch control, right-click to reset"
 msgstr ""
 
-#: ../src/Classes/MusikPlayer.cpp:534
+#: ../src/Classes/MusikPlayer.cpp:540
 msgid "Play failed, please try again."
 msgstr ""
 
@@ -1002,11 +1000,11 @@ msgstr ""
 msgid "Playback Rate (hz):"
 msgstr ""
 
-#: ../src/Classes/NowPlayingCtrl.cpp:407 ../src/Classes/NowPlayingCtrl.cpp:408
+#: ../src/Classes/NowPlayingCtrl.cpp:403 ../src/Classes/NowPlayingCtrl.cpp:404
 msgid "Playback Stopped"
 msgstr ""
 
-#: ../src/Classes/MusikPlayer.cpp:463
+#: ../src/Classes/MusikPlayer.cpp:469
 msgid ""
 "Playback will be stopped, because loading failed.\n"
 " Filename:"
@@ -1024,7 +1022,7 @@ msgstr ""
 msgid "Playlist Songs: "
 msgstr ""
 
-#: ../src/Classes/SourcesBox.cpp:314
+#: ../src/Classes/SourcesBox.cpp:317
 msgid "Playlist from Current"
 msgstr ""
 
@@ -1032,11 +1030,11 @@ msgstr ""
 msgid "Playlist size: "
 msgstr ""
 
-#: ../src/MusikApp.cpp:338
+#: ../src/MusikApp.cpp:431
 msgid "Please choose location to copy songs to:"
 msgstr ""
 
-#: ../src/Frames/MusikLibraryFrame.cpp:400
+#: ../src/Frames/MusikLibraryFrame.cpp:423
 msgid "Please choose music directory."
 msgstr ""
 
@@ -1048,7 +1046,7 @@ msgstr ""
 msgid "Prebuffering (%):"
 msgstr ""
 
-#: ../src/Frames/Prefs/MusikPrefsFrame.cpp:107
+#: ../src/Frames/Prefs/MusikPrefsFrame.cpp:109
 msgid "Preferences"
 msgstr ""
 
@@ -1072,11 +1070,11 @@ msgstr ""
 msgid "Proxy server user:"
 msgstr ""
 
-#: ../src/Frames/MusikLibraryFrame.cpp:166
+#: ../src/Frames/MusikLibraryFrame.cpp:188
 msgid "Purge &Missing Songs"
 msgstr ""
 
-#: ../src/MusikGlobals.cpp:49
+#: ../src/PlaylistColumn.cpp:19
 msgid "Rating"
 msgstr ""
 
@@ -1084,11 +1082,15 @@ msgstr ""
 msgid "Rebuffering (%):"
 msgstr ""
 
-#: ../src/Frames/MusikLibraryFrame.cpp:115
+#: ../src/Frames/MusikLibraryFrame.cpp:172
+msgid "Remove All"
+msgstr ""
+
+#: ../src/Frames/MusikLibraryFrame.cpp:121
 msgid "Remove All Directories"
 msgstr ""
 
-#: ../src/Frames/MusikTagFrame.cpp:140
+#: ../src/Frames/MusikTagFrame.cpp:141
 msgid "Rename files"
 msgstr ""
 
@@ -1096,8 +1098,8 @@ msgstr ""
 msgid "Rename:"
 msgstr ""
 
-#: ../src/Threads/ActivityBoxThreads.cpp:106
-#: ../src/Threads/MusikTagThreads.cpp:73
+#: ../src/Threads/ActivityBoxThreads.cpp:97
+#: ../src/Threads/MusikTagThreads.cpp:76
 #: ../src/Threads/PlaylistCtrlThreads.cpp:66
 #, c-format
 msgid "Renaming of file %s failed."
@@ -1111,11 +1113,11 @@ msgstr ""
 msgid "Repeat Song"
 msgstr ""
 
-#: ../src/Classes/PlaylistCtrl.cpp:420
+#: ../src/Classes/PlaylistCtrl.cpp:418
 msgid "Replace current playlist with all"
 msgstr ""
 
-#: ../src/Classes/ActivityBox.cpp:875 ../src/Classes/PlaylistCtrl.cpp:419
+#: ../src/Classes/ActivityBox.cpp:877 ../src/Classes/PlaylistCtrl.cpp:417
 msgid "Replace current playlist with selection"
 msgstr ""
 
@@ -1136,46 +1138,50 @@ msgstr ""
 msgid "Run a program"
 msgstr ""
 
-#: ../src/Frames/MusikLibraryFrame.cpp:731
+#: ../src/Frames/MusikLibraryFrame.cpp:752
 #, c-format
 msgid "Scanning directory for audio files: %d files scanned"
 msgstr ""
 
-#: ../src/Frames/MusikLibraryFrame.cpp:706
+#: ../src/Frames/MusikLibraryFrame.cpp:725
 #, c-format
 msgid "Scanning for and adding new files: %d / %d (ESC to abort)"
 msgstr ""
 
-#: ../src/Frames/MusikTagFrame.cpp:575
+#: ../src/Frames/MusikTagFrame.cpp:583
 msgid "Scanning for changed attributes"
 msgstr ""
 
-#: ../src/Frames/MusikLibraryFrame.cpp:718
+#: ../src/Frames/MusikLibraryFrame.cpp:737
 #, c-format
 msgid "Scanning library for obsolete files: %d / %d (ESC to abort)"
 msgstr ""
 
-#: ../src/Classes/PlaylistCtrl.cpp:1787
+#: ../src/Classes/PlaylistCtrl.cpp:1704
 msgid "Search:"
 msgstr ""
 
-#: ../src/Frames/MusikLibraryFrame.cpp:66
+#: ../src/Frames/MusikLibraryFrame.cpp:72
 msgid "Searching for and Adding New Files"
 msgstr ""
 
-#: ../src/Frames/MusikFrame.cpp:362
+#: ../src/Frames/MusikFrame.cpp:436
 msgid "Select Library\tCtrl-F1"
 msgstr ""
 
-#: ../src/Frames/MusikFrame.cpp:363
+#: ../src/Frames/MusikFrame.cpp:437
 msgid "Select Now Playing\tCtrl-F2"
 msgstr ""
 
-#: ../src/Frames/Prefs/OptionGeneralPanel.cpp:68
+#: ../src/Classes/SourcesBox.cpp:420
+msgid "Select the path and filename for your playlist"
+msgstr ""
+
+#: ../src/Frames/Prefs/OptionGeneralPanel.cpp:70
 msgid "Selecting library shows all songs in playlist"
 msgstr ""
 
-#: ../src/Frames/Prefs/OptionSelectionsPanel.cpp:48
+#: ../src/Frames/Prefs/OptionSelectionsPanel.cpp:40
 #, c-format
 msgid "Selection Box %d:"
 msgstr ""
@@ -1184,7 +1190,7 @@ msgstr ""
 msgid "Selection Boxes (artist/album/etc):"
 msgstr ""
 
-#: ../src/Frames/Prefs/OptionSelectionsPanel.cpp:58
+#: ../src/Frames/Prefs/OptionSelectionsPanel.cpp:55
 msgid "Selection Style:"
 msgstr ""
 
@@ -1192,50 +1198,50 @@ msgstr ""
 msgid "Selections"
 msgstr ""
 
-#: ../src/Frames/Prefs/OptionGeneralPanel.cpp:76
-#: ../src/Frames/Prefs/OptionGeneralPanel.cpp:77
 #: ../src/Frames/Prefs/OptionGeneralPanel.cpp:78
 #: ../src/Frames/Prefs/OptionGeneralPanel.cpp:79
+#: ../src/Frames/Prefs/OptionGeneralPanel.cpp:80
+#: ../src/Frames/Prefs/OptionGeneralPanel.cpp:81
 msgid "Set Color"
 msgstr ""
 
-#: ../src/Frames/Prefs/OptionGeneralPanel.cpp:72
+#: ../src/Frames/Prefs/OptionGeneralPanel.cpp:74
 msgid "Show \"stripes\" in playlist"
 msgstr ""
 
-#: ../src/Frames/Prefs/OptionGeneralPanel.cpp:73
+#: ../src/Frames/Prefs/OptionGeneralPanel.cpp:75
 msgid "Show \"stripes\" in selection boxes"
 msgstr ""
 
-#: ../src/Frames/Prefs/OptionGeneralPanel.cpp:74
+#: ../src/Frames/Prefs/OptionGeneralPanel.cpp:76
 msgid "Show \"stripes\" in sources box"
 msgstr ""
 
-#: ../src/Frames/MusikFrame.cpp:359
+#: ../src/Frames/MusikFrame.cpp:433
 msgid "Show Album Info\tCtrl-4"
 msgstr ""
 
-#: ../src/Frames/Prefs/OptionGeneralPanel.cpp:56
+#: ../src/Frames/Prefs/OptionGeneralPanel.cpp:58
 msgid "Show Library on startup"
 msgstr ""
 
-#: ../src/Frames/MusikFrame.cpp:360
+#: ../src/Frames/MusikFrame.cpp:434
 msgid "Show Playing Control on top\tCtrl-5"
 msgstr ""
 
-#: ../src/Frames/MusikFrame.cpp:358
+#: ../src/Frames/MusikFrame.cpp:432
 msgid "Show Playlist Info\tCtrl-3"
 msgstr ""
 
-#: ../src/Frames/MusikFrame.cpp:357
+#: ../src/Frames/MusikFrame.cpp:431
 msgid "Show Selections\tCtrl-2"
 msgstr ""
 
-#: ../src/Frames/MusikFrame.cpp:356
+#: ../src/Frames/MusikFrame.cpp:430
 msgid "Show Sources\tCtrl-1"
 msgstr ""
 
-#: ../src/Classes/ActivityBox.cpp:253
+#: ../src/Classes/ActivityBox.cpp:315
 msgid "Show all "
 msgstr ""
 
@@ -1249,15 +1255,15 @@ msgstr ""
 msgid "Shuffle history size:"
 msgstr ""
 
-#: ../src/Frames/Prefs/OptionSelectionsPanel.cpp:55
+#: ../src/Frames/Prefs/OptionSelectionsPanel.cpp:52
 msgid "Sloppy"
 msgstr ""
 
-#: ../src/Frames/Prefs/OptionGeneralPanel.cpp:71
+#: ../src/Frames/Prefs/OptionGeneralPanel.cpp:73
 msgid "Sort Artist without prefix"
 msgstr ""
 
-#: ../src/Frames/Prefs/MusikPrefsFrame.cpp:110
+#: ../src/Frames/Prefs/MusikPrefsFrame.cpp:112
 msgid "Sound"
 msgstr ""
 
@@ -1265,27 +1271,27 @@ msgstr ""
 msgid "Sound Device:"
 msgstr ""
 
-#: ../src/Classes/SourcesBox.h:92 ../src/Classes/SourcesBox.cpp:263
+#: ../src/Classes/SourcesBox.h:93 ../src/Classes/SourcesBox.cpp:266
 msgid "Sources"
 msgstr ""
 
-#: ../src/Frames/Prefs/OptionSelectionsPanel.cpp:54
+#: ../src/Frames/Prefs/OptionSelectionsPanel.cpp:51
 msgid "Standard"
 msgstr ""
 
-#: ../src/Classes/SourcesBox.cpp:317
+#: ../src/Classes/SourcesBox.cpp:320
 msgid "Standard Playlist"
 msgstr ""
 
-#: ../src/Classes/SourcesBox.cpp:964
+#: ../src/Classes/SourcesBox.cpp:1003
 msgid "Standard playlist \""
 msgstr ""
 
-#: ../src/Frames/Prefs/OptionPlaylistPanel.cpp:37
+#: ../src/Frames/Prefs/OptionPlaylistPanel.cpp:38
 msgid "Static"
 msgstr ""
 
-#: ../src/Frames/Prefs/OptionGeneralPanel.cpp:60
+#: ../src/Frames/Prefs/OptionGeneralPanel.cpp:62
 msgid "Stop song, if Now Playing is cleared"
 msgstr ""
 
@@ -1293,35 +1299,35 @@ msgstr ""
 msgid "Stopped Text:"
 msgstr ""
 
-#: ../src/Frames/Prefs/MusikPrefsFrame.cpp:111
+#: ../src/Frames/Prefs/MusikPrefsFrame.cpp:113
 msgid "Streaming"
 msgstr ""
 
-#: ../src/Frames/MusikTagFrame.cpp:300
+#: ../src/Frames/MusikTagFrame.cpp:301
 msgid "Tag information editing (batch)"
 msgstr ""
 
-#: ../src/Frames/MusikTagFrame.cpp:298
+#: ../src/Frames/MusikTagFrame.cpp:299
 msgid "Tag information editing (single)"
 msgstr ""
 
-#: ../src/Frames/Prefs/MusikPrefsFrame.cpp:109
+#: ../src/Frames/Prefs/MusikPrefsFrame.cpp:111
 msgid "Tagging"
 msgstr ""
 
-#: ../src/Classes/SourcesBox.cpp:1099
+#: ../src/Classes/SourcesBox.cpp:1171
 msgid "The following fields can be used in your query"
 msgstr ""
 
-#: ../src/Classes/PlaylistCtrl.cpp:1530
+#: ../src/Frames/MusikFrameEvents.cpp:305
 msgid "There are no pending tags available to display."
 msgstr ""
 
-#: ../src/Frames/MusikFrameEvents.cpp:309
+#: ../src/Frames/MusikFrameEvents.cpp:317
 msgid "There are no pending tags to finalize."
 msgstr ""
 
-#: ../src/MusikApp.cpp:351
+#: ../src/MusikApp.cpp:444
 #, c-format
 msgid ""
 "There is not enough free space in directory \"%s\". You need %s bytes more "
@@ -1332,19 +1338,11 @@ msgstr ""
 msgid "These variables can be used in file line, URL or commandline"
 msgstr ""
 
-#: ../src/Classes/PlaylistCtrl.cpp:432
-msgid "This album"
-msgstr ""
-
 #: ../src/Classes/PlaylistCtrl.cpp:430
-msgid "This artist"
+msgid "This "
 msgstr ""
 
-#: ../src/Classes/PlaylistCtrl.cpp:434
-msgid "This genre"
-msgstr ""
-
-#: ../src/Frames/MusikLibraryFrame.cpp:235
+#: ../src/Frames/MusikLibraryFrame.cpp:257
 #, c-format
 msgid ""
 "This is the first time %s has been run.\n"
@@ -1357,21 +1355,17 @@ msgid ""
 "\"Library Setup\" from the \"Library\" menu."
 msgstr ""
 
-#: ../src/Frames/MusikLibraryFrame.cpp:516
+#: ../src/Frames/MusikLibraryFrame.cpp:539
 msgid ""
 "This will wipe the library clean. Are you ABSOLUTELY SURE you want to do "
 "this?"
 msgstr ""
 
-#: ../src/Classes/PlaylistCtrl.cpp:436
-msgid "This year"
-msgstr ""
-
-#: ../src/MusikGlobals.cpp:58
+#: ../src/PlaylistColumn.cpp:28
 msgid "Time"
 msgstr ""
 
-#: ../src/MusikGlobals.cpp:56
+#: ../src/PlaylistColumn.cpp:26
 msgid "Times Played"
 msgstr ""
 
@@ -1379,12 +1373,12 @@ msgstr ""
 msgid "Times played"
 msgstr ""
 
-#: ../src/Frames/MusikTagFrame.cpp:109
-#: ../src/Frames/Prefs/OptionTunagePanel.cpp:100 ../src/MusikGlobals.cpp:51
+#: ../src/Frames/MusikTagFrame.cpp:110
+#: ../src/Frames/Prefs/OptionTunagePanel.cpp:100 ../src/PlaylistColumn.cpp:21
 msgid "Title"
 msgstr ""
 
-#: ../src/Frames/MusikLibraryFrame.cpp:160
+#: ../src/Frames/MusikLibraryFrame.cpp:166
 msgid "Total"
 msgstr ""
 
@@ -1392,11 +1386,11 @@ msgstr ""
 msgid "Total Songs: "
 msgstr ""
 
-#: ../src/MusikGlobals.cpp:50
+#: ../src/PlaylistColumn.cpp:20
 msgid "Track"
 msgstr ""
 
-#: ../src/Frames/MusikTagFrame.cpp:113
+#: ../src/Frames/MusikTagFrame.cpp:114
 msgid "Track #  "
 msgstr ""
 
@@ -1416,15 +1410,15 @@ msgstr ""
 msgid "URL:"
 msgstr ""
 
-#: ../src/Classes/NowPlayingCtrl.cpp:428
+#: ../src/Classes/NowPlayingCtrl.cpp:425
 msgid "Unknown Artist"
 msgstr ""
 
-#: ../src/Classes/NowPlayingCtrl.cpp:430
+#: ../src/Classes/NowPlayingCtrl.cpp:427
 msgid "Unknown Song"
 msgstr ""
 
-#: ../src/Classes/PlaylistCtrl.cpp:370 ../src/Frames/MusikFrame.cpp:187
+#: ../src/Classes/PlaylistCtrl.cpp:368 ../src/Frames/MusikFrame.cpp:256
 msgid "Unrated"
 msgstr ""
 
@@ -1432,7 +1426,7 @@ msgstr ""
 msgid "Update when playing is stopped"
 msgstr ""
 
-#: ../src/Frames/MusikTagFrame.cpp:677
+#: ../src/Frames/MusikTagFrame.cpp:685
 msgid "Updating tags - (ESC to abort)"
 msgstr ""
 
@@ -1448,7 +1442,7 @@ msgstr ""
 msgid "Use Proxy server"
 msgstr ""
 
-#: ../src/Frames/Prefs/OptionGeneralPanel.cpp:75
+#: ../src/Frames/Prefs/OptionGeneralPanel.cpp:77
 msgid "Use selected border colour"
 msgstr ""
 
@@ -1456,7 +1450,7 @@ msgstr ""
 msgid "Use this filter to select songs:"
 msgstr ""
 
-#: ../src/Frames/MusikFrame.cpp:373
+#: ../src/Frames/MusikFrame.cpp:447
 msgid "Vie&w"
 msgstr ""
 
@@ -1468,7 +1462,7 @@ msgstr ""
 msgid "Windows Media Audio File"
 msgstr ""
 
-#: ../src/Frames/MusikFrame.cpp:375
+#: ../src/Frames/MusikFrame.cpp:449
 msgid "Write Changes to &File"
 msgstr ""
 
@@ -1477,7 +1471,7 @@ msgstr ""
 msgid "Write tag to file"
 msgstr ""
 
-#: ../src/Frames/MusikTagFrame.cpp:138
+#: ../src/Frames/MusikTagFrame.cpp:139
 msgid "Write tags to file    "
 msgstr ""
 
@@ -1485,114 +1479,109 @@ msgstr ""
 msgid "Write to file"
 msgstr ""
 
-#: ../src/Classes/MusikLibrary.cpp:544
+#: ../src/Classes/MusikLibrary.cpp:546
 #, c-format
 msgid ""
 "Writing tags to file %s failed,because the file does not exist.\n"
 "Please purge the database."
 msgstr ""
 
-#: ../src/Classes/MusikLibrary.cpp:561
+#: ../src/Classes/MusikLibrary.cpp:564
 #, c-format
 msgid "Writing tags to file %s failed."
 msgstr ""
 
-#: ../src/Classes/MusikLibrary.cpp:552
+#: ../src/Classes/MusikLibrary.cpp:554
 #, c-format
 msgid ""
 "Writing tags to file %s is not supported. File is set as clean in database."
 msgstr ""
 
-#: ../src/Frames/Prefs/OptionSelectionsPanel.cpp:42
-#: ../src/Frames/Prefs/OptionTunagePanel.cpp:101 ../src/MusikGlobals.cpp:54
+#: ../src/Frames/Prefs/OptionTunagePanel.cpp:101 ../src/PlaylistColumn.cpp:24
 msgid "Year"
 msgstr ""
 
-#: ../src/Frames/MusikTagFrame.cpp:130
+#: ../src/Frames/MusikTagFrame.cpp:131
 msgid "Year  "
-msgstr ""
-
-#: ../src/Classes/ActivityBox.cpp:553
-msgid "Years"
 msgstr ""
 
 #: ../src/Frames/Prefs/SoundDriverPanel.cpp:117
 msgid "[No Devices]"
 msgstr ""
 
-#: ../src/MusikUtils.cpp:286
+#: ../src/MusikUtils.cpp:320
 msgid "bitch"
 msgstr ""
 
-#: ../src/Classes/MusikPlayer.cpp:1234
+#: ../src/Classes/MusikPlayer.cpp:1277
 msgid "buffering ..."
 msgstr ""
 
-#: ../src/Frames/MusikFrame.cpp:648
+#: ../src/Frames/MusikFrame.cpp:726
 msgid "by "
 msgstr ""
 
-#: ../src/Classes/MusikPlayer.cpp:1231
+#: ../src/Classes/MusikPlayer.cpp:1274
 msgid "connecting ..."
 msgstr ""
 
-#: ../src/MusikApp.cpp:384
+#: ../src/MusikApp.cpp:477
 #, c-format
 msgid "copying %s"
 msgstr ""
 
-#: ../src/MusikUtils.cpp:290
+#: ../src/MusikUtils.cpp:324
 msgid "cunt"
 msgstr ""
 
-#: ../src/MusikUtils.cpp:285
+#: ../src/MusikUtils.cpp:319
 msgid "dick"
 msgstr ""
 
-#: ../src/MusikUtils.cpp:292
+#: ../src/MusikUtils.cpp:326
 msgid "dildo"
 msgstr ""
 
-#: ../src/Frames/MusikFrame.cpp:650
+#: ../src/Frames/MusikFrame.cpp:728
 msgid "from the album"
 msgstr ""
 
-#: ../src/MusikUtils.cpp:282
+#: ../src/MusikUtils.cpp:316
 msgid "fuck"
 msgstr ""
 
-#: ../src/MusikUtils.cpp:291
+#: ../src/MusikUtils.cpp:325
 msgid "manchester"
 msgstr ""
 
-#: ../src/Classes/MusikPlayer.cpp:1240
+#: ../src/Classes/MusikPlayer.cpp:1283
 msgid "net error"
 msgstr ""
 
-#: ../src/Classes/MusikPlayer.cpp:1228
+#: ../src/Classes/MusikPlayer.cpp:1271
 msgid "not connected"
 msgstr ""
 
-#: ../src/MusikUtils.cpp:283
+#: ../src/MusikUtils.cpp:317
 msgid "shit"
 msgstr ""
 
-#: ../src/MusikUtils.cpp:288
+#: ../src/MusikUtils.cpp:322
 msgid "slut"
 msgstr ""
 
-#: ../src/Classes/MusikPlayer.cpp:1237
+#: ../src/Classes/MusikPlayer.cpp:1280
 msgid "streaming"
 msgstr ""
 
-#: ../src/MusikUtils.cpp:284
+#: ../src/MusikUtils.cpp:318
 msgid "tits"
 msgstr ""
 
-#: ../src/MusikUtils.cpp:289
+#: ../src/MusikUtils.cpp:323
 msgid "wank"
 msgstr ""
 
-#: ../src/MusikUtils.cpp:287
+#: ../src/MusikUtils.cpp:321
 msgid "whore"
 msgstr ""

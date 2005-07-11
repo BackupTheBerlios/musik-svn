@@ -14,9 +14,12 @@ public:
     {
         if(!Validate() )
             return false;
+        if(!DoSavePrefs())
+            return false;
         if(!TransferDataFromWindow())
             return false;
-        return DoSavePrefs();
+        AfterDataTransferredFromWindow();
+        return true;
     }
 
     virtual wxString Name() = 0;
@@ -28,6 +31,7 @@ protected:
         DoLoadPrefs();
     }
     virtual bool DoSavePrefs(){ return true;}
+    virtual void AfterDataTransferredFromWindow(){}
     virtual void DoLoadPrefs(){ }
 };
 

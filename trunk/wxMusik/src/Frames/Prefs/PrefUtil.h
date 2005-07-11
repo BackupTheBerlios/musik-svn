@@ -10,13 +10,22 @@
 	wxCheckBox *chk##prefname	=	new wxCheckBox_NoFlicker( this, -1,text,wxDefaultPosition,wxDefaultSize,0 \
 	,wxGenericValidator(&wxGetApp().Prefs.b##prefname));
 
+#define PREF_CREATE_CHECKBOX_EX(prefname,text,psnk) \
+    wxCheckBox *chk##prefname	=	new wxCheckBox_NoFlicker( this, -1,text,wxDefaultPosition,wxDefaultSize,0 \
+    ,wxBoolValidator(&wxGetApp().Prefs.b##prefname,psnk));
+
 #define PREF_CREATE_SPINCTRL(prefname,minval,maxval,curval) \
 	wxSpinCtrl *sc##prefname	= new wxSpinCtrl( this, -1,wxEmptyString,wxDefaultPosition,wxDefaultSize,wxSP_ARROW_KEYS,minval,maxval,curval);\
-{   	wxGenericIntValidator v(&wxGetApp().Prefs.n##prefname);		\
+{   	wxIntValidator v(&wxGetApp().Prefs.n##prefname);		\
 	sc##prefname->SetValidator(v);								}
+#define PREF_CREATE_SPINCTRL_EX(prefname,minval,maxval,psnk) \
+    wxSpinCtrl *sc##prefname	= new wxSpinCtrl( this, -1,wxEmptyString,wxDefaultPosition,wxDefaultSize,wxSP_ARROW_KEYS,minval,maxval);\
+{   	wxIntValidator v(&wxGetApp().Prefs.n##prefname,psnk);		\
+    sc##prefname->SetValidator(v);								}
+
 #define PREF_CREATE_SPINCTRL2(prefname,minval,maxval,curval) \
 	sc##prefname	= new wxSpinCtrl( this, -1,wxEmptyString,wxDefaultPosition,wxDefaultSize,wxSP_ARROW_KEYS,minval,maxval,curval);\
-{   	wxGenericIntValidator v(&wxGetApp().Prefs.n##prefname);		\
+{   	wxIntValidator v(&wxGetApp().Prefs.n##prefname);		\
 	sc##prefname->SetValidator(v);								}
 #define PREF_CREATE_TEXTCTRL(prefname,valmode)	 \
 	wxTextCtrl *tc##prefname	=	new wxTextCtrl_NoFlicker( this, -1,wxEmptyString,wxDefaultPosition,wxDefaultSize,0 \

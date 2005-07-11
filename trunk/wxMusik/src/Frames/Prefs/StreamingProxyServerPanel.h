@@ -13,7 +13,7 @@ public:
     }
 
 protected:
-    virtual bool DoSavePrefs();
+    virtual void AfterDataTransferredFromWindow();
     wxSizer *CreateControls();
 
 private:

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wxMusik\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-06-23 13:19+0200\n"
+"POT-Creation-Date: 2005-07-11 21:44+0200\n"
 "PO-Revision-Date: 2005-03-04 10:06+0100\n"
 "Last-Translator: Vit Hrachovy <flaska@moje.cz>\n"
 "Language-Team: czech <flaska@moje.cz>\n"
@@ -610,6 +610,10 @@ msgstr "Plynulý pøechod pøi posunu ve skladbì"
 msgid "Crossfader"
 msgstr "Plynulý pøechod"
 
+#: ../src/Frames/Prefs/OptionGeneralPanel.cpp:116
+msgid "Database Cache Size:"
+msgstr ""
+
 #: ../src/Classes/PlaylistCtrl.cpp:440
 msgid "Delete"
 msgstr "Smazat"
@@ -654,7 +658,7 @@ msgstr "Dynamický seznam skladeb \""
 msgid "E&xit"
 msgstr "K&onec"
 
-#: ../src/Classes/MusikPlayer.cpp:488 ../src/Classes/MusikPlayer.cpp:614
+#: ../src/Classes/MusikPlayer.cpp:488 ../src/Classes/MusikPlayer.cpp:615
 msgid "ERROR: failed to open stream:"
 msgstr "CHYBA: nepodaøilo se otevøít stream"
 
@@ -850,7 +854,7 @@ msgstr "®ánr"
 msgid "Hide Window on Minimize"
 msgstr "Schovat okno pøi Minimalizaci"
 
-#: ../src/Frames/Prefs/OptionSelectionsPanel.cpp:53
+#: ../src/Frames/Prefs/OptionSelectionsPanel.cpp:66
 msgid "Highlight"
 msgstr "Zdùraznit"
 
@@ -947,7 +951,7 @@ msgstr "Dal¹í"
 msgid "No Horizontal Scroll"
 msgstr "Bez Vodorovného Posuvu"
 
-#: ../src/Frames/Prefs/OptionSelectionsPanel.cpp:42
+#: ../src/Frames/Prefs/OptionSelectionsPanel.cpp:52
 msgid "None"
 msgstr "®ádný"
 
@@ -1225,7 +1229,7 @@ msgstr ""
 msgid "Selecting library shows all songs in playlist"
 msgstr "Vybrání Knihovny uká¾e v seznamu skladeb v¹echny skladby"
 
-#: ../src/Frames/Prefs/OptionSelectionsPanel.cpp:40
+#: ../src/Frames/Prefs/OptionSelectionsPanel.cpp:50
 #, c-format
 msgid "Selection Box %d:"
 msgstr "Výbìrové Tlaèítko %d:"
@@ -1234,7 +1238,7 @@ msgstr "Výbìrové Tlaèítko %d:"
 msgid "Selection Boxes (artist/album/etc):"
 msgstr "Výbìrová tlaèítka (umìlec/album/atd.):"
 
-#: ../src/Frames/Prefs/OptionSelectionsPanel.cpp:55
+#: ../src/Frames/Prefs/OptionSelectionsPanel.cpp:68
 msgid "Selection Style:"
 msgstr "Styl Výbìru:"
 
@@ -1242,10 +1246,10 @@ msgstr "Styl Výbìru:"
 msgid "Selections"
 msgstr "Výbìry"
 
-#: ../src/Frames/Prefs/OptionGeneralPanel.cpp:78
 #: ../src/Frames/Prefs/OptionGeneralPanel.cpp:79
 #: ../src/Frames/Prefs/OptionGeneralPanel.cpp:80
 #: ../src/Frames/Prefs/OptionGeneralPanel.cpp:81
+#: ../src/Frames/Prefs/OptionGeneralPanel.cpp:82
 msgid "Set Color"
 msgstr "Nastav Barvu"
 
@@ -1299,7 +1303,7 @@ msgstr "Shuffle"
 msgid "Shuffle history size:"
 msgstr "Velikost historie Shuffle"
 
-#: ../src/Frames/Prefs/OptionSelectionsPanel.cpp:52
+#: ../src/Frames/Prefs/OptionSelectionsPanel.cpp:65
 msgid "Sloppy"
 msgstr "Sloppy"
 
@@ -1319,7 +1323,7 @@ msgstr "Zvukové zaøízení:"
 msgid "Sources"
 msgstr "Zdroje"
 
-#: ../src/Frames/Prefs/OptionSelectionsPanel.cpp:51
+#: ../src/Frames/Prefs/OptionSelectionsPanel.cpp:64
 msgid "Standard"
 msgstr "Standartní"
 
@@ -1574,7 +1578,7 @@ msgstr "[®ádná zaøízení]"
 msgid "bitch"
 msgstr "bitch"
 
-#: ../src/Classes/MusikPlayer.cpp:1277
+#: ../src/Classes/MusikPlayer.cpp:1278
 msgid "buffering ..."
 msgstr "vyrovnávám..."
 
@@ -1582,7 +1586,7 @@ msgstr "vyrovnávám..."
 msgid "by "
 msgstr "od"
 
-#: ../src/Classes/MusikPlayer.cpp:1274
+#: ../src/Classes/MusikPlayer.cpp:1275
 msgid "connecting ..."
 msgstr "pøipojuji se..."
 
@@ -1615,11 +1619,11 @@ msgstr "fuck"
 msgid "manchester"
 msgstr "manchester"
 
-#: ../src/Classes/MusikPlayer.cpp:1283
+#: ../src/Classes/MusikPlayer.cpp:1284
 msgid "net error"
 msgstr "sí»ová chyba"
 
-#: ../src/Classes/MusikPlayer.cpp:1271
+#: ../src/Classes/MusikPlayer.cpp:1272
 msgid "not connected"
 msgstr "nepøipojeno"
 
@@ -1631,7 +1635,7 @@ msgstr "shit"
 msgid "slut"
 msgstr "slut"
 
-#: ../src/Classes/MusikPlayer.cpp:1280
+#: ../src/Classes/MusikPlayer.cpp:1281
 msgid "streaming"
 msgstr "streamuje"
 

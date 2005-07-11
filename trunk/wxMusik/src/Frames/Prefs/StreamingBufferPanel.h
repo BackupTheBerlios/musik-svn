@@ -12,13 +12,27 @@ public:
         return _( "Buffer" );
     }
 protected:
-    virtual bool DoSavePrefs();
+    virtual void AfterDataTransferredFromWindow();
     wxSizer *CreateControls();
 
 private:
-    wxSpinCtrl* scStreamingBufferSize;
-    wxSpinCtrl* scStreamingPreBufferPercent;
-    wxSpinCtrl* scStreamingReBufferPercent;
 
+    struct NetBufferSettingChangedSink : public IOnValueChangeByValidator
+    {
+        NetBufferSettingChangedSink()
+        {
+            m_bNetBufferSettingChanged = false;
+        }
+       
+        virtual void OnValueChange(wxGenericValidator *pV,wxWindowBase *pW)
+        {
+            m_bNetBufferSettingChanged = true;
+        }
+
+         bool m_bNetBufferSettingChanged;
+    };
+
+    NetBufferSettingChangedSink snkNBSC;
+    
 };
 #endif

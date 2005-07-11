@@ -358,7 +358,16 @@
 			Name="Global"
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm">
 			<File
+				RelativePath=".\src\DataObjectCompositeEx.h">
+			</File>
+			<File
+				RelativePath=".\src\DNDHelper.h">
+			</File>
+			<File
 				RelativePath=".\src\MusikAboutDlg.cpp">
+			</File>
+			<File
+				RelativePath=".\src\MusikAboutDlg.h">
 			</File>
 			<File
 				RelativePath=".\src\MusikApp.cpp">
@@ -406,6 +415,9 @@
 				RelativePath=".\src\PlaylistColumn.h">
 			</File>
 			<File
+				RelativePath=".\src\resource.h">
+			</File>
+			<File
 				RelativePath=".\src\ThreadController.h">
 			</File>
 			<File
@@ -445,18 +457,6 @@
 		<Filter
 			Name="Frames"
 			Filter="">
-			<File
-				RelativePath=".\src\DataObjectCompositeEx.h">
-			</File>
-			<File
-				RelativePath=".\src\DNDHelper.h">
-			</File>
-			<File
-				RelativePath=".\src\MusikAboutDlg.h">
-			</File>
-			<File
-				RelativePath=".\src\resource.h">
-			</File>
 			<Filter
 				Name="Musik"
 				Filter="">

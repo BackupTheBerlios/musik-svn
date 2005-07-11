@@ -148,7 +148,7 @@ bool CMusikLibrary::Load()
 
 		CreateDBFuncs();
 		//sqlite_exec( m_pDB, "PRAGMA synchronous = OFF;", NULL, NULL, NULL );
-		sqlite_exec( m_pDB, "PRAGMA cache_size = 100000;", NULL, NULL, NULL );
+		SetCacheSize(wxGetApp().Prefs.nDBCacheSize);
 		CheckVersion();
 		SetAutoDjFilter(wxGetApp().Prefs.sAutoDjFilter );
 		sqlite_exec( m_pDB,	"CREATE VIEW valid_albums as select album,artist,most_lastplayed from ("
@@ -1343,4 +1343,10 @@ bool CMusikLibrary::SetAutoDjFilter(const wxString & sFilter)
 	int res = sqlite_exec_printf( m_pDB,	"CREATE VIEW autodj_songs as select * from songs where %s;"
 				   , NULL, NULL, NULL ,( const char* )ConvToUTF8(sFilter));	
 	return res == SQLITE_OK;
+}
+bool CMusikLibrary::SetCacheSize(int size)
+{
+   wxCriticalSectionLocker lock( m_csDBAccess );
+   int res = sqlite_exec_printf( m_pDB, "PRAGMA cache_size = %d;", NULL, NULL, NULL ,size);
+   return res == SQLITE_OK;
 }

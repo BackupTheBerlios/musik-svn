@@ -70,15 +70,19 @@ wxSizer * OptionGeneralPanel::CreateControls()
     PREF_CREATE_CHECKBOX(ShowAllSongs,	_("Selecting library shows all songs in playlist"));
     PREF_CREATE_CHECKBOX(BlankSwears,_("Censor common swearwords"));
 
-    chkSortArtistWithoutPrefix	=	new wxCheckBox_NoFlicker( this, -1,	_("Sort Artist without prefix"),wxDefaultPosition,wxDefaultSize,0 );
-    chkPlaylistStripes		=	new wxCheckBox_NoFlicker( this, -1,	_("Show \"stripes\" in playlist"),wxDefaultPosition,wxDefaultSize,0 );
-    chkActivityBoxStripes	=	new wxCheckBox_NoFlicker( this, -1,	_("Show \"stripes\" in selection boxes"),wxDefaultPosition,wxDefaultSize,0 );
-    chkSourcesBoxStripes	=	new wxCheckBox_NoFlicker( this, -1,	_("Show \"stripes\" in sources box"),wxDefaultPosition,wxDefaultSize,0 );
-    chkPlaylistBorder		=   new wxCheckBox_NoFlicker( this, -1,	_("Use selected border colour"),wxDefaultPosition,wxDefaultSize,0 );
+    PREF_CREATE_CHECKBOX_EX(SortArtistWithoutPrefix,_("Sort Artist without prefix"),&snkPlaylistActivityNeedUpdate);
+    PREF_CREATE_CHECKBOX_EX(PLStripes,_("Show \"stripes\" in playlist"),&snkPlaylistNeedUpdate);
+    PREF_CREATE_CHECKBOX_EX(ActStripes,_("Show \"stripes\" in selection boxes"),&snkActivityNeedUpdate);
+    PREF_CREATE_CHECKBOX_EX(SourcesStripes,_("Show \"stripes\" in sources box"),&snkSourcesNeedUpdate);
+    PREF_CREATE_CHECKBOX_EX(PlaylistBorder,_("Use selected border colour"),&snkPlaylistSourcesNeedUpdate);
+
     btnPlaylistStripeColour	=	new wxButton_NoFlicker( this, MUSIK_PREFERENCES_PLAYLIST_STRIPE_COLOUR,	_("Set Color") );
     btnActivityStripeColour	=	new wxButton_NoFlicker( this, MUSIK_PREFERENCES_ACTIVITY_STRIPE_COLOUR,	_("Set Color") );
     btnSourcesStripeColour	=	new wxButton_NoFlicker( this, MUSIK_PREFERENCES_SOURCES_STRIPE_COLOUR,	_("Set Color") );
     btnPlaylistBorderColour =   new wxButton_NoFlicker( this, MUSIK_PREFERENCES_PLAYLIST_BORDER_COLOUR,	_("Set Color") );
+
+    PREF_CREATE_SPINCTRL_EX(DBCacheSize,1000,10000000,&snkDBCacheSize);
+
     //--------------------------------//
     //--- Options -> General Sizer ---//
     //--------------------------------//
@@ -99,107 +103,86 @@ wxSizer * OptionGeneralPanel::CreateControls()
     vsOptions_Interface->Add( chkShowAllSongs,			0, wxALL, 4 );
     vsOptions_Interface->Add( chkBlankSwears,			0, wxALL, 4 );
     vsOptions_Interface->Add( chkSortArtistWithoutPrefix,0, wxALL, 4 );
-    vsOptions_Interface->Add( chkPlaylistStripes,		0, wxALL, 4 );
+    vsOptions_Interface->Add( chkPLStripes,		0, wxALL, 4 );
     vsOptions_Interface->Add( btnPlaylistStripeColour,	0, wxALL, 4 );
-    vsOptions_Interface->Add( chkActivityBoxStripes,	0, wxALL, 4 );
+    vsOptions_Interface->Add( chkActStripes,	0, wxALL, 4 );
     vsOptions_Interface->Add( btnActivityStripeColour,	0, wxALL, 4 );
-    vsOptions_Interface->Add( chkSourcesBoxStripes,		0, wxALL, 4 );
+    vsOptions_Interface->Add( chkSourcesStripes,		0, wxALL, 4 );
     vsOptions_Interface->Add( btnSourcesStripeColour,	0, wxALL, 4 );
     vsOptions_Interface->Add( chkPlaylistBorder,		0, wxALL, 4 );
     vsOptions_Interface->Add( btnPlaylistBorderColour,	0, wxALL, 4 );
+
+    wxBoxSizer *hsDBCacheSize = new wxBoxSizer( wxHORIZONTAL );
+    hsDBCacheSize->Add( PREF_STATICTEXT(_("Database Cache Size:")), 0, wxRIGHT | wxALIGN_CENTER_VERTICAL, 2 );
+    hsDBCacheSize->Add( scDBCacheSize, 0, 0, 0 );
+
+    vsOptions_Interface->Add( hsDBCacheSize,0, wxALL, 2 );
+
+    
     return vsOptions_Interface;
 }
 
 void OptionGeneralPanel::DoLoadPrefs()
 {
-    //--------------------------//
-    //--- options -> general ---//
-    //--------------------------//
-    chkSortArtistWithoutPrefix->SetValue( wxGetApp().Prefs.bSortArtistWithoutPrefix );
-    chkPlaylistStripes->SetValue	( wxGetApp().Prefs.bPLStripes );
-    chkActivityBoxStripes->SetValue	( wxGetApp().Prefs.bActStripes );
-    chkSourcesBoxStripes->SetValue	( wxGetApp().Prefs.bSourcesStripes );
-    chkPlaylistBorder->SetValue	( wxGetApp().Prefs.bPlaylistBorder );
-
     btnPlaylistStripeColour->SetBackgroundColour( StringToColour( wxGetApp().Prefs.sPLStripeColour ) );
     btnActivityStripeColour->SetBackgroundColour( StringToColour( wxGetApp().Prefs.sActStripeColour ) );
     btnSourcesStripeColour->SetBackgroundColour( StringToColour( wxGetApp().Prefs.sSourcesStripeColour ) );
     btnPlaylistBorderColour->SetBackgroundColour( StringToColour( wxGetApp().Prefs.sPlaylistBorderColour ) );
 }
-
 bool OptionGeneralPanel::DoSavePrefs()
 {
-    //--------------------------//
-    //--- Options -> general ---//
-    //--------------------------//
-
-    bool bPlaylistUpdate = false;
-    bool bActivityUpdate = false;
-    bool bSourcesUpdate = false;
-
-    if(wxGetApp().Prefs.bSortArtistWithoutPrefix != chkSortArtistWithoutPrefix->GetValue())
-    {
-        bPlaylistUpdate = true;
-        bActivityUpdate = true;
-        wxGetApp().Prefs.bSortArtistWithoutPrefix = chkSortArtistWithoutPrefix->GetValue();
-    }
-    if ( chkPlaylistStripes->GetValue() != wxGetApp().Prefs.bPLStripes )
-    {
-        wxGetApp().Prefs.bPLStripes = chkPlaylistStripes->GetValue();
-        bPlaylistUpdate = true;
-    }
     if ( ColourToString( btnPlaylistStripeColour->GetBackgroundColour() ) != wxGetApp().Prefs.sPLStripeColour )
     {
         wxGetApp().Prefs.sPLStripeColour = ColourToString( btnPlaylistStripeColour->GetBackgroundColour() );
-        bPlaylistUpdate = true;
-    }
-    if ( chkPlaylistBorder->GetValue() != wxGetApp().Prefs.bPlaylistBorder )
-    {
-        wxGetApp().Prefs.bPlaylistBorder = chkPlaylistBorder->GetValue();
-        bPlaylistUpdate = true;
-        bSourcesUpdate = true;
+        OptionGeneralPanel::NeedUpdateSink::m_bPlaylistUpdate = true;
     }
     if ( ColourToString( btnPlaylistBorderColour->GetBackgroundColour() ) != wxGetApp().Prefs.sPlaylistBorderColour )
     {
         wxGetApp().Prefs.sPlaylistBorderColour = ColourToString( btnPlaylistBorderColour->GetBackgroundColour() );
-        bPlaylistUpdate = true;
-        bSourcesUpdate = true;
+        OptionGeneralPanel::NeedUpdateSink::m_bPlaylistUpdate = true;
+        OptionGeneralPanel::NeedUpdateSink::m_bSourcesUpdate = true;
     }
 
-    if ( bPlaylistUpdate )
-        g_PlaylistBox->Update();
 
-    if ( chkActivityBoxStripes->GetValue() != wxGetApp().Prefs.bActStripes )
-    {
-        wxGetApp().Prefs.bActStripes = chkActivityBoxStripes->GetValue();
-        bActivityUpdate = true;
-    }
     if ( ColourToString( btnActivityStripeColour->GetBackgroundColour() ) != wxGetApp().Prefs.sActStripeColour )
     {
         wxGetApp().Prefs.sActStripeColour = ColourToString( btnActivityStripeColour->GetBackgroundColour() );
-        bActivityUpdate = true;
+        OptionGeneralPanel::NeedUpdateSink::m_bActivityUpdate = true;
     }
-    if ( bActivityUpdate )
-        g_ActivityAreaCtrl->ReloadAllContents();
 
 
-    if ( chkSourcesBoxStripes->GetValue() != wxGetApp().Prefs.bSourcesStripes )
-    {
-        wxGetApp().Prefs.bSourcesStripes = chkSourcesBoxStripes->GetValue();
-        bSourcesUpdate = true;
-    }
     if ( ColourToString( btnSourcesStripeColour->GetBackgroundColour() ) != wxGetApp().Prefs.sSourcesStripeColour )
     {
         wxGetApp().Prefs.sSourcesStripeColour = ColourToString( btnSourcesStripeColour->GetBackgroundColour() );
-        bSourcesUpdate = true;
+        OptionGeneralPanel::NeedUpdateSink::m_bSourcesUpdate = true;
     }
-    if ( bSourcesUpdate )
-        g_SourcesCtrl->Update();
+    return true;
+}
 
-    if(bSourcesUpdate || bActivityUpdate || bPlaylistUpdate)
+void OptionGeneralPanel::AfterDataTransferredFromWindow()
+{
+    if ( OptionGeneralPanel::NeedUpdateSink::m_bPlaylistUpdate )
+        g_PlaylistBox->Update();
+    if ( OptionGeneralPanel::NeedUpdateSink::m_bSourcesUpdate )
+        g_SourcesCtrl->Update();
+    if ( OptionGeneralPanel::NeedUpdateSink::m_bActivityUpdate )
+        g_ActivityAreaCtrl->ReloadAllContents();
+
+    if(OptionGeneralPanel::NeedUpdateSink::m_bSourcesUpdate 
+        || OptionGeneralPanel::NeedUpdateSink::m_bActivityUpdate 
+        || OptionGeneralPanel::NeedUpdateSink::m_bPlaylistUpdate)
     {
         // force update of everything
         g_MusikFrame->SendSizeEvent();
     }
-    return true;
+
 }
+void OptionGeneralPanel::DbChacheSizeSink::OnValueChange(wxGenericValidator *,wxWindowBase *)
+{
+    wxGetApp().Library.SetCacheSize(wxGetApp().Prefs.nDBCacheSize);
+}
+
+
+bool OptionGeneralPanel::NeedUpdateSink::m_bPlaylistUpdate;
+bool OptionGeneralPanel::NeedUpdateSink::m_bActivityUpdate;
+bool OptionGeneralPanel::NeedUpdateSink::m_bSourcesUpdate;

@@ -28,9 +28,9 @@ wxSizer * StreamingBufferPanel::CreateControls()
     //---------------------------//
 
 
-    PREF_CREATE_SPINCTRL2(StreamingBufferSize,64000,256000,64000);
-    PREF_CREATE_SPINCTRL2(StreamingPreBufferPercent,10,99,10);
-    PREF_CREATE_SPINCTRL2(StreamingReBufferPercent,10,99,10);
+    PREF_CREATE_SPINCTRL_EX(StreamingBufferSize,64000,256000,&snkNBSC);
+    PREF_CREATE_SPINCTRL_EX(StreamingPreBufferPercent,10,99,&snkNBSC);
+    PREF_CREATE_SPINCTRL_EX(StreamingReBufferPercent,10,99,&snkNBSC);
 
     wxFlexGridSizer *vsStreaming_Buffer = new wxFlexGridSizer( 2,2,2 );
     vsStreaming_Buffer->AddGrowableCol(1);
@@ -42,27 +42,11 @@ wxSizer * StreamingBufferPanel::CreateControls()
     vsStreaming_Buffer->Add( scStreamingReBufferPercent,0,wxEXPAND);
     return vsStreaming_Buffer;
 }
-bool StreamingBufferPanel::DoSavePrefs()
+void StreamingBufferPanel::AfterDataTransferredFromWindow()
 {
-    //---------------------------//
-    //--- streaming -> buffer ---//
-    //---------------------------//
-    bool bNetBufferSettingChanged = false;
-    if (  scStreamingBufferSize->GetValue( )  != wxGetApp().Prefs.nStreamingBufferSize )
-    {
-        bNetBufferSettingChanged = true;
-    }
-    if ( scStreamingPreBufferPercent->GetValue( ) != wxGetApp().Prefs.nStreamingPreBufferPercent )
-    {
-        bNetBufferSettingChanged = true;
-    }
-    if ( scStreamingReBufferPercent->GetValue( ) != wxGetApp().Prefs.nStreamingReBufferPercent )
-    {
-        bNetBufferSettingChanged = true;
-    }
-    if(bNetBufferSettingChanged)
+   
+    if(snkNBSC.m_bNetBufferSettingChanged)
     {
         wxGetApp().Player.InitFMOD_NetBuffer();
     }
-    return true;
 }

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-06-23 13:19+0200\n"
+"POT-Creation-Date: 2005-07-11 21:44+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -575,6 +575,10 @@ msgstr ""
 msgid "Crossfader"
 msgstr ""
 
+#: ../src/Frames/Prefs/OptionGeneralPanel.cpp:116
+msgid "Database Cache Size:"
+msgstr ""
+
 #: ../src/Classes/PlaylistCtrl.cpp:440
 msgid "Delete"
 msgstr ""
@@ -619,7 +623,7 @@ msgstr ""
 msgid "E&xit"
 msgstr ""
 
-#: ../src/Classes/MusikPlayer.cpp:488 ../src/Classes/MusikPlayer.cpp:614
+#: ../src/Classes/MusikPlayer.cpp:488 ../src/Classes/MusikPlayer.cpp:615
 msgid "ERROR: failed to open stream:"
 msgstr ""
 
@@ -812,7 +816,7 @@ msgstr ""
 msgid "Hide Window on Minimize"
 msgstr ""
 
-#: ../src/Frames/Prefs/OptionSelectionsPanel.cpp:53
+#: ../src/Frames/Prefs/OptionSelectionsPanel.cpp:66
 msgid "Highlight"
 msgstr ""
 
@@ -909,7 +913,7 @@ msgstr ""
 msgid "No Horizontal Scroll"
 msgstr ""
 
-#: ../src/Frames/Prefs/OptionSelectionsPanel.cpp:42
+#: ../src/Frames/Prefs/OptionSelectionsPanel.cpp:52
 msgid "None"
 msgstr ""
 
@@ -1181,7 +1185,7 @@ msgstr ""
 msgid "Selecting library shows all songs in playlist"
 msgstr ""
 
-#: ../src/Frames/Prefs/OptionSelectionsPanel.cpp:40
+#: ../src/Frames/Prefs/OptionSelectionsPanel.cpp:50
 #, c-format
 msgid "Selection Box %d:"
 msgstr ""
@@ -1190,7 +1194,7 @@ msgstr ""
 msgid "Selection Boxes (artist/album/etc):"
 msgstr ""
 
-#: ../src/Frames/Prefs/OptionSelectionsPanel.cpp:55
+#: ../src/Frames/Prefs/OptionSelectionsPanel.cpp:68
 msgid "Selection Style:"
 msgstr ""
 
@@ -1198,10 +1202,10 @@ msgstr ""
 msgid "Selections"
 msgstr ""
 
-#: ../src/Frames/Prefs/OptionGeneralPanel.cpp:78
 #: ../src/Frames/Prefs/OptionGeneralPanel.cpp:79
 #: ../src/Frames/Prefs/OptionGeneralPanel.cpp:80
 #: ../src/Frames/Prefs/OptionGeneralPanel.cpp:81
+#: ../src/Frames/Prefs/OptionGeneralPanel.cpp:82
 msgid "Set Color"
 msgstr ""
 
@@ -1255,7 +1259,7 @@ msgstr ""
 msgid "Shuffle history size:"
 msgstr ""
 
-#: ../src/Frames/Prefs/OptionSelectionsPanel.cpp:52
+#: ../src/Frames/Prefs/OptionSelectionsPanel.cpp:65
 msgid "Sloppy"
 msgstr ""
 
@@ -1275,7 +1279,7 @@ msgstr ""
 msgid "Sources"
 msgstr ""
 
-#: ../src/Frames/Prefs/OptionSelectionsPanel.cpp:51
+#: ../src/Frames/Prefs/OptionSelectionsPanel.cpp:64
 msgid "Standard"
 msgstr ""
 
@@ -1513,7 +1517,7 @@ msgstr ""
 msgid "bitch"
 msgstr ""
 
-#: ../src/Classes/MusikPlayer.cpp:1277
+#: ../src/Classes/MusikPlayer.cpp:1278
 msgid "buffering ..."
 msgstr ""
 
@@ -1521,7 +1525,7 @@ msgstr ""
 msgid "by "
 msgstr ""
 
-#: ../src/Classes/MusikPlayer.cpp:1274
+#: ../src/Classes/MusikPlayer.cpp:1275
 msgid "connecting ..."
 msgstr ""
 
@@ -1554,11 +1558,11 @@ msgstr ""
 msgid "manchester"
 msgstr ""
 
-#: ../src/Classes/MusikPlayer.cpp:1283
+#: ../src/Classes/MusikPlayer.cpp:1284
 msgid "net error"
 msgstr ""
 
-#: ../src/Classes/MusikPlayer.cpp:1271
+#: ../src/Classes/MusikPlayer.cpp:1272
 msgid "not connected"
 msgstr ""
 
@@ -1570,7 +1574,7 @@ msgstr ""
 msgid "slut"
 msgstr ""
 
-#: ../src/Classes/MusikPlayer.cpp:1280
+#: ../src/Classes/MusikPlayer.cpp:1281
 msgid "streaming"
 msgstr ""
 

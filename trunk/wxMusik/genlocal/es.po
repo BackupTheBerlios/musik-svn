@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wxMusik\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-06-23 13:19+0200\n"
+"POT-Creation-Date: 2005-07-11 21:44+0200\n"
 "PO-Revision-Date: 2005-02-19 21:18-0500\n"
 "Last-Translator: Iván Campaña <ivan.campana@gmail.com>\n"
 "Language-Team: wxMusik Team <LL@li.org>\n"
@@ -622,6 +622,10 @@ msgstr "Mezclar al buscar pista (segs.)"
 msgid "Crossfader"
 msgstr "Mezclador"
 
+#: ../src/Frames/Prefs/OptionGeneralPanel.cpp:116
+msgid "Database Cache Size:"
+msgstr ""
+
 #: ../src/Classes/PlaylistCtrl.cpp:440
 msgid "Delete"
 msgstr "Eliminar"
@@ -668,7 +672,7 @@ msgstr "Lista de Reproducción Dinámica \""
 msgid "E&xit"
 msgstr "&Salir"
 
-#: ../src/Classes/MusikPlayer.cpp:488 ../src/Classes/MusikPlayer.cpp:614
+#: ../src/Classes/MusikPlayer.cpp:488 ../src/Classes/MusikPlayer.cpp:615
 msgid "ERROR: failed to open stream:"
 msgstr "ERROR: no se pudo abrir el stream:"
 
@@ -864,7 +868,7 @@ msgstr "Género"
 msgid "Hide Window on Minimize"
 msgstr "Esconder Ventana al Minimizar"
 
-#: ../src/Frames/Prefs/OptionSelectionsPanel.cpp:53
+#: ../src/Frames/Prefs/OptionSelectionsPanel.cpp:66
 msgid "Highlight"
 msgstr "Resaltar"
 
@@ -961,7 +965,7 @@ msgstr "Siguiente"
 msgid "No Horizontal Scroll"
 msgstr "Sin Desplazamiento (Scroll) horizontal"
 
-#: ../src/Frames/Prefs/OptionSelectionsPanel.cpp:42
+#: ../src/Frames/Prefs/OptionSelectionsPanel.cpp:52
 msgid "None"
 msgstr "Ninguna"
 
@@ -1246,7 +1250,7 @@ msgstr ""
 "Seleccionar la biblioteca muestra todas las canciones en la lista de "
 "reproducción"
 
-#: ../src/Frames/Prefs/OptionSelectionsPanel.cpp:40
+#: ../src/Frames/Prefs/OptionSelectionsPanel.cpp:50
 #, c-format
 msgid "Selection Box %d:"
 msgstr "Cuadro de Selección %d:"
@@ -1255,7 +1259,7 @@ msgstr "Cuadro de Selección %d:"
 msgid "Selection Boxes (artist/album/etc):"
 msgstr "Cuadros de selección (artista/album/etc):"
 
-#: ../src/Frames/Prefs/OptionSelectionsPanel.cpp:55
+#: ../src/Frames/Prefs/OptionSelectionsPanel.cpp:68
 msgid "Selection Style:"
 msgstr "Estilo de Selección:"
 
@@ -1263,10 +1267,10 @@ msgstr "Estilo de Selección:"
 msgid "Selections"
 msgstr "Selecciones"
 
-#: ../src/Frames/Prefs/OptionGeneralPanel.cpp:78
 #: ../src/Frames/Prefs/OptionGeneralPanel.cpp:79
 #: ../src/Frames/Prefs/OptionGeneralPanel.cpp:80
 #: ../src/Frames/Prefs/OptionGeneralPanel.cpp:81
+#: ../src/Frames/Prefs/OptionGeneralPanel.cpp:82
 msgid "Set Color"
 msgstr "Establecer Color"
 
@@ -1320,7 +1324,7 @@ msgstr "Mezclar al azar"
 msgid "Shuffle history size:"
 msgstr "Tamaño del historial al azar:"
 
-#: ../src/Frames/Prefs/OptionSelectionsPanel.cpp:52
+#: ../src/Frames/Prefs/OptionSelectionsPanel.cpp:65
 msgid "Sloppy"
 msgstr "Descuidado"
 
@@ -1340,7 +1344,7 @@ msgstr "Dispositivo de Sonido:"
 msgid "Sources"
 msgstr "Fuentes"
 
-#: ../src/Frames/Prefs/OptionSelectionsPanel.cpp:51
+#: ../src/Frames/Prefs/OptionSelectionsPanel.cpp:64
 msgid "Standard"
 msgstr "Estándar"
 
@@ -1599,7 +1603,7 @@ msgstr "[No hay dispositivos]"
 msgid "bitch"
 msgstr "perra"
 
-#: ../src/Classes/MusikPlayer.cpp:1277
+#: ../src/Classes/MusikPlayer.cpp:1278
 msgid "buffering ..."
 msgstr "almacenando en cache ..."
 
@@ -1607,7 +1611,7 @@ msgstr "almacenando en cache ..."
 msgid "by "
 msgstr "por"
 
-#: ../src/Classes/MusikPlayer.cpp:1274
+#: ../src/Classes/MusikPlayer.cpp:1275
 msgid "connecting ..."
 msgstr "conectando..."
 
@@ -1640,11 +1644,11 @@ msgstr "fuck"
 msgid "manchester"
 msgstr "manchester"
 
-#: ../src/Classes/MusikPlayer.cpp:1283
+#: ../src/Classes/MusikPlayer.cpp:1284
 msgid "net error"
 msgstr "error de la red"
 
-#: ../src/Classes/MusikPlayer.cpp:1271
+#: ../src/Classes/MusikPlayer.cpp:1272
 msgid "not connected"
 msgstr "no conectado"
 
@@ -1656,7 +1660,7 @@ msgstr "mierda"
 msgid "slut"
 msgstr "prostituta"
 
-#: ../src/Classes/MusikPlayer.cpp:1280
+#: ../src/Classes/MusikPlayer.cpp:1281
 msgid "streaming"
 msgstr "streaming"
 

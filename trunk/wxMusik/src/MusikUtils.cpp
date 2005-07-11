@@ -1171,7 +1171,8 @@ EVT_ERASE_BACKGROUND(wxTextCtrl_NoFlicker::OnEraseBackground)
 END_EVENT_TABLE()
 
 
-IMPLEMENT_CLASS(wxGenericIntValidator, wxGenericValidator)
+IMPLEMENT_CLASS(wxIntValidator, wxGenericValidator)
+IMPLEMENT_CLASS(wxBoolValidator, wxGenericValidator)
 
 #ifdef __WXMSW__
 #include <Shlwapi.h>

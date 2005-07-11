@@ -393,6 +393,7 @@ public:
 		,sPlayerHotkeys(this,wxT("PlayerHotkey%d"),DefaultPlayerHotkeys)
 #endif
 		,bEnableCrashHandling(this,wxT("EnableCrashHandling"),true)	
+        ,nDBCacheSize(this,wxT("DBCacheSize"),10000)
 	{
 		LoadPrefs();
 	}
@@ -528,6 +529,7 @@ public:
 #endif
 
 	CConfigSettingBool bEnableCrashHandling;
+    CConfigSettingInt  nDBCacheSize;
 	wxString sDataPath;
 
 

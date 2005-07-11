@@ -134,7 +134,7 @@ public:
 
 	//misc
 	bool SetAutoDjFilter(const wxString & sFilter);
-
+    bool SetCacheSize(int size);
 private:
 
 

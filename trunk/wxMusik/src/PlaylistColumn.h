@@ -39,6 +39,8 @@ struct PlaylistColumn
     int         Aligned;
     eType       Type;
     eSortOrder  SortOrder;
+    // flags
+    long        bEnableActivityBox:1;
 };
 
 extern const PlaylistColumn g_PlaylistColumn[PlaylistColumn::NCOLUMNS];

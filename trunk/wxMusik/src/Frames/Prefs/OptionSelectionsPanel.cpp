@@ -19,10 +19,20 @@
 
 #include "OptionSelectionsPanel.h"
 #include "MusikGlobals.h"
+#include "Playlistcolumn.h"
 #include "Classes/ActivityAreaCtrl.h" 
 
 IMPLEMENT_PREFPANEL_CONSTRUCTOR(OptionSelectionsPanel)
 
+struct ActivityBoxCBData: public wxClientData
+{
+    ActivityBoxCBData(PlaylistColumn::eId id)
+        :m_id(id)
+    {
+    }
+
+    PlaylistColumn::eId m_id;
+};
 wxSizer * OptionSelectionsPanel::CreateControls()
 {
     //-----------------------------------//
@@ -39,10 +49,13 @@ wxSizer * OptionSelectionsPanel::CreateControls()
     {
         vsOptions_Selections->Add(  PREF_STATICTEXT( wxString::Format(_("Selection Box %d:"),i + 1)),	0, wxCENTER | wxRIGHT | wxALIGN_CENTER_VERTICAL, 0 );
         cmbActivityBoxes[i] = new wxComboBox( this, -1, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY );
-        cmbActivityBoxes[i]->Append( _("None"));
+        cmbActivityBoxes[i]->Append( _("None"),new ActivityBoxCBData(PlaylistColumn::INVALID));
         for(int n = 0; n < PlaylistColumn::NCOLUMNS;n++)
         {
-            cmbActivityBoxes[i]->Append( wxGetTranslation( g_PlaylistColumn[n].Label ));
+            if(g_PlaylistColumn[n].bEnableActivityBox)
+            {
+                cmbActivityBoxes[i]->Append( wxGetTranslation( g_PlaylistColumn[n].Label ),new ActivityBoxCBData(g_PlaylistColumn[n].Id));
+            }
         }
         vsOptions_Selections->Add( cmbActivityBoxes[i],	1, wxCENTER, 0 );
     }
@@ -65,8 +78,17 @@ void OptionSelectionsPanel::DoLoadPrefs()
     //-----------------------------//
     cmbSelStyle->SetSelection		( wxGetApp().Prefs.eSelStyle.val );
     for(size_t i = 0; i < WXSIZEOF(cmbActivityBoxes);i++)
-        cmbActivityBoxes[i]->SetSelection	( wxGetApp().Prefs.nActBoxType[i] + 1 );
-
+    {
+        for(int n = 0;n < cmbActivityBoxes[i]->GetCount();n++)
+        {
+            ActivityBoxCBData *pData = (ActivityBoxCBData*)cmbActivityBoxes[i]->GetClientObject(n);
+            if(pData->m_id == wxGetApp().Prefs.nActBoxType[i])
+            {
+                cmbActivityBoxes[i]->SetSelection	( n );
+                break;
+            }
+        }
+    }
 }
 
 bool OptionSelectionsPanel::DoSavePrefs()
@@ -81,9 +103,10 @@ bool OptionSelectionsPanel::DoSavePrefs()
     }
     for(size_t i = 0; i < WXSIZEOF(cmbActivityBoxes);i++)
     {
-        if ( cmbActivityBoxes[i]->GetSelection() - 1 != wxGetApp().Prefs.nActBoxType[i] )
+        ActivityBoxCBData *pData = (ActivityBoxCBData*)cmbActivityBoxes[i]->GetClientObject(cmbActivityBoxes[i]->GetSelection());
+        if (  pData->m_id  != wxGetApp().Prefs.nActBoxType[i] )
         {
-            wxGetApp().Prefs.nActBoxType[i] = (PlaylistColumn::eId)(cmbActivityBoxes[i]->GetSelection() - 1);
+            wxGetApp().Prefs.nActBoxType[i] = pData->m_id;
             g_ActivityAreaCtrl->ReCreate();
             g_MusikFrame->Layout();
         }

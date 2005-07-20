@@ -439,6 +439,8 @@ inline wxString MusikGetStaticDataPath()
 #if wxCHECK_VERSION(2,5,4)
     wxStandardPaths stdpaths;
     return stdpaths.GetDataDir()+ wxT("/") + sDataPath;
+#else
+    return wxT("data/");
 #endif
 #elif __WXMAC__
 	wxFileName fname( wxTheApp->argv[0] );
@@ -456,7 +458,6 @@ inline wxString MusikGetStaticDataPath()
 	if(wxDirExists(sDataPath))
 		return sDataPath;
 #endif	
-    return wxT("data/");
 }
 double CharStringToDouble(const char *z);
 void DoubleToCharString(double r, char *z);

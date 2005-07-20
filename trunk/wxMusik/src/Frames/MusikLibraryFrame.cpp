@@ -243,7 +243,7 @@ void MusikLibraryDialog::OnRebuildAll( wxCommandEvent& WXUNUSED(event) )
 //		wxGetApp().Library.RemoveAll();
 
 	PathsSave(); 
-	UpdateLibrary( false ,true);	
+	UpdateLibrary( false ,MUSIK_UpdateFlags::RebuildTags);	
 }
 bool MusikLibraryDialog::Show( bool show )
 {
@@ -265,7 +265,7 @@ bool MusikLibraryDialog::Show( bool show )
 	if ( m_AutoStart )
 	{
 		m_AutoStart	= false;
-		UpdateLibrary( false ,(m_flagsUpdate & MUSIK_UpdateFlags::RebuildTags) == MUSIK_UpdateFlags::RebuildTags);
+		UpdateLibrary( false );
 	}
 
 	//--- non-autstart ---//
@@ -560,8 +560,9 @@ void MusikLibraryDialog::ScanNew()
 		InternalErrorMessageBox(wxT("Previous thread not terminated correctly."));
 }
 
-void MusikLibraryDialog::UpdateLibrary( bool bConfirm , bool bCompleteRebuild)
+void MusikLibraryDialog::UpdateLibrary( bool bConfirm ,unsigned long flags)
 {
+    flags |= m_flagsUpdate; // add default flags
 	if ( bConfirm )
 	{	
 		if ( wxMessageBox(wxString(MUSIKAPPNAME) + _(" has detected that your library configuration has changed.\n\nIt is suggested that you update the internal library, which includes adding the new songs. Proceed?"), MUSIKAPPNAME_VERSION, wxYES_NO|wxICON_QUESTION  ) == wxNO )
@@ -570,8 +571,8 @@ void MusikLibraryDialog::UpdateLibrary( bool bConfirm , bool bCompleteRebuild)
     
 	if ( !m_ActiveThreadController.IsAlive())
 	{
-		m_ActiveThreadController.AttachAndRun( new MusikUpdateLibThread(this, &aDelDirs,m_arrScannedFiles ,bCompleteRebuild) );
-		if(m_flagsUpdate & MUSIK_UpdateFlags::WaitUntilDone)
+		m_ActiveThreadController.AttachAndRun( new MusikUpdateLibThread(this, &aDelDirs,m_arrScannedFiles ,flags) );
+		if(flags & MUSIK_UpdateFlags::WaitUntilDone)
 			m_ActiveThreadController.Join();
 	}
 	else

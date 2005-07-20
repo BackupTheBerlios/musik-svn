@@ -67,6 +67,7 @@ public:
 	void ToggleIconsEvt			( wxCommandEvent& event );
 	void CopyFiles				( wxCommandEvent& event );
 	void ExportPlaylist			( wxCommandEvent& event );
+    void ImportPlaylist         ( wxCommandEvent& WXUNUSED(event) );
 	void BeginDrag				( wxListEvent& event );
 	void OnUpdateSel			( wxCommandEvent& event );
 	void BeginEditLabel			( wxListEvent& event );

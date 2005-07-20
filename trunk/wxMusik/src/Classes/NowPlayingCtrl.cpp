@@ -65,8 +65,9 @@ END_EVENT_TABLE()
     if(!bm##Name##Down.LoadFile(MusikGetStaticDataPath() + wxT("playbackart/") MUSIK_STRINGIZE_T(Name) wxT("_down.png"),wxBITMAP_TYPE_PNG))\
         bm##Name = wxBitmap( Name##_down_xpm);
 
-CNowPlayingCtrl::CNowPlayingCtrl( wxWindow *parent )
+CNowPlayingCtrl::CNowPlayingCtrl( wxWindow *parent ,CMusikPlayer & refMusikPlayer)
 	: wxPanel( parent, -1, wxDefaultPosition, wxDefaultSize, wxCLIP_CHILDREN| wxTAB_TRAVERSAL )
+    ,m_MusikPlayer(refMusikPlayer)
 {
 	//-----------------------------//
 	//--- title / artist / time ---//
@@ -95,14 +96,14 @@ CNowPlayingCtrl::CNowPlayingCtrl( wxWindow *parent )
          LOAD_BUTTONPNG(Volume);
     }
 
-
+    wxPanel * pPlayPanel = new wxPanel(this);
 
 	//--- buttons ---//
-	btnPrev			= new wxBitmapButton( this, MUSIK_NOWPLAYINGCTRL_PREV, bmPrev ,wxDefaultPosition,wxDefaultSize,0);
-	btnNext			= new wxBitmapButton( this, MUSIK_NOWPLAYINGCTRL_NEXT, bmNext,wxDefaultPosition,wxDefaultSize,0);
-	btnPlayPause	= new wxBitmapButton( this, MUSIK_NOWPLAYINGCTRL_PLAYPAUSE, bmPlay,wxDefaultPosition,wxDefaultSize,0);	
-	btnStop			= new wxBitmapButton( this, MUSIK_NOWPLAYINGCTRL_STOP, bmStop,wxDefaultPosition,wxDefaultSize,0);
-	btnVolume		= new wxBitmapButton( this, MUSIK_NOWPLAYINGCTRL_VOLUME, bmVolume,wxDefaultPosition,wxDefaultSize,0);
+	btnPrev			= new wxBitmapButton( pPlayPanel, MUSIK_NOWPLAYINGCTRL_PREV, bmPrev ,wxDefaultPosition,wxDefaultSize,0);
+	btnNext			= new wxBitmapButton( pPlayPanel, MUSIK_NOWPLAYINGCTRL_NEXT, bmNext,wxDefaultPosition,wxDefaultSize,0);
+	btnPlayPause	= new wxBitmapButton( pPlayPanel, MUSIK_NOWPLAYINGCTRL_PLAYPAUSE, bmPlay,wxDefaultPosition,wxDefaultSize,0);	
+	btnStop			= new wxBitmapButton( pPlayPanel, MUSIK_NOWPLAYINGCTRL_STOP, bmStop,wxDefaultPosition,wxDefaultSize,0);
+	btnVolume		= new wxBitmapButton( pPlayPanel, MUSIK_NOWPLAYINGCTRL_VOLUME, bmVolume,wxDefaultPosition,wxDefaultSize,0);
 
 	//--- events ---//
 	#ifndef __WXMSW__
@@ -128,10 +129,11 @@ CNowPlayingCtrl::CNowPlayingCtrl( wxWindow *parent )
 	//----------------//
 	//--- seek bar ---//
 	//----------------//
-	gSeek		= new wxGauge		( this, MUSIK_NOWPLAYINGCTRL_SEEK, 100, wxDefaultPosition, wxSize( 4* wxSystemSettings::GetMetric( wxSYS_HSCROLL_Y ), wxSystemSettings::GetMetric( wxSYS_HSCROLL_Y ) ), wxGA_SMOOTH | wxGA_HORIZONTAL | wxCLIP_CHILDREN );
+	gSeek		= new wxGauge		( pPlayPanel, MUSIK_NOWPLAYINGCTRL_SEEK, 100, wxDefaultPosition, wxSize( 4* wxSystemSettings::GetMetric( wxSYS_HSCROLL_Y ), wxSystemSettings::GetMetric( wxSYS_HSCROLL_Y ) ), wxGA_SMOOTH | wxGA_HORIZONTAL | wxCLIP_CHILDREN );
 	pSeekEvt	= new CGaugeSeekEvt	( gSeek );
 	gSeek->PushEventHandler( pSeekEvt );
 
+    gSeek->Connect(wxEVT_RIGHT_DOWN,wxMouseEventHandler(CNowPlayingCtrl::OnClickTimeDisplay),NULL,this);
 	//---------------------------------//
 	//--- sizer for artist and time ---//
 	//---------------------------------//
@@ -162,23 +164,23 @@ CNowPlayingCtrl::CNowPlayingCtrl( wxWindow *parent )
 //	vsPlayModeCol->Add( new wxStaticText	( this, -1, _( "Play mode" ) ), 1 );
 	const wxString playmode_choices[] ={_("Normal"),_("Repeat Song"),_("Repeat List"),_("Shuffle"),_("Auto DJ"),_("Auto DJ Album")};
 	
-	wxChoice *choicePlaymode = new wxChoice_NoFlicker(this,MUSIK_NOWPLAYINGCTRL_PLAYMODE,wxDefaultPosition,wxDefaultSize,WXSIZEOF(playmode_choices),playmode_choices);
+	wxChoice *choicePlaymode = new wxChoice_NoFlicker(pPlayPanel,MUSIK_NOWPLAYINGCTRL_PLAYMODE,wxDefaultPosition,wxDefaultSize,WXSIZEOF(playmode_choices),playmode_choices);
 	int playmode = wxGetApp().Prefs.ePlaymode.val;
 	choicePlaymode->SetSelection(playmode);
 	vsPlayModeCol->Add( choicePlaymode,0, wxRIGHT|wxLEFT|wxALIGN_CENTRE_VERTICAL, 5 ); //-- small top border --//
-	wxCheckBox * pCrossfade = new wxCheckBox_NoFlicker( this, MUSIK_CHK_CROSSFADE, _("Crossfade"));
+	wxCheckBox * pCrossfade = new wxCheckBox_NoFlicker( pPlayPanel, MUSIK_CHK_CROSSFADE, _("Crossfade"));
 	vsPlayModeCol->Add( pCrossfade,0, wxALIGN_CENTRE_VERTICAL|wxRIGHT, 2 ); //-- small top border --//
 	pCrossfade->SetValue( wxGetApp().Prefs.bGlobalFadeEnable );
   	vsRightCol->Add( vsPlayModeCol, 0 ); //-- small top border --//
 	vsRightCol->Add( gSeek, 0, wxTOP|wxEXPAND, 2 ); //-- small top border --//
 
-
+    pPlayPanel->SetSizer(vsRightCol);
 
 //	wxGridSizer *hsCols = new wxGridSizer( 1,2,0,0);
 	wxBoxSizer *hsCols = new wxBoxSizer(wxHORIZONTAL);
 	hsCols->Add( vsLeftCol,	1,  wxALL, 2	);
 	//hsCols->Add(-1,-1,1,wxEXPAND);
-	hsCols->Add( vsRightCol,	0, wxALIGN_RIGHT| wxALL, 2	);
+	hsCols->Add(pPlayPanel,	0, wxALIGN_RIGHT| wxALL, 2	);
 
 	SetSizer( hsCols );
 
@@ -189,6 +191,12 @@ CNowPlayingCtrl::CNowPlayingCtrl( wxWindow *parent )
 	
 	ResetInfo();
 	
+    m_MusikPlayer.Connect(wxEVT_MUSIKPLAYER_SONG_CHANGED,MusikPlayerEventHandler(CNowPlayingCtrl::OnSongChanged),NULL,this);
+    m_MusikPlayer.Connect(wxEVT_MUSIKPLAYER_PLAY_START,MusikPlayerEventHandler(CNowPlayingCtrl::OnPlayStart),NULL,this);
+    m_MusikPlayer.Connect(wxEVT_MUSIKPLAYER_PLAY_STOP,MusikPlayerEventHandler(CNowPlayingCtrl::OnPlayStop),NULL,this);
+    m_MusikPlayer.Connect(wxEVT_MUSIKPLAYER_PLAY_PAUSE,MusikPlayerEventHandler(CNowPlayingCtrl::OnPlayPause),NULL,this);
+    m_MusikPlayer.Connect(wxEVT_MUSIKPLAYER_PLAY_RESUME,MusikPlayerEventHandler(CNowPlayingCtrl::OnPlayResume),NULL,this);
+
 	ActivateHotkeys();
 }
 static bool s_bHotKeyRegistered = false;
@@ -291,6 +299,12 @@ CNowPlayingCtrl::~CNowPlayingCtrl()
 	//--- stop timer ---//
 	KillTimer();
 
+    m_MusikPlayer.Disconnect(wxEVT_MUSIKPLAYER_SONG_CHANGED,MusikPlayerEventHandler(CNowPlayingCtrl::OnSongChanged),NULL,this);
+    m_MusikPlayer.Disconnect(wxEVT_MUSIKPLAYER_PLAY_START,MusikPlayerEventHandler(CNowPlayingCtrl::OnPlayStart),NULL,this);
+    m_MusikPlayer.Disconnect(wxEVT_MUSIKPLAYER_PLAY_STOP,MusikPlayerEventHandler(CNowPlayingCtrl::OnPlayStop),NULL,this);
+    m_MusikPlayer.Disconnect(wxEVT_MUSIKPLAYER_PLAY_PAUSE,MusikPlayerEventHandler(CNowPlayingCtrl::OnPlayPause),NULL,this);
+    m_MusikPlayer.Disconnect(wxEVT_MUSIKPLAYER_PLAY_RESUME,MusikPlayerEventHandler(CNowPlayingCtrl::OnPlayResume),NULL,this);
+
 	#ifdef __WXMSW__
     btnPrev->PopEventHandler();
 	btnNext->PopEventHandler();
@@ -315,7 +329,7 @@ CNowPlayingCtrl::~CNowPlayingCtrl()
 //-------------------//
 void CNowPlayingCtrl::OnTimer( wxTimerEvent& WXUNUSED(event) )
 {
-	if ( wxGetApp().Player.IsPlaying() && !wxGetApp().Player.IsStopping() )
+	if ( m_MusikPlayer.IsPlaying() && !m_MusikPlayer.IsStopping() )
 		UpdateTime();
 }
 
@@ -374,8 +388,8 @@ void CNowPlayingCtrl::UpdateTime()
 
 	if ( !g_TimeSeeking )
 	{
-        int duration = wxGetApp().Player.GetDuration( FMOD_SEC ); 
-        float fPos = duration ? (float)100* ( (float)wxGetApp().Player.GetTime( FMOD_SEC ) / duration) : 0;
+        int duration = m_MusikPlayer.GetDuration( FMOD_SEC ); 
+        float fPos = duration ? (float)100* ( (float)m_MusikPlayer.GetTime( FMOD_SEC ) / duration) : 0;
 	    
 		//--- now, if we're in gtk and we set the wxGauge 	---//
 		//--- to a value below 2.0, it changes to 100%		---//
@@ -388,7 +402,7 @@ void CNowPlayingCtrl::UpdateTime()
 		gSeek->SetValue( (int)fPos );
 		
 		//--- time label ---//
-		stCurtime->SetLabel( wxT( " - " ) + ((nTimeDisplayMode== 0) ? wxGetApp().Player.GetTimeStr():wxGetApp().Player.GetTimeLeftStr()) );
+		stCurtime->SetLabel( wxT( " - " ) + ((nTimeDisplayMode== 0) ? m_MusikPlayer.GetTimeStr():m_MusikPlayer.GetTimeLeftStr()) );
 		Layout();
 	}
 }
@@ -426,59 +440,57 @@ void CNowPlayingCtrl::UpdateInfo( const MusikSongId &songid )
 	if ( sTitle.IsEmpty() )
 		sTitle = _( "Unknown Song" );
 
-	// tell Tunage to do it's thing if file has changed
-	if ( m_LastFile != pSong->MetaData.Filename )
-		m_pTunage->Execute( *pSong );
+	if (!(m_CurrSong.MetaData.Filename == pSong->MetaData.Filename 
+        && m_CurrSong.MetaData.Artist == pSong->MetaData.Artist
+        && m_CurrSong.MetaData.Album == pSong->MetaData.Album
+        && m_CurrSong.MetaData.Title == pSong->MetaData.Title))
+    {
+        // song info has changed
+        m_CurrSong = *pSong;
+        m_pTunage->Execute( *pSong );
 
-	m_LastFile = pSong->MetaData.Filename;
+        //--- title / artist / time -//
+        sTitle.Replace	( wxT( "&" ), wxT( "&&" ), TRUE );
+        sArtist.Replace	( wxT( "&" ), wxT( "&&" ), TRUE );
 
-	//--- caption bar title ---//
-	g_MusikFrame->SetTitle( sArtist + wxT( " - " ) +  sTitle + (!sAlbum.IsEmpty() ? wxString(wxT( " - " )) + sAlbum : wxString()) );
-	g_MusikFrame->SetSongInfoText( *pSong );
-
-	//--- title / artist / time -//
-	sTitle.Replace	( wxT( "&" ), wxT( "&&" ), TRUE );
-	sArtist.Replace	( wxT( "&" ), wxT( "&&" ), TRUE );
-
-	if ( sTitle != stSong->GetLabel() )
-		stSong->SetLabel( sTitle );
-	if ( sArtist != stArtist->GetLabel() )
-		stArtist->SetLabel( sArtist );
+        if ( sTitle != stSong->GetLabel() )
+            stSong->SetLabel( sTitle );
+        if ( sArtist != stArtist->GetLabel() )
+            stArtist->SetLabel( sArtist );
+    }
 	UpdateTime();
-
-	Layout();
 }
 
 void CNowPlayingCtrl::PlayerStop( wxCommandEvent& WXUNUSED(event) )
 {	
-	wxGetApp().Player.Stop();
+	m_MusikPlayer.Stop();
 }
 
 void CNowPlayingCtrl::PlayerPlayPause( wxCommandEvent& WXUNUSED(event) )	
 {	
-	wxGetApp().Player.PlayPause();
+	m_MusikPlayer.PlayPause();
 }
 
 void CNowPlayingCtrl::PlayerNext( wxCommandEvent& WXUNUSED(event) )	
 {	
-	wxGetApp().Player.NextSong();
+	m_MusikPlayer.NextSong();
 }
 
 void CNowPlayingCtrl::PlayerPrev( wxCommandEvent& WXUNUSED(event) )	
 {	
-	wxGetApp().Player.PrevSong();
+	m_MusikPlayer.PrevSong();
 }
 
 void CNowPlayingCtrl::PlayerVolume( wxCommandEvent& WXUNUSED(event) )	
 {	
-	wxPoint pos = ClientToScreen(btnVolume->GetPosition());
+	wxPoint pos = btnVolume->GetParent()->ClientToScreen(btnVolume->GetPosition());
 	wxFrame *pDlg = new MusikVolumeFrame( ( wxFrame* )g_MusikFrame, pos );
     
 	wxSize DlgSize = pDlg->GetSize();
 	pos.y -= DlgSize.GetHeight();
     if(pos.y < 0)
     {
-        pos = ClientToScreen(wxPoint(btnVolume->GetPosition().x,btnVolume->GetPosition().y + btnVolume->GetSize().GetHeight()));
+        pos = btnVolume->GetParent()->ClientToScreen(wxPoint(btnVolume->GetPosition().x,btnVolume->GetPosition().y + btnVolume->GetSize().GetHeight()));
     }
 	pDlg->Move( pos );
 	pDlg->Show();
@@ -488,9 +500,39 @@ void CNowPlayingCtrl::OnPlayMode( wxCommandEvent&	event )
 {
 	int modesel = event.GetSelection();
 	wxGetApp().Prefs.ePlaymode = (EMUSIK_PLAYMODE)modesel;
-	wxGetApp().Player.SetPlaymode(wxGetApp().Prefs.ePlaymode);
+	m_MusikPlayer.SetPlaymode(wxGetApp().Prefs.ePlaymode);
 }
 void CNowPlayingCtrl::OnCheckCrossfade	( wxCommandEvent&	event )
 {
 	wxGetApp().Prefs.bGlobalFadeEnable = event.IsChecked();
+}
+
+void CNowPlayingCtrl::OnSongChanged(MusikPlayerEvent & ev)
+{
+    UpdateInfo(ev.MusikPlayer().GetCurrentSongid());
+    ev.Skip();
+}
+
+void CNowPlayingCtrl::OnPlayStart(MusikPlayerEvent & ev)
+{
+    PlayBtnToPauseBtn();
+    ev.Skip();
+}
+
+void CNowPlayingCtrl::OnPlayPause(MusikPlayerEvent & ev)
+{
+    PauseBtnToPlayBtn();
+    ev.Skip();
+}
+void CNowPlayingCtrl::OnPlayResume(MusikPlayerEvent & ev)
+{
+    PlayBtnToPauseBtn();
+    ev.Skip();
+}
+
+void CNowPlayingCtrl::OnPlayStop(MusikPlayerEvent & ev)
+{
+    PauseBtnToPlayBtn();
+    ResetInfo();
+    ev.Skip();
 }

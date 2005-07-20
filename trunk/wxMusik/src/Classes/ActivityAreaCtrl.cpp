@@ -398,7 +398,7 @@ void CActivityAreaCtrl::OnActivityBoxSelChanged	(  wxCommandEvent& event )
 
 void CActivityAreaCtrl::OnSashDragged	(wxSashEvent & ev)
 {
-	wxGetApp().Prefs.nActivityCtrlHeight = ev.GetDragRect().height;
+	wxGetApp().Prefs.nActivityCtrlHeight = wxMax(ev.GetDragRect().height,50);
 	SetDefaultSize(wxSize( 1000, wxGetApp().Prefs.nActivityCtrlHeight));
 	ev.Skip();
 }

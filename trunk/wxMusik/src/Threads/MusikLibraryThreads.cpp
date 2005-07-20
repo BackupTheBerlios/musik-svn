@@ -22,12 +22,12 @@
 //---------------------------------//
 //---		update library		---//
 //---------------------------------//
-MusikUpdateLibThread::MusikUpdateLibThread(wxEvtHandler *pParent, wxArrayString* del, wxArrayString & m_refFiles, bool bCompleteRebuild)
+MusikUpdateLibThread::MusikUpdateLibThread(wxEvtHandler *pParent, wxArrayString* del, wxArrayString & m_refFiles, unsigned long flagsUpdate)
 	:MusikScanNewThread(pParent,m_refFiles)
 {
 	m_pPathesToAdd	= g_Paths.GetList();
 	m_pPathesDel	= del;
-	m_bCompleteRebuild = bCompleteRebuild;
+	m_flagsUpdate   = flagsUpdate;
 }
 
 void *MusikUpdateLibThread::Entry()
@@ -103,7 +103,7 @@ void *MusikUpdateLibThread::Entry()
 				
 				
 			}
-			else if(m_bCompleteRebuild)
+			else if(m_flagsUpdate & MUSIK_UpdateFlags::RebuildTags)
 			{
 				if(wxGetApp().Library.UpdateSongDataFromFile( m_refFiles.Item( i ) ))
 				{

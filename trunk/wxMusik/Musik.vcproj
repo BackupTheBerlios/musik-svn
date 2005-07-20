@@ -815,6 +815,9 @@
 				<File
 					RelativePath=".\src\Classes\MusikPlayer.h">
 				</File>
+				<File
+					RelativePath=".\src\Classes\MusikPlayerEvt.h">
+				</File>
 			</Filter>
 			<Filter
 				Name="MusikPrefs"

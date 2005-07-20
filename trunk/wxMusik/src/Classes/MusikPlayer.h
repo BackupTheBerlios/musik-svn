@@ -22,6 +22,7 @@
 	#include "wx/wx.h"
 #endif
 #include <wx/dynarray.h>
+#include "Classes/MusikPlayerEvt.h"
 
 enum EMUSIK_CROSSFADER_TYPE
 {
@@ -162,7 +163,7 @@ public:
 	void SetFadeBegin		( ){ m_Fading = true; }
 	void SetFadeStart		( );
 	void SetPlaymode		( EMUSIK_PLAYMODE pm );
-	void SetVolume			( );
+	void SetVolume			( int vol = -1);
 	void SetTime			( int nSec );
 	void ClearPlaylist		();
 	void SetPlaylist		(const  MusikSongIdArray &playlist ) { m_Playlist = playlist;m_arrHistory.Clear(); }

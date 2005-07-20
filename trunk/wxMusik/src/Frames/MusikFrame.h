@@ -50,7 +50,7 @@ class CNowPlayingCtrl;
 class MusikLibraryFrame;
 class CMusikSong;
 class MusikWriteDirtyThread;
-
+class MusikPlayerEvent;
 //quite hackish attempt to be able to compile with release 2.5.2 and cvs HEAD before 2.5.3 release
 #if wxVERSION_NUMBER < 2503
 #ifndef wxSUBRELEASE_NUMBER
@@ -90,6 +90,25 @@ private:
 };
 
 #endif
+class MusikSongId;
+class BottomPanel : public wxSashLayoutWindow
+{
+public:
+    BottomPanel(wxWindow *pParent);
+
+    void EnableProgress(bool enable);
+    void SetProgress(int p);
+    void SetTime(int nCurrTime);
+    void OnSize( wxSizeEvent& event );
+    DECLARE_EVENT_TABLE()
+protected:
+    //--- sizers ---//
+    wxBoxSizer *vsTopBottom;
+
+    CNowPlayingCtrl		*m_pNowPlayingCtrl;
+    wxGauge	  *	m_pProgressGauge;
+
+};
 
 class MusikFrame : public wxFrame
 {
@@ -144,12 +163,7 @@ public:
 	void OnSashDraggedSourcesBox	(wxSashEvent & ev);
 	void OnSashDraggedActivityCtrl	(wxSashEvent & ev);
 	void OnEraseBackground ( wxEraseEvent& event );
-	//-------------------------//
-	//--- virtual overrides ---//
-	//-------------------------//
-	virtual void SetTitle(const wxString& title = wxEmptyString);
-	virtual void SetSongInfoText(const CMusikSong& song);
-	virtual void SetSongInfoText(const wxString & sSongInfoText);
+
 
 	//------------------------------//
 	//---     activity boxes     ---//
@@ -169,11 +183,8 @@ public:
 	wxBitmap		bmpNetstream;
 
 	
+    BottomPanel *m_pBottomPanel;
 
-	//--- sizers ---//
-	wxBoxSizer *vsTopBottom;
-
-	CNowPlayingCtrl		*m_pNowPlayingCtrl;
 
 	//----------------------------------------------------------------//
 	//--- Routines dealing with events. List box's clicked, menu   ---//
@@ -224,6 +235,15 @@ public:
 
 	DECLARE_EVENT_TABLE()
 protected:
+    void OnSongChanged(MusikPlayerEvent & ev);
+    void OnPlayStop(MusikPlayerEvent & ev);
+    //-------------------------//
+    //--- virtual overrides ---//
+    //-------------------------//
+    virtual void SetTitle(const wxString& title = wxEmptyString);
+    virtual void SetSongInfoText(const CMusikSong& song);
+    virtual void SetSongInfoText(const wxString & sSongInfoText);
+
 	void CreateMainMenu();
 #ifdef __WXMSW__
 protected:
@@ -239,8 +259,6 @@ private:
 	wxThread* m_ActiveThread;
 	MusikWriteDirtyThread* pWriteDirtyThread;
 	
-	wxGauge	  *	m_pProgressGauge;
-	wxSashLayoutWindow *m_pBottomPanel;
 };
 
 #endif

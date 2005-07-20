@@ -25,7 +25,6 @@
 //--- globals: library / player / prefs ---//
 #include "MusikGlobals.h"
 #include "MusikUtils.h"
-
 #include "MusikApp.h"
 #include "MUSIKEngine/MUSIKEngine/inc/imusikstreamout.h"
 //--- CMusikStreamArray ---//
@@ -122,7 +121,16 @@ void CMusikPlayer::Init(bool bSuppressAutoPlay)
 				m_nLastSongTime = 0;
 			}
 		}
-	}
+	}   
+    //--- initialize fmod ---//
+    if ( InitializeFMOD( FMOD_INIT_START ) != FMOD_INIT_SUCCESS )
+        wxMessageBox( _("Initialization of FMOD sound system failed."), MUSIKAPPNAME_VERSION, wxOK | wxICON_ERROR );
+
+    //--- startup the crossfader			---//
+    g_FaderThread = new MusikFaderThread();
+    g_FaderThread->Create();
+    g_FaderThread->Run();
+
 	if(!bSuppressAutoPlay && wxGetApp().Prefs.bAutoPlayOnAppStart && (m_Playlist.GetCount()
 		||  (wxGetApp().Prefs.ePlaymode == MUSIK_PLAYMODE_AUTO_DJ) ||(wxGetApp().Prefs.ePlaymode == MUSIK_PLAYMODE_AUTO_DJ_ALBUM) ))
 	{
@@ -165,7 +173,14 @@ CMusikPlayer::~CMusikPlayer()
 void CMusikPlayer::Shutdown( bool bClose )
 {
 	if ( bClose )
-		Stop( true, true );
+    {
+        {
+            CThreadController ThreadCtl;
+            ThreadCtl.Attach(g_FaderThread);
+            g_FaderThread = NULL;
+        }
+        Stop( true, true );
+    }
 	else
 		Stop();
 
@@ -565,14 +580,18 @@ bool CMusikPlayer::Play( size_t nItem, int nStartPos, int nFadeType )
 	//--- playback has been started, update the	---//
 	//--- user interface to reflect it			---//
 	//---------------------------------------------//
-	g_MusikFrame->m_pNowPlayingCtrl->PlayBtnToPauseBtn();
-	UpdateUI();
+    MusikPlayerEvent ev_start(this,wxEVT_MUSIKPLAYER_PLAY_START);
+	ProcessEvent(ev_start);
+    
+	UpdateUI();//TODO: remove this. replace by event handling of playlistctrl etc.
 	//---------------------------------------------//
 	//--- record history in database			---//
 	//---------------------------------------------//
 	if(bNewSongStarted)
 	{
-		wxGetApp().Library.UpdateItemLastPlayed	( m_CurrentSong );
+        MusikPlayerEvent ev_songchange(this,wxEVT_MUSIKPLAYER_SONG_CHANGED);
+        ProcessEvent(ev_songchange);
+		wxGetApp().Library.UpdateItemLastPlayed	( m_CurrentSong );//TODO: replace by event handling of  wxEVT_MUSIKPLAYER_SONG_CHANGED in library
 	}
 	//---------------------------------------------//
 	//--- if fading is not enabled, shut down	---//
@@ -609,7 +628,10 @@ int CMusikPlayer::_NetStreamStatusUpdate(MUSIKStream * pStream)
 		case FSOUND_STREAM_NET_CONNECTING:
 		case FSOUND_STREAM_NET_BUFFERING:
 		case FSOUND_STREAM_NET_READY:
-			g_MusikFrame->m_pNowPlayingCtrl->UpdateInfo(m_CurrentSong);
+            {
+                MusikPlayerEvent ev_songchange(this,wxEVT_MUSIKPLAYER_SONG_CHANGED);
+                ProcessEvent(ev_songchange);
+            }
 			break;
 		case FSOUND_STREAM_NET_ERROR:
 			wxMessageBox(_("ERROR: failed to open stream:")+ ConvA2W(FSOUND_Stream_Net_GetLastServerStatus()));
@@ -681,7 +703,8 @@ void CMusikPlayer::UpdateUI()
 	{
 		g_PlaylistBox->PlaylistCtrl().EnsureVisible(m_SongIndex);
 	}
-	g_MusikFrame->m_pNowPlayingCtrl->UpdateInfo	( m_CurrentSong );
+	
+
 }
 
 void CMusikPlayer::ClearOldStreams( bool bClearAll )
@@ -726,11 +749,7 @@ void CMusikPlayer::Pause( bool bCheckFade )
 	//-------------------------------------------------//
 	SetCrossfadeType( CROSSFADE_PAUSE );
 
-	//-------------------------------------------------//
-	//--- update the UI.							---//
-	//-------------------------------------------------//
-	g_MusikFrame->m_pNowPlayingCtrl->PauseBtnToPlayBtn();
-	
+
 	//-------------------------------------------------//
 	//--- if this type of crossfade is enabled,		---//
 	//--- then just setup a fade signal. an event	---//
@@ -747,6 +766,9 @@ void CMusikPlayer::FinalizePause()
 {
 	m_SndEngine.SetPlayState( MUSIKEngine::Paused );
 	m_Paused = true;
+    MusikPlayerEvent ev_pause(this,wxEVT_MUSIKPLAYER_PLAY_PAUSE);
+    ProcessEvent(ev_pause);
+
 }
 
 void CMusikPlayer::Resume( bool bCheckFade )
@@ -760,9 +782,10 @@ void CMusikPlayer::Resume( bool bCheckFade )
 	//-------------------------------------------------//
 	//--- update the UI.							---//
 	//-------------------------------------------------//
-	g_MusikFrame->m_pNowPlayingCtrl->PlayBtnToPauseBtn();
 	m_SndEngine.SetPlayState( MUSIKEngine::Playing );
 	m_Paused = false;
+    MusikPlayerEvent ev(this,wxEVT_MUSIKPLAYER_PLAY_RESUME);
+    ProcessEvent(ev);
 	//-----------------------------------------------------//
 	//--- setup crossfader and return, if	the prefs	---//
 	//--- say so.										---//
@@ -775,7 +798,7 @@ void CMusikPlayer::Resume( bool bCheckFade )
 
 void CMusikPlayer::FinalizeResume()
 {
-	SetVolume();
+//	SetVolume();
 }
 
 void CMusikPlayer::Stop( bool bCheckFade, bool bExit )
@@ -791,16 +814,6 @@ void CMusikPlayer::Stop( bool bCheckFade, bool bExit )
 		SetCrossfadeType( CROSSFADE_STOP );
 	else
 		SetCrossfadeType( CROSSFADE_EXIT );
-
-
-	//-------------------------------------------------//
-	//--- update the ui.							---//
-	//-------------------------------------------------//
-	g_MusikFrame->SetTitle();
-	g_MusikFrame->m_pNowPlayingCtrl->ResetInfo();
-	g_MusikFrame->m_pNowPlayingCtrl->PauseBtnToPlayBtn();
-
-	
 
 	//-------------------------------------------------//
 	//--- setup crossfader and return, if the prefs	---//
@@ -844,7 +857,11 @@ void CMusikPlayer::FinalizeStop()
 	m_Playing = false;
 	m_Paused = false;
 	m_Stopping = false;
-	g_PlaylistBox->PlaylistCtrl().RefreshItem( m_SongIndex );
+	g_PlaylistBox->PlaylistCtrl().RefreshItem( m_SongIndex ); //TODO: replace by handling of MusikPlayerEvent
+    
+    MusikPlayerEvent ev(this,wxEVT_MUSIKPLAYER_PLAY_STOP);
+    ProcessEvent(ev);
+    
     wxCriticalSectionLocker lock(m_protectingStreamArrays);
 	int nStreamCount = m_ActiveStreams.GetCount();
 	for ( int i = 0; i < nStreamCount; i++ )
@@ -1164,8 +1181,12 @@ void CMusikPlayer::_ChooseRandomAlbumSongs(int nAlbumsToAdd,MusikSongIdArray &ar
 
 }
 
-void CMusikPlayer::SetVolume()
+void CMusikPlayer::SetVolume(int vol )
 {
+    if(vol >= 0)
+        wxGetApp().Prefs.nSndVolume = vol;
+    if ( g_FaderThread && g_FaderThread->IsCrossfaderActive() )
+        g_FaderThread->CrossfaderStop();
 	m_SndEngine.SetVolume(wxGetApp().Prefs.nSndVolume / 255.0);
 }
 
@@ -1437,3 +1458,21 @@ void CMusikPlayer::OnPlaylistEntryRemoved( size_t index )
 	}
 }
 
+
+DEFINE_EVENT_TYPE(wxEVT_MUSIKPLAYER_SONG_CHANGED)
+DEFINE_EVENT_TYPE(wxEVT_MUSIKPLAYER_PLAY_START)
+DEFINE_EVENT_TYPE(wxEVT_MUSIKPLAYER_PLAY_STOP)
+DEFINE_EVENT_TYPE(wxEVT_MUSIKPLAYER_PLAY_PAUSE)
+DEFINE_EVENT_TYPE(wxEVT_MUSIKPLAYER_PLAY_RESUME)
+IMPLEMENT_DYNAMIC_CLASS(MusikPlayerEvent, wxCommandEvent)
+
+MusikPlayerEvent::MusikPlayerEvent(CMusikPlayer *pMP, wxEventType type)
+: wxCommandEvent(type)
+{
+    SetEventObject(pMP);
+}
+
+CMusikPlayer & MusikPlayerEvent::MusikPlayer()
+{
+    return *wxDynamicCast(GetEventObject(),CMusikPlayer); 
+}

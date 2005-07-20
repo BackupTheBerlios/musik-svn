@@ -274,6 +274,58 @@ void MusikTaskBarIcon::OnLButtonDown(wxTaskBarIconEvent&)
 
 #endif //#ifdef wxHAS_TASK_BAR_ICON
 
+
+BEGIN_EVENT_TABLE(BottomPanel, wxSashLayoutWindow)
+    EVT_SIZE(BottomPanel::OnSize)
+END_EVENT_TABLE()
+
+BottomPanel::BottomPanel(wxWindow *pParent)
+    :wxSashLayoutWindow(pParent,-1,wxDefaultPosition,wxDefaultSize,wxNO_BORDER|wxCLIP_CHILDREN)
+{
+    //-------------------//
+    //--- now playing ---//
+    //-------------------//
+    m_pNowPlayingCtrl = new CNowPlayingCtrl( this ,wxGetApp().Player);
+
+    //---------------------------------//
+    //--- progress bar for whatever ---//
+    //---------------------------------//
+    m_pProgressGauge = new wxGauge( this, -1, 100, wxPoint( 0, 0 ), wxSize( 0, 18 ), wxGA_SMOOTH );
+
+    //--------------------------//
+    //--- top / bottom sizer ---//
+    //--------------------------//
+    vsTopBottom			= new wxBoxSizer	( wxVERTICAL	);
+
+    //	vsTopBottom->Add( hsLeftRight,		1, wxEXPAND | wxALL				  );
+    vsTopBottom->Add( m_pProgressGauge,		0, wxEXPAND | wxLEFT | wxRIGHT, 1 );
+    vsTopBottom->Add( m_pNowPlayingCtrl, 0, wxEXPAND | wxLEFT | wxRIGHT, 1 );
+
+    //--- hide progress bar for the time being, and set its abort var to false ---//
+    vsTopBottom->Show( m_pProgressGauge, false );
+
+    SetSizer(vsTopBottom);    
+}
+void BottomPanel::EnableProgress(bool enable)
+{
+    vsTopBottom->Show( m_pProgressGauge, enable );
+    Layout();
+}
+void BottomPanel::SetProgress(int p)
+{
+    m_pProgressGauge->SetValue( p );
+}
+
+void BottomPanel::SetTime(int nCurrTime)
+{
+    m_pNowPlayingCtrl->SetTime( MStoStr( nCurrTime ) );
+}
+void BottomPanel::OnSize(wxSizeEvent& event)
+{
+    wxSashLayoutWindow::OnSize(event);
+    Layout();
+}
+
 // main dialog constructor
 MusikFrame::MusikFrame() 
 	: wxFrame( (wxFrame*)NULL, -1, MUSIKAPPNAME_VERSION, wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE | wxTAB_TRAVERSAL | wxCLIP_CHILDREN )
@@ -311,11 +363,8 @@ MusikFrame::MusikFrame()
 	//-------------------------//
 	//--- initialize sizers ---//
 	//-------------------------//
-	vsTopBottom			= new wxBoxSizer	( wxVERTICAL	);
 
-    
-
-	m_pBottomPanel = new wxSashLayoutWindow(this,-1,wxDefaultPosition,wxDefaultSize,wxNO_BORDER|wxCLIP_CHILDREN);
+	m_pBottomPanel = new BottomPanel(this);
 	m_pBottomPanel->SetDefaultSize(wxSize(1000,70));
 	m_pBottomPanel->SetAlignment(wxGetApp().Prefs.bShowNowPlayingControlOnTop == true ? wxLAYOUT_TOP : wxLAYOUT_BOTTOM);
 	m_pBottomPanel->SetOrientation(wxLAYOUT_HORIZONTAL);
@@ -351,27 +400,7 @@ MusikFrame::MusikFrame()
 	g_ActivityAreaCtrl->SetExtraBorderSize(1);
 	
 
-	//-------------------//
-	//--- now playing ---//
-	//-------------------//
-	m_pNowPlayingCtrl = new CNowPlayingCtrl( m_pBottomPanel );
 
-	//---------------------------------//
-	//--- progress bar for whatever ---//
-	//---------------------------------//
-	m_pProgressGauge = new wxGauge( m_pBottomPanel, -1, 100, wxPoint( 0, 0 ), wxSize( 0, 18 ), wxGA_SMOOTH );
-
-	//--------------------------//
-	//--- top / bottom sizer ---//
-	//--------------------------//
-//	vsTopBottom->Add( hsLeftRight,		1, wxEXPAND | wxALL				  );
-	vsTopBottom->Add( m_pProgressGauge,		0, wxEXPAND | wxLEFT | wxRIGHT, 1 );
-	vsTopBottom->Add( m_pNowPlayingCtrl, 0, wxEXPAND | wxLEFT | wxRIGHT, 1 );
-
-	//--- hide progress bar for the time being, and set its abort var to false ---//
-	vsTopBottom->Show( m_pProgressGauge, false );
-
-	m_pBottomPanel->SetSizer(vsTopBottom);
 	//--- taylor ui ---//
 	ShowPlaylistInfo();
 	ShowSources();
@@ -387,6 +416,11 @@ MusikFrame::MusikFrame()
 
 	//--- update database information, then set sound volume ---//
 	wxGetApp().Player.SetVolume();
+    wxGetApp().Player.Connect(wxEVT_MUSIKPLAYER_SONG_CHANGED,MusikPlayerEventHandler(MusikFrame::OnSongChanged),NULL,this);
+    wxGetApp().Player.Connect(wxEVT_MUSIKPLAYER_PLAY_STOP,MusikPlayerEventHandler(MusikFrame::OnPlayStop),NULL,this);
+
+    SetTitle();
+    SetSongInfoText(MUSIKAPPNAME);
 
 	SetActiveThread( NULL );
 
@@ -401,6 +435,8 @@ MusikFrame::MusikFrame()
 
 MusikFrame::~MusikFrame()
 {
+    wxGetApp().Player.Disconnect(wxEVT_MUSIKPLAYER_SONG_CHANGED,MusikPlayerEventHandler(MusikFrame::OnSongChanged),NULL,this);
+    wxGetApp().Player.Disconnect(wxEVT_MUSIKPLAYER_PLAY_STOP,MusikPlayerEventHandler(MusikFrame::OnPlayStop),NULL,this);
     //-------------------------------------------------//
     //--- clear up the image lists					---//
     //-------------------------------------------------//
@@ -475,7 +511,7 @@ void MusikFrame::AutoUpdate	( const wxArrayString & Filenames ,unsigned long fla
 {
 	MusikLibraryDialog *p= new MusikLibraryDialog( this, Filenames,flags );
 	this->Enable	( FALSE );
-	p->Show	( TRUE	); 
+	p->Show	( (flags & MUSIK_UpdateFlags::Quiet) != MUSIK_UpdateFlags::Quiet ); 
 }
 
 #define LOAD_IMAGELISTPNG(Name,ImageList) \
@@ -670,15 +706,15 @@ void MusikFrame::ToggleActivities()
 
 void MusikFrame::EnableProgress( bool enable )
 {
-
-	vsTopBottom->Show( m_pProgressGauge, enable );
-	Enable( !enable );
-	m_pBottomPanel->Layout();
-   	m_pBottomPanel->SetDefaultSize(vsTopBottom->GetMinSize());
+    m_pBottomPanel->EnableProgress(enable);
+    Enable(!enable);
+//	m_pBottomPanel->Layout();
+// 	m_pBottomPanel->SetDefaultSize(vsTopBottom->GetMinSize());
 	wxLayoutAlgorithm layout;
     layout.LayoutWindow(this,g_PlaylistBox);
-	m_pBottomPanel->Layout();
+//	m_pBottomPanel->Layout();
 }
+
 
 void MusikFrame::SetTitle(const wxString& title)
 {
@@ -699,28 +735,11 @@ void MusikFrame::SetSongInfoText(const wxString & sSongInfoText)
 }
 void MusikFrame::SetSongInfoText(const CMusikSong& song)
 {
+    wxString sArtist = SanitizedString( ConvFromUTF8( song.MetaData.Artist ));
+    wxString sTitle = SanitizedString( ConvFromUTF8( song.MetaData.Title ));
+    wxString sAlbum = SanitizedString( ConvFromUTF8( song.MetaData.Album ));
+
 #ifdef wxHAS_TASK_BAR_ICON
-	wxString sArtist = SanitizedString( ConvFromUTF8( song.MetaData.Artist ));
-	wxString sTitle = SanitizedString( ConvFromUTF8( song.MetaData.Title ));
-	wxString sAlbum = SanitizedString( ConvFromUTF8( song.MetaData.Album ));
-	/* this is usually to large for the current wxWidgets implemetation on window */
-	/* Tip text can only be 64 chars	*/
-	//#ifndef __WXMSW__
-//	wxString sSongInfoText(
-//		wxString(_("Title")+wxT(":")+ sTitle +	wxT("\n") +
-//		_("Artist")+wxT(":")+ sArtist + wxT("\n") +
-//		_("Album"))+wxT(":")+ sAlbum;
-//		
-//		 
-//
-//		);
-	//#else
-	//	wxString sSongInfoText(
-	//		sAlbum + wxT("\n") +
-	//		sArtist + wxT("\n") +
-	//		sTitle + wxT("\n") 
-	//		);
-	//#endif
 	wxString sInfo;
 	if(!sArtist.empty())
 		sInfo += _("by ") + sArtist + wxT("\n");
@@ -737,6 +756,7 @@ void MusikFrame::SetSongInfoText(const CMusikSong& song)
 #endif
 	}
 #endif
+    SetTitle( sArtist + wxT( " - " ) +  sTitle + (!sAlbum.IsEmpty() ? wxString(wxT( " - " )) + sAlbum : wxString()) );
 }
 
 //---------------------------------------------------------//

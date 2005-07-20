@@ -244,7 +244,7 @@ void CMusikListCtrl::OnEraseBackground(wxEraseEvent& WXUNUSED(event))
 {
 	// empty => no background erasing to avoid flicker
 }
-void CMusikListCtrl::OnPaint(wxPaintEvent& event)
+void CMusikListCtrl::OnPaint(wxPaintEvent& WXUNUSED(event))
 {
 	wxBufferedPaintDC dc(this);
 
@@ -322,6 +322,7 @@ void CMusikListCtrl::OnPaint(wxPaintEvent& event)
 BOOL ModifyStyle(HWND hWnd, 
             DWORD dwRemove, DWORD dwAdd, UINT nFlags)
 {
+    nFlags;
     int nStyleOffset = GWL_STYLE;
     DWORD dwStyle = ::GetWindowLong(hWnd, nStyleOffset);
     DWORD dwNewStyle = (dwStyle & ~dwRemove) | dwAdd;

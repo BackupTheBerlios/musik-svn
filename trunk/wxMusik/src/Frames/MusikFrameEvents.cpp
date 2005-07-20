@@ -126,13 +126,13 @@ void MusikFrame::OnIconize( wxIconizeEvent& event )
 void MusikFrame::OnSize	( wxSizeEvent& WXUNUSED(event) )	
 {
 //	wxFrame::OnSize(event);
-	m_pBottomPanel->SetDefaultSize(vsTopBottom->GetMinSize());
-	m_pBottomPanel->Layout();
+//	m_pBottomPanel->SetDefaultSize(vsTopBottom->GetMinSize());
+//	m_pBottomPanel->Layout();
 
 	wxLayoutAlgorithm layout;
     layout.LayoutWindow(this,g_PlaylistBox);
 
-	m_pBottomPanel->Layout();
+//	m_pBottomPanel->Layout();
 
 //	m_pNowPlayingCtrl->Refresh();
 //	m_pNowPlayingCtrl->Update();
@@ -175,16 +175,6 @@ void MusikFrame::OnClose( wxCloseEvent& WXUNUSED(event) )
     if ( wxGetApp().Prefs.bWebServerEnable )
 		wxGetApp().WebServer.Stop();
 
-
-
-	//-------------------------------------------------//
-	//--- delete the thread object and destroy.		---//
-	//-------------------------------------------------//
-    {
-        CThreadController ThreadCtl;
-        ThreadCtl.Attach(g_FaderThread);
-        g_FaderThread = NULL;
-    }
 	wxGetApp().Player.Shutdown();
 	Destroy();
 }
@@ -424,16 +414,14 @@ void MusikFrame::OnUpdateProgress( wxCommandEvent& WXUNUSED(event) )
 {
 	if ( GetActiveThread() != NULL )
 	{
-		m_pProgressGauge->SetValue( GetProgress() );
+		m_pBottomPanel->SetProgress( GetProgress() );
 	}
 }
 
 void MusikFrame::OnEndProgress( wxCommandEvent& WXUNUSED(event) )
 {
 	EnableProgress( false );
-
-	m_pProgressGauge->SetValue( 0 );
-	
+    m_pBottomPanel->SetProgress( 0 );
 	SetProgress	( 0 );
 	SetProgressType	( 0 );
 	SetActiveThread	( NULL );
@@ -502,4 +490,17 @@ void MusikFrame::OnSelectSources( wxCommandEvent &event )
 		g_SourcesCtrl->SelectLibrary();
 
 	}
+}
+void MusikFrame::OnSongChanged(MusikPlayerEvent & ev)
+{
+    std::auto_ptr<CMusikSong> pSong = ev.MusikPlayer().GetCurrentSongid().Song();
+    if(pSong.get())
+        SetSongInfoText( *pSong );
+    ev.Skip();
+}
+
+void MusikFrame::OnPlayStop(MusikPlayerEvent & ev)
+{
+    SetTitle();
+    ev.Skip();
 }

@@ -244,6 +244,7 @@ BEGIN_EVENT_TABLE(CSourcesListBox, CMusikListCtrl)
 	EVT_MENU(MUSIK_SOURCE_CONTEXT_SHOW_ICONS,				CSourcesListBox::ToggleIconsEvt		)	// Sources Context -> Show Icons
 	EVT_MENU(MUSIK_SOURCE_CONTEXT_COPY_FILES,				CSourcesListBox::CopyFiles			)	// Sources Context -> Copy files
     EVT_MENU(MUSIK_SOURCE_CONTEXT_EXPORT_PLAYLIST,			CSourcesListBox::ExportPlaylist		)	// Sources Context -> Export m3u
+    EVT_MENU(MUSIK_SOURCE_CONTEXT_IMPORT_PLAYLIST,			CSourcesListBox::ImportPlaylist	)	// Sources Context -> Import m3u
 	EVT_LIST_BEGIN_DRAG			(wxID_ANY,	CSourcesListBox::BeginDrag				)	// user drags files from sources
 	EVT_LIST_BEGIN_LABEL_EDIT	(wxID_ANY,	CSourcesListBox::BeginEditLabel			)   // user edits a playlist filename
 	EVT_LIST_END_LABEL_EDIT		(wxID_ANY,	CSourcesListBox::EndEditLabel			)   // user edits a playlist filename
@@ -317,9 +318,12 @@ wxMenu * CSourcesListBox::CreateContextMenu()
 	submenu_new->Append( MUSIK_SOURCE_CONTEXT_CREATE_CURRENT_PLAYLIST, _( "Playlist from Current" ) );
 	submenu_new->Enable(MUSIK_SOURCE_CONTEXT_CREATE_CURRENT_PLAYLIST,g_PlaylistBox->PlaylistCtrl().GetCount() > 0);
 	submenu_new->AppendSeparator();
-	submenu_new->Append( MUSIK_SOURCE_CONTEXT_STANDARD_PLAYLIST, _( "Standard Playlist" ) );
+
+    submenu_new->Append( MUSIK_SOURCE_CONTEXT_STANDARD_PLAYLIST, _( "Standard Playlist" ) );
+    submenu_new->Append( MUSIK_SOURCE_CONTEXT_IMPORT_PLAYLIST, wxString(_( "Standard Playlist" )) + _(" by importing Playlist File") );
 	submenu_new->Append( MUSIK_SOURCE_CONTEXT_DYNAMIC_PLAYLIST, _( "Dynamic Playlist" ) );
 	submenu_new->Append( MUSIK_SOURCE_CONTEXT_CREATE_NETSTREAM, _( "Net Stream" ) );
+
 
 	context_menu->Append( MUSIK_SOURCE_CONTEXT_CREATE, _( "&Create New" ), submenu_new );
 
@@ -442,6 +446,53 @@ void CSourcesListBox::ExportPlaylist (wxCommandEvent& WXUNUSED(event) )
 	
 
 }
+
+void ImportM3U(const wxString & sM3UPath,wxArrayString & sFiles)
+{
+    sFiles.Clear();
+    wxTextFile f(sM3UPath);
+    if(!f.Open(wxConvISO8859_1))
+    {
+        wxLogError(_("File %s not found."),sM3UPath.c_str());
+        return;
+    }
+    wxFileName fnM3UPath(sM3UPath);
+    sFiles.Alloc(f.GetLineCount());
+    for (size_t n =0; n < f.GetLineCount();n++)
+    {
+        wxString sLine(f[n]);
+        sLine.Trim();
+        if(sLine.IsEmpty())
+            continue; // skip empty lines;
+        else if(sLine.StartsWith(_T("#")))
+            continue;//skip comments
+        wxFileName fn(sLine);
+        fn.Normalize(wxPATH_NORM_ALL,fnM3UPath.GetPath());
+        sFiles.Add(fn.GetFullPath());
+    }
+    return;
+}
+
+void CSourcesListBox::ImportPlaylist (wxCommandEvent& WXUNUSED(event) )
+{
+    //get the current list of files,
+    //build a playlist
+    //offer option to save it.
+    wxFileDialog fdlg (g_MusikFrame, _("Select the path and filename for your playlist"),
+        wxT(""), wxT(""), wxT("Winamp Playlist (.m3u)|*.m3u"), 
+        wxOPEN);
+    if ( fdlg.ShowModal() != wxID_OK )
+        return;  
+    wxBusyCursor bc;
+    wxArrayString arrFiles;
+    ImportM3U(fdlg.GetPath(),arrFiles);
+    g_MusikFrame->AutoUpdate(arrFiles,MUSIK_UpdateFlags::WaitUntilDone|MUSIK_UpdateFlags::Quiet);
+    MusikSongIdArray songids;
+    wxGetApp().Library.GetFilelistSongs(arrFiles,songids);
+    NewPlaylist(wxFileName::FileName(fdlg.GetPath()).GetName(),songids,MUSIK_SOURCES_PLAYLIST_STANDARD);
+    return;
+}
+
 void CSourcesListBox::BeginDrag( wxListEvent &WXUNUSED(event) )
 {
     long n = m_CurSel;
@@ -948,22 +999,31 @@ void CSourcesListBox::NewPlaylist( wxString sName, const MusikSongIdArray & arrS
 	}
 	sName.Trim();
 	sName.Trim(false);
+    bool bRes = false;
 	switch ( nType )
 	{
 	case MUSIK_SOURCES_PLAYLIST_STANDARD:
     //--- create standard playlist ---//
-		CreateStdPlaylist( sName, arrSongIds );
+		bRes = CreateStdPlaylist( sName, arrSongIds );
 		break;
 	//--- create dynamic playlist
 	case MUSIK_SOURCES_PLAYLIST_DYNAMIC:
-		CreateDynPlaylist( sName );
+		bRes = CreateDynPlaylist( sName );
 		break;
 	case MUSIK_SOURCES_NETSTREAM:
-		CreateNetStream( sName );
+		bRes = CreateNetStream( sName );
 		break;
 	default:
 		wxASSERT(false);
 	}
+    if(bRes)
+    {
+        wxString sType;
+        GetTypeAsString(nType, sType);
+        int i = wxMax(m_CurSel,2);
+        m_SourcesList.Insert( sType + sName ,i);
+        Update();
+    }
 }	
 
 bool CSourcesListBox::PlaylistExists( wxString sName, int type )
@@ -1002,8 +1062,7 @@ bool CSourcesListBox::CreateStdPlaylist( wxString sName, const MusikSongIdArray 
 		{
 			if ( wxMessageBox( _( "Standard playlist \"" ) + sName + _( "\" already exists, but does not appear to be visible in the panel.\n\nWould you like to show it?" ), MUSIKAPPNAME_VERSION, wxYES_NO | wxICON_QUESTION ) == wxYES )
 			{		
-				m_SourcesList.Add( wxT( "[s] " ) + sName );
-				Update();
+				return true;
 			}
 		}
 
@@ -1019,7 +1078,7 @@ bool CSourcesListBox::CreateStdPlaylist( wxString sName, const MusikSongIdArray 
 				PlaylistToFile( sName, arrSongIds,MUSIK_SOURCES_PLAYLIST_STANDARD,false );
 		}
 
-		return true;
+		return false;// did not create a new list
 	}
 	
 	//-------------------------------------------------------------//
@@ -1029,11 +1088,10 @@ bool CSourcesListBox::CreateStdPlaylist( wxString sName, const MusikSongIdArray 
 	//-------------------------------------------------------------//
 	if ( PlaylistToFile( sName, arrSongIds, MUSIK_SOURCES_PLAYLIST_STANDARD ) )
 	{    
-		m_SourcesList.Add( wxT( "[s] " ) + sName );
-		Update();
+		return true;
 	}
 	
-	return true;
+	return false;// did not create a new list
 }
 
 bool CSourcesListBox::PlaylistToFile( wxString sName, const MusikSongIdArray & arrSongIds, int nType, bool bDelOld )
@@ -1109,9 +1167,7 @@ bool CSourcesListBox::CreateDynPlaylist( wxString sName )
 		{
 			if ( wxMessageBox( _( "Dynamic playlist \"" ) + sName + _( "\" already exists, but does not appear to be visible in the panel.\n\nWould you like to show it?" ), MUSIKAPPNAME_VERSION, wxYES_NO | wxICON_QUESTION ) == wxYES )
 			{		
-				nItemPos = m_SourcesList.GetCount();
-				m_SourcesList.Add( wxT( "[d] " ) + sName );
-				Update();
+				return true;
 			}
 		}
 
@@ -1138,9 +1194,6 @@ bool CSourcesListBox::CreateDynPlaylist( wxString sName )
 		if ( sQuery != wxT( "" ) )
 		{
 			PlaylistToFile( sName, sQuery, MUSIK_SOURCES_PLAYLIST_DYNAMIC );
-			m_SourcesList.Add( wxT( "[d] " ) + sName );
-			Update();
-			
 			return true;
 		}
 		else
@@ -1213,11 +1266,10 @@ bool CSourcesListBox::CreateNetStream( wxString sName)
 		{
 			if ( wxMessageBox( _( "Net Stream \"" ) + sName + _( "\" already exists, but does not appear to be visible in the panel.\n\nWould you like to show it?" ), MUSIKAPPNAME_VERSION, wxYES_NO | wxICON_QUESTION ) == wxYES )
 			{		
-				m_SourcesList.Add( wxT( "[u] " ) + sName );
-				Update();
+				return true;
 			}
 		}
-		return true;
+		return false;
 	}
 	
 	//---------------------------------------------------------------//
@@ -1228,8 +1280,6 @@ bool CSourcesListBox::CreateNetStream( wxString sName)
 	wxString sAddress = PromptNetStreamAddress(wxT(""));
 	if ((sAddress.IsEmpty() == false) && PlaylistToFile( sName, sAddress, MUSIK_SOURCES_NETSTREAM ) )
 	{    
-		m_SourcesList.Add( wxT( "[u] " ) + sName );
-		Update();
 		return true;
 	}
 	return false;
@@ -1538,7 +1588,7 @@ CSourcesBox::CSourcesBox( wxWindow *parent )
 
 void CSourcesBox::OnSashDragged	(wxSashEvent & ev)
 {
-	wxGetApp().Prefs.nSourceBoxWidth = ev.GetDragRect().width;
+	wxGetApp().Prefs.nSourceBoxWidth = wxMax(ev.GetDragRect().width,50);
 	SetDefaultSize(wxSize(wxGetApp().Prefs.nSourceBoxWidth, 1000));
 	ev.Skip();
 }

@@ -293,10 +293,8 @@ bool MusikApp::OnInit()
 		return FALSE;
 	}
 	g_Paths.Load();
-	Player.Init(arrParams.GetCount() > 0);
-	//--- initialize fmod ---//
-	if ( wxGetApp().Player.InitializeFMOD( FMOD_INIT_START ) != FMOD_INIT_SUCCESS )
-		wxMessageBox( _("Initialization of FMOD sound system failed."), MUSIKAPPNAME_VERSION, wxOK | wxICON_ERROR );
+
+    Player.Init(arrParams.GetCount() > 0);
 
 
 	//-------------------//
@@ -313,8 +311,6 @@ bool MusikApp::OnInit()
 		pMain->SetSize( Size );
 		pMain->Center();
 	}
-	pMain->SetTitle();
-	pMain->SetSongInfoText(MUSIKAPPNAME);
 	new MusikLogWindow(pMain,wxString::Format(_("%s Logging Window"),MUSIKAPPNAME),MUSIK_LW_ClearContentOnClose|MUSIK_LW_ShowOnLog); 
 	
 	wxLog::SetVerbose(Prefs.bLogVerbose);
@@ -346,10 +342,6 @@ bool MusikApp::OnInit()
 	g_PlaylistBox->Update();
 
     pMain->Show();
-	//--- startup the crossfader			---//
-	g_FaderThread = new MusikFaderThread();
-	g_FaderThread->Create();
-	g_FaderThread->Run();
 
 	m_pServer = new MusikAppServer;
 	if(m_pServer)

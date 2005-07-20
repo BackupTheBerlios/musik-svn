@@ -21,7 +21,6 @@
 
 BEGIN_EVENT_TABLE(CGaugeSeekEvt, wxEvtHandler)
 	EVT_LEFT_DOWN			(CGaugeSeekEvt::OnLeftDown		) 
-	EVT_RIGHT_DOWN			(CGaugeSeekEvt::OnRightDown		)
 	EVT_LEFT_UP				(CGaugeSeekEvt::OnLeftUp		) 
 	EVT_MOTION				(CGaugeSeekEvt::OnMouseMove		) 
 	EVT_ERASE_BACKGROUND	( CGaugeSeekEvt::OnEraseBackground )
@@ -145,7 +144,7 @@ void CGaugeSeekEvt::SetFromMousePos( wxMouseEvent& event )
 
 		//--- set string ---//
 		int nCurrTime = (int)( (float)wxGetApp().Player.GetDuration( FMOD_MSEC ) * (float)( fPos / (float)100 ) );
-		g_MusikFrame->m_pNowPlayingCtrl->SetTime( MStoStr( nCurrTime ) );
+		g_MusikFrame->m_pBottomPanel->SetTime(nCurrTime);
 	}
 
 	//-----------------------------------------------//
@@ -172,15 +171,7 @@ void CGaugeSeekEvt::SetFromMousePos( wxMouseEvent& event )
 		}
 
 		//--- set volume ---//
-		wxGetApp().Prefs.nSndVolume = (int)pParent->GetValue();
 
-		if ( g_FaderThread->IsCrossfaderActive() )
-			g_FaderThread->CrossfaderStop();
-
-		wxGetApp().Player.SetVolume();
+		wxGetApp().Player.SetVolume((int)pParent->GetValue());
 	}
-}
-void CGaugeSeekEvt::OnRightDown	(wxMouseEvent& event)
-{
-	g_MusikFrame->m_pNowPlayingCtrl->OnClickTimeDisplay(event);
 }

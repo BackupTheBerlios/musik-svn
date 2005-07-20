@@ -45,7 +45,7 @@ public:
 	void PathsLoad		();
 	void PathsSave		();
 	void ClearLibrary	();
-	void UpdateLibrary	( bool bConfirm, bool bCompleteRebuild = false );
+	void UpdateLibrary	( bool bConfirm ,unsigned long flags = 0);
 	void ScanNew		();
 	void PurgeLibrary	();
 	void EnableProgress	( bool );

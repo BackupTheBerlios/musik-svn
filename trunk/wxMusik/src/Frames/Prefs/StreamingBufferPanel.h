@@ -24,7 +24,7 @@ private:
             m_bNetBufferSettingChanged = false;
         }
        
-        virtual void OnValueChange(wxGenericValidator *pV,wxWindowBase *pW)
+        virtual void OnValueChange(wxGenericValidator * WXUNUSED(pV),wxWindowBase * WXUNUSED(pW))
         {
             m_bNetBufferSettingChanged = true;
         }

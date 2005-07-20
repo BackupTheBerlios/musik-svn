@@ -234,7 +234,7 @@ enum EMUSIK_MENU_ITEMS
 	MUSIK_SOURCE_CONTEXT_SHOW_ICONS,
 	MUSIK_SOURCE_CONTEXT_COPY_FILES,
 	MUSIK_SOURCE_CONTEXT_EXPORT_PLAYLIST,
-
+    MUSIK_SOURCE_CONTEXT_IMPORT_PLAYLIST,
 	//--- library frame popup menu ---//
 	MUSIK_PATHS_MENU_ADD,
 	MUSIK_PATHS_MENU_REMOVESEL,
@@ -315,7 +315,8 @@ struct MUSIK_UpdateFlags
 		EnquequeFilesIntoPlayer	= 2,
 		PlayFiles				=4,
 		RebuildTags             =8,
-		WaitUntilDone			=16
+		WaitUntilDone			=16,
+        Quiet                   =32
 	};
 };
 

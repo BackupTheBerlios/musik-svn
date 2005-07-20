@@ -19,7 +19,7 @@
 #ifndef WX_PRECOMP
 	#include "wx/wx.h"
 #endif 
-#include "../Classes/MusikLibrary.h"
+#include "Classes/MusikLibrary.h"
 
 
 enum EMUSIK_NOWPLAYINGCTRL_ID
@@ -36,7 +36,8 @@ enum EMUSIK_NOWPLAYINGCTRL_ID
 };
 
 class CTunage;
-
+class CMusikPlayer;
+class MusikPlayerEvent;
 //--- bitmap button and seek bar event handler ---//
 #include "BtnDown.h"
 #include "GaugeSeek.h"
@@ -44,7 +45,7 @@ class CTunage;
 class CNowPlayingCtrl : public wxPanel
 {
 public:
-	CNowPlayingCtrl( wxWindow *pParent );
+	CNowPlayingCtrl( wxWindow *pParent ,CMusikPlayer & refMusikPlayer);
 	~CNowPlayingCtrl();
 	void ActivateHotkeys();
 	void DeactivateHotkeys();
@@ -106,20 +107,29 @@ public:
 	#endif
 
 	//--- funcs ---//
-	void PlayBtnToPauseBtn();
-	void PauseBtnToPlayBtn();
-	void UpdateInfo(const MusikSongId &songid );
 	void SetTime( wxString sTimeStr );
-	void ResetInfo();
 
 	DECLARE_EVENT_TABLE()
+protected:
+    void OnSongChanged(MusikPlayerEvent & ev);
+    void OnPlayStart(MusikPlayerEvent & ev);
+    void OnPlayPause(MusikPlayerEvent & ev);
+    void OnPlayResume(MusikPlayerEvent & ev);
+    void OnPlayStop(MusikPlayerEvent & ev);
+
+    void PlayBtnToPauseBtn();
+    void PauseBtnToPlayBtn();
+    void UpdateInfo(const MusikSongId &songid );
+    void ResetInfo();
+
 private:
 	void UpdateTime();
 	void StartTimer();
 	void KillTimer();
 	wxTimer *pSecTimer;
 
-	wxFileName m_LastFile;
+    CMusikPlayer & m_MusikPlayer;
+	CMusikSong m_CurrSong;
 	CTunage* m_pTunage;
 };
 

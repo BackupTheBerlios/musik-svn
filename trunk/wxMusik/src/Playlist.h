@@ -1,3 +1,12 @@
+/*
+*  Playlist.h
+*  
+*  Copyright (c) 2005 Gunnar Roth (gunnar.roth@gmx.de)
+*	
+*
+*  See the file "license.txt" for information on usage and redistribution
+*  of this file, and for a DISCLAIMER OF ALL WARRANTIES.
+*/
 #ifndef PLAYLIST_H
 #define PLAYLIST_H
 #include <map>

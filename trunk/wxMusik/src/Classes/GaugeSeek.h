@@ -31,7 +31,6 @@ public:
 	void OnMouseMove		( wxMouseEvent& event );
 	void SetFromMousePos	( wxMouseEvent& event );
 	void OnEraseBackground  ( wxEraseEvent& event );
-	void OnRightDown		(wxMouseEvent& event);
 #ifdef __WXMSW__
 	void OnPaint(wxPaintEvent& event);
 #endif

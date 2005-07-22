@@ -19,7 +19,7 @@
 
 #include "OptionSelectionsPanel.h"
 #include "MusikGlobals.h"
-#include "Playlistcolumn.h"
+#include "PlaylistColumn.h"
 #include "Classes/ActivityAreaCtrl.h" 
 
 IMPLEMENT_PREFPANEL_CONSTRUCTOR(OptionSelectionsPanel)

@@ -425,23 +425,21 @@ inline void InternalErrorMessageBox( const wxString &sText)
 
 }
 #if wxCHECK_VERSION(2,5,4)
-#ifdef __WXMSW__
 #include <wx/stdpaths.h>
-#endif
 #endif
 inline wxString MusikGetStaticDataPath()
 {
-#ifdef __WXMSW__
-
     wxString sDataPath(wxT("data/"));
-	if(wxDirExists(sDataPath))
-        return sDataPath;	
 #if wxCHECK_VERSION(2,5,4)
     wxStandardPaths stdpaths;
     return stdpaths.GetDataDir()+ wxT("/") + sDataPath;
 #else
+
+#ifdef __WXMSW__
+
+	if(wxDirExists(sDataPath))
+        return sDataPath;	
     return wxT("data/");
-#endif
 #elif __WXMAC__
 	wxFileName fname( wxTheApp->argv[0] );
 	wxString path = fname.GetPath();
@@ -457,7 +455,8 @@ inline wxString MusikGetStaticDataPath()
 	sDataPath = wxT("~/") MUSIKAPPNAME wxT("/data/");	
 	if(wxDirExists(sDataPath))
 		return sDataPath;
-#endif	
+#endif // MSW
+#endif // wxCHECK_VERSION(2,5,4)	
 }
 double CharStringToDouble(const char *z);
 void DoubleToCharString(double r, char *z);

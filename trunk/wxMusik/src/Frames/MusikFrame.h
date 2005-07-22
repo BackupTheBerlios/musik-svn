@@ -19,6 +19,7 @@
 #include <wx/bitmap.h>
 #include <wx/gauge.h>
 #include <wx/socket.h>
+#include <wx/laywin.h>
 #ifdef wxHAS_TASK_BAR_ICON
 #include "wx/taskbar.h"
 #ifdef __WXMSW__

@@ -161,8 +161,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)\3rd-Party\taglib\toolkit&quot;;&quot;$(ProjectDir)\3rd-Party\taglib\mpeg\id3v2&quot;;&quot;$(ProjectDir)\3rd-Party\taglib\&quot;;&quot;$(ProjectDir)/src&quot;;&quot;$(ProjectDir)&quot;;&quot;$(ProjectDir)/MUSIKEngine&quot;;&quot;$(FLACDIR)\include&quot;;&quot;$(VORBISDIR)\include&quot;;&quot;$(FMODDIR)\api\inc&quot;;&quot;$(WXDIR)\lib\vc_lib\mswud&quot;;&quot;$(OGGDIR)\include&quot;;&quot;$(WXDIR)\contrib\include&quot;;&quot;$(WXDIR)\include&quot;;&quot;$(SQLITEDIR)&quot;;MMShellHook;&quot;$(MAC_SDKDIR)\Shared&quot;"
-				PreprocessorDefinitions="_DEBUG;WIN32;_WINDOWS;WINVER=0x400;_WIN32_IE=0x0600;_MT;_UNICODE;wxUSE_UNICODE;FLAC__NO_DLL"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)\3rd-Party\taglib\toolkit&quot;;&quot;$(ProjectDir)\3rd-Party\taglib\mpeg\id3v2&quot;;&quot;$(ProjectDir)\3rd-Party\taglib\&quot;;&quot;$(ProjectDir)/src&quot;;&quot;$(ProjectDir)&quot;;&quot;$(ProjectDir)/MUSIKEngine&quot;;&quot;$(FLACDIR)\include&quot;;&quot;$(VORBISDIR)\include&quot;;&quot;$(FMODDIR)\api\inc&quot;;&quot;$(WXDIR)\lib\vc_lib\mswud&quot;;&quot;$(OGGDIR)\include&quot;;&quot;$(WXDIR)\contrib\include&quot;;&quot;$(WXDIR)\include&quot;;&quot;$(SQLITEDIR)&quot;;MMShellHook;&quot;$(MAC_SDKDIR)\Shared&quot;;&quot;$(ID3LIBDIR)\include&quot;"
+				PreprocessorDefinitions="_DEBUG;WIN32;_WINDOWS;WINVER=0x400;_WIN32_IE=0x0600;_MT;_UNICODE;wxUSE_UNICODE;FLAC__NO_DLL;ID3LIB_LINKOPTION=1"
 				StringPooling="TRUE"
 				MinimalRebuild="TRUE"
 				ExceptionHandling="TRUE"
@@ -183,7 +183,7 @@
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)/wxMusik.exe"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;$(FLACDIR)\obj\debug\lib&quot;;&quot;$(ProjectDir)\MUSIKEngine\MPC\Debug&quot;;&quot;$(MAC_SDKDIR)\Source\MACLib\Debug Unicode&quot;;&quot;$(ProjectDir)\MUSIKEngine\FMODEngine\lib&quot;;&quot;$(ProjectDir)\MUSIKEngine\MUSIKEngine\lib&quot;;&quot;$(SQLITEDIR)\Debug&quot;;&quot;$(WXDIR)\lib\vc_lib&quot;;&quot;$(FMODDIR)\api\lib&quot;;&quot;$(ProjectDir)/3rd-Party/taglib/Debug Unicode&quot;;..\MMShellHook\Debug;_Debug"
+				AdditionalLibraryDirectories="&quot;$(FLACDIR)\obj\debug\lib&quot;;&quot;$(ProjectDir)\MUSIKEngine\MPC\Debug&quot;;&quot;$(MAC_SDKDIR)\Source\MACLib\Debug Unicode&quot;;&quot;$(ProjectDir)\MUSIKEngine\FMODEngine\lib&quot;;&quot;$(ProjectDir)\MUSIKEngine\MUSIKEngine\lib&quot;;&quot;$(SQLITEDIR)\Debug&quot;;&quot;$(WXDIR)\lib\vc_lib&quot;;&quot;$(FMODDIR)\api\lib&quot;;&quot;$(ProjectDir)/3rd-Party/taglib/Debug Unicode&quot;;..\MMShellHook\Debug;_Debug;&quot;$(ID3LIBDIR)\libprj&quot;"
 				IgnoreDefaultLibraryNames="LIBCMTD.LIB"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile="$(OutDir)/wxMusik.pdb"
@@ -778,6 +778,36 @@
 				</File>
 				<File
 					RelativePath=".\src\Classes\Library\MetaDataHandler.h">
+				</File>
+				<File
+					RelativePath=".\src\Classes\Library\mp3tech.c">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="0"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="0"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug Unicode|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="0"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release Unicode|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="0"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath=".\src\Classes\Library\mp3tech.h">
 				</File>
 				<File
 					RelativePath=".\src\Classes\MusikLibrary.cpp">

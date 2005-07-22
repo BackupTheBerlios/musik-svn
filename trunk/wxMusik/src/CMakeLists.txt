@@ -32,6 +32,8 @@ SET(MAIN_SRCS
         ./Classes/Library/CFMODInfo
         ./Classes/Library/APEInfo
         ./Classes/Library/MetaDataHandler
+        ./Classes/Library/mp3tech.c
+        
         ${wxMusik_SOURCE_DIR}/3rd-Party/Bitap/libbitap.c
         ${wxMusik_SOURCE_DIR}/3rd-Party/TagHelper/idtag.cpp
 		

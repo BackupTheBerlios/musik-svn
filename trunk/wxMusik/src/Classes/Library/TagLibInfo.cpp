@@ -2,6 +2,7 @@
 #include "wx/mstream.h"
 #include <string.h>
 #include "TagLibInfo.h"
+#include "mp3tech.h"
 #include "MusikUtils.h"
 #include <fileref.h>
 #include <tag.h>
@@ -16,42 +17,67 @@ CTagLibInfo::CTagLibInfo(void)
 }
 bool CTagLibInfo::ReadMetaData(CSongMetaData & MetaData) const
 {
-#ifdef __WXMSW__
-	TagLib::FileRef f(  MetaData.Filename.GetFullPath().c_str());
-#else
-	TagLib::FileRef f(TagLib::Filename((const char*)ConvFn2A(MetaData.Filename.GetFullPath())) );
-#endif
-	if(f.isNull())
-		return false;
-	TagLib::Tag *tag = f.tag();
-	if(tag) 
-	{		
-		MetaData.Title = tag->title().toCString(true);
-		MetaData.Artist  = tag->artist().toCString(true);
-		MetaData.Album = tag->album().toCString(true);
-        if(tag->year() > 0)
+    bool readAudioProperties = true;
+    TagLib::AudioProperties::ReadStyle audioPropertiesStyle = TagLib::AudioProperties::Average;
+    if(MetaData.eFormat == MUSIK_FORMAT_MP3)
+        readAudioProperties = false; // taglib audio properties reading is quity buggy for vbr files
+                                     //( without xing header) and some files with garbage at the start
+                                         // we use mp3tech.c code from mp3info 0.8.4 therefore
+    { // fileref scope
+    #ifdef __WXMSW__
+	    TagLib::FileRef f(  MetaData.Filename.GetFullPath().c_str(),readAudioProperties,audioPropertiesStyle);
+    #else
+	    TagLib::FileRef f(TagLib::Filename((const char*)ConvFn2A(MetaData.Filename.GetFullPath())) ,readAudioProperties,audioPropertiesStyle);
+    #endif
+	    if(f.isNull())
+		    return false;
+	    TagLib::Tag *tag = f.tag();
+	    if(tag) 
+	    {		
+		    MetaData.Title = tag->title().toCString(true);
+		    MetaData.Artist  = tag->artist().toCString(true);
+		    MetaData.Album = tag->album().toCString(true);
+            if(tag->year() > 0)
+            {
+                char szYear[20];
+                sprintf(szYear,"%d",tag->year());
+                MetaData.Year = szYear; 
+            }
+		    MetaData.Notes =  tag->comment().toCString(true);
+		    MetaData.nTracknum = tag->track();
+		    MetaData.Genre = tag->genre().toCString(true);
+	    }
+
+        TagLib::AudioProperties *properties = f.audioProperties();
+        if(properties) 
         {
-            char szYear[20];
-            sprintf(szYear,"%d",tag->year());
-            MetaData.Year = szYear; 
+            if(MetaData.eFormat == MUSIK_FORMAT_MP3)
+            {
+                MetaData.bVBR = static_cast<TagLib::MPEG::Properties*>(properties)->isVbr();
+            }
+            MetaData.nFilesize = f.file()->length();
+            MetaData.nDuration_ms = properties->length() * 1000;
+            MetaData.nBitrate = properties->bitrate();
         }
-		MetaData.Notes =  tag->comment().toCString(true);
-		MetaData.nTracknum = tag->track();
-		MetaData.Genre = tag->genre().toCString(true);
-	}
-
-
-	TagLib::AudioProperties *properties = f.audioProperties();
-	if(properties) 
-	{
-		if(MetaData.eFormat == MUSIK_FORMAT_MP3)
-		{
-			MetaData.bVBR = static_cast<TagLib::MPEG::Properties*>(properties)->isVbr();
-		}
-		MetaData.nFilesize = f.file()->length();
-		MetaData.nDuration_ms = properties->length() * 1000;
-		MetaData.nBitrate = properties->bitrate();
-	}
+    }
+    if(MetaData.eFormat == MUSIK_FORMAT_MP3)
+    {
+        mp3info infomp3;
+        memset(&infomp3,0,sizeof(infomp3));
+#ifdef __WXMSW__
+        infomp3.file = wxFopen(MetaData.Filename.GetFullPath(),wxT("rb"));
+#else
+        infomp3.file = wxFopen(MetaData.Filename.GetFullPath(),wxT("r"));
+#endif
+        if(infomp3.file == NULL)
+            return false;
+        get_mp3_info(&infomp3,SCAN_QUICK,1);
+        MetaData.nFilesize = infomp3.datasize;
+        MetaData.nDuration_ms = infomp3.seconds * 1000;
+        MetaData.nBitrate = infomp3.vbr_average;
+        MetaData.bVBR = infomp3.vbr > 0 ? true:false;
+        fclose(infomp3.file);
+    }
 	return true;
 }
 

@@ -227,11 +227,34 @@ void MPEG::Properties::read()
   // Xing header.
 
   else if(firstHeader.frameLength() > 0 && firstHeader.bitrate() > 0) {
-    int frames = (last - first) / firstHeader.frameLength() + 1;
 
-    d->length = int(float(firstHeader.frameLength() * frames) /
-                    float(firstHeader.bitrate() * 125) + 0.5);
-    d->bitrate = firstHeader.bitrate();
+    // check if files is vbr by reading some frames from the file.
+    const int samplesToreadForVBRCheck = 4;
+    int lastbitrate = firstHeader.bitrate();
+    for(int i = 0 ;i < samplesToreadForVBRCheck;i++)
+    {
+        long pos = (i + 1) * (last - first) / (samplesToreadForVBRCheck + 1)+first;
+        pos = d->file->nextFrameOffset(pos);
+        d->file->seek(pos);
+        Header vbrcheckHeader(d->file->readBlock(4));
+        if(vbrcheckHeader.bitrate() != lastbitrate)
+        {
+            d->isVbr = true;
+            break;
+        }
+    }
+    
+    if(d->isVbr)
+    {
+    }
+    else
+    {
+        int frames = (last - first) / firstHeader.frameLength() + 1;
+
+        d->length = int(float(firstHeader.frameLength() * frames) /
+            float(firstHeader.bitrate() * 125) + 0.5);
+        d->bitrate = firstHeader.bitrate();
+    }
   }
 
 

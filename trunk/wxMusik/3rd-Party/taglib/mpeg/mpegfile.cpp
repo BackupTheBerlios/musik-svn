@@ -440,7 +440,7 @@ void MPEG::File::setID3v2FrameFactory(const ID3v2::FrameFactory *factory)
 long MPEG::File::nextFrameOffset(long position)
 {
   // TODO: This will miss syncs spanning buffer read boundaries.
-
+  //(GAR solved TODO)
   seek(position);
   ByteVector buffer = readBlock(bufferSize());
   char firstByte = 0;	

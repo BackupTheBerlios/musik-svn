@@ -1,11 +1,17 @@
 //--- For compilers that support precompilation, includes "wx/wx.h". ---//
-#include "wx/wxprec.h"
+#include "myprec.h"
 #ifndef WX_PRECOMP
 	#include "wx/wx.h"
 #endif 
 #include "CMP3Info.h"
 #include "id3/misc_support.h"
 #include "id3/readers.h"
+
+#ifdef _DEBUG
+#pragma comment(lib,"id3libD")
+#else
+#pragma comment(lib,"id3lib")
+#endif
 
 CMP3Info::CMP3Info()
 {

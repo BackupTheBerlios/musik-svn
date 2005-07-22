@@ -30,7 +30,7 @@ FlatComponentsList=false
 ShowTasksTreeLines=true
 ChangesAssociations=false
 PrivilegesRequired=poweruser
-AppMutex={#MyAppName}
+AppMutex=.{#MyAppName}.single_instance_check
 InternalCompressLevel=ultra
 SolidCompression=true
 [Tasks]
@@ -81,7 +81,12 @@ Name: Radio_Channels_win9x; Description: {cm:Examples_of_Net_Radio_Channels}; Ty
 Name: Dynamic_Playlist_Examples_win9x; Description: {cm:Examples_of_Dynamic_Playlists}; Types: custom full; MinVersion: 4.0.950,0; OnlyBelowVersion: 0,4.0.1381
 [InstallDelete]
 Name: {app}\Musik.exe; Type: files
+[UninstallDelete]
+
 [Registry]
+
+[Messages]
+UninstalledAll=%1 was successfully removed from your computer. Click OK to decide what to do with your data files.
 
 [Languages]
 Name: en; MessagesFile: compiler:Default.isl
@@ -89,10 +94,10 @@ Name: de; MessagesFile: compiler:Languages\German.isl
 Name: fr; MessagesFile: compiler:Languages\French.isl
 Name: cs; MessagesFile: compiler:Languages\Czech.isl
 Name: nb; MessagesFile: compiler:Languages\Norwegian.isl
-Name: pt; MessagesFile: compiler:Languages\PortugueseStd.isl
-Name: es; MessagesFile: compiler:Languages\Spanish.isl
+Name: pt; MessagesFile: compiler:Languages\Portuguese.isl
+Name: es; MessagesFile: compiler:Languages\SpanishStd-5.1.0.isl
 Name: nl; MessagesFile: compiler:Languages\Dutch.isl
-Name: it; MessagesFile: compiler:Languages\Italian-3-4.2.1.isl
+Name: it; MessagesFile: compiler:Languages\Italian.isl
 Name: ru; MessagesFile: compiler:Languages\Russian.isl
 Name: pl; MessagesFile: compiler:Languages\Polish.isl
 
@@ -121,3 +126,16 @@ ru.Examples_of_Dynamic_Playlists=Examples of Dynamic Playlists
 ru.Examples_of_Net_Radio_Channels=Examples of Net Radio Channels
 pl.Examples_of_Dynamic_Playlists=Examples of Dynamic Playlists
 pl.Examples_of_Net_Radio_Channels=Examples of Net Radio Channels
+[Code]
+//when completing an uninstall
+//ask user about any files they may want to keep
+procedure DeInitializeUninstall();
+var
+  Success:  Boolean;
+begin;
+  if MsgBox('Delete all data files like the database, playlists etc. ?', mbConfirmation,MB_YESNO) = IDYES then begin;
+	Success:= DelTree(ExpandConstant('{app}')+'\.Musik',True,True,True);
+	Success:= DelTree(ExpandConstant('{userappdata}') + '\..\.Musik)',True,True,True);
+	MsgBox('Removal of data files is complete',mbInformation, MB_OK);
+  end;
+end;

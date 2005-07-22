@@ -701,7 +701,13 @@ void CMusikLibrary::Query( const wxString & query, wxArrayString & aReturn ,bool
 	aReturn.Alloc( GetSongCount() );// just a guess
 	}
 	wxCriticalSectionLocker lock( m_csDBAccess );
-	sqlite_exec(m_pDB, ConvQueryToMB( query ), &sqlite_callbackAddToStringArray, &aReturn, NULL);
+    char *errmsg = NULL;
+	sqlite_exec(m_pDB, ConvQueryToMB( query ), &sqlite_callbackAddToStringArray, &aReturn, &errmsg);
+    if(errmsg)
+    {
+        wxLogError(wxT("%s"),ConvA2W(errmsg).c_str());
+        sqlite_freemem(errmsg);
+    }
 }
 void CMusikLibrary::Query( const wxString & query, wxArrayInt & aReturn ,bool bClearArray )
 {
@@ -712,8 +718,15 @@ void CMusikLibrary::Query( const wxString & query, wxArrayInt & aReturn ,bool bC
 		//--- run the query ---//
 		aReturn.Alloc( GetSongCount() );
 	}
+    char *errmsg = NULL;
 	wxCriticalSectionLocker lock( m_csDBAccess );
-	sqlite_exec(m_pDB, ConvQueryToMB( query ), &sqlite_callbackAddToIntArray, &aReturn, NULL);
+	sqlite_exec(m_pDB, ConvQueryToMB( query ), &sqlite_callbackAddToIntArray, &aReturn, &errmsg);
+    if(errmsg)
+    {
+        wxLogError(wxT("%s"),ConvA2W(errmsg).c_str());
+        sqlite_freemem(errmsg);
+    }
+
 }
 
 int CMusikLibrary::sqlite_callbackAddToSongIdMap(void *args, int WXUNUSED(numCols), char **results, char ** WXUNUSED(columnNames))
@@ -791,7 +804,7 @@ void CMusikLibrary::SetSortOrderColumn( const PlaylistColumn & Column, bool desc
 	const wxString & sortstr = Column.DBName;
 	if ( Column.Type == PlaylistColumn::Textual )
 	{
-		m_sSortAllSongsQuery = wxT("select distinct songs.songid, UPPER(");
+		m_sSortAllSongsQuery = wxT("select distinct songid, UPPER(");
         if(wxGetApp().Prefs.bSortArtistWithoutPrefix && (Column.SortOrder == PlaylistColumn::SortNoCaseNoPrefix) )
 		{
 			m_sSortAllSongsQuery += wxT("REMPREFIX(");
@@ -806,7 +819,7 @@ void CMusikLibrary::SetSortOrderColumn( const PlaylistColumn & Column, bool desc
 		m_sSortAllSongsQuery += wxT(" from songs ");
 	}
 	else
-		m_sSortAllSongsQuery = wxT("select distinct songs.songid from songs ");
+		m_sSortAllSongsQuery = wxT("select distinct songid from songs ");
 
 	m_sSortAllSongsQuery += wxT("%s"); // add placeholder for possible where clause
 
@@ -904,18 +917,22 @@ void CMusikLibrary::QuerySongsWhere( const wxString & queryWhere, MusikSongIdArr
 	}
 	else
 	{
-		query = wxT("select distinct songs.songid from songs ");
+		query = wxT("select distinct songid from songs ");
 		query += myqueryWhere; 
 		query += wxT(";");		
 	}
-	
-	const wxCharBuffer pQuery = ConvQueryToMB(query);
 	aReturn.Alloc(GetSongCount());
+    char *errmsg = NULL;
 	{
 		// keep lock as short as possible by using {} scope
 		wxCriticalSectionLocker lock( m_csDBAccess );
-		sqlite_exec(m_pDB, pQuery, &sqlite_callbackAddToSongIdArray, &aReturn, NULL);
+		sqlite_exec(m_pDB, ConvQueryToMB(query), &sqlite_callbackAddToSongIdArray, &aReturn, &errmsg);
 	}
+    if(errmsg)
+    {
+        wxLogError(wxT("%s"),ConvA2W(errmsg).c_str());
+        sqlite_freemem(errmsg);
+    }
 
 	aReturn.Shrink();
 	return;
@@ -926,26 +943,37 @@ void CMusikLibrary::QuerySongsFrom( const wxString & queryFrom, MusikSongIdArray
 {
 	aReturn.Clear();
 	//--- run query ---//
-	wxString query;
-	wxString myqueryFrom = wxT(" FROM ") + queryFrom;
+	wxString queryTail(queryFrom);
+    bool bDistinct = true;
+    bDistinct = !queryFrom.StartsWith(wxT("NODISTINCT "),&queryTail);
+	wxString myqueryFrom = wxT(" FROM ") + queryTail;
+
+    wxString query;
 	if( bSorted && !m_sSortAllSongsQuery.IsEmpty() )
 	{
-		query = wxString::Format(  m_sSortAllSongsQuery , (const wxChar *)myqueryFrom );
+		query = wxString::Format(  m_sSortAllSongsQuery , myqueryFrom.c_str() );
 	}
 	else
 	{
-		query = wxT("select distinct songs.songid ");
+		query = wxT("select");
+        if(bDistinct)
+            query += wxT(" distinct");
+        query += wxT(" songid ");
 		query += myqueryFrom; 
 		query += wxT(";");		
 	}
-
-	const wxCharBuffer pQuery = ConvQueryToMB(query);
 	aReturn.Alloc(GetSongCount());
+    char *errmsg = NULL;
 	{
 		// keep lock as short as possible by using {} scope
 		wxCriticalSectionLocker lock( m_csDBAccess );
-		sqlite_exec(m_pDB, pQuery, &sqlite_callbackAddToSongIdArray, &aReturn, NULL);
+		sqlite_exec(m_pDB, ConvQueryToMB(query), &sqlite_callbackAddToSongIdArray, &aReturn, &errmsg);
 	}
+    if(errmsg)
+    {
+        wxLogError(wxT("%s"),ConvA2W(errmsg).c_str());
+        sqlite_freemem(errmsg);
+    }
 
 	aReturn.Shrink();
 	return;
@@ -1041,7 +1069,11 @@ bool CMusikLibrary::QuerySongFromSongid( int songid, CMusikSong *pSong )
 	//--- close up ---//
 	sqlite_finalize( pVM, &errmsg );
 	sqlite_freemem( query );
-	sqlite_freemem(errmsg);
+    if(errmsg)
+    {
+        wxLogError(wxT("%s"),ConvA2W(errmsg).c_str());
+        sqlite_freemem(errmsg);
+    }
 
 	return bFoundSong;
 }
@@ -1111,7 +1143,10 @@ int CMusikLibrary::QueryCount(const char * szQuery )
 
 	//--- close up ---//
 	sqlite_finalize( pVM, &errmsg );
-	sqlite_freemem(errmsg);
+    if(errmsg)
+    {
+        sqlite_freemem(errmsg);
+    }
 	return result;
 }
 

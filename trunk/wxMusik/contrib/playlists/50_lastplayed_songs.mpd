@@ -1,1 +1,1 @@
-FROM songhistory join songs on songs.songid=songhistory.songid order by songhistory.date_played desc limit 50
+FROM NODISTINCT (select songhistory.songid as shid ,date_played from songhistory) join songs on songs.songid=shid  order by date_played desc limit 50

@@ -435,8 +435,8 @@ MusikFrame::MusikFrame()
 
 MusikFrame::~MusikFrame()
 {
-    wxGetApp().Player.Disconnect(wxEVT_MUSIKPLAYER_SONG_CHANGED,MusikPlayerEventHandler(MusikFrame::OnSongChanged),NULL,this);
-    wxGetApp().Player.Disconnect(wxEVT_MUSIKPLAYER_PLAY_STOP,MusikPlayerEventHandler(MusikFrame::OnPlayStop),NULL,this);
+    wxGetApp().Player.Disconnect(wxID_ANY,wxEVT_MUSIKPLAYER_SONG_CHANGED,MusikPlayerEventHandler(MusikFrame::OnSongChanged),NULL,this);
+    wxGetApp().Player.Disconnect(wxID_ANY,wxEVT_MUSIKPLAYER_PLAY_STOP,MusikPlayerEventHandler(MusikFrame::OnPlayStop),NULL,this);
     //-------------------------------------------------//
     //--- clear up the image lists					---//
     //-------------------------------------------------//

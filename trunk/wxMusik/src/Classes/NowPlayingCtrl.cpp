@@ -299,11 +299,11 @@ CNowPlayingCtrl::~CNowPlayingCtrl()
 	//--- stop timer ---//
 	KillTimer();
 
-    m_MusikPlayer.Disconnect(wxEVT_MUSIKPLAYER_SONG_CHANGED,MusikPlayerEventHandler(CNowPlayingCtrl::OnSongChanged),NULL,this);
-    m_MusikPlayer.Disconnect(wxEVT_MUSIKPLAYER_PLAY_START,MusikPlayerEventHandler(CNowPlayingCtrl::OnPlayStart),NULL,this);
-    m_MusikPlayer.Disconnect(wxEVT_MUSIKPLAYER_PLAY_STOP,MusikPlayerEventHandler(CNowPlayingCtrl::OnPlayStop),NULL,this);
-    m_MusikPlayer.Disconnect(wxEVT_MUSIKPLAYER_PLAY_PAUSE,MusikPlayerEventHandler(CNowPlayingCtrl::OnPlayPause),NULL,this);
-    m_MusikPlayer.Disconnect(wxEVT_MUSIKPLAYER_PLAY_RESUME,MusikPlayerEventHandler(CNowPlayingCtrl::OnPlayResume),NULL,this);
+    m_MusikPlayer.Disconnect(wxID_ANY,wxEVT_MUSIKPLAYER_SONG_CHANGED,MusikPlayerEventHandler(CNowPlayingCtrl::OnSongChanged),NULL,this);
+    m_MusikPlayer.Disconnect(wxID_ANY,wxEVT_MUSIKPLAYER_PLAY_START,MusikPlayerEventHandler(CNowPlayingCtrl::OnPlayStart),NULL,this);
+    m_MusikPlayer.Disconnect(wxID_ANY,wxEVT_MUSIKPLAYER_PLAY_STOP,MusikPlayerEventHandler(CNowPlayingCtrl::OnPlayStop),NULL,this);
+    m_MusikPlayer.Disconnect(wxID_ANY,wxEVT_MUSIKPLAYER_PLAY_PAUSE,MusikPlayerEventHandler(CNowPlayingCtrl::OnPlayPause),NULL,this);
+    m_MusikPlayer.Disconnect(wxID_ANY,wxEVT_MUSIKPLAYER_PLAY_RESUME,MusikPlayerEventHandler(CNowPlayingCtrl::OnPlayResume),NULL,this);
 
 	#ifdef __WXMSW__
     btnPrev->PopEventHandler();

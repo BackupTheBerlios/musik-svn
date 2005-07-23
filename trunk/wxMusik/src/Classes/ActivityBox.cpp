@@ -663,7 +663,8 @@ void CActivityBox::GetSelectedSongs( MusikSongIdArray& array )
 	{
 	  wxArrayString list;
 	  GetSelected( list );
-	  wxGetApp().Library.GetSongs( list, g_PlaylistColumn[Type()], array );
+      if(list.GetCount())
+	    wxGetApp().Library.GetSongs( list, g_PlaylistColumn[Type()], array );
 	  return;
 	}
  

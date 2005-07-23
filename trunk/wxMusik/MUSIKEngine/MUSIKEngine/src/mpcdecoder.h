@@ -98,11 +98,12 @@ private:
 	friend class MUSIKEngine;
 };
 #else //MUSIKENGINE_USE_LIBMUSEPACK_103
-#ifdef MUSIKENGINE_USE_LIBMPCDEC_12
+#ifdef MUSIKENGINE_USE_LIBMPCDEC_12mpc_bool_t
 #include "mpcdec/mpcdec.h"
 #endif
 #ifdef MUSIKENGINE_USE_LIBMUSEPACK_110
 #include "musepack/musepack.h"
+#define mpc_bool_t BOOL
 #endif
 class MUSIKMPCDecoder: public MUSIKDecoder
 {

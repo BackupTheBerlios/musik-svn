@@ -211,31 +211,33 @@ bool MusikApp::OnInit()
 #endif
 #endif
 #endif
-
-	const wxLanguageInfo * pLangInfo = wxLocale::FindLanguageInfo(Prefs.sLocale);
-	if(pLangInfo == NULL)
-		m_locale.Init(wxLANGUAGE_DEFAULT);
-	else
-		m_locale.Init(pLangInfo->Language);
-	m_locale.AddCatalog(MUSIKAPPNAME);
-
-	static const wxCmdLineEntryDesc cmdLineDesc[] =
-	{
-		{ wxCMD_LINE_PARAM,  NULL, NULL, wxT("mp3/ogg file"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_MULTIPLE | wxCMD_LINE_PARAM_OPTIONAL},
-		{ wxCMD_LINE_NONE }
-	};
-
-	wxCmdLineParser parser(argc, argv);
-	parser.SetDesc(cmdLineDesc);
-
-	parser.Parse(false);
-
 	wxArrayString arrParams;
-	for (size_t i = 0; i <parser.GetParamCount(); i++)
 	{
-		arrParams.Add(parser.GetParam(i));
+		wxLogNull lognull;
+		const wxLanguageInfo * pLangInfo = wxLocale::FindLanguageInfo(Prefs.sLocale);
+		if(pLangInfo == NULL)
+			m_locale.Init(wxLANGUAGE_DEFAULT);
+		else
+			m_locale.Init(pLangInfo->Language);
+		m_locale.AddCatalog(MUSIKAPPNAME);
+	
+		static const wxCmdLineEntryDesc cmdLineDesc[] =
+		{
+			{ wxCMD_LINE_PARAM,  NULL, NULL, wxT("mp3/ogg file"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_MULTIPLE | wxCMD_LINE_PARAM_OPTIONAL},
+			{ wxCMD_LINE_NONE }
+		};
+	
+		wxCmdLineParser parser(argc, argv);
+		parser.SetDesc(cmdLineDesc);
+	
+		parser.Parse(false);
+	
+		for (size_t i = 0; i <parser.GetParamCount(); i++)
+		{
+			arrParams.Add(parser.GetParam(i));
+		}
+		m_pSingleInstanceChecker = new wxSingleInstanceChecker(wxString(wxT(".")) << GetAppName() << wxT(".single_instance_check"));
 	}
-	m_pSingleInstanceChecker = new wxSingleInstanceChecker(wxString(wxT(".")) << GetAppName() << wxT(".single_instance_check"));
 	if ( m_pSingleInstanceChecker->IsAnotherRunning() )
 	{
 		MusikAppClient client;

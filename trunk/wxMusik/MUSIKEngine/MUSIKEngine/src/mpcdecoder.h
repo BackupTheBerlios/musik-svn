@@ -98,7 +98,7 @@ private:
 	friend class MUSIKEngine;
 };
 #else //MUSIKENGINE_USE_LIBMUSEPACK_103
-#ifdef MUSIKENGINE_USE_LIBMPCDEC_12mpc_bool_t
+#ifdef MUSIKENGINE_USE_LIBMPCDEC_12
 #include "mpcdec/mpcdec.h"
 #endif
 #ifdef MUSIKENGINE_USE_LIBMUSEPACK_110

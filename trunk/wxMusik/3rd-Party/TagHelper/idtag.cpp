@@ -109,6 +109,7 @@ const char *SchemeList[] = {
     "%L/%N_%A - %T",
     "%A_%L/%A_%T",
     "%L/%A_%T",
+    "%Y - %L/%A - %N - %T",
     "(%Y) %L/%A - %L - [%N] - %T",
     "(%Y) %L/%A - %L - (%N) - %T",
     "(%Y) %L/%A - %L - %N - %T",

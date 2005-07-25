@@ -69,7 +69,7 @@ END_EVENT_TABLE()
 //--- on startup to add new files ---//
 //-----------------------------------//
 MusikLibraryDialog::MusikLibraryDialog( wxWindow* pParent ,const wxArrayString &arrFilenamesToScan,unsigned long flags)
-	: wxDialog( pParent, -1, _("Searching for and Adding New Files"), wxDefaultPosition, wxSize( 600, 48 ))
+	: wxDialog( pParent, -1, _("Searching for and Adding New Files"), wxDefaultPosition, wxSize( 500, 48 ))
 {
 	m_arrScannedFiles = arrFilenamesToScan;
 	//------------------------------//
@@ -109,7 +109,7 @@ MusikLibraryDialog::MusikLibraryDialog( wxWindow* pParent ,const wxArrayString &
 //--- or at program's first run ---//
 //---------------------------------//
 MusikLibraryDialog::MusikLibraryDialog( wxWindow* pParent, const wxPoint &pos, const wxSize & ) 
-	: wxDialog( pParent, -1, wxString(MUSIKAPPNAME) + _(" Library Setup"), pos, wxSize( 600, 400 ), wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER | wxCLIP_CHILDREN )
+	: wxDialog( pParent, -1, wxString(MUSIKAPPNAME) + _(" Library Setup"), pos, wxSize( 500, 300 ), wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER | wxCLIP_CHILDREN )
 {
 
 	//--------------------//
@@ -163,8 +163,8 @@ void MusikLibraryDialog::CreateControls()
 	//----------------------//	
 	lcPaths  = new wxListCtrl( this, MUSIK_PATHS_LIST, wxPoint( 0, 0 ), wxSize( 0, 0 ), wxLC_REPORT | wxSIMPLE_BORDER );
 	lcPaths->InsertColumn( 0, _("Path"), wxLIST_FORMAT_LEFT, -1 );
-	lcPaths->InsertColumn( 1, _("Total"), wxLIST_FORMAT_RIGHT, -1 );
-	lcPaths->InsertColumn( 2, _("New"), wxLIST_FORMAT_RIGHT, -1 );
+	lcPaths->InsertColumn( 1, _("Total"), wxLIST_FORMAT_RIGHT, 60 );
+	lcPaths->InsertColumn( 2, _("New"), wxLIST_FORMAT_RIGHT, 60 );
 
 
 	wxButton *btnAddDir  =	new wxButton( this, MUSIK_PATHS_MENU_ADD,_("&Add") );
@@ -188,14 +188,11 @@ void MusikLibraryDialog::CreateControls()
 	wxButton *btnPURGE_LIBRARY   =	new wxButton( this, MUSIK_PATHS_PURGE_LIBRARY, _("Purge &Missing Songs") );
 	wxButton *btnCLEAR_LIBRARY   =	new wxButton( this, MUSIK_PATHS_CLEAR_LIBRARY, _("Clear &Library") );
 
-	hsLibraryButtons = new wxGridSizer(2,3,5,5);
+	hsLibraryButtons = new wxGridSizer(2,2,5,5);
 	hsLibraryButtons->Add(btnUPDATE_LIBRARY,0,wxEXPAND);
 	hsLibraryButtons->Add(btnREBUILD_LIBRARY,0,wxEXPAND);
-	hsLibraryButtons->Add(chkAllowTagGuessing,0,wxALIGN_CENTER_VERTICAL);
-
 	hsLibraryButtons->Add(btnPURGE_LIBRARY,0,wxEXPAND);
 	hsLibraryButtons->Add(btnCLEAR_LIBRARY,0,wxEXPAND);
-	hsLibraryButtons->Add(-1,-1,0,wxEXPAND);
 
 	//--------------------//
 	//--- progress bar ---//
@@ -221,6 +218,7 @@ void MusikLibraryDialog::CreateControls()
 	//-----------------//
 	vsTopSizer = new wxBoxSizer( wxVERTICAL );
 	vsTopSizer->Add( sizerPaths, 1, wxEXPAND | wxALL, 2 );
+    vsTopSizer->Add(chkAllowTagGuessing,0,wxALIGN_CENTER_VERTICAL|wxALL,4);
 	vsTopSizer->Add(hsLibraryButtons,0,wxALL,2);
 	vsTopSizer->Add( gProgress, 0, wxEXPAND | wxALL, 2 );
 	vsTopSizer->Add( hsSysButtons, 0, wxEXPAND | wxALL, 2 );

@@ -167,7 +167,8 @@ bool MusikTaskBarIcon::ShowBalloonInfo(const wxString &sTitle,const wxString & s
 void MusikTaskBarIcon::RestoreFrame()
 {
 	m_pFrame->Show(TRUE);
-    m_pFrame->Restore();
+    if(m_pFrame->IsIconized())
+        m_pFrame->Restore();
 	m_pFrame->Raise();
 	//RemoveIcon();
 }

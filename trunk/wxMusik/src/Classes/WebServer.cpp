@@ -179,45 +179,38 @@ void CMusikWebServer::ProcessRequest(const wxString &reqstr)
         server_version.sprintf( wxT( "Server: %s\r\n" ), MUSIKSERV_VERSION );
         WriteLine( server_version );
         WriteLine( wxT("Content-Type: text/html; charset=UTF8\r\n") );
+        WriteLine( wxT("Pragma: no-cache\r\n") );
         WriteLine( wxT("\r\n") );
 
-        WriteLine( wxT( "<HTML><HEAD>\r\n") );
-        WriteLine( wxString(wxT( "<TITLE>")) << MUSIKAPPNAME_VERSION << wxT("</TITLE>\r\n" ) );
-        WriteLine(wxT("<meta http-equiv=Refresh content=\"5\">\r\n"));
-        WriteLine(wxT("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF8\">"));
-		WriteLine( wxT("</HEAD><body>\r\n") );
         bool bIsPlaying = m_pPlayer->IsPlaying();
         bool bIsPaused = m_pPlayer->IsPaused();
         std::auto_ptr<CMusikSong> pSong = m_pPlayer->GetCurrentSongid().Song();
 
-        WriteLine(wxT("<table border=\"0\" cellspacing=\"0\" cellpadding=\"2\" >\r\n"));
-        WriteLine(wxT("<tr><td>"));
-        WriteLine(wxT("<FORM ACTION=\"/rate\"> Rate this song: <P>"));
+        WriteLine( wxT( "<HTML><HEAD>\r\n") );
+        WriteLine( wxString(wxT( "<TITLE>")) << MUSIKAPPNAME_VERSION << wxT("</TITLE>\r\n" ) );
+        if(bIsPlaying)
+            WriteLine(wxT("<meta http-equiv=Refresh content=\"5\">\r\n"));
+        WriteLine(wxT("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF8\">"));
+		WriteLine( wxT("</HEAD><body>\r\n") );
 
-        for(int i = MUSIK_MIN_RATING; i <= MUSIK_MAX_RATING; i ++)
-        {
-
-            WriteLine(wxString(wxT("<INPUT TYPE=RADIO NAME=\"rating\" VALUE=\"")) << i << wxT("\" ")); 
-            if(pSong->Rating == i)
-                WriteLine(wxT(" CHECKED=\"true\" "));
-            WriteLine(wxString(wxT("> ")) << i << wxT("<BR>\r\n")); 
-        }
-
-
-        WriteLine(wxT("<P> <INPUT TYPE=SUBMIT VALUE=\"submit\"></FORM>"));
-        WriteLine(wxT("</td><td>"));
+        WriteLine(wxT("<table border=\"0\" cellspacing=\"10\" cellpadding=\"2\" >\r\n"));
+        WriteLine(wxT("<tr>"));
+        WriteLine(wxT("<td>"));
 
         WriteLine(wxT("<table border=\"0\" cellspacing=\"0\" cellpadding=\"2\" >\r\n"));
 
         WriteLine(wxT("<tr><td>\r\n"));
-        WriteLine( wxString(_("Title"))<< wxT(":</td><td>")  << (pSong.get()!=NULL ? ConvFromUTF8(pSong->MetaData.Title):_( "<unknown>")));
+        WriteLine( wxString(_("Title"))<< wxT(":</td><td>")  << (pSong.get()!=NULL ? ConvFromUTF8(pSong->MetaData.Title):wxString(_( "&lt;unknown&gt;"))));
         WriteLine(wxT("</td></tr>\r\n"));
 
         WriteLine(wxT("<tr><td>\r\n"));
-        WriteLine( wxString(_("Artist"))<< wxT(":</td><td>")  << (pSong.get()!=NULL ? ConvFromUTF8(pSong->MetaData.Artist): _( "<unknown>")));
+        WriteLine( wxString(_("Artist"))<< wxT(":</td><td>")  << (pSong.get()!=NULL ? ConvFromUTF8(pSong->MetaData.Artist): wxString(_( "&lt;unknown&gt;"))));
         WriteLine(wxT("</td></tr>\r\n"));
         WriteLine(wxT("<tr><td>\r\n"));
-        WriteLine( wxString(_("Album"))<< wxT(":</td><td>") << (pSong.get()!=NULL ? ConvFromUTF8(pSong->MetaData.Album): _( "<unknown>")) );
+        WriteLine( wxString(_("Album"))<< wxT(":</td><td>") << (pSong.get()!=NULL ? ConvFromUTF8(pSong->MetaData.Album): wxString(_( "&lt;unknown&gt;"))) );
+        WriteLine(wxT("</td></tr>\r\n"));
+        WriteLine(wxT("<tr><td>\r\n"));
+        WriteLine( wxString(_("Rating"))<< wxT(":</td><td>") << (pSong.get()!=NULL ? pSong->Rating : 0) );
         WriteLine(wxT("</td></tr>\r\n"));
         WriteLine(wxT("<tr><td>\r\n"));
         WriteLine( wxString(_("Time"))<< wxT(":</td><td>") << m_pPlayer->GetTimeStr() );
@@ -265,6 +258,20 @@ void CMusikWebServer::ProcessRequest(const wxString &reqstr)
         WriteLine(wxT("</td>\r\n"));
         WriteLine(wxT("</tr></table>\r\n"));
 
+        WriteLine(wxT("</td><td align=\"bottom\">"));
+        WriteLine(wxT("<FORM ACTION=\"/rate\"> Rate this song: &nbsp;"));
+        WriteLine(wxT("<select name=\"rating\" size=\"1\">\r\n"));
+        for(int i = MUSIK_MIN_RATING; i <= MUSIK_MAX_RATING; i ++)
+        {
+
+            WriteLine(wxString(wxT("<option value=\"")) << i << wxT("\" ")); 
+            if(pSong->Rating == i)
+                WriteLine(wxT(" selected "));
+            WriteLine(wxString(wxT("> ")) << i << wxT("</option>\r\n")); 
+        }
+        WriteLine(wxT("</select>"));
+
+        WriteLine(wxT("<P> <INPUT TYPE=SUBMIT VALUE=\"rate\"></FORM>"));
         WriteLine(wxT("</td>\r\n"));
         WriteLine(wxT("</tr></table>\r\n"));
 

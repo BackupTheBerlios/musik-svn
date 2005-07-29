@@ -1183,6 +1183,8 @@ void CMusikPlayer::_ChooseRandomAlbumSongs(int nAlbumsToAdd,MusikSongIdArray &ar
 
 void CMusikPlayer::SetVolume(int vol )
 {
+    if(vol > 255)
+        vol = 255;
     if(vol >= 0)
         wxGetApp().Prefs.nSndVolume = vol;
     if ( g_FaderThread && g_FaderThread->IsCrossfaderActive() )

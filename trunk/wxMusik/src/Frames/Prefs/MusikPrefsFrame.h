@@ -36,7 +36,7 @@ public:
 protected:
     void SelectFirstPanel();
     void AddPanel( const wxTreeItemId &tidParent,PrefPanel * panel);
-
+    bool ExpandAll(const wxTreeItemId & root);
     //-------------------------//
 	//--- utility functions ---//
 	//-------------------------//

@@ -430,9 +430,12 @@ inline void InternalErrorMessageBox( const wxString &sText)
 inline wxString MusikGetStaticDataPath()
 {
     wxString sDataPath(wxT("data/"));
-#if wxCHECK_VERSION(2,5,4)
+#if wxCHECK_VERSION(2,5,4) && !defined(__WXMAC__)
     wxStandardPaths stdpaths;
-    return stdpaths.GetDataDir()+ wxT("/") + sDataPath;
+    wxString theDataPath(stdpaths.GetDataDir()+ wxT("/") + sDataPath );
+    if(!wxDirExists(theDataPath))
+        theDataPath = sDataPath;
+    return theDataPath;
 #else
 
 #ifdef __WXMSW__

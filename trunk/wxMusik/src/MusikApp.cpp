@@ -321,7 +321,7 @@ bool MusikApp::OnInit()
 
 	//--- start webserver if necessary ---//
 	if ( Prefs.bWebServerEnable )
-		WebServer.Start();
+		WebServer.Start(wxGetApp().Prefs.nWebServerPort);
 
 	//--- autostart stuff ---//
 	if ( Prefs.bFirstRun )

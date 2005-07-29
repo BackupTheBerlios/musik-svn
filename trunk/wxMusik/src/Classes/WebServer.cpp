@@ -25,16 +25,23 @@ CMusikWebServer::CMusikWebServer(CMusikPlayer * pPlayer)
 :m_pPlayer(pPlayer)
 {
 	m_bRunning = false;
+    m_nPort = 0;
 }
 
 CMusikWebServer::~CMusikWebServer()
 {
+    Stop();
 }
 
-void CMusikWebServer::Start()
+void CMusikWebServer::Start( int nPort)
 {
+    if(m_bRunning && nPort == m_nPort)
+        return;
+    else if(m_bRunning)
+        Stop();
+    m_nPort = nPort;
 	wxIPV4address addr;
-    addr.Service( wxGetApp().Prefs.nWebServerPort );
+    addr.Service( m_nPort );
 
 	pServer = new wxSocketServer( addr );
 
@@ -107,54 +114,159 @@ void CMusikWebServer::Listen()
 // looks at the request string and executes the right command
 // also outputs a result to the browser
 // TODO: output something other than just echoing the request
-void CMusikWebServer::ProcessRequest(wxString reqstr)
+void CMusikWebServer::ProcessRequest(const wxString &reqstr)
 {
+
 	if ( reqstr.Left( 3 ) == wxT("GET") )
 	{
-		if ( reqstr.Find( wxT("next.mkc") ) > -1 )
+        wxString sRest;
+        wxString sCommand = reqstr.AfterFirst('?');
+		if ( sCommand.Find( wxT("next.mkc") ) > -1 )
 		{
 			m_pPlayer->NextSong();
 		}
 
-		if ( reqstr.Find( wxT("previous.mkc") ) > -1 )
+		else if ( sCommand.Find( wxT("previous.mkc") ) > -1 )
 		{
 			m_pPlayer->PrevSong();
 		}
 
-		if ( reqstr.Find( wxT("pause.mkc") ) > -1 )
+		else if ( sCommand.Find( wxT("pause.mkc") ) > -1 )
 		{
 			m_pPlayer->Pause();
 		}
 
-		if ( reqstr.Find( wxT("stop.mkc") ) > -1 )
+		else if ( sCommand.Find( wxT("stop.mkc") ) > -1 )
 		{
 			m_pPlayer->Stop();
 		}
 
-		if ( reqstr.Find( wxT("play.mkc") ) > -1 )
+		else if ( sCommand.Find( wxT("play.mkc") ) > -1 )
 		{
 			m_pPlayer->PlayPause();
 		}
 		
-		if ( reqstr.Find( wxT("resume.mkc" ) ) > -1 )
+		else if ( sCommand.Find( wxT("resume.mkc" ) ) > -1 )
 		{
 			m_pPlayer->Resume();
 		}
+        else if ( sCommand.Find( wxT("volup.mkc" ) ) > -1 )
+        {
+            m_pPlayer->SetVolume(wxGetApp().Prefs.nSndVolume + 5);
+        }
+        else if ( sCommand.Find( wxT("voldown.mkc" ) ) > -1 )
+        {
+            int newvol = wxMax(0,wxGetApp().Prefs.nSndVolume - 5);
+            m_pPlayer->SetVolume( newvol );
+        } 
+        else if( sCommand.StartsWith( wxT("rating=" ) ,&sRest))
+        {
+            wxGetApp().Library.SetRating(m_pPlayer->GetCurrentSongid(),wxStringToInt(sRest));    
+        }
+        if(!sCommand.IsEmpty())
+        {
+            WriteLine( wxT("HTTP/1.1 307 Temporary Redirect\r\n") );
+            wxString server_version;
+            server_version.sprintf( wxT( "Server: %s\r\n" ), MUSIKSERV_VERSION );
+            WriteLine( server_version );
+            WriteLine( wxT("Location: /\r\n"));
+            WriteLine( wxT("\r\n") );
 
-		wxString server_version;
-		wxString server_title;
+            return;
+        }
+        WriteLine( wxT("HTTP/1.1 200 OK\r\n") );
+        wxString server_version;
+        server_version.sprintf( wxT( "Server: %s\r\n" ), MUSIKSERV_VERSION );
+        WriteLine( server_version );
+        WriteLine( wxT("Content-Type: text/html; charset=UTF8\r\n") );
+        WriteLine( wxT("\r\n") );
 
-		server_version.sprintf( wxT( "Server: %s\r\n" ), MUSIKSERV_VERSION );
-		server_title.sprintf( wxT( "<HTML><HEAD><TITLE>%s</TITLE></HEAD>\r\n" ), MUSIKAPPNAME_VERSION );
+        WriteLine( wxT( "<HTML><HEAD>\r\n") );
+        WriteLine( wxString(wxT( "<TITLE>")) << MUSIKAPPNAME_VERSION << wxT("</TITLE>\r\n" ) );
+        WriteLine(wxT("<meta http-equiv=Refresh content=\"5\">\r\n"));
+        WriteLine(wxT("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF8\">"));
+		WriteLine( wxT("</HEAD><body>\r\n") );
+        bool bIsPlaying = m_pPlayer->IsPlaying();
+        bool bIsPaused = m_pPlayer->IsPaused();
+        std::auto_ptr<CMusikSong> pSong = m_pPlayer->GetCurrentSongid().Song();
 
-		WriteLine( wxT("HTTP/1.1 200 OK\r\n") );
-		WriteLine( server_version );
-		WriteLine( wxT("Content-Type: text/html; charset=utf8\r\n") );
-		WriteLine( wxT("\r\n") );
-		WriteLine( server_title );
-		WriteLine( wxT("<body>\r\n") );
+        WriteLine(wxT("<table border=\"0\" cellspacing=\"0\" cellpadding=\"2\" >\r\n"));
+        WriteLine(wxT("<tr><td>"));
+        WriteLine(wxT("<FORM ACTION=\"/rate\"> Rate this song: <P>"));
 
-		WriteLine( reqstr );
+        for(int i = MUSIK_MIN_RATING; i <= MUSIK_MAX_RATING; i ++)
+        {
+
+            WriteLine(wxString(wxT("<INPUT TYPE=RADIO NAME=\"rating\" VALUE=\"")) << i << wxT("\" ")); 
+            if(pSong->Rating == i)
+                WriteLine(wxT(" CHECKED=\"true\" "));
+            WriteLine(wxString(wxT("> ")) << i << wxT("<BR>\r\n")); 
+        }
+
+
+        WriteLine(wxT("<P> <INPUT TYPE=SUBMIT VALUE=\"submit\"></FORM>"));
+        WriteLine(wxT("</td><td>"));
+
+        WriteLine(wxT("<table border=\"0\" cellspacing=\"0\" cellpadding=\"2\" >\r\n"));
+
+        WriteLine(wxT("<tr><td>\r\n"));
+        WriteLine( wxString(_("Title"))<< wxT(":</td><td>")  << (pSong.get()!=NULL ? ConvFromUTF8(pSong->MetaData.Title):_( "<unknown>")));
+        WriteLine(wxT("</td></tr>\r\n"));
+
+        WriteLine(wxT("<tr><td>\r\n"));
+        WriteLine( wxString(_("Artist"))<< wxT(":</td><td>")  << (pSong.get()!=NULL ? ConvFromUTF8(pSong->MetaData.Artist): _( "<unknown>")));
+        WriteLine(wxT("</td></tr>\r\n"));
+        WriteLine(wxT("<tr><td>\r\n"));
+        WriteLine( wxString(_("Album"))<< wxT(":</td><td>") << (pSong.get()!=NULL ? ConvFromUTF8(pSong->MetaData.Album): _( "<unknown>")) );
+        WriteLine(wxT("</td></tr>\r\n"));
+        WriteLine(wxT("<tr><td>\r\n"));
+        WriteLine( wxString(_("Time"))<< wxT(":</td><td>") << m_pPlayer->GetTimeStr() );
+        WriteLine(wxT("</td></tr>\r\n"));
+        WriteLine(wxT("</table>\r\n"));
+        WriteLine(wxT("<table border=\"0\" cellspacing=\"0\" cellpadding=\"2\" >\r\n"));
+        WriteLine(wxT("<tr>\r\n"));
+        if(!bIsPlaying)
+        {
+            WriteLine(wxT("<td>\r\n"));
+            WriteLine(wxString(wxT("<a href=\"?play.mkc\" >")) << _("Play") <<wxT("</a>"));
+            WriteLine(wxT("</td>\r\n"));
+        }
+        WriteLine(wxT("<td>\r\n"));
+        if(bIsPaused)
+            WriteLine(wxString(wxT("<a href=\"?resume.mkc\" >")) << _("Resume") <<wxT("</a>"));
+        else
+            WriteLine(wxString(wxT("<a href=\"?pause.mkc\" >")) << _("Pause") <<wxT("</a>"));
+        WriteLine(wxT("</td>\r\n"));
+        if(bIsPlaying)
+        {
+            WriteLine(wxT("<td>\r\n"));
+            WriteLine(wxString(wxT("<a href=\"?stop.mkc\" >")) << _("Stop") <<wxT("</a>"));
+            WriteLine(wxT("</td>\r\n"));
+        }
+        WriteLine(wxT("<td>\r\n"));
+        WriteLine(wxString(wxT("<a href=\"?previous.mkc\" >")) << _("Previous") <<wxT("</a>"));
+        WriteLine(wxT("</td>\r\n"));
+        WriteLine(wxT("<td>\r\n"));
+        WriteLine(wxString(wxT("<a href=\"?next.mkc\" >")) << _("Next") <<wxT("</a>"));
+        WriteLine(wxT("</td>\r\n"));
+
+        WriteLine(wxT("</tr></table>\r\n"));
+
+        WriteLine(wxT("<table border=\"0\" cellspacing=\"0\" cellpadding=\"2\" >\r\n"));
+        WriteLine(wxT("<tr>\r\n"));
+        WriteLine(wxT("<td>\r\n"));
+        WriteLine(wxString(wxT("<a href=\"?volup.mkc\" >")) << wxT("Vol +") <<wxT("</a>"));
+        WriteLine(wxT("</td>\r\n"));
+        WriteLine(wxT("<td>\r\n"));
+        WriteLine(wxString() << wxGetApp().Prefs.nSndVolume);
+        WriteLine(wxT("</td>\r\n"));
+        WriteLine(wxT("<td>\r\n"));
+        WriteLine(wxString(wxT("<a href=\"?voldown.mkc\" >")) << wxT("Vol -") <<wxT("</a>"));
+        WriteLine(wxT("</td>\r\n"));
+        WriteLine(wxT("</tr></table>\r\n"));
+
+        WriteLine(wxT("</td>\r\n"));
+        WriteLine(wxT("</tr></table>\r\n"));
 
 		WriteLine( wxT("</body>\r\n") );
 		WriteLine( wxT("</html>\r\n") );	
@@ -191,7 +303,8 @@ int CMusikWebServer::ReadLine(wxString& outstr)
 }
 
 // writes a line of output to the socket
-void CMusikWebServer::WriteLine( wxString str )
+void CMusikWebServer::WriteLine( const wxString &str )
 {
-    pSocket->Write( ( const char* )ConvToUTF8( str ), str.Length() );
+    const wxCharBuffer buf = ConvToUTF8( str );
+    pSocket->Write( buf, strlen(buf) );
 }

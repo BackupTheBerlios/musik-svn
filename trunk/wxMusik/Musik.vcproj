@@ -557,6 +557,12 @@
 				<File
 					RelativePath=".\src\Frames\Prefs\TaggingGeneralPanel.h">
 				</File>
+				<File
+					RelativePath=".\src\Frames\Prefs\WebServerPanel.cpp">
+				</File>
+				<File
+					RelativePath=".\src\Frames\Prefs\WebServerPanel.h">
+				</File>
 			</Filter>
 			<Filter
 				Name="Library"

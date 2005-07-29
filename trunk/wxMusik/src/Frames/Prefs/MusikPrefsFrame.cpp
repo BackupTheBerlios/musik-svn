@@ -39,6 +39,7 @@
 #include "SoundDriverPanel.h"
 #include "StreamingBufferPanel.h"
 #include "StreamingProxyServerPanel.h"
+#include "WebServerPanel.h"
 #include "TaggingAutoRenamePanel.h"
 #include "TaggingGeneralPanel.h"
 
@@ -111,6 +112,7 @@ MusikPrefsDialog::MusikPrefsDialog( wxWindow *pParent, const wxString &sTitle )
 	wxTreeItemId nTagRootID		=	tcPreferencesTree->AppendItem	( nRootID, _( "Tagging" )	);
 	wxTreeItemId nSoundRootID	=	tcPreferencesTree->AppendItem	( nRootID, _( "Sound" )		);	
 	wxTreeItemId nStreamingRootID	=	tcPreferencesTree->AppendItem	( nRootID, _( "Streaming" )	);
+    wxTreeItemId nMiscellaneousRootID	=	tcPreferencesTree->AppendItem	( nRootID, _( "Miscellaneous " )	);
 	//--- child nodes ---//
 
 
@@ -168,16 +170,12 @@ MusikPrefsDialog::MusikPrefsDialog( wxWindow *pParent, const wxString &sTitle )
     AddPanel(nSoundRootID,new SoundCrossfaderPanel(this));
     AddPanel(nStreamingRootID,new StreamingBufferPanel(this));
     AddPanel(nStreamingRootID,new StreamingProxyServerPanel(this));
+    AddPanel(nMiscellaneousRootID,new WebServerPanel(this));
 
 
     //--- expand all the root nodes ---//
-    tcPreferencesTree->Expand( nRootID );
-    tcPreferencesTree->Expand( nOptionsRootID );
-    tcPreferencesTree->Expand( nTagRootID );
-    tcPreferencesTree->Expand( nSoundRootID );
-    tcPreferencesTree->Expand( nSoundRootID );
-    tcPreferencesTree->Expand( nStreamingRootID );
-    
+    ExpandAll( tcPreferencesTree->GetRootItem() );
+     
     //-----------------//
 	//--- Top Sizer ---//
 	//-----------------//
@@ -216,6 +214,22 @@ void MusikPrefsDialog::AddPanel( const wxTreeItemId &tidParent,PrefPanel * panel
     m_sizerPanels->Show( panel,false );
 }
 
+bool MusikPrefsDialog::ExpandAll(const wxTreeItemId & root)
+{
+    tcPreferencesTree->Expand(root);
+    if(tcPreferencesTree->ItemHasChildren(root))
+    {
+        wxTreeItemIdValue cookie;
+        wxTreeItemId child = tcPreferencesTree->GetFirstChild(root,cookie);
+        while(child.IsOk())
+        {
+            if(ExpandAll(child) == false)
+                return false;
+            child = tcPreferencesTree->GetNextChild(root,cookie);
+        }
+    }
+    return true;
+}
 //--------------//
 //--- Events ---//
 //--------------//

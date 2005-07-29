@@ -33,20 +33,20 @@ public:
 	~CMusikWebServer();
 
 public:
-	void Start();
+	void Start(int Port);
 	void Stop();
 	bool IsRunning() { return m_bRunning; };
-
-	void ProcessRequest(wxString reqstr);
+    int Port() {return m_nPort;}
+	void ProcessRequest(const wxString &reqstr);
 	void Listen();
 
 private:
 	int ReadLine(wxString& outstr);
-	void WriteLine(wxString str);
+	void WriteLine(const wxString &str);
 
 	bool m_bRunning;
 	bool m_bListenLock;
-
+    int m_nPort;
 	wxSocketBase *pSocket;
 	wxSocketServer *pServer;
 

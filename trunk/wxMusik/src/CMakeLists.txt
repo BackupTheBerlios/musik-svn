@@ -63,6 +63,7 @@ SET(MAIN_SRCS
         ./Frames/Prefs/SoundDriverPanel.cpp
         ./Frames/Prefs/OptionGeneralPanel.cpp
         ./Frames/Prefs/OptionTunagePanel.cpp
+        ./Frames/Prefs/WebServerPanel.cpp
 
         ./shibatch/Equ.cpp
         ./shibatch/Fftsg_fl.cpp

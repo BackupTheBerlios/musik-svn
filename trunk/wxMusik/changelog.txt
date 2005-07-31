@@ -1,3 +1,24 @@
+0.4.2.0
++ All columns(besides Notes and Filename) can now be used as selection box. Try using "Added on" for example.
++ A double click on a selection box entry makes it the master box and the other boxes change content accordingly
++ On renaming of a selection box entry, the box tries to keep its scrolling position now.
++ A middle mouse click on an selection box entry adds all songs belonging to it to the now playing list 
+  and plays them.
++ Edit Tags dialog now has an increment tracknumber feature, for setting the tracknumber of selected songs incrementally.   
++ Shortcuts for Automatic Tagging and Tag re-reading added. 
++ Tag reading enhanced by catching memory exceptions from taglib.
++ mp3 Header reading enhanced by using no longer taglib for that but code from mp3info 0.8.4 with own enhancements
++ Enhanced the internal webserver. Now enable it in the preferences (not just in the ini file) 
+  A very simple web page is generated, where you can see what song is being played and control the playing and rate.
++ The AutoDJ now works better when the filter only allows a small songs set.
++ Enhanced the prefs setting dialog (mostly internally so new settings can be added much faster)
++ Added some new dynamic playlists , i.e. "Favourite songs" , "Most Hated Songs", which evalute playing behaviour and manual rating.
++ Enhanced the working speed.
++ Lots of internal code changes to make it more robust.
++ Uses new crashhandler from wxWidgets, and automatic crash mail generation.
++ The windows installer asks now on uninstall, if all data should be deleted.
+- fixed all crashes reported by wxMusik users.
+
 0.4.1.0
 + (Linux) XF86Audio keys supported. This means you can use your multimedia keys for wxMusik on linux.
 + new program icon by Ben Oakes

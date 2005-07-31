@@ -346,6 +346,7 @@ public:
 		,bAutoTagConvertUnderscoresToSpaces(this,wxT( "AutoTagConvertUnderscoresToSpaces" ),false)
 		,bWebServerEnable(this,wxT( "EnableWebserver" ),false)
 		,nWebServerPort(this,wxT( "Webserverport" ),6395)
+        ,nWebServerRefresh(this,wxT( "WebserverRefresh" ),5)
 		,sFramePlacement(this,wxT( "FramePlacement" ),wxT("0,0,800,600,0,0"))
 
 #ifdef wxHAS_TASK_BAR_ICON
@@ -481,6 +482,7 @@ public:
 	CConfigSettingBool bAutoTagConvertUnderscoresToSpaces;
 	CConfigSettingBool bWebServerEnable;
 	CConfigSettingInt nWebServerPort;
+    CConfigSettingInt nWebServerRefresh;
 	CConfigSettingString sFramePlacement;
 
 #ifdef wxHAS_TASK_BAR_ICON

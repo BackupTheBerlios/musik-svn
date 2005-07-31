@@ -189,7 +189,11 @@ void CMusikWebServer::ProcessRequest(const wxString &reqstr)
         WriteLine( wxT( "<HTML><HEAD>\r\n") );
         WriteLine( wxString(wxT( "<TITLE>")) << MUSIKAPPNAME_VERSION << wxT("</TITLE>\r\n" ) );
         if(bIsPlaying)
-            WriteLine(wxT("<meta http-equiv=Refresh content=\"5\">\r\n"));
+        {
+            WriteLine(wxString(wxT("<meta http-equiv=\"Refresh\" content=\"")) 
+                << wxGetApp().Prefs.nWebServerRefresh
+                << wxT("\">\r\n"));
+        }
         WriteLine(wxT("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF8\">"));
 		WriteLine( wxT("</HEAD><body>\r\n") );
 
@@ -237,10 +241,10 @@ void CMusikWebServer::ProcessRequest(const wxString &reqstr)
             WriteLine(wxT("</td>\r\n"));
         }
         WriteLine(wxT("<td>\r\n"));
-        WriteLine(wxString(wxT("<a href=\"?previous.mkc\" >")) << _("Previous") <<wxT("</a>"));
+        WriteLine(wxString(wxT("<a href=\"?previous.mkc\" >")) << wxT("&lt;&lt;") <<wxT("</a>"));
         WriteLine(wxT("</td>\r\n"));
         WriteLine(wxT("<td>\r\n"));
-        WriteLine(wxString(wxT("<a href=\"?next.mkc\" >")) << _("Next") <<wxT("</a>"));
+        WriteLine(wxString(wxT("<a href=\"?next.mkc\" >")) << wxT("&gt;&gt;") <<wxT("</a>"));
         WriteLine(wxT("</td>\r\n"));
 
         WriteLine(wxT("</tr></table>\r\n"));
@@ -258,8 +262,11 @@ void CMusikWebServer::ProcessRequest(const wxString &reqstr)
         WriteLine(wxT("</td>\r\n"));
         WriteLine(wxT("</tr></table>\r\n"));
 
-        WriteLine(wxT("</td><td align=\"bottom\">"));
-        WriteLine(wxT("<FORM ACTION=\"/rate\"> Rate this song: &nbsp;"));
+        WriteLine(wxT("</td><td valign=\"top\">"));
+        WriteLine(wxT("<FORM ACTION=\"/rate\">"));
+        WriteLine(wxT("<INPUT TYPE=SUBMIT VALUE=\"Rate it\">"));
+
+        WriteLine(wxT("&nbsp;"));
         WriteLine(wxT("<select name=\"rating\" size=\"1\">\r\n"));
         for(int i = MUSIK_MIN_RATING; i <= MUSIK_MAX_RATING; i ++)
         {
@@ -270,8 +277,7 @@ void CMusikWebServer::ProcessRequest(const wxString &reqstr)
             WriteLine(wxString(wxT("> ")) << i << wxT("</option>\r\n")); 
         }
         WriteLine(wxT("</select>"));
-
-        WriteLine(wxT("<P> <INPUT TYPE=SUBMIT VALUE=\"rate\"></FORM>"));
+        WriteLine(wxT("</FORM>"));
         WriteLine(wxT("</td>\r\n"));
         WriteLine(wxT("</tr></table>\r\n"));
 

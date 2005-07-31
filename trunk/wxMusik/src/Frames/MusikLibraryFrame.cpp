@@ -601,6 +601,7 @@ void MusikLibraryDialog::EnableProgress( bool enable )
 		current->Enable(!enable);
 	}	
 	Layout();
+    wxYield();
 }
 
 void MusikLibraryDialog::TranslateKeys( wxKeyEvent& event )

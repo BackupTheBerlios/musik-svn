@@ -29,12 +29,15 @@ wxSizer * WebServerPanel::CreateControls()
     //--------------------------------//
     PREF_CREATE_CHECKBOX(WebServerEnable,_("Enable Webserver") );
     PREF_CREATE_SPINCTRL(WebServerPort,80,0xffff,1024);
+    PREF_CREATE_SPINCTRL(WebServerRefresh,1,600,5);
 
  
     wxFlexGridSizer * fsSizer		= new wxFlexGridSizer( 2,2,2 );
     fsSizer->AddGrowableCol(1);
     fsSizer->Add(PREF_STATICTEXT(_("Webserver port:")),0,wxALIGN_CENTER_VERTICAL);
     fsSizer->Add(scWebServerPort,0,wxEXPAND);
+    fsSizer->Add(PREF_STATICTEXT(_("Refresh Rate(s):")),0,wxALIGN_CENTER_VERTICAL);
+    fsSizer->Add(scWebServerRefresh,0,wxEXPAND);
 
     wxBoxSizer *vsBoxVert	= new wxBoxSizer( wxVERTICAL );
 

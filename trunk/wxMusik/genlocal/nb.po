@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wxMusik-0.3.1.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-07-22 11:35+0200\n"
+"POT-Creation-Date: 2005-08-01 14:51+0200\n"
 "PO-Revision-Date: 2005-02-18 22:16+0100\n"
 "Last-Translator: Oddmund Jonas <oddjon@gmail.com>\n"
 "Language-Team: wxMusik Team\n"
@@ -53,7 +53,7 @@ msgstr "FX"
 msgid " Library Setup"
 msgstr "Bibliotek Instillinger"
 
-#: ../src/Frames/MusikLibraryFrame.cpp:689
+#: ../src/Frames/MusikLibraryFrame.cpp:688
 msgid " Library Setup - Elapsed Time: "
 msgstr " Bibliotek Konfigurering - Brukt Tid: "
 
@@ -65,7 +65,7 @@ msgstr "Instillinger"
 msgid " by importing Playlist File"
 msgstr ""
 
-#: ../src/Frames/MusikLibraryFrame.cpp:568
+#: ../src/Frames/MusikLibraryFrame.cpp:566
 msgid ""
 " has detected that your library configuration has changed.\n"
 "\n"
@@ -77,7 +77,7 @@ msgstr ""
 "Det er anbefalt at du oppdaterer det interne biblioteket, noe som fører til "
 "at de nye sangene blir lagt til. Vil du fortsette?"
 
-#: ../src/MusikApp.cpp:376
+#: ../src/MusikApp.cpp:378
 msgid ""
 " has detected version 0.1.2 or earlier was previously installed.\n"
 "\n"
@@ -89,7 +89,7 @@ msgstr ""
 "På grunn av endringer fra 0.1.2 til denne versjonen må din Kildeliste og "
 "Bibliotek bli nullstilt. Vi beklager problemer dette måtte medføre."
 
-#: ../src/Classes/MusikPrefs.h:368
+#: ../src/Classes/MusikPrefs.h:369
 msgid " is not running"
 msgstr "kjører ikke"
 
@@ -173,7 +173,7 @@ msgstr "%d.%02d MB"
 msgid "%d.%02d TB"
 msgstr "%d.%02d TB"
 
-#: ../src/MusikApp.cpp:314
+#: ../src/MusikApp.cpp:316
 #, c-format
 msgid "%s Logging Window"
 msgstr "%s Loggvindu"
@@ -201,7 +201,7 @@ msgstr ""
 "mellomrom i filteret for å finne '_'.\n"
 "\n"
 
-#: ../src/Frames/MusikFrame.cpp:496
+#: ../src/Frames/MusikFrame.cpp:497
 msgid "&About"
 msgstr "&Om"
 
@@ -225,7 +225,7 @@ msgstr "&Tøm Liste"
 msgid "&Create New"
 msgstr "&Lag Ny"
 
-#: ../src/Frames/MusikFrame.cpp:492
+#: ../src/Frames/MusikFrame.cpp:493
 msgid "&Custom Query"
 msgstr "&Egen Spørring"
 
@@ -241,23 +241,23 @@ msgstr "Endre &Spørring"
 msgid "&Edit URL"
 msgstr "Endre &URL"
 
-#: ../src/Frames/MusikFrame.cpp:502
+#: ../src/Frames/MusikFrame.cpp:503
 msgid "&File"
 msgstr "&Fil"
 
-#: ../src/Frames/MusikFrame.cpp:505
+#: ../src/Frames/MusikFrame.cpp:506
 msgid "&Help"
 msgstr "&Hjelp"
 
-#: ../src/Frames/MusikFrame.cpp:238
+#: ../src/Frames/MusikFrame.cpp:239
 msgid "&Hide wxMusik"
 msgstr "&Sjul wxMusik"
 
-#: ../src/Frames/MusikFrame.cpp:504
+#: ../src/Frames/MusikFrame.cpp:505
 msgid "&Library"
 msgstr "&Bibliotek"
 
-#: ../src/Frames/MusikFrame.cpp:248
+#: ../src/Frames/MusikFrame.cpp:249
 msgid "&Next"
 msgstr "&Neste"
 
@@ -265,28 +265,28 @@ msgstr "&Neste"
 msgid "&Open Folder in File Manager"
 msgstr "&Åpne Mappe i Filbehandler"
 
-#: ../src/Frames/MusikFrame.cpp:242
+#: ../src/Frames/MusikFrame.cpp:243
 msgid "&Pause"
 msgstr "&Pause"
 
-#: ../src/Frames/MusikFrame.cpp:494
+#: ../src/Frames/MusikFrame.cpp:495
 msgid "&Pending Tags"
 msgstr "&Aventende Tagger"
 
-#: ../src/Classes/ActivityBox.cpp:880 ../src/Classes/PlaylistCtrl.cpp:420
-#: ../src/Frames/MusikFrame.cpp:246
+#: ../src/Classes/ActivityBox.cpp:881 ../src/Classes/PlaylistCtrl.cpp:420
+#: ../src/Frames/MusikFrame.cpp:247
 msgid "&Play"
 msgstr "&Spill"
 
-#: ../src/Frames/MusikFrame.cpp:460
+#: ../src/Frames/MusikFrame.cpp:461
 msgid "&Preferences\tCtrl-P"
 msgstr "&Instillinger\tCtrl-P"
 
-#: ../src/Frames/MusikFrame.cpp:247
+#: ../src/Frames/MusikFrame.cpp:248
 msgid "&Previous"
 msgstr "&Forrige"
 
-#: ../src/Classes/PlaylistCtrl.cpp:437 ../src/Frames/MusikFrame.cpp:258
+#: ../src/Classes/PlaylistCtrl.cpp:437 ../src/Frames/MusikFrame.cpp:259
 msgid "&Rating"
 msgstr "&Vurdering"
 
@@ -308,19 +308,19 @@ msgstr "&Gi nytt navn"
 msgid "&Rename"
 msgstr "&Gi nytt navn"
 
-#: ../src/Classes/ActivityBox.cpp:881
+#: ../src/Classes/ActivityBox.cpp:882
 msgid "&Rename\t F2"
 msgstr "&Gi nytt navn\t F2"
 
-#: ../src/Frames/MusikFrame.cpp:236
+#: ../src/Frames/MusikFrame.cpp:237
 msgid "&Restore wxMusik"
 msgstr "&Gjenopprett wxMusik"
 
-#: ../src/Frames/MusikFrame.cpp:244
+#: ../src/Frames/MusikFrame.cpp:245
 msgid "&Resume"
 msgstr "&Fortsett"
 
-#: ../src/Frames/MusikFrame.cpp:490
+#: ../src/Frames/MusikFrame.cpp:491
 msgid "&Setup Library\tCtrl-L"
 msgstr "&Konfigurer Bibliotek\tCtrl-L"
 
@@ -332,7 +332,7 @@ msgstr "&Vis Ikoner"
 msgid "&Show in Library"
 msgstr "&Vis i Bibliotek"
 
-#: ../src/Frames/MusikFrame.cpp:250
+#: ../src/Frames/MusikFrame.cpp:251
 msgid "&Stop"
 msgstr "&Stopp"
 
@@ -340,9 +340,14 @@ msgstr "&Stopp"
 msgid "&Update Library"
 msgstr "&Oppdater Bibliotek"
 
-#: ../src/Frames/MusikFrame.cpp:503
+#: ../src/Frames/MusikFrame.cpp:504
 msgid "&View"
 msgstr "&Vis"
+
+#: ../src/Classes/WebServer.cpp:207 ../src/Classes/WebServer.cpp:211
+#: ../src/Classes/WebServer.cpp:214
+msgid "&lt;unknown&gt;"
+msgstr ""
 
 #: ../src/Classes/SourcesBox.cpp:1240
 msgid "(all low quality, non-VBR)\n"
@@ -427,7 +432,7 @@ msgstr "Om"
 msgid "Added on"
 msgstr "Dato lagt til"
 
-#: ../src/Frames/MusikTagFrame.cpp:123
+#: ../src/Classes/WebServer.cpp:214 ../src/Frames/MusikTagFrame.cpp:123
 #: ../src/Frames/Prefs/OptionTunagePanel.cpp:99 ../src/PlaylistColumn.cpp:23
 msgid "Album"
 msgstr "Album"
@@ -440,7 +445,7 @@ msgstr "Alle ord"
 msgid "Allow tag guessing from filename"
 msgstr "Tillat tagg gjetting fra filnavn"
 
-#: ../src/Frames/MusikFrame.cpp:478
+#: ../src/Frames/MusikFrame.cpp:479
 #, fuzzy
 msgid "Always On Top\tCtrl-Alt-T"
 msgstr "Alltid Øverst\tCtrl-T"
@@ -449,7 +454,7 @@ msgstr "Alltid Øverst\tCtrl-T"
 msgid "An error occured when setting the Auto DJ Filter"
 msgstr "En feil oppstod ved aktivering av Auto DJ Filteret"
 
-#: ../src/Classes/MusikLibrary.cpp:1077
+#: ../src/Classes/MusikLibrary.cpp:1109
 msgid "An error occurred when attempting to update the database"
 msgstr "En feil oppstod ved oppdatering av databasen"
 
@@ -472,11 +477,11 @@ msgid "Append to file"
 msgstr "Legg til fil"
 
 #: ../src/Frames/MusikTagFrame.cpp:148
-#: ../src/Frames/Prefs/MusikPrefsFrame.cpp:122
+#: ../src/Frames/Prefs/MusikPrefsFrame.cpp:124
 msgid "Apply"
 msgstr "Bruk"
 
-#: ../src/Frames/MusikTagFrame.cpp:119
+#: ../src/Classes/WebServer.cpp:211 ../src/Frames/MusikTagFrame.cpp:119
 #: ../src/Frames/Prefs/OptionTunagePanel.cpp:98 ../src/PlaylistColumn.cpp:22
 msgid "Artist"
 msgstr "Artist"
@@ -525,8 +530,8 @@ msgid "Buffer Size (bytes):"
 msgstr "Buffer Størrelse (bytes):"
 
 #: ../src/Frames/MusikAutoTaggerFrame.cpp:160
-#: ../src/Frames/MusikLibraryFrame.cpp:208 ../src/Frames/MusikTagFrame.cpp:147
-#: ../src/Frames/Prefs/MusikPrefsFrame.cpp:121
+#: ../src/Frames/MusikLibraryFrame.cpp:205 ../src/Frames/MusikTagFrame.cpp:147
+#: ../src/Frames/Prefs/MusikPrefsFrame.cpp:123
 msgid "Cancel"
 msgstr "Avbryt"
 
@@ -663,7 +668,7 @@ msgstr "Dynamisk Spilleliste"
 msgid "Dynamic playlist \""
 msgstr "Dynamisk spillelist \""
 
-#: ../src/Frames/MusikFrame.cpp:261 ../src/Frames/MusikFrame.cpp:462
+#: ../src/Frames/MusikFrame.cpp:262 ../src/Frames/MusikFrame.cpp:463
 msgid "E&xit"
 msgstr "&Avslutt"
 
@@ -721,11 +726,15 @@ msgstr "Aktiver EQ"
 msgid "Enable Pitch control"
 msgstr "Aktiver hastighetskontroll"
 
+#: ../src/Frames/Prefs/WebServerPanel.cpp:30
+msgid "Enable Webserver"
+msgstr ""
+
 #: ../src/Frames/Prefs/OptionGeneralPanel.cpp:66
 msgid "Enable balloon song info"
 msgstr "Aktiver sanginfo ballong"
 
-#: ../src/Classes/ActivityBox.cpp:875 ../src/Classes/PlaylistCtrl.cpp:415
+#: ../src/Classes/ActivityBox.cpp:876 ../src/Classes/PlaylistCtrl.cpp:415
 msgid "Enqueue"
 msgstr "Legg til kø"
 
@@ -762,11 +771,11 @@ msgstr "Eksempler:\n"
 msgid "Export Playlist (M3U)"
 msgstr ""
 
-#: ../src/Frames/MusikFrame.cpp:475
+#: ../src/Frames/MusikFrame.cpp:476
 msgid "FX\tCtrl-F"
 msgstr "FX\tCtrl-F"
 
-#: ../src/MusikApp.cpp:476
+#: ../src/MusikApp.cpp:478
 #, c-format
 msgid "Failed to copy file %s. Continue?"
 msgstr "Kunne ikke kopiere filen %s. Fortsett?"
@@ -794,11 +803,11 @@ msgstr ""
 msgid "File Associations"
 msgstr "Filassosiasjoner"
 
-#: ../src/MusikApp.cpp:477
+#: ../src/MusikApp.cpp:479
 msgid "File copy error"
 msgstr "Filkopieringsfeil"
 
-#: ../src/MusikApp.cpp:437
+#: ../src/MusikApp.cpp:439
 msgid "File copy warning"
 msgstr "Filkopieringsadvarsel:"
 
@@ -814,7 +823,7 @@ msgstr "Filnavn:"
 msgid "Filesize"
 msgstr "Filstørrelse"
 
-#: ../src/Frames/MusikFrame.cpp:486
+#: ../src/Frames/MusikFrame.cpp:487
 msgid "Finalize for Database &Only"
 msgstr "Sluttfør &kun for Database"
 
@@ -881,13 +890,17 @@ msgstr "Hurtigtasten %s kan ikke bli registrert."
 msgid "Initialization of FMOD sound system failed."
 msgstr "Feil ved initialisering av FMOD lydsystem."
 
-#: ../src/MusikApp.cpp:292
+#: ../src/MusikApp.cpp:294
 msgid "Initialization of library failed."
 msgstr "Feil ved initialisering av bibliotek."
 
-#: ../src/Classes/ActivityBox.cpp:876 ../src/Classes/PlaylistCtrl.cpp:416
+#: ../src/Classes/ActivityBox.cpp:877 ../src/Classes/PlaylistCtrl.cpp:416
 msgid "Instantly"
 msgstr "Øyeblikkelig"
+
+#: ../src/Frames/Prefs/WebServerPanel.h:12
+msgid "Internal Webserver"
+msgstr ""
 
 #: ../src/Classes/SourcesBox.cpp:997
 msgid "Invalid playlist name."
@@ -928,6 +941,10 @@ msgstr "Maksimum lyd kanaler:"
 msgid "Misc."
 msgstr "Div."
 
+#: ../src/Frames/Prefs/MusikPrefsFrame.cpp:115
+msgid "Miscellaneous "
+msgstr ""
+
 #: ../src/Classes/Library/MetaDataHandler.cpp:114
 msgid "Monkey's Audio File"
 msgstr "Monkey's Audio fil"
@@ -957,7 +974,7 @@ msgstr "Nyere"
 msgid "New"
 msgstr "Ny"
 
-#: ../src/Classes/ActivityBox.cpp:874 ../src/Classes/PlaylistCtrl.cpp:414
+#: ../src/Classes/ActivityBox.cpp:875 ../src/Classes/PlaylistCtrl.cpp:414
 msgid "Next"
 msgstr "Neste"
 
@@ -1008,12 +1025,12 @@ msgid "OGG Vorbis Audio File"
 msgstr "Ogg Vorbis lydfil"
 
 #: ../src/Frames/MusikAutoTaggerFrame.cpp:156
-#: ../src/Frames/MusikLibraryFrame.cpp:209 ../src/Frames/MusikTagFrame.cpp:149
-#: ../src/Frames/Prefs/MusikPrefsFrame.cpp:123 ../src/MusikAboutDlg.cpp:149
+#: ../src/Frames/MusikLibraryFrame.cpp:206 ../src/Frames/MusikTagFrame.cpp:149
+#: ../src/Frames/Prefs/MusikPrefsFrame.cpp:125 ../src/MusikAboutDlg.cpp:149
 msgid "OK"
 msgstr "OK"
 
-#: ../src/Frames/Prefs/MusikPrefsFrame.cpp:110
+#: ../src/Frames/Prefs/MusikPrefsFrame.cpp:111
 msgid "Options"
 msgstr "Instillinger"
 
@@ -1040,9 +1057,19 @@ msgstr "Parsing av filen %s er ikke støttet. Musikk data ikke oppdatert."
 msgid "Path"
 msgstr "Bane"
 
+#: ../src/Classes/WebServer.cpp:235
+#, fuzzy
+msgid "Pause"
+msgstr "&Pause"
+
 #: ../src/Frames/MusikFXFrame.cpp:131
 msgid "Pitch control, right-click to reset"
 msgstr "Hastighetskontroll, høyreklikk for å nullstille"
+
+#: ../src/Classes/WebServer.cpp:228
+#, fuzzy
+msgid "Play"
+msgstr "&Spill"
 
 #: ../src/Classes/MusikPlayer.cpp:555
 msgid "Play failed, please try again."
@@ -1088,11 +1115,11 @@ msgstr "Spilleliste fra markerte"
 msgid "Playlist size: "
 msgstr "Spilleliste størrelse:"
 
-#: ../src/MusikApp.cpp:423
+#: ../src/MusikApp.cpp:425
 msgid "Please choose location to copy songs to:"
 msgstr "Vennligst velg et sted å kopiere sangene til:"
 
-#: ../src/Frames/MusikLibraryFrame.cpp:423
+#: ../src/Frames/MusikLibraryFrame.cpp:421
 msgid "Please choose music directory."
 msgstr "Vennligst velg musikk katalog."
 
@@ -1104,7 +1131,7 @@ msgstr "Legg ut på en nettside"
 msgid "Prebuffering (%):"
 msgstr "Prebufring (%):"
 
-#: ../src/Frames/Prefs/MusikPrefsFrame.cpp:109
+#: ../src/Frames/Prefs/MusikPrefsFrame.cpp:110
 msgid "Preferences"
 msgstr "Instillinger"
 
@@ -1132,13 +1159,17 @@ msgstr "Proxy server bruker:"
 msgid "Purge &Missing Songs"
 msgstr "Fjern &Manglende Sanger"
 
-#: ../src/PlaylistColumn.cpp:19
+#: ../src/Classes/WebServer.cpp:217 ../src/PlaylistColumn.cpp:19
 msgid "Rating"
 msgstr "Vurdering"
 
 #: ../src/Frames/Prefs/StreamingBufferPanel.cpp:41
 msgid "Rebuffering (%):"
 msgstr "Rebufring (%):"
+
+#: ../src/Frames/Prefs/WebServerPanel.cpp:39
+msgid "Refresh Rate(s):"
+msgstr ""
 
 #: ../src/Frames/MusikLibraryFrame.cpp:172
 #, fuzzy
@@ -1176,7 +1207,7 @@ msgstr "Repeter Sang"
 msgid "Replace current playlist with all"
 msgstr "Erstatt gjeldende spilleliste med alle"
 
-#: ../src/Classes/ActivityBox.cpp:877 ../src/Classes/PlaylistCtrl.cpp:417
+#: ../src/Classes/ActivityBox.cpp:878 ../src/Classes/PlaylistCtrl.cpp:417
 msgid "Replace current playlist with selection"
 msgstr "Erstatt gjeldende spilleliste med valgte"
 
@@ -1188,6 +1219,11 @@ msgstr "Nullstill"
 msgid "Results in \"Artist - Title\", or in Stopped Text"
 msgstr "Resultater i \"Artist - Tittel\", eller i Stoppet Tekst"
 
+#: ../src/Classes/WebServer.cpp:233
+#, fuzzy
+msgid "Resume"
+msgstr "&Fortsett"
+
 #: ../src/Classes/MusikEQCtrl.cpp:56
 #, c-format
 msgid "Right Channel: %d hz"
@@ -1197,12 +1233,12 @@ msgstr "Høyre Kanal: %d hz"
 msgid "Run a program"
 msgstr "Kjør et program"
 
-#: ../src/Frames/MusikLibraryFrame.cpp:753
+#: ../src/Frames/MusikLibraryFrame.cpp:752
 #, c-format
 msgid "Scanning directory for audio files: %d files scanned"
 msgstr "Søker etter musikkfiler i katalog: %d filer undersøkt"
 
-#: ../src/Frames/MusikLibraryFrame.cpp:726
+#: ../src/Frames/MusikLibraryFrame.cpp:725
 #, c-format
 msgid "Scanning for and adding new files: %d / %d (ESC to abort)"
 msgstr "Søker etter og legger til nye filer: %d / %d (ESC for å avbryte)"
@@ -1211,7 +1247,7 @@ msgstr "Søker etter og legger til nye filer: %d / %d (ESC for å avbryte)"
 msgid "Scanning for changed attributes"
 msgstr "Søker etter endrede egenskaper"
 
-#: ../src/Frames/MusikLibraryFrame.cpp:738
+#: ../src/Frames/MusikLibraryFrame.cpp:737
 #, c-format
 msgid "Scanning library for obsolete files: %d / %d (ESC to abort)"
 msgstr ""
@@ -1225,11 +1261,11 @@ msgstr "Søk:"
 msgid "Searching for and Adding New Files"
 msgstr "Søker etter og Legger til Nye Filer"
 
-#: ../src/Frames/MusikFrame.cpp:472
+#: ../src/Frames/MusikFrame.cpp:473
 msgid "Select Library\tCtrl-F1"
 msgstr "Velg Bibliotek\tCtrl-F1"
 
-#: ../src/Frames/MusikFrame.cpp:473
+#: ../src/Frames/MusikFrame.cpp:474
 msgid "Select Now Playing\tCtrl-F2"
 msgstr "Velg Spiller Nå\tCtrl-F2"
 
@@ -1277,7 +1313,7 @@ msgstr "Vis \"striper\" i utvalgbokser"
 msgid "Show \"stripes\" in sources box"
 msgstr "Vis \"striper\"\" i kildeboksen"
 
-#: ../src/Frames/MusikFrame.cpp:469
+#: ../src/Frames/MusikFrame.cpp:470
 msgid "Show Album Info\tCtrl-4"
 msgstr "Vis Album Info\tCtrl-4"
 
@@ -1285,19 +1321,19 @@ msgstr "Vis Album Info\tCtrl-4"
 msgid "Show Library on startup"
 msgstr "Vis Bibliotek ved oppstart"
 
-#: ../src/Frames/MusikFrame.cpp:470
+#: ../src/Frames/MusikFrame.cpp:471
 msgid "Show Playing Control on top\tCtrl-5"
 msgstr "Vis Spilleliste Info øverst\tCtrl-3"
 
-#: ../src/Frames/MusikFrame.cpp:468
+#: ../src/Frames/MusikFrame.cpp:469
 msgid "Show Playlist Info\tCtrl-3"
 msgstr "Vis Spilleliste Info\tCtrl-3"
 
-#: ../src/Frames/MusikFrame.cpp:467
+#: ../src/Frames/MusikFrame.cpp:468
 msgid "Show Selections\tCtrl-2"
 msgstr "Vis Valgte\tCtrl-2"
 
-#: ../src/Frames/MusikFrame.cpp:466
+#: ../src/Frames/MusikFrame.cpp:467
 msgid "Show Sources\tCtrl-1"
 msgstr "Vis Kilder\tCtrl-1"
 
@@ -1323,7 +1359,7 @@ msgstr "Sloppy"
 msgid "Sort Artist without prefix"
 msgstr "Sorter Artist uten prefiks"
 
-#: ../src/Frames/Prefs/MusikPrefsFrame.cpp:112
+#: ../src/Frames/Prefs/MusikPrefsFrame.cpp:113
 msgid "Sound"
 msgstr "Lyd"
 
@@ -1351,6 +1387,11 @@ msgstr "Standard spilleliste \""
 msgid "Static"
 msgstr "Statisk"
 
+#: ../src/Classes/WebServer.cpp:240
+#, fuzzy
+msgid "Stop"
+msgstr "&Stopp"
+
 #: ../src/Frames/Prefs/OptionGeneralPanel.cpp:62
 msgid "Stop song, if Now Playing is cleared"
 msgstr "Stopp sang hvis Spilles Nå slettes"
@@ -1359,7 +1400,7 @@ msgstr "Stopp sang hvis Spilles Nå slettes"
 msgid "Stopped Text:"
 msgstr "Stopptekst:"
 
-#: ../src/Frames/Prefs/MusikPrefsFrame.cpp:113
+#: ../src/Frames/Prefs/MusikPrefsFrame.cpp:114
 msgid "Streaming"
 msgstr "Streamer"
 
@@ -1371,7 +1412,7 @@ msgstr "Tagg informasjonsendring (flere)"
 msgid "Tag information editing (single)"
 msgstr "Tagg informasjonsendring (enkel)"
 
-#: ../src/Frames/Prefs/MusikPrefsFrame.cpp:111
+#: ../src/Frames/Prefs/MusikPrefsFrame.cpp:112
 msgid "Tagging"
 msgstr "Tagging"
 
@@ -1387,7 +1428,7 @@ msgstr "Det er ingen ventende tagger tilgjengelig å vise."
 msgid "There are no pending tags to finalize."
 msgstr "Det er ingen ventende tagger å sluttføre."
 
-#: ../src/MusikApp.cpp:436
+#: ../src/MusikApp.cpp:438
 #, c-format
 msgid ""
 "There is not enough free space in directory \"%s\". You need %s bytes more "
@@ -1405,7 +1446,7 @@ msgstr "Disse verdiene kan brukes i fillinje, URL eller kommandolinje"
 msgid "This "
 msgstr "Dette år"
 
-#: ../src/Frames/MusikLibraryFrame.cpp:257
+#: ../src/Frames/MusikLibraryFrame.cpp:255
 #, c-format
 msgid ""
 "This is the first time %s has been run.\n"
@@ -1423,14 +1464,14 @@ msgstr ""
 "For å vise dette vinduet igjen kan du trykke Ctrl+L i hovedvinduet, eller "
 "velge \"Konfigurer Bibliotek\" fra \"Bibliotek\"-menyen."
 
-#: ../src/Frames/MusikLibraryFrame.cpp:539
+#: ../src/Frames/MusikLibraryFrame.cpp:537
 msgid ""
 "This will wipe the library clean. Are you ABSOLUTELY SURE you want to do "
 "this?"
 msgstr ""
 "Dette vil tømme biblioteket. Er du absolutt sikker på at du vil gjøre dette?"
 
-#: ../src/PlaylistColumn.cpp:28
+#: ../src/Classes/WebServer.cpp:220 ../src/PlaylistColumn.cpp:28
 msgid "Time"
 msgstr "Tid"
 
@@ -1442,7 +1483,7 @@ msgstr "Ganger Spilt"
 msgid "Times played"
 msgstr "Ganger spilt"
 
-#: ../src/Frames/MusikTagFrame.cpp:110
+#: ../src/Classes/WebServer.cpp:207 ../src/Frames/MusikTagFrame.cpp:110
 #: ../src/Frames/Prefs/OptionTunagePanel.cpp:100 ../src/PlaylistColumn.cpp:21
 msgid "Title"
 msgstr "Tittel"
@@ -1487,7 +1528,7 @@ msgstr "Ukjent Artist"
 msgid "Unknown Song"
 msgstr "Ukjent Sang"
 
-#: ../src/Classes/PlaylistCtrl.cpp:368 ../src/Frames/MusikFrame.cpp:256
+#: ../src/Classes/PlaylistCtrl.cpp:368 ../src/Frames/MusikFrame.cpp:257
 msgid "Unrated"
 msgstr "Ikke vurdert"
 
@@ -1519,7 +1560,7 @@ msgstr "Bruk valgte rammefarge"
 msgid "Use this filter to select songs:"
 msgstr "Bruk dette filter for å velge sanger:"
 
-#: ../src/Frames/MusikFrame.cpp:483
+#: ../src/Frames/MusikFrame.cpp:484
 msgid "Vie&w"
 msgstr "V&is"
 
@@ -1527,11 +1568,16 @@ msgstr "V&is"
 msgid "WAVE Audio File"
 msgstr "WAVE lydfil"
 
+#: ../src/Frames/Prefs/WebServerPanel.cpp:37
+#, fuzzy
+msgid "Webserver port:"
+msgstr "Proxy server port:"
+
 #: ../src/Classes/Library/MetaDataHandler.cpp:119
 msgid "Windows Media Audio File"
 msgstr "Windows Media Audio fil"
 
-#: ../src/Frames/MusikFrame.cpp:485
+#: ../src/Frames/MusikFrame.cpp:486
 msgid "Write Changes to &File"
 msgstr "Skriv Endringer til &Fil"
 
@@ -1586,19 +1632,19 @@ msgstr "[Ingen Enheter]"
 msgid "bitch"
 msgstr "bitch"
 
-#: ../src/Classes/MusikPlayer.cpp:1299
+#: ../src/Classes/MusikPlayer.cpp:1301
 msgid "buffering ..."
 msgstr "bufrer..."
 
-#: ../src/Frames/MusikFrame.cpp:745
+#: ../src/Frames/MusikFrame.cpp:746
 msgid "by "
 msgstr "av"
 
-#: ../src/Classes/MusikPlayer.cpp:1296
+#: ../src/Classes/MusikPlayer.cpp:1298
 msgid "connecting ..."
 msgstr "kobler til..."
 
-#: ../src/MusikApp.cpp:469
+#: ../src/MusikApp.cpp:471
 #, c-format
 msgid "copying %s"
 msgstr "kopierer %s"
@@ -1615,7 +1661,7 @@ msgstr "kuk"
 msgid "dildo"
 msgstr "dildo"
 
-#: ../src/Frames/MusikFrame.cpp:747
+#: ../src/Frames/MusikFrame.cpp:748
 msgid "from the album"
 msgstr "fra albumet"
 
@@ -1627,11 +1673,11 @@ msgstr "fuck"
 msgid "manchester"
 msgstr "manchester"
 
-#: ../src/Classes/MusikPlayer.cpp:1305
+#: ../src/Classes/MusikPlayer.cpp:1307
 msgid "net error"
 msgstr "nettfeil"
 
-#: ../src/Classes/MusikPlayer.cpp:1293
+#: ../src/Classes/MusikPlayer.cpp:1295
 msgid "not connected"
 msgstr "ikke tilkoblet"
 
@@ -1643,7 +1689,7 @@ msgstr "dritt"
 msgid "slut"
 msgstr "slut"
 
-#: ../src/Classes/MusikPlayer.cpp:1302
+#: ../src/Classes/MusikPlayer.cpp:1304
 msgid "streaming"
 msgstr "streamer"
 

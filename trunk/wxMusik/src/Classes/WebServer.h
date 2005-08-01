@@ -26,7 +26,7 @@
 
 class CMusikPlayer;
 
-class CMusikWebServer
+class CMusikWebServer : public wxEvtHandler
 {
 public:
 	CMusikWebServer(CMusikPlayer * pPlayer);
@@ -37,17 +37,19 @@ public:
 	void Stop();
 	bool IsRunning() { return m_bRunning; };
     int Port() {return m_nPort;}
-	void ProcessRequest(const wxString &reqstr);
-	void Listen();
 
+	DECLARE_EVENT_TABLE()
 private:
-	int ReadLine(wxString& outstr);
-	void WriteLine(const wxString &str);
+	void OnServerEvent(wxSocketEvent& event);
+	void OnSocketEvent(wxSocketEvent& event);
+	
+	
+	bool ProcessRequest(wxSocketBase*pSocket,const wxString &reqstr);
+	int ReadLine(wxSocketBase*pSocket,wxString& outstr);
+	void WriteLine(wxSocketBase*pSocket,const wxString &str);
 
 	bool m_bRunning;
-	bool m_bListenLock;
     int m_nPort;
-	wxSocketBase *pSocket;
 	wxSocketServer *pServer;
 
 	CMusikPlayer * m_pPlayer;

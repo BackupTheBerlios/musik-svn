@@ -18,7 +18,6 @@
 #include <wx/sizer.h>
 #include <wx/bitmap.h>
 #include <wx/gauge.h>
-#include <wx/socket.h>
 #include <wx/laywin.h>
 #ifdef wxHAS_TASK_BAR_ICON
 #include "wx/taskbar.h"
@@ -155,7 +154,6 @@ public:
 	void OnWriteTagsClearDirty		( wxCommandEvent&	WXUNUSED(event) );
 
 	void OnTranslateKeys			( wxKeyEvent&		event			);
-	void OnServerEvent				( wxSocketEvent&	event			);
 	
 	void OnStartProgress			( wxCommandEvent&	WXUNUSED(event) );
 	void OnUpdateProgress			( wxCommandEvent&	WXUNUSED(event) );

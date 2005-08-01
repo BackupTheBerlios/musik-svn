@@ -68,7 +68,6 @@ BEGIN_EVENT_TABLE(MusikFrame, wxFrame)
 	EVT_CLOSE					(									MusikFrame::OnClose					)
 	EVT_SIZE					(									MusikFrame::OnSize					)	// main dlg resized
 	EVT_CHAR					(									MusikFrame::OnTranslateKeys			)	// key pressed					
-	EVT_SOCKET					(MUSIK_SERVER_ID,					MusikFrame::OnServerEvent			)	// getting a connection to webserver
 
 	//---------------------------------------------------------//
 	//--- threading events.. we use EVT_MENU becuase its	---//
@@ -355,37 +354,6 @@ void MusikFrame::LibraryCustomQuery()
 		g_SourcesCtrl->SelectLibrary(false);  // only change selection, not the view( to protect playlist from being changed. ok that is a hack, but else i would have to much of the structure. this will be done sometime later)
 		wxGetApp().Library.QuerySongsWhere( sQuery, g_thePlaylist );
 		g_PlaylistBox->SetPlaylist(&g_thePlaylist);
-	}
-}
-
-//------------------------//
-//--- Web server stuff ---//
-//------------------------//
-void MusikFrame::OnServerEvent(wxSocketEvent& event)
-{
-	if ( !wxGetApp().WebServer.IsRunning() )
-		return;
-
-	//------------------------------------------------------//
-	//--- if we get a connection, make the server listen ---//
-	//------------------------------------------------------//
-	switch( event.GetSocketEvent() )
-	{
-		case wxSOCKET_CONNECTION:
-			wxGetApp().WebServer.Listen();
-			break;
-		
-		case wxSOCKET_INPUT:
-			//--- dunno what to do, compiler warns ---//
-			break;
-		
-		case wxSOCKET_OUTPUT:
-			//--- dunno what to do, compiler warns ---//
-			break;
-		
-		case wxSOCKET_LOST:
-			//--- dunno what to do, compiler warns ---//
-			break;
 	}
 }
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wxMusik-0.3.1.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-08-01 14:51+0200\n"
+"POT-Creation-Date: 2005-08-02 16:39+0200\n"
 "PO-Revision-Date: 2005-02-18 22:16+0100\n"
 "Last-Translator: Oddmund Jonas <oddjon@gmail.com>\n"
 "Language-Team: wxMusik Team\n"
@@ -45,7 +45,7 @@ msgstr " - Katalog Seperator\n"
 msgid " Autotagger"
 msgstr "Autotagger"
 
-#: ../src/Frames/MusikFrameEvents.cpp:212
+#: ../src/Frames/MusikFrameEvents.cpp:211
 msgid " FX"
 msgstr "FX"
 
@@ -57,7 +57,7 @@ msgstr "Bibliotek Instillinger"
 msgid " Library Setup - Elapsed Time: "
 msgstr " Bibliotek Konfigurering - Brukt Tid: "
 
-#: ../src/Frames/MusikFrameEvents.cpp:198
+#: ../src/Frames/MusikFrameEvents.cpp:197
 msgid " Preferences"
 msgstr "Instillinger"
 
@@ -344,8 +344,8 @@ msgstr "&Oppdater Bibliotek"
 msgid "&View"
 msgstr "&Vis"
 
-#: ../src/Classes/WebServer.cpp:207 ../src/Classes/WebServer.cpp:211
-#: ../src/Classes/WebServer.cpp:214
+#: ../src/Classes/WebServer.cpp:271 ../src/Classes/WebServer.cpp:275
+#: ../src/Classes/WebServer.cpp:278
 msgid "&lt;unknown&gt;"
 msgstr ""
 
@@ -373,19 +373,19 @@ msgstr "+"
 msgid "-"
 msgstr "-"
 
-#: ../src/Frames/MusikFrameEvents.cpp:318
+#: ../src/Frames/MusikFrameEvents.cpp:317
 msgid ": Aborting process, please wait..."
 msgstr ": Avbryter prosess, vennligst vent..."
 
-#: ../src/Frames/MusikFrameEvents.cpp:405
+#: ../src/Frames/MusikFrameEvents.cpp:373
 msgid ": Renaming selected playlist items (ESC to abort)"
 msgstr ": Gir nytt navn til valgte spilleliste objekter (ESC for å avbryte)"
 
-#: ../src/Frames/MusikFrameEvents.cpp:401
+#: ../src/Frames/MusikFrameEvents.cpp:369
 msgid ": Updating tags from selection box (ESC to abort)"
 msgstr ": Oppdaterer tagger fra utvalgboks (ESC for å avbryte)"
 
-#: ../src/Frames/MusikFrameEvents.cpp:409
+#: ../src/Frames/MusikFrameEvents.cpp:377
 msgid ": Writing dirty tags to file (ESC to abort)"
 msgstr ": Skriver skitne tagger til fil (ESC for å avbryte)"
 
@@ -432,7 +432,7 @@ msgstr "Om"
 msgid "Added on"
 msgstr "Dato lagt til"
 
-#: ../src/Classes/WebServer.cpp:214 ../src/Frames/MusikTagFrame.cpp:123
+#: ../src/Classes/WebServer.cpp:278 ../src/Frames/MusikTagFrame.cpp:123
 #: ../src/Frames/Prefs/OptionTunagePanel.cpp:99 ../src/PlaylistColumn.cpp:23
 msgid "Album"
 msgstr "Album"
@@ -481,7 +481,7 @@ msgstr "Legg til fil"
 msgid "Apply"
 msgstr "Bruk"
 
-#: ../src/Classes/WebServer.cpp:211 ../src/Frames/MusikTagFrame.cpp:119
+#: ../src/Classes/WebServer.cpp:275 ../src/Frames/MusikTagFrame.cpp:119
 #: ../src/Frames/Prefs/OptionTunagePanel.cpp:98 ../src/PlaylistColumn.cpp:22
 msgid "Artist"
 msgstr "Artist"
@@ -572,7 +572,7 @@ msgstr "Tøm &Bibliotek"
 msgid "Clear old tag"
 msgstr "Fjern gammel tagg"
 
-#: ../src/Frames/MusikFrameEvents.cpp:332
+#: ../src/Frames/MusikFrameEvents.cpp:331
 msgid "Clear old tag information before writing?"
 msgstr "Fjern gammel tagg informasjon før skriving?"
 
@@ -1057,7 +1057,7 @@ msgstr "Parsing av filen %s er ikke støttet. Musikk data ikke oppdatert."
 msgid "Path"
 msgstr "Bane"
 
-#: ../src/Classes/WebServer.cpp:235
+#: ../src/Classes/WebServer.cpp:299
 #, fuzzy
 msgid "Pause"
 msgstr "&Pause"
@@ -1066,7 +1066,7 @@ msgstr "&Pause"
 msgid "Pitch control, right-click to reset"
 msgstr "Hastighetskontroll, høyreklikk for å nullstille"
 
-#: ../src/Classes/WebServer.cpp:228
+#: ../src/Classes/WebServer.cpp:292
 #, fuzzy
 msgid "Play"
 msgstr "&Spill"
@@ -1159,7 +1159,7 @@ msgstr "Proxy server bruker:"
 msgid "Purge &Missing Songs"
 msgstr "Fjern &Manglende Sanger"
 
-#: ../src/Classes/WebServer.cpp:217 ../src/PlaylistColumn.cpp:19
+#: ../src/Classes/WebServer.cpp:281 ../src/PlaylistColumn.cpp:19
 msgid "Rating"
 msgstr "Vurdering"
 
@@ -1219,7 +1219,7 @@ msgstr "Nullstill"
 msgid "Results in \"Artist - Title\", or in Stopped Text"
 msgstr "Resultater i \"Artist - Tittel\", eller i Stoppet Tekst"
 
-#: ../src/Classes/WebServer.cpp:233
+#: ../src/Classes/WebServer.cpp:297
 #, fuzzy
 msgid "Resume"
 msgstr "&Fortsett"
@@ -1387,7 +1387,7 @@ msgstr "Standard spilleliste \""
 msgid "Static"
 msgstr "Statisk"
 
-#: ../src/Classes/WebServer.cpp:240
+#: ../src/Classes/WebServer.cpp:304
 #, fuzzy
 msgid "Stop"
 msgstr "&Stopp"
@@ -1420,11 +1420,11 @@ msgstr "Tagging"
 msgid "The following fields can be used in your query"
 msgstr "Følgende felter kan bli brukt i din spørring"
 
-#: ../src/Frames/MusikFrameEvents.cpp:295
+#: ../src/Frames/MusikFrameEvents.cpp:294
 msgid "There are no pending tags available to display."
 msgstr "Det er ingen ventende tagger tilgjengelig å vise."
 
-#: ../src/Frames/MusikFrameEvents.cpp:307
+#: ../src/Frames/MusikFrameEvents.cpp:306
 msgid "There are no pending tags to finalize."
 msgstr "Det er ingen ventende tagger å sluttføre."
 
@@ -1471,7 +1471,7 @@ msgid ""
 msgstr ""
 "Dette vil tømme biblioteket. Er du absolutt sikker på at du vil gjøre dette?"
 
-#: ../src/Classes/WebServer.cpp:220 ../src/PlaylistColumn.cpp:28
+#: ../src/Classes/WebServer.cpp:284 ../src/PlaylistColumn.cpp:28
 msgid "Time"
 msgstr "Tid"
 
@@ -1483,7 +1483,7 @@ msgstr "Ganger Spilt"
 msgid "Times played"
 msgstr "Ganger spilt"
 
-#: ../src/Classes/WebServer.cpp:207 ../src/Frames/MusikTagFrame.cpp:110
+#: ../src/Classes/WebServer.cpp:271 ../src/Frames/MusikTagFrame.cpp:110
 #: ../src/Frames/Prefs/OptionTunagePanel.cpp:100 ../src/PlaylistColumn.cpp:21
 msgid "Title"
 msgstr "Tittel"

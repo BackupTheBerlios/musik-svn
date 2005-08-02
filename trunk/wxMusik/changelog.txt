@@ -1,3 +1,7 @@
+0.4.2.1
+- fixed webserver bugs. In fact 70% of the code was rewritten. Now it works on windows and linux reliable.
++ Polish translation updated. 
+
 0.4.2.0
 + All columns(besides Notes and Filename) can now be used as selection box. Try using "Added on" for example.
 + A double click on a selection box entry makes it the master box and the other boxes change content accordingly

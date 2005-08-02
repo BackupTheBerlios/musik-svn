@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wxMusik 0.4.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-08-01 14:51+0200\n"
-"PO-Revision-Date: 2005-07-25 18:24+0100\n"
+"POT-Creation-Date: 2005-08-02 16:39+0200\n"
+"PO-Revision-Date: 2005-08-01 15:28+0100\n"
 "Last-Translator: Wiktor Grebla <greblus@poczta.onet.pl>\n"
 "Language-Team: wxMusik Translators <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -44,7 +44,7 @@ msgstr "- Separator katalogów\n"
 msgid " Autotagger"
 msgstr "Automatyczny edytor tagów"
 
-#: ../src/Frames/MusikFrameEvents.cpp:212
+#: ../src/Frames/MusikFrameEvents.cpp:211
 msgid " FX"
 msgstr "Efekty"
 
@@ -56,7 +56,7 @@ msgstr " Ustawienia biblioteki"
 msgid " Library Setup - Elapsed Time: "
 msgstr " Ustawienia biblioteki - Czas operacji: "
 
-#: ../src/Frames/MusikFrameEvents.cpp:198
+#: ../src/Frames/MusikFrameEvents.cpp:197
 msgid " Preferences"
 msgstr "Ustawienia"
 
@@ -343,10 +343,10 @@ msgstr "&Aktualizuj bibliotekê"
 msgid "&View"
 msgstr "W&idok"
 
-#: ../src/Classes/WebServer.cpp:207 ../src/Classes/WebServer.cpp:211
-#: ../src/Classes/WebServer.cpp:214
+#: ../src/Classes/WebServer.cpp:271 ../src/Classes/WebServer.cpp:275
+#: ../src/Classes/WebServer.cpp:278
 msgid "&lt;unknown&gt;"
-msgstr ""
+msgstr "&lt;nieznany&gt;"
 
 #: ../src/Classes/SourcesBox.cpp:1240
 msgid "(all low quality, non-VBR)\n"
@@ -372,19 +372,19 @@ msgstr "+"
 msgid "-"
 msgstr "-"
 
-#: ../src/Frames/MusikFrameEvents.cpp:318
+#: ../src/Frames/MusikFrameEvents.cpp:317
 msgid ": Aborting process, please wait..."
 msgstr ": Przerywam proces, proszê czekaæ..."
 
-#: ../src/Frames/MusikFrameEvents.cpp:405
+#: ../src/Frames/MusikFrameEvents.cpp:373
 msgid ": Renaming selected playlist items (ESC to abort)"
 msgstr ": Zmiana nazw wybranych elementów listy (ESC aby przerwaæ)"
 
-#: ../src/Frames/MusikFrameEvents.cpp:401
+#: ../src/Frames/MusikFrameEvents.cpp:369
 msgid ": Updating tags from selection box (ESC to abort)"
 msgstr ": Aktualizacja tagów z pola zaznaczenia (ESC aby przerwaæ)"
 
-#: ../src/Frames/MusikFrameEvents.cpp:409
+#: ../src/Frames/MusikFrameEvents.cpp:377
 msgid ": Writing dirty tags to file (ESC to abort)"
 msgstr ": Zapis nieprawid³owych tagów do pliku (ESC aby przerwaæ)"
 
@@ -428,7 +428,7 @@ msgstr "O..."
 msgid "Added on"
 msgstr "Dodano"
 
-#: ../src/Classes/WebServer.cpp:214 ../src/Frames/MusikTagFrame.cpp:123
+#: ../src/Classes/WebServer.cpp:278 ../src/Frames/MusikTagFrame.cpp:123
 #: ../src/Frames/Prefs/OptionTunagePanel.cpp:99 ../src/PlaylistColumn.cpp:23
 msgid "Album"
 msgstr "Album"
@@ -439,7 +439,7 @@ msgstr "Wszystkie wyrazy"
 
 #: ../src/Frames/MusikLibraryFrame.cpp:187
 msgid "Allow tag guessing from filename"
-msgstr "Zgadywanie tagów na podst. nazwy pliku"
+msgstr "Zgadywanie tagów na podstawie nazwy pliku"
 
 #: ../src/Frames/MusikFrame.cpp:479
 msgid "Always On Top\tCtrl-Alt-T"
@@ -476,7 +476,7 @@ msgstr "Dodaj do pliku"
 msgid "Apply"
 msgstr "Zastosuj"
 
-#: ../src/Classes/WebServer.cpp:211 ../src/Frames/MusikTagFrame.cpp:119
+#: ../src/Classes/WebServer.cpp:275 ../src/Frames/MusikTagFrame.cpp:119
 #: ../src/Frames/Prefs/OptionTunagePanel.cpp:98 ../src/PlaylistColumn.cpp:22
 msgid "Artist"
 msgstr "Wykonawca"
@@ -567,7 +567,7 @@ msgstr "Wyczy¶æ &Bibliotekê"
 msgid "Clear old tag"
 msgstr "Wyczy¶æ stary tag"
 
-#: ../src/Frames/MusikFrameEvents.cpp:332
+#: ../src/Frames/MusikFrameEvents.cpp:331
 msgid "Clear old tag information before writing?"
 msgstr "Czyszczenie informacji ze starych tagów przed zapisem?"
 
@@ -723,7 +723,7 @@ msgstr "Zmiana tempa "
 
 #: ../src/Frames/Prefs/WebServerPanel.cpp:30
 msgid "Enable Webserver"
-msgstr ""
+msgstr "W³±cz serwer"
 
 #: ../src/Frames/Prefs/OptionGeneralPanel.cpp:66
 msgid "Enable balloon song info"
@@ -735,7 +735,7 @@ msgstr "Dodaj do listy odtwarzania"
 
 #: ../src/Frames/MusikAutoTaggerFrame.cpp:113
 msgid "Enter Tag Mask:"
-msgstr "Wprowaæ maskê taga:"
+msgstr "Wprowad¼ maskê taga:"
 
 #: ../src/Classes/SourcesBox.cpp:372
 msgid "Enter name for new dynamic playlist:"
@@ -895,7 +895,7 @@ msgstr "Natychmiast"
 
 #: ../src/Frames/Prefs/WebServerPanel.h:12
 msgid "Internal Webserver"
-msgstr ""
+msgstr "Serwer WWW"
 
 #: ../src/Classes/SourcesBox.cpp:997
 msgid "Invalid playlist name."
@@ -938,7 +938,7 @@ msgstr "Ró¿ne"
 
 #: ../src/Frames/Prefs/MusikPrefsFrame.cpp:115
 msgid "Miscellaneous "
-msgstr ""
+msgstr "Ró¿ne"
 
 #: ../src/Classes/Library/MetaDataHandler.cpp:114
 msgid "Monkey's Audio File"
@@ -971,7 +971,7 @@ msgstr "Nowych"
 
 #: ../src/Classes/ActivityBox.cpp:875 ../src/Classes/PlaylistCtrl.cpp:414
 msgid "Next"
-msgstr "Jako nastêpny"
+msgstr "Nastêpny"
 
 #: ../src/Classes/PlaylistCtrl.cpp:398
 msgid "No Horizontal Scroll"
@@ -1057,19 +1057,17 @@ msgstr ""
 msgid "Path"
 msgstr "¦cie¿ka"
 
-#: ../src/Classes/WebServer.cpp:235
-#, fuzzy
+#: ../src/Classes/WebServer.cpp:299
 msgid "Pause"
-msgstr "&Pauza"
+msgstr "Pauza"
 
 #: ../src/Frames/MusikFXFrame.cpp:131
 msgid "Pitch control, right-click to reset"
 msgstr "Sterowanie tonacj±, prawy przycisk resetuje"
 
-#: ../src/Classes/WebServer.cpp:228
-#, fuzzy
+#: ../src/Classes/WebServer.cpp:292
 msgid "Play"
-msgstr "&Odtwarzaj"
+msgstr "Odtwarzaj"
 
 #: ../src/Classes/MusikPlayer.cpp:555
 msgid "Play failed, please try again."
@@ -1159,7 +1157,7 @@ msgstr "U¿ytkownik:"
 msgid "Purge &Missing Songs"
 msgstr "Usuñ &nieistniej±ce utwory"
 
-#: ../src/Classes/WebServer.cpp:217 ../src/PlaylistColumn.cpp:19
+#: ../src/Classes/WebServer.cpp:281 ../src/PlaylistColumn.cpp:19
 msgid "Rating"
 msgstr "Ocena"
 
@@ -1169,7 +1167,7 @@ msgstr "Buforowanie (%):"
 
 #: ../src/Frames/Prefs/WebServerPanel.cpp:39
 msgid "Refresh Rate(s):"
-msgstr ""
+msgstr "Od¶wie¿anie (s):"
 
 #: ../src/Frames/MusikLibraryFrame.cpp:172
 msgid "Remove All"
@@ -1218,10 +1216,9 @@ msgstr "Resetuj"
 msgid "Results in \"Artist - Title\", or in Stopped Text"
 msgstr "\"Wykonawca - Tytu³\" lub informacja o zatrzymaniu"
 
-#: ../src/Classes/WebServer.cpp:233
-#, fuzzy
+#: ../src/Classes/WebServer.cpp:297
 msgid "Resume"
-msgstr "&Wznów"
+msgstr "Wznów"
 
 #: ../src/Classes/MusikEQCtrl.cpp:56
 #, c-format
@@ -1385,10 +1382,9 @@ msgstr "Standardow± listê \""
 msgid "Static"
 msgstr "Statyczne"
 
-#: ../src/Classes/WebServer.cpp:240
-#, fuzzy
+#: ../src/Classes/WebServer.cpp:304
 msgid "Stop"
-msgstr "&Zatrzymaj"
+msgstr "Zatrzymaj"
 
 #: ../src/Frames/Prefs/OptionGeneralPanel.cpp:62
 msgid "Stop song, if Now Playing is cleared"
@@ -1419,11 +1415,11 @@ msgstr "Dodawanie tagów"
 msgid "The following fields can be used in your query"
 msgstr "Zapytanie mo¿e siê sk³adaæ z nastêpuj±cych s³ów"
 
-#: ../src/Frames/MusikFrameEvents.cpp:295
+#: ../src/Frames/MusikFrameEvents.cpp:294
 msgid "There are no pending tags available to display."
 msgstr "Nie ma oczekuj±cych tagów do wy¶wietlenia."
 
-#: ../src/Frames/MusikFrameEvents.cpp:307
+#: ../src/Frames/MusikFrameEvents.cpp:306
 msgid "There are no pending tags to finalize."
 msgstr "Nie ma oczekuj±cych tagów do zakoñczenia."
 
@@ -1474,7 +1470,7 @@ msgstr ""
 "Bibloteka zostanie wyczyszczona z zawarto¶ci. Czy jeste¶ ABSOLUTNIE PEWIEN, "
 "¿e chcesz to zrobiæ?"
 
-#: ../src/Classes/WebServer.cpp:220 ../src/PlaylistColumn.cpp:28
+#: ../src/Classes/WebServer.cpp:284 ../src/PlaylistColumn.cpp:28
 msgid "Time"
 msgstr "Czas"
 
@@ -1486,7 +1482,7 @@ msgstr "Odtworzeñ"
 msgid "Times played"
 msgstr "Odtwarzano"
 
-#: ../src/Classes/WebServer.cpp:207 ../src/Frames/MusikTagFrame.cpp:110
+#: ../src/Classes/WebServer.cpp:271 ../src/Frames/MusikTagFrame.cpp:110
 #: ../src/Frames/Prefs/OptionTunagePanel.cpp:100 ../src/PlaylistColumn.cpp:21
 msgid "Title"
 msgstr "Tytu³"
@@ -1572,9 +1568,8 @@ msgid "WAVE Audio File"
 msgstr "Plik WAVE"
 
 #: ../src/Frames/Prefs/WebServerPanel.cpp:37
-#, fuzzy
 msgid "Webserver port:"
-msgstr "Port:"
+msgstr "Port serwera:"
 
 #: ../src/Classes/Library/MetaDataHandler.cpp:119
 msgid "Windows Media Audio File"

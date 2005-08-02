@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wxMusik\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-08-01 14:51+0200\n"
+"POT-Creation-Date: 2005-08-02 16:39+0200\n"
 "PO-Revision-Date: 2005-07-26 07:13+0100\n"
 "Last-Translator: Vit Hrachovy <flaska@moje.cz>\n"
 "Language-Team: czech <flaska@moje.cz>\n"
@@ -42,7 +42,7 @@ msgstr " - Oddìlovaè Adresáøù\n"
 msgid " Autotagger"
 msgstr " Oznaèkovávaè"
 
-#: ../src/Frames/MusikFrameEvents.cpp:212
+#: ../src/Frames/MusikFrameEvents.cpp:211
 msgid " FX"
 msgstr "FX"
 
@@ -54,7 +54,7 @@ msgstr "Nastavení Knihovny"
 msgid " Library Setup - Elapsed Time: "
 msgstr "Nastavuji Knihovnu - Uplynulý èas"
 
-#: ../src/Frames/MusikFrameEvents.cpp:198
+#: ../src/Frames/MusikFrameEvents.cpp:197
 msgid " Preferences"
 msgstr "Nastavení"
 
@@ -342,8 +342,8 @@ msgstr "&Aktualizuj Knihovnu"
 msgid "&View"
 msgstr "&Zobrazit"
 
-#: ../src/Classes/WebServer.cpp:207 ../src/Classes/WebServer.cpp:211
-#: ../src/Classes/WebServer.cpp:214
+#: ../src/Classes/WebServer.cpp:271 ../src/Classes/WebServer.cpp:275
+#: ../src/Classes/WebServer.cpp:278
 msgid "&lt;unknown&gt;"
 msgstr ""
 
@@ -371,19 +371,19 @@ msgstr "+"
 msgid "-"
 msgstr "-"
 
-#: ../src/Frames/MusikFrameEvents.cpp:318
+#: ../src/Frames/MusikFrameEvents.cpp:317
 msgid ": Aborting process, please wait..."
 msgstr ": Ukonèuji proces, prosím èekejte..."
 
-#: ../src/Frames/MusikFrameEvents.cpp:405
+#: ../src/Frames/MusikFrameEvents.cpp:373
 msgid ": Renaming selected playlist items (ESC to abort)"
 msgstr ": Pøejmenovávám vybrané polo¾ky ze seznamu skladeb (ESC - zru¹it)"
 
-#: ../src/Frames/MusikFrameEvents.cpp:401
+#: ../src/Frames/MusikFrameEvents.cpp:369
 msgid ": Updating tags from selection box (ESC to abort)"
 msgstr ": Aktualizuji vybrané Znaèky (ESC - zru¹it)"
 
-#: ../src/Frames/MusikFrameEvents.cpp:409
+#: ../src/Frames/MusikFrameEvents.cpp:377
 msgid ": Writing dirty tags to file (ESC to abort)"
 msgstr ": Zapisuji neèisté znaèky do souboru (ESC - zru¹it)"
 
@@ -425,7 +425,7 @@ msgstr "O programu"
 msgid "Added on"
 msgstr "Pøidáno"
 
-#: ../src/Classes/WebServer.cpp:214 ../src/Frames/MusikTagFrame.cpp:123
+#: ../src/Classes/WebServer.cpp:278 ../src/Frames/MusikTagFrame.cpp:123
 #: ../src/Frames/Prefs/OptionTunagePanel.cpp:99 ../src/PlaylistColumn.cpp:23
 msgid "Album"
 msgstr "Album"
@@ -474,7 +474,7 @@ msgstr "Pøipojit k souboru"
 msgid "Apply"
 msgstr "Pou¾ít"
 
-#: ../src/Classes/WebServer.cpp:211 ../src/Frames/MusikTagFrame.cpp:119
+#: ../src/Classes/WebServer.cpp:275 ../src/Frames/MusikTagFrame.cpp:119
 #: ../src/Frames/Prefs/OptionTunagePanel.cpp:98 ../src/PlaylistColumn.cpp:22
 msgid "Artist"
 msgstr "Umìlec"
@@ -565,7 +565,7 @@ msgstr "Vyèistit Knihovnu"
 msgid "Clear old tag"
 msgstr "Vyèistit starou znaèku"
 
-#: ../src/Frames/MusikFrameEvents.cpp:332
+#: ../src/Frames/MusikFrameEvents.cpp:331
 msgid "Clear old tag information before writing?"
 msgstr "Vyèistit starou znaèku pøed zápisem?"
 
@@ -1053,7 +1053,7 @@ msgstr ""
 msgid "Path"
 msgstr "Cesta"
 
-#: ../src/Classes/WebServer.cpp:235
+#: ../src/Classes/WebServer.cpp:299
 #, fuzzy
 msgid "Pause"
 msgstr "&Pauza"
@@ -1062,7 +1062,7 @@ msgstr "&Pauza"
 msgid "Pitch control, right-click to reset"
 msgstr "Kontrola 'Pitch', kliknìte pravým my¹ítkem pro vynulování"
 
-#: ../src/Classes/WebServer.cpp:228
+#: ../src/Classes/WebServer.cpp:292
 #, fuzzy
 msgid "Play"
 msgstr "&Pøehrát"
@@ -1155,7 +1155,7 @@ msgstr "U¾ivatelské jméno pro Proxy server:"
 msgid "Purge &Missing Songs"
 msgstr "Vyèistit &Chybìjící Skladby"
 
-#: ../src/Classes/WebServer.cpp:217 ../src/PlaylistColumn.cpp:19
+#: ../src/Classes/WebServer.cpp:281 ../src/PlaylistColumn.cpp:19
 msgid "Rating"
 msgstr "Hodnocení"
 
@@ -1214,7 +1214,7 @@ msgstr "Vynuluj pásma"
 msgid "Results in \"Artist - Title\", or in Stopped Text"
 msgstr "Výsledky v \"Umìlec - Název\", nebo v Zastaveném Textu"
 
-#: ../src/Classes/WebServer.cpp:233
+#: ../src/Classes/WebServer.cpp:297
 #, fuzzy
 msgid "Resume"
 msgstr "&Pokraèovat"
@@ -1381,7 +1381,7 @@ msgstr "Standartní seznam skladeb \""
 msgid "Static"
 msgstr "Statický"
 
-#: ../src/Classes/WebServer.cpp:240
+#: ../src/Classes/WebServer.cpp:304
 #, fuzzy
 msgid "Stop"
 msgstr "&Zastavit"
@@ -1414,11 +1414,11 @@ msgstr "Oznaèkování"
 msgid "The following fields can be used in your query"
 msgstr "Ve va¹em dotazu mù¾ete pou¾ít následující pole"
 
-#: ../src/Frames/MusikFrameEvents.cpp:295
+#: ../src/Frames/MusikFrameEvents.cpp:294
 msgid "There are no pending tags available to display."
 msgstr "Neexistují ¾ádnì nedokonèené znaèky, které by ¹lo zobrazit."
 
-#: ../src/Frames/MusikFrameEvents.cpp:307
+#: ../src/Frames/MusikFrameEvents.cpp:306
 msgid "There are no pending tags to finalize."
 msgstr "Neexistují ¾ádné nedokonèené znaèky, ktetré by ¹lo finalizovat."
 
@@ -1469,7 +1469,7 @@ msgstr ""
 "Tato akce naprosto vyma¾e celou databázi. Jste si NAPROSTO JISTÍ ¾e to "
 "chcete udìlat?"
 
-#: ../src/Classes/WebServer.cpp:220 ../src/PlaylistColumn.cpp:28
+#: ../src/Classes/WebServer.cpp:284 ../src/PlaylistColumn.cpp:28
 msgid "Time"
 msgstr "Èas"
 
@@ -1481,7 +1481,7 @@ msgstr "-krát Hráno"
 msgid "Times played"
 msgstr "-krát Hráno"
 
-#: ../src/Classes/WebServer.cpp:207 ../src/Frames/MusikTagFrame.cpp:110
+#: ../src/Classes/WebServer.cpp:271 ../src/Frames/MusikTagFrame.cpp:110
 #: ../src/Frames/Prefs/OptionTunagePanel.cpp:100 ../src/PlaylistColumn.cpp:21
 msgid "Title"
 msgstr "Název"

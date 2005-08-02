@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wxMusik-0.3.1.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-08-01 14:51+0200\n"
+"POT-Creation-Date: 2005-08-02 16:39+0200\n"
 "PO-Revision-Date: 2005-02-19 11:41-0400\n"
 "Last-Translator: \n"
 "Language-Team: wxMusikTeam <LL@li.org>\n"
@@ -45,7 +45,7 @@ msgstr " - Separador de diretórios\n"
 msgid " Autotagger"
 msgstr " Etiquetador"
 
-#: ../src/Frames/MusikFrameEvents.cpp:212
+#: ../src/Frames/MusikFrameEvents.cpp:211
 msgid " FX"
 msgstr " FX"
 
@@ -57,7 +57,7 @@ msgstr " Configuração da Musicoteca"
 msgid " Library Setup - Elapsed Time: "
 msgstr " Configuração da Musicoteca - tempo restante"
 
-#: ../src/Frames/MusikFrameEvents.cpp:198
+#: ../src/Frames/MusikFrameEvents.cpp:197
 msgid " Preferences"
 msgstr " Preferências"
 
@@ -344,8 +344,8 @@ msgstr "&Atualizar a Musicoteca"
 msgid "&View"
 msgstr "&Exibir"
 
-#: ../src/Classes/WebServer.cpp:207 ../src/Classes/WebServer.cpp:211
-#: ../src/Classes/WebServer.cpp:214
+#: ../src/Classes/WebServer.cpp:271 ../src/Classes/WebServer.cpp:275
+#: ../src/Classes/WebServer.cpp:278
 msgid "&lt;unknown&gt;"
 msgstr ""
 
@@ -373,19 +373,19 @@ msgstr "+"
 msgid "-"
 msgstr "-"
 
-#: ../src/Frames/MusikFrameEvents.cpp:318
+#: ../src/Frames/MusikFrameEvents.cpp:317
 msgid ": Aborting process, please wait..."
 msgstr ": excluindo o processo. Por favor aguarde..."
 
-#: ../src/Frames/MusikFrameEvents.cpp:405
+#: ../src/Frames/MusikFrameEvents.cpp:373
 msgid ": Renaming selected playlist items (ESC to abort)"
 msgstr ": renomeando itens selecionados na Seleção atual (ESC para sair)"
 
-#: ../src/Frames/MusikFrameEvents.cpp:401
+#: ../src/Frames/MusikFrameEvents.cpp:369
 msgid ": Updating tags from selection box (ESC to abort)"
 msgstr ": atualizar etiquetas da caixa de seleção (ESC para abandonar)"
 
-#: ../src/Frames/MusikFrameEvents.cpp:409
+#: ../src/Frames/MusikFrameEvents.cpp:377
 msgid ": Writing dirty tags to file (ESC to abort)"
 msgstr ": escrevendo etiquetas confusas no arquivo (ESC para abandonar)"
 
@@ -432,7 +432,7 @@ msgstr "Sobre o programa..."
 msgid "Added on"
 msgstr "Data de entrada"
 
-#: ../src/Classes/WebServer.cpp:214 ../src/Frames/MusikTagFrame.cpp:123
+#: ../src/Classes/WebServer.cpp:278 ../src/Frames/MusikTagFrame.cpp:123
 #: ../src/Frames/Prefs/OptionTunagePanel.cpp:99 ../src/PlaylistColumn.cpp:23
 msgid "Album"
 msgstr "Álbum"
@@ -482,7 +482,7 @@ msgstr "Anexar ao arquivo"
 msgid "Apply"
 msgstr "Aplicar"
 
-#: ../src/Classes/WebServer.cpp:211 ../src/Frames/MusikTagFrame.cpp:119
+#: ../src/Classes/WebServer.cpp:275 ../src/Frames/MusikTagFrame.cpp:119
 #: ../src/Frames/Prefs/OptionTunagePanel.cpp:98 ../src/PlaylistColumn.cpp:22
 msgid "Artist"
 msgstr "Artista"
@@ -574,7 +574,7 @@ msgstr "Apagar &a Musicoteca"
 msgid "Clear old tag"
 msgstr "Apagar velhas etiquetas "
 
-#: ../src/Frames/MusikFrameEvents.cpp:332
+#: ../src/Frames/MusikFrameEvents.cpp:331
 msgid "Clear old tag information before writing?"
 msgstr "Apagar velhas etiquetas antes de escrever?"
 
@@ -1063,7 +1063,7 @@ msgstr ""
 msgid "Path"
 msgstr "Caminho"
 
-#: ../src/Classes/WebServer.cpp:235
+#: ../src/Classes/WebServer.cpp:299
 #, fuzzy
 msgid "Pause"
 msgstr "&Pausa"
@@ -1072,7 +1072,7 @@ msgstr "&Pausa"
 msgid "Pitch control, right-click to reset"
 msgstr "Controlo da freqüência do som, clicar-direito para inicializar"
 
-#: ../src/Classes/WebServer.cpp:228
+#: ../src/Classes/WebServer.cpp:292
 #, fuzzy
 msgid "Play"
 msgstr "&Tocar"
@@ -1165,7 +1165,7 @@ msgstr "Usuário do servidor proxy:"
 msgid "Purge &Missing Songs"
 msgstr "Remover músicas faltantes"
 
-#: ../src/Classes/WebServer.cpp:217 ../src/PlaylistColumn.cpp:19
+#: ../src/Classes/WebServer.cpp:281 ../src/PlaylistColumn.cpp:19
 msgid "Rating"
 msgstr "Dar uma nota"
 
@@ -1225,7 +1225,7 @@ msgstr "Reiniciliziar os canais"
 msgid "Results in \"Artist - Title\", or in Stopped Text"
 msgstr "Resultados em \"Artista - Título\""
 
-#: ../src/Classes/WebServer.cpp:233
+#: ../src/Classes/WebServer.cpp:297
 #, fuzzy
 msgid "Resume"
 msgstr "&Recuperar"
@@ -1395,7 +1395,7 @@ msgstr "Seleção musical padrão\""
 msgid "Static"
 msgstr "Estático"
 
-#: ../src/Classes/WebServer.cpp:240
+#: ../src/Classes/WebServer.cpp:304
 #, fuzzy
 msgid "Stop"
 msgstr "&Parar"
@@ -1428,11 +1428,11 @@ msgstr "Editar etiquetas"
 msgid "The following fields can be used in your query"
 msgstr "Os campos seguintes podem ser usados na sua consulta"
 
-#: ../src/Frames/MusikFrameEvents.cpp:295
+#: ../src/Frames/MusikFrameEvents.cpp:294
 msgid "There are no pending tags available to display."
 msgstr "Não têm etiquetas pendentes disponíveis para exibir"
 
-#: ../src/Frames/MusikFrameEvents.cpp:307
+#: ../src/Frames/MusikFrameEvents.cpp:306
 msgid "There are no pending tags to finalize."
 msgstr "Não têm etiquetas pendentes a finalizar"
 
@@ -1484,7 +1484,7 @@ msgid ""
 msgstr ""
 "Isso vai apagar todos os arquivos da Musicoteca. QUER REALMENTE FAZER ISSO?"
 
-#: ../src/Classes/WebServer.cpp:220 ../src/PlaylistColumn.cpp:28
+#: ../src/Classes/WebServer.cpp:284 ../src/PlaylistColumn.cpp:28
 msgid "Time"
 msgstr "Duração"
 
@@ -1496,7 +1496,7 @@ msgstr "Índice de repetição"
 msgid "Times played"
 msgstr "Índice de repetição"
 
-#: ../src/Classes/WebServer.cpp:207 ../src/Frames/MusikTagFrame.cpp:110
+#: ../src/Classes/WebServer.cpp:271 ../src/Frames/MusikTagFrame.cpp:110
 #: ../src/Frames/Prefs/OptionTunagePanel.cpp:100 ../src/PlaylistColumn.cpp:21
 msgid "Title"
 msgstr "Título"

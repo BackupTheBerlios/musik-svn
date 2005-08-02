@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wxMusik\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-08-01 14:51+0200\n"
+"POT-Creation-Date: 2005-08-02 16:39+0200\n"
 "PO-Revision-Date: 2005-02-18 22:12+0100\n"
 "Last-Translator: Marco Ogliengo <rumandfruit@gmail.com>\n"
 "Language-Team: mirko_3 <mirko_3@gmx.net>\n"
@@ -44,7 +44,7 @@ msgstr "- Separatore Cartelle\n"
 msgid " Autotagger"
 msgstr "Riempi Etichette Automaticamente"
 
-#: ../src/Frames/MusikFrameEvents.cpp:212
+#: ../src/Frames/MusikFrameEvents.cpp:211
 msgid " FX"
 msgstr " FX"
 
@@ -56,7 +56,7 @@ msgstr "Configurazione Libreria"
 msgid " Library Setup - Elapsed Time: "
 msgstr "Configurazione Libreria - Tempo Trascorso:"
 
-#: ../src/Frames/MusikFrameEvents.cpp:198
+#: ../src/Frames/MusikFrameEvents.cpp:197
 msgid " Preferences"
 msgstr "Impostazioni"
 
@@ -345,8 +345,8 @@ msgstr "&Aggiorna Libreria"
 msgid "&View"
 msgstr "&Visualizza"
 
-#: ../src/Classes/WebServer.cpp:207 ../src/Classes/WebServer.cpp:211
-#: ../src/Classes/WebServer.cpp:214
+#: ../src/Classes/WebServer.cpp:271 ../src/Classes/WebServer.cpp:275
+#: ../src/Classes/WebServer.cpp:278
 msgid "&lt;unknown&gt;"
 msgstr ""
 
@@ -374,20 +374,20 @@ msgstr "+"
 msgid "-"
 msgstr "-"
 
-#: ../src/Frames/MusikFrameEvents.cpp:318
+#: ../src/Frames/MusikFrameEvents.cpp:317
 msgid ": Aborting process, please wait..."
 msgstr ": Annullando operazione, prego attendere..."
 
-#: ../src/Frames/MusikFrameEvents.cpp:405
+#: ../src/Frames/MusikFrameEvents.cpp:373
 msgid ": Renaming selected playlist items (ESC to abort)"
 msgstr ": Rinominando elementi della playlist selezionati (ESC per annullare)"
 
-#: ../src/Frames/MusikFrameEvents.cpp:401
+#: ../src/Frames/MusikFrameEvents.cpp:369
 msgid ": Updating tags from selection box (ESC to abort)"
 msgstr ""
 ": Aggiornamento etichette dal riquadro di selezione (ESC per annullare)"
 
-#: ../src/Frames/MusikFrameEvents.cpp:409
+#: ../src/Frames/MusikFrameEvents.cpp:377
 msgid ": Writing dirty tags to file (ESC to abort)"
 msgstr ": Scrittura etichette sporche (ESC per annullare)"
 
@@ -431,7 +431,7 @@ msgstr "Informazioni su..."
 msgid "Added on"
 msgstr "Aggiunto il"
 
-#: ../src/Classes/WebServer.cpp:214 ../src/Frames/MusikTagFrame.cpp:123
+#: ../src/Classes/WebServer.cpp:278 ../src/Frames/MusikTagFrame.cpp:123
 #: ../src/Frames/Prefs/OptionTunagePanel.cpp:99 ../src/PlaylistColumn.cpp:23
 msgid "Album"
 msgstr "Album"
@@ -480,7 +480,7 @@ msgstr "Aggiundi al file"
 msgid "Apply"
 msgstr "Applica"
 
-#: ../src/Classes/WebServer.cpp:211 ../src/Frames/MusikTagFrame.cpp:119
+#: ../src/Classes/WebServer.cpp:275 ../src/Frames/MusikTagFrame.cpp:119
 #: ../src/Frames/Prefs/OptionTunagePanel.cpp:98 ../src/PlaylistColumn.cpp:22
 msgid "Artist"
 msgstr "Artista"
@@ -571,7 +571,7 @@ msgstr "Cancella &Libreria"
 msgid "Clear old tag"
 msgstr "Cancella vecchia etichetta"
 
-#: ../src/Frames/MusikFrameEvents.cpp:332
+#: ../src/Frames/MusikFrameEvents.cpp:331
 msgid "Clear old tag information before writing?"
 msgstr "Cancellare vecchie etichette prima di procedere con la scrittura?"
 
@@ -1062,7 +1062,7 @@ msgstr ""
 msgid "Path"
 msgstr "Percorso"
 
-#: ../src/Classes/WebServer.cpp:235
+#: ../src/Classes/WebServer.cpp:299
 #, fuzzy
 msgid "Pause"
 msgstr "&Pausa"
@@ -1071,7 +1071,7 @@ msgstr "&Pausa"
 msgid "Pitch control, right-click to reset"
 msgstr "Controllo intonazione (altezza), click col destro per resettare"
 
-#: ../src/Classes/WebServer.cpp:228
+#: ../src/Classes/WebServer.cpp:292
 #, fuzzy
 msgid "Play"
 msgstr "&Play"
@@ -1164,7 +1164,7 @@ msgstr "Utente proxy server:"
 msgid "Purge &Missing Songs"
 msgstr "Rimuovi Canzoni Mancanti"
 
-#: ../src/Classes/WebServer.cpp:217 ../src/PlaylistColumn.cpp:19
+#: ../src/Classes/WebServer.cpp:281 ../src/PlaylistColumn.cpp:19
 msgid "Rating"
 msgstr "Voto"
 
@@ -1224,7 +1224,7 @@ msgstr "Resetta bande"
 msgid "Results in \"Artist - Title\", or in Stopped Text"
 msgstr "Risultati in \"Artista - Titolo\", o nel 'Testo mentre fermo'"
 
-#: ../src/Classes/WebServer.cpp:233
+#: ../src/Classes/WebServer.cpp:297
 #, fuzzy
 msgid "Resume"
 msgstr "&Riprendi"
@@ -1392,7 +1392,7 @@ msgstr "Standard playlist \""
 msgid "Static"
 msgstr "Statico"
 
-#: ../src/Classes/WebServer.cpp:240
+#: ../src/Classes/WebServer.cpp:304
 #, fuzzy
 msgid "Stop"
 msgstr "&Stop"
@@ -1425,11 +1425,11 @@ msgstr "Etichette"
 msgid "The following fields can be used in your query"
 msgstr "I seguenti campi possono essere utilizzati per il tuo filtro"
 
-#: ../src/Frames/MusikFrameEvents.cpp:295
+#: ../src/Frames/MusikFrameEvents.cpp:294
 msgid "There are no pending tags available to display."
 msgstr "Non ci sono etichette in sospeso da visualizzare."
 
-#: ../src/Frames/MusikFrameEvents.cpp:307
+#: ../src/Frames/MusikFrameEvents.cpp:306
 msgid "There are no pending tags to finalize."
 msgstr "Non ci sono etichette in sospeso da scrivere."
 
@@ -1481,7 +1481,7 @@ msgstr ""
 "Facendo questo verrà cancellata totalmente la libreria. Siete COMPLETAMENTE "
 "SICURI di volerlo fare?"
 
-#: ../src/Classes/WebServer.cpp:220 ../src/PlaylistColumn.cpp:28
+#: ../src/Classes/WebServer.cpp:284 ../src/PlaylistColumn.cpp:28
 msgid "Time"
 msgstr "Tempo"
 
@@ -1493,7 +1493,7 @@ msgstr "Numero di Volte Ascoltata"
 msgid "Times played"
 msgstr "Numero di volte ascoltata"
 
-#: ../src/Classes/WebServer.cpp:207 ../src/Frames/MusikTagFrame.cpp:110
+#: ../src/Classes/WebServer.cpp:271 ../src/Frames/MusikTagFrame.cpp:110
 #: ../src/Frames/Prefs/OptionTunagePanel.cpp:100 ../src/PlaylistColumn.cpp:21
 msgid "Title"
 msgstr "Titolo"

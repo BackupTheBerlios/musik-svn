@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wxMusik-0.3.1.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-08-01 14:51+0200\n"
+"POT-Creation-Date: 2005-08-02 16:39+0200\n"
 "PO-Revision-Date: 2005-02-18 23:01+0100\n"
 "Last-Translator: \n"
 "Language-Team: wxMusik Team <LL@li.org>\n"
@@ -45,7 +45,7 @@ msgstr " - разделитель директорий\n"
 msgid " Autotagger"
 msgstr "авто тэг"
 
-#: ../src/Frames/MusikFrameEvents.cpp:212
+#: ../src/Frames/MusikFrameEvents.cpp:211
 msgid " FX"
 msgstr "FX"
 
@@ -57,7 +57,7 @@ msgstr "Настройки библиотеки"
 msgid " Library Setup - Elapsed Time: "
 msgstr "Настройки библиотеки - Прошло времени"
 
-#: ../src/Frames/MusikFrameEvents.cpp:198
+#: ../src/Frames/MusikFrameEvents.cpp:197
 msgid " Preferences"
 msgstr "Настройки"
 
@@ -345,8 +345,8 @@ msgstr "&обновить библиотеку"
 msgid "&View"
 msgstr "&показать"
 
-#: ../src/Classes/WebServer.cpp:207 ../src/Classes/WebServer.cpp:211
-#: ../src/Classes/WebServer.cpp:214
+#: ../src/Classes/WebServer.cpp:271 ../src/Classes/WebServer.cpp:275
+#: ../src/Classes/WebServer.cpp:278
 msgid "&lt;unknown&gt;"
 msgstr ""
 
@@ -374,19 +374,19 @@ msgstr "+"
 msgid "-"
 msgstr "-"
 
-#: ../src/Frames/MusikFrameEvents.cpp:318
+#: ../src/Frames/MusikFrameEvents.cpp:317
 msgid ": Aborting process, please wait..."
 msgstr ": остановка процесса,пожалуйста подождите..."
 
-#: ../src/Frames/MusikFrameEvents.cpp:405
+#: ../src/Frames/MusikFrameEvents.cpp:373
 msgid ": Renaming selected playlist items (ESC to abort)"
 msgstr ": переименование отобранных пунктов (ESC, чтобы прервать)"
 
-#: ../src/Frames/MusikFrameEvents.cpp:401
+#: ../src/Frames/MusikFrameEvents.cpp:369
 msgid ": Updating tags from selection box (ESC to abort)"
 msgstr ": обновление тэгов (ESC чтобы прервать)"
 
-#: ../src/Frames/MusikFrameEvents.cpp:409
+#: ../src/Frames/MusikFrameEvents.cpp:377
 msgid ": Writing dirty tags to file (ESC to abort)"
 msgstr ": запись тэгов в файл (ESC чтобы прервать)"
 
@@ -433,7 +433,7 @@ msgstr "о"
 msgid "Added on"
 msgstr "прибавляемый"
 
-#: ../src/Classes/WebServer.cpp:214 ../src/Frames/MusikTagFrame.cpp:123
+#: ../src/Classes/WebServer.cpp:278 ../src/Frames/MusikTagFrame.cpp:123
 #: ../src/Frames/Prefs/OptionTunagePanel.cpp:99 ../src/PlaylistColumn.cpp:23
 msgid "Album"
 msgstr "альбом"
@@ -482,7 +482,7 @@ msgstr "приложить к файлу"
 msgid "Apply"
 msgstr "добавить"
 
-#: ../src/Classes/WebServer.cpp:211 ../src/Frames/MusikTagFrame.cpp:119
+#: ../src/Classes/WebServer.cpp:275 ../src/Frames/MusikTagFrame.cpp:119
 #: ../src/Frames/Prefs/OptionTunagePanel.cpp:98 ../src/PlaylistColumn.cpp:22
 msgid "Artist"
 msgstr "исполнитель"
@@ -573,7 +573,7 @@ msgstr "очистить &библиотеку"
 msgid "Clear old tag"
 msgstr "очистить старый тэг"
 
-#: ../src/Frames/MusikFrameEvents.cpp:332
+#: ../src/Frames/MusikFrameEvents.cpp:331
 msgid "Clear old tag information before writing?"
 msgstr "очистить старый тэг перед записью?"
 
@@ -1058,7 +1058,7 @@ msgstr "парсинг файла %s не поддерживается. данные песни не обновлены."
 msgid "Path"
 msgstr "путь"
 
-#: ../src/Classes/WebServer.cpp:235
+#: ../src/Classes/WebServer.cpp:299
 #, fuzzy
 msgid "Pause"
 msgstr "&пауза"
@@ -1067,7 +1067,7 @@ msgstr "&пауза"
 msgid "Pitch control, right-click to reset"
 msgstr "питч контроль, правый щелчек для сброса"
 
-#: ../src/Classes/WebServer.cpp:228
+#: ../src/Classes/WebServer.cpp:292
 #, fuzzy
 msgid "Play"
 msgstr "&играть"
@@ -1160,7 +1160,7 @@ msgstr "пользователь прокси сервера:"
 msgid "Purge &Missing Songs"
 msgstr "произвести чистку отсутствующих песен"
 
-#: ../src/Classes/WebServer.cpp:217 ../src/PlaylistColumn.cpp:19
+#: ../src/Classes/WebServer.cpp:281 ../src/PlaylistColumn.cpp:19
 msgid "Rating"
 msgstr "рейтинг"
 
@@ -1220,7 +1220,7 @@ msgstr "сброс полос"
 msgid "Results in \"Artist - Title\", or in Stopped Text"
 msgstr "результаты в \"исполнитель - название\", или в остановленном тексте"
 
-#: ../src/Classes/WebServer.cpp:233
+#: ../src/Classes/WebServer.cpp:297
 #, fuzzy
 msgid "Resume"
 msgstr "&продолжить"
@@ -1388,7 +1388,7 @@ msgstr "стандарт плейлист \""
 msgid "Static"
 msgstr "статический"
 
-#: ../src/Classes/WebServer.cpp:240
+#: ../src/Classes/WebServer.cpp:304
 #, fuzzy
 msgid "Stop"
 msgstr "&стоп"
@@ -1421,11 +1421,11 @@ msgstr "отмечать"
 msgid "The following fields can be used in your query"
 msgstr "следующие области могут использоваться в вашем вопросе"
 
-#: ../src/Frames/MusikFrameEvents.cpp:295
+#: ../src/Frames/MusikFrameEvents.cpp:294
 msgid "There are no pending tags available to display."
 msgstr "нет никаких незаконченных тэгов для показа"
 
-#: ../src/Frames/MusikFrameEvents.cpp:307
+#: ../src/Frames/MusikFrameEvents.cpp:306
 msgid "There are no pending tags to finalize."
 msgstr "нет никаких незаконченных тэгов для завершения."
 
@@ -1476,7 +1476,7 @@ msgid ""
 "this?"
 msgstr "это очистит библиотеку.вы уверены,что хотите сделать это?"
 
-#: ../src/Classes/WebServer.cpp:220 ../src/PlaylistColumn.cpp:28
+#: ../src/Classes/WebServer.cpp:284 ../src/PlaylistColumn.cpp:28
 msgid "Time"
 msgstr "время"
 
@@ -1488,7 +1488,7 @@ msgstr "играемое время"
 msgid "Times played"
 msgstr "играемое время"
 
-#: ../src/Classes/WebServer.cpp:207 ../src/Frames/MusikTagFrame.cpp:110
+#: ../src/Classes/WebServer.cpp:271 ../src/Frames/MusikTagFrame.cpp:110
 #: ../src/Frames/Prefs/OptionTunagePanel.cpp:100 ../src/PlaylistColumn.cpp:21
 msgid "Title"
 msgstr "название"

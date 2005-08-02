@@ -26,6 +26,7 @@
 
 class CMusikPlayer;
 
+
 class CMusikWebServer : public wxEvtHandler
 {
 public:
@@ -40,11 +41,27 @@ public:
 
 	DECLARE_EVENT_TABLE()
 private:
+    class HttpResponse
+    {
+    public: 
+        HttpResponse(){}
+        void Send(wxSocketBase*pSocket);
+        void SetRC(const wxString & rc);
+        void AddDataLine(const wxString & data);
+        void AddHeader(const wxString & Header);
+        bool Ok(){return !m_sRC.IsEmpty();}
+    private:
+        wxString m_sRC;
+        wxString m_sHeaders;
+        wxString m_sData;
+    };
+
+
 	void OnServerEvent(wxSocketEvent& event);
 	void OnSocketEvent(wxSocketEvent& event);
 	
 	
-	bool ProcessRequest(wxSocketBase*pSocket,const wxString &reqstr);
+	void  ProcessRequest(const wxString &reqstr,HttpResponse &hr);
 	int ReadLine(wxSocketBase*pSocket,wxString& outstr);
 	void WriteLine(wxSocketBase*pSocket,const wxString &str);
 

@@ -1,0 +1,24 @@
+/* XPM */
+static char *ratingminus4_xpm[] = {
+/* columns rows colors chars-per-pixel */
+"32 14 4 1",
+"  c None",
+". c red",
+"X c #C0C0C0",
+"o c gray100",
+/* pixels */
+"                                ",
+"                                ",
+"                                ",
+"                                ",
+"    XXXXXXXXXXXXXXXXXXXX        ",
+"    X........ooooooooooX        ",
+"    X........ooooooooooX        ",
+"    X........ooooooooooX        ",
+"    X........ooooooooooX        ",
+"    XXXXXXXXXXXXXXXXXXXX        ",
+"                                ",
+"                                ",
+"                                ",
+"                                "
+};

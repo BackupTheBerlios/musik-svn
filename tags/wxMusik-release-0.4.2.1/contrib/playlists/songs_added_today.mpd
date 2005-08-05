@@ -1,0 +1,1 @@
+timeadded > julianday('now','start of day','localtime') order by artist,album,tracknum

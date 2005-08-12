@@ -64,7 +64,6 @@ class MUSIKFLACDecoder :public MUSIKDecoder
 	{
 		FLAC__FileDecoder					*Decoder;
 		FLAC__StreamMetadata_StreamInfo		streaminfo;	/* FLAC: metadata infos */
-		FLAC__uint64						pos_sample; /* FLAC: position is sample */
 		bool								flac_abort;	/* FLAC: abort flac when an error occured */
 		bool								has_replaygain;
 		double								replay_scale;
@@ -73,7 +72,6 @@ class MUSIKFLACDecoder :public MUSIKDecoder
 		FLAC__int32 *						reservoir__[FLAC_PLUGIN__MAX_SUPPORTED_CHANNELS];
 
 		unsigned int						wide_samples_in_reservoir_;
-		unsigned							output_bits_per_sample;
 		DitherContext dither_context;
 		bool is_big_endian_host_;
 		FLACStreamInfo()
@@ -81,12 +79,10 @@ class MUSIKFLACDecoder :public MUSIKDecoder
 			memset(&streaminfo,0,sizeof(streaminfo));
 			memset(&cfg,0,sizeof(cfg));
 			memset(&dither_context,0,sizeof(dither_context));
-			pos_sample = 0;
 			flac_abort = false;
 			has_replaygain = false;
 			replay_scale = 1.0;
 			wide_samples_in_reservoir_ = 0;
-			output_bits_per_sample = 0;
 			FLAC__uint32 test = 1;
 			is_big_endian_host_ = (*((FLAC__byte*)(&test)))? false : true;	
 			reservoir__[0] = reservoir_[0];
@@ -115,7 +111,7 @@ protected:
 	virtual bool OpenMedia(const char *FileName);
 
 	int DecodeBlocks(unsigned char *buff,int len);
-	bool DoSeek(int nTimeMS);
+	bool DoSeek(int64_t samplepos);
 
 	static FLAC__StreamDecoderWriteStatus FLACWriteCallback(const FLAC__FileDecoder *decoder, 
 		const FLAC__Frame *frame, 

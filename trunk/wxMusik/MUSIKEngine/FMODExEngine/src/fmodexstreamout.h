@@ -19,42 +19,52 @@
 //WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
 //OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#ifndef MUSIKAPEDECODER_H
-#define MUSIKAPEDECODER_H
+#ifndef FMODSTREAMOUT_H
+#define FMODSTREAMOUT_H
 
-#include "MUSIKEngine/inc/decoder.h"
-class IAPEDecompress;
+#include <fmod.hpp>
+#include <fmod_codec.h>
+#include "MUSIKEngine/inc/imusikstreamout.h"
+#include "MUSIKEngine/FMODExEngine/inc/fmodexengine.h"
+class MUSIKStream;
 
-class MUSIKAPEDecoder : public MUSIKDecoder
+class FMODExStreamOut	 : public IMUSIKStreamOutDefault
 {
-	struct APEStreamInfo
-	{
-		IAPEDecompress *					pAPEDecompress;
-	};
-
-	MUSIKAPEDecoder(IMUSIKStreamOut * pIMUSIKStreamOut);
-	~MUSIKAPEDecoder();
 public:
-	virtual bool CanSeek()
-	{
-		return true;
-	}
-	virtual int64_t GetTime();
+    FMODExStreamOut(FMODExEngine &engine);
+	~FMODExStreamOut();
+	virtual bool Start();
+	virtual void SetVolume(float v);// range is 0.0 to 1.0
+	virtual float GetVolume();
+	virtual bool SetPlayState( MUSIKEngine::PlayState state);
+	virtual MUSIKEngine::PlayState GetPlayState();
 	virtual bool Close();
-	INFO * GetInfo();
-	virtual const char * Type()
-	{
-		return "Monkey's Audio File";
-	}
+
+	virtual bool Open(const char *FileName);
+	virtual bool CanSeek(); 
+    virtual bool SetSamplePos( int64_t samplepos);
+    virtual bool SetTime( int64_t nTimeMS);
+    virtual int64_t GetSamplePos();
+	virtual int64_t GetTime();
+	virtual int64_t GetLengthMs();
+    virtual int64_t GetSampleCount();
+    virtual int64_t GetFilesize();
+	virtual const char * Type();
+    virtual MUSIKEngine::Error GetOpenStatus(MUSIKEngine::OpenStatus *pStatus);
+    virtual MUSIKEngine::Error GetNetStatus(MUSIKEngine::NetStatus *pStatus,int * pnPercentRead,int * pnBitrate);
 protected:
-	virtual bool OpenMedia(const char *FileName);
-	virtual bool DoSeek(int64_t samplepos);
-	virtual int DecodeBlocks(unsigned char *buff,int len);
+
+	virtual bool DoCreate(int buffersize_ms);
+
 private:
-	APEStreamInfo m_ApeInfo;
+	static FMOD_RESULT F_CALLBACK pcmreadcallback(FMOD_SOUND *sound, void *data, unsigned int datalen);
 
-	friend class MUSIKEngine;
-
+	FMOD::Sound * m_pSound;
+    FMOD::Channel * m_pChannel;
+	int FMODChannel;
+	bool bNetStream;
+	FMODExEngine & m_Engine;
 };
 
-#endif //MUSIKAPEDECODER_H
+#endif
+

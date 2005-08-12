@@ -26,18 +26,26 @@
 class IMUSIKStreamOut
 {
 public:
-	IMUSIKStreamOut()
+    struct IMetadataCallback
+    {
+        virtual void MetadataCallback(const char *name, const char *value) = 0;
+    };
+
+	IMUSIKStreamOut(MUSIKEngine & e)
+        :m_Engine(e)
+        ,m_pMUSIKDecoder(NULL)
+        ,m_pIMetadataCallback(NULL)
 	{
-		m_pMUSIKDecoder = NULL;
 	}
 
 	virtual ~IMUSIKStreamOut()
 	{
+        delete m_pIMetadataCallback;
 	}
-	virtual bool Create(MUSIKDecoder * pYou,int buffersize)
+	virtual bool Create(MUSIKDecoder * pYou)
 	{
 		m_pMUSIKDecoder = pYou;
-		return DoCreate(buffersize);
+		return DoCreate(m_Engine.GetBufferMs());
 	}
 	virtual bool Start()=0;
 	virtual void SetVolume(float v)=0;// range is 0.0 to 1.0
@@ -45,35 +53,52 @@ public:
 	virtual bool SetPlayState( MUSIKEngine::PlayState state)=0;
 	virtual MUSIKEngine::PlayState GetPlayState()=0;
 	virtual bool Close()=0;
-
-	// ugly HACK
-	virtual void * STREAM() {return NULL;}
+    virtual MUSIKEngine::Error GetOpenStatus(MUSIKEngine::OpenStatus *pStatus)
+        {pStatus; return MUSIKEngine::errNotSupported;}
+    virtual MUSIKEngine::Error SetMetadataCallback(IMUSIKStreamOut::IMetadataCallback *pCb)
+    {
+        IMetadataCallback *pOldCb = m_pIMetadataCallback;
+        m_pIMetadataCallback = pCb;
+        delete pOldCb;
+        return MUSIKEngine::errSuccess;
+    }
+    virtual MUSIKEngine::Error GetNetStatus(MUSIKEngine::NetStatus *pStatus,int * pnPercentRead,int * pnBitrate)
+        {pStatus,pnPercentRead,pnBitrate; return MUSIKEngine::errNotSupported;}
 
 protected:
 	virtual	bool FillBuffer(unsigned char * buff,int len)
 	{
 		return Decoder()->DoFillBuffer(buff,len);
 	}
-	virtual bool DoCreate(int buffersize)=0;
+	virtual bool DoCreate(int buffersize_ms)=0;
 
 	MUSIKDecoder * Decoder()
 	{
 		return m_pMUSIKDecoder;
 	}
+    IMetadataCallback *m_pIMetadataCallback;
 private:
+    MUSIKEngine & m_Engine;
 	MUSIKDecoder * m_pMUSIKDecoder; 
+
 };
 
 class IMUSIKStreamOutDefault  : public IMUSIKStreamOut
 {
 public:
-	// default methods
+    IMUSIKStreamOutDefault(MUSIKEngine & e)
+        :IMUSIKStreamOut(e)
+    {}
+    // default methods
 	virtual bool Open(const char *FileName)=0;
 	virtual bool CanSeek()=0;
-	virtual bool SetTime( int nTimeMS)=0;
-	virtual int GetTime()=0;
-	virtual int GetLengthMs()=0;
-	virtual int GetLength()=0;
+    virtual bool SetSamplePos( int64_t samplepos)=0;
+	virtual bool SetTime( int64_t nTimeMS)=0;
+    virtual int64_t GetSamplePos()=0;
+	virtual int64_t GetTime()=0;
+	virtual int64_t GetLengthMs()=0;
+	virtual int64_t GetSampleCount()=0;
+    virtual int64_t GetFilesize()=0;
 	virtual const char * Type()=0;
 };
 #endif

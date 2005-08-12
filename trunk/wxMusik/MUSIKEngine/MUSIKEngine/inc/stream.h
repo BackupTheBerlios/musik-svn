@@ -22,11 +22,18 @@
 #ifndef MUSIKSTREAM_H
 #define MUSIKSTREAM_H
 #include "MUSIKEngine/inc/decoder.h"
+
+class MetadataCallbackConnector;
+
 class MUSIKStream 
 {
 
 	MUSIKStream(MUSIKDecoder *pDecoder);
 public:
+    struct IMetadataCallback
+    {
+        virtual void MetadataCallback( MUSIKStream * pStream,const char *name, const char *value) = 0;
+    };
 
 	virtual ~MUSIKStream();
 
@@ -35,19 +42,23 @@ public:
 	virtual float GetVolume();
 	virtual bool CanSeek();
 	virtual bool SetTime( int nTimeMS);
-	virtual int GetTime();
-	virtual int GetLengthMs();
-	virtual int64_t GetLength();
+	virtual int64_t GetTime();
+	virtual int64_t GetLengthMs();
+	virtual int64_t GetSampleCount();
+    virtual int64_t GetFilesize();
 	virtual const char * Type();
 	virtual bool SetPlayState( MUSIKEngine::PlayState state);
 	virtual MUSIKEngine::PlayState GetPlayState();
 	MUSIKDecoder::INFO * GetDecoderInfo();
-
-	// thisis a HACK
-	IMUSIKStreamOut *	GetStreamOut() {return  m_pDecoder->StreamOut();}
+    virtual MUSIKEngine::Error GetOpenStatus(MUSIKEngine::OpenStatus *pStatus);
+    virtual MUSIKEngine::Error SetMetadataCallback(IMetadataCallback *pCb);
+    virtual MUSIKEngine::Error GetNetStatus(MUSIKEngine::NetStatus *pStatus,int * pnPercentRead,int * pnBitrate);
+	// this is a HACK
+	//IMUSIKStreamOut *	GetStreamOut() {return  m_pDecoder->StreamOut();}
 
 protected:
 	MUSIKDecoder *m_pDecoder;	
+    MetadataCallbackConnector * m_pMetaCBConnector;
 
 friend class MUSIKEngine;
 };

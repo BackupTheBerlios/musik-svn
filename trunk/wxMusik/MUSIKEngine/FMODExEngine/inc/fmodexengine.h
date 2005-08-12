@@ -27,9 +27,13 @@
 #include "MUSIKEngine/MUSIKEngine/inc/stream.h"
 #include "MUSIKEngine/MUSIKEngine/inc/decoder.h"
 class MUSIKDefaultDecoder;
-class FMODStreamOut;
+class FMODExStreamOut;
+namespace FMOD
+{
+    class System;
+};
 
-class FMODEngine :public MUSIKEngine
+class FMODExEngine :public MUSIKEngine
 {
 
 public: 
@@ -38,36 +42,46 @@ public:
 		OpenMode_Default = 0,
 		OpenMode_MPEGACCURATE = 1
 	};
-	FMODEngine();
-    MUSIKEngine::Error Init(int idOutput = -1 ,int idDevice = -1,int nMixRate = 44100,int nMaxChannels = 4,int nSndBufferMs = 400);
+	FMODExEngine();
+    MUSIKEngine::Error Init(int idOutput = -1 ,int idDevice = -1,int nMixRate = 44100,int nMaxChannels = 4);
     virtual Error SetProxy(const char * s);
     virtual Error SetNetBuffer(int nBufferSize,int nPreBufferPercent,int nReBufferPercent);
-    virtual Error EnumDevices(IEnumNames * pen);
-    virtual Error EnumOutputs(IEnumNames * pen);
-    virtual Error EnumFrequencies(IEnumNames * pen);
+    virtual Error EnumDevices(IEnumNames * pen) const;
+    virtual Error EnumOutputs(IEnumNames * pen) const;
+    virtual Error EnumFrequencies(IEnumNames * pen) const;
 
-	void SetOpenMode(FMODEngine::eOpenMode m){m_OpenMode = m;}
+	void SetOpenMode(FMODExEngine::eOpenMode m){m_OpenMode = m;}
+    eOpenMode GetOpenMode() const {return m_OpenMode;}
 	virtual void SetVolume(float v);
-	virtual float GetVolume();
+	virtual float GetVolume() const;
 	virtual bool SetPlayState( MUSIKEngine::PlayState state);
-    virtual const char * Version();
-    virtual bool IsValid() {return m_bValid;}
-	static char *ErrorString();
-	~FMODEngine();
+    virtual const char * Version() const;
+    virtual bool IsValid() const{return m_bValid;}
+	static const char *ErrorString();
+    virtual void SetBufferMs(int nSndBufferMs = 400);
+    FMOD::System & System()
+    {
+        return *m_pSystem;
+    }
+	~FMODExEngine();
 protected:
-    MUSIKEngine::Error _Init(int idOutput = -1 ,int idDevice = -1,int nMixRate = 44100,int nMaxChannels = 4,int nSndBufferMs = 400);
+    MUSIKEngine::Error _Init(int idOutput = -1 ,int idDevice = -1,int nMixRate = 44100,int nMaxChannels = 4);
 	virtual MUSIKDefaultDecoder *CreateDefaultDecoder();
 	virtual IMUSIKStreamOut *CreateStreamOut();
 	eOpenMode m_OpenMode;
 private:
     bool m_bValid;
     char m_szVersion[20];
+    FMOD::System *m_pSystem;
+
 };
 #ifdef __VISUALC__
+
+#pragma comment(lib,"fmodex_vc")
 #ifdef _DEBUG
-#pragma comment(lib,"fmodengined")
+#pragma comment(lib,"fmodexengined")
 #else
-#pragma comment(lib,"fmodengine")
+#pragma comment(lib,"fmodexengine")
 #endif
 #endif //__VISUALC__
 #endif

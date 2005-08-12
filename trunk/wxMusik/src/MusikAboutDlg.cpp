@@ -10,12 +10,13 @@
 #include "wx/statline.h"
 
 #include "MusikAboutDlg.h"
+#include "MusikApp.h"
 #include "wx/html/m_templ.h"
 
 #include "MusikDefines.h"
 #include "MusikUtils.h"
 #include <sqlite.h>
-#include <fmod.h>
+
 #include <taglib.h>
 #ifndef MUSIKENGINE_NO_FLAC_SUPPORT
 #include <FLAC/format.h>
@@ -29,7 +30,7 @@
 #endif
 #endif //#ifndef MUSIKENGINE_NO_APE
 
-//#include "MUSIKEngine/MPC/in_mpc.h"
+DECLARE_APP( MusikApp )
 
 TAG_HANDLER_BEGIN(MUSIK_TAG, "MUSIK")
 
@@ -65,9 +66,9 @@ TAG_HANDLER_PROC(tag)
 			sTextToInsert =WX_VERSION_STR;
 
 		}
-		else if(sParamValue == wxT("fmod"))
+		else if(sParamValue == wxT("engine"))
 		{
-			sTextToInsert = wxString::Format(wxT("%.2f"),FSOUND_GetVersion());
+			sTextToInsert = ConvA2W(wxGetApp().Player.SndEngine().Version());
 
 		}
 		else if(sParamValue == wxT("taglib"))
@@ -127,16 +128,44 @@ TAGS_MODULE_ADD(MUSIK_TAG)
 
 TAGS_MODULE_END(MUSIK_TAG)
 
+class MyHtmlWindow : public wxHtmlWindow {
+public:
+    MyHtmlWindow(wxWindow *parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition,
+        const wxSize& size = wxDefaultSize, long style = wxHW_DEFAULT_STYLE)
+        : wxHtmlWindow(parent, id, pos, size, style) { }
+        virtual void OnLinkClicked(const wxHtmlLinkInfo& link);
+};
+
+void MyHtmlWindow::OnLinkClicked(const wxHtmlLinkInfo& link) {
+    wxString url = link.GetHref();
+    if ( url.StartsWith(wxT("http:")) || url.StartsWith(wxT("mailto:")) ) 
+    {
+        // pass http/mailto URL to user's preferred browser/emailer
+#ifdef __WXMAC__
+        // wxLaunchDefaultBrowser doesn't work on Mac with IE
+        // but it's easier just to use the Mac OS X open command
+        if ( wxExecute(wxT("open ") + url, wxEXEC_ASYNC) == -1 )
+            wxLogWarning(wxT("Could not open URL!"));
+#else
+        if ( !wxLaunchDefaultBrowser(url) )
+            wxLogWarning(wxT("Could not launch browser!"));
+#endif
+    } 
+    else 
+    {
+        LoadPage(url);
+    }
+}
 
 CMusikAboutDlg::CMusikAboutDlg(wxWindow *pParent)
 :wxDialog(pParent, wxID_ANY, wxString(_("About")),wxDefaultPosition,wxDefaultSize)
 {
-	wxBoxSizer *topsizer;
-	wxHtmlWindow *html;
+	
+	
 
-	topsizer = new wxBoxSizer(wxVERTICAL);
+	wxBoxSizer *topsizer = new wxBoxSizer(wxVERTICAL);
 
-	html = new wxHtmlWindow(this, wxID_ANY, wxDefaultPosition, wxDefaultSize/* , 0wxHW_SCROLLBAR_NEVER*/);
+	wxHtmlWindow *html = new MyHtmlWindow(this, wxID_ANY, wxDefaultPosition, wxDefaultSize/* , 0wxHW_SCROLLBAR_NEVER*/);
 	html -> SetBorders(0);
 	html -> LoadPage(MusikGetStaticDataPath() + wxT("about.htm"));
 	html -> SetSize(html -> GetInternalRepresentation() -> GetWidth()+wxSystemSettings::GetMetric(wxSYS_VSCROLL_X), 

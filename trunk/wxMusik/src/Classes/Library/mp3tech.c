@@ -231,8 +231,6 @@ int get_first_header(mp3info *mp3, long startpos,int consec_good_frames)
           return 0;
       }
   }
-
-  return 0;  
 }
 
 /* get_next_header() - read header at current position or look for 

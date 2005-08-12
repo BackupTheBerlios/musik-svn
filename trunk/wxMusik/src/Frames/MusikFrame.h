@@ -24,6 +24,12 @@
 #ifdef __WXMSW__
 #include <ShellAPI.h>
 //
+#ifdef __WXMSW__
+#define MUSIK_TRAY_ICON  wxICON( musicbox )
+#else
+#define MUSIK_TRAY_ICON   wxIcon(tray_xpm)
+#endif
+
 // Here i define wxTaskBarIconWindow as it is only define privately in taskbar,cpp of wxwidgets
 // This is a hack, but which choice do i have else?
 class wxTaskBarIconWindow : public wxFrame

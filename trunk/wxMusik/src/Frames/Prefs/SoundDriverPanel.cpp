@@ -23,6 +23,24 @@
 
 #define MUSIK_PREFERENCES_OUTPUT_DRV 1
 
+class EnumEngineNames : public MUSIKEngine::IEnumNames
+{
+public:
+    EnumEngineNames(wxComboBox & cmb)
+        :m_cmb(cmb)
+    {
+        m_cmb.Clear();  
+    }
+    virtual bool EnumNamesCallback(const char * szName,int WXUNUSED(id))
+    {
+
+        m_cmb.Append( ConvA2W( szName ) );
+        return true;
+    }
+private:
+    wxComboBox & m_cmb;
+};
+
 BEGIN_EVENT_TABLE(SoundDriverPanel, PrefPanel)
 EVT_COMBOBOX			(MUSIK_PREFERENCES_OUTPUT_DRV,				SoundDriverPanel::OnOutputChanged	)
 END_EVENT_TABLE()
@@ -37,28 +55,16 @@ wxSizer * SoundDriverPanel::CreateControls()
     //--- output driver ---//
 
     cmbOutputDrv = new wxComboBox ( this, MUSIK_PREFERENCES_OUTPUT_DRV, wxT(""), wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY );
-#if defined (__WXMSW__)
-    cmbOutputDrv->Append ( wxT("Direct Sound") );
-    cmbOutputDrv->Append ( wxT("Windows Multimedia") );
-    cmbOutputDrv->Append ( wxT("ASIO") );
-#elif defined (__WXMAC__)
-    //--- mac sound stuff ---//
-    cmbOutputDrv->Append ( wxT("MAC") );
-#elif defined (__WXGTK__)
-    cmbOutputDrv->Append ( wxT("OSS") );
-    cmbOutputDrv->Append ( wxT("ESD") );
-    cmbOutputDrv->Append ( wxT("ALSA 0.9") );
-#endif
+    EnumEngineNames eo(*cmbOutputDrv);
+    wxGetApp().Player.SndEngine().EnumOutputs(&eo);
+
     //--- sound device ---//
 
     cmbSndDevice	= new wxComboBox ( this,-1 , wxT(""), wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY );	
     //--- playrate ---//
     cmbPlayRate  = new wxComboBox( this, -1, wxT(""), wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY );
-    cmbPlayRate->Append ( wxT("48000") );
-    cmbPlayRate->Append ( wxT("44100") );
-    cmbPlayRate->Append ( wxT("22050") );
-    cmbPlayRate->Append ( wxT("11025") );
-    cmbPlayRate->Append ( wxT("8000") );
+    EnumEngineNames ef(*cmbPlayRate);
+    wxGetApp().Player.SndEngine().EnumFrequencies(&ef);
     //--- buffer length ---//
     tcBufferLength = new wxTextCtrl_NoFlicker	( this, -1, wxT("") );
     //--- max channels ---//
@@ -104,15 +110,13 @@ void SoundDriverPanel::DoLoadPrefs()
     fLength =						(float)wxGetApp().Prefs.nSndBuffer / 1000;
     sLength.sprintf					( wxT("%.1f"), fLength );
     tcBufferLength->SetValue		( sLength );
-    cmbPlayRate->SetSelection		( cmbPlayRate->FindString ( sSndRate ) );
-
-
+    cmbPlayRate->SetSelection		( wxMax(cmbPlayRate->FindString ( sSndRate ),0) );
 }
+
 void SoundDriverPanel::FindDevices()
 {
-    cmbSndDevice->Clear();
-    for ( int i = 0; i < FSOUND_GetNumDrivers(); i++ )
-        cmbSndDevice->Append( ConvA2W( FSOUND_GetDriverName( i ) ) );
+    EnumEngineNames ed(*cmbSndDevice);
+    wxGetApp().Player.SndEngine().EnumDevices(&ed);
     if ( cmbSndDevice->GetCount() < 1 )
         cmbSndDevice->Append( _("[No Devices]") );
     cmbSndDevice->SetSelection( 0 );
@@ -121,33 +125,33 @@ void SoundDriverPanel::FindDevices()
 bool SoundDriverPanel::DoSavePrefs()
 {
 
-    bool bRestartFMOD		= false;
+    bool bRestartSndEngine		= false;
     //-----------------------//
     if ( cmbOutputDrv->GetSelection() != wxGetApp().Prefs.nSndOutput )
     {
         wxGetApp().Prefs.nSndOutput = cmbOutputDrv->GetSelection();
-        bRestartFMOD = true;
+        bRestartSndEngine = true;
     }
     if ( cmbSndDevice->GetSelection() != wxGetApp().Prefs.nSndDevice )
     {
         wxGetApp().Prefs.nSndDevice = cmbSndDevice->GetSelection();
-        bRestartFMOD = true;
+        bRestartSndEngine = true;
     }
     if ( wxStringToInt( cmbPlayRate->GetString( cmbPlayRate->GetSelection() ) ) != wxGetApp().Prefs.nSndRate )
     {
         int nRate = wxStringToInt( cmbPlayRate->GetString( cmbPlayRate->GetSelection() ) );
         wxGetApp().Prefs.nSndRate = nRate;
-        bRestartFMOD = true;
+        bRestartSndEngine = true;
     }
     if ( scSndMaxChan->GetValue() != wxGetApp().Prefs.nSndMaxChan )
     {
-        bRestartFMOD = true;
+        bRestartSndEngine = true;
     }
     double fLength = StringToDouble( tcBufferLength->GetValue() );
     int nLength = ( int )( fLength * 1000 );
     wxGetApp().Prefs.nSndBuffer = nLength;
 
-    if ( bRestartFMOD )
-        wxGetApp().Player.InitializeFMOD( FMOD_INIT_RESTART );
+    if ( bRestartSndEngine )
+        wxGetApp().Player.InitializeSndEngine();
     return true;
 }

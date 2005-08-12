@@ -33,6 +33,7 @@ signed char F_CALLBACKAPI FMODStreamOut::StreamCallback(FSOUND_STREAM *stream, v
 FMODStreamOut::FMODStreamOut(FMODEngine::eOpenMode m)
 :m_OpenMode(m)
 {
+    
 	StreamPointer = NULL;
 	FMODChannel = -1;
 	bNetStream = false;
@@ -44,7 +45,7 @@ FMODStreamOut::~FMODStreamOut()
 bool FMODStreamOut::DoCreate(int buffersize)
 {
 	if(StreamPointer)
-	{
+	{                             
 		Close();
 	}
 	StreamPointer = FSOUND_Stream_Create(StreamCallback, buffersize, FMOD_STREAM_FORMAT_FLAGS,(int) Decoder()->GetInfo()->frequency, (void *) this);
@@ -145,4 +146,71 @@ const char * FMODStreamOut::Type()
 bool FMODStreamOut::CanSeek()
 {
 	return !bNetStream;
+}
+MUSIKEngine::Error  FMODStreamOut::SetMetadataCallback(IMUSIKStreamOutDefault::IMetadataCallback *pCB)
+{
+    pIMetadataCallback = pCB;
+    return StreamPointer && FSOUND_Stream_Net_SetMetadataCallback(StreamPointer, MetadataCallback, this) ? MUSIKEngine::errSuccess: MUSIKEngine::errUnknown;
+}
+signed char F_CALLBACKAPI FMODStreamOut::MetadataCallback(char *name, char *value, void * userdata)
+{
+    FMODStreamOut  *pThis = (FMODStreamOut *)userdata;
+    IMUSIKStreamOutDefault::IMetadataCallback *pMyIMetadataCallback = pThis->pIMetadataCallback;  // copy to temp variable in case another thread sets pIMetadataCallback to NULL.
+    if(pMyIMetadataCallback)
+        pMyIMetadataCallback->MetadataCallback(name,value);
+    return 1;
+}
+
+MUSIKEngine::Error FMODStreamOut::GetOpenStatus(MUSIKEngine::OpenStatus *pStatus)
+{
+    if(!StreamPointer)
+    {
+        return MUSIKEngine::errUnknown;
+    }
+
+    int status = FSOUND_Stream_GetOpenState(StreamPointer);
+    switch(status)
+    {
+    case 0:
+        *pStatus = MUSIKEngine::OPENSTATUS_READY;
+        break;
+    case -1:
+        return MUSIKEngine::errUnknown;
+        break;
+    case -3:
+        *pStatus = MUSIKEngine::OPENSTATUS_OPENFAILED;
+        break;
+    case -2:
+    case -4:
+    case -5:
+        *pStatus = MUSIKEngine::OPENSTATUS_OPENINPROGRESS;
+    }
+    return MUSIKEngine::errSuccess;
+}
+
+MUSIKEngine::Error FMODStreamOut::GetNetStatus(MUSIKEngine::NetStatus *pStatus,int * pnPercentRead,int * pnBitrate)
+{
+    unsigned int flags = 0;
+    int status = 0;
+    MUSIKEngine::Error err =  StreamPointer && FSOUND_Stream_Net_GetStatus(StreamPointer,&status,pnPercentRead,pnBitrate,&flags) ? MUSIKEngine::errSuccess: MUSIKEngine::errUnknown;
+    switch(status)
+    {
+    case FSOUND_STREAM_NET_NOTCONNECTED:
+        *pStatus = MUSIKEngine::NETSTATUS_NOTCONNECTED;
+        break;
+    case FSOUND_STREAM_NET_CONNECTING:
+        *pStatus = MUSIKEngine::NETSTATUS_CONNECTING;
+        break;
+    case FSOUND_STREAM_NET_BUFFERING:
+        *pStatus = MUSIKEngine::NETSTATUS_BUFFERING;
+        break;
+    case FSOUND_STREAM_NET_READY:
+        *pStatus = MUSIKEngine::NETSTATUS_READY;
+        break;
+    case FSOUND_STREAM_NET_ERROR:
+    default:
+        *pStatus = MUSIKEngine::NETSTATUS_ERROR;
+        break;
+    }
+    return err;
 }

@@ -39,8 +39,8 @@ public:
 		int			channels;
 		int			bitrate;
 		int			bits_per_sample;
-		int64_t			FileSize;
-		int			LengthMS;
+		int64_t		FileSize;
+        int64_t     SampleCount;    
 	};
 
 protected:
@@ -52,7 +52,7 @@ protected:
 		m_sample_buffer = NULL;
 		m_sample_buffer_filled = 0;
 		m_sample_buffer_size = 0;
-		m_decode_pos_ms = 0;
+		m_decode_pos = 0;
 	}
 public:
 
@@ -60,28 +60,42 @@ public:
 
 
 	virtual bool Start();
-	virtual int GetTime()
+    virtual int64_t GetTime()
+    {
+        return GetSamplePos()*1000/m_Info.frequency;// return the current position
+    }
+
+	virtual int64_t GetSamplePos()
 	{
 		if(m_seek_needed != -1) // if an seek is in progress, return the expected position.
 			return m_seek_needed;
-		return (m_decode_pos_ms);// return the current position
+		return (m_decode_pos);// return the current position
 	}
 
-	virtual int GetLengthMs()
+	virtual int64_t GetLengthMs()
 	{
-		return m_Info.LengthMS;
+        return m_Info.SampleCount*1000/m_Info.frequency;
 	}
-	virtual int64_t GetLength()
+    virtual int64_t GetSampleCount()
+    {
+        return m_Info.SampleCount;
+    }
+	virtual int64_t GetFilesize()
 	{
 		return m_Info.FileSize;
 	}
 	virtual bool CanSeek() = 0;
-	virtual bool SetTime( int nTimeMS)
+    virtual bool SetSamplePos( int64_t samplepos)
+    {
+        if(false == CanSeek())
+            return false;
+        m_seek_needed = samplepos;
+        return true;
+    }
+
+	virtual bool SetTime( int64_t nTimeMS)
 	{
-		if(false == CanSeek())
-			return false;
-		m_seek_needed = nTimeMS;
-		return true;
+		return SetSamplePos(nTimeMS*m_Info.frequency/1000);
 	}
 
 	virtual INFO *GetInfo()
@@ -102,18 +116,18 @@ public:
 protected:
 	virtual bool OpenMedia(const char *FileName)=0;
 	virtual int DecodeBlocks(unsigned char *buff,int len)=0;
-	virtual bool DoSeek(int nTimeMS)=0;
+	virtual bool DoSeek(int64_t samplepos)=0;
     bool SeekIfNeeded();
-	void SetDecodePos(int pos)
+	void SetDecodeSamplePos(int64_t samplepos) // pos is in samples
 	{
-		m_decode_pos_ms = pos;
+		m_decode_pos = samplepos;
 	}
-	void IncDecodePos(int pos)
+	void IncDecodeSamplePos(int64_t samplepos)
 	{
-		m_decode_pos_ms += pos;
+		m_decode_pos += samplepos;
 	}
 
-	bool CreateBuffer(int decoderbuffersize,int streambuffersize = -1);
+	bool CreateBuffer(int decoderbuffersize);
 
 	INFO m_Info;
 
@@ -124,10 +138,8 @@ private:
 	unsigned char*	m_sample_buffer;
 	int				m_sample_buffer_size;
 	int				m_sample_buffer_filled;
-	int				m_seek_needed;
-
-	int				m_decode_pos_ms;
-	int				m_streambuffersize;
+	int64_t         m_seek_needed;
+	int64_t			m_decode_pos;
 	IMUSIKStreamOut * m_pIMUSIKStreamOut;
 	friend class MUSIKEngine;
 };

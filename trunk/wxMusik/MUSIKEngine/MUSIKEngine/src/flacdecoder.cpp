@@ -27,6 +27,9 @@
 #include "MUSIKEngine/inc/imusikstreamout.h"
 #include <utility>
 
+#ifdef __VISUALC__
+#pragma comment(lib,"libFLAC_static")
+#endif
 
 #ifndef min
 #define min(a,b) (((a) < (b)) ? (a) : (b))
@@ -48,9 +51,8 @@ bool MUSIKFLACDecoder::OpenMedia(const char *FileName)
 	fseek(MyFLACFILE,0,SEEK_END);
 	m_Info.FileSize = ftell(MyFLACFILE);
 	fclose(MyFLACFILE);
-	m_FlacInfo.pos_sample =0;
 	m_FlacInfo.flac_abort = false;
-	m_Info.LengthMS = 0;
+	m_Info.SampleCount = 0;
 	FLAC__FileDecoder *decoder  = FLAC__file_decoder_new();
 	m_FlacInfo.Decoder = decoder;
 	FLAC__file_decoder_set_client_data(decoder,(void *)&m_FlacInfo);
@@ -69,18 +71,18 @@ bool MUSIKFLACDecoder::OpenMedia(const char *FileName)
 
 		int decoder_buffer_size = (FLAC_SAMPLES_PER_WRITE * m_FlacInfo.streaminfo.channels * m_FlacInfo.streaminfo.bits_per_sample)*4;
 		/* convert from samples to ms */
-		m_Info.LengthMS = (unsigned int)((FLAC__uint64)1000 * m_FlacInfo.streaminfo.total_samples / m_FlacInfo.streaminfo.sample_rate);
+		m_Info.SampleCount = m_FlacInfo.streaminfo.total_samples;
 		m_Info.channels = m_FlacInfo.streaminfo.channels;
 		m_Info.frequency = m_FlacInfo.streaminfo.sample_rate;
 		m_Info.bitrate = (int)(m_Info.FileSize / (125*m_FlacInfo.streaminfo.total_samples/m_FlacInfo.streaminfo.sample_rate));
-		m_Info.bits_per_sample = m_FlacInfo.streaminfo.bits_per_sample;
-		m_FlacInfo.output_bits_per_sample = m_FlacInfo.has_replaygain && m_FlacInfo.cfg.replaygain.enable ?
+		if(m_FlacInfo.cfg.resolution.replaygain.bps_out == 0)
+            m_FlacInfo.cfg.resolution.replaygain.bps_out = m_FlacInfo.streaminfo.bits_per_sample;
+        m_Info.bits_per_sample = m_FlacInfo.has_replaygain && m_FlacInfo.cfg.replaygain.enable ?
 				m_FlacInfo.cfg.resolution.replaygain.bps_out :
 					m_FlacInfo.cfg.resolution.normal.dither_24_to_16 ? min(m_Info.bits_per_sample, 16) : 
-																		m_Info.bits_per_sample;
-
+																		m_FlacInfo.streaminfo.bits_per_sample;
 		if (m_FlacInfo.has_replaygain && m_FlacInfo.cfg.replaygain.enable && m_FlacInfo.cfg.resolution.replaygain.dither)
-			FLAC__replaygain_synthesis__init_dither_context(&m_FlacInfo.dither_context, m_Info.bits_per_sample, m_FlacInfo.cfg.resolution.replaygain.noise_shaping);
+			FLAC__replaygain_synthesis__init_dither_context(&m_FlacInfo.dither_context, m_FlacInfo.streaminfo.bits_per_sample, m_FlacInfo.cfg.resolution.replaygain.noise_shaping);
 
 		return CreateBuffer(decoder_buffer_size);
 	}
@@ -93,8 +95,8 @@ bool MUSIKFLACDecoder::OpenMedia(const char *FileName)
 int MUSIKFLACDecoder::DecodeBlocks(unsigned char *buff,int len)
 {
 	const unsigned channels = m_Info.channels;
-	const unsigned bits_per_sample = m_Info.bits_per_sample;
-	const unsigned target_bps = m_FlacInfo.output_bits_per_sample;
+	const unsigned bits_per_sample = m_FlacInfo.streaminfo.bits_per_sample;
+	const unsigned target_bps = m_Info.bits_per_sample;
 	const unsigned sample_rate = m_Info.frequency;
 
 	while(m_FlacInfo.wide_samples_in_reservoir_ < FLAC_SAMPLES_PER_WRITE) 
@@ -158,7 +160,7 @@ int MUSIKFLACDecoder::DecodeBlocks(unsigned char *buff,int len)
 			memmove(&m_FlacInfo.reservoir_[i][0], &m_FlacInfo.reservoir_[i][n], sizeof(m_FlacInfo.reservoir_[0][0]) * m_FlacInfo.wide_samples_in_reservoir_);
 		m_FlacInfo.wide_samples_in_reservoir_ -= n;
 
-		IncDecodePos((n*1000 + sample_rate/2)/sample_rate);
+		IncDecodeSamplePos(n);
 		return bytes;
 	}
 	return 0;
@@ -192,13 +194,13 @@ void MUSIKFLACDecoder::FLACMetaCallback(const FLAC__FileDecoder *decoder, const 
 	}
 	else if(metadata->type == FLAC__METADATA_TYPE_VORBIS_COMMENT) 
 	{
-#if temporary_disabled
+//#if temporary_disabled
 		double gain, peak;
 		if(grabbag__replaygain_load_from_vorbiscomment(metadata, pFlacInfo->cfg.replaygain.album_mode, &gain, &peak)) {
 			pFlacInfo->has_replaygain = true;
 			pFlacInfo->replay_scale = grabbag__replaygain_compute_scale_factor(peak, gain, (double)pFlacInfo->cfg.replaygain.preamp, !pFlacInfo->cfg.replaygain.hard_limit);
 		}
-#endif
+//#endif
 	}
 
 	return;
@@ -218,16 +220,14 @@ void MUSIKFLACDecoder::FLACErrorCallback(const FLAC__FileDecoder *decoder, FLAC_
 }
 
 
-bool MUSIKFLACDecoder::DoSeek(int nTimeMS)
+bool MUSIKFLACDecoder::DoSeek(int64_t samplepos)
 {
-	int done  = 0;
-	const double distance = (double)nTimeMS / (double)m_Info.LengthMS;
-	const unsigned target_sample = (unsigned)(distance * (double)m_FlacInfo.streaminfo.total_samples);
-	if(FLAC__file_decoder_seek_absolute(m_FlacInfo.Decoder, (FLAC__uint64)target_sample)) {
-		SetDecodePos(nTimeMS);
-		done = 0;
+	
+	if(FLAC__file_decoder_seek_absolute(m_FlacInfo.Decoder, (FLAC__uint64)samplepos)) {
+		SetDecodeSamplePos(samplepos);
+		return true;
 	}
-	return (!done);
+	return false;
 }
 
 bool MUSIKFLACDecoder::Close()

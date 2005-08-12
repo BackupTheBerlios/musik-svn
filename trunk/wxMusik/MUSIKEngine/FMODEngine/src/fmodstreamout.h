@@ -22,9 +22,11 @@
 #ifndef FMODSTREAMOUT_H
 #define FMODSTREAMOUT_H
 
-#include <fmod.h>
+#include <fmod.hpp>
 #include "MUSIKEngine/inc/imusikstreamout.h"
-#include "MUSIKEngine/FMODEngine/inc/fmodengine.h"
+#include "MUSIKEngine/FMODEngine/inc/fmodexengine.h"
+class MUSIKStream;
+
 class FMODStreamOut	 : public IMUSIKStreamOutDefault
 {
 public:
@@ -44,12 +46,15 @@ public:
 	virtual int GetLengthMs();
 	virtual int GetLength();
 	virtual const char * Type();
-	virtual void * STREAM() {return StreamPointer;}
+    virtual MUSIKEngine::Error GetOpenStatus(MUSIKEngine::OpenStatus *pStatus);
+    virtual MUSIKEngine::Error SetMetadataCallback(IMUSIKStreamOutDefault::IMetadataCallback *pCb);
+    virtual MUSIKEngine::Error GetNetStatus(MUSIKEngine::NetStatus *pStatus,int * pnPercentRead,int * pnBitrate);
 protected:
 
 	virtual bool DoCreate(int buffersize);
 
 private:
+    static signed char F_CALLBACKAPI MetadataCallback(char *name, char *value, void * userdata);
 	static signed char F_CALLBACKAPI StreamCallback(FSOUND_STREAM *stream, void *buff,
 		int len, void *userdata);
 

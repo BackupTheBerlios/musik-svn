@@ -23,14 +23,13 @@
 //-----------------------------//
 //--- Stuff for Shibatch EQ ---//
 //-----------------------------//
-#include "../shibatch/paramlist.hpp"
-
-extern void equ_init(int wb);
-extern void equ_makeTable(float *lbc,float *rbc,paramlist *,float fs);
-extern void equ_quit(void);
-extern int equ_modifySamples(char *buf,int nsamples,int nch,int bps);
-extern void equ_clearbuf(int,int);
-static paramlist paramroot;
+//#include "../shibatch/paramlist.hpp"
+//extern void equ_init(int wb);
+//extern void equ_makeTable(float *lbc,float *rbc,paramlist *,float fs);
+//extern void equ_quit(void);
+//extern int equ_modifySamples(char *buf,int nsamples,int nch,int bps);
+//extern void equ_clearbuf(int,int);
+//static paramlist paramroot;
 
 void CMusikFX::SetLeftBands( float data[18] )
 {
@@ -63,7 +62,7 @@ void CMusikFX::ResetBands()
 		m_LeftBands[n] = 1.0f;
 		m_RightBands[n] = 1.0f;
 	}
-	MakeTable( m_Frequency );
+//	MakeTable( m_Frequency );
 }
 
 void CMusikFX::InitEQ(float freq)
@@ -72,25 +71,25 @@ void CMusikFX::InitEQ(float freq)
 	{
 		m_bIsInitialized = true;
 		m_Frequency = freq;
-		equ_init( 14 );		//--- no one knows why, 14 is the magic number ---//
-		MakeTable( m_Frequency );
+//		equ_init( 14 );		//--- no one knows why, 14 is the magic number ---//
+//		MakeTable( m_Frequency );
 	}
 }
 
 void CMusikFX::EndEQ()
 {
-	equ_quit();
+//	equ_quit();
 	m_bIsInitialized = false;
 }
 
 void CMusikFX::MakeTable( float samplerate )
 {
-	equ_makeTable( m_LeftBands, m_RightBands, &paramroot, samplerate );
+//	equ_makeTable( m_LeftBands, m_RightBands, &paramroot, samplerate );
 }
 
 void CMusikFX::ProcessSamples( void *pBuffer, int length, int channels, int bitspersample )
 {
-	equ_modifySamples( (char*)pBuffer, length, channels, bitspersample );
+//	equ_modifySamples( (char*)pBuffer, length, channels, bitspersample );
 }
 
 ///////////////////////////////////////////////////////////////////////////////

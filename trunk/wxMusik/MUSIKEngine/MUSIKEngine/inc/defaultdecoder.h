@@ -11,9 +11,11 @@ public:
 	{
 		return m_pIMUSIKStreamOutDefault->CanSeek();
 	}
-	virtual int GetTime();
-	virtual bool SetTime( int nTimeMS);
-	virtual int GetLengthMs();
+	virtual int64_t GetTime();
+    virtual int64_t GetSamplePos();
+    virtual bool SetSamplePos( int64_t samplepos);
+    virtual bool SetTime( int64_t nTimeMS);
+	virtual int64_t GetLengthMs();
 	bool Close();
 	virtual const char * Type()
 	{
@@ -25,7 +27,7 @@ protected:
 	{
 		return false;
 	}
-	virtual bool DoSeek(int)
+	virtual bool DoSeek(int64_t /*samplepos*/)
 	{
 		return false;
 	}

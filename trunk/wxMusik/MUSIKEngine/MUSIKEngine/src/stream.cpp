@@ -23,6 +23,27 @@
 #include "MUSIKEngine/inc/engine.h"
 #include "MUSIKEngine/inc/stream.h"
 #include "MUSIKEngine/inc/imusikstreamout.h"
+
+
+class MetadataCallbackConnector : public IMUSIKStreamOut::IMetadataCallback
+{
+public:
+    MetadataCallbackConnector(MUSIKStream *pStream,MUSIKStream::IMetadataCallback *pCB)
+        :m_pMetaCb(pCB)
+        ,m_pStream(pStream)
+    {}
+    virtual void MetadataCallback(const char *name, const char *value)
+    {
+        if(m_pMetaCb)
+            m_pMetaCb->MetadataCallback(m_pStream,name,value);
+    }
+
+private:
+    MUSIKStream::IMetadataCallback *m_pMetaCb;
+    MUSIKStream *m_pStream;
+};
+
+
 MUSIKStream::MUSIKStream(MUSIKDecoder *pDecoder)
 	:m_pDecoder(pDecoder)
 {
@@ -32,7 +53,11 @@ MUSIKStream::MUSIKStream(MUSIKDecoder *pDecoder)
 MUSIKStream::~MUSIKStream()
 {
 	if(m_pDecoder->StreamOut())
-		m_pDecoder->StreamOut()->Close(); 
+    {
+        m_pDecoder->StreamOut()->Close(); 
+        m_pDecoder->StreamOut()->SetMetadataCallback(NULL); 
+
+    }
 	delete m_pDecoder;
 }
 
@@ -57,19 +82,24 @@ bool MUSIKStream::SetTime( int nTimeMS)
 	return m_pDecoder->SetTime(nTimeMS);
 }
 
-int MUSIKStream::GetTime()
+int64_t MUSIKStream::GetTime()
 {
 	return m_pDecoder->GetTime();
 }
 
-int MUSIKStream::GetLengthMs()
+int64_t MUSIKStream::GetLengthMs()
 {
 	return m_pDecoder->GetLengthMs();
 }
 
-int64_t MUSIKStream::GetLength()
+int64_t MUSIKStream::GetSampleCount()
 {
-	return m_pDecoder->GetLength();
+	return m_pDecoder->GetSampleCount();
+}
+
+int64_t MUSIKStream::GetFilesize()
+{
+    return m_pDecoder->GetFilesize();
 }
 
 const char * MUSIKStream::Type()
@@ -93,4 +123,21 @@ MUSIKEngine::PlayState MUSIKStream::GetPlayState()
 MUSIKDecoder::INFO * MUSIKStream::GetDecoderInfo()
 {
 	return m_pDecoder->GetInfo();
+}
+
+
+MUSIKEngine::Error MUSIKStream::SetMetadataCallback(IMetadataCallback *pCb)
+{
+    m_pDecoder->StreamOut()->SetMetadataCallback(pCb ? new MetadataCallbackConnector(this,pCb) : NULL) ;
+    return MUSIKEngine::errNotSupported;
+}
+
+MUSIKEngine::Error MUSIKStream::GetOpenStatus(MUSIKEngine::OpenStatus *pStatus)
+{
+    return m_pDecoder->StreamOut()->GetOpenStatus(pStatus); 
+}
+
+MUSIKEngine::Error MUSIKStream::GetNetStatus(MUSIKEngine::NetStatus *pStatus,int * pnPercentRead,int * pnBitrate)
+{
+   return m_pDecoder->StreamOut()->GetNetStatus(pStatus,pnPercentRead,pnBitrate); 
 }

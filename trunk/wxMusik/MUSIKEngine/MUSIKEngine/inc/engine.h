@@ -38,14 +38,67 @@ public:
 		Stopped = 2,
 		Playing=3
 	};
+    enum Error
+    {
+        errSuccess = 0,
+        errUnknown,
+        errNotSupported,
+        errOutputInitFailed,
+        errDeviceInitFailed,
+        errInvalidArg
+    };
+    enum NetStatus
+    {
+        NETSTATUS_INVALID = -1,
+        NETSTATUS_NOTCONNECTED = 0,
+        NETSTATUS_CONNECTING,
+        NETSTATUS_BUFFERING,
+        NETSTATUS_READY,
+        NETSTATUS_ERROR
+    };
+    enum OpenStatus
+    {
+        OPENSTATUS_READY = 0,
+        OPENSTATUS_OPENFAILED,
+        OPENSTATUS_OPENINPROGRESS
+    };
+    struct IEnumNames
+    {
+        virtual bool EnumNamesCallback(const char * szName,int id)=0;
+    };
 public: 
 	MUSIKEngine()
+        :m_nSndBufferMs(400)
+        ,m_NetBufferSize(64*1024)
 	{
 	}
-	MUSIKStream * OpenMedia(const char *FileName);
+    virtual Error Init(int idOutput = -1 ,int idDevice = -1,int nMixRate = 48000,int nMaxChannels = 4) = 0;
+    virtual Error SetProxy(const char * s){s; return errNotSupported;}
+    virtual Error SetNetBuffer(int nBufferSize,int nPreBufferPercent,int nReBufferPercent) 
+        {m_NetBufferSize = nBufferSize;nPreBufferPercent,nReBufferPercent; return errNotSupported;}
+    virtual Error EnumDevices(IEnumNames * pen) const = 0;
+    virtual Error EnumOutputs(IEnumNames * pen) const = 0;
+    virtual Error EnumFrequencies(IEnumNames * pen) const = 0;
+
+    MUSIKStream * OpenMedia(const char *FileName);
 	virtual void SetVolume(float){}
-	virtual float GetVolume(){return 1.0;}
+	virtual float GetVolume() const {return 1.0;}
 	virtual bool SetPlayState( MUSIKEngine::PlayState state)=0;
+    virtual const char * Version() const =0;
+    virtual bool IsValid() const {return true;}
+    virtual void SetBufferMs(int nSndBufferMs = 400)
+    {
+       m_nSndBufferMs = nSndBufferMs;
+    }
+    virtual int GetBufferMs() const
+    {
+        return m_nSndBufferMs;
+    }
+    virtual int GetNetBufferSize() const
+    {
+        return m_NetBufferSize;
+    }
+
 	virtual ~MUSIKEngine()
 	{
 	}
@@ -55,7 +108,9 @@ protected:
 	{
 		return NULL;
 	}
-
+private:
+    int m_nSndBufferMs;
+    int m_NetBufferSize;
 };
 
 #endif

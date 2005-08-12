@@ -28,6 +28,9 @@
 #include "Shared/All.h"							/* Monkey's Audio include file */
 #include "Shared/MACLib.h"						/* Monkey's Audio include file */
 #include "Source/Shared/CharacterHelper.h"
+#ifdef __VISUALC__
+#pragma comment(lib,"MACLib")
+#endif
 
 #else
 #define BUILD_CROSS_PLATFORM
@@ -77,7 +80,7 @@ bool MUSIKAPEDecoder::OpenMedia(const char *FileName)
 		m_Info.bits_per_sample = pAPEDecompress->GetInfo(APE_INFO_BITS_PER_SAMPLE);
 		m_Info.channels = pAPEDecompress->GetInfo(APE_INFO_CHANNELS);
 		m_Info.frequency = pAPEDecompress->GetInfo(APE_INFO_SAMPLE_RATE);
-		m_Info.LengthMS = pAPEDecompress->GetInfo(APE_DECOMPRESS_LENGTH_MS);
+		m_Info.SampleCount = pAPEDecompress->GetInfo(APE_DECOMPRESS_TOTAL_BLOCKS);
 		int bytesPerBlock = m_Info.channels * (m_Info.bits_per_sample >> 3);
 		int decoder_buffer_size = bytesPerBlock * (int)((APEDecodeBufferSec * pAPEDecompress->GetInfo(APE_INFO_SAMPLE_RATE)) + 0.5);
 		m_Info.FileSize = pAPEDecompress->GetInfo(APE_INFO_APE_TOTAL_BYTES);
@@ -87,17 +90,20 @@ bool MUSIKAPEDecoder::OpenMedia(const char *FileName)
 	return false;
 }
 
-int MUSIKAPEDecoder::GetTime()
+int64_t MUSIKAPEDecoder::GetTime()
 {
 	return m_ApeInfo.pAPEDecompress->GetInfo(APE_DECOMPRESS_CURRENT_MS);
 }
 
 
-bool MUSIKAPEDecoder::DoSeek(int nTimeMS)
+bool MUSIKAPEDecoder::DoSeek(int64_t samplepos)
 {
-	m_ApeInfo.pAPEDecompress->Seek((int)((double)nTimeMS * (double)m_Info.frequency / 1000.0));
-	SetDecodePos(m_ApeInfo.pAPEDecompress->GetInfo(APE_DECOMPRESS_CURRENT_MS));
-	return true;// do not stop
+	if(m_ApeInfo.pAPEDecompress->Seek((int)samplepos))
+    {
+        SetDecodeSamplePos(samplepos);
+        return true;// do not stop
+    }
+    return false;
 }
 
 MUSIKDecoder::INFO * MUSIKAPEDecoder::GetInfo()

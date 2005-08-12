@@ -111,7 +111,7 @@ void *MusikFaderThread::Entry()
 				}
 			}
 
-			if ( ( !wxGetApp().Player.IsStartingNext() ) && ( !wxGetApp().Player.IsFading() ) && ( wxGetApp().Player.GetTimeLeft( FMOD_MSEC ) <= ( wxGetApp().Prefs.nFadeDuration + 1000 ) ) )
+			if ( ( !wxGetApp().Player.IsStartingNext() ) && ( !wxGetApp().Player.IsFading() ) && ( wxGetApp().Player.GetTimeLeft( UNIT_MILLISEC ) <= ( wxGetApp().Prefs.nFadeDuration + 1000 ) ) )
 			{
 				//-------------------------------------------------//
 				//--- if there is no fading at all going on,	---//
@@ -119,7 +119,7 @@ void *MusikFaderThread::Entry()
 				//--- time left, go ahead and start up the next	---//
 				//--- track										---//
 				//-------------------------------------------------//
-				if ( (( wxGetApp().Prefs.bGlobalFadeEnable == 0 ) ||  ( wxGetApp().Prefs.bFadeEnable == 0 )) && ( wxGetApp().Player.GetTimeLeft( FMOD_MSEC ) <= 10 ) )
+				if ( (( wxGetApp().Prefs.bGlobalFadeEnable == 0 ) ||  ( wxGetApp().Prefs.bFadeEnable == 0 )) && ( wxGetApp().Player.GetTimeLeft( UNIT_MILLISEC ) <= 10 ) )
 				{
 					if(wxGetApp().Player.IsPlaying())
 					{
@@ -133,7 +133,7 @@ void *MusikFaderThread::Entry()
 				//--- the duration is such that we should		---//
 				//--- queue up the next song and start the fade	---//
 				//-------------------------------------------------//
-				else if ( ( wxGetApp().Prefs.bGlobalFadeEnable == 1 ) && ( wxGetApp().Prefs.bFadeEnable == 1 ) && ( wxGetApp().Player.GetTimeLeft( FMOD_MSEC ) <= wxGetApp().Prefs.nFadeDuration ) )
+				else if ( ( wxGetApp().Prefs.bGlobalFadeEnable == 1 ) && ( wxGetApp().Prefs.bFadeEnable == 1 ) && ( wxGetApp().Player.GetTimeLeft( UNIT_MILLISEC ) <= wxGetApp().Prefs.nFadeDuration ) )
 				{
 					wxGetApp().Player.SetStartingNext( true );
 					wxPostEvent( &wxGetApp().Player, NextSongEvt );
@@ -190,7 +190,7 @@ void *MusikCrossfaderThread::Entry()
 	//--- duration, no fading. return.				---//
 	//-------------------------------------------------//
 
-	if ( wxGetApp().Player.GetDuration( FMOD_MSEC ) < ( wxGetApp().Prefs.nFadeDuration * 2 ) )
+	if ( wxGetApp().Player.GetDuration( UNIT_MILLISEC ) < ( wxGetApp().Prefs.nFadeDuration * 2 ) )
 	{
 		wxGetApp().Player.m_ActiveStreams.Item(wxGetApp().Player.m_ActiveStreams.GetCount() - 1)->SetVolume(maxVolume);
 		return NULL;

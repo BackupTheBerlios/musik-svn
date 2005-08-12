@@ -3,8 +3,6 @@
  *
  *  Object which controls audio playback.
  *
- *  Uses FMOD sound API.
- *  Information about FMOD is available at http://www.fmod.org
  *  
  *  Copyright (c) 2003 Casey Langen (casey@bak.rr.com)
  *	Contributors: Simon Windmill, Dustin Carter, Gunnar Roth, Wade Brainerd
@@ -38,36 +36,19 @@ enum EMUSIK_CROSSFADER_TYPE
 
 //--- MusikSongIdArray defined here ---//
 #include "MusikLibrary.h"
-#include "MUSIKEngine/FMODEngine/inc/fmodengine.h"
+#include "MUSIKEngine/FMODExEngine/inc/fmodexengine.h"
 //--- CMusikStreamArray declaration ---//
 WX_DECLARE_OBJARRAY( MUSIKStream*, CMusikStreamArray );
 
 
-enum EFMOD_INIT
+
+enum EUNIT_TIME
 {
-	FMOD_INIT_STOP = 0,
-	FMOD_INIT_START,
-	FMOD_INIT_RESTART,
-	FMOD_INIT_SET_NETBUFFER,
-	FMOD_INIT_ERROR_DSOUND,
-	FMOD_INIT_ERROR_WINDOWS_WAVEFORM,
-	FMOD_INIT_ERROR_ASIO,
-	FMOD_INIT_ERROR_DEVICE_NOT_READY,
-	FMOD_INIT_ERROR_INIT,
-	FMOD_INIT_ERROR_OSS,
-	FMOD_INIT_ERROR_ESD,
-	FMOD_INIT_ERROR_ALSA,
-	FMOD_INIT_ERROR_MAC,
-	FMOD_INIT_SUCCESS
+	UNIT_SEC = 0,
+	UNIT_MILLISEC
 };
 
-enum EFMOD_MISC
-{
-	FMOD_SEC = 0,
-	FMOD_MSEC
-};
-
-class CMusikPlayer : public wxEvtHandler
+class CMusikPlayer : public wxEvtHandler,public MUSIKStream::IMetadataCallback
 {
 public:
 	CMusikPlayer();
@@ -77,9 +58,9 @@ public:
 	//--------------------//
 	//--- sound system ---//
 	//--------------------//
-	int	 InitializeFMOD		( int nFunction );
-	void InitFMOD_NetBuffer	( );
-	void InitFMOD_ProxyServer	( );
+	bool InitializeSndEngine();
+	void Init_NetBuffer	( );
+	void Init_ProxyServer	( );
 
 	void Shutdown			( bool bClose = true );
 	void ClearOldStreams	( bool bClearAll = false );
@@ -156,7 +137,10 @@ public:
 	{
 		return  m_Playlist;
 	}
-	
+	MUSIKEngine & SndEngine()
+    {
+        return m_SndEngine;
+    }
 	//------------//
 	//--- sets ---//
 	//------------//
@@ -186,13 +170,12 @@ private:
 	bool _CurrentSongNeedsMPEGACCURATE();
 	bool _CurrentSongIsNetStream();
 	bool _IsNETSTREAMConnecting() { return (m_p_NETSTREAM_Connecting != NULL);}
-	static signed char F_CALLBACKAPI MetadataCallback(char *name, char *value, void * userdata);
-	void _SetMetaData(char *name, char *value);
-	void _UpdateNetstreamMetadata( wxCommandEvent& event );
+	void MetadataCallback( MUSIKStream * pStream,const char *name,const  char *value);
+	void _UpdateNetstreamMetadata( MusikPlayerEvent& event );
 	void _AddRandomSongs();
 	void _ChooseRandomSongs(int nSongsToAdd,MusikSongIdArray &arrSongs);
 	void _ChooseRandomAlbumSongs(int nAlbumsToAdd,MusikSongIdArray &arrAlbumSongs);
-	int _NetStreamStatusUpdate(MUSIKStream * pStream);
+	MUSIKEngine::NetStatus _NetStreamStatusUpdate(MUSIKStream * pStream);
 
 	
 	MusikSongIdArray m_Playlist;			//--- heart and soul.								---//
@@ -208,12 +191,12 @@ private:
 	int				m_CrossfadeType;	
 	wxArrayInt		m_arrHistory;		//--- history of songs played, to avoid repeats		---//
 	size_t			m_nMaxHistory;
-	FSOUND_DSPUNIT	*m_DSP;
+//	FSOUND_DSPUNIT	*m_DSP;
 
 	int m_NETSTREAM_read_percent;
 	int m_NETSTREAM_last_read_percent;
 	int m_NETSTREAM_bitrate;
-	int m_NETSTREAM_status;
+	MUSIKEngine::NetStatus m_NETSTREAM_status;
 	unsigned int m_NETSTREAM_flags;
 	bool m_b_NETSTREAM_AbortConnect;
 	bool m_bSuppressAutomaticSongPicking;
@@ -226,7 +209,7 @@ private:
 	int m_nLastSongTime;
 
 	bool m_bPostPlayRestartInProgress;
-	FMODEngine m_SndEngine;
+	FMODExEngine m_SndEngine;
 protected:
 
 	wxCriticalSection	m_protectingStreamArrays; // to protect access to ActiveStreams and ActiveChannels

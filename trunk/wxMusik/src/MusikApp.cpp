@@ -53,76 +53,22 @@ IMPLEMENT_APP(MusikApp)
 #ifdef __VISUALC__
 #ifdef _DEBUG
 #ifdef _UNICODE
-#pragma comment(lib,"wxmsw26ud_core")
-#pragma comment(lib,"wxbase26ud")
-#pragma comment(lib,"wxbase26ud_net")
-#pragma comment(lib,"wxregexud")
-#pragma comment(lib,"wxmsw26ud_qa")
 #pragma comment(lib,"wxmsw26ud_netutils")
-#pragma comment(lib,"wxmsw26ud_adv")
-#pragma comment(lib,"wxbase26ud_xml")
-#pragma comment(lib,"wxmsw26ud_html")
 #else //no _UNICODE
-#pragma comment(lib,"wxmsw26d_core")
-#pragma comment(lib,"wxbase26d")
-#pragma comment(lib,"wxbase26d_net")
-#pragma comment(lib,"wxregexd")
-#pragma comment(lib,"wxmsw26d_qa")
 #pragma comment(lib,"wxmsw26d_netutils")
-#pragma comment(lib,"wxmsw26d_adv")
-#pragma comment(lib,"wxbase26d_xml")
-#pragma comment(lib,"wxmsw26d_html")
 #endif //_UNICODE
-#pragma comment(lib,"wxexpatd")
-#pragma comment(lib,"wxzlibd")
-#pragma comment(lib,"wxpngd")
-#pragma comment(lib,"wxjpegd")
-
-#pragma comment(lib,"fmodengined")
-#pragma comment(lib,"MUSIKengined")
 #else //no _DEBUG
 #ifdef _UNICODE
-#pragma comment(lib,"wxmsw26u_core")
-#pragma comment(lib,"wxbase26u")
-#pragma comment(lib,"wxbase26u_net")
-#pragma comment(lib,"wxregexu")
-#pragma comment(lib,"wxmsw26u_qa")
 #pragma comment(lib,"wxmsw26u_netutils")
-#pragma comment(lib,"wxmsw26u_adv")
-#pragma comment(lib,"wxbase26u_xml")
-#pragma comment(lib,"wxmsw26u_html")
 #else //no _UNICODE
-#pragma comment(lib,"wxmsw26_core")
-#pragma comment(lib,"wxbase26")
-#pragma comment(lib,"wxbase26_net")
-#pragma comment(lib,"wxregex")
-#pragma comment(lib,"wxmsw26_qa")
 #pragma comment(lib,"wxmsw26_netutils")
-#pragma comment(lib,"wxmsw26_adv")
-#pragma comment(lib,"wxbase26_xml")
-#pragma comment(lib,"wxmsw26_html")
 #endif //_UNICODE
-#pragma comment(lib,"wxexpat")
-#pragma comment(lib,"wxzlib")
-#pragma comment(lib,"wxpng")
-#pragma comment(lib,"wxjpeg")
-
-#pragma comment(lib,"fmodengine")
-#pragma comment(lib,"MUSIKengine")
 #endif// no _DEBUG
 
 
-#pragma comment(lib,"fmodvc")
 #pragma comment(lib,"sqlite")
 #pragma comment(lib,"plugin_common_static")
 #pragma comment(lib,"grabbag_static")
-
-#pragma comment(lib,"mpclib")
-#pragma comment(lib,"libFLAC_static")
-#pragma comment(lib,"MACLib")
-
-#pragma comment(lib,"TagLib")
-
 // windows libs
 #pragma comment(lib,"comctl32")
 #pragma comment(lib,"wsock32")

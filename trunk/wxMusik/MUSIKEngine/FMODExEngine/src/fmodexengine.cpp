@@ -19,42 +19,45 @@
 //WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
 //OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#include "MUSIKEngine/FMODExEngine/inc/fmodengine.h"
+#include "MUSIKEngine/FMODExEngine/inc/fmodexengine.h"
 #include "MUSIKEngine/MUSIKEngine/inc/defaultdecoder.h"
-#include "fmodstreamout.h"
-#include <fmod.h>
+#include "fmodexstreamout.h"
+#include <fmod.hpp>
 #include <fmod_errors.h>
 #include <stdio.h>
 
-#ifdef __VISUALC__
-#pragma comment(lib,"fmodvc")
-#endif
+
 FMODExEngine::FMODExEngine()
 {
     m_OpenMode = OpenMode_Default;
-    _snprintf(m_szVersion,sizeof(m_szVersion)/sizeof(m_szVersion[0]) - 1,"%.2f",FSOUND_GetVersion());
+    unsigned int version;
+    FMOD_RESULT result = FMOD::System_Create(&m_pSystem);
+    result = m_pSystem->getVersion(&version);
+    _snprintf(m_szVersion,sizeof(m_szVersion)/sizeof(m_szVersion[0]) - 1,"%x.%x.%x",version>>16,version&0xff00,version&0xff);
     m_bValid = false;
 }
 
-MUSIKEngine::Error FMODExEngine::_Init(int idOutput ,int idDevice,int nMixRate,int nMaxChannels,int nSndBufferMs)
+MUSIKEngine::Error FMODExEngine::_Init(int idOutput ,int idDevice,int nMixRate,int nMaxChannels)
 {
+    if(!m_pSystem)
+        return errUnknown;
     //-----------------//
     //--- windows	---//
     //-----------------//
 #if defined(__WXMSW__)
     if ( idOutput == 0 )
     {
-        if( FSOUND_SetOutput( FSOUND_OUTPUT_DSOUND ) == 0 )
+        if( m_pSystem->setOutput( FMOD_OUTPUTTYPE_DSOUND ) != FMOD_OK )
             return errOutputInitFailed;
     }
     else if ( idOutput == 1 )
     {
-        if ( FSOUND_SetOutput( FSOUND_OUTPUT_WINMM ) == 0 )
+        if ( m_pSystem->setOutput( FMOD_OUTPUTTYPE_WINMM ) != FMOD_OK )
             return errOutputInitFailed;
     }
     else if ( idOutput == 2 )
     {
-        if ( FSOUND_SetOutput( FSOUND_OUTPUT_ASIO ) == 0 )
+        if ( m_pSystem->setOutput( FMOD_OUTPUTTYPE_ASIO ) != FMOD_OK )
             return errOutputInitFailed;
     }
     //-----------------//
@@ -63,63 +66,83 @@ MUSIKEngine::Error FMODExEngine::_Init(int idOutput ,int idDevice,int nMixRate,i
 #elif defined (__WXGTK__)
     if ( idOutput == 0 )
     {
-        if( FSOUND_SetOutput( FSOUND_OUTPUT_OSS ) == 0 )
+        if( m_pSystem->setOutput( FMOD_OUTPUTTYPE_OSS ) != FMOD_OK )
             return errOutputInitFailed;
     }
     else if ( idOutput == 1 )
     {
-        if ( FSOUND_SetOutput( FSOUND_OUTPUT_ESD ) == 0 )
+        if ( m_pSystem->setOutput( FMOD_OUTPUTTYPE_ESD ) != FMOD_OK )
             return errOutputInitFailed;
     }
     else if ( idOutput == 2 )
     {
-        if ( FSOUND_SetOutput( FSOUND_OUTPUT_ALSA ) == 0 )
+        if ( m_pSystem->setOutput( FMOD_OUTPUTTYPE_ALSA ) != FMOD_OK )
             return errOutputInitFailed;
     }
 #elif defined (__WXMAC__)
-    if( FSOUND_SetOutput( FSOUND_OUTPUT_MAC ) == 0 )
-        return errOutputInitFailed;
+    if ( idOutput == 0 )
+    {
+        if( m_pSystem->setOutput( FMOD_OUTPUTTYPE_COREAUDIO ) != FMOD_OK )
+            return errOutputInitFailed;
+    }
+    else if ( idOutput == 1 )
+    {
+        if( m_pSystem->setOutput( FMOD_OUTPUTTYPE_SOUNDMANAGER ) != FMOD_OK )
+            return errOutputInitFailed;
+    }
 #endif
     if(idDevice > 0)
     {
         //---------------------//
         //--- setup device	---//
         //---------------------//
-        if (  FSOUND_SetDriver( idDevice ) == 0 )
+        if (  m_pSystem->setDriver( idDevice )!= FMOD_OK )
             return errDeviceInitFailed;
     }
 
     // initialize system
-   
-    if(!FSOUND_Init(nMixRate,nMaxChannels,0))
+    int oldNumOutCh=2,oldNumInCh=8;
+    FMOD_SOUND_FORMAT oldFormat = FMOD_SOUND_FORMAT_PCM16;
+    if(nMixRate)
+    {
+        m_pSystem->getSoftwareFormat(NULL,&oldFormat,&oldNumOutCh,&oldNumInCh,NULL);
+        if(m_pSystem->setSoftwareFormat(nMixRate,oldFormat,oldNumOutCh,oldNumInCh) != FMOD_OK)
+            return errUnknown;
+    }
+    if(m_pSystem->init(nMaxChannels, FMOD_INIT_NORMAL, 0) != FMOD_OK)
         return errUnknown;
-#ifdef __WXMAC__
-    FSOUND_SetBufferSize( 1000 );
-#else        
-    FSOUND_SetBufferSize( 500 );
-#endif   
-    FSOUND_Stream_SetBufferSize( nSndBufferMs );
     return errSuccess;
 }
-MUSIKEngine::Error FMODExEngine::Init(int idOutput ,int idDevice ,int nMixRate ,int nMaxChannels,int nSndBufferMs )
+void FMODExEngine::SetBufferMs(int nSndBufferMs)
 {
+    MUSIKEngine::SetBufferMs(nSndBufferMs);
+    m_pSystem->setStreamBufferSize(nSndBufferMs, FMOD_TIMEUNIT_MS);
+}
+MUSIKEngine::Error FMODExEngine::Init(int idOutput ,int idDevice ,int nMixRate ,int nMaxChannels)
+{
+    if(!m_pSystem)
+        return errUnknown;
     if(m_bValid)
-        FSOUND_Close();
-    Error e = _Init(idOutput,idDevice,nMixRate,nMaxChannels,nSndBufferMs);
+        m_pSystem->close();
+    Error e = _Init(idOutput,idDevice,nMixRate,nMaxChannels);
     m_bValid = (e == errSuccess);
     return e;
 }
-MUSIKEngine::Error FMODExEngine::EnumDevices(MUSIKEngine::IEnumNames * pen)
+MUSIKEngine::Error FMODExEngine::EnumDevices(MUSIKEngine::IEnumNames * pen) const
 {
     if(!m_bValid)
         return errUnknown;
-    for ( int i = 0; i < FSOUND_GetNumDrivers(); i++ )
+    int numDrivers = 0;
+    char name[100];
+    m_pSystem->getNumDrivers(&numDrivers);
+    for ( int i = 0; i < numDrivers ; i++ )
     {
-        pen->EnumNamesCallback(FSOUND_GetDriverName( i ),i);
+        m_pSystem->getDriverName(i,name,sizeof(name) - 1);
+        pen->EnumNamesCallback(name,i);
     }
     return errSuccess;
 }
-MUSIKEngine::Error FMODExEngine::EnumOutputs(IEnumNames * pen)
+MUSIKEngine::Error FMODExEngine::EnumOutputs(IEnumNames * pen) const
 {
     if(!m_bValid)
         return errUnknown;
@@ -134,7 +157,8 @@ MUSIKEngine::Error FMODExEngine::EnumOutputs(IEnumNames * pen)
         "ESD",
         "ALSA 0.9"
 #elif defined( __apple__)
-        "MAC"
+        "CoreAudio",
+        "SoundManager"
 #else 
     #error System not supported
 #endif
@@ -147,10 +171,11 @@ MUSIKEngine::Error FMODExEngine::EnumOutputs(IEnumNames * pen)
 
 }
 
-MUSIKEngine::Error FMODExEngine::EnumFrequencies(IEnumNames * pen)
+MUSIKEngine::Error FMODExEngine::EnumFrequencies(IEnumNames * pen) const
 {
     static const char * szData[] =
     {
+        "Default",
         "48000",
         "44100",
         "22050",
@@ -167,61 +192,75 @@ MUSIKEngine::Error FMODExEngine::EnumFrequencies(IEnumNames * pen)
 
 MUSIKEngine::Error FMODExEngine::SetProxy(const char * s)
 {
-  return FSOUND_Stream_Net_SetProxy(s)? errSuccess:errUnknown;
+  return m_pSystem->setProxy(s) == FMOD_OK ? errSuccess:errUnknown;
 }
 
 MUSIKEngine::Error FMODExEngine::SetNetBuffer(int nBufferSize,int nPreBufferPercent,int nReBufferPercent)
 {
-    return FSOUND_Stream_Net_SetBufferProperties(nBufferSize , nPreBufferPercent, nReBufferPercent) ? errSuccess:errUnknown;
+    MUSIKEngine::SetNetBuffer(nBufferSize,nPreBufferPercent,nReBufferPercent);
+    return errSuccess;
 }
 
 IMUSIKStreamOut *FMODExEngine::CreateStreamOut()
 {
-  return new FMODExStreamOut(m_OpenMode);
+  return new FMODExStreamOut(*this);
 }
 MUSIKDefaultDecoder *FMODExEngine::CreateDefaultDecoder()
 {
-	return  new	MUSIKDefaultDecoder(new FMODExStreamOut(m_OpenMode));
+	return  new	MUSIKDefaultDecoder(new FMODExStreamOut(*this));
 }
-char *FMODExEngine::ErrorString()
+const char *FMODExEngine::ErrorString()
 {
-    int errcode = FSOUND_GetError();
-	return FMOD_ErrorString(errcode);
+   // int errcode = FSOUND_GetError();
+	return "unkown error";
 }
 
 void FMODExEngine::SetVolume(float v)
 { 
-    FSOUND_SetSFXMasterVolume((int) (v * 255.0)); 
+    FMOD::ChannelGroup * chgroup = NULL;
+    m_pSystem->getMasterChannelGroup(&chgroup);
+    chgroup->setVolume(v);
 }
 
-float FMODExEngine::GetVolume()
+float FMODExEngine::GetVolume() const
 { 
-    return (float)(((double)FSOUND_GetSFXMasterVolume()+0.5)/255.0); 
+    FMOD::ChannelGroup * chgroup = NULL;
+    float v = 0.0f;
+    m_pSystem->getMasterChannelGroup(&chgroup);
+    chgroup->getVolume(&v);
+    return v;
 }
 
 bool FMODExEngine::SetPlayState( MUSIKEngine::PlayState state)
 {
+    FMOD::ChannelGroup * chgroup = NULL;
+    m_pSystem->getMasterChannelGroup(&chgroup);
 	switch (state )
 	{
 	case MUSIKEngine::Paused:
-		return FSOUND_SetPaused(FSOUND_ALL, 1) != 0;
+		return chgroup->setPaused(true) == FMOD_OK;
 	case MUSIKEngine::Playing:
-		return FSOUND_SetPaused(FSOUND_ALL, 0) != 0;
+		return chgroup->setPaused(false) == FMOD_OK;
 	case MUSIKEngine::Stopped:
-		return FSOUND_SetPaused(FSOUND_ALL, 1) != 0;
+		return chgroup->setPaused(true) == FMOD_OK;
 	case MUSIKEngine::Invalid:
 		return false;
 	}
 	return false;
 }
 
-const char * FMODExEngine::Version()
+const char * FMODExEngine::Version() const
 {
     return m_szVersion;
 }
 
 FMODExEngine::~FMODExEngine(void)
-{	
-    if(m_bValid)
-	    FSOUND_Close();
+{
+    if(m_pSystem)
+    {
+        if(m_bValid)
+            m_pSystem->close();
+        m_pSystem->release();
+    }
+    
 }

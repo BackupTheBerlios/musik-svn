@@ -12,6 +12,10 @@
 #include <mpeg/id3v2/id3v2tag.h>
 #include <mpeg/id3v2/frames/attachedpictureframe.h>
 
+#ifdef __VISUALC__
+#pragma comment(lib,"TagLib")
+#endif
+
 CTagLibInfo::CTagLibInfo(void)
 {
 }

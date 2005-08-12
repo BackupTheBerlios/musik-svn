@@ -38,6 +38,14 @@
 #define stricmp strcasecmp
 #endif
 
+#ifdef __VISUALC__
+#ifdef _DEBUG
+#pragma comment(lib,"MUSIKEngined")
+#else
+#pragma comment(lib,"MUSIKEngine")
+#endif
+#endif
+
 MUSIKDefaultDecoder::MUSIKDefaultDecoder(IMUSIKStreamOutDefault * pIMUSIKStreamOutDefault)
 :MUSIKDecoder(pIMUSIKStreamOutDefault)
 {
@@ -49,10 +57,10 @@ bool MUSIKDefaultDecoder::OpenMedia(const char *FileName)
 	{
 		m_Info.bits_per_sample = 16;
 
-		m_Info.LengthMS = m_pIMUSIKStreamOutDefault->GetLengthMs();
-		unsigned int lenbytes = m_pIMUSIKStreamOutDefault->GetLength();
-		if(m_Info.LengthMS)// can be 0 for netstreams 
-			m_Info.bitrate = lenbytes / m_Info.LengthMS  * 8;
+		m_Info.SampleCount = m_pIMUSIKStreamOutDefault->GetSampleCount();
+		int64_t lenbytes = m_pIMUSIKStreamOutDefault->GetFilesize();
+		if(GetLengthMs())// can be 0 for netstreams 
+			m_Info.bitrate = (int)(lenbytes * 8 / GetLengthMs());
 
 		m_Info.frequency = 44100;
 		m_Info.channels = 2;
@@ -66,23 +74,31 @@ bool MUSIKDefaultDecoder::Start()
 	return m_pIMUSIKStreamOutDefault->Start();
 }
 
+int64_t MUSIKDefaultDecoder::GetSamplePos()
+{
+    return m_pIMUSIKStreamOutDefault->GetSamplePos();
+}
 
-int MUSIKDefaultDecoder::GetTime()
+
+int64_t MUSIKDefaultDecoder::GetTime()
 {
 	return m_pIMUSIKStreamOutDefault->GetTime();
 }
 
 
-int MUSIKDefaultDecoder::GetLengthMs()
+int64_t MUSIKDefaultDecoder::GetLengthMs()
 {
 	return m_pIMUSIKStreamOutDefault->GetLengthMs();
 
 }
+bool MUSIKDefaultDecoder::SetSamplePos( int64_t samplepos)
+{
+    return m_pIMUSIKStreamOutDefault->SetSamplePos(samplepos);
+}
 
-bool MUSIKDefaultDecoder::SetTime( int nTimeMS)
+bool MUSIKDefaultDecoder::SetTime( int64_t nTimeMS)
 {
 	return m_pIMUSIKStreamOutDefault->SetTime(nTimeMS);
-
 }
 
 

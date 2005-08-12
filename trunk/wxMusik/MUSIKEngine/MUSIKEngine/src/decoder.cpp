@@ -31,12 +31,8 @@ MUSIKDecoder::~MUSIKDecoder()
 }
 
 
-bool MUSIKDecoder::CreateBuffer(int decoderbuffersize,int streambuffersize )
+bool MUSIKDecoder::CreateBuffer(int decoderbuffersize)
 {
-	if(streambuffersize == -1)
-		streambuffersize = decoderbuffersize;
-
-	m_streambuffersize = streambuffersize;
 	if(m_sample_buffer)
 		free(m_sample_buffer);
 	m_sample_buffer = (unsigned char*) malloc(decoderbuffersize);
@@ -61,20 +57,24 @@ bool MUSIKDecoder::DoFillBuffer(unsigned char * buff,int len)
 
 		while (len >= m_sample_buffer_filled)
 		{
-            if(!SeekIfNeeded())
+            if(!SeekIfNeeded() )
             {
                 memset(buff,0,len);
                 return false;
             }
-			memcpy(buff + buff_filled, m_sample_buffer, m_sample_buffer_filled); /* copy samples to buff */
-			buff_filled += m_sample_buffer_filled;
-			len -= m_sample_buffer_filled;
+            if(m_sample_buffer_filled > 0)
+            {
+                memcpy(buff + buff_filled, m_sample_buffer, m_sample_buffer_filled); /* copy samples to buff */
+                buff_filled += m_sample_buffer_filled;
+                len -= m_sample_buffer_filled;
+            }
 			m_sample_buffer_filled = DecodeBlocks(m_sample_buffer,m_sample_buffer_size);
 			if(m_sample_buffer_filled <= 0)
 			{
+                m_sample_buffer_filled = 0;
 				if(len)
 					memset(buff + buff_filled,0,len);// add silence, to the rest of the buffer
-				SetDecodePos(GetLengthMs());
+				SetDecodeSamplePos(GetSampleCount());
 				return false;// we are at the end
 			}
 		}
@@ -98,7 +98,7 @@ bool MUSIKDecoder::SeekIfNeeded()
 		m_seek_needed = -1;
 		if(bRes == false)
 		{
-			SetDecodePos(GetLengthMs());
+			SetDecodeSamplePos(GetSampleCount());
 			return false;// stop
 		}
 		m_sample_buffer_filled = 0; // reset buffer, because we did a seek. so buffer will be filled with the new data
@@ -108,13 +108,13 @@ bool MUSIKDecoder::SeekIfNeeded()
 
 bool MUSIKDecoder::Start()
 {	
-	if(m_decode_pos_ms > 0)
+	if(m_decode_pos > 0)
 	{
 		if(!DoSeek(0))
 			return false;
 	}
 	m_sample_buffer_filled = DecodeBlocks(m_sample_buffer,m_sample_buffer_size); //pre-buffer
-	if(!m_pIMUSIKStreamOut->Create(this,m_streambuffersize))
+	if(!m_pIMUSIKStreamOut->Create(this))
 		return false;
 
 	return m_pIMUSIKStreamOut->Start();

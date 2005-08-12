@@ -470,5 +470,11 @@ void MusikFrame::OnSongChanged(MusikPlayerEvent & ev)
 void MusikFrame::OnPlayStop(MusikPlayerEvent & ev)
 {
     SetTitle();
+#ifdef wxHAS_TASK_BAR_ICON
+    if(	m_pTaskBarIcon )
+    {
+        m_pTaskBarIcon->SetIcon(MUSIK_TRAY_ICON, _( "Playback Stopped" ) );
+    }
+#endif
     ev.Skip();
 }

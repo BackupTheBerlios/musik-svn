@@ -39,19 +39,19 @@ MUSIKMPCDecoder::~MUSIKMPCDecoder()
 	delete m_MPCInfo.Reader;
 }
 
-bool MUSIKMPCDecoder::DoSeek(int nTimeMS)
+bool MUSIKMPCDecoder::DoSeek( int64_t samplepos)
 {
 
 	int done = 0;
-	if ( m_MPCInfo.Decoder  ) {// only perform jump when bitstream is still allocated
-		if ( !m_MPCInfo.Decoder->SeekSample((mpc_int64_t )(nTimeMS * (double)m_Info.frequency/1000.0 + 0.5)) ) {
-			done = 1;
+	if ( m_MPCInfo.Decoder  ) 
+    {// only perform jump when bitstream is still allocated
+		if ( m_MPCInfo.Decoder->SeekSample(samplepos) ) 
+        {
+            SetDecodeSamplePos(samplepos);
+            return true;
 		}
-		SetDecodePos(nTimeMS);
-	} else {
-		done = 1;
-	}
-	return (!done);
+	} 
+	return false;
 }
 int MUSIKMPCDecoder::DecodeBlocks(unsigned char *buff,int len)
 {
@@ -102,13 +102,12 @@ bool MUSIKMPCDecoder::OpenMedia(const char *FileName)
 	m_Info.channels	 = m_MPCInfo.Info.simple.Channels;
 	m_Info.frequency   = (int) m_MPCInfo.Info.simple.SampleFreq;
 	m_Info.FileSize = m_MPCInfo.Info.simple.TotalFileLength;
-	m_Info.LengthMS = (int)(m_MPCInfo.Info.GetLengthSamples()/((double)m_Info.frequency / 1000.0) + 0.5f );
+	m_Info.SampleCount = m_MPCInfo.Info.GetLengthSamples();
 
 
 	m_Info.bitrate	 = (int) m_MPCInfo.Info.simple.AverageBitrate;
 	m_Info.bits_per_sample  = 16;
-    return CreateBuffer(MPC_decoder::DecodeBufferLength *2,4608*32);
-//  return CreateBuffer(MPC_decoder::DecodeBufferLength,MPC_decoder::DecodeBufferLength);
+    return CreateBuffer(MPC_decoder::DecodeBufferLength *2);
 }
 
 bool MUSIKMPCDecoder::Close()
@@ -200,11 +199,11 @@ MUSIKMPCDecoder::~MUSIKMPCDecoder()
 {
 }
 
-bool MUSIKMPCDecoder::DoSeek(int nTimeMS)
+bool MUSIKMPCDecoder::DoSeek(int64_t samplepos)
 {	
-    bool bRes = m_MPCStream.SeekSample((mpc_int64_t )(nTimeMS * (double)m_Info.frequency/1000.0 + 0.5)); 
+    bool bRes = m_MPCStream.SeekSample(samplepos); 
     if( bRes )
-        SetDecodePos(nTimeMS);
+        SetDecodeSamplePos(samplepos);
 	return bRes;
 }
 int MUSIKMPCDecoder::DecodeBlocks(unsigned char *buff,int len)
@@ -220,7 +219,7 @@ int MUSIKMPCDecoder::DecodeBlocks(unsigned char *buff,int len)
 	{
 		bytes = CopySamplesToBuffer(m_MPCStream.sample_buffer,valid_samples * m_Info.channels,buff);
 	}
-	IncDecodePos((valid_samples*1000 +  m_Info.frequency/2)/ m_Info.frequency);
+	IncDecodeSamplePos(valid_samples);
 	return bytes;
 
 }
@@ -245,10 +244,10 @@ bool MUSIKMPCDecoder::OpenMedia(const char *FileName)
  	m_Info.channels	 = m_MPCStream.info.channels;
 	m_Info.frequency = (int) m_MPCStream.info.sample_freq;
 	m_Info.FileSize  = m_MPCStream.info.total_file_length;
-	m_Info.LengthMS  = (int)(m_MPCStream.info.pcm_samples * 1000 / m_Info.frequency);
+	m_Info.SampleCount  = m_MPCStream.info.pcm_samples;
 	m_Info.bitrate	 = (int) m_MPCStream.info.average_bitrate;
 	m_Info.bits_per_sample  = 16;
-    return CreateBuffer(MPC_DECODER_BUFFER_LENGTH *sizeof(MPC_SAMPLE_FORMAT) ,4608*32);
+    return CreateBuffer(MPC_DECODER_BUFFER_LENGTH *sizeof(MPC_SAMPLE_FORMAT));
 }
 
 
@@ -313,6 +312,9 @@ int MUSIKMPCDecoder::CopySamplesToBuffer(const MPC_SAMPLE_FORMAT * p_buffer,unsi
 
 #define MPC_BUFFER_SIZE (FRAMELEN * 2 * 4  * 2)
 
+#ifdef __VISUALC__
+#pragma comment(lib,"mpclib")
+#endif
 
 
 MUSIKMPCDecoder::MUSIKMPCDecoder(IMUSIKStreamOut * pIMUSIKStreamOut)
@@ -327,22 +329,24 @@ MUSIKMPCDecoder::~MUSIKMPCDecoder()
 	delete m_MPCInfo.Decoder;
 }
 
-bool MUSIKMPCDecoder::DoSeek(int nTimeMS)
+bool MUSIKMPCDecoder::DoSeek(int64_t samplepos)
 {
 
-	int done = 0;
-	if ( m_MPCInfo.Decoder  ) {// only perform jump when bitstream is still allocated
+	
+	if ( m_MPCInfo.Decoder  ) 
+    {// only perform jump when bitstream is still allocated
 		m_MPCInfo.Decoder->SetPrebuf(0);
-		if ( !m_MPCInfo.Decoder->perform_jump (&done, &m_MPCInfo.Frames, nTimeMS) ) {
-			done = 1;
+        int nTimeMS = (int)(samplepos/m_MPCInfo.Decoder->sfreq_khz);
+        int done = 1;
+		if (m_MPCInfo.Decoder->perform_jump (&done, &m_MPCInfo.Frames, nTimeMS) ) 
+        {
+            SetDecodeSamplePos(samplepos);
+            m_MPCInfo.Decoder->SetPrebuf(1);
+            m_MPCInfo.Decoder->DoPrebuf();
+            return true;
 		}
-		SetDecodePos((int)(m_MPCInfo.Decoder->DecodedFrames * FRAMELEN / m_MPCInfo.Decoder->sfreq_khz + 0.5f));
-		m_MPCInfo.Decoder->SetPrebuf(1);
-		m_MPCInfo.Decoder->DoPrebuf();
-	} else {
-		done = 1;
 	}
-	return (!done);
+	return (false);
 }
 int MUSIKMPCDecoder::DecodeBlocks(unsigned char *buff,int len)
 {
@@ -386,7 +390,7 @@ int MUSIKMPCDecoder::DecodeBlocks(unsigned char *buff,int len)
 	curDecoder->UpdateBuffer(RING);
 	++   m_MPCInfo.Frames;
 
-	SetDecodePos((int)(m_MPCInfo.Decoder->DecodedFrames * FRAMELEN / m_MPCInfo.Decoder->sfreq_khz + 0.5f));
+	IncDecodeSamplePos(valid_samples);
 	return valid_samples * 4;;
 
 }
@@ -426,12 +430,12 @@ bool MUSIKMPCDecoder::OpenMedia(const char *FileName)
 	m_Info.channels	 = m_MPCInfo.Info.simple.Channels;
 	m_Info.frequency   = (int) m_MPCInfo.Info.simple.SampleFreq;
 	m_Info.FileSize = m_MPCInfo.Info.simple.TotalFileLength;
-	m_Info.LengthMS = (int)( (m_MPCInfo.Decoder->OverallFrames-0.5) * FRAMELEN / m_MPCInfo.Decoder->sfreq_khz + 0.5f );
+	m_Info.SampleCount = m_MPCInfo.Info.simple.PCMSamples;
 
 
 	m_Info.bitrate	 = (int) m_MPCInfo.Info.simple.AverageBitrate;
 	m_Info.bits_per_sample  = 16;
-	return CreateBuffer(MPC_BUFFER_SIZE,FRAMELEN*4 *2);
+	return CreateBuffer(MPC_BUFFER_SIZE);
 }
 
 bool MUSIKMPCDecoder::Close()

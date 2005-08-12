@@ -13,6 +13,10 @@
 #include "APEInfo.h"
 #include "MusikUtils.h"
 
+#ifdef __VISUALC__
+#pragma comment(lib,"MACLib")
+#endif
+
 CMyAPEInfo::CMyAPEInfo(void)
 {
 }

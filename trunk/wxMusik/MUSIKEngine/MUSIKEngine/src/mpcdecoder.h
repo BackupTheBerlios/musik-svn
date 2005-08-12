@@ -87,7 +87,7 @@ protected:
 	virtual bool OpenMedia(const char *FileName);
 
 	virtual int DecodeBlocks(unsigned char *buff,int len);
-	virtual bool DoSeek(int nTimeMS);
+	virtual bool DoSeek(int64_t samplepos);
 
 	int CopySamplesToBuffer(const MPC_SAMPLE_FORMAT * p_buffer,unsigned p_size,unsigned char *pDestbuf);
 
@@ -168,7 +168,7 @@ protected:
 	virtual bool OpenMedia(const char *FileName);
 
 	virtual int DecodeBlocks(unsigned char *buff,int len);
-	virtual bool DoSeek(int nTimeMS);
+	virtual bool DoSeek(int64_t samplepos);
 
 	int CopySamplesToBuffer(const MPC_SAMPLE_FORMAT * p_buffer,unsigned p_size,unsigned char *pDestbuf);
 
@@ -218,7 +218,7 @@ protected:
 	virtual bool OpenMedia(const char *FileName);
 
 	virtual int DecodeBlocks(unsigned char *buff,int len);
-	virtual bool DoSeek(int nTimeMS);
+	virtual bool DoSeek(int64_t samplepos);
 
 private:
 	MPCStreamInfo m_MPCInfo;

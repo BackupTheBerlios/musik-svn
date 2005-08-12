@@ -285,7 +285,7 @@ public:
 
 		,nSndOutput(this,wxT( "OutputDriver" ),0)
 		,nSndDevice(this,wxT( "SoundDevice" ),0)
-		,nSndRate(this,wxT( "PlaybackRate" ),44100)
+		,nSndRate(this,wxT( "MixRate" ),0)
 		,nSndMaxChan(this,wxT( "MaximumChannels" ),4)
 		,nSndBuffer(this,wxT( "SoundBufferMilliseconds" ),1000)
 		,nSndVolume(this,wxT( "SoundVolume" ),200)

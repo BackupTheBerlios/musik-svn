@@ -431,7 +431,8 @@ inline wxString MusikGetStaticDataPath()
 {
     wxString sDataPath(wxT("data/"));
 #if wxCHECK_VERSION(2,5,4) && !defined(__WXMAC__)
-    wxStandardPaths stdpaths;
+    
+    wxStandardPathsBase & stdpaths = wxStandardPaths::Get();
     wxString theDataPath(stdpaths.GetDataDir()+ wxT("/") + sDataPath );
     if(!wxDirExists(theDataPath))
         theDataPath = sDataPath;

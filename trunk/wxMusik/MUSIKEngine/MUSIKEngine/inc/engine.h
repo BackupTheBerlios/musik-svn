@@ -73,9 +73,9 @@ public:
 	{
 	}
     virtual Error Init(int idOutput = -1 ,int idDevice = -1,int nMixRate = 48000,int nMaxChannels = 4) = 0;
-    virtual Error SetProxy(const char * s){s; return errNotSupported;}
-    virtual Error SetNetBuffer(int nBufferSize,int nPreBufferPercent,int nReBufferPercent) 
-        {m_NetBufferSize = nBufferSize;nPreBufferPercent,nReBufferPercent; return errNotSupported;}
+    virtual Error SetProxy(const char * /*s*/){ return errNotSupported;}
+    virtual Error SetNetBuffer(int nBufferSize,int /*nPreBufferPercent*/,int /*nReBufferPercent*/) 
+        {m_NetBufferSize = nBufferSize; return errNotSupported;}
     virtual Error EnumDevices(IEnumNames * pen) const = 0;
     virtual Error EnumOutputs(IEnumNames * pen) const = 0;
     virtual Error EnumFrequencies(IEnumNames * pen) const = 0;

@@ -4,8 +4,11 @@
 #include "wx/wx.h"
 #endif 
 #include "CFMODInfo.h"
+#ifdef WIN32
 #include <fmod.hpp>
-
+#else
+#include <fmodex/fmod.hpp>
+#endif
 CFMODInfo::CFMODInfo()
 {
 

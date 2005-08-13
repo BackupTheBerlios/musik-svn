@@ -32,9 +32,9 @@ public:
     };
 
 	IMUSIKStreamOut(MUSIKEngine & e)
-        :m_Engine(e)
+        :m_pIMetadataCallback(NULL)
+        ,m_Engine(e)
         ,m_pMUSIKDecoder(NULL)
-        ,m_pIMetadataCallback(NULL)
 	{
 	}
 
@@ -53,17 +53,17 @@ public:
 	virtual bool SetPlayState( MUSIKEngine::PlayState state)=0;
 	virtual MUSIKEngine::PlayState GetPlayState()=0;
 	virtual bool Close()=0;
-    virtual MUSIKEngine::Error GetOpenStatus(MUSIKEngine::OpenStatus *pStatus)
-        {pStatus; return MUSIKEngine::errNotSupported;}
-    virtual MUSIKEngine::Error SetMetadataCallback(IMUSIKStreamOut::IMetadataCallback *pCb)
+  virtual MUSIKEngine::Error GetOpenStatus(MUSIKEngine::OpenStatus * /*pStatus*/)
+        {return MUSIKEngine::errNotSupported;}
+  virtual MUSIKEngine::Error SetMetadataCallback(IMUSIKStreamOut::IMetadataCallback *pCb)
     {
         IMetadataCallback *pOldCb = m_pIMetadataCallback;
         m_pIMetadataCallback = pCb;
         delete pOldCb;
         return MUSIKEngine::errSuccess;
     }
-    virtual MUSIKEngine::Error GetNetStatus(MUSIKEngine::NetStatus *pStatus,int * pnPercentRead,int * pnBitrate)
-        {pStatus,pnPercentRead,pnBitrate; return MUSIKEngine::errNotSupported;}
+    virtual MUSIKEngine::Error GetNetStatus(MUSIKEngine::NetStatus */*pStatus*/,int * /*pnPercentRead*/,int * /*pnBitrate*/)
+        { return MUSIKEngine::errNotSupported;}
 
 protected:
 	virtual	bool FillBuffer(unsigned char * buff,int len)
@@ -76,10 +76,10 @@ protected:
 	{
 		return m_pMUSIKDecoder;
 	}
-    IMetadataCallback *m_pIMetadataCallback;
+  IMetadataCallback *m_pIMetadataCallback;
 private:
-    MUSIKEngine & m_Engine;
-	MUSIKDecoder * m_pMUSIKDecoder; 
+  MUSIKEngine & m_Engine;
+  MUSIKDecoder * m_pMUSIKDecoder; 
 
 };
 

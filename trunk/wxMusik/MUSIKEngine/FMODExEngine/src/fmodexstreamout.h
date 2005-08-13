@@ -21,9 +21,13 @@
 
 #ifndef FMODSTREAMOUT_H
 #define FMODSTREAMOUT_H
-
+#ifdef WIN32
 #include <fmod.hpp>
 #include <fmod_codec.h>
+#else
+#include <fmodex/fmod.h>
+#include <fmodex/fmod.hpp>
+#endif
 #include "MUSIKEngine/inc/imusikstreamout.h"
 #include "MUSIKEngine/FMODExEngine/inc/fmodexengine.h"
 class MUSIKStream;

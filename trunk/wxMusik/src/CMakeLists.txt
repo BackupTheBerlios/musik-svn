@@ -32,7 +32,7 @@ SET(MAIN_SRCS
         ./Classes/Library/CFMODInfo
         ./Classes/Library/APEInfo
         ./Classes/Library/MetaDataHandler
-        ./Classes/Library/mp3tech.c
+        ./Classes/Library/mp3tech
         
         ${wxMusik_SOURCE_DIR}/3rd-Party/Bitap/libbitap.c
         ${wxMusik_SOURCE_DIR}/3rd-Party/TagHelper/idtag.cpp
@@ -69,7 +69,7 @@ SET(MAIN_SRCS
         ./shibatch/Fftsg_fl.cpp
     )
 IF(OPTION_SUPPORT_FLAC)
-SET(FLAC_ADDITIONAL_LIBS "plugin_common grabbag  replaygain_synthesis")
+SET(FLAC_ADDITIONAL_LIBS "plugin_common grabbag  replaygain_synthesis replaygain_analysis")
 SEPARATE_ARGUMENTS(FLAC_ADDITIONAL_LIBS)
 ELSE(OPTION_SUPPORT_FLAC)
 SET(FLAC_ADDITIONAL_LIBS "")

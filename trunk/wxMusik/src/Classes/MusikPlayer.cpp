@@ -428,15 +428,17 @@ bool CMusikPlayer::Play( size_t nItem, int nStartPos, int nFadeType )
 				break;
 			}
 			
-		    switch(_NetStreamStatusUpdate(pNewStream))
+		  switch(_NetStreamStatusUpdate(pNewStream))
 			{
 			case MUSIKEngine::NETSTATUS_READY:
-                if(openstatus == MUSIKEngine::OPENSTATUS_READY)
+        if(openstatus == MUSIKEngine::OPENSTATUS_READY)
 					bExit = true;
 				break;
 			case MUSIKEngine::NETSTATUS_ERROR:
 				m_b_NETSTREAM_AbortConnect = true;
 				break;
+      default:
+        break;
 			}
 			wxGetApp().Yield();
 
@@ -563,8 +565,9 @@ MUSIKEngine::NetStatus CMusikPlayer::_NetStreamStatusUpdate(MUSIKStream * pStrea
 		case MUSIKEngine::NETSTATUS_ERROR:
 			wxMessageBox(_("ERROR: failed to open stream:")/*+ ConvA2W(FSOUND_Stream_Net_GetLastServerStatus())*/);
 			break;
-
-		}
+    default:
+      break;
+    }
 	}
 	return status;
 }
@@ -1226,6 +1229,8 @@ wxString CMusikPlayer::GetTimeStr()
 		case MUSIKEngine::NETSTATUS_ERROR:
 			sProgress = _("net error");
 			break;
+    default:
+      break;
 		}
 
 		return wxString::Format( wxT( "%s (%d%%)"), (const wxChar *)sProgress, GetTime( UNIT_SEC ));

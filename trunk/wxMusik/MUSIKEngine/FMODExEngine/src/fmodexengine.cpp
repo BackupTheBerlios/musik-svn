@@ -22,8 +22,13 @@
 #include "MUSIKEngine/FMODExEngine/inc/fmodexengine.h"
 #include "MUSIKEngine/MUSIKEngine/inc/defaultdecoder.h"
 #include "fmodexstreamout.h"
+#ifdef WIN32
 #include <fmod.hpp>
 #include <fmod_errors.h>
+#else
+#include <fmodex/fmod.hpp>
+#include <fmodex/fmod_errors.h>
+#endif
 #include <stdio.h>
 
 
@@ -33,7 +38,7 @@ FMODExEngine::FMODExEngine()
     unsigned int version;
     FMOD_RESULT result = FMOD::System_Create(&m_pSystem);
     result = m_pSystem->getVersion(&version);
-    _snprintf(m_szVersion,sizeof(m_szVersion)/sizeof(m_szVersion[0]) - 1,"%x.%x.%x",version>>16,version&0xff00,version&0xff);
+    snprintf(m_szVersion,sizeof(m_szVersion)/sizeof(m_szVersion[0]) - 1,"%x.%x.%x",version>>16,version&0xff00,version&0xff);
     m_bValid = false;
 }
 
@@ -148,11 +153,11 @@ MUSIKEngine::Error FMODExEngine::EnumOutputs(IEnumNames * pen) const
         return errUnknown;
     static const char * szData[] =
     {
-#if defined(_WIN32)
+#if defined(WIN32)
         "Direct Sound",
         "Windows Multimedia",
         "ASIO"
-#elif defined(linux)
+#elif defined(__linux)
         "OSS",
         "ESD",
         "ALSA 0.9"
@@ -163,7 +168,7 @@ MUSIKEngine::Error FMODExEngine::EnumOutputs(IEnumNames * pen) const
     #error System not supported
 #endif
     };
-    for ( int i = 0; i < sizeof(szData)/sizeof(szData[0]); i++ )
+    for ( size_t i = 0; i < sizeof(szData)/sizeof(szData[0]); i++ )
     {
         pen->EnumNamesCallback(szData[i],i);
     }
@@ -182,7 +187,7 @@ MUSIKEngine::Error FMODExEngine::EnumFrequencies(IEnumNames * pen) const
         "11025",
         "8000"
     };   
-    for ( int i = 0; i < sizeof(szData)/sizeof(szData[0]); i++ )
+    for ( size_t i = 0; i < sizeof(szData)/sizeof(szData[0]); i++ )
     {
         pen->EnumNamesCallback(szData[i],i);
     }

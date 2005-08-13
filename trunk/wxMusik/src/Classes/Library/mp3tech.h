@@ -48,9 +48,6 @@
 
 enum VBR_REPORT { VBR_VARIABLE, VBR_AVERAGE, VBR_MEDIAN };
 enum SCANTYPE { SCAN_NONE, SCAN_QUICK, SCAN_FULL };
-#ifdef __cplusplus
-extern "C" {
-#endif 
 
 typedef struct {
 	unsigned long	sync;
@@ -80,6 +77,9 @@ typedef struct {
 	int badframes;
 } mp3info;
 
+#ifdef __cplusplus
+extern "C" {
+#endif 
 
 int get_mp3_info(mp3info *mp3,int scantype, int fullscan_vbr);
 

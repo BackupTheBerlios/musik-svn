@@ -97,8 +97,7 @@ int MUSIKFLACDecoder::DecodeBlocks(unsigned char *buff,int len)
 	const unsigned channels = m_Info.channels;
 	const unsigned bits_per_sample = m_FlacInfo.streaminfo.bits_per_sample;
 	const unsigned target_bps = m_Info.bits_per_sample;
-	const unsigned sample_rate = m_Info.frequency;
-
+	
 	while(m_FlacInfo.wide_samples_in_reservoir_ < FLAC_SAMPLES_PER_WRITE) 
 	{
 		if(FLAC__file_decoder_get_state(m_FlacInfo.Decoder) == FLAC__FILE_DECODER_END_OF_FILE) {

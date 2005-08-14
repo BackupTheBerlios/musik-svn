@@ -128,6 +128,7 @@ bool CTagLibInfo::LoadImage(const wxString & sFilename, wxImage & img)
         return false;
     const TagLib::ID3v2::AttachedPictureFrame *ApicFrame = static_cast<const TagLib::ID3v2::AttachedPictureFrame *>(ApicFrameList.front());
     wxString sMimeType(ConvA2W(ApicFrame->mimeType().toCString()));
-    wxMemoryInputStream vMstream(ApicFrame->picture().data(), ApicFrame->picture().size());
+    const TagLib::ByteVector pic = ApicFrame->picture();
+    wxMemoryInputStream vMstream(pic.data(), pic.size());
     return img.LoadFile(vMstream,sMimeType);
 }

@@ -25,6 +25,7 @@
 #ifdef WIN32
 #include <fmod.hpp>
 #include <fmod_errors.h>
+#define snprintf _snprintf
 #else
 #include <fmodex/fmod.hpp>
 #include <fmodex/fmod_errors.h>
@@ -170,7 +171,7 @@ MUSIKEngine::Error FMODExEngine::EnumOutputs(IEnumNames * pen) const
     };
     for ( size_t i = 0; i < sizeof(szData)/sizeof(szData[0]); i++ )
     {
-        pen->EnumNamesCallback(szData[i],i);
+        pen->EnumNamesCallback(szData[i],(int)i);
     }
     return errSuccess;
 
@@ -189,7 +190,7 @@ MUSIKEngine::Error FMODExEngine::EnumFrequencies(IEnumNames * pen) const
     };   
     for ( size_t i = 0; i < sizeof(szData)/sizeof(szData[0]); i++ )
     {
-        pen->EnumNamesCallback(szData[i],i);
+        pen->EnumNamesCallback(szData[i],(int)i);
     }
     return errSuccess;
 

@@ -62,7 +62,7 @@ public:
         delete pOldCb;
         return MUSIKEngine::errSuccess;
     }
-    virtual MUSIKEngine::Error GetNetStatus(MUSIKEngine::NetStatus */*pStatus*/,int * /*pnPercentRead*/,int * /*pnBitrate*/)
+    virtual MUSIKEngine::Error GetNetStatus(MUSIKEngine::NetStatus * /*pStatus*/,int * /*pnPercentRead*/,int * /*pnBitrate*/)
         { return MUSIKEngine::errNotSupported;}
 
 protected:

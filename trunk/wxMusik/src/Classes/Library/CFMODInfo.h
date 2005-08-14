@@ -5,12 +5,11 @@
 #ifndef WX_PRECOMP
 #include "wx/wx.h"
 #endif 
-#include "CFMODInfo.h"
 #include "CInfo.h"
 //--- globals ---//
 #include "../../MusikGlobals.h"
 
-
+#ifdef USE_FMOD3
 class CFMODInfo : public CInfoRead
 {
 public:
@@ -20,4 +19,23 @@ protected:
 
 private:
 };
+#else
+namespace FMOD
+{
+    class System;
+}
+
+class CFMODInfo : public CInfoRead
+{
+public:
+    CFMODInfo();
+    ~CFMODInfo();
+    bool ReadMetaData(CSongMetaData & MetaData) const;
+protected:
+
+private:
+    FMOD::System *m_pSystem;
+};
+
+#endif
 #endif

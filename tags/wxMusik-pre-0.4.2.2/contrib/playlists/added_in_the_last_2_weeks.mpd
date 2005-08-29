@@ -1,0 +1,1 @@
+timeadded > julianday('now','-14 days') order by Artist,album,tracknum

@@ -65,7 +65,6 @@ private:
 
 	FMOD::Sound * m_pSound;
     FMOD::Channel * m_pChannel;
-	int FMODChannel;
 	bool bNetStream;
 	FMODExEngine & m_Engine;
 };

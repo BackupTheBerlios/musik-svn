@@ -46,6 +46,8 @@ FMODExStreamOut::~FMODExStreamOut()
 }
 bool FMODExStreamOut::DoCreate(int buffersize_ms)
 {
+    if(!Decoder())
+        return false;
 	if(m_pSound)
 	{
 		Close();
@@ -170,7 +172,12 @@ bool FMODExStreamOut::Open(const char *FileName)
 
     if(FMOD_OK != m_Engine.System().createSound(FileName,  nFlags ,  0, &m_pSound))
         return false;
-    return bNetStream ? true: m_Engine.System().playSound(FMOD_CHANNEL_FREE,m_pSound,true,&m_pChannel) == FMOD_OK;//start paused
+    bool bRes =  bNetStream ? true: m_Engine.System().playSound(FMOD_CHANNEL_FREE,m_pSound,true,&m_pChannel) == FMOD_OK;//start paused
+    if(bRes)
+    {
+        return IMUSIKStreamOutDefault::Create(NULL);
+    }
+    return bRes;
 }
 bool FMODExStreamOut::SetSamplePos( int64_t samplepos)
 {

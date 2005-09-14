@@ -109,10 +109,11 @@ MUSIKEngine::Error FMODExEngine::_Init(int idOutput ,int idDevice,int nMixRate,i
     // initialize system
     int oldNumOutCh=2,oldNumInCh=8;
     FMOD_SOUND_FORMAT oldFormat = FMOD_SOUND_FORMAT_PCM16;
+    FMOD_DSP_RESAMPLER resamplemethod;
     if(nMixRate)
     {
-        m_pSystem->getSoftwareFormat(NULL,&oldFormat,&oldNumOutCh,&oldNumInCh,NULL);
-        if(m_pSystem->setSoftwareFormat(nMixRate,oldFormat,oldNumOutCh,oldNumInCh) != FMOD_OK)
+        m_pSystem->getSoftwareFormat(NULL,&oldFormat,&oldNumOutCh,&oldNumInCh,&resamplemethod,NULL);
+        if(m_pSystem->setSoftwareFormat(nMixRate,oldFormat,oldNumOutCh,oldNumInCh,resamplemethod) != FMOD_OK)
             return errUnknown;
     }
     if(m_pSystem->init(nMaxChannels, FMOD_INIT_NORMAL, 0) != FMOD_OK)
@@ -196,9 +197,9 @@ MUSIKEngine::Error FMODExEngine::EnumFrequencies(IEnumNames * pen) const
 
 }
 
-MUSIKEngine::Error FMODExEngine::SetProxy(const char * s)
+MUSIKEngine::Error FMODExEngine::SetNetworkProxy(const char * s)
 {
-  return m_pSystem->setProxy(s) == FMOD_OK ? errSuccess:errUnknown;
+  return m_pSystem->setNetworkProxy(s) == FMOD_OK ? errSuccess:errUnknown;
 }
 
 MUSIKEngine::Error FMODExEngine::SetNetBuffer(int nBufferSize,int nPreBufferPercent,int nReBufferPercent)
@@ -244,11 +245,11 @@ bool FMODExEngine::SetPlayState( MUSIKEngine::PlayState state)
 	switch (state )
 	{
 	case MUSIKEngine::Paused:
-		return chgroup->setPaused(true) == FMOD_OK;
+		return chgroup->overridePaused(true) == FMOD_OK;
 	case MUSIKEngine::Playing:
-		return chgroup->setPaused(false) == FMOD_OK;
+		return chgroup->overridePaused(false) == FMOD_OK;
 	case MUSIKEngine::Stopped:
-		return chgroup->setPaused(true) == FMOD_OK;
+		return chgroup->overridePaused(true) == FMOD_OK;
 	case MUSIKEngine::Invalid:
 		return false;
 	}

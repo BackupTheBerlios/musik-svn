@@ -44,7 +44,7 @@ public:
 	};
 	FMODExEngine();
     MUSIKEngine::Error Init(int idOutput = -1 ,int idDevice = -1,int nMixRate = 44100,int nMaxChannels = 4);
-    virtual Error SetProxy(const char * s);
+    virtual Error SetNetworkProxy(const char * s);
     virtual Error SetNetBuffer(int nBufferSize,int nPreBufferPercent,int nReBufferPercent);
     virtual Error EnumDevices(IEnumNames * pen) const;
     virtual Error EnumOutputs(IEnumNames * pen) const;

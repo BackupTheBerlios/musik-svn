@@ -1023,7 +1023,7 @@ void MusikLogWindow::DoLogString(const wxChar *szString, time_t t)
 ** lead to a xlib fault and crash.
 ** same for mac oxs.
 ** 
-** so we post a message to ourself.
+** so we post a message to ourself.      
 **
 **As i have expereience some crashes on gtk and osx ( osx is being deadlocked)
 ** i do the actual logging in the message handler

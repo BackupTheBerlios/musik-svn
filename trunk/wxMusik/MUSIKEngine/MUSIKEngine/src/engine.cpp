@@ -25,15 +25,10 @@
 #include "MUSIKEngine/inc/defaultdecoder.h"
 #include "MUSIKEngine/inc/imusikstreamout.h"
 
-#ifndef MUSIKENGINE_NO_APE_SUPPORT
 #include "apedecoder.h"
-#endif
-#ifndef MUSIKENGINE_NO_MPC_SUPPORT
 #include "mpcdecoder.h"
-#endif
-#ifndef MUSIKENGINE_NO_FLAC_SUPPORT
 #include "flacdecoder.h"
-#endif
+
 #ifndef _WIN32
 #define stricmp strcasecmp
 #endif

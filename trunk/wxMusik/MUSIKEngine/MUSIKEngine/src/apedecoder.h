@@ -23,6 +23,12 @@
 #define MUSIKAPEDECODER_H
 
 #include "MUSIKEngine/inc/decoder.h"
+
+#ifdef MUSIKENGINE_DO_NOT_USE_OWN_DECODERS
+#define MUSIKENGINE_NO_APE_SUPPORT
+#endif
+
+#ifndef MUSIKENGINE_NO_APE_SUPPORT
 class IAPEDecompress;
 
 class MUSIKAPEDecoder : public MUSIKDecoder
@@ -56,5 +62,5 @@ private:
 	friend class MUSIKEngine;
 
 };
-
+#endif //!MUSIKENGINE_NO_APE_SUPPORT
 #endif //MUSIKAPEDECODER_H

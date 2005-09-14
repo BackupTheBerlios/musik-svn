@@ -24,6 +24,13 @@
 #include <stdio.h>
 #include "MUSIKEngine/inc/decoder.h"
 
+#ifdef MUSIKENGINE_DO_NOT_USE_OWN_DECODERS
+#define MUSIKENGINE_NO_MPC_SUPPORT
+#endif
+
+#ifndef MUSIKENGINE_NO_MPC_SUPPORT
+
+
 #ifndef _WIN32
 #define MP3DEC_NEW // non win32 systems use new mpc decoder
 #endif
@@ -226,4 +233,5 @@ private:
 	friend class MUSIKEngine;
 };
 #endif
+#endif //!MUSIKENGINE_NO_MPC_SUPPORT
 #endif

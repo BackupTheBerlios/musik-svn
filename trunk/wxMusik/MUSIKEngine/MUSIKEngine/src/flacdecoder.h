@@ -26,6 +26,14 @@
 #ifndef FLACDECODER_H
 #define FLACDECODER_H
 
+#include "MUSIKEngine/inc/decoder.h"
+
+#ifdef MUSIKENGINE_DO_NOT_USE_OWN_DECODERS
+#define MUSIKENGINE_NO_FLAC_SUPPORT
+#endif
+
+#ifndef MUSIKENGINE_NO_FLAC_SUPPORT
+
 #include <FLAC/format.h>
 #include <FLAC/file_decoder.h>
 #include <plugin_common/defs.h>
@@ -36,7 +44,6 @@ extern "C"
 }
 #include "share/grabbag.h"
 
-#include "MUSIKEngine/inc/decoder.h"
 
 #define FLAC_SAMPLES_PER_WRITE 576
 
@@ -139,5 +146,6 @@ private:
 
 	friend class MUSIKEngine;
 };
+#endif //!MUSIKENGINE_NO_FLAC_SUPPORT
 
 #endif

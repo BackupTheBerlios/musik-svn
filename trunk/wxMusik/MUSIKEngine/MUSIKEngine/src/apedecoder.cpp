@@ -20,9 +20,10 @@
 //OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "apedecoder.h"
+#ifndef MUSIKENGINE_NO_APE_SUPPORT 
+
 #include "MUSIKEngine/inc/imusikstreamout.h"
 
-#ifndef MUSIKENGINE_NO_APE_SUPPORT 
 
 #ifdef _WIN32
 #include "Shared/All.h"							/* Monkey's Audio include file */

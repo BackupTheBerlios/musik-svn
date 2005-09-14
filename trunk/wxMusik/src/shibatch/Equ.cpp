@@ -76,7 +76,7 @@ void equ_init(int wb)
   if (inbuf != NULL) free(inbuf);
   if (outbuf != NULL) free(outbuf);
   if (ditherbuf != NULL) free(ditherbuf);
-
+  ditherbuf = NULL;
   winlen = (1 << (wb-1))-1;
   winlenbit = wb;
   tabsize  = 1 << wb;
@@ -87,18 +87,21 @@ void equ_init(int wb)
   rires2   = (REAL *)malloc(sizeof(REAL)*tabsize);
   irest    = (REAL *)malloc(sizeof(REAL)*tabsize);
   fsamples = (REAL *)malloc(sizeof(REAL)*tabsize);
-  inbuf    = (short *)calloc(winlen*NCH,sizeof(int));
+  inbuf    = (short *)calloc(winlen*NCH,sizeof(REAL));
   outbuf   = (REAL *)calloc(tabsize*NCH,sizeof(REAL));
-  ditherbuf = (REAL *)malloc(sizeof(REAL)*DITHERLEN);
+  if(dither)
+    ditherbuf = (REAL *)malloc(sizeof(REAL)*DITHERLEN);
 
   lires = lires1;
   rires = rires1;
   cur_ires = 1;
   chg_ires = 1;
 
-  for(i=0;i<DITHERLEN;i++)
-	ditherbuf[i] = (float(rand())/RAND_MAX-0.5);
-
+  if(ditherbuf)
+  {
+    for(i=0;i<DITHERLEN;i++)
+	    ditherbuf[i] = (float(rand())/RAND_MAX-0.5);
+  }
   for(i=0;i<=M;i++)
     {
       fact[i] = 1;
@@ -339,7 +342,7 @@ int equ_modifySamples(char *buf,int nsamples,int nch,int bps)
 			{
 				inbuf[nbufsamples*nch+i] = ((unsigned char *)buf)[i+p*nch] - 0x80;
 				float s = outbuf[nbufsamples*nch+i];
-				if (dither) {
+				if (ditherbuf) {
 					float u;
 					s -= hm1;
 					u = s;
@@ -365,7 +368,7 @@ int equ_modifySamples(char *buf,int nsamples,int nch,int bps)
 			{
 				inbuf[nbufsamples*nch+i] = ((short *)buf)[i+p*nch];
 				float s = outbuf[nbufsamples*nch+i];
-				if (dither) {
+				if (ditherbuf) {
 					float u;
 					s -= hm1;
 					u = s;
@@ -395,7 +398,7 @@ int equ_modifySamples(char *buf,int nsamples,int nch,int bps)
 					(((  signed char *)buf)[(i+p*nch)*3+2] << 16) ;
 
 				float s = outbuf[nbufsamples*nch+i];
-				//if (dither) s += ditherbuf[(ditherptr++) & (DITHERLEN-1)];
+				//if (ditherbuf) s += ditherbuf[(ditherptr++) & (DITHERLEN-1)];
 				if (s < amin) s = amin;
 				if (amax < s) s = amax;
 				int s2 = RINT(s);
@@ -407,6 +410,20 @@ int equ_modifySamples(char *buf,int nsamples,int nch,int bps)
 			outbuf[i-winlen*nch] = outbuf[i];
 
 		break;
+      case -32:
+          for(i=0;i<(winlen-nbufsamples)*nch;i++)
+          {
+              ((float *)inbuf)[nbufsamples*nch+i] = ((float *)buf)[i+p*nch];;
+
+              float s = outbuf[nbufsamples*nch+i];
+              if (s < -1.0f) s = -1.0f;
+              if (1.0f < s) s = 1.0f;
+              ((float *)buf)[i+p*nch] = s;
+          }
+          for(i=winlen*nch;i<tabsize*nch;i++)
+              outbuf[i-winlen*nch] = outbuf[i];
+
+          break;
 
 	  default:
 		assert(0);
@@ -420,10 +437,18 @@ int equ_modifySamples(char *buf,int nsamples,int nch,int bps)
 		{
 			ires = ch == 0 ? lires : rires;
 
-			if (bps == 24) {
+			if (bps == 24) 
+            {
 				for(i=0;i<winlen;i++)
 					fsamples[i] = ((int *)inbuf)[nch*i+ch];
-			} else {
+			} 
+            else if (bps == -32)
+            {
+                for(i=0;i<winlen;i++)
+                    fsamples[i] = ((float *)inbuf)[nch*i+ch];
+            }
+            else 
+            {
 				for(i=0;i<winlen;i++)
 					fsamples[i] = inbuf[nch*i+ch];
 			}
@@ -526,7 +551,17 @@ int equ_modifySamples(char *buf,int nsamples,int nch,int bps)
 				((signed char *)buf)[(i+p*nch)*3+2] = s2 & 255;
 			}
 		break;
+      case -32:
+          for(i=0;i<nsamples*nch;i++)
+          {
+              ((float *)inbuf)[nbufsamples*nch+i] = ((float *)buf)[i+p*nch];;
 
+              float s = outbuf[nbufsamples*nch+i];
+              if (s < -1.0f) s = -1.0f;
+              if (1.0f < s) s = 1.0f;
+              ((float *)buf)[i+p*nch] = s;
+          }
+          break;
 	  default:
 		assert(0);
 	}

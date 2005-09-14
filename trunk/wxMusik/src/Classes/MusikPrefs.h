@@ -405,7 +405,7 @@ public:
 
 	void LoadPrefs();
 	void SavePrefs();
-
+    wxString GetProxyServer();
 	CConfigSettingBool bFirstRun;
 	CConfigSettingBool bAutoAdd;
 	CConfigSettingBool bAutoPlayOnAppStart;

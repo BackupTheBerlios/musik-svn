@@ -44,7 +44,7 @@
 				ShowProgress="2"
 				OutputFile="$(OutDir)/wxMusik.exe"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;$(ProjectDir)\MUSIKEngine\FMODEngine\lib&quot;;&quot;$(ProjectDir)\MUSIKEngine\MUSIKEngine\lib&quot;;&quot;$(MAC_SDKDIR)\Source\MACLib\Debug&quot;;&quot;$(ProjectDir)\MUSIKEngine\MPC\Debug&quot;;&quot;$(FLACDIR)\obj\debug\lib&quot;;&quot;$(SQLITEDIR)\Debug&quot;;&quot;$(WXDIR)\lib\vc_lib&quot;;&quot;$(FMODDIR)\api\lib&quot;;..\MMShellHook\Debug"
+				AdditionalLibraryDirectories="&quot;$(ProjectDir)\MUSIKEngine\FMODEngine\lib&quot;;&quot;$(ProjectDir)\MUSIKEngine\MUSIKEngine\lib&quot;;&quot;$(MAC_SDKDIR)\Source\MACLib\Debug&quot;;&quot;$(ProjectDir)\MUSIKEngine\MPC\Debug&quot;;&quot;$(FLACDIR)\obj\debug\lib&quot;;&quot;$(SQLITEDIR)\Debug&quot;;&quot;$(WXDIR)\lib\vc_lib&quot;;&quot;$(FMODDIR)\api\lib&quot;;&quot;$(XINEDIR)/win32\Debug\libxine&quot;;..\MMShellHook\Debug"
 				IgnoreDefaultLibraryNames="LIBCMTD.LIB;MSVCRT.LIB"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile="$(OutDir)/wxMusik.pdb"
@@ -118,7 +118,7 @@
 				ShowProgress="2"
 				OutputFile="$(OutDir)/wxMusik.exe"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;$(ProjectDir)\MUSIKEngine\FMODEngine\lib&quot;;&quot;$(ProjectDir)\MUSIKEngine\MUSIKEngine\lib&quot;;&quot;$(MAC_SDKDIR)\Source\MACLib\Release&quot;;&quot;$(ProjectDir)\MUSIKEngine\MPC\Release&quot;;&quot;$(FLACDIR)\obj\release\lib&quot;;&quot;$(SQLITEDIR)\Release&quot;;&quot;$(WXDIR)\lib\vc_lib&quot;;&quot;$(FMODDIR)\api\lib&quot;;&quot;$(VORBISDIR)\win32\Vorbis_Static_Release&quot;;&quot;$(VORBISDIR)\win32\VorbisFile_Static_Release&quot;;&quot;$(VORBISDIR)\win32\VorbisEnc_Static_Release&quot;;&quot;$(OGGDIR)\win32\Static_Release&quot;;_Release;..\MMShellHook\Release;&quot;$(ProjectDir)\3rd-Party\taglib\Release&quot;"
+				AdditionalLibraryDirectories="&quot;$(XINEDIR)/win32\Release\libxine&quot;;&quot;$(ProjectDir)\MUSIKEngine\FMODEngine\lib&quot;;&quot;$(ProjectDir)\MUSIKEngine\MUSIKEngine\lib&quot;;&quot;$(MAC_SDKDIR)\Source\MACLib\Release&quot;;&quot;$(ProjectDir)\MUSIKEngine\MPC\Release&quot;;&quot;$(FLACDIR)\obj\release\lib&quot;;&quot;$(SQLITEDIR)\Release&quot;;&quot;$(WXDIR)\lib\vc_lib&quot;;&quot;$(FMODDIR)\api\lib&quot;;&quot;$(VORBISDIR)\win32\Vorbis_Static_Release&quot;;&quot;$(VORBISDIR)\win32\VorbisFile_Static_Release&quot;;&quot;$(VORBISDIR)\win32\VorbisEnc_Static_Release&quot;;&quot;$(OGGDIR)\win32\Static_Release&quot;;_Release;..\MMShellHook\Release;&quot;$(ProjectDir)\3rd-Party\taglib\Release&quot;"
 				IgnoreAllDefaultLibraries="FALSE"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile="$(OutDir)/wxMusik.pdb"
@@ -187,7 +187,7 @@
 				ShowProgress="2"
 				OutputFile="$(OutDir)/wxMusik.exe"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;$(FLACDIR)\obj\debug\lib&quot;;&quot;$(ProjectDir)\MUSIKEngine\MPC\Debug&quot;;&quot;$(MAC_SDKDIR)\Source\MACLib\Debug Unicode&quot;;&quot;$(ProjectDir)\MUSIKEngine\FMODExEngine\lib&quot;;&quot;$(ProjectDir)\MUSIKEngine\MUSIKEngine\lib&quot;;&quot;$(SQLITEDIR)\Debug&quot;;&quot;$(WXDIR)\lib\vc_lib&quot;;&quot;$(FMODEXDIR)\api\lib&quot;;&quot;$(ProjectDir)/3rd-Party/taglib/Debug Unicode&quot;;..\MMShellHook\Debug;_Debug;&quot;$(ID3LIBDIR)\libprj&quot;"
+				AdditionalLibraryDirectories="&quot;$(FLACDIR)\obj\debug\lib&quot;;&quot;$(ProjectDir)\MUSIKEngine\MPC\Debug&quot;;&quot;$(XINEDIR)/win32\Debug\libxine&quot;;&quot;$(MAC_SDKDIR)\Source\MACLib\Debug Unicode&quot;;&quot;$(ProjectDir)\MUSIKEngine\XineEngine\lib&quot;;&quot;$(ProjectDir)\MUSIKEngine\FMODExEngine\lib&quot;;&quot;$(ProjectDir)\MUSIKEngine\MUSIKEngine\lib&quot;;&quot;$(SQLITEDIR)\Debug&quot;;&quot;$(WXDIR)\lib\vc_lib&quot;;&quot;$(FMODEXDIR)\api\lib&quot;;&quot;$(ProjectDir)/3rd-Party/taglib/Debug Unicode&quot;;..\MMShellHook\Debug;_Debug;&quot;$(ID3LIBDIR)\libprj&quot;"
 				IgnoreDefaultLibraryNames="LIBCMTD.LIB"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile="$(OutDir)/wxMusik.pdb"
@@ -260,7 +260,7 @@
 				ShowProgress="2"
 				OutputFile="$(OutDir)/wxMusik.exe"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;$(ProjectDir)\MUSIKEngine\FMODExEngine\lib&quot;;&quot;$(ProjectDir)\MUSIKEngine\MUSIKEngine\lib&quot;;&quot;$(MAC_SDKDIR)\Source\MACLib\Release Unicode&quot;;&quot;$(ProjectDir)\MUSIKEngine\MPC\Release&quot;;&quot;$(FLACDIR)\obj\release\lib&quot;;&quot;$(SQLITEDIR)\Release&quot;;&quot;$(WXDIR)\lib\vc_lib&quot;;&quot;$(FMODEXDIR)\api\lib&quot;;&quot;$(VORBISDIR)\win32\Vorbis_Static_Release&quot;;&quot;$(VORBISDIR)\win32\VorbisFile_Static_Release&quot;;&quot;$(VORBISDIR)\win32\VorbisEnc_Static_Release&quot;;&quot;$(OGGDIR)\win32\Static_Release&quot;;_Release;&quot;$(ProjectDir)/3rd-Party/taglib/Release Unicode&quot;"
+				AdditionalLibraryDirectories="&quot;$(ProjectDir)\MUSIKEngine\XineEngine\lib&quot;;&quot;$(ProjectDir)\MUSIKEngine\MUSIKEngine\lib&quot;;&quot;$(MAC_SDKDIR)\Source\MACLib\Release Unicode&quot;;&quot;$(ProjectDir)\MUSIKEngine\MPC\Release&quot;;&quot;$(FLACDIR)\obj\release\lib&quot;;&quot;$(SQLITEDIR)\Release&quot;;&quot;$(WXDIR)\lib\vc_lib&quot;;&quot;$(FMODEXDIR)\api\lib&quot;;&quot;$(VORBISDIR)\win32\Vorbis_Static_Release&quot;;&quot;$(VORBISDIR)\win32\VorbisFile_Static_Release&quot;;&quot;$(VORBISDIR)\win32\VorbisEnc_Static_Release&quot;;&quot;$(OGGDIR)\win32\Static_Release&quot;;_Release;&quot;$(ProjectDir)/3rd-Party/taglib/Release Unicode&quot;;&quot;$(XINEDIR)/win32\Release\libxine&quot;"
 				IgnoreAllDefaultLibraries="FALSE"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile="$(OutDir)/wxMusik.pdb"
@@ -420,6 +420,9 @@
 			</File>
 			<File
 				RelativePath=".\src\PlaylistColumn.h">
+			</File>
+			<File
+				RelativePath=".\src\PLFile.h">
 			</File>
 			<File
 				RelativePath=".\src\resource.h">

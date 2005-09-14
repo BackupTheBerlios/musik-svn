@@ -23,7 +23,8 @@
 #define MUSIKENGINE_H
 
 #include <string.h>
-
+#include <set>
+//#define MUSIKENGINE_DO_NOT_USE_OWN_DECODERS
 class MUSIKStream;
 class MUSIKDefaultDecoder;
 class IMUSIKStreamOut;
@@ -73,16 +74,16 @@ public:
 	{
 	}
     virtual Error Init(int idOutput = -1 ,int idDevice = -1,int nMixRate = 48000,int nMaxChannels = 4) = 0;
-    virtual Error SetProxy(const char * /*s*/){ return errNotSupported;}
+    virtual Error SetNetworkProxy(const char * /*s*/){ return errNotSupported;}
     virtual Error SetNetBuffer(int nBufferSize,int /*nPreBufferPercent*/,int /*nReBufferPercent*/) 
         {m_NetBufferSize = nBufferSize; return errNotSupported;}
     virtual Error EnumDevices(IEnumNames * pen) const = 0;
     virtual Error EnumOutputs(IEnumNames * pen) const = 0;
     virtual Error EnumFrequencies(IEnumNames * pen) const = 0;
 
-    MUSIKStream * OpenMedia(const char *FileName);
-	virtual void SetVolume(float){}
-	virtual float GetVolume() const {return 1.0;}
+    virtual MUSIKStream * OpenMedia(const char *FileName);
+	virtual void SetVolume(float v){m_Volume = v;}
+	virtual float GetVolume() const {return m_Volume;}
 	virtual bool SetPlayState( MUSIKEngine::PlayState state)=0;
     virtual const char * Version() const =0;
     virtual bool IsValid() const {return true;}
@@ -103,14 +104,31 @@ public:
 	{
 	}
 protected:
+#ifndef MUSIKENGINE_DO_NOT_USE_OWN_DECODERS
 	virtual IMUSIKStreamOut *CreateStreamOut() = 0;
+#endif
 	virtual MUSIKDefaultDecoder *CreateDefaultDecoder()
 	{
 		return NULL;
 	}
+    
+    void RegisterStreamout(IMUSIKStreamOut *pso)
+    {
+        if(m_setRegisteredStreamOuts.find(pso) == m_setRegisteredStreamOuts.end())
+            m_setRegisteredStreamOuts.insert(pso);
+    }
+    void UnregisterStreamout(IMUSIKStreamOut *pso)
+    {
+        m_setRegisteredStreamOuts.erase(pso);
+    }
+
+    std::set<IMUSIKStreamOut *> m_setRegisteredStreamOuts;
+
 private:
     int m_nSndBufferMs;
     int m_NetBufferSize;
+    float m_Volume;
+friend class IMUSIKStreamOut;
 };
 
 #endif

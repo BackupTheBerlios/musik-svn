@@ -40,14 +40,20 @@ public:
 
 	virtual ~IMUSIKStreamOut()
 	{
+        m_Engine.UnregisterStreamout(this);
         delete m_pIMetadataCallback;
 	}
 	virtual bool Create(MUSIKDecoder * pYou)
 	{
-		m_pMUSIKDecoder = pYou;
-		return DoCreate(m_Engine.GetBufferMs());
+		m_pMUSIKDecoder = pYou;  //pYou is NULL if a default decoder is used.
+		if( m_pMUSIKDecoder == NULL || DoCreate(m_Engine.GetBufferMs()))
+        {
+            m_Engine.RegisterStreamout(this);
+            return true;
+        }
+        return false;
 	}
-	virtual bool Start()=0;
+    virtual bool Start() = 0;
 	virtual void SetVolume(float v)=0;// range is 0.0 to 1.0
 	virtual float GetVolume()=0;
 	virtual bool SetPlayState( MUSIKEngine::PlayState state)=0;
@@ -70,7 +76,7 @@ protected:
 	{
 		return Decoder()->DoFillBuffer(buff,len);
 	}
-	virtual bool DoCreate(int buffersize_ms)=0;
+	virtual bool DoCreate(int /*buffersize_ms*/){ return true;};
 
 	MUSIKDecoder * Decoder()
 	{

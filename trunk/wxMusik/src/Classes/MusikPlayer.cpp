@@ -16,6 +16,7 @@
 // For compilers that support precompilation, includes "wx/wx.h".
 #include "myprec.h"
 
+
 #include "MusikPlayer.h"
 #include "Frames/MusikFrame.h"
 #include "Threads/MusikThreads.h"
@@ -203,23 +204,7 @@ void CMusikPlayer::Init_NetBuffer( )
 }
 void CMusikPlayer::Init_ProxyServer	( )
 {
-	if(wxGetApp().Prefs.bUseProxyServer)
-	{
-		wxString sProxyString(  wxGetApp().Prefs.sProxyServer );
-		if(	!wxGetApp().Prefs.sProxyServerPort.IsEmpty() )
-		{
-			sProxyString += wxT(":") + 	wxGetApp().Prefs.sProxyServerPort;
-		}
-		if(	!wxGetApp().Prefs.sProxyServerUser.IsEmpty() )	 
-		{
-			sProxyString =  wxGetApp().Prefs.sProxyServerUser + wxT(":") + wxGetApp().Prefs.sProxyServerPassword + wxT("@")  +  sProxyString;
-		}
-		m_SndEngine.SetProxy(ConvW2A(sProxyString));
-	}
-	else
-		m_SndEngine.SetProxy("");
-
-
+	m_SndEngine.SetNetworkProxy(ConvW2A(wxGetApp().Prefs.GetProxyServer()));
 }
 void CMusikPlayer::SetPlaymode(EMUSIK_PLAYMODE pm )
 {
@@ -258,34 +243,68 @@ void CMusikPlayer::PlayReplaceList(int nItemToPlay,const MusikSongIdArray & play
 	SetPlaylist( playlist );
 	Play( nItemToPlay );
 }
+
+template < typename T,typename V>
+bool PropChange(T & prop,const V &value )
+{
+    if(prop != value)
+    {
+        prop = value;
+        return true;
+    }
+    return false;
+};
+template <  int,const char *>
+bool PropChange(int & prop,const char* value )
+{
+    int nvalue = atoi(value);
+    if(prop != nvalue)
+    {
+        prop = nvalue;
+        return true;
+    }
+    return false;
+};
 void CMusikPlayer::MetadataCallback(MUSIKStream * WXUNUSED(pStream),const char *name,const char *value)
 {
 	wxCriticalSectionLocker locker( m_critMetadata );
 	wxString sMetadataName = ConvA2W(name).MakeUpper();
-	
+    bool bChanged = false;	
 	if (wxT("ARTIST") == sMetadataName)
 	{
-		m_MetaDataSong.MetaData.Artist = value;
+		//m_MetaDataSong.MetaData.Artist = value;
+        bChanged = PropChange(m_MetaDataSong.MetaData.Artist,value);
 	}
 	else if (wxT("TITLE")== sMetadataName)
 	{
-		m_MetaDataSong.MetaData.Title = value;
+		 bChanged = PropChange(m_MetaDataSong.MetaData.Title , value);
 	}
 	else if (wxT("ALBUM") == sMetadataName)
 	{
-		m_MetaDataSong.MetaData.Album = value;
+		bChanged = PropChange(m_MetaDataSong.MetaData.Album , value);
 	}
-	else if (wxT("GENRE") == sMetadataName)
+	else if (wxT("GENRE") == sMetadataName || wxT("ICY-GENRE") == sMetadataName)
 	{
-		m_MetaDataSong.MetaData.Genre = value;
+		bChanged = PropChange(m_MetaDataSong.MetaData.Genre , value);
 	}
 	else if (wxT("TRACKNUMBER") == sMetadataName)
 	{
-		m_MetaDataSong.MetaData.nTracknum = atoi(value);
+		bChanged = PropChange(m_MetaDataSong.MetaData.nTracknum , atoi(value));
 	}
-    MusikPlayerEvent ev(this,wxEVT_MUSIKPLAYER_SONG_CHANGED);
-    AddPendingEvent( ev );
-//	::wxLogDebug(wxT("metadate received: name=%s,value=%s"),(const wxChar*)sMetadataName,(const wxChar*)value);
+    else if (wxT("ICY-URL") == sMetadataName)
+    {
+        bChanged = PropChange(m_MetaDataSong.MetaData.Notes , value);
+    }
+    else if (wxT("ICY-BR") == sMetadataName)
+    {
+        bChanged = PropChange(m_MetaDataSong.MetaData.nBitrate , atoi(value));
+    }
+    if(bChanged)
+    {
+        MusikPlayerEvent ev(this,wxEVT_MUSIKPLAYER_SONG_CHANGED);
+        AddPendingEvent( ev );
+    }
+    ::wxLogDebug(wxT("metadate received: name=%s,value=%s changed = %s"),(const wxChar*)sMetadataName,(const wxChar*)ConvA2W(value),bChanged ? wxT("true"):wxT("false") );
 }
 void CMusikPlayer::_UpdateNetstreamMetadata(MusikPlayerEvent& event)
 {   // called in main thread context
@@ -396,8 +415,9 @@ bool CMusikPlayer::Play( size_t nItem, int nStartPos, int nFadeType )
 	//--- bottom of the m_ActiveStreams array	---//
 	//---------------------------------------------//
 	
-	FMODExEngine::eOpenMode om = _CurrentSongNeedsMPEGACCURATE() ? FMODExEngine::OpenMode_MPEGACCURATE : FMODExEngine::OpenMode_Default;
+	Engine_t::eOpenMode om = _CurrentSongNeedsMPEGACCURATE() ? Engine_t::OpenMode_MPEGACCURATE : Engine_t::OpenMode_Default;
 	m_SndEngine.SetOpenMode(om);
+    
 
 	MUSIKStream* pNewStream = m_SndEngine.OpenMedia( ( const char* )ConvFn2A( sFilename.GetFullPath() ));
 	if(pNewStream == NULL)
@@ -464,6 +484,7 @@ bool CMusikPlayer::Play( size_t nItem, int nStartPos, int nFadeType )
 	{
 		if(!pNewStream->Play())
 		{
+            pNewStream->SetVolume(  0.0 );
 			wxCriticalSectionLocker lock(m_protectingStreamArrays);
 			if(m_ActiveStreams.GetCount())
 			{
@@ -484,7 +505,7 @@ bool CMusikPlayer::Play( size_t nItem, int nStartPos, int nFadeType )
 		return false;
 
 	}
-	pNewStream->SetVolume(  0.0 );
+	
 	m_Playing = true;
 	m_Paused = false;
 	if(g_FaderThread)

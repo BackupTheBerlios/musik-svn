@@ -36,7 +36,18 @@ enum EMUSIK_CROSSFADER_TYPE
 
 //--- MusikSongIdArray defined here ---//
 #include "MusikLibrary.h"
+
+#define PLAYER_USE_FMODEX
+//#define PLAYER_USE_XINE
+
+#if defined(PLAYER_USE_FMODEX)
 #include "MUSIKEngine/FMODExEngine/inc/fmodexengine.h"
+typedef FMODExEngine Engine_t;
+#elif defined(PLAYER_USE_XINE)
+#include "MUSIKEngine/XineEngine/inc/xineengine.h"
+typedef XineEngine Engine_t;
+#endif
+
 //--- CMusikStreamArray declaration ---//
 WX_DECLARE_OBJARRAY( MUSIKStream*, CMusikStreamArray );
 
@@ -209,7 +220,7 @@ private:
 	int m_nLastSongTime;
 
 	bool m_bPostPlayRestartInProgress;
-	FMODExEngine m_SndEngine;
+	Engine_t m_SndEngine;
 protected:
 
 	wxCriticalSection	m_protectingStreamArrays; // to protect access to ActiveStreams and ActiveChannels

@@ -20,6 +20,7 @@
 #include "Classes/PlaylistCtrl.h" //TODO: remove the dependancy
 #include "Classes/ActivityAreaCtrl.h" //TODO: remove the dependancy
 //--- globals ---//
+#include "PLFile.h"
 #include "MusikGlobals.h"
 #include "MusikUtils.h"
 
@@ -604,10 +605,10 @@ void CSourcesListBox::UpdateSel( size_t index )
 		}
 		else if ( m_CurSel != -1 && nSelType == MUSIK_SOURCES_NETSTREAM )
 		{
-			CMusikSong *pSong = new CMusikSong();
-			LoadNetStream(GetItemText( m_CurSel ), *pSong);
-			g_thePlaylist.Clear();
-			g_thePlaylist.Add(MusikSongId(pSong));
+			MusikSongIdArray urlids;
+            wxString sDummy;
+			LoadNetStream(GetItemText( m_CurSel ), sDummy,&urlids);
+			g_thePlaylist = urlids;
 		}
 		else if ( m_CurSel != -1 && nSelType == MUSIK_SOURCES_NOW_PLAYING )
 		{
@@ -1297,18 +1298,18 @@ wxString CSourcesListBox::PromptNetStreamAddress( const wxString &sAddress )
 void CSourcesListBox::UpdateNetStream( int nIndex )
 {
 	wxString sName	= GetPlaylistName( nIndex );
-    std::auto_ptr<CMusikSong> pSong(new CMusikSong);
-	LoadNetStream( sName,*pSong );
+    wxString sUrl;
+	LoadNetStream( sName,sUrl);
 
-	wxString sAddress = PromptNetStreamAddress(pSong->MetaData.Filename.GetFullPath() );
+	wxString sAddress = PromptNetStreamAddress(sUrl);
 
 	if ( sAddress != wxT( "" ) )
 	{
 		m_SourcesList.Item( nIndex ) = wxT( "[u] " ) + sName;
 		PlaylistToFile( sName, sAddress, MUSIK_SOURCES_NETSTREAM );
-		g_thePlaylist.Clear();
-		pSong->MetaData.Filename =  sAddress;
-		g_thePlaylist.Add(MusikSongId(pSong.release()));
+        MusikSongIdArray urlids;
+        LoadNetStream( sName,sUrl,&urlids);
+		g_thePlaylist = urlids;
 		g_PlaylistBox->SetPlaylist(&g_thePlaylist);
 	}
 }
@@ -1381,7 +1382,7 @@ void CSourcesListBox::RealizeDynPlaylist(  const wxString & sQuery, MusikSongIdA
 	else
 		wxGetApp().Library.QuerySongsWhere( sQuery, aReturn );
 }
-void CSourcesListBox::LoadNetStream(wxString sName, CMusikSong & song )
+void CSourcesListBox::LoadNetStream(wxString sName, wxString & sMainUrl,MusikSongIdArray * purlids )
 {
 	wxString sFilename = sName;
 	SourcesToFilename( &sFilename ,MUSIK_SOURCES_NETSTREAM);
@@ -1398,14 +1399,34 @@ void CSourcesListBox::LoadNetStream(wxString sName, CMusikSong & song )
 	}
 	if(In.GetLineCount() >= 1)
 	{
-		song.MetaData.Title = ConvToUTF8( sName );
-		song.MetaData.Artist = ConvToUTF8( _("Net Stream"));
-		song.MetaData.Filename = ( In.GetLine(0) );
-		song.MetaData.eFormat = MUSIK_FORMAT_NETSTREAM;
-
+		sMainUrl = ( In.GetLine(0) );
 	}
 	In.Close();
 
+    if(purlids)
+    {
+        purlids->Clear();
+        PLFile f(wxGetApp().Prefs.GetProxyServer());
+        if(!f.Read(sMainUrl))
+        {
+            PLFileEntry e;
+            e.File = sMainUrl;
+            f.push_back(e);
+        }
+        for(size_t i = 0;i < f.size(); i++)
+        {
+            CMusikSong *pSong = new CMusikSong;
+            if(f[i].Title.IsEmpty())
+                pSong->MetaData.Title = ConvToUTF8(sName);
+            else
+                pSong->MetaData.Title = ConvToUTF8( f[i].Title );
+            pSong->MetaData.nTracknum = i + 1;
+            pSong->MetaData.Filename = f[i].File;
+            pSong->MetaData.Artist = ConvToUTF8( sName );
+            pSong->MetaData.eFormat = MUSIK_FORMAT_NETSTREAM;
+            purlids->Add(MusikSongId(pSong));
+        }
+    }
 	return;
 }
 void CSourcesListBox::AddMissing( const wxArrayString & playlists ,EMUSIK_SOURCES_TYPE t)
@@ -1552,9 +1573,8 @@ bool CSourcesListBox::AddSourceContentToNowPlaying(int nIndex)
 	}
 	else if ( nType == MUSIK_SOURCES_NETSTREAM )
 	{
-		CMusikSong *pSong = new CMusikSong;
-		LoadNetStream(GetItemText( nIndex ), *pSong);
-		songids.Add( MusikSongId(pSong));
+        wxString sDummy;
+        LoadNetStream(GetItemText( nIndex ), sDummy,&songids);
 	}
 	else
 	{

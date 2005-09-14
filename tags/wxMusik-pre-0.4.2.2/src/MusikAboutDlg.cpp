@@ -127,16 +127,44 @@ TAGS_MODULE_ADD(MUSIK_TAG)
 
 TAGS_MODULE_END(MUSIK_TAG)
 
+class MyHtmlWindow : public wxHtmlWindow {
+public:
+    MyHtmlWindow(wxWindow *parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition,
+        const wxSize& size = wxDefaultSize, long style = wxHW_DEFAULT_STYLE)
+        : wxHtmlWindow(parent, id, pos, size, style) { }
+        virtual void OnLinkClicked(const wxHtmlLinkInfo& link);
+};
+
+void MyHtmlWindow::OnLinkClicked(const wxHtmlLinkInfo& link) {
+    wxString url = link.GetHref();
+    if ( url.StartsWith(wxT("http:")) || url.StartsWith(wxT("mailto:")) ) 
+    {
+        // pass http/mailto URL to user's preferred browser/emailer
+#ifdef __WXMAC__
+        // wxLaunchDefaultBrowser doesn't work on Mac with IE
+        // but it's easier just to use the Mac OS X open command
+        if ( wxExecute(wxT("open ") + url, wxEXEC_ASYNC) == -1 )
+            wxLogWarning(wxT("Could not open URL!"));
+#else
+        if ( !wxLaunchDefaultBrowser(url) )
+            wxLogWarning(wxT("Could not launch browser!"));
+#endif
+    } 
+    else 
+    {
+        LoadPage(url);
+    }
+}
 
 CMusikAboutDlg::CMusikAboutDlg(wxWindow *pParent)
 :wxDialog(pParent, wxID_ANY, wxString(_("About")),wxDefaultPosition,wxDefaultSize)
 {
-	wxBoxSizer *topsizer;
-	wxHtmlWindow *html;
 
-	topsizer = new wxBoxSizer(wxVERTICAL);
 
-	html = new wxHtmlWindow(this, wxID_ANY, wxDefaultPosition, wxDefaultSize/* , 0wxHW_SCROLLBAR_NEVER*/);
+
+	wxBoxSizer *topsizer = new wxBoxSizer(wxVERTICAL);
+
+	wxHtmlWindow *html = new MyHtmlWindow(this, wxID_ANY, wxDefaultPosition, wxDefaultSize/* , 0wxHW_SCROLLBAR_NEVER*/);
 	html -> SetBorders(0);
 	html -> LoadPage(MusikGetStaticDataPath() + wxT("about.htm"));
 	html -> SetSize(html -> GetInternalRepresentation() -> GetWidth()+wxSystemSettings::GetMetric(wxSYS_VSCROLL_X), 

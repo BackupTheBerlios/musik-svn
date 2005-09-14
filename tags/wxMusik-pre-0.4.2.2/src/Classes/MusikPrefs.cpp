@@ -41,7 +41,24 @@ void CMusikPrefs::SavePrefs()
 
 	g_FX.SaveBands( this );
 }
-
+wxString CMusikPrefs::GetProxyServer()
+{
+    if(wxGetApp().Prefs.bUseProxyServer)
+    {
+        wxString sProxyString(  wxGetApp().Prefs.sProxyServer );
+        if(	!wxGetApp().Prefs.sProxyServerPort.IsEmpty() )
+        {
+            sProxyString += wxT(":") + 	wxGetApp().Prefs.sProxyServerPort;
+        }
+        if(	!wxGetApp().Prefs.sProxyServerUser.IsEmpty() )	 
+        {
+            sProxyString =  wxGetApp().Prefs.sProxyServerUser + wxT(":") + wxGetApp().Prefs.sProxyServerPassword + wxT("@")  +  sProxyString;
+        }
+        return sProxyString;
+    }
+    else
+        return wxEmptyString;
+}
 void CMusikPaths::Load()
 {
 	//--- create the file if it doesn't exist ---//

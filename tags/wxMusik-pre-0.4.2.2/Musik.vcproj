@@ -786,7 +786,7 @@
 					RelativePath=".\src\Classes\Library\MetaDataHandler.h">
 				</File>
 				<File
-					RelativePath=".\src\Classes\Library\mp3tech.c">
+					RelativePath=".\src\Classes\Library\mp3tech.cpp">
 					<FileConfiguration
 						Name="Debug|Win32">
 						<Tool

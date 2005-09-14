@@ -177,8 +177,14 @@ void CMusikLibrary::CheckVersion()
 	const char *pTail;
 	sqlite_vm *pVM;
 
-	sqlite_compile( m_pDB, "select name,major,majorsub,minor,minorsub from version where name='wxMusik';", &pTail, &pVM, NULL );
-	char *errmsg = NULL;
+    char *errmsg = NULL;
+	sqlite_compile( m_pDB, "select name,major,majorsub,minor,minorsub from version where name='wxMusik';", &pTail, &pVM, &errmsg );
+    if(errmsg)
+    {
+        wxLogError(wxT("%s"),ConvA2W(errmsg).c_str());
+        sqlite_freemem(errmsg);
+        return;
+    }
 	int numcols = 0;
 	const char **coldata;
 	const char **coltypes;
@@ -405,10 +411,17 @@ bool CMusikLibrary::FileInLibrary( const wxString & filename, bool fullpath )
 	//--- run query ---//
 	const char *pTail;
 	sqlite_vm *pVM;
+    char *errmsg = NULL;
 	wxCriticalSectionLocker lock( m_csDBAccess );
-	sqlite_compile( m_pDB, query, &pTail, &pVM, NULL );
-	char *errmsg = NULL;
-	int numcols = 0;
+	sqlite_compile( m_pDB, query, &pTail, &pVM, &errmsg );
+    if(errmsg)
+    {
+        wxLogError(wxT("%s"),ConvA2W(errmsg).c_str());
+        sqlite_freemem(errmsg);
+        sqlite_freemem( query );
+        return false;
+    }
+    int numcols = 0;
 	const char **coldata;
 	const char **coltypes;
 
@@ -879,8 +892,15 @@ double CMusikLibrary::GetSum(const wxString & sField, const MusikSongIdArray &  
 	sqlite_vm *pVM;
 
 	wxCriticalSectionLocker lock( m_csDBAccess );
-	sqlite_compile( m_pDB, ConvQueryToMB( sQuery ), &pTail, &pVM, NULL );
-	char *errmsg = NULL;
+
+    char *errmsg = NULL;
+	sqlite_compile( m_pDB, ConvQueryToMB( sQuery ), &pTail, &pVM, &errmsg );
+    if(errmsg)
+    {
+        wxLogError(wxT("%s"),ConvA2W(errmsg).c_str());
+        sqlite_freemem(errmsg);
+        return 0;
+    }
 	int numcols = 0;
 	const char **coldata;
 	const char **coltypes;
@@ -1052,8 +1072,16 @@ bool CMusikLibrary::QuerySongFromSongid( int songid, CMusikSong *pSong )
 	sqlite_vm *pVM;
 
 	wxCriticalSectionLocker lock( m_csDBAccess );
-	sqlite_compile( m_pDB, query, &pTail, &pVM, NULL );
-	char *errmsg = NULL;
+    char *errmsg = NULL;
+	sqlite_compile( m_pDB, query, &pTail, &pVM, &errmsg );
+    if(errmsg)
+    {
+        wxLogError(wxT("%s"),ConvA2W(errmsg).c_str());
+        sqlite_freemem(errmsg);
+        sqlite_freemem( query );
+        return false;
+    }
+
 	int numcols = 0;
 	const char **coldata;
 	const char **coltypes;
@@ -1131,8 +1159,14 @@ int CMusikLibrary::QueryCount(const char * szQuery )
 	sqlite_vm *pVM;
 
 	wxCriticalSectionLocker lock( m_csDBAccess );
-	sqlite_compile( m_pDB, szQuery, &pTail, &pVM, NULL );
-	char *errmsg = NULL;
+    char *errmsg = NULL;
+    sqlite_compile( m_pDB, szQuery, &pTail, &pVM, &errmsg );
+    if(errmsg)
+    {
+        wxLogError(wxT("%s"),ConvA2W(errmsg).c_str());
+        sqlite_freemem(errmsg);
+        return 0;
+    }
 	int numcols = 0;
 	const char **coldata;
 	const char **coltypes;

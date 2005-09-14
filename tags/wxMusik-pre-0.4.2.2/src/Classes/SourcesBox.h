@@ -122,7 +122,7 @@ public:
 	void LoadStdPlaylist			( wxString sName, MusikSongIdArray & songids );
 	void RealizeDynPlaylist			( const wxString & sQuery, MusikSongIdArray & aReturn );
 	wxString LoadDynPlaylist		( wxString sName );
-	void LoadNetStream				(wxString sName, CMusikSong & song );
+	void LoadNetStream				(wxString sName, wxString & sMainUrl,MusikSongIdArray * purlids = NULL);
 	void UpdateNetStream			( int nIndex );
 	bool PlaylistToFile				( wxString sName, const MusikSongIdArray &arrSongIds, int type, bool bDelOld = true );
 	bool PlaylistToFile				( wxString sName, const wxString &sData, int type, bool bDelOld = true );

@@ -1,4 +1,4 @@
-SET(PROJECT_VERSION_MAJOR "0.4.1.3")
+SET(PROJECT_VERSION_MAJOR "0.4.2.2")
 
 SET(MAIN_SRCS
         ./MusikApp
@@ -32,7 +32,7 @@ SET(MAIN_SRCS
         ./Classes/Library/CFMODInfo
         ./Classes/Library/APEInfo
         ./Classes/Library/MetaDataHandler
-        ./Classes/Library/mp3tech.c
+        ./Classes/Library/mp3tech
         
         ${wxMusik_SOURCE_DIR}/3rd-Party/Bitap/libbitap.c
         ${wxMusik_SOURCE_DIR}/3rd-Party/TagHelper/idtag.cpp

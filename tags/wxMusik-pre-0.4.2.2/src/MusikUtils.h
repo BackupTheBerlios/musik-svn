@@ -176,6 +176,15 @@ public:
 			return *this;
 		}
 
+        bool operator !=(const char * rhs ) const 
+        {
+            return strcmp((const char *)*this,rhs) != 0;
+        }
+        bool operator ==(const char * rhs ) const 
+        {
+            return strcmp((const char *)*this,rhs) == 0;
+        }
+
 		operator const char *()	const 
 		{
 			return IsEmpty() ? "" : m_szData;
@@ -221,6 +230,12 @@ public:
 	private:
 		const char *m_szData;
 		bool m_bOwner;
+    private:// forbidden operators
+        bool operator <(const char * rhs ) const ;
+        bool operator >(const char * rhs ) const ;
+        bool operator <=(const char * rhs ) const ;
+        bool operator >=(const char * rhs ) const ;
+
 	};
 public:
 	CSongMetaData()
@@ -431,7 +446,8 @@ inline wxString MusikGetStaticDataPath()
 {
     wxString sDataPath(wxT("data/"));
 #if wxCHECK_VERSION(2,5,4) && !defined(__WXMAC__)
-    wxStandardPaths stdpaths;
+    
+    wxStandardPathsBase & stdpaths = wxStandardPaths::Get();
     wxString theDataPath(stdpaths.GetDataDir()+ wxT("/") + sDataPath );
     if(!wxDirExists(theDataPath))
         theDataPath = sDataPath;
@@ -483,7 +499,9 @@ void UnassociateWithFileType(const wxString &sExt);
 inline wxString JDN2LocalTimeString(double jdn, const wxString & sFormatMask = wxT("%x %X"))
 {
     wxDateTime dt(jdn);
-    dt.MakeGMT();
+#if !wxCHECK_VERSION(2,6,2)
+    dt.MakeGMT(); // this corrects a bug in pre 2.6.2 versions of wxWidgets
+#endif
     return dt.Format(sFormatMask);
 }
 

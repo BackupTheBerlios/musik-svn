@@ -9,6 +9,7 @@
 #ifdef USE_FMOD3
 #include <fmod.h>
 
+
 CFMODInfo::CFMODInfo()
 {
 
@@ -58,12 +59,13 @@ bool CFMODInfo::ReadMetaData(CSongMetaData & MetaData) const
 }
 
 #else
+// FMODEx
 #ifdef WIN32
 #include <fmod.hpp>
 #else
 #include <fmodex/fmod.hpp>
 #endif
-
+#pragma comment(lib,"fmodex_vc")
 CFMODInfo::CFMODInfo()
 {
     m_pSystem = NULL;
@@ -113,13 +115,13 @@ bool CFMODInfo::ReadMetaData(CSongMetaData & MetaData) const
                 MetaData.Year = ConvFromISO8859_1ToUTF8((const char *)tag.data);
             else if(strcmp(tag.name,"WM/Genre")==0)
                 MetaData.Genre = ConvFromISO8859_1ToUTF8((const char *)tag.data);
+        }
+        else if(tag.datatype == FMOD_TAGDATATYPE_INT)
+        {
             if(strcmp(tag.name,"WM/Track")==0 || strcmp(tag.name,"WM/TrackNumber")==0)
                 MetaData.nTracknum = (*(int*)(tag.data));
             else if(strcmp(tag.name,"IsVbr")==0 )
                 MetaData.bVBR	 = (*(int*)(tag.data)) != 0;
-        }
-        else if(tag.datatype == FMOD_TAGDATATYPE_INT)
-        {
         }
     }
     pSound->getLength((unsigned int *)&MetaData.nDuration_ms,FMOD_TIMEUNIT_MS);

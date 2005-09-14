@@ -26,27 +26,27 @@ bool CFMODInfo::ReadMetaData(CSongMetaData & MetaData) const
 	FSOUND_Stream_GetNumTagFields(pStream, &numinfo);
 	for (int i=0;i < numinfo;i++)
 	{
-		char *tag.name, *(const char *)tag.data;
+		char *name, *value;
 		int  type, length;
 
-		if (FSOUND_Stream_GetTagField(pStream, i, &type, &tag.name, (void**)&(const char *)tag.data, &length))
+		if (FSOUND_Stream_GetTagField(pStream, i, &type, &name, (void**)&value, &length))
 		{
-			if(strcmp(tag.name,"TITLE")==0)
-				MetaData.Title = ConvFromISO8859_1ToUTF8((const char *)tag.data);
-			else if(strcmp(tag.name,"AUTHOR")==0)
-				MetaData.Artist = ConvFromISO8859_1ToUTF8((const char *)tag.data);
-			else if(strcmp(tag.name,"DESCRIPTION")==0)
-				MetaData.Notes = ConvFromISO8859_1ToUTF8((const char *)tag.data);
-			else if(strcmp(tag.name,"WM/AlbumTitle")==0)
-				MetaData.Album = ConvFromISO8859_1ToUTF8((const char *)tag.data);
-			else if(strcmp(tag.name,"WM/Year")==0)
-				MetaData.Year = ConvFromISO8859_1ToUTF8((const char *)tag.data);
-			else if(strcmp(tag.name,"WM/Genre")==0)
-				MetaData.Genre = ConvFromISO8859_1ToUTF8((const char *)tag.data);
-			else if(strcmp(tag.name,"WM/TrackNumber")==0)
-				MetaData.nTracknum = atoi((const char *)tag.data);
-			else if(strcmp(tag.name,"IsVbr")==0 && length == sizeof(int))
-				MetaData.bVBR	 = (*(int*)((const char *)tag.data)) != 0;
+			if(strcmp(name,"TITLE")==0)
+				MetaData.Title = ConvFromISO8859_1ToUTF8(value);
+			else if(strcmp(name,"AUTHOR")==0)
+				MetaData.Artist = ConvFromISO8859_1ToUTF8(value);
+			else if(strcmp(name,"DESCRIPTION")==0)
+				MetaData.Notes = ConvFromISO8859_1ToUTF8(value);
+			else if(strcmp(name,"WM/AlbumTitle")==0)
+				MetaData.Album = ConvFromISO8859_1ToUTF8(value);
+			else if(strcmp(name,"WM/Year")==0)
+				MetaData.Year = ConvFromISO8859_1ToUTF8(value);
+			else if(strcmp(name,"WM/Genre")==0)
+				MetaData.Genre = ConvFromISO8859_1ToUTF8(value);
+			else if(strcmp(name,"WM/TrackNumber")==0)
+				MetaData.nTracknum = atoi(value);
+			else if(strcmp(name,"IsVbr")==0 && length == sizeof(int))
+				MetaData.bVBR	 = (*(int*)(value)) != 0;
 
 		}
 	}

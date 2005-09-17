@@ -515,6 +515,7 @@ void CNowPlayingCtrl::OnSongChanged(MusikPlayerEvent & ev)
 
 void CNowPlayingCtrl::OnPlayStart(MusikPlayerEvent & ev)
 {
+    UpdateInfo(ev.MusikPlayer().GetCurrentSongid());
     PlayBtnToPauseBtn();
     ev.Skip();
 }

@@ -360,11 +360,11 @@ CActivityBox* CActivityAreaCtrl::GetActivityBox(size_t nIndex)
 {
     return m_ActivityBox[nIndex];
 }
-CActivityBox* CActivityAreaCtrl::GetActivityBox(PlaylistColumn::eId TypeId)
+CActivityBox* CActivityAreaCtrl::GetActivityBox(PlaylistColumn::eId ColId)
 {
 	for(size_t i = 0; i < ActivityBoxesMaxCount; i++)
 	{
-		if( m_ActivityBox[i] && m_ActivityBox[i]->Type() == TypeId )
+		if( m_ActivityBox[i] && m_ActivityBox[i]->ColId() == ColId )
 		{
 			return m_ActivityBox[i];
 		}

@@ -40,7 +40,7 @@ public:
 	void ResetAllContents( );
     void ReloadAllContents(  );
     CActivityBox* GetActivityBox(size_t nIndex);
-    CActivityBox* GetActivityBox(PlaylistColumn::eId TypeId);
+    CActivityBox* GetActivityBox(PlaylistColumn::eId ColId);
     size_t GetActivityBoxCount();
 	bool Show(bool show = true);
 	void SetParent( CActivityBox* pBox, bool bUpdate = false );

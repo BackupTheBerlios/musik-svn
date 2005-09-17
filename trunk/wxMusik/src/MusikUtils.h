@@ -185,7 +185,7 @@ public:
             return strcmp((const char *)*this,rhs) == 0;
         }
 
-        operator const char *()	const 
+		operator const char *()	const 
 		{
 			return IsEmpty() ? "" : m_szData;
 		}
@@ -498,7 +498,7 @@ void UnassociateWithFileType(const wxString &sExt);
 
 inline wxString JDN2LocalTimeString(double jdn, const wxString & sFormatMask = wxT("%x %X"))
 {
-    wxDateTime dt(jdn);    
+    wxDateTime dt(jdn);
 #if !wxCHECK_VERSION(2,6,2)
     dt.MakeGMT(); // this corrects a bug in pre 2.6.2 versions of wxWidgets
 #endif

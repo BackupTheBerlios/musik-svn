@@ -132,7 +132,7 @@ private:
 class CActivityBox : public wxPanel
 {
 public:
-    CActivityBox( wxWindow *parent, wxWindowID id, PlaylistColumn::eId Type );
+    CActivityBox( wxWindow *parent, wxWindowID id, PlaylistColumn::eId ColId );
 	~CActivityBox();
 	
 	void OnActivityBoxSelDrag( wxListEvent& WXUNUSED(event) )
@@ -169,11 +169,11 @@ public:
 	void		GetSelected				( wxArrayString & aReturn )							{ pListBox->GetSelected( aReturn );return; 				}
 	int			GetSelectedItemCount	()													{ return pListBox->GetSelectedItemCount();				}
 	void		GetRelatedList			( CActivityBox *pParentBox, wxArrayString & aReturn );
-	wxString	TypeAsTranslatedString		();
+	wxString	DisplayName	();
 	void		GetSelectedSongs		( MusikSongIdArray& array );
 
 	CActivityListBox*	GetListBox	()		{ return pListBox;		}
-    PlaylistColumn::eId	Type	()			{ return m_ActivityType;}
+    PlaylistColumn::eId	ColId	()			{ return m_ColId;}
 
 	//--- tag editing ---//
 	void EditBegin			();
@@ -211,7 +211,7 @@ protected:
 	wxMenu * CreateContextMenu();
 private:
 
-    PlaylistColumn::eId m_ActivityType;
+    PlaylistColumn::eId m_ColId;
 	bool m_EditVisible;
 
 	wxBoxSizer			*pSizer;

@@ -38,18 +38,6 @@
 #include <wx/confbase.h>
 #include <wx/fileconf.h> 
 
-// debug memory allocation enhancement 
-#ifdef __VISUALC__
-#ifdef _DEBUG
-#include <crtdbg.h>
-#define DEBUG_NEW new(_NORMAL_BLOCK ,__FILE__, __LINE__)
-#else
-#define DEBUG_NEW new
-#endif
-#endif
-
-#pragma warning (disable:4786)
 #include <map>
-#include <vector>
 
 #endif

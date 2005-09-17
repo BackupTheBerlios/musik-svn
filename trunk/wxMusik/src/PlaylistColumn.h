@@ -41,6 +41,7 @@ struct PlaylistColumn
     eSortOrder  SortOrder;
     // flags
     long        bEnableActivityBox:1;
+    long        bEditableInActivityBox:1;
 };
 
 extern const PlaylistColumn g_PlaylistColumn[PlaylistColumn::NCOLUMNS];

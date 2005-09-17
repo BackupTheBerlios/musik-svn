@@ -324,7 +324,7 @@ void CMusikPlayer::_UpdateNetstreamMetadata(MusikPlayerEvent& event)
 		}
 		UpdateUI();
 	}
-    event.Skip();
+    event.Skip();// give other clients a change to get this event
 }
 void CMusikPlayer::_PostPlayRestart( int nStartPos )
 {
@@ -391,8 +391,8 @@ bool CMusikPlayer::Play( size_t nItem, int nStartPos, int nFadeType )
 			Stop();
 			return false;
 	}
-	bool bNewSongStarted = (m_Playlist[nItem] != m_CurrentSong) && (nStartPos == 0);
-	if(bNewSongStarted && IsPlaying())
+	bool bSongChanged = (m_Playlist[nItem] != m_CurrentSong) && IsPlaying() && (nStartPos == 0);
+	if(bSongChanged )
 	{
 	  // player is currently playing, so we have to record history here, because Stop() is not 
 	  // called between the playing of the songs of the playlist.
@@ -529,7 +529,7 @@ bool CMusikPlayer::Play( size_t nItem, int nStartPos, int nFadeType )
 	//---------------------------------------------//
 	//--- record history in database			---//
 	//---------------------------------------------//
-	if(bNewSongStarted)
+	if(bSongChanged)
 	{
         MusikPlayerEvent ev_songchange(this,wxEVT_MUSIKPLAYER_SONG_CHANGED);
         ProcessEvent(ev_songchange);

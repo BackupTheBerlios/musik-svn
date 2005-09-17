@@ -134,7 +134,7 @@ void CActivityListBox::OnChar(wxKeyEvent& event)
 }
 void CActivityListBox::ScrollToItem(const wxString & sItem, bool bCenter,bool bSelectItem)
 {
-    bool bSortNoCaseNoPrefix = wxGetApp().Prefs.bSortArtistWithoutPrefix && g_PlaylistColumn[m_pParent->Type()].SortOrder  == PlaylistColumn::SortNoCaseNoPrefix;
+    bool bSortNoCaseNoPrefix = wxGetApp().Prefs.bSortArtistWithoutPrefix && g_PlaylistColumn[m_pParent->ColId()].SortOrder  == PlaylistColumn::SortNoCaseNoPrefix;
 	for (int i=HasShowAllRow()?1:0;i<GetItemCount();++i)
 	{
         wxString rt = GetRowText(i,false).Left(sItem.Len());
@@ -315,19 +315,19 @@ wxString CActivityListBox::GetRowText( long row, bool bPure ) const
 			return wxString::Format(wxT("%s%s"),_("Show all "), m_sCaption.c_str());
 		if(HasShowAllRow())
 			row--;
-        if(!bPure && g_PlaylistColumn[m_pParent->Type()].Type == PlaylistColumn::Date)
+        if(!bPure && g_PlaylistColumn[m_pParent->ColId()].Type == PlaylistColumn::Date)
         {
             double dbl = CharStringToDouble(ConvW2A(m_Items.Item( row ))); //CharStringToDouble always uses "." as decimal point no matter what the locale is.
             
             return  JDN2LocalTimeString(dbl,wxT("%x"));
         }
-        else if(!bPure && g_PlaylistColumn[m_pParent->Type()].Type == PlaylistColumn::Duration)
+        else if(!bPure && g_PlaylistColumn[m_pParent->ColId()].Type == PlaylistColumn::Duration)
         {
             long l=0;
             m_Items.Item( row ).ToLong(&l); 
             return MStoStr(l*60000,true);
         }
-        else if(wxGetApp().Prefs.bSortArtistWithoutPrefix && !bPure && g_PlaylistColumn[m_pParent->Type()].SortOrder  == PlaylistColumn::SortNoCaseNoPrefix)
+        else if(wxGetApp().Prefs.bSortArtistWithoutPrefix && !bPure && g_PlaylistColumn[m_pParent->ColId()].SortOrder  == PlaylistColumn::SortNoCaseNoPrefix)
 			return MoveArtistPrefixToEnd(SanitizedString( m_Items.Item( row ) ));
 		else
 			return SanitizedString( m_Items.Item( row ) );
@@ -536,15 +536,15 @@ void ActivityDropTarget::HighlightSel( wxPoint pPos )
 	nLastHit = n;
 }
 #endif // 0 old code
-CActivityBox::CActivityBox( wxWindow *parent, wxWindowID id, PlaylistColumn::eId Type )
+CActivityBox::CActivityBox( wxWindow *parent, wxWindowID id, PlaylistColumn::eId ColId )
 	:  wxPanel( parent, -1, wxPoint( -1, -1 ), wxSize( -1, -1 ),wxTAB_TRAVERSAL | wxNO_BORDER | wxCLIP_CHILDREN )
 {
     m_ParentBox = NULL;
 	m_EditVisible = false;
-	m_ActivityType = Type;
+	m_ColId = ColId;
 	//--- CActivityListBox ---//
 	pListBox	= new CActivityListBox	( this, id );
-	pListBox->SetCaption(TypeAsTranslatedString());
+	pListBox->SetCaption(DisplayName());
 	//--- drag and drop handler ---//
 	// what is the drag and drop handler for in this case? it just disturbs dragging
 	// from playlist to sources box, if you cross the listbox area. after the dragging the playlist display changes to 
@@ -589,9 +589,9 @@ CActivityBox::~CActivityBox()
 }
 
 
-wxString CActivityBox::TypeAsTranslatedString()
+wxString CActivityBox::DisplayName()
 {
-    return wxGetTranslation(g_PlaylistColumn[m_ActivityType].Label);
+    return wxGetTranslation(g_PlaylistColumn[ColId()].Label);
 }
 
 
@@ -602,13 +602,13 @@ void CActivityBox::GetRelatedList( CActivityBox *pParentBox, wxArrayString & aRe
     m_ParentBox = pParentBox;
 
 	aReturn.Clear();
-    const PlaylistColumn & ColumnOut =  g_PlaylistColumn[Type()];
+    const PlaylistColumn & ColumnOut =  g_PlaylistColumn[ColId()];
     bool bLetDBSort = ColumnOut.Type != PlaylistColumn::Textual; // texts cannot be sorted by the db right now, 
                                                                  //because it does not sort utf-8 strings correctly.
                                                                  // this will change if sqlite 3 is used.
     if(m_ParentBox)
     {
-        const PlaylistColumn & ColumnIn	= g_PlaylistColumn[m_ParentBox->Type()];
+        const PlaylistColumn & ColumnIn	= g_PlaylistColumn[m_ParentBox->ColId()];
         wxArrayString sel;
         m_ParentBox->GetSelected( sel );
         wxGetApp().Library.GetInfo( sel, ColumnIn, ColumnOut, aReturn ,bLetDBSort);
@@ -619,7 +619,7 @@ void CActivityBox::GetRelatedList( CActivityBox *pParentBox, wxArrayString & aRe
     }
     if(!bLetDBSort)
     {
-        if(wxGetApp().Prefs.bSortArtistWithoutPrefix && g_PlaylistColumn[Type()].SortOrder  == PlaylistColumn::SortNoCaseNoPrefix)
+        if(wxGetApp().Prefs.bSortArtistWithoutPrefix && g_PlaylistColumn[ColId()].SortOrder  == PlaylistColumn::SortNoCaseNoPrefix)
             aReturn.Sort(wxStringSortAscendingLocaleRemovePrefix);
         else
             aReturn.Sort(wxStringSortAscendingLocale);
@@ -649,7 +649,7 @@ void CActivityBox::ReloadContents()
 void CActivityBox::GetFullList( wxArrayString & aReturn ,bool bSorted)
 {
 	aReturn.Clear();
-	wxGetApp().Library.GetAllOfColumn( g_PlaylistColumn[Type()], aReturn ,bSorted);
+	wxGetApp().Library.GetAllOfColumn( g_PlaylistColumn[ColId()], aReturn ,bSorted);
 }
 
 void CActivityBox::GetSelectedSongs( MusikSongIdArray& array )
@@ -664,7 +664,7 @@ void CActivityBox::GetSelectedSongs( MusikSongIdArray& array )
 	  wxArrayString list;
 	  GetSelected( list );
       if(list.GetCount())
-	    wxGetApp().Library.GetSongs( list, g_PlaylistColumn[Type()], array );
+	    wxGetApp().Library.GetSongs( list, g_PlaylistColumn[ColId()], array );
 	  return;
 	}
  
@@ -683,12 +683,12 @@ void CActivityBox::GetSelectedSongs( MusikSongIdArray& array )
 			//-------------------------------------------------//
 			//--- what type of box is this?					---//
 			//-------------------------------------------------//
-			wxString sThisType = wxString::Format(g_PlaylistColumn[Type()].ColQueryMask,g_PlaylistColumn[Type()].DBName.c_str());
+			wxString sThisType = wxString::Format(g_PlaylistColumn[ColId()].ColQueryMask,g_PlaylistColumn[ColId()].DBName.c_str());
 
 			//-------------------------------------------------//
             //--- what type of box is the parent?			---//
 			//-------------------------------------------------//
-			wxString sParentType = wxString::Format(g_PlaylistColumn[pParentBox->Type()].ColQueryMask,g_PlaylistColumn[pParentBox->Type()].DBName.c_str());
+			wxString sParentType = wxString::Format(g_PlaylistColumn[pParentBox->ColId()].ColQueryMask,g_PlaylistColumn[pParentBox->ColId()].DBName.c_str());
 
 			//-------------------------------------------------//
             //--- return if there is an invalid type		---//
@@ -782,6 +782,8 @@ void CActivityBox::SetContents( const wxArrayString & aList , enum eResetContent
 //------------------------//
 void CActivityBox::EditBegin()
 {
+    if(g_PlaylistColumn[ColId()].bEditableInActivityBox == false)
+        return;
 	//-- disallow further renaming until the current job is finished --//
 	if ( g_MusikFrame->GetActiveThread() )
 		return;
@@ -884,10 +886,21 @@ wxMenu * CActivityBox::CreateContextMenu()
 	return context_menu;
 }
 
-void CActivityBox::OnListItemMiddleClick( wxListEvent& WXUNUSED(event))
+void CActivityBox::OnListItemMiddleClick( wxListEvent& WXUNUSED(event) )
 {
-	wxCommandEvent ev(0);
-	OnPlayInstantly(ev);
+    wxCommandEvent ev(0);
+    if(wxGetKeyState(WXK_SHIFT))
+    {
+        OnPlayAsNext(ev);    
+    }
+    else if(wxGetKeyState(WXK_CONTROL))
+    {
+        OnPlayEnqueued(ev);    
+    }
+    else
+    {
+        OnPlayInstantly(ev);
+    }
 }
 
 void CActivityBox::OnPlayInstantly( wxCommandEvent& WXUNUSED(event) )
@@ -945,7 +958,7 @@ void CActivityBox::OnRenameThreadStart( wxCommandEvent& WXUNUSED(event) )
 	//--- post the event. we're up and running now! ---//
 	wxCommandEvent MusikStartProgEvt( wxEVT_COMMAND_MENU_SELECTED, MUSIK_FRAME_THREAD_START );
 	wxPostEvent( g_MusikFrame, MusikStartProgEvt );
-	}
+}
 	
 void CActivityBox::OnRenameThreadProg( wxCommandEvent& WXUNUSED(event) )
 {

@@ -48,7 +48,7 @@ BEGIN_EVENT_TABLE( CMusikPlayer, wxEvtHandler )
 	//---------------------------------------------------------//
     EVT_MENU			( MUSIK_PLAYER_NEXT_SONG,		CMusikPlayer::OnNextSongEvt		)
     EVT_MENU			( MUSIK_PLAYER_FADE_COMPLETE,	CMusikPlayer::OnFadeCompleteEvt )
-    EVT_MENU			( MUSIK_PLAYER_NEW_METADATA,	CMusikPlayer::_UpdateNetstreamMetadata )
+    EVT_MUSIKPLAYER_SONG_CHANGED( CMusikPlayer::_UpdateNetstreamMetadata )
 	EVT_MENU			( MUSIK_PLAYER_STOP,			CMusikPlayer::OnPlayerStop		)
 	EVT_MENU			( MUSIK_PLAYER_PLAY_RESTART,	CMusikPlayer::OnPlayRestart		)
 	EVT_MENU			( MUSIK_PLAYER_RESUME,			CMusikPlayer::OnPlayerResume	)
@@ -258,37 +258,21 @@ int CMusikPlayer::InitializeFMOD( int nFunction )
 #else        
 		FSOUND_SetBufferSize( 100 );
 #endif        
-		InitFMOD_NetBuffer();	
-		InitFMOD_ProxyServer();
+		Init_NetBuffer();	
+		Init_ProxyServer();
 		if ( FSOUND_Init( wxGetApp().Prefs.nSndRate , wxGetApp().Prefs.nSndMaxChan, 0 ) == FALSE )
 			return FMOD_INIT_ERROR_INIT;
 //		wxGetApp().Prefs.nSndOutput = FSOUND_GetOutput();
 	}
 	return FMOD_INIT_SUCCESS;
 }
-void CMusikPlayer::InitFMOD_NetBuffer	( )
+void CMusikPlayer::Init_NetBuffer	( )
 {
 	FSOUND_Stream_Net_SetBufferProperties(wxGetApp().Prefs.nStreamingBufferSize , wxGetApp().Prefs.nStreamingPreBufferPercent, wxGetApp().Prefs.nStreamingReBufferPercent);
 }
-void CMusikPlayer::InitFMOD_ProxyServer	( )
+void CMusikPlayer::Init_ProxyServer	( )
 {
-	if(wxGetApp().Prefs.bUseProxyServer)
-	{
-		wxString sProxyString(  wxGetApp().Prefs.sProxyServer );
-		if(	!wxGetApp().Prefs.sProxyServerPort.IsEmpty() )
-		{
-			sProxyString += wxT(":") + 	wxGetApp().Prefs.sProxyServerPort;
-		}
-		if(	!wxGetApp().Prefs.sProxyServerUser.IsEmpty() )	 
-		{
-			sProxyString =  wxGetApp().Prefs.sProxyServerUser + wxT(":") + wxGetApp().Prefs.sProxyServerPassword + wxT("@")  +  sProxyString;
-		}
-		FSOUND_Stream_Net_SetProxy(ConvW2A(sProxyString));
-	}
-	else
-		FSOUND_Stream_Net_SetProxy("");
-
-
+		FSOUND_Stream_Net_SetProxy(ConvW2A(wxGetApp().Prefs.GetProxyServer()));
 }
 void CMusikPlayer::SetPlaymode(EMUSIK_PLAYMODE pm )
 {
@@ -327,50 +311,81 @@ void CMusikPlayer::PlayReplaceList(int nItemToPlay,const MusikSongIdArray & play
 	SetPlaylist( playlist );
 	Play( nItemToPlay );
 }
+template < typename T,typename V>
+bool PropChange(T & prop,const V &value )
+{
+    if(prop != value)
+    {
+        prop = value;
+        return true;
+    }
+    return false;
+};
+template <  int,const char *>
+bool PropChange(int & prop,const char* value )
+{
+    int nvalue = atoi(value);
+    if(prop != nvalue)
+    {
+        prop = nvalue;
+        return true;
+    }
+    return false;
+};
 signed char F_CALLBACKAPI CMusikPlayer::MetadataCallback(char *name, char *value, void* userdata)
 {
  	CMusikPlayer * _this = (CMusikPlayer *)userdata;
 	_this->_SetMetaData(name, value);
-	wxCommandEvent MetaDataEvt( wxEVT_COMMAND_MENU_SELECTED, MUSIK_PLAYER_NEW_METADATA );	
-	wxPostEvent( _this, MetaDataEvt );
-
     return TRUE;
 }
 void CMusikPlayer::_SetMetaData(char *name, char *value)
 {
 	wxCriticalSectionLocker locker( m_critMetadata );
 	wxString sMetadataName = ConvA2W(name).MakeUpper();
-	
+	    bool bChanged = false;	
 	if (wxT("ARTIST") == sMetadataName)
 	{
-		m_MetaDataSong.MetaData.Artist = value;
+		//m_MetaDataSong.MetaData.Artist = value;
+        bChanged = PropChange(m_MetaDataSong.MetaData.Artist,value);
 	}
 	else if (wxT("TITLE")== sMetadataName)
 	{
-		m_MetaDataSong.MetaData.Title = value;
+		 bChanged = PropChange(m_MetaDataSong.MetaData.Title , value);
 	}
 	else if (wxT("ALBUM") == sMetadataName)
 	{
-		m_MetaDataSong.MetaData.Album = value;
+		bChanged = PropChange(m_MetaDataSong.MetaData.Album , value);
 	}
-	else if (wxT("GENRE") == sMetadataName)
+	else if (wxT("GENRE") == sMetadataName || wxT("ICY-GENRE") == sMetadataName)
 	{
-		m_MetaDataSong.MetaData.Genre = value;
+		bChanged = PropChange(m_MetaDataSong.MetaData.Genre , value);
 	}
 	else if (wxT("TRACKNUMBER") == sMetadataName)
 	{
-		m_MetaDataSong.MetaData.nTracknum = atoi(value);
+		bChanged = PropChange(m_MetaDataSong.MetaData.nTracknum , atoi(value));
 	}
-
-//	::wxLogDebug(wxT("metadate received: name=%s,value=%s"),(const wxChar*)sMetadataName,(const wxChar*)value);
+    else if (wxT("ICY-URL") == sMetadataName)
+    {
+        bChanged = PropChange(m_MetaDataSong.MetaData.Notes , value);
+    }
+    else if (wxT("ICY-BR") == sMetadataName)
+    {
+        bChanged = PropChange(m_MetaDataSong.MetaData.nBitrate , atoi(value));
+    }
+    if(bChanged)
+    {
+        MusikPlayerEvent ev(this,wxEVT_MUSIKPLAYER_SONG_CHANGED);
+        AddPendingEvent( ev );
+    }
+    ::wxLogDebug(wxT("metadate received: name=%s,value=%s changed = %s"),(const wxChar*)sMetadataName,(const wxChar*)ConvA2W(value),bChanged ? wxT("true"):wxT("false") );
 }
-void CMusikPlayer::_UpdateNetstreamMetadata(wxCommandEvent& WXUNUSED(event))
-{
+void CMusikPlayer::_UpdateNetstreamMetadata(MusikPlayerEvent& event)
+{   // called in main thread context
 	if(_CurrentSongIsNetStream())
 	{
 		{
 			{
-				wxCriticalSectionLocker locker( m_critMetadata );
+				wxCriticalSectionLocker locker( m_critMetadata );// protect m_MetaDataSong access
 				CMusikSong & cursong = m_Playlist.Item( m_SongIndex ).SongCopy();
 				cursong.MetaData.Artist = m_MetaDataSong.MetaData.Artist;
 				cursong.MetaData.nTracknum = m_MetaDataSong.MetaData.nTracknum;
@@ -383,6 +398,7 @@ void CMusikPlayer::_UpdateNetstreamMetadata(wxCommandEvent& WXUNUSED(event))
 		}
 		UpdateUI();
 	}
+    event.Skip();// give other clients a change to get this event
 }
 void CMusikPlayer::_PostPlayRestart( int nStartPos )
 {
@@ -424,9 +440,13 @@ bool CMusikPlayer::Play( size_t nItem, int nStartPos, int nFadeType )
 		m_Playing = false;
 		return false;
 	}
+    CSongPath sFilename;
+    std::auto_ptr<CMusikSong> pNewSong = m_Playlist.Item( nItem ).Song();
+    sFilename = pNewSong->MetaData.Filename;
+
 	if (IsPlaying() && _CurrentSongIsNetStream())
 	{	
-		if(m_SongIndex ==  nItem )
+		if(sFilename ==  m_CurrentSong.Song()->MetaData.Filename )
 		{
 			return true; // already playing this stream
 		}
@@ -439,9 +459,6 @@ bool CMusikPlayer::Play( size_t nItem, int nStartPos, int nFadeType )
 		return true;
 	}
 
-    CSongPath sFilename;
-    std::auto_ptr<CMusikSong> pNewSong = m_Playlist.Item( nItem ).Song();
-    sFilename = pNewSong->MetaData.Filename;
 
     if((pNewSong->MetaData.eFormat != MUSIK_FORMAT_NETSTREAM) && !sFilename.FileExists())
 	{	// not a network stream
@@ -451,12 +468,12 @@ bool CMusikPlayer::Play( size_t nItem, int nStartPos, int nFadeType )
 			Stop();
 			return false;
 	}
-	bool bNewSongStarted = (m_Playlist[nItem] != m_CurrentSong) && (nStartPos == 0);
-	if(bNewSongStarted && IsPlaying())
+	bool bSongChanged = (m_Playlist[nItem] != m_CurrentSong) && IsPlaying() && (nStartPos == 0);
+	if(bSongChanged )
 	{
 	  // player is currently playing, so we have to record history here, because Stop() is not 
 	  // called between the playing of the songs of the playlist.
-			wxGetApp().Library.RecordSongHistory(m_CurrentSong,GetTime(FMOD_MSEC));
+			wxGetApp().Library.RecordSongHistory(m_CurrentSong,GetTime(UNIT_MILLISEC));
 	}
 	//---------------------------------------------//
 	//--- start with the basics					---//
@@ -539,6 +556,7 @@ bool CMusikPlayer::Play( size_t nItem, int nStartPos, int nFadeType )
 	{
 		if(!pNewStream->Play())
 		{
+            pNewStream->SetVolume(  0.0 );
 			wxCriticalSectionLocker lock(m_protectingStreamArrays);
 			if(m_ActiveStreams.GetCount())
 			{
@@ -563,7 +581,7 @@ bool CMusikPlayer::Play( size_t nItem, int nStartPos, int nFadeType )
 	{
 		FSOUND_Stream_Net_SetMetadataCallback((FSOUND_STREAM*)pNewStream->GetStreamOut()->STREAM(), MetadataCallback, this);
 	}
-	pNewStream->SetVolume(  0.0 );
+
 	m_Playing = true;
 	m_Paused = false;
 	if(g_FaderThread)
@@ -587,7 +605,7 @@ bool CMusikPlayer::Play( size_t nItem, int nStartPos, int nFadeType )
 	//---------------------------------------------//
 	//--- record history in database			---//
 	//---------------------------------------------//
-	if(bNewSongStarted)
+	if(bSongChanged)
 	{
         MusikPlayerEvent ev_songchange(this,wxEVT_MUSIKPLAYER_SONG_CHANGED);
         ProcessEvent(ev_songchange);
@@ -990,7 +1008,7 @@ void CMusikPlayer::PrevSong()
 	//---------------------------------------------------------//
 	//--- 2  second grace period to go to previous track	---//
 	//---------------------------------------------------------//
-	if ( m_ActiveStreams.GetCount() && GetTime( FMOD_MSEC ) > 2000 )	
+	if ( m_ActiveStreams.GetCount() && GetTime( UNIT_MILLISEC ) > 2000 )	
 	{
 		Play( m_SongIndex );
 		return;
@@ -1201,7 +1219,7 @@ int CMusikPlayer::GetDuration( int nType )
 	if(m_ActiveStreams.GetCount() == 0)
 		return 0;
 	int nDuration = m_ActiveStreams[m_ActiveStreams.GetCount()-1]->GetLengthMs( );
-	if ( nType == FMOD_SEC )
+	if ( nType == UNIT_SEC )
 		nDuration /= 1000;
 
 	return nDuration;
@@ -1266,7 +1284,7 @@ int CMusikPlayer::GetTime( int nType )
 		m_nLastSongTime = 0;
 	else 
 		m_nLastSongTime = m_ActiveStreams.Item( m_ActiveStreams.GetCount()-1 )->GetTime() ;
-	if ( nType == FMOD_SEC )
+	if ( nType == UNIT_SEC )
 		 m_nLastSongTime /= 1000;
 	return  m_nLastSongTime;
 }
@@ -1278,8 +1296,8 @@ int CMusikPlayer::GetTimeLeft( int nType )
 	{
 		return 10000000;
 	}
-	int nTimeLeft = GetDuration( FMOD_MSEC ) - GetTime( FMOD_MSEC ); 
-	if ( nType == FMOD_SEC )
+	int nTimeLeft = GetDuration( UNIT_MILLISEC ) - GetTime( UNIT_MILLISEC ); 
+	if ( nType == UNIT_SEC )
 		nTimeLeft /= 1000;
 	return nTimeLeft;
 }
@@ -1306,13 +1324,15 @@ wxString CMusikPlayer::GetTimeStr()
 		case FSOUND_STREAM_NET_ERROR:
 			sProgress = _("net error");
 			break;
+    default:
+      break;
 		}
 
-		return wxString::Format( wxT( "%s (%d%%)"), (const wxChar *)sProgress, GetTime( FMOD_SEC ));
+		return wxString::Format( wxT( "%s (%d%%)"), (const wxChar *)sProgress, GetTime( UNIT_SEC ));
 		
 	}
 	else
-		return SecToStr( GetTime( FMOD_SEC ) ) + wxT("/") + SecToStr(GetDuration( FMOD_SEC ));
+		return SecToStr( GetTime( UNIT_SEC ) ) + wxT("/") + SecToStr(GetDuration( UNIT_SEC ));
 }
 wxString CMusikPlayer::GetTimeLeftStr()
 {
@@ -1321,7 +1341,7 @@ wxString CMusikPlayer::GetTimeLeftStr()
 		return GetTimeStr();
 	}
 	else
-		return SecToStr( GetTimeLeft( FMOD_SEC ) );
+		return SecToStr( GetTimeLeft( UNIT_SEC ) );
 }
 void CMusikPlayer::SetTime( int nSec )
 {

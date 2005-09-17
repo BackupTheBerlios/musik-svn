@@ -42,6 +42,11 @@ enum EMUSIK_CROSSFADER_TYPE
 //--- CMusikStreamArray declaration ---//
 WX_DECLARE_OBJARRAY( MUSIKStream*, CMusikStreamArray );
 
+enum EUNIT_TIME
+{
+	UNIT_SEC = 0,
+	UNIT_MILLISEC
+};
 
 enum EFMOD_INIT
 {
@@ -61,11 +66,6 @@ enum EFMOD_INIT
 	FMOD_INIT_SUCCESS
 };
 
-enum EFMOD_MISC
-{
-	FMOD_SEC = 0,
-	FMOD_MSEC
-};
 
 class CMusikPlayer : public wxEvtHandler
 {
@@ -78,8 +78,8 @@ public:
 	//--- sound system ---//
 	//--------------------//
 	int	 InitializeFMOD		( int nFunction );
-	void InitFMOD_NetBuffer	( );
-	void InitFMOD_ProxyServer	( );
+	void Init_NetBuffer	( );
+	void Init_ProxyServer	( );
 
 	void Shutdown			( bool bClose = true );
 	void ClearOldStreams	( bool bClearAll = false );
@@ -188,7 +188,7 @@ private:
 	bool _IsNETSTREAMConnecting() { return (m_p_NETSTREAM_Connecting != NULL);}
 	static signed char F_CALLBACKAPI MetadataCallback(char *name, char *value, void * userdata);
 	void _SetMetaData(char *name, char *value);
-	void _UpdateNetstreamMetadata( wxCommandEvent& event );
+	void _UpdateNetstreamMetadata( MusikPlayerEvent& event );
 	void _AddRandomSongs();
 	void _ChooseRandomSongs(int nSongsToAdd,MusikSongIdArray &arrSongs);
 	void _ChooseRandomAlbumSongs(int nAlbumsToAdd,MusikSongIdArray &arrAlbumSongs);

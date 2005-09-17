@@ -76,7 +76,7 @@ void* MusikActivityRenameThread::Entry()
 			//-------------------------------//
 			//--- update the current item ---//
 			//-------------------------------//
-            song.MetaData.SetData(m_ParentBox->Type() , m_Replace);
+            song.MetaData.SetData(m_ParentBox->ColId() , m_Replace);
 			//--------------------------//
 			//--- write tags to file ---//
 			//--------------------------//

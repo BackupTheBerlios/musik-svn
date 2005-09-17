@@ -388,8 +388,8 @@ void CNowPlayingCtrl::UpdateTime()
 
 	if ( !g_TimeSeeking )
 	{
-        int duration = m_MusikPlayer.GetDuration( FMOD_SEC ); 
-        float fPos = duration ? (float)100* ( (float)m_MusikPlayer.GetTime( FMOD_SEC ) / duration) : 0;
+        int duration = m_MusikPlayer.GetDuration( UNIT_SEC ); 
+        float fPos = duration ? (float)100* ( (float)m_MusikPlayer.GetTime( UNIT_SEC ) / duration) : 0;
 	    
 		//--- now, if we're in gtk and we set the wxGauge 	---//
 		//--- to a value below 2.0, it changes to 100%		---//
@@ -515,6 +515,7 @@ void CNowPlayingCtrl::OnSongChanged(MusikPlayerEvent & ev)
 
 void CNowPlayingCtrl::OnPlayStart(MusikPlayerEvent & ev)
 {
+    UpdateInfo(ev.MusikPlayer().GetCurrentSongid());
     PlayBtnToPauseBtn();
     ev.Skip();
 }

@@ -67,11 +67,6 @@ static void XF86AudioKeyGrab_cleanup();
 #include "../images/tray.xpm"
 DECLARE_APP( MusikApp )
 
-#ifdef __WXMSW__
-#define MUSIK_TRAY_ICON  wxICON( musicbox )
-#else
-#define MUSIK_TRAY_ICON   wxIcon(tray_xpm)
-#endif
 
 #ifdef wxHAS_TASK_BAR_ICON
 enum {

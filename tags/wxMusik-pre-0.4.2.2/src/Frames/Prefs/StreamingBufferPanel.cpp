@@ -47,6 +47,6 @@ void StreamingBufferPanel::AfterDataTransferredFromWindow()
    
     if(snkNBSC.m_bNetBufferSettingChanged)
     {
-        wxGetApp().Player.InitFMOD_NetBuffer();
+        wxGetApp().Player.Init_NetBuffer();
     }
 }

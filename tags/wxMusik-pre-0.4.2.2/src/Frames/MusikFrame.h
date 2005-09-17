@@ -40,6 +40,12 @@ private:
 	wxTaskBarIcon *m_icon;
 };
 
+#endif//__WXMSW__
+
+#ifdef __WXMSW__
+#define MUSIK_TRAY_ICON  wxICON( musicbox )
+#else
+#define MUSIK_TRAY_ICON   wxIcon(tray_xpm)
 #endif
 
 

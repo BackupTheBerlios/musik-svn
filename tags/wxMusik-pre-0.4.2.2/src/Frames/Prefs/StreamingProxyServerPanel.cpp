@@ -56,5 +56,5 @@ wxSizer * StreamingProxyServerPanel::CreateControls()
 void StreamingProxyServerPanel::AfterDataTransferredFromWindow()
 {
 
-    wxGetApp().Player.InitFMOD_ProxyServer();
+    wxGetApp().Player.Init_ProxyServer();
 }

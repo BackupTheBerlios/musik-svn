@@ -1119,7 +1119,7 @@ bool CMusikLibrary::UpdateItem( const CMusikSong & newsonginfo, bool bDirty )
 	{// keep lock as short as possible by using {} scope
 		wxCriticalSectionLocker lock( m_csDBAccess );
 		result = sqlite_exec_printf( m_pDB, "update songs set artist=%Q, title=%Q,"
-											"album=%Q, tracknum=%d, year=%Q, genre=%Q, rating=%d,"
+											"album=%Q, tracknum=%d, year=%Q, genre=%Q,"
 											"notes=%Q, dirty=%d where songid = %d;", NULL, NULL, NULL, 
 			( const char* )newsonginfo.MetaData.Artist, 
 			( const char* )newsonginfo.MetaData.Title , 
@@ -1127,7 +1127,6 @@ bool CMusikLibrary::UpdateItem( const CMusikSong & newsonginfo, bool bDirty )
 			newsonginfo.MetaData.nTracknum, 
 			( const char* )newsonginfo.MetaData.Year, 
 			( const char* )newsonginfo.MetaData.Genre,
-			newsonginfo.Rating, 
 			( const char* )newsonginfo.MetaData.Notes, 
 			(int)bDirty, 
 			 newsonginfo.songid);

@@ -427,7 +427,7 @@ wxMenu * CPlaylistCtrl::CreateContextMenu()
     for(size_t i = 0; i < cnt; i ++)
     {
         playlist_context_show_in_library_menu->Append( MUSIK_PLAYLIST_CONTEXT_SHOW_IN_LIBRARY_FIRST_ENTRY + i,
-                                                        _( "This ") + g_ActivityAreaCtrl->GetActivityBox(i)->TypeAsTranslatedString()
+                                                        _( "This ") + g_ActivityAreaCtrl->GetActivityBox(i)->DisplayName()
                                                         ,	wxT("") );
     }
 	playlist_context_menu->Append( MUSIK_PLAYLIST_CONTEXT_SHOW_IN_LIBRARY_NODE,_( "&Show in Library" ),	playlist_context_show_in_library_menu );
@@ -1650,7 +1650,7 @@ void CPlaylistCtrl::OnShowInLibrary( wxCommandEvent& event )
 	wxString sEntry;
 	if ( m_nCurSel > -1 && pBox)
 	{
-		sEntry = GetItemText( m_nCurSel, pBox->Type());
+		sEntry = GetItemText( m_nCurSel, pBox->ColId());
 		g_ActivityAreaCtrl->UpdateSel(pBox,true);
 		g_SourcesCtrl->SelectLibrary();
 		pBox->SetFocus();

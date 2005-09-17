@@ -101,7 +101,7 @@ void CGaugeSeekEvt::OnLeftUp( wxMouseEvent& (event) )
 			if(wxGetApp().Player.IsSeekable())
 			{
 				//--- set player pos ---//
-				int nTime = ( (int)fPos * (int)wxGetApp().Player.GetDuration( FMOD_SEC ) ) / (int)100;
+				int nTime = ( (int)fPos * (int)wxGetApp().Player.GetDuration( UNIT_SEC ) ) / (int)100;
 				wxGetApp().Player.SetTime( nTime );	
 			}
 			g_TimeSeeking = false;
@@ -143,7 +143,7 @@ void CGaugeSeekEvt::SetFromMousePos( wxMouseEvent& event )
 		}
 
 		//--- set string ---//
-		int nCurrTime = (int)( (float)wxGetApp().Player.GetDuration( FMOD_MSEC ) * (float)( fPos / (float)100 ) );
+		int nCurrTime = (int)( (float)wxGetApp().Player.GetDuration( UNIT_MILLISEC ) * (float)( fPos / (float)100 ) );
 		g_MusikFrame->m_pBottomPanel->SetTime(nCurrTime);
 	}
 

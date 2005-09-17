@@ -1067,7 +1067,7 @@ void CMusikPlayer::_ChooseRandomAlbumSongs(int nAlbumsToAdd,MusikSongIdArray &ar
 	if(nAlbumsToAdd <= 0)
 		return;
 	int nMaxRepeatCount = 30;
-    int nTotalPlayTimeMinutes = wxGetApp().Library.QueryCount(" select (sum(duration)/60000) from autodj_albums;");
+    int nTotalPlayTimeMinutes = wxGetApp().Library.QueryCount(" select (sum(duration)/60000) from autodj_songs;");
     int nDoNotPlaySongPlayedTheLastNMinutes = wxMin(nTotalPlayTimeMinutes / 2 , (int)wxGetApp().Prefs.nAutoDjDoNotPlaySongPlayedTheLastNHours * 60);
 	char * count_query = sqlite_mprintf("select count(*) from autodj_albums where most_lastplayed = '' or most_lastplayed < julianday('now','-%d minutes');",nDoNotPlaySongPlayedTheLastNMinutes);
 	int albums_count = wxGetApp().Library.QueryCount(count_query);

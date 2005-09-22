@@ -1,0 +1,1 @@
+fuzzycmp('.*[1-2][0,9][0-9][0-9].*',filename,0) and (year = 0 or year='')

@@ -102,6 +102,10 @@ public:
             break;
         }
         delete in_stream;
+        if(!size())
+        {
+            wxLogWarning(_("Playlist %s has no entrys."),url.GetURL().c_str());
+        }
         return true;
         
     }

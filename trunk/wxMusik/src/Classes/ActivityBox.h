@@ -69,6 +69,8 @@ public:
 
   DECLARE_EVENT_TABLE()
 protected:
+    void OnColSize		( wxListEvent& event ){ event.Veto(); }
+
 	void RescaleColumns	();	
 	bool OnRescaleColumns() { RescaleColumns();return true;}
     wxMenu * CreateContextMenu();	

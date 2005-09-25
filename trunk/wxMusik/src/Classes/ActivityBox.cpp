@@ -101,6 +101,7 @@ CActivityListBox::CActivityListBox( CActivityBox *parent,  wxWindowID id )
 }
 BEGIN_EVENT_TABLE(CActivityListBox, CMusikListCtrl)
 	EVT_CHAR	( CActivityListBox::OnChar )
+    EVT_LIST_COL_BEGIN_DRAG		(wxID_ANY,	CActivityListBox::OnColSize		)
 END_EVENT_TABLE()
 
 wxMenu * CActivityListBox::CreateContextMenu()

@@ -50,7 +50,7 @@ MUSIKEngine::Error FMODExEngine::_Init(int idOutput ,int idDevice,int nMixRate,i
     //-----------------//
     //--- windows	---//
     //-----------------//
-#if defined(__WXMSW__)
+#if defined(WIN32)
     if ( idOutput == 0 )
     {
         if( m_pSystem->setOutput( FMOD_OUTPUTTYPE_DSOUND ) != FMOD_OK )
@@ -69,23 +69,23 @@ MUSIKEngine::Error FMODExEngine::_Init(int idOutput ,int idDevice,int nMixRate,i
     //-----------------//
     //--- linux		---//
     //-----------------//
-#elif defined (__WXGTK__)
+#elif defined (__linux)
     if ( idOutput == 0 )
     {
         if( m_pSystem->setOutput( FMOD_OUTPUTTYPE_OSS ) != FMOD_OK )
-            return errOutputInitFailed;
+            idOutput = 2;
     }
-    else if ( idOutput == 1 )
+    if ( idOutput == 2 )
+    {
+        if ( m_pSystem->setOutput( FMOD_OUTPUTTYPE_ALSA ) != FMOD_OK )
+            idOutput = 1;
+    }
+     if ( idOutput == 1 )
     {
         if ( m_pSystem->setOutput( FMOD_OUTPUTTYPE_ESD ) != FMOD_OK )
             return errOutputInitFailed;
     }
-    else if ( idOutput == 2 )
-    {
-        if ( m_pSystem->setOutput( FMOD_OUTPUTTYPE_ALSA ) != FMOD_OK )
-            return errOutputInitFailed;
-    }
-#elif defined (__WXMAC__)
+#elif defined (__apple__)
     if ( idOutput == 0 )
     {
         if( m_pSystem->setOutput( FMOD_OUTPUTTYPE_COREAUDIO ) != FMOD_OK )
@@ -96,8 +96,11 @@ MUSIKEngine::Error FMODExEngine::_Init(int idOutput ,int idDevice,int nMixRate,i
         if( m_pSystem->setOutput( FMOD_OUTPUTTYPE_SOUNDMANAGER ) != FMOD_OK )
             return errOutputInitFailed;
     }
+#else 
+    #error System not supported
 #endif
-    if(idDevice > 0)
+
+   if(idDevice > 0)
     {
         //---------------------//
         //--- setup device	---//
@@ -116,8 +119,14 @@ MUSIKEngine::Error FMODExEngine::_Init(int idOutput ,int idDevice,int nMixRate,i
         if(m_pSystem->setSoftwareFormat(nMixRate,oldFormat,oldNumOutCh,oldNumInCh,resamplemethod) != FMOD_OK)
             return errUnknown;
     }
-    if(m_pSystem->init(nMaxChannels, FMOD_INIT_NORMAL, 0) != FMOD_OK)
+
+    FMOD_RESULT result = m_pSystem->init(nMaxChannels, FMOD_INIT_NORMAL, 0);
+
+    if(result != FMOD_OK)
+    {
+        printf("FMOD error! (%d) %s\n", result, FMOD_ErrorString(result));
         return errUnknown;
+    }
     return errSuccess;
 }
 void FMODExEngine::SetBufferMs(int nSndBufferMs)
@@ -137,8 +146,6 @@ MUSIKEngine::Error FMODExEngine::Init(int idOutput ,int idDevice ,int nMixRate ,
 }
 MUSIKEngine::Error FMODExEngine::EnumDevices(MUSIKEngine::IEnumNames * pen) const
 {
-    if(!m_bValid)
-        return errUnknown;
     int numDrivers = 0;
     char name[100];
     m_pSystem->getNumDrivers(&numDrivers);
@@ -151,8 +158,6 @@ MUSIKEngine::Error FMODExEngine::EnumDevices(MUSIKEngine::IEnumNames * pen) cons
 }
 MUSIKEngine::Error FMODExEngine::EnumOutputs(IEnumNames * pen) const
 {
-    if(!m_bValid)
-        return errUnknown;
     static const char * szData[] =
     {
 #if defined(WIN32)

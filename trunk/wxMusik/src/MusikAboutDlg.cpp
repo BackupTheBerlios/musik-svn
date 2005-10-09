@@ -167,7 +167,7 @@ CMusikAboutDlg::CMusikAboutDlg(wxWindow *pParent)
 
 	wxHtmlWindow *html = new MyHtmlWindow(this, wxID_ANY, wxDefaultPosition, wxDefaultSize/* , 0wxHW_SCROLLBAR_NEVER*/);
 	html -> SetBorders(0);
-	html -> LoadPage(MusikGetStaticDataPath() + wxT("about.htm"));
+	html -> LoadPage(MusikGetStaticDataPath() + wxT("about.html"));
 	html -> SetSize(html -> GetInternalRepresentation() -> GetWidth()+wxSystemSettings::GetMetric(wxSYS_VSCROLL_X), 
 		400);//html -> GetInternalRepresentation() -> GetHeight());
 

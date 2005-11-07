@@ -415,6 +415,9 @@
 				RelativePath=".\src\PlaylistColumn.h">
 			</File>
 			<File
+				RelativePath=".\src\PLFile.h">
+			</File>
+			<File
 				RelativePath=".\src\resource.h">
 			</File>
 			<File

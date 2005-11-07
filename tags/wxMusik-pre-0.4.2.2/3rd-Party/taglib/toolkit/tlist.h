@@ -121,6 +121,18 @@ namespace TagLib {
     List<T> &append(const List<T> &l);
 
     /*!
+     * Prepends \a item to the beginning list and returns a reference to the
+     * list.
+     */
+    List<T> &prepend(const T &item);
+
+    /*!
+     * Prepends all of the items in \a l to the beginning list and returns a
+     * reference to the list.
+     */
+    List<T> &prepend(const List<T> &l);
+
+    /*!
      * Clears the list.  If auto deletion is enabled and this list contains a
      * pointer type the members are also deleted.
      *

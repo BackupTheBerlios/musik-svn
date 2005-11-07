@@ -50,7 +50,8 @@ public:
     file(0),
     name(fileName),
     readOnly(true),
-    valid(true)
+    valid(true),
+    size(0)
     {}
 
   ~FilePrivate()
@@ -61,6 +62,7 @@ public:
   Filename name;
   bool readOnly;
   bool valid;
+  ulong size;
   static const uint bufferSize = 1024;
 };
 
@@ -116,8 +118,14 @@ ByteVector File::readBlock(ulong length)
     return ByteVector::null;
   }
 
+  if(length > FilePrivate::bufferSize &&
+     length > ulong(File::length()))
+  {
+    length = File::length();
+  }
+
   ByteVector v(static_cast<uint>(length));
-  size_t count = fread(v.data(), sizeof(char), length, d->file);
+  const int count = fread(v.data(), sizeof(char), length, d->file);
   v.resize(count);
   return v;
 }
@@ -345,7 +353,7 @@ void File::insert(const ByteVector &data, ulong start, ulong replace)
   // That's a bit slower than using char *'s so, we're only doing it here.
 
   seek(readPosition);
-  size_t bytesRead = fread(aboutToOverwrite.data(), sizeof(char), bufferLength, d->file);
+  int bytesRead = fread(aboutToOverwrite.data(), sizeof(char), bufferLength, d->file);
   readPosition += bufferLength;
 
   seek(writePosition);
@@ -481,6 +489,11 @@ long File::tell() const
 
 long File::length()
 {
+  // Do some caching in case we do multiple calls.
+
+  if(d->size > 0)
+    return d->size;
+
   if(!d->file)
     return 0;	  
 
@@ -491,6 +504,7 @@ long File::length()
   
   seek(curpos, Beginning);
   
+  d->size = endpos;
   return endpos;
 }
 

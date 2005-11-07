@@ -1,5 +1,5 @@
 cd ..
-VERSION="0.4.2.1"
+VERSION="0.4.3.0"
 mv wxMusik "wxMusik-$VERSION"
 tar -cf "wxMusik-$VERSION.tar" --exclude=.svn  \
 	--exclude=*.o --exclude=wxMusik --exclude=*.psd \

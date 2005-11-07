@@ -480,15 +480,15 @@ bool CMusikPlayer::Play( size_t nItem, int nStartPos, int nFadeType )
 	int retries = 2;
 	bool bPlaySucceeded = false;
 	pNewStream->SetTime( nStartPos * 1000 );
+    pNewStream->SetVolume(  0.0 );
 	while( retries -- && (!bPlaySucceeded))
 	{
 		if(!pNewStream->Play())
 		{
-            pNewStream->SetVolume(  0.0 );
-			wxCriticalSectionLocker lock(m_protectingStreamArrays);
+  			wxCriticalSectionLocker lock(m_protectingStreamArrays);
 			if(m_ActiveStreams.GetCount())
 			{
-				delete( m_ActiveStreams[0] );
+				delete m_ActiveStreams[0];
 				m_ActiveStreams.RemoveAt(0);
 			}
 

@@ -39,7 +39,10 @@ public:
   }
 
   File *file;
+  static List<const FileTypeResolver *> fileTypeResolvers;
 };
+
+List<const FileRef::FileTypeResolver *> FileRef::FileRefPrivate::fileTypeResolvers;
 
 ////////////////////////////////////////////////////////////////////////////////
 // public members
@@ -92,6 +95,24 @@ bool FileRef::save()
   return d->file->save();
 }
 
+const FileRef::FileTypeResolver *FileRef::addFileTypeResolver(const FileRef::FileTypeResolver *resolver) // static
+{
+  FileRefPrivate::fileTypeResolvers.prepend(resolver);
+  return resolver;
+}
+
+StringList FileRef::defaultFileExtensions()
+{
+  StringList l;
+
+  l.append("ogg");
+  l.append("flac");
+  l.append("mp3");
+  l.append("mpc");
+
+  return l;
+}
+
 bool FileRef::isNull() const
 {
   return !d->file || !d->file->isValid();
@@ -124,6 +145,15 @@ bool FileRef::operator!=(const FileRef &ref) const
 File *FileRef::create(const Filename & fileName, bool readAudioProperties,
                       AudioProperties::ReadStyle audioPropertiesStyle) // static
 {
+
+  List<const FileTypeResolver *>::ConstIterator it = FileRefPrivate::fileTypeResolvers.begin();
+
+  for(; it != FileRefPrivate::fileTypeResolvers.end(); ++it) {
+    File *file = (*it)->createFile(fileName, readAudioProperties, audioPropertiesStyle);
+    if(file)
+      return file;
+  }
+
   // Ok, this is really dumb for now, but it works for testing.
 
   String s = (const TCHAR*)fileName;

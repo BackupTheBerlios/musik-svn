@@ -19,8 +19,6 @@
  *   USA                                                                   *
  ***************************************************************************/
 
-#include <tdebug.h>
-
 #include <algorithm>
 
 namespace TagLib {
@@ -171,6 +169,26 @@ List<T> &List<T>::append(const List<T> &l)
 {
   detach();
   d->list.insert(d->list.end(), l.begin(), l.end());
+  return *this;
+}
+
+template <class T>
+List<T> &List<T>::prepend(const T &item)
+{
+  detach();
+#ifdef USE_VECTOR  
+  d->list.insert(d->list.begin(),item);
+#else
+  d->list.push_front(item);
+#endif  
+  return *this;
+}
+
+template <class T>
+List<T> &List<T>::prepend(const List<T> &l)
+{
+  detach();
+  d->list.insert(d->list.begin(), l.begin(), l.end());
   return *this;
 }
 

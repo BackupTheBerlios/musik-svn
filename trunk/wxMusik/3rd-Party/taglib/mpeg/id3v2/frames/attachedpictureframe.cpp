@@ -95,6 +95,16 @@ void AttachedPictureFrame::setType(Type t)
   d->type = t;
 }
 
+String AttachedPictureFrame::description() const
+{
+  return d->description;
+}
+
+void AttachedPictureFrame::setDescription(const String &desc)
+{
+  d->description = desc;
+}
+
 ByteVector AttachedPictureFrame::picture() const
 {
   return d->data;

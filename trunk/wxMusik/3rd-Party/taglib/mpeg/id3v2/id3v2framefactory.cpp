@@ -99,9 +99,13 @@ Frame *FrameFactory::createFrame(const ByteVector &data, uint version) const
   }
 
   if(!updateFrame(header)) {
-    delete header;
-    return 0;
+    header->setTagAlterPreservation(true);
+    return new UnknownFrame(data, header);
   }
+
+  // updateFrame() might have updated the frame ID.
+
+  frameID = header->frameID();
 
   // This is where things get necissarily nasty.  Here we determine which
   // Frame subclass (or if none is found simply an Frame) based

@@ -155,11 +155,11 @@
 			CharacterSet="1">
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="1"
+				Optimization="2"
 				GlobalOptimizations="TRUE"
-				InlineFunctionExpansion="1"
+				InlineFunctionExpansion="2"
 				EnableIntrinsicFunctions="TRUE"
-				FavorSizeOrSpeed="2"
+				FavorSizeOrSpeed="1"
 				OmitFramePointers="TRUE"
 				AdditionalIncludeDirectories="$(ProjectDir),$(ProjectDir)/ogg,&quot;$(ProjectDir)/mpeg/id3v2&quot;;&quot;$(ProjectDir)/toolkit&quot;,$(ProjectDir)/flac,$(ProjectDir)/mpeg/id3v1,$(ProjectDir)/mpeg,$(ProjectDir)/ape,$(ProjectDir)/ogg/vorbis,$(ProjectDir)/mpc"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;UNICODE;_UNICODE"

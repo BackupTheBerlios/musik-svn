@@ -1390,6 +1390,13 @@ void CPlaylistCtrl::DelSelSongs(bool bDeleteFromDB, bool bDeleteFromComputer)
 		// correct nIndex by nIndex - nDeletedSongs, substract the number of entry,
 		// which have been already deleted from the array
 		// because GetNextItem() still returns the old index values
+
+        if(bSourceNowPlayingSelected)
+        {
+            // HACK: active playlist is "now playing" list => tell player about it.
+            wxGetApp().Player.OnPlaylistEntryRemoving(nIndex - nDeletedSongs);
+        }
+
 		if(m_pPlaylist->Item( nIndex - nDeletedSongs).IsFormat(MUSIK_FORMAT_NETSTREAM))
 		{
 			if( MUSIK_SOURCES_NOW_PLAYING != g_SourcesCtrl->GetSelType() )
@@ -1408,11 +1415,6 @@ void CPlaylistCtrl::DelSelSongs(bool bDeleteFromDB, bool bDeleteFromComputer)
 			wxGetApp().Library.RemoveSong( songid );
 		}
 		m_pPlaylist->RemoveAt( nIndex - nDeletedSongs, 1 );
-		if(bSourceNowPlayingSelected)
-		{
-			// HACK: active playlist is "now playing" list => tell player about it.
-			wxGetApp().Player.OnPlaylistEntryRemoved(nIndex - nDeletedSongs);
-		}
 		nDeletedSongs ++;
 	}
 	//--- if certain files couldn't be deleted ---//
@@ -1510,22 +1512,9 @@ void  CPlaylistCtrl::MovePlaylistEntrys(int nMoveTo ,const wxArrayInt &arrToMove
 {
 	// assumes that arrToMove is sorted in ascending order
 
-	wxASSERT(m_pPlaylist && nMoveTo >= 0 && nMoveTo <= (int)m_pPlaylist->GetCount()); 
 	if(m_pPlaylist == NULL)
 		return;
-	int i = arrToMove.GetCount() - 1;
-	// first move all entrys which are behind nMoveTo position
-	for(;i >= 0 ; i--)
-	{
-		if(nMoveTo > arrToMove[i])
-			break;
-		m_pPlaylist->Insert(m_pPlaylist->Detach(arrToMove[i] + ( arrToMove.GetCount() - 1 - i)),nMoveTo);
-	}
-	// now move all entry which are before
-	for(int j = i; j >= 0; j--)
-	{
-		m_pPlaylist->Insert(m_pPlaylist->Detach(arrToMove[j]),nMoveTo - (i - j)-1);
-	}
+    nMoveTo = m_pPlaylist->MoveEntrys(nMoveTo,arrToMove);
 	if(bSelectItems)
 	{
 		//--- select new songs ---//

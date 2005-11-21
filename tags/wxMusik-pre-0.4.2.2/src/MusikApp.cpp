@@ -51,61 +51,26 @@ IMPLEMENT_APP(MusikApp)
 #define MUSIK_APP_SERVICE wxT("/tmp/wxMusikApp.server")
 
 #ifdef __VISUALC__
-#ifdef _DEBUG
-#ifdef _UNICODE
-#pragma comment(lib,"wxmsw26ud_core")
-#pragma comment(lib,"wxbase26ud")
-#pragma comment(lib,"wxbase26ud_net")
-#pragma comment(lib,"wxregexud")
-#pragma comment(lib,"wxmsw26ud_qa")
-#pragma comment(lib,"wxmsw26ud_netutils")
-#pragma comment(lib,"wxmsw26ud_adv")
-#pragma comment(lib,"wxbase26ud_xml")
-#pragma comment(lib,"wxmsw26ud_html")
-#else //no _UNICODE
-#pragma comment(lib,"wxmsw26d_core")
-#pragma comment(lib,"wxbase26d")
-#pragma comment(lib,"wxbase26d_net")
-#pragma comment(lib,"wxregexd")
-#pragma comment(lib,"wxmsw26d_qa")
-#pragma comment(lib,"wxmsw26d_netutils")
-#pragma comment(lib,"wxmsw26d_adv")
-#pragma comment(lib,"wxbase26d_xml")
-#pragma comment(lib,"wxmsw26d_html")
-#endif //_UNICODE
-#pragma comment(lib,"wxexpatd")
-#pragma comment(lib,"wxzlibd")
-#pragma comment(lib,"wxpngd")
-#pragma comment(lib,"wxjpegd")
 
+#ifdef _DEBUG
+#define WXLIB_DEBUG "d"
+#else
+#define WXLIB_DEBUG ""
+#endif
+#ifdef _UNICODE
+#define WXLIB_UNICODE "u"
+#else
+#define WXLIB_UNICODE ""
+#endif
+
+#define WXLIB  MUSIK_STRINGIZE(wxMAJOR_VERSION) MUSIK_STRINGIZE(wxMINOR_VERSION) WXLIB_UNICODE  WXLIB_DEBUG
+                       
+#pragma comment(lib,"wxmsw" WXLIB "_netutils")
+
+#ifdef _DEBUG
 #pragma comment(lib,"fmodengined")
 #pragma comment(lib,"MUSIKengined")
 #else //no _DEBUG
-#ifdef _UNICODE
-#pragma comment(lib,"wxmsw26u_core")
-#pragma comment(lib,"wxbase26u")
-#pragma comment(lib,"wxbase26u_net")
-#pragma comment(lib,"wxregexu")
-#pragma comment(lib,"wxmsw26u_qa")
-#pragma comment(lib,"wxmsw26u_netutils")
-#pragma comment(lib,"wxmsw26u_adv")
-#pragma comment(lib,"wxbase26u_xml")
-#pragma comment(lib,"wxmsw26u_html")
-#else //no _UNICODE
-#pragma comment(lib,"wxmsw26_core")
-#pragma comment(lib,"wxbase26")
-#pragma comment(lib,"wxbase26_net")
-#pragma comment(lib,"wxregex")
-#pragma comment(lib,"wxmsw26_qa")
-#pragma comment(lib,"wxmsw26_netutils")
-#pragma comment(lib,"wxmsw26_adv")
-#pragma comment(lib,"wxbase26_xml")
-#pragma comment(lib,"wxmsw26_html")
-#endif //_UNICODE
-#pragma comment(lib,"wxexpat")
-#pragma comment(lib,"wxzlib")
-#pragma comment(lib,"wxpng")
-#pragma comment(lib,"wxjpeg")
 
 #pragma comment(lib,"fmodengine")
 #pragma comment(lib,"MUSIKengine")
@@ -576,7 +541,7 @@ void MusikApp::OnFatalException ()
 #include "wx/msgdlg.h"
 
 #ifdef __WXMSW__
-#define USEWX_EMAIL
+#define USE_WXEMAIL
 #endif
 
 #ifdef USE_WXEMAIL

@@ -20,7 +20,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)\3rd-Party\taglib\mpeg\id3v2&quot;;&quot;$(ProjectDir)\3rd-Party\taglib\toolkit&quot;;&quot;$(ProjectDir)\3rd-Party\taglib\&quot;;&quot;$(MAC_SDKDIR)\Shared&quot;;&quot;$(ProjectDir)/MUSIKEngine&quot;;&quot;$(ProjectDir)/src&quot;;&quot;$(FLACDIR)\include&quot;;&quot;$(VORBISDIR)\include&quot;;&quot;$(FMODDIR)\api\inc&quot;;&quot;$(OGGDIR)\include&quot;;&quot;$(WXDIR)\contrib\include&quot;;&quot;$(WXDIR)\include&quot;;&quot;$(WXDIR)\lib\vc_lib\mswd&quot;;&quot;$(SQLITEDIR)&quot;;MMShellHook;&quot;$(ProjectDir)&quot;"
+				AdditionalIncludeDirectories="&quot;$(WXDIR)\include\msvc&quot;;&quot;$(ProjectDir)\3rd-Party\taglib\mpeg\id3v2&quot;;&quot;$(ProjectDir)\3rd-Party\taglib\toolkit&quot;;&quot;$(ProjectDir)\3rd-Party\taglib\&quot;;&quot;$(MAC_SDKDIR)\Shared&quot;;&quot;$(ProjectDir)/MUSIKEngine&quot;;&quot;$(ProjectDir)/src&quot;;&quot;$(FLACDIR)\include&quot;;&quot;$(VORBISDIR)\include&quot;;&quot;$(FMODDIR)\api\inc&quot;;&quot;$(OGGDIR)\include&quot;;&quot;$(WXDIR)\contrib\include&quot;;&quot;$(WXDIR)\include&quot;;&quot;$(SQLITEDIR)&quot;;MMShellHook;&quot;$(ProjectDir)&quot;"
 				PreprocessorDefinitions="_DEBUG;WIN32;_WINDOWS;WINVER=0x400;_WIN32_IE=0x0600;_MT;FLAC__NO_DLL"
 				StringPooling="TRUE"
 				MinimalRebuild="TRUE"
@@ -94,7 +94,7 @@
 				OmitFramePointers="TRUE"
 				OptimizeForProcessor="0"
 				OptimizeForWindowsApplication="TRUE"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)&quot;;&quot;$(ProjectDir)/MUSIKEngine&quot;;&quot;$(ProjectDir)\3rd-Party\taglib\mpeg\id3v2&quot;;&quot;$(ProjectDir)\3rd-Party\taglib\toolkit&quot;;&quot;$(ProjectDir)\3rd-Party\taglib\&quot;;&quot;$(MAC_SDKDIR)\Shared&quot;;&quot;$(FLACDIR)\include&quot;;&quot;$(ProjectDir)/src&quot;;&quot;$(VORBISDIR)\include&quot;;&quot;$(FMODDIR)\api\inc&quot;;&quot;$(WXDIR)\lib\vc_lib\mswu&quot;;&quot;$(OGGDIR)\include&quot;;&quot;$(WXDIR)\contrib\include&quot;;&quot;$(WXDIR)\include&quot;;&quot;$(SQLITEDIR)&quot;;MMShellHook"
+				AdditionalIncludeDirectories="&quot;$(WXDIR)\include\msvc&quot;;&quot;$(ProjectDir)&quot;;&quot;$(ProjectDir)/MUSIKEngine&quot;;&quot;$(ProjectDir)\3rd-Party\taglib\mpeg\id3v2&quot;;&quot;$(ProjectDir)\3rd-Party\taglib\toolkit&quot;;&quot;$(ProjectDir)\3rd-Party\taglib\&quot;;&quot;$(MAC_SDKDIR)\Shared&quot;;&quot;$(FLACDIR)\include&quot;;&quot;$(ProjectDir)/src&quot;;&quot;$(VORBISDIR)\include&quot;;&quot;$(FMODDIR)\api\inc&quot;;&quot;$(OGGDIR)\include&quot;;&quot;$(WXDIR)\contrib\include&quot;;&quot;$(WXDIR)\include&quot;;&quot;$(SQLITEDIR)&quot;;MMShellHook"
 				PreprocessorDefinitions="NDEBUG;WIN32;_WINDOWS;WINVER=0x400;_WIN32_IE=0x0600;_MT;FLAC__NO_DLL"
 				StringPooling="TRUE"
 				ExceptionHandling="TRUE"
@@ -133,7 +133,10 @@
 			<Tool
 				Name="VCMIDLTool"/>
 			<Tool
-				Name="VCPostBuildEventTool"/>
+				Name="VCPostBuildEventTool"
+				CommandLine="xcopy &quot;$(InputDir)\_Release\MMShellHook.dll&quot; &quot;$(OutDir)&quot; /Y
+xcopy &quot;$(FMODDIR)\api\fmod.dll&quot; &quot;$(OutDir)&quot; /Y
+"/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
 			<Tool
@@ -161,7 +164,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)\3rd-Party\taglib\toolkit&quot;;&quot;$(ProjectDir)\3rd-Party\taglib\mpeg\id3v2&quot;;&quot;$(ProjectDir)\3rd-Party\taglib\&quot;;&quot;$(ProjectDir)/src&quot;;&quot;$(ProjectDir)&quot;;&quot;$(ProjectDir)/MUSIKEngine&quot;;&quot;$(FLACDIR)\include&quot;;&quot;$(VORBISDIR)\include&quot;;&quot;$(FMODDIR)\api\inc&quot;;&quot;$(WXDIR)\lib\vc_lib\mswud&quot;;&quot;$(OGGDIR)\include&quot;;&quot;$(WXDIR)\contrib\include&quot;;&quot;$(WXDIR)\include&quot;;&quot;$(SQLITEDIR)&quot;;MMShellHook;&quot;$(MAC_SDKDIR)\Shared&quot;;&quot;$(ID3LIBDIR)\include&quot;"
+				AdditionalIncludeDirectories="&quot;$(WXDIR)\include\msvc&quot;;&quot;$(ProjectDir)\3rd-Party\taglib\toolkit&quot;;&quot;$(ProjectDir)\3rd-Party\taglib\mpeg\id3v2&quot;;&quot;$(ProjectDir)\3rd-Party\taglib\&quot;;&quot;$(ProjectDir)/src&quot;;&quot;$(ProjectDir)&quot;;&quot;$(ProjectDir)/MUSIKEngine&quot;;&quot;$(FLACDIR)\include&quot;;&quot;$(VORBISDIR)\include&quot;;&quot;$(FMODDIR)\api\inc&quot;;&quot;$(OGGDIR)\include&quot;;&quot;$(WXDIR)\contrib\include&quot;;&quot;$(WXDIR)\include&quot;;&quot;$(SQLITEDIR)&quot;;MMShellHook;&quot;$(MAC_SDKDIR)\Shared&quot;;&quot;$(ID3LIBDIR)\include&quot;"
 				PreprocessorDefinitions="_DEBUG;WIN32;_WINDOWS;WINVER=0x400;_WIN32_IE=0x0600;_MT;_UNICODE;wxUSE_UNICODE;FLAC__NO_DLL;ID3LIB_LINKOPTION=1"
 				StringPooling="TRUE"
 				MinimalRebuild="TRUE"
@@ -181,6 +184,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
+				ShowProgress="2"
 				OutputFile="$(OutDir)/wxMusik.exe"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="&quot;$(FLACDIR)\obj\debug\lib&quot;;&quot;$(ProjectDir)\MUSIKEngine\MPC\Debug&quot;;&quot;$(MAC_SDKDIR)\Source\MACLib\Debug Unicode&quot;;&quot;$(ProjectDir)\MUSIKEngine\FMODEngine\lib&quot;;&quot;$(ProjectDir)\MUSIKEngine\MUSIKEngine\lib&quot;;&quot;$(SQLITEDIR)\Debug&quot;;&quot;$(WXDIR)\lib\vc_lib&quot;;&quot;$(FMODDIR)\api\lib&quot;;&quot;$(ProjectDir)/3rd-Party/taglib/Debug Unicode&quot;;..\MMShellHook\Debug;_Debug;&quot;$(ID3LIBDIR)\libprj&quot;"
@@ -193,7 +197,10 @@
 			<Tool
 				Name="VCMIDLTool"/>
 			<Tool
-				Name="VCPostBuildEventTool"/>
+				Name="VCPostBuildEventTool"
+				CommandLine="xcopy &quot;$(InputDir)\_Debug\MMShellHook.dll&quot; &quot;$(OutDir)&quot; /Y
+xcopy &quot;$(FMODDIR)\api\fmod.dll&quot; &quot;$(OutDir)&quot; /Y
+"/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
 			<Tool
@@ -222,15 +229,15 @@
 			WholeProgramOptimization="TRUE">
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="1"
+				Optimization="2"
 				GlobalOptimizations="TRUE"
 				InlineFunctionExpansion="2"
 				EnableIntrinsicFunctions="TRUE"
-				FavorSizeOrSpeed="2"
+				FavorSizeOrSpeed="1"
 				OmitFramePointers="TRUE"
 				OptimizeForProcessor="0"
 				OptimizeForWindowsApplication="TRUE"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)&quot;;&quot;$(ProjectDir)/MUSIKEngine&quot;;&quot;$(ProjectDir)\3rd-Party\taglib\toolkit&quot;;&quot;$(ProjectDir)\3rd-Party\taglib\mpeg\id3v2&quot;;&quot;$(ProjectDir)\3rd-Party\taglib\&quot;;&quot;$(MAC_SDKDIR)\Shared&quot;;&quot;$(FLACDIR)\include&quot;;&quot;$(ProjectDir)/src&quot;;&quot;$(VORBISDIR)\include&quot;;&quot;$(FMODDIR)\api\inc&quot;;&quot;$(WXDIR)\lib\vc_lib\mswu&quot;;&quot;$(OGGDIR)\include&quot;;&quot;$(WXDIR)\include&quot;;&quot;$(SQLITEDIR)&quot;;MMShellHook;&quot;$(WXDIR)\contrib\include&quot;"
+				AdditionalIncludeDirectories="&quot;$(WXDIR)\include\msvc&quot;;&quot;$(ProjectDir)&quot;;&quot;$(ProjectDir)/MUSIKEngine&quot;;&quot;$(ProjectDir)\3rd-Party\taglib\toolkit&quot;;&quot;$(ProjectDir)\3rd-Party\taglib\mpeg\id3v2&quot;;&quot;$(ProjectDir)\3rd-Party\taglib\&quot;;&quot;$(MAC_SDKDIR)\Shared&quot;;&quot;$(FLACDIR)\include&quot;;&quot;$(ProjectDir)/src&quot;;&quot;$(VORBISDIR)\include&quot;;&quot;$(FMODDIR)\api\inc&quot;;&quot;$(OGGDIR)\include&quot;;&quot;$(WXDIR)\include&quot;;&quot;$(SQLITEDIR)&quot;;MMShellHook;&quot;$(WXDIR)\contrib\include&quot;"
 				PreprocessorDefinitions="NDEBUG;WIN32;_WINDOWS;WINVER=0x400;_WIN32_IE=0x0600;_MT;_UNICODE;wxUSE_UNICODE;FLAC__NO_DLL"
 				StringPooling="TRUE"
 				ExceptionHandling="TRUE"
@@ -271,7 +278,10 @@
 			<Tool
 				Name="VCMIDLTool"/>
 			<Tool
-				Name="VCPostBuildEventTool"/>
+				Name="VCPostBuildEventTool"
+				CommandLine="xcopy &quot;$(InputDir)\_Release\MMShellHook.dll&quot; &quot;$(OutDir)&quot; /Y
+xcopy &quot;$(FMODDIR)\api\fmod.dll&quot; &quot;$(OutDir)&quot; /Y
+"/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
 			<Tool

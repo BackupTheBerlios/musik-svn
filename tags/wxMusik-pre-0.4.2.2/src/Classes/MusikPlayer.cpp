@@ -65,7 +65,6 @@ CMusikPlayer::CMusikPlayer()
 	m_BeginFade		= false;
 	m_StartingNext	= false;
 	m_Stopping		= false;
-	m_SongIndex		= 0;
 	m_CrossfadeType	= 0;
 	m_DSP			= NULL;
 	m_Playmode = MUSIK_PLAYMODE_NORMAL;
@@ -90,6 +89,7 @@ CMusikPlayer::CMusikPlayer()
 void CMusikPlayer::Init(bool bSuppressAutoPlay)
 {
 	int nPlayStartPos = 0;
+    int nSongIndex = 0;
 // load old playlist
 	if(wxFileExists(MUSIK_PLAYERLIST_FILENAME))
 	{
@@ -103,7 +103,7 @@ void CMusikPlayer::Init(bool bSuppressAutoPlay)
 				DelimitStr(In.GetLine( 0 ),wxT(":"),arr);
 				if(arr.GetCount()==2)
 				{
-					arr[0].ToULong((unsigned long *)&m_SongIndex);
+					arr[0].ToLong((long *)&nSongIndex);
 					arr[1].ToLong((long*)&nPlayStartPos);
 					nPlayStartPos = wxMax(0,(nPlayStartPos - 10 * 1000)/1000);
 				}
@@ -115,9 +115,9 @@ void CMusikPlayer::Init(bool bSuppressAutoPlay)
 			}
 			In.Close();
 			wxGetApp().Library.GetFilelistSongs( aFilelist, m_Playlist );
-			if(m_SongIndex > m_Playlist.GetCount() - 1)
+            m_Playlist.CurrentIndex(nSongIndex);
+			if(m_Playlist.GetCount() == 0)
 			{
-				m_SongIndex = 0;
 				m_nLastSongTime = 0;
 			}
 		}
@@ -147,12 +147,11 @@ CMusikPlayer::~CMusikPlayer()
 		Out.Open();
 		if ( Out.IsOpened() )
 		{
-			if(m_SongIndex > m_Playlist.GetCount() - 1)
+			if(!m_Playlist.GetCount())
 			{
-				m_SongIndex = 0;
 				m_nLastSongTime = 0;
 			}
-			Out.AddLine( wxString::Format(wxT("%d:%d"),m_SongIndex, m_nLastSongTime));
+            Out.AddLine( wxString::Format(wxT("%d:%d"),m_Playlist.GetCount() ? m_Playlist.CurrentIndex():0, m_nLastSongTime));
 			for ( size_t i = 0; i < m_Playlist.GetCount(); i++ )
 			{
 				Out.AddLine( m_Playlist[i].Song()->MetaData.Filename.GetFullPath() );
@@ -297,7 +296,7 @@ void CMusikPlayer::PlayPause()
 		}
 		else
 		{
-			PlayByUser( m_SongIndex );
+			PlayByUser( m_Playlist.CurrentIndex() );
 		}
 	}
 }
@@ -386,7 +385,7 @@ void CMusikPlayer::_UpdateNetstreamMetadata(MusikPlayerEvent& event)
 		{
 			{
 				wxCriticalSectionLocker locker( m_critMetadata );// protect m_MetaDataSong access
-				CMusikSong & cursong = m_Playlist.Item( m_SongIndex ).SongCopy();
+				CMusikSong & cursong = m_Playlist.Item( m_Playlist.CurrentIndex() ).SongCopy();
 				cursong.MetaData.Artist = m_MetaDataSong.MetaData.Artist;
 				cursong.MetaData.nTracknum = m_MetaDataSong.MetaData.nTracknum;
 				cursong.MetaData.Genre = m_MetaDataSong.MetaData.Genre;
@@ -394,7 +393,7 @@ void CMusikPlayer::_UpdateNetstreamMetadata(MusikPlayerEvent& event)
 				cursong.MetaData.Album = m_MetaDataSong.MetaData.Album;
 			}
 			//wxCriticalSectionLocker locker( m_critInternalData );
-			m_CurrentSong = m_Playlist.Item( m_SongIndex );
+			m_CurrentSong = m_Playlist.Item( m_Playlist.CurrentIndex() );
 		}
 		UpdateUI();
 	}
@@ -415,7 +414,7 @@ void CMusikPlayer::_PostPlayRestart( int nStartPos )
 void CMusikPlayer::OnPlayRestart( wxCommandEvent& event )
 {//this method is used in case of a network problem when streaming
 		m_bPostPlayRestartInProgress = false;
-		Play(  m_SongIndex , event.GetInt() ); // start playing of current stream
+		Play(  m_Playlist.CurrentIndex() , event.GetInt() ); // start playing of current stream
 }
 bool CMusikPlayer::Play( size_t nItem, int nStartPos, int nFadeType )
 {
@@ -479,8 +478,8 @@ bool CMusikPlayer::Play( size_t nItem, int nStartPos, int nFadeType )
 	//--- start with the basics					---//
 	//---------------------------------------------//
 	m_Stopping		= false;
-	m_SongIndex		= nItem;
-	m_CurrentSong	= m_Playlist.Item( m_SongIndex );
+	m_CurrentSong	= m_Playlist.Item( nItem );
+    m_Playlist.CurrentIndex(nItem);
 	//---------------------------------------------//
 	//--- if there is already a fade in			---//
 	//--- progress, then we need to abort it	---//
@@ -711,7 +710,7 @@ void CMusikPlayer::UpdateUI()
 {
 	if(_CurrentSongIsNetStream())
 	{
-		g_PlaylistBox->PlaylistCtrl().ResynchItem( m_SongIndex,m_CurrentSong);
+		g_PlaylistBox->PlaylistCtrl().ResynchItem( m_Playlist.CurrentIndex(),m_CurrentSong);
 	}
 	else
 	{
@@ -719,7 +718,7 @@ void CMusikPlayer::UpdateUI()
 	}
 	if(g_SourcesCtrl->GetSelType() == MUSIK_SOURCES_NOW_PLAYING)
 	{
-		g_PlaylistBox->PlaylistCtrl().EnsureVisible(m_SongIndex);
+		g_PlaylistBox->PlaylistCtrl().EnsureVisible(m_Playlist.CurrentIndex());
 	}
 	
 
@@ -875,7 +874,7 @@ void CMusikPlayer::FinalizeStop()
 	m_Playing = false;
 	m_Paused = false;
 	m_Stopping = false;
-	g_PlaylistBox->PlaylistCtrl().RefreshItem( m_SongIndex ); //TODO: replace by handling of MusikPlayerEvent
+	g_PlaylistBox->PlaylistCtrl().RefreshItem( m_Playlist.CurrentIndex() ); //TODO: replace by handling of MusikPlayerEvent
     
     MusikPlayerEvent ev(this,wxEVT_MUSIKPLAYER_PLAY_STOP);
     ProcessEvent(ev);
@@ -960,39 +959,41 @@ void CMusikPlayer::NextSong()
 		
 		// fall through
 	case MUSIK_PLAYMODE_NORMAL:
-		m_SongIndex++;
-		if ( m_SongIndex >= m_Playlist.GetCount() )
+		if ( m_Playlist.CurrentIndex() >= m_Playlist.GetCount() )
 		{
 			Stop();
-			m_SongIndex = 0;
+            m_Playlist.CurrentIndex(0);
 		}
 		else
-			Play( m_SongIndex );
+        {
+			Play( m_Playlist.CurrentIndex() + 1  );
+        }
 		break;
 
 	case MUSIK_PLAYMODE_REPEATSONG:
-		Play( m_SongIndex );
+		Play( m_Playlist.CurrentIndex() );
 		break;
 
 	case MUSIK_PLAYMODE_REPEATLIST:
-		if ( m_SongIndex == ( m_Playlist.GetCount()-1 ) )
-			m_SongIndex = 0;
-		else m_SongIndex++;
-		Play( m_SongIndex );
+		if ( m_Playlist.CurrentIndex() == ( m_Playlist.GetCount()-1 ) )
+			m_Playlist.CurrentIndex(0);
+		else 
+            m_Playlist.IncrCurrentIndex( );
+		Play( m_Playlist.CurrentIndex());
 		break;
 
 	case MUSIK_PLAYMODE_SHUFFLE:
 		{
 			if (m_Playlist.GetCount())
 			{
-				if(m_SongIndex < m_Playlist.GetCount() - 1) 
+				if(m_Playlist.CurrentIndex() < m_Playlist.GetCount() - 1) 
 				{  // check if the following song , should always be played(even if we are in shuffle mode)
-					if(m_Playlist[m_SongIndex + 1].bForcePlay)
+					if(m_Playlist[m_Playlist.CurrentIndex() + 1].bForcePlay)
 					{
-						m_Playlist[m_SongIndex + 1].bForcePlay = 0; //reset flag
-						m_SongIndex++;
-						m_arrHistory.Add(m_SongIndex); // add to shuffle history too
-						Play(m_SongIndex);
+						m_Playlist[m_Playlist.CurrentIndex() + 1].bForcePlay = 0; //reset flag
+						m_Playlist.IncrCurrentIndex( );
+						m_arrHistory.Add(m_Playlist.CurrentIndex()); // add to shuffle history too
+						Play(m_Playlist.CurrentIndex());
 						return;
 					}
 				}
@@ -1010,7 +1011,7 @@ void CMusikPlayer::PrevSong()
 	//---------------------------------------------------------//
 	if ( m_ActiveStreams.GetCount() && GetTime( UNIT_MILLISEC ) > 2000 )	
 	{
-		Play( m_SongIndex );
+		Play( m_Playlist.CurrentIndex());
 		return;
 	} 
 	else
@@ -1020,27 +1021,28 @@ void CMusikPlayer::PrevSong()
 		case MUSIK_PLAYMODE_AUTO_DJ:
 		case MUSIK_PLAYMODE_AUTO_DJ_ALBUM:
 		case MUSIK_PLAYMODE_NORMAL:
-			if( m_SongIndex > 0 )
-				m_SongIndex--;
-			Play( m_SongIndex );
+			
+			m_Playlist.DecrCurrentIndex( );
+			Play( m_Playlist.CurrentIndex( ) );
 			break;
 	
 		case MUSIK_PLAYMODE_REPEATSONG:
-			Play( m_SongIndex );
+			Play( m_Playlist.CurrentIndex() );
 			break;
 	
 		case MUSIK_PLAYMODE_REPEATLIST:
-			if ( m_SongIndex <= 0 )
-				m_SongIndex = ( m_Playlist.GetCount() - 1 );
-			else m_SongIndex--;
-			Play( m_SongIndex );
+			if ( m_Playlist.CurrentIndex() <= 0 )
+				m_Playlist.CurrentIndex(m_Playlist.GetCount() - 1);
+            else
+                m_Playlist.DecrCurrentIndex();
+			Play( m_Playlist.CurrentIndex() );
 			break;
 	
 		case MUSIK_PLAYMODE_SHUFFLE:
 			if(m_arrHistory.GetCount() >= 2)
 			{
-				m_SongIndex = m_arrHistory[m_arrHistory.GetCount() - 2];
-				Play( m_SongIndex );
+				m_Playlist.CurrentIndex(m_arrHistory[m_arrHistory.GetCount() - 2]);
+				Play( m_Playlist.CurrentIndex() );
 			}
 			break;
 		}
@@ -1057,10 +1059,7 @@ void CMusikPlayer::_AddRandomSongs()
 {
 	MusikSongIdArray  arrSongs;
 
-	if(m_SongIndex + 1 > m_Playlist.GetCount())
-		m_SongIndex = 0;
-
-	int nSongsToAdd = m_Playlist.GetCount() ? (wxGetApp().Prefs.nAutoDJChooseSongsToPlayInAdvance - (m_Playlist.GetCount() - 1 - m_SongIndex))
+	int nSongsToAdd = m_Playlist.GetCount() ? (wxGetApp().Prefs.nAutoDJChooseSongsToPlayInAdvance - (m_Playlist.GetCount() - 1 - m_Playlist.CurrentIndex()))
 											:(int)wxGetApp().Prefs.nAutoDJChooseSongsToPlayInAdvance;
 	if(nSongsToAdd <= 0)
 		return;
@@ -1351,7 +1350,7 @@ void CMusikPlayer::SetTime( int nSec )
 	}
 	else
 	{
-		Play( m_SongIndex, nSec, CROSSFADE_SEEK );
+		Play( m_Playlist.CurrentIndex(), nSec, CROSSFADE_SEEK );
 	}
 }
 
@@ -1365,15 +1364,14 @@ bool CMusikPlayer::_CurrentSongNeedsMPEGACCURATE()
 {
     std::auto_ptr<CMusikSong> pSong = m_CurrentSong.Song();
 	return (wxGetApp().Prefs.bUse_MPEGACCURATE_ForMP3VBRFiles
-			&&(m_SongIndex <  m_Playlist.GetCount())
+			&&(m_Playlist.CurrentIndex() <  m_Playlist.GetCount())
 			&& pSong->MetaData.bVBR 
 			&& (pSong->MetaData.eFormat == MUSIK_FORMAT_MP3) ); 
 	//  mp3 vbr files needs FSOUND_MPEGACCURATE flag, but takes much too long for other filetypes
 }
 bool CMusikPlayer::_CurrentSongIsNetStream()
 {
-	return ((m_SongIndex <  m_Playlist.GetCount())
-			&& m_CurrentSong.IsFormat(MUSIK_FORMAT_NETSTREAM) ); 
+	return m_CurrentSong.IsFormat(MUSIK_FORMAT_NETSTREAM); 
 }
 
 void CMusikPlayer::OnFadeCompleteEvt( wxCommandEvent& event )
@@ -1422,9 +1420,9 @@ void CMusikPlayer::AddToPlaylist( MusikSongIdArray & songstoadd ,bool bPlayFirst
 		}
 		if(bPlayFirstAdded)
 		{
-			m_SongIndex = plsize;
+			m_Playlist.CurrentIndex(plsize);
 			m_bSuppressAutomaticSongPicking = true;
-			Play(m_SongIndex);
+			Play(m_Playlist.CurrentIndex());
 		}
 	}
 }
@@ -1438,42 +1436,30 @@ void CMusikPlayer::InsertToPlaylist( MusikSongIdArray & songstoadd ,bool bPlayFi
 	size_t plsize = m_Playlist.GetCount();
 	if(plsize == 0 || !IsPlaying())
 	{// list empty, add
-		for(size_t i = 0; i < size ; i++)
-			m_Playlist.Add(songstoadd.Detach(0));
-		if(bPlayFirstInserted)
-		{
-			m_SongIndex = plsize;
-			m_bSuppressAutomaticSongPicking = true;
-			Play(m_SongIndex);
-		}
-		else
-			m_SongIndex = plsize;
+		AddToPlaylist(songstoadd,bPlayFirstInserted);
 		return;
 
 	}
 // list not empty ,insert
+    int nSongIndex = m_Playlist.CurrentIndex();
 	for(size_t i = 0; i < size ; i++)
 	{
-		m_Playlist.Insert(songstoadd.Detach(0), m_SongIndex + 1 + i );
+		m_Playlist.Insert(songstoadd.Detach(0), nSongIndex + 1 + i );
 	}
 	if(bPlayFirstInserted)
 	{
-		m_SongIndex++;
+		m_Playlist.CurrentIndex(nSongIndex + 1);
 		m_bSuppressAutomaticSongPicking = true;
-		Play(m_SongIndex);
+		Play(m_Playlist.CurrentIndex());
 	}
 }
-void CMusikPlayer::OnPlaylistEntryRemoved( size_t index )
+void CMusikPlayer::OnPlaylistEntryRemoving( size_t index )
 {
 	//wxCriticalSectionLocker locker( m_critInternalData);
 	
-	if(index < m_SongIndex)
+	if(m_Playlist.CurrentIndex() == index)
 	{
-		m_SongIndex--;
-	}
-	else if(m_SongIndex == index)
-	{
-		if(IsPlaying() && !IsPaused() && (m_SongIndex < m_Playlist.GetCount()))
+		if(IsPlaying() && !IsPaused() )
 			_PostPlayRestart();
 		else
 			Stop();

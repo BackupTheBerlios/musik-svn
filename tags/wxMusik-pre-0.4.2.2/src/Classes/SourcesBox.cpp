@@ -546,11 +546,13 @@ void CSourcesListBox::UpdateSel( size_t index )
     wxBusyCursor  busycursor;
 	if((index == (size_t)-2) || (index == (size_t)-4))
 	{	// IF -2, this is used to protect playlists from being accidently changed
-		// if -4 we actually want to change ciew(not only selection)
+		// if -4 we actually want to change view(not only selection)
 
 		bInFunction = (index == (size_t)-4); // HACK!!,
         m_CurSel = FindInSources(wxT( "" ),MUSIK_SOURCES_LIBRARY);
+        SuppressListItemStateEvents( (index == (size_t)-4) ) ;
 		SetItemState( m_CurSel, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED );
+        SuppressListItemStateEvents(false);
 		bInFunction = false;
 		return;
     }

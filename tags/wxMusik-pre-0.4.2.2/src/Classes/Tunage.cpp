@@ -70,8 +70,9 @@ void CTunage::PostURL(const CMusikSong& song )
 	// create a valid URL
 	wxString urltext( wxGetApp().Prefs.sTunageURL );
 	ParseTags( urltext , song );
-	urltext = wxURL::ConvertToValidURI( urltext );
-	wxURL url( urltext );
+
+    wxURI uri(urltext);
+	wxURL url( uri );
 	
 	if ( url.GetError() != wxURL_NOERR )
 	{

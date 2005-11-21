@@ -136,7 +136,7 @@ public:
 	//------------//
 	//--- gets ---//
 	//------------//
-	size_t	GetCurIndex			( ) { return ( m_SongIndex ); }
+	size_t	GetCurIndex			( ) { return  m_Playlist.CurrentIndex(); }
 	int	 GetDuration			( int nType );
 	int	 GetLastTime			( int nType );
 	int	 GetTime				( int nType );
@@ -167,7 +167,7 @@ public:
 	void SetPlaylist		(const  MusikSongIdArray &playlist ) { m_Playlist = playlist;m_arrHistory.Clear(); }
 	void AddToPlaylist		( MusikSongIdArray &songstoadd ,bool bPlayFirstAdded = true);	// NOTE this method, empties the songstoadd array.
 	void InsertToPlaylist(	 MusikSongIdArray & songstoadd ,bool bPlayFirstInserted = true);  // NOTE this method, empties the songstoadd array.
-	void OnPlaylistEntryRemoved( size_t index );
+	void OnPlaylistEntryRemoving( size_t index );
 	void SetStartingNext	( bool bStart = true ){ m_StartingNext = bStart; }
 	void SetCrossfadeType	( int nType ){ m_CrossfadeType = nType; }
 
@@ -195,7 +195,6 @@ private:
 	
 	MusikSongIdArray m_Playlist;			//--- heart and soul.								---//
 	EMUSIK_PLAYMODE	m_Playmode;			//--- repeat, shuffle, etc							---//
-	size_t			m_SongIndex;		//--- current index in playlist						---//
 	bool			m_Playing;			//--- currently playing?							---//
 	bool			m_Paused;			//--- currently paused?								---//
 	bool			m_BeginFade;		//--- should we begin fading?						---//

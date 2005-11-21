@@ -38,7 +38,7 @@
 #define W_OK 2
 #endif
 #ifdef WIN32
-#define ftruncate chsize
+#define ftruncate _chsize
 #endif
 
 using namespace TagLib;

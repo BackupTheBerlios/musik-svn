@@ -1,0 +1,99 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plugin_common_static", "..\flac-1.1.0\src\plugin_common\plugin_common_static.vcproj", "{3C89E4A2-E580-40CC-B802-4146EFE40F20}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MUSIKEngine", "MUSIKEngine\MUSIKEngine.vcproj", "{2477BD73-12EC-4466-9061-8B71F28D6343}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FMODEngine", "FMODEngine\FMODEngine.vcproj", "{B91E6845-EE0F-4083-A255-6089CB87D13D}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "grabbag_static", "..\flac-1.1.0\src\share\grabbag\grabbag_static.vcproj", "{D813804E-9734-48E3-8DD1-1662D661724B}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gain_analysis_static", "..\flac-1.1.0\src\share\gain_analysis\gain_analysis_static.vcproj", "{AD7006A7-BE27-444C-9043-1A60178D45CC}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MUSIKTest", "Test\MUSIKTest.vcproj", "{F3C0E0CE-2470-45C7-A5EE-2C6AAB47934D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B91E6845-EE0F-4083-A255-6089CB87D13D} = {B91E6845-EE0F-4083-A255-6089CB87D13D}
+		{D813804E-9734-48E3-8DD1-1662D661724B} = {D813804E-9734-48E3-8DD1-1662D661724B}
+		{95F25A6F-E049-441A-B484-B3690FD911F3} = {95F25A6F-E049-441A-B484-B3690FD911F3}
+		{2477BD73-12EC-4466-9061-8B71F28D6343} = {2477BD73-12EC-4466-9061-8B71F28D6343}
+		{3C89E4A2-E580-40CC-B802-4146EFE40F20} = {3C89E4A2-E580-40CC-B802-4146EFE40F20}
+		{AD7006A7-BE27-444C-9043-1A60178D45CC} = {AD7006A7-BE27-444C-9043-1A60178D45CC}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mpcdec", "mpcdec\mpcdec.vcproj", "{98CE08D2-1D32-4D39-8194-63D69F0920C4}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MPCLib", "MPC\MPCLib.vcproj", "{95F25A6F-E049-441A-B484-B3690FD911F3}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "vorbis_static", "..\vorbis\win32\vorbis_static.vcproj", "{571CD645-27FA-4CA2-84A0-544307F647B3}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "vorbisfile_static", "..\vorbis\win32\vorbisfile_static.vcproj", "{E4183FBC-EABF-40EB-B6E1-7AEB6809DF7C}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{3C89E4A2-E580-40CC-B802-4146EFE40F20}.Debug.ActiveCfg = Debug|Win32
+		{3C89E4A2-E580-40CC-B802-4146EFE40F20}.Debug.Build.0 = Debug|Win32
+		{3C89E4A2-E580-40CC-B802-4146EFE40F20}.Release.ActiveCfg = Release|Win32
+		{3C89E4A2-E580-40CC-B802-4146EFE40F20}.Release.Build.0 = Release|Win32
+		{2477BD73-12EC-4466-9061-8B71F28D6343}.Debug.ActiveCfg = Debug|Win32
+		{2477BD73-12EC-4466-9061-8B71F28D6343}.Debug.Build.0 = Debug|Win32
+		{2477BD73-12EC-4466-9061-8B71F28D6343}.Release.ActiveCfg = Release|Win32
+		{2477BD73-12EC-4466-9061-8B71F28D6343}.Release.Build.0 = Release|Win32
+		{B91E6845-EE0F-4083-A255-6089CB87D13D}.Debug.ActiveCfg = Debug|Win32
+		{B91E6845-EE0F-4083-A255-6089CB87D13D}.Debug.Build.0 = Debug|Win32
+		{B91E6845-EE0F-4083-A255-6089CB87D13D}.Release.ActiveCfg = Release|Win32
+		{B91E6845-EE0F-4083-A255-6089CB87D13D}.Release.Build.0 = Release|Win32
+		{D813804E-9734-48E3-8DD1-1662D661724B}.Debug.ActiveCfg = Debug|Win32
+		{D813804E-9734-48E3-8DD1-1662D661724B}.Debug.Build.0 = Debug|Win32
+		{D813804E-9734-48E3-8DD1-1662D661724B}.Release.ActiveCfg = Release|Win32
+		{D813804E-9734-48E3-8DD1-1662D661724B}.Release.Build.0 = Release|Win32
+		{AD7006A7-BE27-444C-9043-1A60178D45CC}.Debug.ActiveCfg = Debug|Win32
+		{AD7006A7-BE27-444C-9043-1A60178D45CC}.Debug.Build.0 = Debug|Win32
+		{AD7006A7-BE27-444C-9043-1A60178D45CC}.Release.ActiveCfg = Release|Win32
+		{AD7006A7-BE27-444C-9043-1A60178D45CC}.Release.Build.0 = Release|Win32
+		{F3C0E0CE-2470-45C7-A5EE-2C6AAB47934D}.Debug.ActiveCfg = Debug|Win32
+		{F3C0E0CE-2470-45C7-A5EE-2C6AAB47934D}.Debug.Build.0 = Debug|Win32
+		{F3C0E0CE-2470-45C7-A5EE-2C6AAB47934D}.Release.ActiveCfg = Release|Win32
+		{F3C0E0CE-2470-45C7-A5EE-2C6AAB47934D}.Release.Build.0 = Release|Win32
+		{98CE08D2-1D32-4D39-8194-63D69F0920C4}.Debug.ActiveCfg = Debug|Win32
+		{98CE08D2-1D32-4D39-8194-63D69F0920C4}.Debug.Build.0 = Debug|Win32
+		{98CE08D2-1D32-4D39-8194-63D69F0920C4}.Release.ActiveCfg = Release|Win32
+		{98CE08D2-1D32-4D39-8194-63D69F0920C4}.Release.Build.0 = Release|Win32
+		{95F25A6F-E049-441A-B484-B3690FD911F3}.Debug.ActiveCfg = Debug|Win32
+		{95F25A6F-E049-441A-B484-B3690FD911F3}.Debug.Build.0 = Debug|Win32
+		{95F25A6F-E049-441A-B484-B3690FD911F3}.Release.ActiveCfg = Release|Win32
+		{95F25A6F-E049-441A-B484-B3690FD911F3}.Release.Build.0 = Release|Win32
+		{571CD645-27FA-4CA2-84A0-544307F647B3}.Debug.ActiveCfg = Debug|Win32
+		{571CD645-27FA-4CA2-84A0-544307F647B3}.Debug.Build.0 = Debug|Win32
+		{571CD645-27FA-4CA2-84A0-544307F647B3}.Release.ActiveCfg = Release|Win32
+		{571CD645-27FA-4CA2-84A0-544307F647B3}.Release.Build.0 = Release|Win32
+		{E4183FBC-EABF-40EB-B6E1-7AEB6809DF7C}.Debug.ActiveCfg = Debug|Win32
+		{E4183FBC-EABF-40EB-B6E1-7AEB6809DF7C}.Debug.Build.0 = Debug|Win32
+		{E4183FBC-EABF-40EB-B6E1-7AEB6809DF7C}.Release.ActiveCfg = Release|Win32
+		{E4183FBC-EABF-40EB-B6E1-7AEB6809DF7C}.Release.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

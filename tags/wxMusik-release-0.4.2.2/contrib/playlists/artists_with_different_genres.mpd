@@ -1,0 +1,1 @@
+artist in (select artist from (select artist, count( * ) from (select distinct artist, genre from songs) group by artist having count( * ) >1)) order by artist,genre,album

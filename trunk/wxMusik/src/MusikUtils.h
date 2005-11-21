@@ -138,7 +138,7 @@ public:
 		{
 			if(m_szData)
 			{
-				char *pos = strchr(m_szData,ch);
+				const char *pos = strchr(m_szData,ch);
 				return pos - m_szData;
 			}
 			return -1;

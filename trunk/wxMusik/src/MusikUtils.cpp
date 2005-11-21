@@ -1175,7 +1175,27 @@ IMPLEMENT_CLASS(wxIntValidator, wxGenericValidator)
 IMPLEMENT_CLASS(wxBoolValidator, wxGenericValidator)
 
 #ifdef __WXMSW__
-#include <Shlwapi.h>
+// instead of including <shlwapi.h> which is not part of the core SDK and not
+// shipped at all with other compilers, we always define the parts of it we
+// need here ourselves
+//
+// NB: DLLVER_PLATFORM_WINDOWS will be defined if shlwapi.h had been somehow
+//     included already
+#ifndef DLLVER_PLATFORM_WINDOWS
+    // hopefully we don't need to change packing as DWORDs should be already
+    // correctly aligned
+    struct DLLVERSIONINFO
+    {
+        DWORD cbSize;
+        DWORD dwMajorVersion;                   // Major version
+        DWORD dwMinorVersion;                   // Minor version
+        DWORD dwBuildNumber;                    // Build number
+        DWORD dwPlatformID;                     // DLLVER_PLATFORM_*
+    };
+
+    typedef HRESULT (CALLBACK* DLLGETVERSIONPROC)(DLLVERSIONINFO *);
+#endif // defined(DLLVERSIONINFO)
+
 DWORD GetDllVersion(LPCTSTR lpszDllName)
 {
 	HINSTANCE hinstDll;

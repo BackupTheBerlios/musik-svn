@@ -1,10 +1,9 @@
 /*
  *  MusikLibrary.h
  *
- *  Object which controls database manipulation.
+ *  Object which controls Library manipulation.
  *
- *  Uses: SQLite, id3lib, and oggvorbis
- *  Information about SQLite - An Embeddable SQL Database Engine is available at http://www.hwaci.com/sw/sqlite/
+ *  Uses:  id3lib, and oggvorbis
  *  Information about id3lib is available at http://www.id3lib.org
  *  Information about oggvorbis is available at http://www.vorbis.com/
  *  

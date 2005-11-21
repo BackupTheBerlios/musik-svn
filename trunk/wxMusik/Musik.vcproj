@@ -135,7 +135,8 @@
 				Name="VCMIDLTool"/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="xcopy &quot;$(FMODEXDIR)\api\fmodex.dll&quot;  &quot;$(OutDir)&quot; /Y"/>
+				CommandLine="xcopy &quot;$(InputDir)\_Release\MMShellHook.dll&quot; &quot;$(OutDir)&quot; /Y
+xcopy &quot;$(FMODEXDIR)\api\fmodex.dll&quot;  &quot;$(OutDir)&quot; /Y"/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
 			<Tool
@@ -198,7 +199,8 @@
 				Name="VCMIDLTool"/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="xcopy &quot;$(FMODEXDIR)\api\fmodex.dll&quot;  &quot;$(OutDir)&quot; /Y"/>
+				CommandLine="xcopy &quot;$(InputDir)\_Debug\MMShellHook.dll&quot; &quot;$(OutDir)&quot; /Y
+xcopy &quot;$(FMODEXDIR)\api\fmodex.dll&quot;  &quot;$(OutDir)&quot; /Y"/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
 			<Tool
@@ -277,7 +279,8 @@
 				Name="VCMIDLTool"/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="xcopy &quot;$(FMODEXDIR)\api\fmodex.dll&quot;  &quot;$(OutDir)&quot; /Y"/>
+				CommandLine="xcopy &quot;$(InputDir)\_Release\MMShellHook.dll&quot; &quot;$(OutDir)&quot; /Y
+xcopy &quot;$(FMODEXDIR)\api\fmodex.dll&quot;  &quot;$(OutDir)&quot; /Y"/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
 			<Tool
@@ -817,12 +820,6 @@
 					</FileConfiguration>
 					<FileConfiguration
 						Name="Release Unicode|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Universal Unicode Debug|Win32">
 						<Tool
 							Name="VCCLCompilerTool"
 							UsePrecompiledHeader="0"/>

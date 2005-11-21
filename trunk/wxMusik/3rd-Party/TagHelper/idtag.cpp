@@ -35,14 +35,14 @@ void splitpath (const char *inpath, char *outpath, char *outname, char * ext)
 		outname[0] = 0;
 	if(ext)
 		ext[0] = 0;
-	char * extdot = strrchr(inpath,'.');
+	const char * extdot = strrchr(inpath,'.');
 	if(extdot)
 	{
 		if(ext)
 			strcpy(ext,extdot + 1);
 	}
 	
-	char * lastslash = strrchr(inpath,'/');
+	const char * lastslash = strrchr(inpath,'/');
 	if(lastslash)
 	{
 		if(outpath)

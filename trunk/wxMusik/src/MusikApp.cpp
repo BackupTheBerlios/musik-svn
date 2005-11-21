@@ -522,7 +522,7 @@ void MusikApp::OnFatalException ()
 #include "wx/msgdlg.h"
 
 #ifdef __WXMSW__
-#define USEWX_EMAIL
+#define USE_WXEMAIL
 #endif
 
 #ifdef USE_WXEMAIL

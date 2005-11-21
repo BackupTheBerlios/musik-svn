@@ -550,7 +550,9 @@ void CSourcesListBox::UpdateSel( size_t index )
 
 		bInFunction = (index == (size_t)-4); // HACK!!,
         m_CurSel = FindInSources(wxT( "" ),MUSIK_SOURCES_LIBRARY);
+        SuppressListItemStateEvents( (index == (size_t)-4) ) ;
 		SetItemState( m_CurSel, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED );
+        SuppressListItemStateEvents(false);
 		bInFunction = false;
 		return;
     }

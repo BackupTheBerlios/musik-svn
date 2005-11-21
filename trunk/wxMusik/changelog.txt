@@ -1,3 +1,18 @@
+0.4.3.0
+
++ usage of fmodex 4.1
+
+0.4.2.2
+- fixed bug when moving and deleting songs in the now playing list. The currently playing index was not mantained correctly in all circumstances.
++ the currently playing song can now be deleted from the computer with right click menu.
++ updated taglib to version 1.4
+- fixed problem with song length calculation on linux
+- fixed crash in autodj album mode
++ net streams can now be pls or m3u urls
+- fixed bug concerning display of currently played song
+- fixed bug , which prohibited the creating of a mail in case of a crash.
+- fixed bug, when choosing "view dirty tags" from the menu, the library was shown instead, the dirty tags were only shown if the library was already selected.
+
 0.4.2.1
 - fixed webserver bugs. In fact 70% of the code was rewritten. Now it works on windows and linux reliable.
 + Polish translation updated. 

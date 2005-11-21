@@ -30,7 +30,7 @@
 #include "flacdecoder.h"
 
 #ifndef _WIN32
-#define stricmp strcasecmp
+#define _stricmp strcasecmp
 #endif
 
 #ifdef __VISUALC__
@@ -110,13 +110,13 @@ MUSIKStream* MUSIKEngine::OpenMedia(const char *FileName)
 {
     if(FileName == NULL)
         return NULL;
-	char *FileExt = strrchr(FileName, '.');
+	const char *FileExt = strrchr(FileName, '.');
     if(FileExt == NULL)
         return NULL;
 	MUSIKDecoder *d = NULL;
 	IMUSIKStreamOut *so = NULL;
 #ifndef MUSIKENGINE_NO_APE_SUPPORT	
-	if (stricmp(FileExt,".ape") == 0)
+	if (_stricmp(FileExt,".ape") == 0)
 	{
 		so = CreateStreamOut(); 
 		d = new MUSIKAPEDecoder(so);
@@ -125,7 +125,7 @@ MUSIKStream* MUSIKEngine::OpenMedia(const char *FileName)
 	else 
 #endif
 #ifndef MUSIKENGINE_NO_FLAC_SUPPORT	
-	if (stricmp(FileExt,".flac") == 0)
+	if (_stricmp(FileExt,".flac") == 0)
 	{
 		so = CreateStreamOut(); 
 		d = new MUSIKFLACDecoder(so);
@@ -133,7 +133,7 @@ MUSIKStream* MUSIKEngine::OpenMedia(const char *FileName)
 	else 
 #endif	
 #ifndef MUSIKENGINE_NO_MPC_SUPPORT
-	if ( (stricmp(FileExt,".mpc")==0) || (stricmp(FileExt,".mp+")==0) || (stricmp(FileExt,".mpp")==0))
+	if ( (_stricmp(FileExt,".mpc")==0) || (_stricmp(FileExt,".mp+")==0) || (_stricmp(FileExt,".mpp")==0))
 	{
 		so = CreateStreamOut(); 
 		d = new MUSIKMPCDecoder(so);

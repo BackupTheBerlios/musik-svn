@@ -551,11 +551,11 @@ bool CMusikPlayer::Play( size_t nItem, int nStartPos, int nFadeType )
 	int retries = 2;
 	bool bPlaySucceeded = false;
 	pNewStream->SetTime( nStartPos * 1000 );
+    pNewStream->SetVolume(  0.0 );
 	while( retries -- && (!bPlaySucceeded))
 	{
 		if(!pNewStream->Play())
 		{
-            pNewStream->SetVolume(  0.0 );
 			wxCriticalSectionLocker lock(m_protectingStreamArrays);
 			if(m_ActiveStreams.GetCount())
 			{
@@ -959,7 +959,7 @@ void CMusikPlayer::NextSong()
 		
 		// fall through
 	case MUSIK_PLAYMODE_NORMAL:
-		if ( m_Playlist.CurrentIndex() >= m_Playlist.GetCount() )
+		if ( m_Playlist.CurrentIndex() >= m_Playlist.GetCount() - 1)
 		{
 			Stop();
             m_Playlist.CurrentIndex(0);

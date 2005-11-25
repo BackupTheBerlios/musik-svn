@@ -1,1 +1,0 @@
-wxjulianday(timeadded) > julianday('now','-2 days')

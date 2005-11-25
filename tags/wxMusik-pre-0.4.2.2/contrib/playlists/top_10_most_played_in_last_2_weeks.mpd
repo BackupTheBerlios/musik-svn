@@ -1,1 +1,0 @@
-FROM (select songid as aid,count(*) as acount from songhistory where date_played >=  julianday('now','-14 days')  group by songhistory.songid) join songs on songs.songid=aid order by acount desc limit 10

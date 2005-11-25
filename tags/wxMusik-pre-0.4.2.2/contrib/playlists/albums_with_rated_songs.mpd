@@ -1,1 +1,0 @@
-album||artist  in ( select album||artist  from songs  where rating > 0 group by artist,album ) order by artist,album

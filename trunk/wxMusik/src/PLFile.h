@@ -150,7 +150,7 @@ protected:
                  if(l.StartsWith(wxT("#EXTINF:"),&rest))
                  {
                      int pos = -1;
-                     StringToInt(rest,&e.LengthSecs);
+                     e.LengthSecs = wxStringToInt(rest);
                      const wxString &text = rest.AfterFirst(',');
                      pos = text.Find(wxT(" - "));
                      if(pos == -1)

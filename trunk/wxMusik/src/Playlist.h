@@ -20,9 +20,11 @@ class MusikSongIdArray : public MusikSongIdArrayBase
 public:
 	MusikSongIdArray()
 	{
+        m_nCurIndex = 0;
 	}
 	MusikSongIdArray(const wxArrayString & Ids)
 	{
+        m_nCurIndex = 0;
 		Assign(Ids);
 	}
 
@@ -37,6 +39,56 @@ public:
 				Add(MusikSongId(id));
 		}
 	}
+    int MoveEntrys(int nMoveTo ,const wxArrayInt &arrToMove);
+    void CurrentIndex(size_t nCurIndex)
+    {
+        m_nCurIndex = GetCount() ? wxMin(wxMax(0,nCurIndex),GetCount() - 1) : 0;
+    }
+    size_t CurrentIndex() const
+    {
+        return GetCount() ? m_nCurIndex : 0;
+    }
+    void IncrCurrentIndex() 
+    {
+        if(m_nCurIndex < GetCount() - 1)
+            m_nCurIndex++;
+    }
+    void DecrCurrentIndex() 
+    {
+        if(m_nCurIndex > 0)
+            m_nCurIndex--;
+    }
+
+    void Insert(const MusikSongId& lItem,  size_t uiIndex, size_t nInsert = 1)
+    {
+        if((int)uiIndex <= m_nCurIndex)
+            m_nCurIndex += nInsert;
+        MusikSongIdArrayBase::Insert(lItem,uiIndex,nInsert);
+
+    }
+    void Insert(const MusikSongId * pItem, size_t uiIndex)
+    {
+        if((int)uiIndex <= m_nCurIndex) 
+            m_nCurIndex ++;
+         MusikSongIdArrayBase::Insert(pItem,uiIndex);
+    }
+    void Empty() { m_nCurIndex = 0;  MusikSongIdArrayBase::Empty(); }
+    void Clear() { m_nCurIndex = 0;  MusikSongIdArrayBase::Clear(); }
+    MusikSongId* Detach(size_t uiIndex)
+    {
+        if((int)uiIndex < m_nCurIndex) 
+            m_nCurIndex --;
+        return MusikSongIdArrayBase::Detach(uiIndex);
+    }
+    void RemoveAt(size_t uiIndex, size_t nRemove = 1)
+    {
+        if((int)uiIndex < m_nCurIndex)
+            if((int)(uiIndex + nRemove - 1) < m_nCurIndex)
+                m_nCurIndex -= nRemove;
+            else
+                m_nCurIndex = uiIndex;
+        return MusikSongIdArrayBase::RemoveAt(uiIndex,nRemove);
+    }
 	wxLongLong GetTotalFileSize() const;
 	int GetTotalPlayingTimeInSeconds() const;
     wxString AsCommaSeparatedString()
@@ -51,7 +103,8 @@ public:
         }
         return sList;
     }
-
+private:
+    size_t m_nCurIndex;
 };
 #if 1
 class Playlist;

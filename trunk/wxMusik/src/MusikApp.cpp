@@ -52,19 +52,19 @@ IMPLEMENT_APP(MusikApp)
 
 #ifdef __VISUALC__
 #ifdef _DEBUG
+#define WXLIB_DEBUG "d"
+#else
+#define WXLIB_DEBUG ""
+#endif
 #ifdef _UNICODE
-#pragma comment(lib,"wxmsw26ud_netutils")
-#else //no _UNICODE
-#pragma comment(lib,"wxmsw26d_netutils")
-#endif //_UNICODE
-#else //no _DEBUG
-#ifdef _UNICODE
-#pragma comment(lib,"wxmsw26u_netutils")
-#else //no _UNICODE
-#pragma comment(lib,"wxmsw26_netutils")
-#endif //_UNICODE
-#endif// no _DEBUG
+#define WXLIB_UNICODE "u"
+#else
+#define WXLIB_UNICODE ""
+#endif
 
+#define WXLIB  MUSIK_STRINGIZE(wxMAJOR_VERSION) MUSIK_STRINGIZE(wxMINOR_VERSION) WXLIB_UNICODE  WXLIB_DEBUG
+                       
+#pragma comment(lib,"wxmsw" WXLIB "_netutils")
 
 #pragma comment(lib,"sqlite")
 #pragma comment(lib,"plugin_common_static")

@@ -64,7 +64,6 @@ CMusikPlayer::CMusikPlayer()
 	m_BeginFade		= false;
 	m_StartingNext	= false;
 	m_Stopping		= false;
-	m_SongIndex		= 0;
 	m_CrossfadeType	= 0;
 //	m_DSP			= NULL;
 	m_Playmode = MUSIK_PLAYMODE_NORMAL;
@@ -123,7 +122,6 @@ void CMusikPlayer::Init(bool bSuppressAutoPlay)
             m_Playlist.CurrentIndex(nSongIndex);
 			if(m_Playlist.GetCount() == 0)
 			{
-				m_SongIndex = 0;
 				m_nLastSongTime = 0;
 			}
 		}

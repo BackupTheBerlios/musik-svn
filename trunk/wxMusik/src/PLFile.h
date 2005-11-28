@@ -26,12 +26,12 @@ public:
         : wxURL(url)
     {
     }
-    wxURL& MusikURL::operator = (const wxURI& url)
+    wxURL& operator = (const wxURI& url)
     {
         wxURL::operator = (url);
         return *this;
     }
-    wxURL& MusikURL::operator = (const wxString& url)
+    wxURL& operator = (const wxString& url)
     {
         wxURL::operator = (url);
         return *this;

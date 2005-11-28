@@ -35,6 +35,13 @@ CMusikListCtrl::CMusikListCtrl( wxWindow *parent, const wxWindowID id, const wxP
 {
     m_bLISTSEL_CHANGED_Fired = false;
     m_bSuppressListItemStateEvents = false;
+
+/*
+#ifdef __WXMSW__
+    SendMessage((HWND)GetHWND(), LVM_SETEXTENDEDLISTVIEWSTYLE, (WPARAM)
+        LVS_EX_DOUBLEBUFFER, (LPARAM) LVS_EX_DOUBLEBUFFER);
+#endif
+*/
 }
 
 

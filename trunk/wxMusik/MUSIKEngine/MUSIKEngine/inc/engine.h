@@ -65,6 +65,7 @@ public:
     };
     struct IEnumNames
     {
+        virtual ~IEnumNames(){}
         virtual bool EnumNamesCallback(const char * szName,int id)=0;
     };
 public: 

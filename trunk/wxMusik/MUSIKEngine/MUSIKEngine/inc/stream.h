@@ -32,6 +32,7 @@ class MUSIKStream
 public:
     struct IMetadataCallback
     {
+        virtual ~IMetadataCallback(){}
         virtual void MetadataCallback( MUSIKStream * pStream,const char *name, const char *value) = 0;
     };
 

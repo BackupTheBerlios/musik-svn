@@ -78,7 +78,7 @@ bool FMODExStreamOut::DoCreate(int buffersize_ms)
     createsoundexinfo.pcmreadcallback   = pcmreadcallback;                             /* User callback for reading. */
     createsoundexinfo.userdata = this;
     FMOD_MODE mode = FMOD_2D | FMOD_OPENUSER | FMOD_LOOP_NORMAL|FMOD_CREATESTREAM;
-    FMOD_RESULT result = m_Engine.System().createSound(0, mode, &createsoundexinfo, &m_pSound);
+    m_Engine.System().createSound(0, mode, &createsoundexinfo, &m_pSound);
     if(m_pSound)
     {
         return m_Engine.System().playSound(FMOD_CHANNEL_FREE,m_pSound,true,&m_pChannel) == FMOD_OK; // start paused
@@ -260,6 +260,8 @@ MUSIKEngine::Error FMODExStreamOut::GetOpenStatus(MUSIKEngine::OpenStatus *pStat
     case FMOD_OPENSTATE_CONNECTING:
     case FMOD_OPENSTATE_BUFFERING:
         *pStatus = MUSIKEngine::OPENSTATUS_OPENINPROGRESS;
+    default:
+        ;
     }
     return MUSIKEngine::errSuccess;
 }

@@ -37,6 +37,7 @@ class CPlaylistBox;
 class IPlaylistInfo
 {
 public:
+	virtual ~IPlaylistInfo(){}
 	virtual int				GetTotalPlayingTimeInSeconds()=0;
 	virtual wxLongLong		GetTotalFilesize()=0;
 	virtual int				GetCount()=0;

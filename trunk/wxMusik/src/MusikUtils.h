@@ -692,6 +692,7 @@ public:
 class IOnValueChangeByValidator
 {
 public:
+    virtual ~IOnValueChangeByValidator(){}
     virtual void OnValueChange(wxGenericValidator *pV,wxWindowBase *pW) = 0;
 };
 

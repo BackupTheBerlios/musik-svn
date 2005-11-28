@@ -78,7 +78,7 @@ bool CTagLibInfo::ReadMetaData(CSongMetaData & MetaData) const
         get_mp3_info(&infomp3,SCAN_QUICK,1);
         MetaData.nFilesize = infomp3.datasize;
         MetaData.nDuration_ms = infomp3.seconds * 1000;
-        MetaData.nBitrate = infomp3.vbr_average;
+        MetaData.nBitrate = (int)infomp3.vbr_average;
         MetaData.bVBR = infomp3.vbr > 0 ? true:false;
         fclose(infomp3.file);
     }

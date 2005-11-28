@@ -28,6 +28,7 @@ class IMUSIKStreamOut
 public:
     struct IMetadataCallback
     {
+        virtual ~IMetadataCallback(){}
         virtual void MetadataCallback(const char *name, const char *value) = 0;
     };
 

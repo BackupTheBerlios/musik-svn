@@ -136,7 +136,8 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="xcopy &quot;$(InputDir)\_Release\MMShellHook.dll&quot; &quot;$(OutDir)&quot; /Y
-xcopy &quot;$(FMODEXDIR)\api\fmodex.dll&quot;  &quot;$(OutDir)&quot; /Y"/>
+xcopy &quot;$(FMODEXDIR)\api\fmodex.dll&quot;  &quot;$(OutDir)&quot; /Y
+"/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
 			<Tool
@@ -200,7 +201,8 @@ xcopy &quot;$(FMODEXDIR)\api\fmodex.dll&quot;  &quot;$(OutDir)&quot; /Y"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="xcopy &quot;$(InputDir)\_Debug\MMShellHook.dll&quot; &quot;$(OutDir)&quot; /Y
-xcopy &quot;$(FMODEXDIR)\api\fmodex.dll&quot;  &quot;$(OutDir)&quot; /Y"/>
+xcopy &quot;$(FMODEXDIR)\api\fmodex.dll&quot;  &quot;$(OutDir)&quot; /Y
+"/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
 			<Tool
@@ -230,7 +232,7 @@ xcopy &quot;$(FMODEXDIR)\api\fmodex.dll&quot;  &quot;$(OutDir)&quot; /Y"/>
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="1"
-				GlobalOptimizations="TRUE"
+				GlobalOptimizations="FALSE"
 				InlineFunctionExpansion="2"
 				EnableIntrinsicFunctions="TRUE"
 				FavorSizeOrSpeed="2"
@@ -280,7 +282,8 @@ xcopy &quot;$(FMODEXDIR)\api\fmodex.dll&quot;  &quot;$(OutDir)&quot; /Y"/>
 			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="xcopy &quot;$(InputDir)\_Release\MMShellHook.dll&quot; &quot;$(OutDir)&quot; /Y
-xcopy &quot;$(FMODEXDIR)\api\fmodex.dll&quot;  &quot;$(OutDir)&quot; /Y"/>
+xcopy &quot;$(FMODEXDIR)\api\fmodex.dll&quot;  &quot;$(OutDir)&quot; /Y
+"/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
 			<Tool

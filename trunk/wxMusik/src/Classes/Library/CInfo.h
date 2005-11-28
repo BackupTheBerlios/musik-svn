@@ -8,6 +8,7 @@
 class CInfoRead
 {
 public:
+	virtual ~CInfoRead(){}
 	virtual bool ReadMetaData(CSongMetaData & MetaData) const =0;
 protected:
 
@@ -16,6 +17,7 @@ private:
 class CInfoWrite
 {
 public:
+	virtual ~CInfoWrite(){}
 	virtual bool WriteMetaData(const CSongMetaData & MetaData,bool bClearAll = false)=0;
 protected:
 

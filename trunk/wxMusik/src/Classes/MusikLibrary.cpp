@@ -1015,7 +1015,9 @@ void CMusikLibrary::RecordSongHistory( const MusikSongId & songid ,int playedtim
 	{
 		bool bSelectedByUser = songid.bChosenByUser == 1;
 		int nDuration_ms = songid.Song()->MetaData.nDuration_ms;
-		int percentplayed = playedtime * 100 / (nDuration_ms ? nDuration_ms : playedtime); // be safe against integer division by zero
+		int percentplayed = playedtime ? 
+                                (playedtime * 100 / (nDuration_ms ? nDuration_ms : playedtime))
+                                :0; // be safe against integer division by zero
 		wxCriticalSectionLocker lock( m_csDBAccess );
 		sqlite_exec_printf( m_pDB, "insert into songhistory values ( %d, julianday('now'),%d,%d );",
 			NULL, NULL, NULL,songid.Id() ,percentplayed ,bSelectedByUser);

@@ -602,7 +602,7 @@ void MusikLibraryDialog::EnableProgress( bool enable )
 	}	
 	Layout();
 #ifndef __WXGTK__	
-    wxYield();
+     wxYieldIfNeeded();
 #endif    
 }
 

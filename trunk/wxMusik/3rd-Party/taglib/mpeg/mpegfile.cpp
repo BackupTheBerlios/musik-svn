@@ -453,14 +453,14 @@ long MPEG::File::nextFrameOffset(long position)
     uint i = 0;
     for(; i < buffer.size() - 1; i++) {
       firstByte = buffer[i];
-	  if( (firstByte == (char)0xff) && secondSynchByte(buffer[i + 1]))
-    	return position + i;
+      if( (firstByte == (char)0xff) && secondSynchByte(buffer[i + 1]))
+        return position + i;
     }
     firstByte = buffer[i];
-	buffer = readBlock(bufferSize());
+    buffer = readBlock(bufferSize());
     if( (buffer.size() > 0) && (firstByte == (char)0xff) && secondSynchByte(buffer[0]))
         return position + i;
-    position += bufferSize();
+    position += buffer.size();
   }
 
   return -1;

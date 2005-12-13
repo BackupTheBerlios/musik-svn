@@ -550,8 +550,8 @@ void MusikApp::OnFatalException ()
         {
 #ifdef USE_WXEMAIL
             wxMailMessage mail(GetAppName() +  _T(" Crash-Report"),_T("gunnar67@users.berlios.de"),
-                MUSIKAPPNAME_VERSION wxT("crashed."),
-                wxEmptyString,report.GetCompressedFileName(),_T("CrashReportZip"));
+                GetAppName() + wxT(" ")+ MUSIK_VERSION_STR wxT(" crashed."),
+                wxEmptyString,report.GetCompressedFileName(),_T("CrashReport.zip"));
             if(!wxEmail::Send(mail))
                 wxMessageBox(_T("Sending email failed!"));
 #endif                

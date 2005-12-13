@@ -38,6 +38,12 @@ public:
     bitrate(0),
     sampleRate(0),
     channels(0),
+    version(Header::Version1),
+    layer(0),
+    protectionEnabled(false),
+    channelMode(Header::Stereo),
+    isCopyrighted(false),
+    isOriginal(false),
     isVbr(false){}
 
   File *file;
@@ -48,6 +54,7 @@ public:
   int channels;
   Header::Version version;
   int layer;
+  bool protectionEnabled;
   Header::ChannelMode channelMode;
   bool isCopyrighted;
   bool isOriginal;
@@ -99,6 +106,11 @@ MPEG::Header::Version MPEG::Properties::version() const
 int MPEG::Properties::layer() const
 {
   return d->layer;
+}
+
+bool MPEG::Properties::protectionEnabled() const
+{
+  return d->protectionEnabled;
 }
 
 MPEG::Header::ChannelMode MPEG::Properties::channelMode() const
@@ -262,6 +274,7 @@ void MPEG::Properties::read()
   d->channels = firstHeader.channelMode() == Header::SingleChannel ? 1 : 2;
   d->version = firstHeader.version();
   d->layer = firstHeader.layer();
+  d->protectionEnabled = firstHeader.protectionEnabled();
   d->channelMode = firstHeader.channelMode();
   d->isCopyrighted = firstHeader.isCopyrighted();
   d->isOriginal = firstHeader.isOriginal();

@@ -48,28 +48,28 @@ public:
     {
         return GetCount() ? m_nCurIndex : 0;
     }
-    void IncrCurrentIndex() 
+    void IncrCurrentIndex(size_t i = 1) 
     {
-        if(m_nCurIndex < GetCount() - 1)
-            m_nCurIndex++;
+        if(m_nCurIndex < GetCount() - i)
+            m_nCurIndex += i;
     }
-    void DecrCurrentIndex() 
+    void DecrCurrentIndex(size_t i = 1) 
     {
-        if(m_nCurIndex > 0)
-            m_nCurIndex--;
+        if(m_nCurIndex > i - 1)
+            m_nCurIndex -= i;
     }
 
     void Insert(const MusikSongId& lItem,  size_t uiIndex, size_t nInsert = 1)
     {
         if(uiIndex <= m_nCurIndex)
-            m_nCurIndex += nInsert;
+            IncrCurrentIndex(nInsert);
         MusikSongIdArrayBase::Insert(lItem,uiIndex,nInsert);
 
     }
     void Insert(const MusikSongId * pItem, size_t uiIndex)
     {
         if(uiIndex <= m_nCurIndex) 
-            m_nCurIndex ++;
+            IncrCurrentIndex();
         MusikSongIdArrayBase::Insert(pItem,uiIndex);
     }
     void Empty() { m_nCurIndex = 0;  MusikSongIdArrayBase::Empty(); }
@@ -77,21 +77,16 @@ public:
     MusikSongId* Detach(size_t uiIndex)
     {
         if(uiIndex < m_nCurIndex) 
-            m_nCurIndex --;
-        else if (uiIndex < m_nCurIndex)
-            m_nCurIndex = 0; 
+            DecrCurrentIndex();
         return MusikSongIdArrayBase::Detach(uiIndex);
     }
     void RemoveAt(size_t uiIndex, size_t nRemove = 1)
     {
         if(uiIndex < m_nCurIndex)
             if(uiIndex + nRemove - 1 < m_nCurIndex)
-                m_nCurIndex -= nRemove;
+                DecrCurrentIndex(nRemove);
             else
-                m_nCurIndex = uiIndex;
-        else if (uiIndex < m_nCurIndex)
-            m_nCurIndex = 0;
-
+                DecrCurrentIndex(uiIndex);
         return MusikSongIdArrayBase::RemoveAt(uiIndex,nRemove);
     }
 	wxLongLong GetTotalFileSize() const;

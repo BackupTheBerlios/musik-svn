@@ -681,7 +681,7 @@ void CPlaylistCtrl::OnKeyDown( wxKeyEvent& event )
 			case WXK_DELETE:
 			case WXK_BACK:
 				DelSelSongs(true);// delete songs from db
-				break;
+				return;
 			default:
 				event.Skip();
 				return;
@@ -699,28 +699,29 @@ void CPlaylistCtrl::OnKeyDown( wxKeyEvent& event )
                     OnRenameFiles(dummy);
                 else
                     OnRebuildTag(dummy);
-                break;
+                return;
             case 'T':
-                OnRetagFiles(dummy);                        
+                OnRetagFiles(dummy);
+                return;
             case 'D':	//--- d / D ---//
                 SelectNone( );
-                break;
+                return;
             case WXK_DELETE:
             case WXK_BACK:
                 DelSelSongs(true,true);// delete from db and computer
-                break;
+                return;
             default:
                 break;
             }
         }
         switch( nKeyCode )
-		{
-		case 'A':	//--- a / A ---//
-			SelectAll( );
-			break;
-		default:
-			event.Skip();
-			return;
+        {
+        case 'A':	//--- a / A ---//
+            SelectAll( );
+            return;
+        default:
+            event.Skip();
+            return;
 		}
 	}
 	else 
@@ -784,10 +785,10 @@ void CPlaylistCtrl::OnKeyDown( wxKeyEvent& event )
                 wxCommandEvent dummy;
                 OnClearPlayerlist( dummy );
             }
-            break;
+            return;
        default:
             event.Skip();
-            break;
+            return;
         }
         return;
 	}

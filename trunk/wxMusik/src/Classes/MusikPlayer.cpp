@@ -188,14 +188,22 @@ void CMusikPlayer::Shutdown( bool bClose )
 }
 bool CMusikPlayer::InitializeSndEngine( )
 {
-	if ( m_SndEngine.IsValid())
-		Shutdown( false );
-    if(m_SndEngine.Init(wxGetApp().Prefs.nSndOutput,wxGetApp().Prefs.nSndDevice,wxGetApp().Prefs.nSndRate,wxGetApp().Prefs.nSndMaxChan) == MUSIKEngine::errSuccess)
+    if ( m_SndEngine.IsValid())
+        Shutdown( false );
+    if(m_SndEngine.Init(wxGetApp().Prefs.nSndOutput,wxGetApp().Prefs.nSndDevice,wxGetApp().Prefs.nSndRate,wxGetApp().Prefs.nSndMaxChan) != MUSIKEngine::errSuccess)
     {
-        m_SndEngine.SetBufferMs(wxGetApp().Prefs.nSndBuffer);
-        return true;
+        // init failed ,try with a sndrate of 41000 hz ( this solves problems with alsa.)
+        int nOldSndRate = wxGetApp().Prefs.nSndRate;
+        wxGetApp().Prefs.nSndRate = 44100;
+        if(m_SndEngine.Init(wxGetApp().Prefs.nSndOutput,wxGetApp().Prefs.nSndDevice,wxGetApp().Prefs.nSndRate,wxGetApp().Prefs.nSndMaxChan) != MUSIKEngine::errSuccess)
+        {
+            wxGetApp().Prefs.nSndRate = nOldSndRate; // the sndrate is probably not the problem
+            return false;
+        }
+        wxMessageBox( _("Initialization of FMOD sound system succeeded using a sound rate of 44100 hz."), MUSIKAPPNAME_VERSION, wxOK | wxICON_ERROR );
     }
-    return false;    
+    m_SndEngine.SetBufferMs(wxGetApp().Prefs.nSndBuffer);
+    return true;
 }
 void CMusikPlayer::Init_NetBuffer( )
 {

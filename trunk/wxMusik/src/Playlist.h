@@ -70,7 +70,7 @@ public:
     {
         if(uiIndex <= m_nCurIndex) 
             m_nCurIndex ++;
-         MusikSongIdArrayBase::Insert(pItem,uiIndex);
+        MusikSongIdArrayBase::Insert(pItem,uiIndex);
     }
     void Empty() { m_nCurIndex = 0;  MusikSongIdArrayBase::Empty(); }
     void Clear() { m_nCurIndex = 0;  MusikSongIdArrayBase::Clear(); }
@@ -78,6 +78,8 @@ public:
     {
         if(uiIndex < m_nCurIndex) 
             m_nCurIndex --;
+        else if (uiIndex < m_nCurIndex)
+            m_nCurIndex = 0; 
         return MusikSongIdArrayBase::Detach(uiIndex);
     }
     void RemoveAt(size_t uiIndex, size_t nRemove = 1)
@@ -87,6 +89,9 @@ public:
                 m_nCurIndex -= nRemove;
             else
                 m_nCurIndex = uiIndex;
+        else if (uiIndex < m_nCurIndex)
+            m_nCurIndex = 0;
+
         return MusikSongIdArrayBase::RemoveAt(uiIndex,nRemove);
     }
 	wxLongLong GetTotalFileSize() const;

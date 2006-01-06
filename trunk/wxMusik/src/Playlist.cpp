@@ -15,13 +15,28 @@ int MusikSongIdArray::MoveEntrys(int nMoveTo ,const wxArrayInt &arrToMove)
     {
         if(nMoveTo > arrToMove[i])
             break;
-        Insert(Detach(arrToMove[i] + ( arrToMove.GetCount() - 1 - i)),nMoveTo);
-    }
+        size_t nMoveFrom = arrToMove[i] + ( arrToMove.GetCount() - 1 - i);
+        if(CurrentIndex() ==  nMoveFrom)
+        {
+            Insert(Detach(nMoveFrom),nMoveTo);
+            CurrentIndex(nMoveTo);
+        }
+        else
+            Insert(Detach(nMoveFrom),nMoveTo);
+    }       
     nNewMoveToPos -= i + 1;
     // now move all entries which are left from nMoveTo
     for(int j = i; j >= 0; j--)
     {
-        Insert(Detach(arrToMove[j]),nMoveTo - (i - j)-1);
+        size_t nMoveFrom = arrToMove[j];
+        size_t nRealMoveTo = nMoveTo - (i - j)-1;
+        if(CurrentIndex() ==  nMoveFrom)
+        {
+            Insert(Detach(nMoveFrom),nRealMoveTo);
+            CurrentIndex(nRealMoveTo);
+        }
+        else
+            Insert(Detach(nMoveFrom),nRealMoveTo);
     }
     return nNewMoveToPos;
 }

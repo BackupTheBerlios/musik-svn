@@ -624,9 +624,9 @@ void MusikLibraryDialog::TranslateKeys( wxKeyEvent& event )
 //-----------------------------------------------------------//
 void MusikLibraryDialog::OnThreadStart( wxCommandEvent& event )
 {
+    SetProgress		( 0 );
+    SetProgressType	( event.GetExtraLong() );
 	EnableProgress( true );
-	SetProgress		( 0 );
-	SetProgressType	( event.GetExtraLong() );
 
 	m_StopWatch.Start();
 }

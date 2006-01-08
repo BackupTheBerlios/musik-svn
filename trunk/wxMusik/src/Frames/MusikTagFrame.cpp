@@ -373,7 +373,7 @@ void MusikTagFrame::SetChecks( const int i )
 
 void MusikTagFrame::PopulateTagDlg()
 {
-    std::auto_ptr<CMusikSong> pSong = m_Songs.Item( nIndex ).Song();
+    CMusikSong * pSong = &m_Songs.Item( nIndex ).SongCopy();
 	//--- filename ---//
 	tcFilename->SetValue( pSong->MetaData.Filename.GetFullPath() );
 

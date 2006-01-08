@@ -209,6 +209,21 @@ public:
 		{
 			return (m_szData == NULL) ? 0 : strlen(m_szData);
 		}
+        bool Trim(char c = ' ')
+        {
+            size_t len = Length();
+            if(len == 0)
+                return false;
+            char *p = const_cast<char *>(m_szData) + len -1;
+            while (p >= m_szData && (*p == c))
+                --p;
+            if(*(p + 1) == c)
+            {
+                *(p + 1) = 0;
+                return true;
+            }
+            return false;
+        }
 		~StringData()
 		{
 			Empty();

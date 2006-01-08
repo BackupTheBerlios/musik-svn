@@ -160,6 +160,12 @@ CMetaDataHandler::RetCode CMetaDataHandler::GetMetaData( CSongMetaData & MetaDat
         ::wxLogWarning(_("An exception (%s) occurred while reading tag of %s."),ConvA2W(e.what()).c_str(),MetaData.Filename.GetFullPath().c_str());
         rc = fail;
     }
+
+    MetaData.Title.Trim();
+    MetaData.Artist.Trim();
+    MetaData.Album.Trim();
+    MetaData.Genre.Trim();
+
 	if (wxGetApp().Prefs.bAllowTagGuessing && MetaData.Title.Length() == 0 )
 	{
 		dummyinfo.ReadMetaData(MetaData);

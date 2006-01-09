@@ -204,6 +204,16 @@ void CActivityAreaCtrl::UpdateSel( CActivityBox *pSelectedBox ,bool bForceShowAl
 		if ( pSelectedBox == m_ActivityBox[i] )
 		{	
 			size_t k = 0;
+                        if ( wxGetApp().Prefs.eSelStyle == MUSIK_SELECTION_TYPE_NORMAL )
+                        {
+                                for(size_t j = i+1 ; j < ActivityBoxesMaxCount; j++)
+                                {
+                                        pOtherBoxes[k] = m_ActivityBox[j];
+                                        k++;
+                                }
+                        }
+                        else
+                        {
 			// assign not selected boxes to pOtherBoxes array
 			for(size_t j = 0 ; j < WXSIZEOF(pOtherBoxes);j++)
 			{
@@ -215,6 +225,7 @@ void CActivityAreaCtrl::UpdateSel( CActivityBox *pSelectedBox ,bool bForceShowAl
 					k = 0;
 				pOtherBoxes[j] = m_ActivityBox[k++];
 			}
+                        }
 			break;
 		}
 	}
@@ -226,12 +237,12 @@ void CActivityAreaCtrl::UpdateSel( CActivityBox *pSelectedBox ,bool bForceShowAl
 	//--- parent and which are children, if there	---//
 	//--- is no parent already.						---//
 	//-------------------------------------------------//
-	if ( wxGetApp().Prefs.eSelStyle == MUSIK_SELECTION_TYPE_STANDARD )
+	if ( wxGetApp().Prefs.eSelStyle == MUSIK_SELECTION_TYPE_STANDARD || wxGetApp().Prefs.eSelStyle == MUSIK_SELECTION_TYPE_NORMAL )
 	{
 		if(GetParentBox() == NULL)
 			SetParent( pSelectedBox , false );
 	}
-    if ( wxGetApp().Prefs.eSelStyle == MUSIK_SELECTION_TYPE_STANDARD || wxGetApp().Prefs.eSelStyle == MUSIK_SELECTION_TYPE_SLOPPY )
+    if ( wxGetApp().Prefs.eSelStyle == MUSIK_SELECTION_TYPE_STANDARD || wxGetApp().Prefs.eSelStyle == MUSIK_SELECTION_TYPE_SLOPPY || wxGetApp().Prefs.eSelStyle == MUSIK_SELECTION_TYPE_NORMAL )
     {
 	    //---------------------------------------------------//
 	    //--- if we're hiding unselected entries          ---//
@@ -276,6 +287,7 @@ void CActivityAreaCtrl::UpdateSel( CActivityBox *pSelectedBox ,bool bForceShowAl
             }
 		    wxArrayString temp_list;
 		    if ( ( wxGetApp().Prefs.eSelStyle == MUSIK_SELECTION_TYPE_STANDARD && GetParentBox() == pSelectedBox ) 
+                || wxGetApp().Prefs.eSelStyle == MUSIK_SELECTION_TYPE_NORMAL
                 || wxGetApp().Prefs.eSelStyle == MUSIK_SELECTION_TYPE_SLOPPY )
 		    {
 			    for(size_t j = 0 ; j < WXSIZEOF(pOtherBoxes);j++)

@@ -73,7 +73,7 @@ public:
 	void Init_NetBuffer	( );
 	void Init_ProxyServer	( );
 
-	void Shutdown			( bool bClose = true );
+	void Shutdown			( bool bClose = true ,bool bNoFade = false);
 	void ClearOldStreams	( bool bClearAll = false );
 	void SetFrequency		( int freq );
 	void InitDSP			( );

@@ -170,7 +170,7 @@ CMusikPlayer::~CMusikPlayer()
 	//---------------------------------------------------------//
 }
 
-void CMusikPlayer::Shutdown( bool bClose )
+void CMusikPlayer::Shutdown( bool bClose,bool bNoFade)
 {
 	if ( bClose )
     {
@@ -182,14 +182,14 @@ void CMusikPlayer::Shutdown( bool bClose )
         Stop( true, true );
     }
 	else
-		Stop();
+		Stop(!bNoFade);
 
 	g_FX.EndEQ();
 }
 bool CMusikPlayer::InitializeSndEngine( )
 {
     if ( m_SndEngine.IsValid())
-        Shutdown( false );
+        Shutdown( false ,true);
     if(m_SndEngine.Init(wxGetApp().Prefs.nSndOutput,wxGetApp().Prefs.nSndDevice,wxGetApp().Prefs.nSndRate,wxGetApp().Prefs.nSndMaxChan) != MUSIKEngine::errSuccess)
     {
         // init failed ,try with a sndrate of 41000 hz ( this solves problems with alsa.)

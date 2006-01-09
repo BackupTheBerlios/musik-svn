@@ -110,8 +110,9 @@ bool CMusikLibrary::Load()
 			"CREATE INDEX songs_artist_idx on songs (artist);"
 			"CREATE INDEX songs_album_idx on songs (album);"
 			"CREATE INDEX songs_genre_idx on songs (genre);"
-			"CREATE INDEX songs_tracknum_idx on songs (tracknum);"
-			"CREATE INDEX songs_artist_album_tracknum_idx on songs (artist,album,tracknum);"
+            "CREATE INDEX songs_year_idx on songs (year);"
+//			"CREATE INDEX songs_tracknum_idx on songs (tracknum);"
+//			"CREATE INDEX songs_artist_album_tracknum_idx on songs (artist,album,tracknum);"
 			"CREATE INDEX songs_timeadded_idx on songs (timeadded);"
 			"CREATE INDEX songs_lastplayed_idx on songs (lastplayed);"
 			;
@@ -133,7 +134,9 @@ bool CMusikLibrary::Load()
 
 	if( m_pDB )
 	{
-
+#ifdef __WXMSW__
+        sqlite_exec( m_pDB, "PRAGMA page_size=4096;", NULL, NULL, NULL );
+#endif
 		// always create table, if it exists an error will be returned by sqlite_exec, but we dont care.
 		sqlite_exec( m_pDB, szCreateVersionQuery, NULL, NULL, NULL );
 		sqlite_exec( m_pDB, szCreateSongTableQuery, NULL, NULL, NULL );

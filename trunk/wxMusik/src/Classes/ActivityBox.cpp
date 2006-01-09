@@ -308,7 +308,7 @@ wxString CActivityListBox::OnGetItemText(long item, long column) const
 }
 bool CActivityListBox::HasShowAllRow() const 
 { 
-	return (wxGetApp().Prefs.eSelStyle == MUSIK_SELECTION_TYPE_STANDARD || wxGetApp().Prefs.eSelStyle == MUSIK_SELECTION_TYPE_SLOPPY);
+	return (wxGetApp().Prefs.eSelStyle == MUSIK_SELECTION_TYPE_STANDARD || wxGetApp().Prefs.eSelStyle == MUSIK_SELECTION_TYPE_SLOPPY || wxGetApp().Prefs.eSelStyle == MUSIK_SELECTION_TYPE_NORMAL );
 }
 wxString CActivityListBox::GetRowText( long row, bool bPure ) const
 {
@@ -676,7 +676,7 @@ void CActivityBox::GetSelectedSongs( MusikSongIdArray& array )
 	//--- only the correct, selected artist's album songs	---//
 	//--- get displayed										---//
 	//---------------------------------------------------------//
-	else if ( wxGetApp().Prefs.eSelStyle == MUSIK_SELECTION_TYPE_STANDARD || wxGetApp().Prefs.eSelStyle == MUSIK_SELECTION_TYPE_SLOPPY )
+	else if ( wxGetApp().Prefs.eSelStyle == MUSIK_SELECTION_TYPE_STANDARD || wxGetApp().Prefs.eSelStyle == MUSIK_SELECTION_TYPE_SLOPPY || wxGetApp().Prefs.eSelStyle == MUSIK_SELECTION_TYPE_NORMAL )
 	{
 		CActivityBox *pParentBox = g_ActivityAreaCtrl->GetParentBox();
 		if ( pParentBox != NULL )

@@ -64,6 +64,7 @@ wxSizer * OptionSelectionsPanel::CreateControls()
     cmbSelStyle->Append( _( "Standard" ) );
     cmbSelStyle->Append( _( "Sloppy" ) );
     cmbSelStyle->Append( _( "Highlight") );
+    cmbSelStyle->Append( _( "Normal") );
 
     vsOptions_Selections->Add( PREF_STATICTEXT(_("Selection Style:" )),		0, wxCENTER | wxRIGHT | wxALIGN_CENTER_VERTICAL, 0 );
     vsOptions_Selections->Add( cmbSelStyle,		1, wxCENTER, 0 );

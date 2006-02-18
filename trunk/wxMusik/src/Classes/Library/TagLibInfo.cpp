@@ -75,11 +75,19 @@ bool CTagLibInfo::ReadMetaData(CSongMetaData & MetaData) const
 #endif
         if(infomp3.file == NULL)
             return false;
-        get_mp3_info(&infomp3,SCAN_QUICK,1);
+        get_mp3_info(&infomp3,SCAN_QUICK,0);
         MetaData.nFilesize = infomp3.datasize;
         MetaData.nDuration_ms = infomp3.seconds * 1000;
         MetaData.nBitrate = (int)infomp3.vbr_average;
         MetaData.bVBR = infomp3.vbr > 0 ? true:false;
+        if( infomp3.vbr && infomp3.vbr_average < 100)
+        {
+            // vbr_average seems to low ,make full scan.
+            get_mp3_info(&infomp3,SCAN_QUICK,1);
+            MetaData.nFilesize = infomp3.datasize;
+            MetaData.nDuration_ms = infomp3.seconds * 1000;
+            MetaData.nBitrate = (int)infomp3.vbr_average;
+        }
         fclose(infomp3.file);
     }
 	return true;

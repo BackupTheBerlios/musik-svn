@@ -832,6 +832,12 @@ xcopy &quot;$(FMODEXDIR)\api\fmodex.dll&quot;  &quot;$(OutDir)&quot; /Y
 					RelativePath=".\src\Classes\Library\mp3tech.h">
 				</File>
 				<File
+					RelativePath=".\src\Classes\MusikDb.cpp">
+				</File>
+				<File
+					RelativePath=".\src\Classes\MusikDb.h">
+				</File>
+				<File
 					RelativePath=".\src\Classes\MusikLibrary.cpp">
 				</File>
 				<File

@@ -98,7 +98,7 @@ ENDIF(WIN32)
 ADD_EXECUTABLE(wxMusik ${WIN32_EXECUTABLE} ${MAIN_SRCS})
 
 TARGET_LINK_LIBRARIES(wxMusik
-        FMODExEngine
+        ${MUSIK_ENGINE}
         MUSIKEngine
         ${WXWINDOWS_LIBRARY}
         ${SQLITE_LIBRARY}
@@ -130,7 +130,7 @@ TARGET_LINK_LIBRARIES(wxMusik
     ADD_EXECUTABLE(wxMusik.app/Contents/MacOS/wxMusik  ${MAIN_SRCS})
 
     TARGET_LINK_LIBRARIES(wxMusik.app/Contents/MacOS/wxMusik
-        FMODEngine
+        ${MUSIK_ENGINE}
         MUSIKEngine
         ${WXWINDOWS_LIBRARY}
         ${SQLITE_LIBRARY}

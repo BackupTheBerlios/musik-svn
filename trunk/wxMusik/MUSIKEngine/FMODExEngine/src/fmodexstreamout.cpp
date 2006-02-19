@@ -223,7 +223,7 @@ int64_t FMODExStreamOut::GetFilesize()
 {
     unsigned int nLength = 0;
     if(m_pSound)
-        m_pSound->getLength(&nLength,FMOD_TIMEUNIT_PCM);
+        m_pSound->getLength(&nLength,FMOD_TIMEUNIT_RAWBYTES);
     return (int64_t)nLength;
 }
 const char * FMODExStreamOut::Type()

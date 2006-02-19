@@ -39,18 +39,19 @@ public:
 		OpenMode_MPEGACCURATE = 1
 	};
 	FMODEngine();
-    MUSIKEngine::Error Init(int idOutput = -1 ,int idDevice = -1,int nMixRate = 44100,int nMaxChannels = 4,int nSndBufferMs = 400);
-    virtual Error SetProxy(const char * s);
+    virtual Error Init(int idOutput = -1 ,int idDevice = -1,int nMixRate = 48000,int nMaxChannels = 4);
+    virtual Error SetNetworkProxy(const char * s);
     virtual Error SetNetBuffer(int nBufferSize,int nPreBufferPercent,int nReBufferPercent);
-    virtual Error EnumDevices(IEnumNames * pen);
-    virtual Error EnumOutputs(IEnumNames * pen);
-    virtual Error EnumFrequencies(IEnumNames * pen);
+    virtual Error EnumDevices(IEnumNames * pen) const;
+    virtual Error EnumOutputs(IEnumNames * pen) const;
+    virtual Error EnumFrequencies(IEnumNames * pen) const;
 
 	void SetOpenMode(FMODEngine::eOpenMode m){m_OpenMode = m;}
+    eOpenMode GetOpenMode() const {return m_OpenMode;}
 	virtual void SetVolume(float v);
 	virtual float GetVolume();
 	virtual bool SetPlayState( MUSIKEngine::PlayState state);
-    virtual const char * Version();
+    virtual const char * Version() const;
     virtual bool IsValid() {return m_bValid;}
 	static char *ErrorString();
 	~FMODEngine();
@@ -69,6 +70,7 @@ private:
 #else
 #pragma comment(lib,"fmodengine")
 #endif
+#pragma comment(lib,"fmodvc")
 #endif //__VISUALC__
 #endif
 

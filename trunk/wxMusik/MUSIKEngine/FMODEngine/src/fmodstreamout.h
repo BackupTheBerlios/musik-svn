@@ -22,15 +22,15 @@
 #ifndef FMODSTREAMOUT_H
 #define FMODSTREAMOUT_H
 
-#include <fmod.hpp>
+#include <fmod.h>
 #include "MUSIKEngine/inc/imusikstreamout.h"
-#include "MUSIKEngine/FMODEngine/inc/fmodexengine.h"
+#include "MUSIKEngine/FMODEngine/inc/fmodengine.h"
 class MUSIKStream;
 
 class FMODStreamOut	 : public IMUSIKStreamOutDefault
 {
 public:
-	FMODStreamOut(FMODEngine::eOpenMode m);
+	FMODStreamOut(FMODEngine & e);
 	~FMODStreamOut();
 	virtual bool Start();
 	virtual void SetVolume(float v);// range is 0.0 to 1.0
@@ -41,10 +41,14 @@ public:
 
 	virtual bool Open(const char *FileName);
 	virtual bool CanSeek(); 
-	virtual bool SetTime( int nTimeMS);
-	virtual int GetTime();
-	virtual int GetLengthMs();
-	virtual int GetLength();
+    virtual bool SetSamplePos( int64_t samplepos);
+	virtual bool SetTime( int64_t nTimeMS);
+    virtual int64_t GetSamplePos();
+	virtual int64_t GetTime();
+	virtual int64_t GetLengthMs();
+	virtual int64_t GetSampleCount();
+    virtual int64_t GetFilesize();
+
 	virtual const char * Type();
     virtual MUSIKEngine::Error GetOpenStatus(MUSIKEngine::OpenStatus *pStatus);
     virtual MUSIKEngine::Error SetMetadataCallback(IMUSIKStreamOutDefault::IMetadataCallback *pCb);
@@ -61,7 +65,7 @@ private:
 	FSOUND_STREAM *StreamPointer;
 	int FMODChannel;
 	bool bNetStream;
-	FMODEngine::eOpenMode m_OpenMode;
+    FMODEngine & m_Engine;
 };
 
 #endif

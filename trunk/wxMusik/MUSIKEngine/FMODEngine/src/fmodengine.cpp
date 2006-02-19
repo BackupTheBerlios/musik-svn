@@ -19,24 +19,21 @@
 //WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
 //OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#include "MUSIKEngine/FMODExEngine/inc/fmodengine.h"
+#include "MUSIKEngine/FMODEngine/inc/fmodengine.h"
 #include "MUSIKEngine/MUSIKEngine/inc/defaultdecoder.h"
 #include "fmodstreamout.h"
 #include <fmod.h>
 #include <fmod_errors.h>
 #include <stdio.h>
 
-#ifdef __VISUALC__
-#pragma comment(lib,"fmodvc")
-#endif
-FMODExEngine::FMODExEngine()
+FMODEngine::FMODEngine()
 {
     m_OpenMode = OpenMode_Default;
     _snprintf(m_szVersion,sizeof(m_szVersion)/sizeof(m_szVersion[0]) - 1,"%.2f",FSOUND_GetVersion());
     m_bValid = false;
 }
 
-MUSIKEngine::Error FMODExEngine::_Init(int idOutput ,int idDevice,int nMixRate,int nMaxChannels,int nSndBufferMs)
+MUSIKEngine::Error FMODEngine::_Init(int idOutput ,int idDevice,int nMixRate,int nMaxChannels,int nSndBufferMs)
 {
     //-----------------//
     //--- windows	---//
@@ -101,15 +98,16 @@ MUSIKEngine::Error FMODExEngine::_Init(int idOutput ,int idDevice,int nMixRate,i
     FSOUND_Stream_SetBufferSize( nSndBufferMs );
     return errSuccess;
 }
-MUSIKEngine::Error FMODExEngine::Init(int idOutput ,int idDevice ,int nMixRate ,int nMaxChannels,int nSndBufferMs )
+MUSIKEngine::Error FMODEngine::Init(int idOutput ,int idDevice ,int nMixRate ,int nMaxChannels)
 {
     if(m_bValid)
         FSOUND_Close();
+    int nSndBufferMs = 400;
     Error e = _Init(idOutput,idDevice,nMixRate,nMaxChannels,nSndBufferMs);
     m_bValid = (e == errSuccess);
     return e;
 }
-MUSIKEngine::Error FMODExEngine::EnumDevices(MUSIKEngine::IEnumNames * pen)
+MUSIKEngine::Error FMODEngine::EnumDevices(MUSIKEngine::IEnumNames * pen) const
 {
     if(!m_bValid)
         return errUnknown;
@@ -119,7 +117,7 @@ MUSIKEngine::Error FMODExEngine::EnumDevices(MUSIKEngine::IEnumNames * pen)
     }
     return errSuccess;
 }
-MUSIKEngine::Error FMODExEngine::EnumOutputs(IEnumNames * pen)
+MUSIKEngine::Error FMODEngine::EnumOutputs(IEnumNames * pen) const
 {
     if(!m_bValid)
         return errUnknown;
@@ -147,7 +145,7 @@ MUSIKEngine::Error FMODExEngine::EnumOutputs(IEnumNames * pen)
 
 }
 
-MUSIKEngine::Error FMODExEngine::EnumFrequencies(IEnumNames * pen)
+MUSIKEngine::Error FMODEngine::EnumFrequencies(IEnumNames * pen) const
 {
     static const char * szData[] =
     {
@@ -165,41 +163,41 @@ MUSIKEngine::Error FMODExEngine::EnumFrequencies(IEnumNames * pen)
 
 }
 
-MUSIKEngine::Error FMODExEngine::SetProxy(const char * s)
+MUSIKEngine::Error FMODEngine::SetNetworkProxy(const char * s)
 {
   return FSOUND_Stream_Net_SetProxy(s)? errSuccess:errUnknown;
 }
 
-MUSIKEngine::Error FMODExEngine::SetNetBuffer(int nBufferSize,int nPreBufferPercent,int nReBufferPercent)
+MUSIKEngine::Error FMODEngine::SetNetBuffer(int nBufferSize,int nPreBufferPercent,int nReBufferPercent)
 {
     return FSOUND_Stream_Net_SetBufferProperties(nBufferSize , nPreBufferPercent, nReBufferPercent) ? errSuccess:errUnknown;
 }
 
-IMUSIKStreamOut *FMODExEngine::CreateStreamOut()
+IMUSIKStreamOut *FMODEngine::CreateStreamOut()
 {
-  return new FMODExStreamOut(m_OpenMode);
+  return new FMODStreamOut(*this);
 }
-MUSIKDefaultDecoder *FMODExEngine::CreateDefaultDecoder()
+MUSIKDefaultDecoder *FMODEngine::CreateDefaultDecoder()
 {
-	return  new	MUSIKDefaultDecoder(new FMODExStreamOut(m_OpenMode));
+	return  new	MUSIKDefaultDecoder(new FMODStreamOut(*this));
 }
-char *FMODExEngine::ErrorString()
+char *FMODEngine::ErrorString()
 {
     int errcode = FSOUND_GetError();
 	return FMOD_ErrorString(errcode);
 }
 
-void FMODExEngine::SetVolume(float v)
+void FMODEngine::SetVolume(float v)
 { 
     FSOUND_SetSFXMasterVolume((int) (v * 255.0)); 
 }
 
-float FMODExEngine::GetVolume()
+float FMODEngine::GetVolume()
 { 
     return (float)(((double)FSOUND_GetSFXMasterVolume()+0.5)/255.0); 
 }
 
-bool FMODExEngine::SetPlayState( MUSIKEngine::PlayState state)
+bool FMODEngine::SetPlayState( MUSIKEngine::PlayState state)
 {
 	switch (state )
 	{
@@ -215,12 +213,12 @@ bool FMODExEngine::SetPlayState( MUSIKEngine::PlayState state)
 	return false;
 }
 
-const char * FMODExEngine::Version()
+const char * FMODEngine::Version() const
 {
     return m_szVersion;
 }
 
-FMODExEngine::~FMODExEngine(void)
+FMODEngine::~FMODEngine(void)
 {	
     if(m_bValid)
 	    FSOUND_Close();

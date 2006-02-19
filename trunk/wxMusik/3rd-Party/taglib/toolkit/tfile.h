@@ -49,7 +49,11 @@ namespace TagLib {
 	  }
 	  operator const TCHAR *()	const 
 	  {
-		  return filename;
+#ifdef _WIN32
+          return filename ? filename : _T("");
+#else
+          return filename ? filename : "";
+#endif
 	  }
 	  Filename(const Filename & rhs)
 	  {
@@ -68,6 +72,8 @@ namespace TagLib {
 	  TCHAR * filename;
 	  TCHAR * strdup(const TCHAR *  s)
 	  {
+          if(s == NULL)
+              return NULL;
 #ifdef _WIN32
 		  return ::_tcsdup(s);
 #else

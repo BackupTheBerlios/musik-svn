@@ -30,8 +30,9 @@ signed char F_CALLBACKAPI FMODStreamOut::StreamCallback(FSOUND_STREAM *stream, v
 	return pThis->FillBuffer((unsigned char*)buff,len);
 }
 
-FMODStreamOut::FMODStreamOut(FMODEngine::eOpenMode m)
-:m_OpenMode(m)
+FMODStreamOut::FMODStreamOut(FMODEngine & e)
+:IMUSIKStreamOutDefault(e)
+,m_Engine(e)
 {
     
 	StreamPointer = NULL;
@@ -110,7 +111,8 @@ bool FMODStreamOut::Open(const char *FileName)
 {
 	static const char * szhttp = "http://";
 	bNetStream = (strncmp(FileName,szhttp,strlen(szhttp)) == 0);
-	int nFlags = FMOD_STREAM_FORMAT_FLAGS|(m_OpenMode == FMODEngine::OpenMode_MPEGACCURATE ? FSOUND_MPEGACCURATE:0);
+    FMODEngine::eOpenMode openmode = m_Engine.GetOpenMode();
+	int nFlags = FMOD_STREAM_FORMAT_FLAGS|(openmode == FMODEngine::OpenMode_MPEGACCURATE ? FSOUND_MPEGACCURATE:0);
 #ifdef WIN32
     if(bNetStream) nFlags |= FSOUND_NONBLOCKING;
 #else
@@ -119,26 +121,43 @@ bool FMODStreamOut::Open(const char *FileName)
 	StreamPointer = FSOUND_Stream_Open(FileName,nFlags,0,0);
 	return StreamPointer != NULL;
 }
-
-bool FMODStreamOut::SetTime( int nTimeMS)
+int64_t FMODStreamOut::GetSamplePos()
 {
-	return StreamPointer && FSOUND_Stream_SetTime(StreamPointer,nTimeMS);
+    return  StreamPointer ? FSOUND_Stream_GetPosition(StreamPointer):0;
+
+}
+bool FMODStreamOut::SetSamplePos( int64_t samplepos)
+{
+    return StreamPointer && FSOUND_Stream_SetPosition(StreamPointer,(unsigned int)samplepos);
 }
 
-int FMODStreamOut::GetTime()
+bool FMODStreamOut::SetTime( int64_t nTimeMS)
+{
+	return StreamPointer && FSOUND_Stream_SetTime(StreamPointer,(int)nTimeMS);
+}
+
+int64_t FMODStreamOut::GetTime()
 {
 	
 	return  StreamPointer ? FSOUND_Stream_GetTime(StreamPointer):0;
 }
-int FMODStreamOut::GetLengthMs()
+int64_t FMODStreamOut::GetLengthMs()
 {
 	return StreamPointer ? FSOUND_Stream_GetLengthMs(StreamPointer):0;
 }
 
-int FMODStreamOut::GetLength()
+int64_t FMODStreamOut::GetSampleCount()
 {
-	return StreamPointer ? FSOUND_Stream_GetLength(StreamPointer):0;
+    if(!StreamPointer)
+        return 0;
+    FSOUND_SAMPLE * pSample = FSOUND_Stream_GetSample(StreamPointer);
+    return FSOUND_Sample_GetLength(pSample);
 }
+int64_t FMODStreamOut::GetFilesize()
+{
+    return StreamPointer ? FSOUND_Stream_GetLength(StreamPointer):0;
+}
+
 const char * FMODStreamOut::Type()
 {
 	return "FMOD";
@@ -149,13 +168,15 @@ bool FMODStreamOut::CanSeek()
 }
 MUSIKEngine::Error  FMODStreamOut::SetMetadataCallback(IMUSIKStreamOutDefault::IMetadataCallback *pCB)
 {
-    pIMetadataCallback = pCB;
+    MUSIKEngine::Error err =IMUSIKStreamOutDefault::SetMetadataCallback(pCB);
+    if(err != MUSIKEngine::errSuccess)
+        return err;
     return StreamPointer && FSOUND_Stream_Net_SetMetadataCallback(StreamPointer, MetadataCallback, this) ? MUSIKEngine::errSuccess: MUSIKEngine::errUnknown;
 }
 signed char F_CALLBACKAPI FMODStreamOut::MetadataCallback(char *name, char *value, void * userdata)
 {
     FMODStreamOut  *pThis = (FMODStreamOut *)userdata;
-    IMUSIKStreamOutDefault::IMetadataCallback *pMyIMetadataCallback = pThis->pIMetadataCallback;  // copy to temp variable in case another thread sets pIMetadataCallback to NULL.
+    IMUSIKStreamOutDefault::IMetadataCallback *pMyIMetadataCallback = pThis->m_pIMetadataCallback;  // copy to temp variable in case another thread sets pIMetadataCallback to NULL.
     if(pMyIMetadataCallback)
         pMyIMetadataCallback->MetadataCallback(name,value);
     return 1;

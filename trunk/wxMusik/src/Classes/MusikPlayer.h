@@ -37,13 +37,14 @@ enum EMUSIK_CROSSFADER_TYPE
 //--- MusikSongIdArray defined here ---//
 #include "MusikLibrary.h"
 
-#define PLAYER_USE_FMODEX
-//#define PLAYER_USE_XINE
 
-#if defined(PLAYER_USE_FMODEX)
+#if defined(USE_FMODEX)
 #include "MUSIKEngine/FMODExEngine/inc/fmodexengine.h"
 typedef FMODExEngine Engine_t;
-#elif defined(PLAYER_USE_XINE)
+#elif defined(USE_FMOD3)
+#include "MUSIKEngine/FMODEngine/inc/fmodengine.h"
+typedef FMODEngine Engine_t;
+#elif defined(USE_XINE)
 #include "MUSIKEngine/XineEngine/inc/xineengine.h"
 typedef XineEngine Engine_t;
 #endif

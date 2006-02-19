@@ -38,6 +38,13 @@
 //---------------//
 //--- defines ---//
 //---------------//
+#if !defined(USE_FMODEX) && !defined(USE_XINE)
+#define USE_FMOD3
+#endif
+//#define USE_FMODEX
+//#define USE_XINE
+
+
 #define MUSIK_DND_ABOVE			0
 #define MUSIK_DND_BELOW			1
 #define MUSIK_ACTIVITYBOX1		3000

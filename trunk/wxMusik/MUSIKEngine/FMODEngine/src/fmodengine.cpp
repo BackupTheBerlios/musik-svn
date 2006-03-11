@@ -25,11 +25,14 @@
 #include <fmod.h>
 #include <fmod_errors.h>
 #include <stdio.h>
+#ifdef WIN32
+#define snprintf _snprintf
+#endif
 
 FMODEngine::FMODEngine()
 {
     m_OpenMode = OpenMode_Default;
-    _snprintf(m_szVersion,sizeof(m_szVersion)/sizeof(m_szVersion[0]) - 1,"%.2f",FSOUND_GetVersion());
+    snprintf(m_szVersion,sizeof(m_szVersion)/sizeof(m_szVersion[0]) - 1,"%.2f",FSOUND_GetVersion());
     m_bValid = false;
 }
 
@@ -127,7 +130,7 @@ MUSIKEngine::Error FMODEngine::EnumOutputs(IEnumNames * pen) const
         "Direct Sound",
         "Windows Multimedia",
         "ASIO"
-#elif defined(linux)
+#elif defined(__linux)
         "OSS",
         "ESD",
         "ALSA 0.9"

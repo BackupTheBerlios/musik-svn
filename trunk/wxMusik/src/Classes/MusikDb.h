@@ -59,7 +59,7 @@ public:
     private:
         char * m_pStr;
         QueryString(const QueryString&);
-        operator=(const QueryString &);
+        QueryString &operator=(const QueryString &);
     };
 
     class DbError
@@ -106,7 +106,7 @@ public:
         int m_err;
         char * m_errmsg;
         DbError(const DbError&);
-        operator=(const DbError &);
+        DbError &operator=(const DbError &);
     };
     class ResultBase
     {

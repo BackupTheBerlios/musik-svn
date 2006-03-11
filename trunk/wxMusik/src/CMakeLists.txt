@@ -100,7 +100,8 @@ ENDIF(WIN32)
 ADD_EXECUTABLE(wxMusik ${WIN32_EXECUTABLE} ${MAIN_SRCS})
 
 TARGET_LINK_LIBRARIES(wxMusik
-        ${MUSIK_ENGINE}
+#        ${MUSIK_ENGINE}
+ 	FMODEngine
         MUSIKEngine
         mysqlite3
         ${WXWINDOWS_LIBRARY}

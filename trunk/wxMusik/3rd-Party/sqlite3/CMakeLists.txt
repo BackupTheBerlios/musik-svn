@@ -29,7 +29,6 @@ ADD_LIBRARY(mysqlite3
 	./random.c
 	./select.c
 	./table.c
-	./tclsqlite.c
 	./tokenize.c
 	./trigger.c
 	./update.c

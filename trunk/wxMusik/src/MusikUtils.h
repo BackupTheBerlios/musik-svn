@@ -442,7 +442,7 @@ inline wxString IntTowxString( int n )
 	ret << n;
 	return ret;
 }
-inline double StringToDouble( wxString str )
+inline double StringToDouble( const wxString &str )
 {
 	double ret;
 	str.ToDouble( &ret );
@@ -830,3 +830,34 @@ protected:
 DWORD GetDllVersion(LPCTSTR lpszDllName);
 #endif
 
+#ifdef USE_NEDMALLOC  
+// Undefine temporarily (new is #defined in object.h) because we want to
+// declare some new operators.
+#ifdef new
+#undef new
+#endif
+
+#include "3rd-Party/nedmalloc/nedmalloc.h"
+inline void *operator new(size_t size) throw(...);
+inline void *operator new(size_t size) throw(...)
+{
+    void *ret;
+    if(!(ret=nedalloc::nedmalloc(size))) throw std::bad_alloc();
+    return ret;
+}
+inline void * __cdecl operator new[](size_t size) 
+{
+    void *ret;
+    if(!(ret=nedalloc::nedmalloc(size))) throw std::bad_alloc();
+    return ret;
+}
+inline void __cdecl operator delete(void *p) throw()
+{
+    if(p) nedalloc::nedfree(p);
+}
+inline void __cdecl operator delete[](void *p) throw()
+{
+    if(p) nedalloc::nedfree(p);
+}
+
+#endif

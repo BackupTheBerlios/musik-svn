@@ -22,8 +22,17 @@ class PrefPanel;
 class MusikPrefsDialog : public wxDialog
 {
 public:
-	MusikPrefsDialog( wxWindow* pParent, const wxString &sTitle);
-
+    MusikPrefsDialog()
+    {
+        Init();
+    }
+	MusikPrefsDialog( wxWindow* pParent, const wxString &sTitle)
+    {
+        Init();
+        Create( pParent, sTitle);
+    }
+    void Init();
+    bool Create( wxWindow* pParent, const wxString &sTitle);
 	//--------------//
 	//--- events ---//
 	//--------------//
@@ -55,7 +64,9 @@ protected:
 	//--------------//
 	wxSizer		*m_sizerPanels;
 
-	DECLARE_EVENT_TABLE()
+    DECLARE_DYNAMIC_CLASS(MusikPrefsDialog)
+    DECLARE_EVENT_TABLE()
+    DECLARE_NO_COPY_CLASS(MusikPrefsDialog)
 private:
     bool SavePrefs(const wxTreeItemId & root);
 

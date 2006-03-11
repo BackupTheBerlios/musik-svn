@@ -36,10 +36,26 @@ enum EMUSIK_Library_OBJECT_ID
 class MusikLibraryDialog: public wxDialog
 {
 public:
-
-	MusikLibraryDialog( wxWindow* pParent ,const wxArrayString &arrFilenamesToScan = wxArrayString(),unsigned long flags = 0);
-	MusikLibraryDialog( wxWindow* pParent, const wxPoint &pos, const wxSize &size );
-
+    MusikLibraryDialog()
+    {
+        Init();
+    }
+	MusikLibraryDialog( wxWindow* pParent ,const wxArrayString &arrFilenamesToScan = wxArrayString(),unsigned long flags = 0)
+    {
+        Init();
+        Create(  pParent ,arrFilenamesToScan,flags);
+    }
+	MusikLibraryDialog( wxWindow* pParent, const wxPoint &pos, const wxSize &size )
+    {
+        Init();
+        Create(  pParent ,pos,size);
+    }
+    void Init();
+    bool Create( wxWindow* pParent ,const wxArrayString &arrFilenamesToScan = wxArrayString(),unsigned long flags = 0);
+    bool Create( wxWindow* pParent, const wxPoint &pos, const wxSize &size );
+    //--- overrides ---//
+    virtual bool Show( bool show = true );
+protected:
 	//--- functions ---//
 	void CreateControls ();
 	void PathsLoad		();
@@ -77,8 +93,6 @@ public:
 	void OnThreadProg			( wxCommandEvent& event );
 	void OnThreadScanProg		( wxCommandEvent& event );
 	
-	//--- overrides ---//
-	virtual bool Show( bool show = true );
 
 	void SetProgress			( int n )			{ m_Progress = n;			}
 	void SetProgressType		( int n )			{ m_ProgressType = n;		}
@@ -114,14 +128,14 @@ public:
 	wxMenu *paths_update_menu;
 	wxMenu *paths_context_menu;
 
-	DECLARE_EVENT_TABLE()
+    DECLARE_DYNAMIC_CLASS(MusikLibraryDialog)
+    DECLARE_EVENT_TABLE()
+    DECLARE_NO_COPY_CLASS(MusikLibraryDialog)
 private:
 	wxStopWatch m_StopWatch;
 	//--- variables the threads use to talk to the main ui ---//
 	int m_Progress;
 	int m_ProgressType;
-
-	CThreadController m_ActiveThreadController;
 
 	wxArrayString m_arrScannedFiles;
 	size_t m_Total;
@@ -135,8 +149,11 @@ private:
 	unsigned long m_flagsUpdate;
 	wxString m_Title; //--- so it doesn't have to be recreated millions of times ---//
 
-	wxArrayString aDelDirs;
-	bool bRebuild;
+	wxArrayString m_aDelDirs;
+	bool m_bRebuild;
+    // 
+    CThreadController m_ActiveThreadController; // this should be the last member, so it is destructed last
+
 };
 
 #endif

@@ -684,17 +684,18 @@ void CActivityBox::GetSelectedSongs( MusikSongIdArray& array )
 			//-------------------------------------------------//
 			//--- what type of box is this?					---//
 			//-------------------------------------------------//
-			wxString sThisType = wxString::Format(g_PlaylistColumn[ColId()].ColQueryMask,g_PlaylistColumn[ColId()].DBName.c_str());
-
+			wxString sThisName = wxString::Format(g_PlaylistColumn[ColId()].ColQueryMask,g_PlaylistColumn[ColId()].DBName.c_str());
+            PlaylistColumn::eType typeThis = g_PlaylistColumn[ColId()].Type;
 			//-------------------------------------------------//
             //--- what type of box is the parent?			---//
 			//-------------------------------------------------//
-			wxString sParentType = wxString::Format(g_PlaylistColumn[pParentBox->ColId()].ColQueryMask,g_PlaylistColumn[pParentBox->ColId()].DBName.c_str());
+			wxString sParentName = wxString::Format(g_PlaylistColumn[pParentBox->ColId()].ColQueryMask,g_PlaylistColumn[pParentBox->ColId()].DBName.c_str());
+            PlaylistColumn::eType typeParent = g_PlaylistColumn[pParentBox->ColId()].Type;
 
 			//-------------------------------------------------//
             //--- return if there is an invalid type		---//
 			//-------------------------------------------------//
-			if ( sThisType.IsEmpty() || sParentType.IsEmpty() )
+			if ( sThisName.IsEmpty() || sParentName.IsEmpty() )
 				return;
 
 			//-------------------------------------------------//
@@ -709,28 +710,25 @@ void CActivityBox::GetSelectedSongs( MusikSongIdArray& array )
 			//-------------------------------------------------//
 			wxString sThis, sParent;
 			sThis.Alloc( aThisSel.GetCount() * 40 );
-			sParent.Alloc( aParentSel.GetCount() * ( 50 + sThis.Length() + sParentType.Length() ) );
+			sParent.Alloc( aParentSel.GetCount() * ( 50 + sThis.Length() + sParentName.Length() ) );
 
 			//-------------------------------------------------//
 			//--- this is the current box'es portion of the	---//
 			//--- query. will be something like "select		---//
 			//--- [all this box'es artists]" from...		---//
 			//-------------------------------------------------//
-			sThis += sThisType + wxT(" = ");
+			sThis << sThisName << wxT(" in (");
 			for ( size_t i = 0; i < aThisSel.GetCount(); i++ )
 			{
-				aThisSel.Item( i ).Replace( wxT( "'" ), wxT( "''" ), true );
-				sThis += wxT("'");
-				sThis += aThisSel.Item( i );
-				
-				if ( i == ( aThisSel.GetCount() - 1 ) )
-				      sThis += wxT("'");				
-				else
-				{
-				      sThis += wxT("' or ");
-				      sThis += sThisType;
-				      sThis += wxT(" = ");
-				}
+                if(typeThis == PlaylistColumn::Textual)
+                {
+                    aThisSel.Item( i ).Replace( wxT( "'" ), wxT( "''" ), true );
+                    sThis << wxT("'") << aThisSel.Item( i ) << wxT("'");
+                }
+                else 
+                    sThis << aThisSel.Item( i );
+
+                sThis << (i == ( aThisSel.GetCount() - 1 ) ? wxT(") ") : wxT(","));
 			}
 
 			//-------------------------------------------------//
@@ -740,20 +738,21 @@ void CActivityBox::GetSelectedSongs( MusikSongIdArray& array )
 			//-------------------------------------------------//
 			if(aParentSel.GetCount() > 0)
 			{
-				sParent = sParentType + wxT(" = "); 
+				sParent << sParentName << wxT(" = "); 
 				for ( size_t i = 0; i < aParentSel.GetCount(); i++ )
 				{
-					aParentSel.Item( i ).Replace( wxT( "'" ), wxT( "''" ), true );
-					sParent += wxT("'");
-					sParent += aParentSel.Item( i );
-					sParent += wxT("' and " );
-					sParent += sThis;
+                    if(typeParent == PlaylistColumn::Textual)
+                    {
+                        aParentSel.Item( i ).Replace( wxT( "'" ), wxT( "''" ), true );
+                        sParent << wxT("'") << aParentSel.Item( i ) << wxT("'");
+                    }
+                    else
+					    sParent << aParentSel.Item( i );
+					sParent << wxT(" and " ) << sThis;
 					if ( i != ( aParentSel.GetCount() - 1 ) )
 					//--- not last item, so format string for another ---//
 					{
-						sParent += wxT(" or ");
-						sParent += sParentType;
-						sParent += wxT(" = ");
+						sParent << wxT(" or ") << sParentName << wxT(" = ");
 					}
 				}
 			}

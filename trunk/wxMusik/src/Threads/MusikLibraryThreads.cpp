@@ -34,20 +34,19 @@ void *MusikUpdateLibThread::Entry()
 {
 	bool bDatabaseChanged = false;
 	//--- events we'll post as we go along ---//
-
-
-	wxGetApp().Library.BeginTransaction();
+    std::auto_ptr<CMusikLibrary> pSlaveLibrary(wxGetApp().Library.CreateSlave());
+    pSlaveLibrary->BeginTransaction();
 	//--- remove old songs ---//
 	if (m_pPathesDel &&  m_pPathesDel->GetCount() > 0 )
 	{
 		for ( size_t i = 0; i < m_pPathesDel->GetCount(); i++ )
 		{
 			if ( m_pPathesDel->Item( i ) != wxT("") )
-				wxGetApp().Library.RemoveSongDir( m_pPathesDel->Item( i ) );
+				pSlaveLibrary->RemoveSongDir( m_pPathesDel->Item( i ) );
 		}
 		m_pPathesDel->Clear();
 	}
-
+    pSlaveLibrary->EndTransaction();
 	//--- search / add new songs ---//
 	if(m_refFiles.IsEmpty())
 	{// m_refFiles is empty ( maybe because scanning was interrupted before) )so we scan for new songs now
@@ -75,9 +74,14 @@ void *MusikUpdateLibThread::Entry()
 	wxCommandEvent UpdateProgEvt		( wxEVT_COMMAND_MENU_SELECTED, MUSIK_LIBRARY_THREAD_PROG );	
 	UpdateProgEvt.SetInt(SET_CURRENT);
 	UpdateProgEvt.SetExtraLong( 0 );
-	
+	pSlaveLibrary->BeginTransaction();
 	for ( size_t i = 0; i < nTotal; i++ )
 	{
+        if(i % 50 == 49)
+        {
+            pSlaveLibrary->EndTransaction();
+            pSlaveLibrary->BeginTransaction();
+        }
 		if ( TestDestroy() )
 			break;
 
@@ -92,11 +96,10 @@ void *MusikUpdateLibThread::Entry()
 				wxPostEvent( Parent(), UpdateProgEvt );
 			}
 			nLastProg = nCurrProg;
-			
 			//--- add the item ---//
-			if (!wxGetApp().Library.FileInLibrary( m_refFiles.Item( i ), true ) )
+			if (!pSlaveLibrary->FileInLibrary( m_refFiles.Item( i ), true ) )
 			{
-				if(wxGetApp().Library.AddSongDataFromFile( m_refFiles.Item( i ) ))
+				if(pSlaveLibrary->AddSongDataFromFile( m_refFiles.Item( i ) ))
 				{
 					bDatabaseChanged = true;
 				}
@@ -105,7 +108,7 @@ void *MusikUpdateLibThread::Entry()
 			}
 			else if(m_flagsUpdate & MUSIK_UpdateFlags::RebuildTags)
 			{
-				if(wxGetApp().Library.UpdateSongDataFromFile( m_refFiles.Item( i ) ))
+				if(pSlaveLibrary->UpdateSongDataFromFile( m_refFiles.Item( i ) ))
 				{
 					bDatabaseChanged = true;
 				}
@@ -115,7 +118,7 @@ void *MusikUpdateLibThread::Entry()
 		}
 
 	}
-	wxGetApp().Library.EndTransaction();
+	pSlaveLibrary->EndTransaction();
 
 	wxCommandEvent UpdateLibEndEvt	( wxEVT_COMMAND_MENU_SELECTED, MUSIK_LIBRARY_THREAD_END );	
 	UpdateLibEndEvt.SetExtraLong(bDatabaseChanged ? 1:0);
@@ -209,6 +212,8 @@ private:
 void MusikScanNewThread::GetMusicDirs( const wxArrayString & aDirs, wxArrayString & aFiles )
 {
 	aFiles.Clear();
+    std::auto_ptr<CMusikLibrary> pSlaveLibrary(wxGetApp().Library.CreateSlave());
+
 	if ( aDirs.GetCount() > 0 )
 	{
 
@@ -236,7 +241,7 @@ void MusikScanNewThread::GetMusicDirs( const wxArrayString & aDirs, wxArrayStrin
 				evtSetTotalFiles.SetExtraLong( nTotal );
 				wxPostEvent( Parent(), evtSetTotalFiles );
 
-				int nCompare	= wxGetApp().Library.GetSongDirCount( sCurrPath );
+				int nCompare	= pSlaveLibrary->GetSongDirCount( sCurrPath );
 				int nResult		= nTotal - nCompare;
 
 				//--- post update progress event ---//
@@ -287,10 +292,11 @@ void *MusikPurgeLibThread::Entry()
 
 	PurgeStartEvt.SetExtraLong(MUSIK_LIBRARY_PURGE_THREAD);
 	wxPostEvent( Parent(), PurgeStartEvt );
+    std::auto_ptr<CMusikLibrary> pSlaveLibrary(wxGetApp().Library.CreateSlave());
 
 	//--- start the process ---//
 	wxArrayString songs;
-	wxGetApp().Library.Query( wxT("select filename from songs;"), songs );
+	pSlaveLibrary->Query( wxT("select filename from songs;"), songs );
 
 	float fPos;
 	int nLastProg = 0;
@@ -306,9 +312,15 @@ void *MusikPurgeLibThread::Entry()
 	wxCommandEvent PurgeProgEvt		( wxEVT_COMMAND_MENU_SELECTED, MUSIK_LIBRARY_THREAD_PROG );	
 	PurgeProgEvt.SetInt(SET_CURRENT);
 
-	wxGetApp().Library.BeginTransaction();
+	pSlaveLibrary->BeginTransaction();
 	for ( size_t i = 0; i < nTotal; i++ )
 	{
+        if(i % 100 == 99)
+        {
+            pSlaveLibrary->EndTransaction();
+            pSlaveLibrary->BeginTransaction();
+        }
+
 		if ( TestDestroy() )
 			break;
 		else 
@@ -324,13 +336,13 @@ void *MusikPurgeLibThread::Entry()
 			nLastProg = nCurrProg;
 
 			//--- check item and purge ---//
-			if(wxGetApp().Library.CheckAndPurge( songs.Item( i ) ))
+			if(pSlaveLibrary->CheckAndPurge( songs.Item( i ) ))
 				bDatabaseChanged = true;
 		}
 	}
-	wxGetApp().Library.EndTransaction();
+	pSlaveLibrary->EndTransaction();
     if(bDatabaseChanged)
-        wxGetApp().Library.OnSongDataChange();
+        pSlaveLibrary->OnSongDataChange();
 	wxCommandEvent PurgeEndEvt( wxEVT_COMMAND_MENU_SELECTED, MUSIK_LIBRARY_THREAD_END );
 	PurgeEndEvt.SetExtraLong(bDatabaseChanged ? 1:0);
 	wxPostEvent( Parent(), PurgeEndEvt );

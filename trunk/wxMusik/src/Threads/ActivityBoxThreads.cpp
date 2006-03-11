@@ -51,12 +51,19 @@ void* MusikActivityRenameThread::Entry()
 	float fPos = 0;
 	int nLastProg = 0;
 	int nCurrProg = 0;
-	wxGetApp().Library.BeginTransaction();
+    
+    std::auto_ptr<CMusikLibrary> pSlaveLibrary(wxGetApp().Library.CreateSlave());
+	pSlaveLibrary->BeginTransaction();
 	for ( size_t i = 0; i < m_Songs.GetCount(); i++ )
 	{
 		//-----------------------//
 		//--- update progress ---//
 		//-----------------------//
+        if(i % 100 == 99)
+        {
+            pSlaveLibrary->EndTransaction();
+            pSlaveLibrary->BeginTransaction();
+        }
 		fPos = (float)( i * 100 ) / (float)m_Songs.GetCount();
 		nCurrProg = (int)fPos;
 		if ( nCurrProg > nLastProg )
@@ -81,25 +88,25 @@ void* MusikActivityRenameThread::Entry()
 			//--- write tags to file ---//
 			//--------------------------//
 			if ( wxGetApp().Prefs.bActBoxWrite == 1 )
-				wxGetApp().Library.WriteTag( songid, (bool)wxGetApp().Prefs.bActBoxClear );
+				pSlaveLibrary->WriteTag( songid, (bool)wxGetApp().Prefs.bActBoxClear );
 			else
 			{
 				//----------------------------------//
 				//--- if not writing, update db and flag dirty ---//
 				//----------------------------------//
-				wxGetApp().Library.UpdateItem(songid, wxGetApp().Prefs.bActBoxWrite == 0 );
+				pSlaveLibrary->UpdateItem(songid, wxGetApp().Prefs.bActBoxWrite == 0 );
 			}	
 			//-------------------//
 			//--- rename file ---//
 			//-------------------//
 			if ( wxGetApp().Prefs.bActBoxRename == 1 )
-				if(false == wxGetApp().Library.RenameFile( song ))
+				if(false == pSlaveLibrary->RenameFile( song ))
 					::wxLogWarning(_("Renaming of file %s failed."),(const wxChar *)song.MetaData.Filename.GetFullPath());
 
 
 		}
 	}
-	wxGetApp().Library.EndTransaction();
+    pSlaveLibrary->EndTransaction();
 	return NULL;
 }
 

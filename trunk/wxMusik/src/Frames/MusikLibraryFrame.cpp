@@ -27,6 +27,8 @@
 //--- threads ---//
 #include "Threads/MusikLibraryThreads.h"
 
+IMPLEMENT_DYNAMIC_CLASS(MusikLibraryDialog,wxDialog)
+
 BEGIN_EVENT_TABLE(MusikLibraryDialog, wxDialog)
 	EVT_CONTEXT_MENU	( 									MusikLibraryDialog::PathsPopupMenu			)
 #ifdef 	__WXMSW__
@@ -62,15 +64,25 @@ BEGIN_EVENT_TABLE(MusikLibraryDialog, wxDialog)
 	EVT_MENU			( MUSIK_LIBRARY_THREAD_SCAN_PROG,	MusikLibraryDialog::OnThreadScanProg		)
 END_EVENT_TABLE()
 
+void MusikLibraryDialog::Init()
+{
+    m_FirstStart	= false;
+    paths_context_menu = NULL;
+    m_bRebuild		= false;
+    m_flagsUpdate =  0;
+    m_Close			= false;
+    m_AutoStart		= false;
 
+}
 //-----------------------------------//
 //---     default constructor     ---//
 //---  gets called automatically  ---//
 //--- on startup to add new files ---//
 //-----------------------------------//
-MusikLibraryDialog::MusikLibraryDialog( wxWindow* pParent ,const wxArrayString &arrFilenamesToScan,unsigned long flags)
-	: wxDialog( pParent, -1, _("Searching for and Adding New Files"), wxDefaultPosition, wxSize( 500, 48 ))
+bool MusikLibraryDialog::Create( wxWindow* pParent ,const wxArrayString &arrFilenamesToScan,unsigned long flags)
 {
+    if(!wxDialog::Create( pParent, -1, _("Searching for and Adding New Files"), wxDefaultPosition, wxSize( 500, 48 )))
+        return false;
 	m_arrScannedFiles = arrFilenamesToScan;
 	//------------------------------//
 	//--- initialize needed vars ---//
@@ -78,9 +90,6 @@ MusikLibraryDialog::MusikLibraryDialog( wxWindow* pParent ,const wxArrayString &
 	m_flagsUpdate =  flags;
 	m_Close			= true;
 	m_AutoStart		= true;
-	m_FirstStart	= false;
-	paths_context_menu = NULL;
-	bRebuild		= false;
 
 	//-----------------------//
 	//--- create controls ---//
@@ -101,6 +110,7 @@ MusikLibraryDialog::MusikLibraryDialog( wxWindow* pParent ,const wxArrayString &
 //	#endif
 
 	Centre();
+    return true;
 }
 
 //---------------------------------//
@@ -108,10 +118,10 @@ MusikLibraryDialog::MusikLibraryDialog( wxWindow* pParent ,const wxArrayString &
 //---  gets called from menu    ---//
 //--- or at program's first run ---//
 //---------------------------------//
-MusikLibraryDialog::MusikLibraryDialog( wxWindow* pParent, const wxPoint &pos, const wxSize & ) 
-	: wxDialog( pParent, -1, wxString(MUSIKAPPNAME) + _(" Library Setup"), pos, wxSize( 500, 300 ), wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER | wxCLIP_CHILDREN )
+bool MusikLibraryDialog::Create( wxWindow* pParent, const wxPoint &pos, const wxSize & ) 
 {
-
+    if(!wxDialog::Create( pParent, -1, wxString(MUSIKAPPNAME) + _(" Library Setup"), pos, wxSize( 500, 300 ), wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER | wxCLIP_CHILDREN ))
+        return false;
 	//--------------------//
 	//--- Context menu ---//
 	//--------------------//
@@ -130,16 +140,13 @@ MusikLibraryDialog::MusikLibraryDialog( wxWindow* pParent, const wxPoint &pos, c
 	//--- load paths, initialize vars ---//
 	//-----------------------------------//
 	PathsLoad();
-	bRebuild		= false;
 	m_FirstStart	= true;
-	m_AutoStart		= false;
-	m_Close			= false;
-	m_flagsUpdate = 0;
     PathsResize();
 	//--------------------//
 	//--- center frame ---//
 	//--------------------//
 	Centre();
+    return true;
 }
 
 void MusikLibraryDialog::CreateControls()
@@ -313,7 +320,7 @@ void MusikLibraryDialog::Close( bool bCancel )
 	if ( !bCancel )
 	{
 		PathsSave();
-		if ( bRebuild )
+		if ( m_bRebuild )
 		{
 			//-----------------------------------------------------//
 			//--- setting m_Close allows the thread to close	---//
@@ -332,7 +339,7 @@ void MusikLibraryDialog::Close( bool bCancel )
 	}
 
 	delete paths_context_menu;	
-	g_MusikFrame->Enable( TRUE );
+	//g_MusikFrame->Enable( TRUE );
 	Destroy();
 }
 
@@ -383,7 +390,7 @@ void MusikLibraryDialog::PathsListRemoveSel()
 	{
 		if ( lcPaths->GetItemState( i, wxLIST_STATE_SELECTED ) > 2 )	//THIS NEEDS TO BE FIXED?
 		{
-			aDelDirs.Add( lcPaths->GetItemText( i ) );
+			m_aDelDirs.Add( lcPaths->GetItemText( i ) );
 			lcPaths->DeleteItem( i );
 			i--;
 			m_arrScannedFiles.Clear(); // we have to rescan the files
@@ -391,7 +398,7 @@ void MusikLibraryDialog::PathsListRemoveSel()
 	}
 
 	PathsSave();
-	bRebuild = true;
+	m_bRebuild = true;
 }
 
 void MusikLibraryDialog::PathsListRemoveAll()
@@ -439,7 +446,7 @@ void MusikLibraryDialog::PathsListAdd()
 				lcPaths->SetItem( lcPaths->GetItemCount()-1, 2, wxT("-"), -1 );
 
 				PathsSave();
-				bRebuild = true;
+				m_bRebuild = true;
 				m_arrScannedFiles.Clear(); // we have to rescan the files
 			}
 		}
@@ -569,7 +576,7 @@ void MusikLibraryDialog::UpdateLibrary( bool bConfirm ,unsigned long flags)
     
 	if ( !m_ActiveThreadController.IsAlive())
 	{
-		m_ActiveThreadController.AttachAndRun( new MusikUpdateLibThread(this, &aDelDirs,m_arrScannedFiles ,flags) );
+		m_ActiveThreadController.AttachAndRun( new MusikUpdateLibThread(this, &m_aDelDirs,m_arrScannedFiles ,flags) );
 		if(flags & MUSIK_UpdateFlags::WaitUntilDone)
 			m_ActiveThreadController.Join();
 	}
@@ -671,7 +678,7 @@ void MusikLibraryDialog::OnThreadEnd( wxCommandEvent& event )
 			wxGetApp().Library.GetAllSongs( g_thePlaylist );
 			g_PlaylistBox->SetPlaylist(&g_thePlaylist);
 		}
-		bRebuild = false;
+		m_bRebuild = false;
 	}
 
 	else if ( GetProgressType() == MUSIK_LIBRARY_PURGE_THREAD )

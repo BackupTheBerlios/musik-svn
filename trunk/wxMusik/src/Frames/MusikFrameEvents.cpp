@@ -40,6 +40,7 @@ DECLARE_APP( MusikApp )
 
 BEGIN_EVENT_TABLE(MusikFrame, wxFrame)
 	EVT_MENU					(wxID_PREFERENCES,					MusikFrame::OnPreferences			)	// File->Preferences
+    EVT_UPDATE_UI				(wxID_PREFERENCES,					MusikFrame::OnUpdateUIPreferences			)	// File->Preferences
 	EVT_MENU					(wxID_EXIT,							MusikFrame::OnMenuClose				)	// File->Exit
 	EVT_MENU					(wxID_ABOUT,						MusikFrame::OnMenuAbout				)	// Help->About
 	EVT_MENU					(MUSIK_MENU_SOURCES_STATE,			MusikFrame::OnSourcesState			)	// View->Show Sources
@@ -58,6 +59,7 @@ BEGIN_EVENT_TABLE(MusikFrame, wxFrame)
 	EVT_UPDATE_UI				(MUSIK_MENU_STAY_ON_TOP,			MusikFrame::OnUpdateUIStayOnTop		)	
 	EVT_MENU					(MUSIK_MENU_FX,						MusikFrame::OnFX					)
 	EVT_MENU					(MUSIK_MENU_PATHS,					MusikFrame::OnSetupPaths			)	// Library->Setup Paths
+    EVT_UPDATE_UI				(MUSIK_MENU_PATHS,					MusikFrame::OnUpdateUISetupPaths			)	// Library->Setup Paths
 	EVT_MENU					(MUSIK_MENU_CUSTOMQUERY,			MusikFrame::OnCustomQuery			)	// Library->Custom Query
 	EVT_MENU					(MUSIK_MENU_VIEW_DIRTY_TAGS,		MusikFrame::OnViewDirtyTags			)	// Library->Write Tags->View
 	EVT_MENU					(MUSIK_MENU_WRITE_TAGS,				MusikFrame::OnWriteTags				)	// Library->Write Tags->Write
@@ -182,10 +184,12 @@ void MusikFrame::OnSetupPaths( wxCommandEvent& WXUNUSED(event) )
 {
 	wxSize mysize( 400, 300 );
 	MusikLibraryDialog* pMusikLibraryFrame = new MusikLibraryDialog(this, wxDefaultPosition, mysize );
-	this->Enable( FALSE );	
 	pMusikLibraryFrame->Show();
 }
-
+void MusikFrame::OnUpdateUISetupPaths( wxUpdateUIEvent&	event)
+{
+    event.Enable(!IsTLWActive(CLASSINFO(MusikLibraryDialog)));
+}
 void MusikFrame::OnMenuAbout( wxCommandEvent &WXUNUSED(event) )
 {
 	CMusikAboutDlg d(this);
@@ -195,8 +199,12 @@ void MusikFrame::OnMenuAbout( wxCommandEvent &WXUNUSED(event) )
 void MusikFrame::OnPreferences( wxCommandEvent &WXUNUSED(event) )
 {
 	wxDialog *pDlg = new MusikPrefsDialog( this, wxString(MUSIKAPPNAME) + _(" Preferences") );
-	this->Enable( FALSE );
 	pDlg->Show();
+}
+void MusikFrame::OnUpdateUIPreferences( wxUpdateUIEvent &event )
+{
+    
+    event.Enable(!IsTLWActive(CLASSINFO(MusikPrefsDialog)));
 }
 
 void MusikFrame::OnFX( wxCommandEvent &WXUNUSED(event) )
@@ -419,8 +427,6 @@ void MusikFrame::OnEraseBackground( wxEraseEvent& event )
 	wxBrush MyBrush(BGColor ,wxSOLID);
 	TheDC->SetBackground(MyBrush);
 
-	wxCoord width,height;
-	TheDC->GetSize(&width,&height);
 	wxCoord x,y,w,h;
 	TheDC->GetClippingBox(&x,&y,&w,&h); 
 
@@ -429,11 +435,12 @@ void MusikFrame::OnEraseBackground( wxEraseEvent& event )
 	wxRegion MyRegion(x,y,w,h); 
 
 	//Get all the windows(controls)  rect's on the dialog
-	wxWindowList & children = GetChildren();
-	for ( wxWindowList::Node *node = children.GetFirst(); node; node = node->GetNext() )
+	const wxWindowList & children = GetChildren();
+	for ( const wxWindowList::Node *node = children.GetFirst(); node; node = node->GetNext() )
 	{
-		wxWindow *current = (wxWindow *)node->GetData();
-
+		const wxWindow *current = (const wxWindow *)node->GetData();
+        if(current->IsTopLevel())
+            continue;
 		// now subtract out the controls rect from the
 		//clipping region
 		MyRegion.Subtract(current->GetRect());
@@ -477,4 +484,18 @@ void MusikFrame::OnPlayStop(MusikPlayerEvent & ev)
     }
 #endif
     ev.Skip();
+}
+
+bool MusikFrame::IsTLWActive(wxClassInfo * pci)
+{
+    const wxWindowList & children = GetChildren();
+    for ( const wxWindowList::Node *node = children.GetFirst(); node; node = node->GetNext() )
+    {
+        const wxWindow *current = (const wxWindow *)node->GetData();
+        if(!current->IsTopLevel())
+            continue;
+        if(current->IsKindOf(pci))
+            return true;
+    }
+    return false;
 }

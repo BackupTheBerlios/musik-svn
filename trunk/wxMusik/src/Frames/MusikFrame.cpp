@@ -379,8 +379,7 @@ MusikFrame::MusikFrame()
 	g_SourcesCtrl->SetDefaultSize(wxSize(wxGetApp().Prefs.nSourceBoxWidth,1000));
 	g_SourcesCtrl->SetAlignment(wxLAYOUT_LEFT);
 	g_SourcesCtrl->SetOrientation(wxLAYOUT_VERTICAL);
-	g_SourcesCtrl->SetSashBorder(wxSASH_RIGHT, true);
-	g_SourcesCtrl->SetSashBorder(wxSASH_RIGHT, true);
+//	g_SourcesCtrl->SetSashBorder(wxSASH_RIGHT, true);
 	g_SourcesCtrl->SetDefaultBorderSize(3);
 	g_SourcesCtrl->SetExtraBorderSize(1);
 	//---------------------//
@@ -391,8 +390,8 @@ MusikFrame::MusikFrame()
 	g_ActivityAreaCtrl->SetDefaultSize(wxSize(1000,wxGetApp().Prefs.nActivityCtrlHeight));
 	g_ActivityAreaCtrl->SetAlignment(wxLAYOUT_TOP);
 	g_ActivityAreaCtrl->SetOrientation(wxLAYOUT_HORIZONTAL);
-	g_ActivityAreaCtrl->SetSashBorder(wxSASH_BOTTOM, true);
-	g_ActivityAreaCtrl->SetDefaultBorderSize(3);
+//	g_ActivityAreaCtrl->SetSashBorder(wxSASH_BOTTOM, true);
+//	g_ActivityAreaCtrl->SetDefaultBorderSize(3);
 	g_ActivityAreaCtrl->SetExtraBorderSize(1);
 	
 
@@ -506,7 +505,6 @@ void MusikFrame::CreateMainMenu()
 void MusikFrame::AutoUpdate	( const wxArrayString & Filenames ,unsigned long flags )
 {
 	MusikLibraryDialog *p= new MusikLibraryDialog( this, Filenames,flags );
-	this->Enable	( FALSE );
 	p->Show	( (flags & MUSIK_UpdateFlags::Quiet) != MUSIK_UpdateFlags::Quiet ); 
 }
 
@@ -703,7 +701,7 @@ void MusikFrame::ToggleActivities()
 void MusikFrame::EnableProgress( bool enable )
 {
     m_pBottomPanel->EnableProgress(enable);
-    Enable(!enable);
+    //Enable(!enable);
 //	m_pBottomPanel->Layout();
 // 	m_pBottomPanel->SetDefaultSize(vsTopBottom->GetMinSize());
 	wxLayoutAlgorithm layout;

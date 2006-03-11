@@ -14,6 +14,8 @@ SET(MAIN_SRCS
         ./Classes/BtnDown
         ./Classes/GaugeSeek
         ./Classes/MusikLibrary
+        ./Classes/MusikDb_Sqlite3
+        ./Classes/MusikDb_Sqlite
         ./Classes/MusikPlayer
         ./Classes/MusikPrefs
         ./Classes/NowPlayingCtrl
@@ -100,6 +102,7 @@ ADD_EXECUTABLE(wxMusik ${WIN32_EXECUTABLE} ${MAIN_SRCS})
 TARGET_LINK_LIBRARIES(wxMusik
         ${MUSIK_ENGINE}
         MUSIKEngine
+        mysqlite3
         ${WXWINDOWS_LIBRARY}
         ${SQLITE_LIBRARY}
         ${MUSEPACK_LIBRARY}
@@ -132,6 +135,7 @@ TARGET_LINK_LIBRARIES(wxMusik
     TARGET_LINK_LIBRARIES(wxMusik.app/Contents/MacOS/wxMusik
         ${MUSIK_ENGINE}
         MUSIKEngine
+        mysqlite3
         ${WXWINDOWS_LIBRARY}
         ${SQLITE_LIBRARY}
         ${MUSEPACK_LIBRARY}

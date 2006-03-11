@@ -134,8 +134,6 @@ void CPlaylistBox::OnEraseBackground( wxEraseEvent& event )
 	wxBrush MyBrush(BGColor ,wxSOLID);
 	TheDC->SetBackground(MyBrush);
 
-	wxCoord width,height;
-	TheDC->GetSize(&width,&height);
 	wxCoord x,y,w,h;
 	TheDC->GetClippingBox(&x,&y,&w,&h); 
 
@@ -1340,7 +1338,7 @@ void CPlaylistCtrl::EditTag( int i )
 	if ( nSelCount > 0 )
 	{
 		MusikTagFrame* pMusikTagFrame = new MusikTagFrame( g_MusikFrame, this, i);
-		g_MusikFrame->Enable( FALSE );
+//		g_MusikFrame->Enable( FALSE );
 		pMusikTagFrame->Show();
 	}
 }

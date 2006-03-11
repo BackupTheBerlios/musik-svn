@@ -41,9 +41,20 @@ void *MusikTagApplyThread::Entry()
 	int nLastProg = 0;
 	int nCurrProg = 0;
 	bool bRenameOK;
-	wxGetApp().Library.BeginTransaction();
+    std::auto_ptr<CMusikLibrary> pSlaveLibrary(wxGetApp().Library.CreateSlave());
+    bool bTagDlgWrite = wxGetApp().Prefs.bTagDlgWrite;
+    bool bTagDlgRename = wxGetApp().Prefs.bTagDlgRename;
+    int TransactCount = 100;
+    if(bTagDlgWrite)
+       TransactCount = 2; 
+    pSlaveLibrary->BeginTransaction();
 	for( size_t i = 0; i < m_Songs.GetCount(); i++ )
 	{
+        if(i % TransactCount == TransactCount - 1)
+        {
+            pSlaveLibrary->EndTransaction();
+            pSlaveLibrary->BeginTransaction();
+        }
 		//-----------------------//
 		//--- update progress ---//
 		//-----------------------//
@@ -69,9 +80,9 @@ void *MusikTagApplyThread::Entry()
 				//--- rename the file ---//
 				//-----------------------//
 				bRenameOK = true;
-				if ( wxGetApp().Prefs.bTagDlgRename == 1 )
+				if ( bTagDlgRename == 1 )
 				{
-					bRenameOK = wxGetApp().Library.RenameFile( song);
+					bRenameOK = pSlaveLibrary->RenameFile( song);
 					if(false == bRenameOK)
 						::wxLogWarning(_("Renaming of file %s failed."),(const wxChar *)song.MetaData.Filename.GetFullPath());
 
@@ -81,25 +92,25 @@ void *MusikTagApplyThread::Entry()
 				//--------------------------//
 				//--- write tags to file ---//
 				//--------------------------//
-				if ( wxGetApp().Prefs.bTagDlgWrite)
+				if ( bTagDlgWrite)
 				{
 					//-----------------------------------------//
 					//--- rename will update the lib, so if	---//
 					//--- we're not renaming, update db too	---//
 					//-----------------------------------------//
-					wxGetApp().Library.WriteTag( songid,wxGetApp().Prefs.bTagDlgClear);
+					pSlaveLibrary->WriteTag( songid,wxGetApp().Prefs.bTagDlgClear);
 				}
 				else 
 				{
 					//-----------------------------//
 					//--- write tag for db only ,flag as dirty ---//
 					//-----------------------------//
-					wxGetApp().Library.UpdateItem( songid, true );
+					pSlaveLibrary->UpdateItem( songid, true );
 				}
 			}
 		}
 	}
-	wxGetApp().Library.EndTransaction();
+    pSlaveLibrary->EndTransaction();
 	return NULL;
 }
 

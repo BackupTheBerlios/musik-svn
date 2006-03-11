@@ -135,7 +135,10 @@ public:
 	void OnMenuAbout				( wxCommandEvent&	event);
 
 	void OnSetupPaths				( wxCommandEvent&	WXUNUSED(event) );
+    void OnUpdateUISetupPaths		( wxUpdateUIEvent&	event			);
 	void OnPreferences				( wxCommandEvent&	event			);
+    void OnUpdateUIPreferences		( wxUpdateUIEvent&	event			);
+
 	void OnFX						( wxCommandEvent&	event			);
 
 	void OnStayOnTop				( wxCommandEvent&	WXUNUSED(event) );
@@ -251,6 +254,8 @@ protected:
     virtual void SetSongInfoText(const wxString & sSongInfoText);
 
 	void CreateMainMenu();
+
+    bool IsTLWActive(wxClassInfo * pci);
 #ifdef __WXMSW__
 protected:
     	long MSWWindowProc(WXUINT message, WXWPARAM wParam, WXLPARAM lParam);

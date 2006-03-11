@@ -2,11 +2,7 @@
  *  MusikLibrary.h
  *
  *  Object which controls Library manipulation.
- *
- *  Uses:  id3lib, and oggvorbis
- *  Information about id3lib is available at http://www.id3lib.org
- *  Information about oggvorbis is available at http://www.vorbis.com/
- *  
+ *   
  *  Copyright (c) 2003 Casey Langen (casey@bak.rr.com)
  *	Contributors: Simon Windmill, Dustin Carter, Gunnar Roth, Wade Brainerd
  *
@@ -16,9 +12,6 @@
 
 #ifndef MUSIK_LIBRARY_H
 #define MUSIK_LIBRARY_H
-
-//--- sql ---//
-#include "sqlite.h"
 
 //--- wx ---//
 #include "myprec.h"
@@ -34,36 +27,27 @@
 #include "MusikUtils.h"
 #include "Playlist.h"
 
+class MusikDb;
+
 class CMusikLibrary : public wxEvtHandler
 {
 public:
+
 	CMusikLibrary();
 	~CMusikLibrary();
 
-    void OnSongDataChange(int songid = -1)
-    {
-        wxCriticalSectionLocker lock( m_csCacheAccess );
-        if(songid == -1)
-            m_mapSongCache.clear();
-        else
-            m_mapSongCache.erase(songid);
-    }
+    CMusikLibrary * CreateSlave();
+    void OnSongDataChange(int songid = -1);
 	//---------------//
 	//--- loading ---//
 	//---------------//
 	bool Load		();
 	void Shutdown	();
 	bool AddSongDataFromFile	( const wxString & filename );
-	bool UpdateSongDataFromFile	( const wxString & filename );
-	void BeginTransaction()
-	{ 	wxCriticalSectionLocker lock( m_csDBAccess );
-		sqlite_exec_printf( m_pDB, "begin transaction;", NULL, NULL, NULL );
-	}
-	void EndTransaction()
-	{ 		
-		wxCriticalSectionLocker lock( m_csDBAccess );
-		sqlite_exec_printf( m_pDB, "end transaction;", NULL, NULL, NULL );
-	}
+	bool UpdateSongDataFromFile	( const wxString & filename ,bool bForce = false);
+	void BeginTransaction();
+	void EndTransaction();
+    void SignalSlaveTransactionEnd();
 	//----------------//
 	//--- updating ---//
 	//----------------//
@@ -135,12 +119,15 @@ public:
 	bool SetAutoDjFilter(const wxString & sFilter);
     bool SetCacheSize(int size);
 private:
+    class BusyHandler;
+    std::auto_ptr<BusyHandler> m_pBusyHandler;
+    CMusikLibrary *m_pMasterLibrary;
 
+    void ConvertFromDB2();
+	void CheckVersion2();
+    void CheckVersion();
 
-	void CheckVersion();
-
-	sqlite		  *m_pDB;
-	void CreateDB();
+    std::auto_ptr<MusikDb> m_pDB;
 
     mutable wxCriticalSection m_csCacheAccess;
     typedef std::map<int,CMusikSong>  tSongCacheMap;
@@ -150,41 +137,34 @@ private:
 	wxString m_lastQueryWhere;
 	int m_nCachedSongCount;
 
-	mutable wxCriticalSection m_csDBAccess; // to lock all accesses to m_pDB. 
-									// used instead of wxMutex, because this is faster on windows. on linux 
-									// a wxMutex is used automatically instead
-	void CreateDBFuncs();
-	static void remprefixFunc(sqlite_func *context, int argc, const char **argv);
-	static void cnvISO8859_1ToUTF8Func(sqlite_func *context, int argc, const char **argv);
-	static void wxjuliandayFunc(sqlite_func *context, int argc, const char **argv);
-	static void cnvMusikOldDTFormatToJuliandayFunc(sqlite_func *context, int argc, const char **argv);
-	static void fuzzycmpFunc(sqlite_func *context, int argc, const char **argv);				
-	inline static void _AssignSongTableColumnDataToSong(CMusikSong * pSong, const char **coldata)
-	{
-		pSong->songid		= StringToInt		( coldata[0] );
-		pSong->MetaData.Filename		= ConvFromUTF8		( coldata[1] );
-		pSong->MetaData.Title			=					  coldata[2];
-		pSong->MetaData.nTracknum		= StringToInt		( coldata[3] );
-		pSong->MetaData.Artist			=					  coldata[4];
-		pSong->MetaData.Album			=					  coldata[5] ;
-		pSong->MetaData.Genre			=					  coldata[6] ;
-		pSong->MetaData.nDuration_ms	= StringToInt		( coldata[7] );
+    inline static int db_callbackAssignSongTableColumnDataToSong(void *args, int WXUNUSED(numCols), char **results, char ** WXUNUSED(columnNames))
+  	{
+        CMusikSong * pSong = (CMusikSong *)args;
+		pSong->songid		= StringToInt		( results[0] );
+		pSong->MetaData.Filename		= ConvFromUTF8		( results[1] );
+		pSong->MetaData.Title			=					  results[2];
+		pSong->MetaData.nTracknum		= StringToInt		( results[3] );
+		pSong->MetaData.Artist			=					  results[4];
+		pSong->MetaData.Album			=					  results[5] ;
+		pSong->MetaData.Genre			=					  results[6] ;
+		pSong->MetaData.nDuration_ms	= StringToInt		( results[7] );
 		pSong->MetaData.eFormat			= (EMUSIK_FORMAT_TYPE) 
-										  StringToInt		( coldata[8] );
-		pSong->MetaData.bVBR			= StringToInt		( coldata[9] ) ? true: false;
-		pSong->MetaData.Year			=					  coldata[10];
-		pSong->Rating					= StringToInt		( coldata[11] );
-		pSong->MetaData.nBitrate		= StringToInt		( coldata[12] );
-		pSong->LastPlayed				= CharStringToDouble( coldata[13] );
-		pSong->MetaData.Notes			=					  coldata[14];
-		pSong->TimesPlayed				= StringToInt		( coldata[15] );	
-		pSong->TimeAdded				= CharStringToDouble( coldata[16] );
-		pSong->MetaData.nFilesize		= StringToInt		( coldata[17] );
+										  StringToInt		( results[8] );
+		pSong->MetaData.bVBR			= StringToInt		( results[9] ) ? true: false;
+		pSong->MetaData.Year			=					  results[10];
+		pSong->Rating					= StringToInt		( results[11] );
+		pSong->MetaData.nBitrate		= StringToInt		( results[12] );
+		pSong->LastPlayed				= CharStringToDouble( results[13] );
+		pSong->MetaData.Notes			=					  results[14];
+		pSong->TimesPlayed				= StringToInt		( results[15] );	
+		pSong->TimeAdded				= CharStringToDouble( results[16] );
+		pSong->MetaData.nFilesize		= StringToInt		( results[17] );
+        return 0;
 	}
-	static int sqlite_callbackAddToIntArray(void *args, int numCols, char **results, char ** columnNames);
-	static int sqlite_callbackAddToStringArray(void *args, int numCols, char **results, char ** columnNames);
-	static int sqlite_callbackAddToSongIdArray(void *args, int numCols, char **results, char ** columnNames);
-	static int sqlite_callbackAddToSongIdMap(void *args, int numCols, char **results, char ** columnNames);
+	static int db_callbackAddToIntArray(void *args, int numCols, char **results, char ** columnNames);
+	static int db_callbackAddToStringArray(void *args, int numCols, char **results, char ** columnNames);
+	static int db_callbackAddToSongIdArray(void *args, int numCols, char **results, char ** columnNames);
+	static int db_callbackAddToSongIdMap(void *args, int numCols, char **results, char ** columnNames);
 };
             
 #endif

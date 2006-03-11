@@ -26,6 +26,7 @@
 //--- globals: library / player / prefs ---//
 #include "MusikGlobals.h"
 #include "MusikUtils.h"
+#include "MusikDb.h"
 #include "MusikApp.h"
 //#include "MUSIKEngine/MUSIKEngine/inc/imusikstreamout.h"
 //--- CMusikStreamArray ---//
@@ -1077,9 +1078,7 @@ void CMusikPlayer::_ChooseRandomAlbumSongs(int nAlbumsToAdd,MusikSongIdArray &ar
 	int nMaxRepeatCount = 30;
     int nTotalPlayTimeMinutes = wxGetApp().Library.QueryCount(" select (sum(duration)/60000) from autodj_songs;");
     int nDoNotPlaySongPlayedTheLastNMinutes = wxMin(nTotalPlayTimeMinutes / 2 , (int)wxGetApp().Prefs.nAutoDjDoNotPlaySongPlayedTheLastNHours * 60);
-	char * count_query = sqlite_mprintf("select count(*) from autodj_albums where most_lastplayed = '' or most_lastplayed < julianday('now','-%d minutes');",nDoNotPlaySongPlayedTheLastNMinutes);
-	int albums_count = wxGetApp().Library.QueryCount(count_query);
-	sqlite_freemem( count_query );
+    int albums_count = wxGetApp().Library.QueryCount(MusikDb::QueryString("select count(*) from autodj_albums where most_lastplayed = '' or most_lastplayed < julianday('now','-%d minutes');",nDoNotPlaySongPlayedTheLastNMinutes));
 	wxArrayString arrAlbums;
 	while ( (nMaxRepeatCount > 0) && ( arrAlbums.GetCount() < (size_t)nAlbumsToAdd ))
 	{

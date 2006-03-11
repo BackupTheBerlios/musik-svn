@@ -604,7 +604,7 @@ void MusikTagFrame::Apply( bool close )
 }
 void MusikTagFrame::Close()
 {
-	g_MusikFrame->Enable( TRUE );
+	//g_MusikFrame->Enable( TRUE );
 	Destroy();
 
 }
@@ -640,7 +640,7 @@ void MusikTagFrame::OnTranslateKeys( wxKeyEvent& event )
 			m_ActiveThreadController.Cancel();
 		else
 		{
-			g_MusikFrame->Enable( TRUE );
+			//g_MusikFrame->Enable( TRUE );
 			Destroy();
 		}
 	}

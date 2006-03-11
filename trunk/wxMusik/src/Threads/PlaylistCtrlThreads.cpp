@@ -41,13 +41,19 @@ void* MusikPlaylistRenameThread::Entry()
 	wxCommandEvent RenameProgEvt	( wxEVT_COMMAND_MENU_SELECTED, MUSIK_PLAYLIST_THREAD_PROG );	
 
 	wxPostEvent( m_pEvtHandler, RenameStartEvt );
+    std::auto_ptr<CMusikLibrary> pSlaveLibrary (wxGetApp().Library.CreateSlave());
 
     float fPos = 0;
 	int nLastProg = 0;
 	int nCurrProg = 0;
 	for ( size_t i = 0; i < m_Songs.GetCount(); i++ )
 	{
-		//-----------------------//
+        if(i % 100 == 99)
+        {
+            pSlaveLibrary->EndTransaction();
+            pSlaveLibrary->BeginTransaction();
+        }
+	//-----------------------//
 		//--- update progress ---//
 		//-----------------------//
 		fPos = (float)( i * 100 ) / (float)m_Songs.GetCount();
@@ -62,7 +68,7 @@ void* MusikPlaylistRenameThread::Entry()
 		if ( TestDestroy() )
 			break;
         std::auto_ptr<CMusikSong> pSong(m_Songs.Item( i ).Song());
-		if(false == wxGetApp().Library.RenameFile( *pSong ))
+		if(false == pSlaveLibrary->RenameFile( *pSong ))
 			::wxLogWarning(_("Renaming of file %s failed."),(const wxChar *)pSong->MetaData.Filename.GetFullPath());
 
 	}
@@ -104,9 +110,16 @@ void* MusikPlaylistRetagThread::Entry()
 //	wxString sMask	= wxGetApp().Prefs.sAutoTag;
 	CMusikTagger tagger(m_sTagMask,wxGetApp().Prefs.bAutoTagConvertUnderscoresToSpaces);
 //////////////////////////////////////////////////////////////////////////////
-	wxGetApp().Library.BeginTransaction();
+    std::auto_ptr<CMusikLibrary> pSlaveLibrary(wxGetApp().Library.CreateSlave());
+    pSlaveLibrary->BeginTransaction();
 	for ( size_t i = 0; i < m_Songs.GetCount(); i++ )
 	{
+        if(i % 100 == 99)
+        {
+            pSlaveLibrary->EndTransaction();
+            pSlaveLibrary->BeginTransaction();
+        }
+
 		//-----------------------//
 		//--- update progress ---//
 		//-----------------------//
@@ -122,10 +135,10 @@ void* MusikPlaylistRetagThread::Entry()
 		if ( TestDestroy() )
 			break;
 
-		wxGetApp().Library.RetagFile(tagger, *m_Songs.Item( i ).Song() );
+		pSlaveLibrary->RetagFile(tagger, *m_Songs.Item( i ).Song() );
 		Yield();
 	}
-	wxGetApp().Library.EndTransaction();
+	pSlaveLibrary->EndTransaction();
 	return NULL;
 }
 

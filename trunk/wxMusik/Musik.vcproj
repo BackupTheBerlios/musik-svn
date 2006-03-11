@@ -20,7 +20,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(WXDIR)\include\msvc&quot;;&quot;$(ProjectDir)\3rd-Party\taglib\mpeg\id3v2&quot;;&quot;$(ProjectDir)\3rd-Party\taglib\toolkit&quot;;&quot;$(ProjectDir)\3rd-Party\taglib\&quot;;&quot;$(MAC_SDKDIR)\Shared&quot;;&quot;$(ProjectDir)/MUSIKEngine&quot;;&quot;$(ProjectDir)/src&quot;;&quot;$(FLACDIR)\include&quot;;&quot;$(VORBISDIR)\include&quot;;&quot;$(FMODDIR)\api\inc&quot;;&quot;$(OGGDIR)\include&quot;;&quot;$(WXDIR)\contrib\include&quot;;&quot;$(WXDIR)\include&quot;;&quot;$(SQLITEDIR)&quot;;MMShellHook;&quot;$(ProjectDir)&quot;"
+				AdditionalIncludeDirectories="&quot;$(WXDIR)\include\msvc&quot;;&quot;$(ProjectDir)\3rd-Party\taglib\mpeg\id3v2&quot;;&quot;$(ProjectDir)\3rd-Party\taglib\toolkit&quot;;&quot;$(ProjectDir)\3rd-Party\taglib\&quot;;&quot;$(ProjectDir)\3rd-Party\sqlite3\&quot;;&quot;$(MAC_SDKDIR)\Shared&quot;;&quot;$(ProjectDir)/MUSIKEngine&quot;;&quot;$(ProjectDir)/src&quot;;&quot;$(FLACDIR)\include&quot;;&quot;$(VORBISDIR)\include&quot;;&quot;$(FMODDIR)\api\inc&quot;;&quot;$(OGGDIR)\include&quot;;&quot;$(WXDIR)\contrib\include&quot;;&quot;$(WXDIR)\include&quot;;&quot;$(SQLITEDIR)&quot;;MMShellHook;&quot;$(ProjectDir)&quot;"
 				PreprocessorDefinitions="_DEBUG;WIN32;_WINDOWS;WINVER=0x400;_WIN32_IE=0x0600;_MT;FLAC__NO_DLL"
 				StringPooling="TRUE"
 				MinimalRebuild="TRUE"
@@ -95,7 +95,7 @@
 				OmitFramePointers="TRUE"
 				OptimizeForProcessor="0"
 				OptimizeForWindowsApplication="TRUE"
-				AdditionalIncludeDirectories="&quot;$(WXDIR)\include\msvc&quot;;&quot;$(ProjectDir)\3rd-Party\taglib\mpeg\id3v2&quot;;&quot;$(ProjectDir)\3rd-Party\taglib\toolkit&quot;;&quot;$(ProjectDir)\3rd-Party\taglib\&quot;;&quot;$(MAC_SDKDIR)\Shared&quot;;&quot;$(ProjectDir)/MUSIKEngine&quot;;&quot;$(ProjectDir)/src&quot;;&quot;$(FLACDIR)\include&quot;;&quot;$(VORBISDIR)\include&quot;;&quot;$(FMODDIR)\api\inc&quot;;&quot;$(OGGDIR)\include&quot;;&quot;$(WXDIR)\contrib\include&quot;;&quot;$(WXDIR)\include&quot;;&quot;$(SQLITEDIR)&quot;;MMShellHook;&quot;$(ProjectDir)&quot;"
+				AdditionalIncludeDirectories="&quot;$(WXDIR)\include\msvc&quot;;&quot;$(ProjectDir)\3rd-Party\taglib\mpeg\id3v2&quot;;&quot;$(ProjectDir)\3rd-Party\taglib\toolkit&quot;;&quot;$(ProjectDir)\3rd-Party\taglib\&quot;;&quot;$(ProjectDir)\3rd-Party\sqlite3\&quot;;&quot;$(MAC_SDKDIR)\Shared&quot;;&quot;$(ProjectDir)/MUSIKEngine&quot;;&quot;$(ProjectDir)/src&quot;;&quot;$(FLACDIR)\include&quot;;&quot;$(VORBISDIR)\include&quot;;&quot;$(FMODDIR)\api\inc&quot;;&quot;$(OGGDIR)\include&quot;;&quot;$(WXDIR)\contrib\include&quot;;&quot;$(WXDIR)\include&quot;;&quot;$(SQLITEDIR)&quot;;MMShellHook;&quot;$(ProjectDir)&quot;"
 				PreprocessorDefinitions="NDEBUG;WIN32;_WINDOWS;WINVER=0x400;_WIN32_IE=0x0600;_MT;FLAC__NO_DLL"
 				StringPooling="TRUE"
 				ExceptionHandling="TRUE"
@@ -165,7 +165,7 @@ xcopy &quot;$(FMODEXDIR)\api\fmodex.dll&quot;  &quot;$(OutDir)&quot; /Y
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(WXDIR)\include\msvc&quot;;&quot;$(ProjectDir)\3rd-Party\taglib\mpeg\id3v2&quot;;&quot;$(ProjectDir)\3rd-Party\taglib\toolkit&quot;;&quot;$(ProjectDir)\3rd-Party\taglib\&quot;;&quot;$(MAC_SDKDIR)\Shared&quot;;&quot;$(ProjectDir)/MUSIKEngine&quot;;&quot;$(ProjectDir)/src&quot;;&quot;$(FLACDIR)\include&quot;;&quot;$(VORBISDIR)\include&quot;;&quot;$(FMODDIR)\api\inc&quot;;&quot;$(OGGDIR)\include&quot;;&quot;$(WXDIR)\contrib\include&quot;;&quot;$(WXDIR)\include&quot;;&quot;$(SQLITEDIR)&quot;;MMShellHook;&quot;$(ProjectDir)&quot;"
+				AdditionalIncludeDirectories="&quot;$(WXDIR)\include\msvc&quot;;&quot;$(ProjectDir)\3rd-Party\taglib\mpeg\id3v2&quot;;&quot;$(ProjectDir)\3rd-Party\taglib\toolkit&quot;;&quot;$(ProjectDir)\3rd-Party\taglib\&quot;;&quot;$(ProjectDir)\3rd-Party\sqlite3\&quot;;&quot;$(MAC_SDKDIR)\Shared&quot;;&quot;$(ProjectDir)/MUSIKEngine&quot;;&quot;$(ProjectDir)/src&quot;;&quot;$(FLACDIR)\include&quot;;&quot;$(VORBISDIR)\include&quot;;&quot;$(FMODDIR)\api\inc&quot;;&quot;$(OGGDIR)\include&quot;;&quot;$(WXDIR)\contrib\include&quot;;&quot;$(WXDIR)\include&quot;;&quot;$(SQLITEDIR)&quot;;MMShellHook;&quot;$(ProjectDir)&quot;"
 				PreprocessorDefinitions="_DEBUG;WIN32;_WINDOWS;WINVER=0x400;_WIN32_IE=0x0600;_MT;_UNICODE;wxUSE_UNICODE;FLAC__NO_DLL;ID3LIB_LINKOPTION=1"
 				StringPooling="TRUE"
 				MinimalRebuild="TRUE"
@@ -239,7 +239,7 @@ xcopy &quot;$(FMODDIR)\api\fmod.dll&quot;  &quot;$(OutDir)&quot; /Y
 				OmitFramePointers="TRUE"
 				OptimizeForProcessor="0"
 				OptimizeForWindowsApplication="TRUE"
-				AdditionalIncludeDirectories="&quot;$(WXDIR)\include\msvc&quot;;&quot;$(ProjectDir)\3rd-Party\taglib\mpeg\id3v2&quot;;&quot;$(ProjectDir)\3rd-Party\taglib\toolkit&quot;;&quot;$(ProjectDir)\3rd-Party\taglib\&quot;;&quot;$(MAC_SDKDIR)\Shared&quot;;&quot;$(ProjectDir)/MUSIKEngine&quot;;&quot;$(ProjectDir)/src&quot;;&quot;$(FLACDIR)\include&quot;;&quot;$(VORBISDIR)\include&quot;;&quot;$(FMODDIR)\api\inc&quot;;&quot;$(OGGDIR)\include&quot;;&quot;$(WXDIR)\contrib\include&quot;;&quot;$(WXDIR)\include&quot;;&quot;$(SQLITEDIR)&quot;;MMShellHook;&quot;$(ProjectDir)&quot;"
+				AdditionalIncludeDirectories="&quot;$(WXDIR)\include\msvc&quot;;&quot;$(ProjectDir)\3rd-Party\taglib\mpeg\id3v2&quot;;&quot;$(ProjectDir)\3rd-Party\taglib\toolkit&quot;;&quot;$(ProjectDir)\3rd-Party\sqlite3\&quot;;&quot;$(ProjectDir)\3rd-Party\taglib\&quot;;&quot;$(MAC_SDKDIR)\Shared&quot;;&quot;$(ProjectDir)/MUSIKEngine&quot;;&quot;$(ProjectDir)/src&quot;;&quot;$(FLACDIR)\include&quot;;&quot;$(VORBISDIR)\include&quot;;&quot;$(FMODDIR)\api\inc&quot;;&quot;$(OGGDIR)\include&quot;;&quot;$(WXDIR)\contrib\include&quot;;&quot;$(WXDIR)\include&quot;;&quot;$(SQLITEDIR)&quot;;MMShellHook;&quot;$(ProjectDir)&quot;"
 				PreprocessorDefinitions="NDEBUG;WIN32;_WINDOWS;WINVER=0x400;_WIN32_IE=0x0600;_MT;_UNICODE;wxUSE_UNICODE;FLAC__NO_DLL"
 				StringPooling="TRUE"
 				ExceptionHandling="TRUE"
@@ -415,6 +415,15 @@ xcopy &quot;$(FMODDIR)\api\fmod.dll&quot;  &quot;$(OutDir)&quot; /Y
 			</File>
 			<File
 				RelativePath=".\src\myprec.h">
+			</File>
+			<File
+				RelativePath=".\3rd-Party\nedmalloc\nedmalloc.c">
+				<FileConfiguration
+					Name="Release Unicode|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\src\Playlist.cpp">
@@ -833,10 +842,19 @@ xcopy &quot;$(FMODDIR)\api\fmod.dll&quot;  &quot;$(OutDir)&quot; /Y
 					RelativePath=".\src\Classes\Library\mp3tech.h">
 				</File>
 				<File
-					RelativePath=".\src\Classes\MusikDb.cpp">
+					RelativePath=".\src\Classes\MusikDb.h">
 				</File>
 				<File
-					RelativePath=".\src\Classes\MusikDb.h">
+					RelativePath=".\src\Classes\MusikDb_Sqlite.cpp">
+				</File>
+				<File
+					RelativePath=".\src\Classes\MusikDb_Sqlite.h">
+				</File>
+				<File
+					RelativePath=".\src\Classes\MusikDb_Sqlite3.cpp">
+				</File>
+				<File
+					RelativePath=".\src\Classes\MusikDb_Sqlite3.h">
 				</File>
 				<File
 					RelativePath=".\src\Classes\MusikLibrary.cpp">

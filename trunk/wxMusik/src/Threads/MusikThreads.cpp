@@ -360,7 +360,9 @@ void *MusikWriteDirtyThread::Entry()
 	wxPostEvent( g_MusikFrame, WriteTagStartEvt );
 
 	MusikSongIdArray aDirty;
-	wxGetApp().Library.QuerySongsWhere( wxT("dirty = 1"), aDirty );
+    std::auto_ptr<CMusikLibrary> pSlaveLibrary(wxGetApp().Library.CreateSlave());
+
+	pSlaveLibrary->QuerySongsWhere( wxT("dirty = 1"), aDirty );
 
 	if ( aDirty.GetCount() > 0 )
 	{
@@ -388,8 +390,8 @@ void *MusikWriteDirtyThread::Entry()
 			//-----------------------------//
 			//--- write the tag to file	---//
 			//-----------------------------//
-			if(wxGetApp().Library.WriteTag( aDirty.Item( i ), m_Clear ,false)) // no db update
-				wxGetApp().Library.UpdateItemResetDirty( aDirty.Item( i )); // just clear dirty flag, if WriteTag was successfull
+			if(pSlaveLibrary->WriteTag( aDirty.Item( i ), m_Clear ,false)) // no db update
+				pSlaveLibrary->UpdateItemResetDirty( aDirty.Item( i )); // just clear dirty flag, if WriteTag was successfull
 
 		}
 

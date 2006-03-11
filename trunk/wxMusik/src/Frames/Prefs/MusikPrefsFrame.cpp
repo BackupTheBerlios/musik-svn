@@ -69,6 +69,7 @@ private:
     PrefPanel * m_pPanel;
 };
 
+IMPLEMENT_DYNAMIC_CLASS(MusikPrefsDialog,wxDialog)
 
 BEGIN_EVENT_TABLE(MusikPrefsDialog, wxDialog)
 #ifdef __WXMSW__
@@ -84,10 +85,14 @@ BEGIN_EVENT_TABLE(MusikPrefsDialog, wxDialog)
 END_EVENT_TABLE()
 
 
-MusikPrefsDialog::MusikPrefsDialog( wxWindow *pParent, const wxString &sTitle )
-    :wxDialog( pParent, -1, sTitle, wxDefaultPosition, wxSize(750,700), wxDEFAULT_FRAME_STYLE|wxRESIZE_BORDER|wxCAPTION | wxTAB_TRAVERSAL | wxFRAME_FLOAT_ON_PARENT | wxFRAME_NO_TASKBAR )
-    ,m_pCurrentPanel(NULL)
+void MusikPrefsDialog::Init()
 {
+    m_pCurrentPanel=NULL;
+}
+bool MusikPrefsDialog::Create( wxWindow *pParent, const wxString &sTitle )
+{
+    if ( !wxDialog::Create( pParent, -1, sTitle, wxDefaultPosition, wxSize(750,700), wxDEFAULT_FRAME_STYLE|wxRESIZE_BORDER|wxCAPTION | wxTAB_TRAVERSAL | wxFRAME_FLOAT_ON_PARENT | wxFRAME_NO_TASKBAR ))
+        return false;
 	//---------------//
 	//--- colours ---//
 	//---------------//
@@ -194,7 +199,7 @@ MusikPrefsDialog::MusikPrefsDialog( wxWindow *pParent, const wxString &sTitle )
 	//--------------------//
     SelectFirstPanel(); 
     Layout();
-
+    return true;
 }
 
 void MusikPrefsDialog::SelectFirstPanel()
@@ -246,8 +251,8 @@ void MusikPrefsDialog::Close( bool bCancel )
 		if(!SavePrefs())
 			return;
 
-	g_MusikFrame->Enable( TRUE );
-	this->Destroy();
+	//g_MusikFrame->Enable( TRUE );
+	Destroy();
 	
 }
 

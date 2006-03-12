@@ -1,5 +1,7 @@
 SET(PROJECT_VERSION_MAJOR "0.4.3.0")
 
+INCLUDE( ${wxMusik_SOURCE_DIR}/MUSIKEngine/engine.cmake)
+
 SET(MAIN_SRCS
         ./MusikApp
         ./MusikId
@@ -100,8 +102,7 @@ ENDIF(WIN32)
 ADD_EXECUTABLE(wxMusik ${WIN32_EXECUTABLE} ${MAIN_SRCS})
 
 TARGET_LINK_LIBRARIES(wxMusik
-#        ${MUSIK_ENGINE}
- 	FMODEngine
+        ${MUSIK_ENGINE}
         MUSIKEngine
         mysqlite3
         ${WXWINDOWS_LIBRARY}

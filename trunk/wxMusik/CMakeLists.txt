@@ -1,5 +1,6 @@
 
 PROJECT(wxMusik)
+
 SUBDIRS(data locale 3rd-Party MUSIKEngine src)
 INCLUDE (${wxMusik_SOURCE_DIR}/scripts/cmake/TargetDistclean.cmake)
 

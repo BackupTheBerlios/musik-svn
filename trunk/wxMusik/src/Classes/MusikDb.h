@@ -186,8 +186,8 @@ public:
         typedef int (*tResultCB)(void* pT, int numCols, char **results, char ** columnNames);
 
         ResultCB(void* pT,tResultCB cb)
-            :m_cb(cb)
-            ,m_pT(pT)
+            :m_pT(pT),
+            m_cb(cb)
         {
             
         }

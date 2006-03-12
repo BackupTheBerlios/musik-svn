@@ -51,6 +51,8 @@ public:
     {
         m_bWaiting = false;
     }
+    virtual ~BusyHandler()
+    {}
     void Signal()
     {
         m_mtx.Lock();
@@ -79,8 +81,8 @@ protected:
 CMusikLibrary::CMusikLibrary()
 	: wxEvtHandler()
     ,m_pBusyHandler(new BusyHandler)
-    ,m_pDB(NULL)
     ,m_pMasterLibrary(NULL)
+    ,m_pDB(NULL)
 {
 	m_nCachedSongCount = -1;
     SetSortOrderColumn( g_PlaylistColumn[PlaylistColumn::ARTIST] );

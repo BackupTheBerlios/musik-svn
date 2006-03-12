@@ -44,7 +44,7 @@ void *MusikTagApplyThread::Entry()
     std::auto_ptr<CMusikLibrary> pSlaveLibrary(wxGetApp().Library.CreateSlave());
     bool bTagDlgWrite = wxGetApp().Prefs.bTagDlgWrite;
     bool bTagDlgRename = wxGetApp().Prefs.bTagDlgRename;
-    int TransactCount = 100;
+    size_t TransactCount = 100;
     if(bTagDlgWrite)
        TransactCount = 2; 
     pSlaveLibrary->BeginTransaction();

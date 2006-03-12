@@ -1176,7 +1176,7 @@ int CMusikPlayer::GetTime( int nType )
 			m_NETSTREAM_last_read_percent =	 m_NETSTREAM_read_percent;
 			status = _NetStreamStatusUpdate(p_NETSTREAM);
             MUSIKEngine::OpenStatus openstatus = MUSIKEngine::OPENSTATUS_OPENFAILED;
-            MUSIKEngine::Error err = p_NETSTREAM->GetOpenStatus(&openstatus);
+            /*MUSIKEngine::Error err =*/ p_NETSTREAM->GetOpenStatus(&openstatus);
 			if( openstatus == MUSIKEngine::OPENSTATUS_READY) 
 			{
 				

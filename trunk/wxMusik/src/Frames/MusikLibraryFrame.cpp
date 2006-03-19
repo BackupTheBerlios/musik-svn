@@ -120,7 +120,7 @@ bool MusikLibraryDialog::Create( wxWindow* pParent ,const wxArrayString &arrFile
 //---------------------------------//
 bool MusikLibraryDialog::Create( wxWindow* pParent, const wxPoint &pos, const wxSize & ) 
 {
-    if(!wxDialog::Create( pParent, -1, wxString(MUSIKAPPNAME) + _(" Library Setup"), pos, wxSize( 500, 300 ), wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER | wxCLIP_CHILDREN ))
+    if(!wxDialog::Create( pParent, -1, wxString(MUSIKAPPNAME) + _(" Library Setup"), pos, wxSize( 500, 300 ), wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER | wxCLIP_CHILDREN|wxMINIMIZE_BOX ))
         return false;
 	//--------------------//
 	//--- Context menu ---//

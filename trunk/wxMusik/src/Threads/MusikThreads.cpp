@@ -391,7 +391,11 @@ void *MusikWriteDirtyThread::Entry()
 			//--- write the tag to file	---//
 			//-----------------------------//
 			if(pSlaveLibrary->WriteTag( aDirty.Item( i ), m_Clear ,false)) // no db update
+            {
+                pSlaveLibrary->BeginTransaction();
 				pSlaveLibrary->UpdateItemResetDirty( aDirty.Item( i )); // just clear dirty flag, if WriteTag was successfull
+                pSlaveLibrary->EndTransaction();
+            }
 
 		}
 

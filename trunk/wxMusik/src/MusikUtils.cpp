@@ -670,7 +670,6 @@ bool CMusikTagger::Retag(CMusikSong * Song) const
 	wxStripExtension(sFile);
 	if(m_bConvertUnderscoresToSpaces)
 		sFile.Replace(wxT( "_" ), wxT( " " ));
-    Song->MetaData.nTracknum = 0;
 	if(m_reMask.Matches(sFile))
 	{
 		for(size_t i = 0;i < m_PlaceHolderArray.GetCount(); i++ )

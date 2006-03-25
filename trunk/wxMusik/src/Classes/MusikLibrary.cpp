@@ -177,7 +177,7 @@ bool CMusikLibrary::Load()
 			"CREATE INDEX IF NOT EXISTS songs_genre_idx on songs (genre);"
             "CREATE INDEX IF NOT EXISTS songs_year_idx on songs (year);"
 //			"CREATE INDEX IF NOT EXISTS songs_tracknum_idx on songs (tracknum);"
-//			"CREATE INDEX IF NOT EXISTS songs_artist_album_tracknum_idx on songs (artist,album,tracknum);"
+			"CREATE INDEX IF NOT EXISTS songs_artist_album_tracknum_idx on songs (artist collate nocase,album collate nocase,tracknum);"
 			"CREATE INDEX IF NOT EXISTS songs_timeadded_idx on songs (timeadded);"
 			"CREATE INDEX IF NOT EXISTS songs_lastplayed_idx on songs (lastplayed);"
 			;
@@ -597,14 +597,12 @@ void CMusikLibrary::GetInfo( const wxArrayString & aList, const PlaylistColumn &
 	wxString sInfo;
 	wxString query;
 	query.Alloc(50 * aList.GetCount()+ 40);
-    wxString sColumnOut = wxString::Format(ColumnOut.ColQueryMask,ColumnOut.DBName.c_str());
+    wxString sColumnOut(wxString::Format(ColumnOut.ColQueryMask,ColumnOut.DBName.c_str()));
     sColumnOut += wxT(" as OutColumn ");
 	if(bSorted)
 	{
 		if( wxGetApp().Prefs.bSortArtistWithoutPrefix && ColumnOut.SortOrder == PlaylistColumn::SortNoCaseNoPrefix)
-			query = wxT("select distinct ") + sColumnOut + wxT(",UPPER(REMPREFIX(") + sColumnOut + wxT(")) as UP from songs where ");
-		else if(ColumnOut.SortOrder == PlaylistColumn::SortNoCase)
-			query = wxT("select distinct ") + sColumnOut + wxT(",UPPER(") + sColumnOut +wxT(") as UP from songs where ");
+			query << wxT("select distinct ") << sColumnOut << wxT(",REMPREFIX(") << sColumnOut << wxT(") as RPF from songs where ");
         else
             query = wxT("select distinct ") + sColumnOut + wxT(" from songs where ");
 	}
@@ -613,41 +611,46 @@ void CMusikLibrary::GetInfo( const wxArrayString & aList, const PlaylistColumn &
 
     bool bQuote = (ColumnIn.Type == PlaylistColumn::Textual);
 
+    query << wxString::Format(ColumnIn.ColQueryMask,ColumnIn.DBName.c_str())
+          << wxT(" in (");
 	for ( int i = 0; i < (int)aList.GetCount(); i++ )
 	{
-		wxString itemstr = aList.Item( i );
-		itemstr.Replace( wxT("'"), wxT("''") );
-
 		if ( i > 0 )
-			query += wxT(" or ");
-        query += wxString::Format(ColumnIn.ColQueryMask,ColumnIn.DBName.c_str());
-        query += wxT(" = ");
+			query << wxT(',');
         if(bQuote)
-            query += wxT("'");
-		query += itemstr;
+        {
+            query << wxT('\'');
+            wxString s (aList.Item( i ));
+            s.Replace( wxT("'"), wxT("''") );
+            query << s;
+        }
+        else
+		    query << aList.Item( i );
         if(bQuote)
-    		query += wxT("' ");
+    		query << wxT('\'');
 
 	}
-
+    query << wxT(')');
 	if(bSorted)
 	{
 		switch ( ColumnOut.SortOrder )
 		{
         case PlaylistColumn::SortNoCase:
+            query += wxT(" order by OutColumn collate nocase");
+            break;
 		case PlaylistColumn::SortNoCaseNoPrefix:
-			query += wxT("order by UP");
+			query += wxT(" order by RPF collate nocase");
 			break;
 
         case PlaylistColumn::SortCase:
-			query += wxT("order by OutColumn");
+			query += wxT(" order by OutColumn");
 			break;
 
         case PlaylistColumn::SortNone:
 			break;
 		}
 	}
-	query += wxT(";");
+	query << wxT(';');
     
     Query(query,aReturn,false);
 }
@@ -784,45 +787,34 @@ void CMusikLibrary::SetSortOrderColumn( const PlaylistColumn & Column, bool desc
 {
 	m_sSortAllSongsQuery.Empty();
 	const wxString & sortstr = Column.DBName;
-	if ( Column.Type == PlaylistColumn::Textual )
+	m_sSortAllSongsQuery << wxT("select distinct songid");
+    if(wxGetApp().Prefs.bSortArtistWithoutPrefix && (Column.SortOrder == PlaylistColumn::SortNoCaseNoPrefix) )
 	{
-		m_sSortAllSongsQuery = wxT("select distinct songid, UPPER(");
-        if(wxGetApp().Prefs.bSortArtistWithoutPrefix && (Column.SortOrder == PlaylistColumn::SortNoCaseNoPrefix) )
-		{
-			m_sSortAllSongsQuery += wxT("REMPREFIX(");
-			m_sSortAllSongsQuery += sortstr;
-			m_sSortAllSongsQuery += wxT(")");
-		}
-		else
-			m_sSortAllSongsQuery += sortstr;
-
-		m_sSortAllSongsQuery += wxT(") as up");
-		m_sSortAllSongsQuery += sortstr;		
-		m_sSortAllSongsQuery += wxT(" from songs ");
+		m_sSortAllSongsQuery << wxT(",REMPREFIX(") << sortstr << wxT(") as RPF") << sortstr;
 	}
-	else
-		m_sSortAllSongsQuery = wxT("select distinct songid from songs ");
+	m_sSortAllSongsQuery << wxT(" from songs ");
 
-	m_sSortAllSongsQuery += wxT("%s"); // add placeholder for possible where clause
+	m_sSortAllSongsQuery << wxT("%s"); // add placeholder for possible where clause
 
-	if ( Column.Type == PlaylistColumn::Textual )
-		m_sSortAllSongsQuery += wxT(" order by up");
-	else
-		m_sSortAllSongsQuery += wxT(" order by ");
-	m_sSortAllSongsQuery += sortstr;
-	if ( descending )
-		m_sSortAllSongsQuery += wxT(" desc");
+    m_sSortAllSongsQuery << wxT(" order by ");
+
+    if(wxGetApp().Prefs.bSortArtistWithoutPrefix && (Column.SortOrder == PlaylistColumn::SortNoCaseNoPrefix) )
+		m_sSortAllSongsQuery << wxT("RPF");
+    m_sSortAllSongsQuery << sortstr;
+    if(Column.SortOrder != PlaylistColumn::SortCase)
+        m_sSortAllSongsQuery << wxT(" collate nocase");
+    if ( descending )
+		m_sSortAllSongsQuery << wxT(" desc");
 
 	if(sortstr == wxT("artist"))
-		m_sSortAllSongsQuery += wxT(" ,album , tracknum");
+		m_sSortAllSongsQuery << wxT(" ,album collate nocase, tracknum");
 	else if(sortstr == wxT("album")) 
-		m_sSortAllSongsQuery += wxT(" ,tracknum,artist");
+		m_sSortAllSongsQuery << wxT(" ,tracknum,artist collate nocase");
 	else if(sortstr == wxT("genre")) 
-		m_sSortAllSongsQuery += wxT(" ,artist,album,tracknum");
+		m_sSortAllSongsQuery << wxT(" ,artist collate nocase,album collate nocase,tracknum");
 	else if(sortstr == wxT("year")) 
-		m_sSortAllSongsQuery += wxT(" ,artist,album,tracknum");
-	m_sSortAllSongsQuery += wxT(";");
-
+		m_sSortAllSongsQuery << wxT(" ,artist collate nocase,album collate nocase,tracknum");
+	m_sSortAllSongsQuery << wxT(';');
 	return;
 }
 
@@ -830,32 +822,11 @@ void CMusikLibrary::SetSortOrderColumn( const PlaylistColumn & Column, bool desc
 
 double CMusikLibrary::GetSum(const wxString & sField, const MusikSongIdArray &  idarray ) const
 {
-	wxString sQuery;
-	
-	sQuery = wxT("select sum(") + sField +wxT(") from songs where songid in (");
-
-	size_t count = idarray.GetCount();
-	if ( count < 1 )
+	if ( !idarray.GetCount())
 		return 0.0;
-
-	sQuery.Alloc(sQuery.Len() + count * 10); // optimization ( the 10 is a wild guess)
-	for ( size_t i = 0; i < count ; i++ )
-	{
-		//--- if song has a ' ---//	
-		const MusikSongId & songid = idarray.Item ( i );
-		
-		sQuery += wxString::Format(wxT("%d"),(int)songid);
-		//--- not at the end ---//
-		if ( i != count - 1 )
-			sQuery += wxT(", ");
-		//--- at the end ---//
-		else
-		{
-			sQuery += wxT(" );");
-		}
-	}
-
-
+    wxString sQuery(wxT("select sum(") + sField +wxT(") from songs where songid in ("));
+    idarray.AddCommaSeparated(sQuery);
+    sQuery << wxT(");");
 	//--- run query ---//
 	double  totsize = 0.0;
 	m_pDB->Exec(ConvQueryToMB( sQuery ),&totsize);

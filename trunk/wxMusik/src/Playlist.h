@@ -91,30 +91,34 @@ public:
     }
 	wxLongLong GetTotalFileSize() const;
 	int GetTotalPlayingTimeInSeconds() const;
-    wxString AsCommaSeparatedString()
+    wxString AsCommaSeparatedString( ) const
     {
         wxString sList;
-        sList.Alloc(GetCount() * 7);
+        AddCommaSeparated(sList);
+        return sList;
+    }
+    void AddCommaSeparated(wxString &sList) const
+    {
+        sList.Alloc(sList.Length() + GetCount() * 10);
         for(size_t i = 0 ; i < GetCount();i++)
         {
             sList << Item(i);
             if(i != GetCount() - 1)
                 sList << wxT(",");
         }
-        return sList;
     }
 private:
     size_t m_nCurIndex;
 };
-#if 1
+#if 0
 class Playlist;
 
 class PlaylistDataProvider
 {
 public:
     virtual ~PlaylistDataProvider(){}
-    virtual bool RetrieveIdArray(Playlist & pl,MusikSongIdArray  &idarr)= 0;
-    virtual bool Save(Playlist & pl) const  = 0;
+    virtual bool RetrieveIdArray(const Playlist & pl,MusikSongIdArray  &idarr)= 0;
+    virtual bool Save(const Playlist & pl) const  = 0;
 };
 
 class Playlist
@@ -131,7 +135,10 @@ public:
 		return m_sName;
 	}
 
-	virtual const MusikSongIdArray & SongIdArray() const = 0;
+    virtual MusikSongId & operator[](size_t i) = 0;
+    virtual const MusikSongId & operator[](size_t i) const= 0;
+
+    virtual wxLongLong GetColumnSum(PlaylistColumn::eId id) = 0;
     virtual ~Playlist(){}
 
 protected:
@@ -148,12 +155,17 @@ public:
     {
         Init();
     }
-    const MusikSongIdArray & SongIdArray() const
+    virtual MusikSongId & operator[](size_t i)
     {
-        return m_SongIdArray;
+        return m_SongIdArray[i];
     }
-    void Add( MusikSongIdArray & ids ); 
-    void Insert( MusikSongIdArray & ids ,size_t nInsertBefore); 
+    virtual const MusikSongId & operator[](size_t i) const
+    {
+        return m_SongIdArray[i];
+    }
+
+    void Add( const Playlist & p ); 
+    void Insert( const Playlist & ids ,size_t nInsertBefore); 
     void Move(size_t nIndexMoveTo ,const wxArrayInt &arrIndexToMove );
     void Remove(size_t nRemove);
 protected:
@@ -201,6 +213,14 @@ public:
         bSortAscending = m_bSortAscending;
         return true;
     }
+    virtual MusikSongId & operator[](size_t i)
+    {
+        return m_SongIdArray[i];
+    }
+    virtual const MusikSongId & operator[](size_t i) const
+    {
+        return m_SongIdArray[i];
+    }
     const MusikSongIdArray & SongIdArray()
     {
         Realize();
@@ -208,6 +228,11 @@ public:
     }
 
 protected:
+    MusikSongId & GetAt(size_t i)
+    {
+        Realize();
+        return m_SongIdArray[i];
+    }
     void Realize()
     {
 

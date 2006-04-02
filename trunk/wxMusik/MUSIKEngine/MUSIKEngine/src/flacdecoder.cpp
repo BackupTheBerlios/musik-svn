@@ -92,7 +92,7 @@ bool MUSIKFLACDecoder::OpenMedia(const char *FileName)
 
 
 
-int MUSIKFLACDecoder::DecodeBlocks(unsigned char *buff,int len)
+int MUSIKFLACDecoder::DecodeBlocks(unsigned char *buff,int /*len*/)
 {
 	const unsigned channels = m_Info.channels;
 	const unsigned bits_per_sample = m_FlacInfo.streaminfo.bits_per_sample;
@@ -183,7 +183,7 @@ FLAC__StreamDecoderWriteStatus MUSIKFLACDecoder::FLACWriteCallback(const FLAC__F
 	return FLAC__STREAM_DECODER_WRITE_STATUS_CONTINUE;
 }
 
-void MUSIKFLACDecoder::FLACMetaCallback(const FLAC__FileDecoder *decoder, const FLAC__StreamMetadata *metadata, void *client_data)
+void MUSIKFLACDecoder::FLACMetaCallback(const FLAC__FileDecoder * /*decoder*/, const FLAC__StreamMetadata *metadata, void *client_data)
 {
 	/* TO-DO: Meta data */
 	FLACStreamInfo *pFlacInfo=(FLACStreamInfo *)client_data;
@@ -206,7 +206,7 @@ void MUSIKFLACDecoder::FLACMetaCallback(const FLAC__FileDecoder *decoder, const 
 }
 
 
-void MUSIKFLACDecoder::FLACErrorCallback(const FLAC__FileDecoder *decoder, FLAC__StreamDecoderErrorStatus status, void *client_data) 
+void MUSIKFLACDecoder::FLACErrorCallback(const FLAC__FileDecoder * /*decoder*/, FLAC__StreamDecoderErrorStatus status, void *client_data) 
 {
 	/* TO-DO: Error handling */
 	FLACStreamInfo *pFlacInfo=(FLACStreamInfo *)client_data;

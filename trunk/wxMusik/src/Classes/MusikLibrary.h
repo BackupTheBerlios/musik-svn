@@ -24,6 +24,7 @@
 #include <wx/filename.h>
 
 #include <map>
+#include <vector>
 #include "MusikUtils.h"
 #include "Playlist.h"
 
@@ -126,9 +127,11 @@ private:
     void ConvertFromDB2();
 	void CheckVersion2();
     void CheckVersion();
+    void InternalEndTransaction();
 
     std::auto_ptr<MusikDb> m_pDB;
-
+    bool m_bTansactionInProgress;
+    std::vector<int> m_arrTransactionIdsChanged;
     mutable wxCriticalSection m_csCacheAccess;
     typedef std::map<int,CMusikSong>  tSongCacheMap;
     tSongCacheMap m_mapSongCache;

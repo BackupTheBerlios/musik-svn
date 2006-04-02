@@ -83,6 +83,7 @@ CMusikLibrary::CMusikLibrary()
     ,m_pBusyHandler(new BusyHandler)
     ,m_pMasterLibrary(NULL)
     ,m_pDB(NULL)
+    ,m_bTansactionInProgress(false)
 {
 	m_nCachedSongCount = -1;
     SetSortOrderColumn( g_PlaylistColumn[PlaylistColumn::ARTIST] );
@@ -90,6 +91,8 @@ CMusikLibrary::CMusikLibrary()
 
 CMusikLibrary::~CMusikLibrary()
 {
+    if(m_bTansactionInProgress)
+        InternalEndTransaction();
 	Shutdown();
     if(m_pMasterLibrary)
         m_pMasterLibrary->SignalSlaveTransactionEnd();// if the master ist waiting for some reason, he gets the signal to stop waiting.
@@ -106,24 +109,56 @@ CMusikLibrary * CMusikLibrary::CreateSlave()
 
 void CMusikLibrary::OnSongDataChange(int songid)
 {
-    if(m_pMasterLibrary)
-        m_pMasterLibrary->OnSongDataChange(songid);
     wxCriticalSectionLocker lock( m_csCacheAccess );
-    if(songid == -1)
-        m_mapSongCache.clear();
-    else
-        m_mapSongCache.erase(songid);
+   if(!m_bTansactionInProgress)
+   {
+       if(m_pMasterLibrary)
+           m_pMasterLibrary->OnSongDataChange(songid);
+        if(songid == -1)
+            m_mapSongCache.clear();
+        else
+            m_mapSongCache.erase(songid);
+   }
+   else
+   {
+       if(m_arrTransactionIdsChanged.size() > 0 && m_arrTransactionIdsChanged[0] == -1)
+           return;
+       if(songid == -1)
+           m_arrTransactionIdsChanged.clear();
+       if(m_arrTransactionIdsChanged.size() > 100)
+       {
+           m_arrTransactionIdsChanged.clear();
+           m_arrTransactionIdsChanged.push_back(-1);
+           return;
+       }
+       m_arrTransactionIdsChanged.push_back(songid);
+   }
 }
 
 void CMusikLibrary::BeginTransaction()
 { 	
+    {
+        wxCriticalSectionLocker lock( m_csCacheAccess );
+        m_arrTransactionIdsChanged.clear();
+        m_bTansactionInProgress=true;
+    }
     m_pDB->BeginTransaction();
 }
 void CMusikLibrary::EndTransaction()
 {
+    InternalEndTransaction();
+}
+void CMusikLibrary::InternalEndTransaction()
+{
     m_pDB->EndTransaction();
     if(m_pMasterLibrary)
         m_pMasterLibrary->SignalSlaveTransactionEnd();
+    wxCriticalSectionLocker lock( m_csCacheAccess );
+    m_bTansactionInProgress = false;
+    for (std::vector<int>::iterator i=m_arrTransactionIdsChanged.begin();i != m_arrTransactionIdsChanged.end(); ++i )
+    {
+        OnSongDataChange(*i);
+    }
 }
 
 void CMusikLibrary::SignalSlaveTransactionEnd()

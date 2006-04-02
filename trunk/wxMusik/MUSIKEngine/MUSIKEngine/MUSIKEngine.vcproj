@@ -132,7 +132,13 @@
 				RelativePath=".\inc\decoder.h">
 			</File>
 			<File
+				RelativePath=".\inc\defaultdecoder.h">
+			</File>
+			<File
 				RelativePath=".\inc\engine.h">
+			</File>
+			<File
+				RelativePath=".\inc\equalizer.h">
 			</File>
 			<File
 				RelativePath=".\inc\imusikstreamout.h">

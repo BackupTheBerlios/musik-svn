@@ -88,6 +88,8 @@ private:
   MUSIKEngine & m_Engine;
   MUSIKDecoder * m_pMUSIKDecoder; 
 
+  operator=(const IMUSIKStreamOut &);
+  IMUSIKStreamOut(const IMUSIKStreamOut &);
 };
 
 class IMUSIKStreamOutDefault  : public IMUSIKStreamOut

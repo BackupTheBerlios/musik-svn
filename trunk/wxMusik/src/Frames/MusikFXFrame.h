@@ -56,7 +56,6 @@ public:
 	//----------------//
 	//--- controls ---//
 	//----------------//
-	CMusikEQCtrl			*pEQ;
 	wxSlider				*slPitch;
 	wxCheckBox				*chkPitchEnable;
 	

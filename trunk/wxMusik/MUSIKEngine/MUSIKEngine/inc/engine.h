@@ -28,6 +28,7 @@
 class MUSIKStream;
 class MUSIKDefaultDecoder;
 class IMUSIKStreamOut;
+class MUSIKEqualizer;
 
 class MUSIKEngine
 {
@@ -101,6 +102,10 @@ public:
         return m_NetBufferSize;
     }
 
+    virtual MUSIKEqualizer * Equalizer()
+    {
+        return NULL;
+    }
 	virtual ~MUSIKEngine()
 	{
 	}

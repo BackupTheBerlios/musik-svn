@@ -114,8 +114,12 @@ MusikFXDialog::MusikFXDialog( wxWindow *pParent, const wxString &sTitle, const w
 	//------------------//
 	//--- equalizers ---//
 	//------------------//
-	pEQ = new CMusikEQCtrl( this );
-
+    CMusikEQCtrl *pEQ = NULL;
+    wxStaticText *pEQEmpty = NULL;
+    if(wxGetApp().Player.SndEngine().Equalizer())
+	    pEQ = new CMusikEQCtrl( this );
+    else
+        pEQEmpty = new wxStaticText(this,-1,_("Sorry, no equalizer supported by the used sound engine."));
 	//-------------//
 	//--- pitch ---//
 	//-------------//
@@ -132,9 +136,11 @@ MusikFXDialog::MusikFXDialog( wxWindow *pParent, const wxString &sTitle, const w
 	chkPitchEnable->SetValue( wxGetApp().Prefs.bUsePitch );
 	hsPitch->Add( chkPitchEnable, 0, wxALIGN_CENTER | wxALIGN_CENTER_VERTICAL );
 	hsPitch->Add( slPitch, 1, wxALL, 4 );
+    if(pEQ)
+        vsMain->Add( pEQ , 1, wxEXPAND|wxALL, 4 );
+    else
+        vsMain->Add( pEQEmpty , 1, wxEXPAND|wxALL, 4 );
 
-	vsMain->Add( pEQ, 1, wxEXPAND|wxALL, 4 );
-	
 	vsMain->Add( hsPitch, 0,wxEXPAND | wxALL, 4 );
 	
 	vsMain->Add( new wxButton(this,wxID_CANCEL,_("Close")), 0,wxALIGN_RIGHT|wxALL, 4 );

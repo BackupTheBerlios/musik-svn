@@ -425,7 +425,6 @@ void MusikTagFrame::PopulateTagDlg()
 	//--- enable text controls accordingly ---//
 	SetEnabled();
 	SetFocus();
-	m_bDirty = false;
 }
 
 void MusikTagFrame::SetEnabled()

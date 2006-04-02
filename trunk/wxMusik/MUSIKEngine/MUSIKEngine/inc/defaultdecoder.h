@@ -23,7 +23,7 @@ public:
 	}
 protected:
 	virtual bool OpenMedia(const char *FileName);
-	virtual int DecodeBlocks(unsigned char *buff,int len)
+	virtual int DecodeBlocks(unsigned char * /*buff*/,int /*len*/)
 	{
 		return false;
 	}

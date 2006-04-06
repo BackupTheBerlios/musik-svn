@@ -38,7 +38,7 @@
 //---------------//
 //--- defines ---//
 //---------------//
-#if !defined(USE_FMODEX) && !defined(USE_XINE)
+#if !defined(USE_FMODEX) && !defined(USE_XINE) &&!defined(USE_FMOD3)
 #define USE_FMOD3
 #endif
 //#define USE_FMODEX

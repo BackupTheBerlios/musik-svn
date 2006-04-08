@@ -123,7 +123,6 @@ int sqlite3_open_file_count = 0;
 #define OpenCounter(X)
 #endif
 
-
 /*
 ** sqlite3GenericMalloc
 ** sqlite3GenericRealloc
@@ -186,11 +185,4 @@ void sqlite3GenericFree(void *p){
 }
 /* Never actually used, but needed for the linker */
 int sqlite3GenericAllocationSize(void *p){ return 0; }
-#endif
-
-#ifdef USE_NEDMALLOC
-#undef malloc               
-#undef calloc               
-#undef realloc              
-#undef free                 
 #endif

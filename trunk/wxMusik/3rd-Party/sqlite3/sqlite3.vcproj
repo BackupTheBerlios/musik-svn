@@ -20,6 +20,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
+				AdditionalIncludeDirectories="..\nedmalloc"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;THREADSAFE"
 				MinimalRebuild="TRUE"
 				BasicRuntimeChecks="3"
@@ -64,6 +65,7 @@
 				FavorSizeOrSpeed="1"
 				OmitFramePointers="TRUE"
 				OptimizeForWindowsApplication="TRUE"
+				AdditionalIncludeDirectories="..\nedmalloc"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;THREADSAFE"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"

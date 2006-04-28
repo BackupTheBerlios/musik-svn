@@ -38,7 +38,6 @@ public:
 	~CMusikLibrary();
 
     CMusikLibrary * CreateSlave();
-    void OnSongDataChange(int songid = -1);
 	//---------------//
 	//--- loading ---//
 	//---------------//
@@ -123,6 +122,9 @@ private:
     class BusyHandler;
     std::auto_ptr<BusyHandler> m_pBusyHandler;
     CMusikLibrary *m_pMasterLibrary;
+
+    void OnSongDataChange(int songid = -1);
+    void OnSongDataChange_NOLOCK(int songid = -1);
 
     void ConvertFromDB2();
 	void CheckVersion2();

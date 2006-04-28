@@ -6,7 +6,7 @@ ADD_LIBRARY(mysqlite3
 	./attach.c
 	./auth.c
 	./btree.c
-	./build.c
+	./buildx.c
 	./callback.c
 	./complete.c
 	./date.c

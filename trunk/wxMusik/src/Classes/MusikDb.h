@@ -227,6 +227,7 @@ public:
     {
     public:
         virtual bool OnBusy()=0;
+        virtual ~IBusyCallback(){}
     };
 
     virtual void SetBusyHandler(IBusyCallback *pIBusy)

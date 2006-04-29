@@ -341,8 +341,6 @@ void *MusikPurgeLibThread::Entry()
 		}
 	}
 	pSlaveLibrary->EndTransaction();
-    if(bDatabaseChanged)
-        pSlaveLibrary->OnSongDataChange();
 	wxCommandEvent PurgeEndEvt( wxEVT_COMMAND_MENU_SELECTED, MUSIK_LIBRARY_THREAD_END );
 	PurgeEndEvt.SetExtraLong(bDatabaseChanged ? 1:0);
 	wxPostEvent( Parent(), PurgeEndEvt );

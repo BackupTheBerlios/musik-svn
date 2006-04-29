@@ -106,10 +106,14 @@ CMusikLibrary * CMusikLibrary::CreateSlave()
     p->m_pMasterLibrary = this;
     return p;
 }
-
 void CMusikLibrary::OnSongDataChange(int songid)
 {
     wxCriticalSectionLocker lock( m_csCacheAccess );
+    OnSongDataChange_NOLOCK(songid);
+}
+
+void CMusikLibrary::OnSongDataChange_NOLOCK(int songid)
+{
    if(!m_bTansactionInProgress)
    {
        if(m_pMasterLibrary)
@@ -157,7 +161,7 @@ void CMusikLibrary::InternalEndTransaction()
     m_bTansactionInProgress = false;
     for (std::vector<int>::iterator i=m_arrTransactionIdsChanged.begin();i != m_arrTransactionIdsChanged.end(); ++i )
     {
-        OnSongDataChange(*i);
+        OnSongDataChange_NOLOCK(*i);
     }
 }
 
@@ -1072,8 +1076,12 @@ void CMusikLibrary::RemoveSongDir( const wxString &  sDir )
 
 void CMusikLibrary::RemoveSong( const wxString & sSong	)	
 {
-	if(m_pDB->Exec(MusikDb::QueryString("delete from songs where filename = '%q'", ( const char* )ConvToUTF8( sSong ) )))
-	    m_nCachedSongCount = -1;
+    int songid = -1;
+	if(m_pDB->Exec(MusikDb::QueryString("select songid from songs where filename = '%q'", 
+	               ( const char* )ConvToUTF8( sSong ) ), &songid))
+	{
+        RemoveSong(songid);	   
+	}
 }
 void CMusikLibrary::RemoveSong( int songid )	
 {

@@ -53,7 +53,6 @@ extern	MusikFrame *g_MusikFrame;
 //------------------------//
 #include <wx/image.h>
 #include <wx/imaglist.h>
-#include "Classes/MusikFX.h"
 
 #include "MusikApp.h"
 //forward declarations

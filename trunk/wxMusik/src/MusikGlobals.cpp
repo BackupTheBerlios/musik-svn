@@ -38,7 +38,6 @@ MusikFaderThread*	g_FaderThread;
 wxImageList*		g_SourcesImages; 
 wxImageList*		g_NullImageList;
 wxImageList*		g_RatingImages;
-CMusikFX			g_FX;
 
 
 //----------------//

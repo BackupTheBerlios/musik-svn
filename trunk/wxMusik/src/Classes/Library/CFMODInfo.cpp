@@ -64,10 +64,10 @@ bool CFMODInfo::ReadMetaData(CSongMetaData & MetaData) const
 // FMODEx
 #ifdef WIN32
 #include <fmod.hpp>
+#pragma comment(lib,"fmodex_vc")
 #else
 #include <fmodex/fmod.hpp>
 #endif
-#pragma comment(lib,"fmodex_vc")
 CFMODInfo::CFMODInfo()
 {
     m_pSystem = NULL;

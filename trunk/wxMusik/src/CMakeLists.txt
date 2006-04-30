@@ -67,9 +67,6 @@ SET(MAIN_SRCS
         ./Frames/Prefs/OptionGeneralPanel.cpp
         ./Frames/Prefs/OptionTunagePanel.cpp
         ./Frames/Prefs/WebServerPanel.cpp
-
-        ./shibatch/Equ.cpp
-        ./shibatch/Fftsg_fl.cpp
     )
 IF(OPTION_SUPPORT_FLAC)
 SET(FLAC_ADDITIONAL_LIBS "plugin_common grabbag  replaygain_synthesis replaygain_analysis")

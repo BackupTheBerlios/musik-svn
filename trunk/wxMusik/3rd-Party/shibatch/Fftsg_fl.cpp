@@ -1,5 +1,4 @@
 // For compilers that support precompilation, includes "wx/wx.h".
-#include "myprec.h"
 #include <stdlib.h>
 
 typedef float REAL;

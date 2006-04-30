@@ -77,9 +77,6 @@ public:
 	void Shutdown			( bool bClose = true ,bool bNoFade = false);
 	void ClearOldStreams	( bool bClearAll = false );
 	void SetFrequency		( int freq );
-	void InitDSP			( );
-	void ActivateDSP		( );
-	void FreeDSP			( );
 
 	//------------------------------//
 	//--- events threads may use ---//
@@ -202,7 +199,6 @@ private:
 	int				m_CrossfadeType;	
 	wxArrayInt		m_arrHistory;		//--- history of songs played, to avoid repeats		---//
 	size_t			m_nMaxHistory;
-//	FSOUND_DSPUNIT	*m_DSP;
 
 	int m_NETSTREAM_read_percent;
 	int m_NETSTREAM_last_read_percent;

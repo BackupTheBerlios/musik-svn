@@ -120,7 +120,7 @@
 				RelativePath=".\btree.c">
 			</File>
 			<File
-				RelativePath=".\build.c">
+				RelativePath=".\buildx.c">
 			</File>
 			<File
 				RelativePath=".\callback.c">

@@ -39,6 +39,7 @@ FMODExStreamOut::FMODExStreamOut(FMODExEngine &engine)
  	m_pSound = NULL;
     m_pChannel = NULL;
 	bNetStream = false;
+    m_Volume = 0.0f;
 }
 FMODExStreamOut::~FMODExStreamOut()
 {
@@ -93,10 +94,12 @@ bool FMODExStreamOut::Start()
 {
     if(!m_pSound)
         return false;
+    SetVolume(m_Volume);
     return bNetStream ? m_Engine.System().playSound(FMOD_CHANNEL_FREE,m_pSound,false,&m_pChannel) == FMOD_OK:SetPlayState(MUSIKEngine::Playing);
 }
 void FMODExStreamOut::SetVolume(float v)// range is 0.0 to 1.0
 {
+    m_Volume = v;// cache volume, so we can set it right before play starts
     if(m_pChannel)
         m_pChannel->setVolume(v);
 }

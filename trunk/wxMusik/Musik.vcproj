@@ -680,6 +680,9 @@ xcopy &quot;$(FMODDIR)\api\fmod.dll&quot;  &quot;$(OutDir)&quot; /Y
 		<Filter
 			Name="Events"
 			Filter="">
+			<File
+				RelativePath=".\src\Classes\ActivityAreaCtrl.cpp">
+			</File>
 			<Filter
 				Name="NowPlayingCtrl"
 				Filter="">
@@ -703,9 +706,6 @@ xcopy &quot;$(FMODDIR)\api\fmod.dll&quot;  &quot;$(OutDir)&quot; /Y
 			<Filter
 				Name="ActivityArea"
 				Filter="">
-				<File
-					RelativePath=".\src\Classes\ActivityAreaCtrl.cpp">
-				</File>
 				<File
 					RelativePath=".\src\Classes\ActivityAreaCtrl.h">
 				</File>
@@ -915,18 +915,6 @@ xcopy &quot;$(FMODDIR)\api\fmod.dll&quot;  &quot;$(OutDir)&quot; /Y
 			<Filter
 				Name="MusikFX"
 				Filter="">
-				<File
-					RelativePath=".\src\Classes\MusikFX.cpp">
-					<FileConfiguration
-						Name="Release|Win32">
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="3"/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath=".\src\Classes\MusikFX.h">
-				</File>
 			</Filter>
 			<Filter
 				Name="Webserver"

@@ -24,7 +24,8 @@
 #include "../MusikUtils.h"
 
 //--- classes ---//
-#include "../Classes/MusikPlayer.h"
+#include "MUSIKEngine/inc/engine.h"
+#include "MUSIKEngine/inc/equalizer.h"
 
 //--- related frames ---//
 #include "../Frames/MusikFrame.h"
@@ -89,8 +90,9 @@ void MusikFXDialog::OnEraseBackground( wxEraseEvent& event )
 #define wxCLOSE_BOX 0
 #endif
 
-MusikFXDialog::MusikFXDialog( wxWindow *pParent, const wxString &sTitle, const wxPoint &pos, const wxSize &size ) 
+MusikFXDialog::MusikFXDialog(MUSIKEngine & e, wxWindow *pParent, const wxString &sTitle, const wxPoint &pos, const wxSize &size ) 
 	: wxDialog ( pParent, MUSIK_FRAME_ID_FX, sTitle, pos, size, wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER |wxCLIP_CHILDREN )
+    ,m_SndEngine(e)
 {
 	//---------------//
 	//--- colours ---//
@@ -116,8 +118,8 @@ MusikFXDialog::MusikFXDialog( wxWindow *pParent, const wxString &sTitle, const w
 	//------------------//
     CMusikEQCtrl *pEQ = NULL;
     wxStaticText *pEQEmpty = NULL;
-    if(wxGetApp().Player.SndEngine().Equalizer())
-	    pEQ = new CMusikEQCtrl( this );
+    if(m_SndEngine.Equalizer())
+	    pEQ = new CMusikEQCtrl( this , m_SndEngine.Equalizer() );
     else
         pEQEmpty = new wxStaticText(this,-1,_("Sorry, no equalizer supported by the used sound engine."));
 	//-------------//
@@ -162,10 +164,16 @@ void MusikFXDialog::Close()
 }
 void MusikFXDialog::OnCancel(wxCommandEvent& WXUNUSED(event))
 {
+    if(m_SndEngine.Equalizer())
+    {
+        wxGetApp().Prefs.LoadBands(m_SndEngine.Equalizer());
+        m_SndEngine.Equalizer()->ApplyChanges();
+    }
 	Close();
 }
 void MusikFXDialog::OnClose ( wxCloseEvent& WXUNUSED(event) )
 {
+    SaveBands(&wxGetApp().Prefs);
 	Close();
 }
 
@@ -187,3 +195,22 @@ void MusikFXDialog::OnTogglePitchEnable( wxCommandEvent& WXUNUSED(event) )
 {
 	wxGetApp().Prefs.bUsePitch = chkPitchEnable->IsChecked();
 }
+
+
+void MusikFXDialog::SaveBands( wxFileConfig *pConfig )
+{
+    MUSIKEqualizer * pEQ = m_SndEngine.Equalizer();
+    if(!pEQ)
+        return;
+    MUSIKEqualizer::Bands &lband = pEQ->ChannelBands(MUSIKEqualizer::Bands::Left);
+    for ( size_t n = 0; n < lband.Count(); n++ )
+    {
+        pConfig->Write( wxString::Format(wxT( "EQL%d" ),n),lband[n]);
+    }
+    MUSIKEqualizer::Bands &rband = pEQ->ChannelBands(MUSIKEqualizer::Bands::Right);
+    for ( size_t n = 0; n < rband.Count(); n++ )
+    {
+        pConfig->Write(wxString::Format(wxT( "EQR%d" ),n),rband[n]);
+    }
+}
+

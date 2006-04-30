@@ -3,7 +3,7 @@
 // Purpose:     Generic list control
 // Author:      Robert Roebling
 // Created:     01/02/97
-// RCS-ID:      $Id: listctrl.260.h,v 1.3 2005/04/25 19:58:35 xaignar Exp $
+// RCS-ID:      $Id: listctrl.h,v 1.109 2006/03/30 14:04:01 ABX Exp $
 // Copyright:   (c) 1998 Robert Roebling and Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -11,18 +11,16 @@
 #ifndef LISTCTRL_260_H
 #define LISTCTRL_260_H
 
-#if defined(__GNUG__) && !defined(NO_GCC_PRAGMA)
-#pragma interface "wxmod_listctrl.h"
-#endif
-
 #include <wx/defs.h>
 #include <wx/object.h>
+
 #include <wx/control.h>
 #include <wx/timer.h>
 #include <wx/dcclient.h>
 #include <wx/scrolwin.h>
 #include <wx/settings.h>
 #include <wx/listbase.h>
+#include <wx/textctrl.h>
 
 #if wxUSE_DRAG_AND_DROP
 class wxDropTarget;
@@ -89,8 +87,6 @@ public:
     int GetColumnWidth( int col ) const;
     bool SetColumnWidth( int col, int width);
     int GetCountPerPage() const; // not the same in wxGLC as in Windows, I think
-
-	void GetVisibleLines(long* first, long* last);
     wxRect GetViewRect() const;
 
     bool GetItem( wxListItem& info ) const;
@@ -99,6 +95,7 @@ public:
     int  GetItemState( long item, long stateMask ) const;
     bool SetItemState( long item, long state, long stateMask);
     bool SetItemImage( long item, int image, int selImage = -1 );
+    bool SetItemColumnImage( long item, long column, int image );
     wxString GetItemText( long item ) const;
     void SetItemText( long item, const wxString& str );
     wxUIntPtr GetItemData( long item ) const;
@@ -114,6 +111,8 @@ public:
     wxColour GetItemTextColour( long item ) const;
     void SetItemBackgroundColour( long item, const wxColour &col);
     wxColour GetItemBackgroundColour( long item ) const;
+    void SetItemFont( long item, const wxFont &f);
+    wxFont GetItemFont( long item ) const;
     int GetSelectedItemCount() const;
     wxColour GetTextColour() const;
     void SetTextColour(const wxColour& col);
@@ -136,8 +135,10 @@ public:
 
     void SetItemCount(long count);
 
-    void EditLabel( long item ) { Edit(item); }
-    void Edit( long item );
+    wxTextCtrl *EditLabel(long item,
+                          wxClassInfo* textControlClass = CLASSINFO(wxTextCtrl));
+    wxTextCtrl* GetEditControl() const;
+    void Edit( long item ) { EditLabel(item); }
 
     bool EnsureVisible( long item );
     long FindItem( long start, const wxString& str, bool partial = false );
@@ -154,6 +155,8 @@ public:
     bool ScrollList( int dx, int dy );
     bool SortItems( wxListCtrlCompare fn, long data );
     bool Update( long item );
+    // Must provide overload to avoid hiding it (and warnings about it)
+    virtual void Update() { wxControl::Update(); }
 
     // are we in report mode?
     bool InReportView() const { return HasFlag(wxLC_REPORT); }
@@ -169,9 +172,10 @@ public:
     void RefreshItem(long item);
     void RefreshItems(long itemFrom, long itemTo);
 
+#if WXWIN_COMPATIBILITY_2_6
     // obsolete, don't use
     wxDEPRECATED( int GetItemSpacing( bool isSmall ) const );
-
+#endif // WXWIN_COMPATIBILITY_2_6
 
     virtual wxVisualAttributes GetDefaultAttributes() const
     {
@@ -193,7 +197,7 @@ public:
 
     virtual void Freeze();
     virtual void Thaw();
-	virtual void OnDrawItem(int item,wxDC* dc,const wxRect& rect,const wxRect& rectHL,bool highlighted);
+    virtual void OnDrawItem(int item,wxDC* dc,const wxRect& rect,const wxRect& rectHL,bool highlighted){}
 
     virtual bool SetBackgroundColour( const wxColour &colour );
     virtual bool SetForegroundColour( const wxColour &colour );
@@ -207,13 +211,8 @@ public:
     virtual wxDropTarget *GetDropTarget() const;
 #endif
 
-    virtual bool DoPopupMenu( wxMenu *menu, int x, int y );
-
     virtual bool ShouldInheritColours() const { return false; }
     virtual void SetFocus();
-	virtual bool GetFocus();
-
-    virtual wxSize DoGetBestSize() const;
 
     // implementation
     // --------------
@@ -229,11 +228,25 @@ public:
     wxCoord              m_headerHeight;
 
 protected:
+    virtual bool DoPopupMenu( wxMenu *menu, int x, int y );
+
+    // take into account the coordinates difference between the container
+    // window and the list control window itself here
+    virtual void DoClientToScreen( int *x, int *y ) const;
+    virtual void DoScreenToClient( int *x, int *y ) const;
+
+    virtual wxSize DoGetBestSize() const;
+
     // return the text for the given column of the given item
     virtual wxString OnGetItemText(long item, long column) const;
 
-    // return the icon for the given item
+    // return the icon for the given item. In report view, OnGetItemImage will
+    // only be called for the first column. See OnGetItemColumnImage for
+    // details.
     virtual int OnGetItemImage(long item) const;
+
+    // return the icon for the given item and column.
+    virtual int OnGetItemColumnImage(long item, long column) const;
 
     // return the attribute for the item (may return NULL if none)
     virtual wxListItemAttr *OnGetItemAttr(long item) const;
@@ -242,9 +255,6 @@ protected:
     friend class wxListMainWindow;
 
 private:
-    // Virtual function hiding supression
-    virtual void Update() { wxWindow::Update(); }
-
     // create the header window
     void CreateHeaderWindow();
 
@@ -256,6 +266,7 @@ private:
     void ResizeReportView(bool showHeader);
 
     DECLARE_EVENT_TABLE()
+    DECLARE_DYNAMIC_CLASS(wxGenericListCtrl)
 };
 
 #if !defined(__WXMSW__) || defined(__WXUNIVERSAL__)
@@ -266,6 +277,8 @@ private:
 
 class wxListCtrl: public wxGenericListCtrl
 {
+    DECLARE_DYNAMIC_CLASS(wxListCtrl)
+
 public:
     wxListCtrl() {}
 
@@ -279,7 +292,6 @@ public:
     {
     }
 };
-
 #endif // !__WXMSW__ || __WXUNIVERSAL__
 
 }

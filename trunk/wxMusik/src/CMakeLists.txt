@@ -26,7 +26,6 @@ SET(MAIN_SRCS
         ./Classes/PlaylistInfoCtrl
         ./Classes/SourcesBox
         ./Classes/WebServer
-        ./Classes/MusikFX
         ./Classes/MusikEQCtrl
         ./Classes/MusikEQGauge
         ./Classes/Tunage
@@ -104,6 +103,7 @@ ADD_EXECUTABLE(wxMusik ${WIN32_EXECUTABLE} ${MAIN_SRCS})
 TARGET_LINK_LIBRARIES(wxMusik
         ${MUSIK_ENGINE}
         MUSIKEngine
+        shibatch
         mysqlite3
         ${WXWINDOWS_LIBRARY}
         ${SQLITE_LIBRARY}

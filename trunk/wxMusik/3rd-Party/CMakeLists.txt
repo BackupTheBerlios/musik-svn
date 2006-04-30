@@ -1,1 +1,1 @@
-SUBDIRS(taglib sqlite3)
+SUBDIRS(taglib sqlite3 shibatch)

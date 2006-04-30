@@ -39,5 +39,6 @@
 #include <wx/fileconf.h> 
 
 #include <map>
+#include <vector>
 
 #endif

@@ -1064,7 +1064,7 @@ wxMultiLineTextEntryDialog::wxMultiLineTextEntryDialog(wxWindow *parent,
 						   const wxString& value ,
 						   long style ,
 						   const wxPoint& pos ,const wxSize & size )
-	:wxDialog(parent, -1, caption, pos, size,wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER | wxDIALOG_MODAL)
+	:wxDialog(parent, -1, caption, pos, size,wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER )
 	, m_value(value)
 {
 	m_dialogStyle = style;

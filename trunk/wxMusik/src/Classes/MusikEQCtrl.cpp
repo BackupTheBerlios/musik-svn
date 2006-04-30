@@ -17,8 +17,7 @@
 
 //--- globals ---//
 #include "../MusikGlobals.h"
-
-int freqs[] = {55,77,110,156,220,311,440,622,880,1244,1760,2489,3520,4978,7040,9956,14080,19912};
+#include "MUSIKEngine/MUSIKEngine/inc/equalizer.h"
 
 BEGIN_EVENT_TABLE(CMusikEQCtrl, wxPanel)
 	EVT_BUTTON			( BTN_RESET,		CMusikEQCtrl::OnClickReset		)
@@ -31,29 +30,35 @@ void CMusikEQCtrl::OnEraseBackground( wxEraseEvent& WXUNUSED(event) )
 	// empty => no background erasing to avoid flicker
 }
 
-CMusikEQCtrl::CMusikEQCtrl( wxWindow* pParent )
+CMusikEQCtrl::CMusikEQCtrl( wxWindow* pParent,MUSIKEqualizer *pEQ )
 	: wxPanel( pParent, -1, wxDefaultPosition, wxDefaultSize, wxNO_BORDER |wxCLIP_CHILDREN )
 {
+    m_pEQ = pEQ;
 	//-------------------------------------//
 	//--- initialize the sizers			---//
 	//-------------------------------------//
 	pBandsSizer		= new wxFlexGridSizer	( 2, 18, 2, 2 );
 	pOptionsSizer	= new wxBoxSizer		( wxHORIZONTAL );
 	pMainSizer		= new wxBoxSizer		( wxVERTICAL );
+ 
 
+    
 	//-------------------------------------//
 	//--- create the bands				---//
 	//-------------------------------------//
-	for ( int i = 0; i < 18; i++ )
+
+    for ( int i = 0; i < m_pEQ->ChannelBands(MUSIKEqualizer::Bands::Left).Count() ; i++ )
 	{
-		slLeft[i] = new CMusikEQGauge( this, MUSIK_FX_LEFT, i );
-		slLeft[i]->SetToolTip( wxString::Format( _( "Left Channel: %d hz" ), freqs[i]) );
+		slLeft.push_back(new CMusikEQGauge( this, MUSIK_FX_LEFT, i ));
+		slLeft[i]->SetToolTip( wxString::Format( _( "Left Channel: %d hz" ), 
+                                    m_pEQ->ChannelBands(MUSIKEqualizer::Bands::Left)[i].Frequency()) );
 		pBandsSizer->Add( slLeft[i],1,wxEXPAND );
 	}
-	for ( int i = 0; i < 18; i++ )
+	for ( int i = 0; i < m_pEQ->ChannelBands(MUSIKEqualizer::Bands::Right).Count(); i++ )
 	{
-		slRight[i] = new CMusikEQGauge( this, MUSIK_FX_RIGHT, i );
-		slRight[i]->SetToolTip( wxString::Format( _( "Right Channel: %d hz" ), freqs[i]) );
+		slRight.push_back(new CMusikEQGauge( this, MUSIK_FX_RIGHT, i ));
+		slRight[i]->SetToolTip( wxString::Format( _( "Right Channel: %d hz" ),
+                                    m_pEQ->ChannelBands(MUSIKEqualizer::Bands::Left)[i].Frequency()) );
 		pBandsSizer->Add( slRight[i],1,wxEXPAND );
 	}
 	pBandsSizer->AddGrowableRow(0);
@@ -63,7 +68,7 @@ CMusikEQCtrl::CMusikEQCtrl( wxWindow* pParent )
 	//--- enableequalizer				---//
 	//-------------------------------------//
 	chkEQEnable = new wxCheckBox_NoFlicker( this, CHK_EQENABLE, _("Enable EQ") );
-	chkEQEnable->SetValue( wxGetApp().Prefs.bUseEQ );
+	chkEQEnable->SetValue( m_pEQ->Enabled());
 	pOptionsSizer->Add( chkEQEnable, 1, wxALIGN_CENTER | wxALIGN_CENTER_VERTICAL );
 
 	//-------------------------------------//
@@ -92,43 +97,50 @@ CMusikEQCtrl::CMusikEQCtrl( wxWindow* pParent )
 
 CMusikEQCtrl::~CMusikEQCtrl()
 {
+
 }
 
 void CMusikEQCtrl::OnClickReset( wxCommandEvent& WXUNUSED(event) )
 {
-	g_FX.ResetBands();
+	m_pEQ->Reset();
 	SlidersFromBands();
+    m_pEQ->ApplyChanges();
 }
 
 void CMusikEQCtrl::OnToggleEQEnable( wxCommandEvent& WXUNUSED(event) )
 {
 	wxGetApp().Prefs.bUseEQ = chkEQEnable->IsChecked();
-	wxGetApp().Player.ActivateDSP();
+    m_pEQ->Enable(wxGetApp().Prefs.bUseEQ);
 }
 
 void CMusikEQCtrl::SlidersFromBands()
 {
-	g_FX.GetLeftBands( &ldata[0] );
-	g_FX.GetRightBands( &rdata[0] );
-
-	for ( int n = 0; n < 18; n++ )
+    MUSIKEqualizer::Bands &lband = m_pEQ->ChannelBands(MUSIKEqualizer::Bands::Left);
+	for ( size_t n = 0; n < lband.Count(); n++ )
 	{
-		slLeft[n]->SetValue( (int)( ldata[n] * 50.0f ) );
+		slLeft[n]->SetValue( (int)( lband[n] * 50.0 ) );
 		slLeft[n]->Colourize();
-		slRight[n]->SetValue( (int)( rdata[n] * 50.0f ) );
-		slRight[n]->Colourize();
 	}
+    MUSIKEqualizer::Bands &rband = m_pEQ->ChannelBands(MUSIKEqualizer::Bands::Right);
+    for ( size_t n = 0; n < rband.Count(); n++ )
+    {
+        slRight[n]->SetValue( (int)( rband[n] * 50.0 ) );
+        slRight[n]->Colourize();
+    }
 }
 
 void CMusikEQCtrl::BandsFromSliders()
 {
-	for ( int n = 0; n < 18; n++ )
+    MUSIKEqualizer::Bands &lband = m_pEQ->ChannelBands(MUSIKEqualizer::Bands::Left);
+    for ( size_t n = 0; n < lband.Count(); n++ )
 	{
-		ldata[n] = (float)slLeft[n]->GetValue() / 50.0f;
-		rdata[n] = (float)slRight[n]->GetValue() / 50.0f;
+		lband[n] = (double)slLeft[n]->GetValue() / 50.0;
 	}
-
-	g_FX.SetLeftBands( ldata );
-	g_FX.SetRightBands( rdata );
-	g_FX.MakeTable( 44100 );
+    MUSIKEqualizer::Bands &rband = m_pEQ->ChannelBands(MUSIKEqualizer::Bands::Right);
+    for ( size_t n = 0; n < rband.Count(); n++ )
+    {
+        rband[n] = (double)slRight[n]->GetValue() / 50.0;
+    }
+	m_pEQ->ApplyChanges();
 }
+

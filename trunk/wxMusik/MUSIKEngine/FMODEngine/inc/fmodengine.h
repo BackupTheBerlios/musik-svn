@@ -46,6 +46,8 @@ public:
     virtual Error EnumOutputs(IEnumNames * pen) const;
     virtual Error EnumFrequencies(IEnumNames * pen) const;
 
+    virtual MUSIKEqualizer * Equalizer();
+
 	void SetOpenMode(FMODEngine::eOpenMode m){m_OpenMode = m;}
     eOpenMode GetOpenMode() const {return m_OpenMode;}
 	virtual void SetVolume(float v);
@@ -61,8 +63,10 @@ protected:
 	virtual IMUSIKStreamOut *CreateStreamOut();
 	eOpenMode m_OpenMode;
 private:
+    MUSIKEqualizer * m_pEq;
     bool m_bValid;
     char m_szVersion[20];
+    int m_nMixRate;
 };
 #ifdef __VISUALC__
 #ifdef _DEBUG

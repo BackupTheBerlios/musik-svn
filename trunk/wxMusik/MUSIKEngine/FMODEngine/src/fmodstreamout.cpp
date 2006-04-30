@@ -21,7 +21,7 @@
 
 #include "fmodstreamout.h"
 
-#define FMOD_STREAM_FORMAT_FLAGS (FSOUND_SIGNED | FSOUND_16BITS | FSOUND_STEREO|FSOUND_HW2D)
+#define FMOD_STREAM_FORMAT_FLAGS (FSOUND_SIGNED | FSOUND_16BITS | FSOUND_STEREO/*FSOUND_HW2D*/) //DONOT use FSOUND_HW2D, or else the DSP (and therefore the EQ) will not work
 
 signed char F_CALLBACKAPI FMODStreamOut::StreamCallback(FSOUND_STREAM *stream, void *buff,
 														int len, void *userdata)
@@ -38,17 +38,19 @@ FMODStreamOut::FMODStreamOut(FMODEngine & e)
 	StreamPointer = NULL;
 	FMODChannel = -1;
 	bNetStream = false;
+    m_Volume = 0.0f;
 }
 FMODStreamOut::~FMODStreamOut()
 {
 	Close();
 }
-bool FMODStreamOut::DoCreate(int buffersize)
+bool FMODStreamOut::DoCreate(int buffersize_ms)
 {
 	if(StreamPointer)
 	{                             
 		Close();
 	}
+    int buffersize = (Decoder()->GetInfo()->channels * (Decoder()->GetInfo()->bits_per_sample/8)* buffersize_ms * Decoder()->GetInfo()->frequency)/1000; 
 	StreamPointer = FSOUND_Stream_Create(StreamCallback, buffersize, FMOD_STREAM_FORMAT_FLAGS,(int) Decoder()->GetInfo()->frequency, (void *) this);
 	return StreamPointer != NULL;
 }
@@ -58,13 +60,16 @@ bool FMODStreamOut::DoCreate(int buffersize)
 bool FMODStreamOut::Start()
 {
     FMODChannel = FSOUND_Stream_PlayEx(FSOUND_FREE, StreamPointer, NULL, 1);
+    SetVolume(m_Volume);
     FSOUND_SetPaused(FMODChannel, 0);
 	return FMODChannel != -1;
 
 }
 void FMODStreamOut::SetVolume(float v)// range is 0.0 to 1.0
 {
-	FSOUND_SetVolume(FMODChannel, (int) (v * 255.0));
+    m_Volume = v;// remember volume, so we can set it right before play starts.
+    if(FMODChannel != -1)
+	    FSOUND_SetVolume(FMODChannel, (int) (v * 255.0 + 0.5));
 }
 float FMODStreamOut::GetVolume()
 {

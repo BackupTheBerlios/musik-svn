@@ -55,7 +55,7 @@ public:
     virtual MUSIKEngine::Error GetNetStatus(MUSIKEngine::NetStatus *pStatus,int * pnPercentRead,int * pnBitrate);
 protected:
 
-	virtual bool DoCreate(int buffersize);
+	virtual bool DoCreate(int buffersize_ms);
 
 private:
     static signed char F_CALLBACKAPI MetadataCallback(char *name, char *value, void * userdata);
@@ -65,6 +65,7 @@ private:
 	FSOUND_STREAM *StreamPointer;
 	int FMODChannel;
 	bool bNetStream;
+    float m_Volume;
     FMODEngine & m_Engine;
 };
 

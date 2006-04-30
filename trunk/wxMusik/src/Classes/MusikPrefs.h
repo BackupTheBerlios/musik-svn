@@ -260,6 +260,7 @@ static const PlaylistColumn::eId DefaultActBoxType[ActivityBoxesMaxCount] =
     PlaylistColumn::INVALID,
     PlaylistColumn::INVALID
 };
+class MUSIKEqualizer;
 
 #ifdef _MSC_VER
 #pragma warning(disable : 4355)	
@@ -405,6 +406,8 @@ public:
 
 	void LoadPrefs();
 	void SavePrefs();
+    void LoadBands(MUSIKEqualizer * pEQ );
+
     wxString GetProxyServer();
 	CConfigSettingBool bFirstRun;
 	CConfigSettingBool bAutoAdd;

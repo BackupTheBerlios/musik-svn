@@ -25,12 +25,12 @@ enum EMUSIK_EQ_OBJECT_ID
 	BTN_RESET = wxID_HIGHEST,
 	CHK_EQENABLE
 };
-
+class MUSIKEqualizer;
 class CMusikEQCtrl : public wxPanel
 {
 public:
 
-	CMusikEQCtrl( wxWindow* pParent );
+	CMusikEQCtrl( wxWindow* pParent,MUSIKEqualizer *pEQ );
 	~CMusikEQCtrl();
 
 	//-----------------//
@@ -42,11 +42,12 @@ public:
 	void BandsFromSliders	();
 	void OnEraseBackground ( wxEraseEvent& event );
 
-	//------------------//
+
+    //------------------//
 	//--- eq sliders ---//
 	//------------------//
-	CMusikEQGauge			*slLeft[18];
-	CMusikEQGauge			*slRight[18];
+    std::vector<CMusikEQGauge*>	 slLeft;
+	std::vector<CMusikEQGauge*>  slRight;
 
 	//------------------//
 	//--- eq options ---//
@@ -62,12 +63,7 @@ public:
 	wxBoxSizer				*pOptionsSizer;
 	wxBoxSizer				*pMainSizer;
 
-	//-------------//
-	//--- bands ---//
-	//-------------//
-	float ldata[18];	
-	float rdata[18];
-
+    MUSIKEqualizer  *m_pEQ;    
 	DECLARE_EVENT_TABLE()
 };
 

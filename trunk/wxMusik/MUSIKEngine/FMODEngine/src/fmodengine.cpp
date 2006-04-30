@@ -22,6 +22,7 @@
 #include "MUSIKEngine/FMODEngine/inc/fmodengine.h"
 #include "MUSIKEngine/MUSIKEngine/inc/defaultdecoder.h"
 #include "fmodstreamout.h"
+#include "fmodequalizer.h"
 #include <fmod.h>
 #include <fmod_errors.h>
 #include <stdio.h>
@@ -34,6 +35,8 @@ FMODEngine::FMODEngine()
     m_OpenMode = OpenMode_Default;
     snprintf(m_szVersion,sizeof(m_szVersion)/sizeof(m_szVersion[0]) - 1,"%.2f",FSOUND_GetVersion());
     m_bValid = false;
+    m_pEq = NULL;
+    m_nMixRate = 0;
 }
 
 MUSIKEngine::Error FMODEngine::_Init(int idOutput ,int idDevice,int nMixRate,int nMaxChannels,int nSndBufferMs)
@@ -104,10 +107,16 @@ MUSIKEngine::Error FMODEngine::_Init(int idOutput ,int idDevice,int nMixRate,int
 MUSIKEngine::Error FMODEngine::Init(int idOutput ,int idDevice ,int nMixRate ,int nMaxChannels)
 {
     if(m_bValid)
+    {
+        delete m_pEq;
         FSOUND_Close();
+    }
     int nSndBufferMs = 400;
+    m_nMixRate = nMixRate;
     Error e = _Init(idOutput,idDevice,nMixRate,nMaxChannels,nSndBufferMs);
     m_bValid = (e == errSuccess);
+    if(m_bValid)
+        m_pEq = new FMODEqualizer(nMixRate);
     return e;
 }
 MUSIKEngine::Error FMODEngine::EnumDevices(MUSIKEngine::IEnumNames * pen) const
@@ -216,6 +225,11 @@ bool FMODEngine::SetPlayState( MUSIKEngine::PlayState state)
 	return false;
 }
 
+MUSIKEqualizer * FMODEngine::Equalizer()
+{
+    return  m_pEq;
+}
+
 const char * FMODEngine::Version() const
 {
     return m_szVersion;
@@ -223,6 +237,8 @@ const char * FMODEngine::Version() const
 
 FMODEngine::~FMODEngine(void)
 {	
+    delete m_pEq;
+
     if(m_bValid)
 	    FSOUND_Close();
 }

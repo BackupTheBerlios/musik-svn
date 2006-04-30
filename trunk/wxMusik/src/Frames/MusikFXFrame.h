@@ -30,10 +30,12 @@ enum EMUSIK_FX_OBJECT_ID
 	CHK_PITCHENABLE = wxID_HIGHEST
 };
 
+class MUSIKEngine;
+
 class MusikFXDialog : public wxDialog
 {
 public:
-	MusikFXDialog( wxWindow* pParent, const wxString &sTitle, const wxPoint &pos, const wxSize &size );
+	MusikFXDialog(MUSIKEngine & e, wxWindow* pParent, const wxString &sTitle, const wxPoint &pos, const wxSize &size );
 
 	//--------------//
 	//--- events ---//
@@ -52,7 +54,12 @@ public:
 	//--- utility functions ---//
 	//-------------------------//
 	void Close();
-	
+    static void	LoadBands		( wxFileConfig *pConfig ,MUSIKEqualizer *pEQ);
+
+protected:
+    void SaveBands		( wxFileConfig *pConfig);
+
+    MUSIKEngine & m_SndEngine;
 	//----------------//
 	//--- controls ---//
 	//----------------//

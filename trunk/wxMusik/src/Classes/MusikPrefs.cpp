@@ -21,7 +21,9 @@
 
 #include "../MusikGlobals.h"
 #include "../MusikUtils.h"
+#include "MusikEQCtrl.h"
 
+#include "MUSIKEngine/inc/equalizer.h"
 
 
 void CMusikPrefs::LoadPrefs()
@@ -32,15 +34,34 @@ void CMusikPrefs::LoadPrefs()
 		  sDataPath = MUSIK_HOME_DIR;
 	if(sDataPath.Right(1) != wxFileName::GetPathSeparator())
 		   sDataPath += wxFileName::GetPathSeparator();
-	g_FX.LoadBands( this );
 }
 
 
 void CMusikPrefs::SavePrefs()
 {
-
-	g_FX.SaveBands( this );
 }
+
+void CMusikPrefs::LoadBands(MUSIKEqualizer * pEQ )
+{
+    if(!pEQ)
+        return;
+    wxConfigBase *pConfig = this;
+    MUSIKEqualizer::Bands &lband = pEQ->ChannelBands(MUSIKEqualizer::Bands::Left);
+    for ( size_t n = 0; n < lband.Count(); n++ )
+    {
+        double v = 1.0;
+        pConfig->Read(wxString::Format(wxT( "EQL%d" ),n),&v,1.0	);
+        lband[n] = v;
+    }
+    MUSIKEqualizer::Bands &rband = pEQ->ChannelBands(MUSIKEqualizer::Bands::Right);
+    for ( size_t n = 0; n < rband.Count(); n++ )
+    {
+        double v = 1.0;
+        pConfig->Read(wxString::Format(wxT( "EQR%d" ),n),&v,1.0	);
+        rband[n] = v;
+    }
+}
+
 wxString CMusikPrefs::GetProxyServer()
 {
     if(wxGetApp().Prefs.bUseProxyServer)
@@ -105,4 +126,3 @@ void CMusikPaths::Save()
 
 	return;
 }
-

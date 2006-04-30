@@ -67,7 +67,6 @@ extern MusikFaderThread*	g_FaderThread;
 extern wxImageList*			g_SourcesImages; 
 extern wxImageList*			g_NullImageList;
 extern wxImageList*			g_RatingImages;
-extern CMusikFX				g_FX;
 
 
 //----------------//

@@ -66,6 +66,7 @@ private:
 	FMOD::Sound * m_pSound;
     FMOD::Channel * m_pChannel;
 	bool bNetStream;
+    float m_Volume;
 	FMODExEngine & m_Engine;
 };
 

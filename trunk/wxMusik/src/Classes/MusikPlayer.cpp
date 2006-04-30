@@ -16,7 +16,7 @@
 // For compilers that support precompilation, includes "wx/wx.h".
 #include "myprec.h"
 
-
+#include "MUSIKEngine/inc/equalizer.h"
 #include "MusikPlayer.h"
 #include "Frames/MusikFrame.h"
 #include "Threads/MusikThreads.h"
@@ -32,15 +32,6 @@
 //--- CMusikStreamArray ---//
 #include <wx/arrimpl.cpp>
 WX_DEFINE_OBJARRAY( CMusikStreamArray )
-
-
-//void * F_CALLBACKAPI dspcallback(void *WXUNUSED(originalbuffer), void *newbuffer, int length, void * WXUNUSED(userdata))
-//{
-//	// 2 channels (stereo), 16 bit sound
-//	g_FX.ProcessSamples( newbuffer, length, 2, 16 );
-//	return newbuffer;
-//}
-
 
 BEGIN_EVENT_TABLE( CMusikPlayer, wxEvtHandler )
 	//---------------------------------------------------------//
@@ -184,8 +175,6 @@ void CMusikPlayer::Shutdown( bool bClose,bool bNoFade)
     }
 	else
 		Stop(!bNoFade);
-
-	g_FX.EndEQ();
 }
 bool CMusikPlayer::InitializeSndEngine( )
 {
@@ -204,6 +193,12 @@ bool CMusikPlayer::InitializeSndEngine( )
         wxMessageBox( _("Initialization of FMOD sound system succeeded using a sound rate of 44100 hz."), MUSIKAPPNAME_VERSION, wxOK | wxICON_ERROR );
     }
     m_SndEngine.SetBufferMs(wxGetApp().Prefs.nSndBuffer);
+    if(m_SndEngine.Equalizer())
+    {
+        wxGetApp().Prefs.LoadBands( m_SndEngine.Equalizer());
+        if(wxGetApp().Prefs.bUseEQ)
+            m_SndEngine.Equalizer()->Enable(true);
+    }
     return true;
 }
 void CMusikPlayer::Init_NetBuffer( )
@@ -436,7 +431,6 @@ bool CMusikPlayer::Play( size_t nItem, int nStartPos, int nFadeType )
 		return false;
 	}
     pNewStream->SetMetadataCallback(this);
-	InitDSP();
 	if(_CurrentSongIsNetStream()&& _IsNETSTREAMConnecting() == false)
 	{
 		ClearOldStreams(true);// clear all streams
@@ -601,32 +595,7 @@ MUSIKEngine::NetStatus CMusikPlayer::_NetStreamStatusUpdate(MUSIKStream * pStrea
 	}
 	return status;
 }
-void CMusikPlayer::InitDSP()
-{
-//	if ( !m_DSP )
-//		m_DSP = FSOUND_DSP_Create( &dspcallback, FSOUND_DSP_DEFAULTPRIORITY_USER, 0 );			
-//	ActivateDSP();
-}
 
-void CMusikPlayer::ActivateDSP()
-{
-//	if ( m_DSP )
-//	{
-//		if(wxGetApp().Prefs.bUseEQ)
-//		{
-//			g_FX.InitEQ(wxGetApp().Prefs.nSndRate);
-//		}
-//		FSOUND_DSP_SetActive( m_DSP, wxGetApp().Prefs.bUseEQ );
-//	}
-}
-void CMusikPlayer::FreeDSP()
-{
-//	if ( m_DSP )
-//	{
-//		FSOUND_DSP_Free( m_DSP );
-//		m_DSP = NULL;
-//	}
-}
 
 void CMusikPlayer::SetFrequency(int freq)
 {
@@ -821,11 +790,6 @@ void CMusikPlayer::FinalizeStop()
 		delete	m_ActiveStreams.Item( ( nStreamCount - 1 ) - i );
 	}
 	m_ActiveStreams.Clear();
-
-	//-----------------------------------------//
-	//--- free up the DSP object. FX stuff.	---//
-	//-----------------------------------------//
-	FreeDSP();
 }
 
 size_t CMusikPlayer::GetShuffledSong()
@@ -1401,6 +1365,7 @@ void CMusikPlayer::OnPlaylistEntryRemoving( size_t index )
 }
 
 
+
 DEFINE_EVENT_TYPE(wxEVT_MUSIKPLAYER_SONG_CHANGED)
 DEFINE_EVENT_TYPE(wxEVT_MUSIKPLAYER_PLAY_START)
 DEFINE_EVENT_TYPE(wxEVT_MUSIKPLAYER_PLAY_STOP)
@@ -1418,3 +1383,4 @@ CMusikPlayer & MusikPlayerEvent::MusikPlayer()
 {
     return *wxDynamicCast(GetEventObject(),CMusikPlayer); 
 }
+

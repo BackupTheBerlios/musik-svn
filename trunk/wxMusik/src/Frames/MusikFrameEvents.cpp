@@ -216,7 +216,7 @@ void MusikFrame::OnFX( wxCommandEvent &WXUNUSED(event) )
 	}
 	else
 	{
-		w = new MusikFXDialog( this, wxString(MUSIKAPPNAME) + _(" FX"), wxDefaultPosition, wxDefaultSize );
+		w = new MusikFXDialog(wxGetApp().Player.SndEngine(), this, wxString(MUSIKAPPNAME) + _(" FX"), wxDefaultPosition, wxDefaultSize );
 		w->Show();
 	}	
 }

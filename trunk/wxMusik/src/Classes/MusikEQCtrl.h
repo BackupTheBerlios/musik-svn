@@ -16,6 +16,7 @@
 #include "myprec.h"
 #ifndef WX_PRECOMP
 	#include "wx/wx.h"
+	#include <vector>
 #endif 
 #include "../MusikUtils.h"
 #include "MusikEQGauge.h"

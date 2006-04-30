@@ -31,7 +31,7 @@ enum EMUSIK_FX_OBJECT_ID
 };
 
 class MUSIKEngine;
-
+class wxFileConfig;
 class MusikFXDialog : public wxDialog
 {
 public:

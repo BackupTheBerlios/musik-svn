@@ -47,14 +47,14 @@ CMusikEQCtrl::CMusikEQCtrl( wxWindow* pParent,MUSIKEqualizer *pEQ )
 	//--- create the bands				---//
 	//-------------------------------------//
 
-    for ( int i = 0; i < m_pEQ->ChannelBands(MUSIKEqualizer::Bands::Left).Count() ; i++ )
+        for ( size_t i = 0; i < m_pEQ->ChannelBands(MUSIKEqualizer::Bands::Left).Count() ; i++ )
 	{
 		slLeft.push_back(new CMusikEQGauge( this, MUSIK_FX_LEFT, i ));
 		slLeft[i]->SetToolTip( wxString::Format( _( "Left Channel: %d hz" ), 
                                     m_pEQ->ChannelBands(MUSIKEqualizer::Bands::Left)[i].Frequency()) );
 		pBandsSizer->Add( slLeft[i],1,wxEXPAND );
 	}
-	for ( int i = 0; i < m_pEQ->ChannelBands(MUSIKEqualizer::Bands::Right).Count(); i++ )
+	for ( size_t i = 0; i < m_pEQ->ChannelBands(MUSIKEqualizer::Bands::Right).Count(); i++ )
 	{
 		slRight.push_back(new CMusikEQGauge( this, MUSIK_FX_RIGHT, i ));
 		slRight[i]->SetToolTip( wxString::Format( _( "Right Channel: %d hz" ),

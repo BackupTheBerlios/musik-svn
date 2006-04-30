@@ -149,7 +149,7 @@ MUSIKEngine::Error FMODEngine::EnumOutputs(IEnumNames * pen) const
     #error System not supported
 #endif
     };
-    for ( int i = 0; i < sizeof(szData)/sizeof(szData[0]); i++ )
+    for (size_t i = 0; i < sizeof(szData)/sizeof(szData[0]); i++ )
     {
         pen->EnumNamesCallback(szData[i],i);
     }
@@ -167,7 +167,7 @@ MUSIKEngine::Error FMODEngine::EnumFrequencies(IEnumNames * pen) const
         "11025",
         "8000"
     };   
-    for ( int i = 0; i < sizeof(szData)/sizeof(szData[0]); i++ )
+    for ( size_t i = 0; i < sizeof(szData)/sizeof(szData[0]); i++ )
     {
         pen->EnumNamesCallback(szData[i],i);
     }

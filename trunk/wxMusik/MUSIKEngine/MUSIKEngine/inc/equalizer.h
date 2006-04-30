@@ -128,7 +128,7 @@ public:
         std::vector<Band> m_vecBand;
         MUSIKEqualizer & m_Eq;
         enum Channel m_Channel;
-        friend Band;
+        friend class Band;
     };
 public: 
    

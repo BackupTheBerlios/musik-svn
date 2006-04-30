@@ -36,7 +36,7 @@ enum EMUSIK_FXFRAME_ID
 };
 
 BEGIN_EVENT_TABLE(MusikFXDialog, wxDialog)
-	EVT_CLOSE				(					MusikFXDialog::OnClose			)
+	EVT_BUTTON				(wxID_OK			,MusikFXDialog::OnOk			)
 	EVT_BUTTON				(wxID_CANCEL		,MusikFXDialog::OnCancel			)
 	EVT_CONTEXT_MENU		(					MusikFXDialog::OnRightClick		)
 	EVT_COMMAND_SCROLL		( SLD_PITCH,		MusikFXDialog::OnSlidePitch		)
@@ -72,13 +72,6 @@ void MusikFXDialog::OnEraseBackground( wxEraseEvent& event )
 		//clipping region
 		MyRegion.Subtract(current->GetRect());
 	}
-
-	
-
-
-
-	
-
 	// now destroy the old clipping region
 	TheDC->DestroyClippingRegion();
 
@@ -145,7 +138,7 @@ MusikFXDialog::MusikFXDialog(MUSIKEngine & e, wxWindow *pParent, const wxString 
 
 	vsMain->Add( hsPitch, 0,wxEXPAND | wxALL, 4 );
 	
-	vsMain->Add( new wxButton(this,wxID_CANCEL,_("Close")), 0,wxALIGN_RIGHT|wxALL, 4 );
+	vsMain->Add( CreateButtonSizer(wxOK|wxCANCEL));
 	SetSizerAndFit( vsMain );
 
 	//--------------//
@@ -171,7 +164,7 @@ void MusikFXDialog::OnCancel(wxCommandEvent& WXUNUSED(event))
     }
 	Close();
 }
-void MusikFXDialog::OnClose ( wxCloseEvent& WXUNUSED(event) )
+void MusikFXDialog::OnOk ( wxCommandEvent& WXUNUSED(event) )
 {
     SaveBands(&wxGetApp().Prefs);
 	Close();

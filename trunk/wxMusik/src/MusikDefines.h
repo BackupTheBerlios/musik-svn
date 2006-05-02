@@ -65,9 +65,8 @@
 //--- path stuff ~/.Musik/ vs ./ ---//
 //----------------------------------//
 #include <wx/filename.h>
-#define MUSIK_HOME_DIR 			wxFileName::GetHomeDir() + wxFileName::GetPathSeparator() + wxT( ".Musik" ) + wxFileName::GetPathSeparator()
 #define MUSIK_PLAYLIST_DIR		wxGetApp().Prefs.sDataPath + wxT( "playlists" ) + wxFileName::GetPathSeparator()
-#define MUSIK_OLD_DB_FILENAME		wxGetApp().Prefs.sDataPath + wxT( "musiklib.db" )
+#define MUSIK_OLD_DB_FILENAME	wxGetApp().Prefs.sDataPath + wxT( "musiklib.db" )
 #define MUSIK_DB_FILENAME2		wxGetApp().Prefs.sDataPath + wxT( "wxmusiklib.db" )
 #define MUSIK_DB_FILENAME		wxGetApp().Prefs.sDataPath + wxT( "wxmusiklib.db3" )
 #define MUSIK_SOURCES_FILENAME	wxGetApp().Prefs.sDataPath + wxT( "musiksources.dat" )

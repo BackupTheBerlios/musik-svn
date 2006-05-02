@@ -28,12 +28,7 @@
 
 void CMusikPrefs::LoadPrefs()
 {
-	Read( wxT("AlternativeDataPath"),	&sDataPath,	MUSIK_HOME_DIR );
-	 
-	if(sDataPath.IsEmpty())
-		  sDataPath = MUSIK_HOME_DIR;
-	if(sDataPath.Right(1) != wxFileName::GetPathSeparator())
-		   sDataPath += wxFileName::GetPathSeparator();
+	Read( wxT("AlternativeDataPath"),	&sDataPath,	MusikGetHomePath() );	 
 }
 
 

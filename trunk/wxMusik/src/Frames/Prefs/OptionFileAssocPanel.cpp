@@ -61,7 +61,7 @@ void OptionFileAssocPanel::DoFileAssociations()
 {
 
     bool bNotifyExplorer = false;
-    for(int i = 0; i < chklbFileAssocs->GetCount() ; i++)
+    for(size_t i = 0; i < chklbFileAssocs->GetCount() ; i++)
     {
         wxString sEntry =	chklbFileAssocs->GetString(i);
         wxArrayString arrElements;

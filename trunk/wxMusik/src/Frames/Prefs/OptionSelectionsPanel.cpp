@@ -80,7 +80,7 @@ void OptionSelectionsPanel::DoLoadPrefs()
     cmbSelStyle->SetSelection		( wxGetApp().Prefs.eSelStyle.val );
     for(size_t i = 0; i < WXSIZEOF(cmbActivityBoxes);i++)
     {
-        for(int n = 0;n < cmbActivityBoxes[i]->GetCount();n++)
+        for(size_t n = 0;n < cmbActivityBoxes[i]->GetCount();n++)
         {
             ActivityBoxCBData *pData = (ActivityBoxCBData*)cmbActivityBoxes[i]->GetClientObject(n);
             if(pData->m_id == wxGetApp().Prefs.nActBoxType[i])

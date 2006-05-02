@@ -17,11 +17,14 @@
 #include "myprec.h"
 #ifndef WX_PRECOMP
 	#include "wx/wx.h"
+    #include <wx/regex.h>
+    #include <wx/listctrl.h>
+    #include <wx/textdlg.h>
+    #include <wx/mimetype.h>
 #endif
-#include <wx/regex.h>
-#include <wx/listctrl.h>
-#include <wx/textdlg.h>
-#include <wx/mimetype.h>
+
+#include <wx/stdpaths.h>
+
 #include "MusikDefines.h"
 
 class CSongPath
@@ -454,44 +457,10 @@ inline void InternalErrorMessageBox( const wxString &sText)
 	wxMessageBox( sMessage,MUSIKAPPNAME_VERSION, wxOK|wxICON_ERROR );
 
 }
-#if wxCHECK_VERSION(2,5,4)
-#include <wx/stdpaths.h>
-#endif
-inline wxString MusikGetStaticDataPath()
-{
-    wxString sDataPath(wxT("data/"));
-#if wxCHECK_VERSION(2,5,4) && !defined(__WXMAC__)
-    
-    wxStandardPathsBase & stdpaths = wxStandardPaths::Get();
-    wxString theDataPath(stdpaths.GetDataDir()+ wxT("/") + sDataPath );
-    if(!wxDirExists(theDataPath))
-        theDataPath = sDataPath;
-    return theDataPath;
-#else
 
-#ifdef __WXMSW__
+wxString MusikGetStaticDataPath();
+wxString MusikGetHomePath();
 
-	if(wxDirExists(sDataPath))
-        return sDataPath;	
-    return wxT("data/");
-#elif __WXMAC__
-	wxFileName fname( wxTheApp->argv[0] );
-	wxString path = fname.GetPath();
-	path += wxT("/../Resources/");
-	return path;
-#else
-	wxString sDataPath(wxT("/usr/local/share/") MUSIKAPPNAME wxT("/data/"));
-	if(wxDirExists(sDataPath))
-		return sDataPath;
-	sDataPath = wxT("/usr/share/") MUSIKAPPNAME wxT("/data/");	
-	if(wxDirExists(sDataPath))
-		return sDataPath;
-	sDataPath = wxT("~/") MUSIKAPPNAME wxT("/data/");	
-	if(wxDirExists(sDataPath))
-		return sDataPath;
-#endif // MSW
-#endif // wxCHECK_VERSION(2,5,4)	
-}
 double CharStringToDouble(const char *z);
 void DoubleToCharString(double r, char *z);
 wxString GetForbiddenChars(wxPathFormat format = wxPATH_NATIVE);

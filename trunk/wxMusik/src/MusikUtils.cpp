@@ -730,7 +730,44 @@ bool CMusikTagger::Retag(CMusikSong * Song) const
 	}
 }
 
-/* (stolen from sqlite source)
+wxString MusikGetStaticDataPath()
+{
+    wxString sDataPath(wxT("data/"));
+#if defined(__WXMAC__)
+    wxFileName fname( wxTheApp->argv[0] );
+    wxString path = fname.GetPath();
+    path += wxT("/../Resources/");
+    return path;
+#else
+    wxStandardPathsBase & stdpaths = wxStandardPaths::Get();
+    wxString theDataPath(stdpaths.GetDataDir()+ wxT("/") + sDataPath );
+    if(!wxDirExists(theDataPath))
+        theDataPath = sDataPath;
+    return theDataPath;
+#endif //__WXMAC__
+}
+
+wxString MusikGetHomePath()
+{
+    wxString sHomeSubPath(wxT( ".Musik" ));
+    wxStandardPathsBase & stdpaths = wxStandardPaths::Get();
+    wxFileName LocalHomePath;
+    LocalHomePath.AssignDir(stdpaths.GetDataDir());
+    LocalHomePath.AppendDir(sHomeSubPath);
+    if ( wxAccess(LocalHomePath.GetPath(),6) == 0)
+        return LocalHomePath.GetPathWithSep();//in the data dir exists a local sHomeSubPath and is r/w , use that. 
+
+    // now get the musik home dir in the standard location.
+    wxFileName DefHomePath;
+    DefHomePath.AssignDir(wxFileName::GetHomeDir());
+    DefHomePath.AppendDir(sHomeSubPath);
+    //--- setup our home dir ---//
+    if ( !DefHomePath.DirExists() )
+        DefHomePath.Mkdir();// does not exists so we create it.
+    return DefHomePath.GetPathWithSep();
+}
+
+/* (copied from sqlite source)
 ** The string z[] is an ascii representation of a real number.
 ** Convert this string to a double.
 **

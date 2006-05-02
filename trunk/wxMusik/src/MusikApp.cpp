@@ -218,10 +218,6 @@ bool MusikApp::OnInit()
 
 
 
-	//--- setup our home dir ---//
-	if ( !wxDirExists( MUSIK_HOME_DIR ) )
-		wxMkdir( MUSIK_HOME_DIR );
-
 	//-----------------------------------------//
 	//--- check to see if a new version has	---//
 	//--- been installed. if it has, see	---//

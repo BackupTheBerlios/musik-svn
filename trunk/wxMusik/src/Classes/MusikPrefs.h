@@ -188,7 +188,7 @@ typedef CConfigSetting<wxString,wxString,PathEncoder>  CConfigSettingPath;
 
 
 #if defined __WXMSW__
-#define CONFIG_NAME wxT( ".Musik\\Musik.ini" )
+#define CONFIG_NAME (MusikGetHomePath() << wxT( "Musik.ini" ))
 #else
 #define CONFIG_NAME wxT( "MusikPrefs" )
 #endif
@@ -269,7 +269,7 @@ class CMusikPrefs  : public wxFileConfig
 {
 public:
 	CMusikPrefs()
-		:wxFileConfig( CONFIG_NAME )
+		:wxFileConfig(wxEmptyString,wxEmptyString, CONFIG_NAME )
 		,bFirstRun(this,wxT("FirstRun"),true)
 		,bAutoAdd(this,wxT( "AddFilesonStartup" ),false)
 		,bAutoPlayOnAppStart(this,wxT( "AutoPlayOnAppStart" ),false)

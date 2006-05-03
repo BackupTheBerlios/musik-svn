@@ -755,7 +755,7 @@ wxString MusikGetHomePath()
     LocalHomePath.AssignDir(stdpaths.GetDataDir());
     LocalHomePath.AppendDir(sHomeSubPath);
     if ( wxAccess(LocalHomePath.GetPath(),6) == 0)
-        return LocalHomePath.GetPathWithSep();//in the data dir exists a local sHomeSubPath and is r/w , use that. 
+        return LocalHomePath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR);//in the data dir exists a local sHomeSubPath and is r/w , use that. 
 
     // now get the musik home dir in the standard location.
     wxFileName DefHomePath;
@@ -764,7 +764,7 @@ wxString MusikGetHomePath()
     //--- setup our home dir ---//
     if ( !DefHomePath.DirExists() )
         DefHomePath.Mkdir();// does not exists so we create it.
-    return DefHomePath.GetPathWithSep();
+    return DefHomePath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR);
 }
 
 /* (copied from sqlite source)

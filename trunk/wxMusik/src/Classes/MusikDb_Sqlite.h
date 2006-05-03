@@ -91,7 +91,7 @@ protected:
     static void wxjuliandayFunc(sqlite_func *context, int argc, const char **argv);
     static void cnvMusikOldDTFormatToJuliandayFunc(sqlite_func *context, int argc, const char **argv);
     static void fuzzycmpFunc(sqlite_func *context, int argc, const char **argv);				
-    static int busycallback(void *pThis, const char *,int cnt)
+    static int busycallback(void *pThis, const char *,int /*cnt*/)
     {
         MusikDb_Sqlite & This = *(MusikDb_Sqlite*)pThis;
         return This.CallBusyHandler() ? 1:0;

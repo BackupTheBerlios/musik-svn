@@ -270,12 +270,13 @@ bool CMusikLibrary::Load()
 			);	
         if(m_pMasterLibrary == NULL)
             m_pDB->SetBusyHandler(m_pBusyHandler.get());
-	}
-	return m_pDB.get() != NULL;
+	    return true;
+    }
+	return false;
 }
 #include "MusikDb_Sqlite.h"
 
-static int db_callbackInsertIntoDb(void *args, int numCols, char **results, char ** columnNames)
+static int db_callbackInsertIntoDb(void *args, int /*numCols*/, char **results, char ** /*columnNames*/)
 {
     MusikDb * pDb = (MusikDb*)args;
     pDb->Exec(results[0]);

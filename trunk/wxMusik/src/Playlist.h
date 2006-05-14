@@ -117,44 +117,32 @@ class PlaylistDataProvider
 {
 public:
     virtual ~PlaylistDataProvider(){}
-    virtual bool RetrieveIdArray(const Playlist & pl,MusikSongIdArray  &idarr)= 0;
-    virtual bool Save(const Playlist & pl) const  = 0;
+    virtual bool Load(Playlist & pl) const = 0;
+    virtual bool Save(const Playlist & pl) = 0;
 };
 
 class Playlist
 {
 public:
-	Playlist(PlaylistDataProvider & DataProvider,const wxString & name)
+	Playlist(PlaylistDataProvider & DataProvider,const wxString & nameID)
         :m_refDataProvider(DataProvider)
-        ,m_sName(name)
+        ,m_sNameID(nameID)
     {
 
     }
-	const wxString & Name()
+	const wxString & NameID() const
 	{
-		return m_sName;
+		return m_sNameID;
 	}
-
-    virtual MusikSongId & operator[](size_t i) = 0;
-    virtual const MusikSongId & operator[](size_t i) const= 0;
-
-    virtual wxLongLong GetColumnSum(PlaylistColumn::eId id) = 0;
-    virtual ~Playlist(){}
-
-protected:
-    PlaylistDataProvider & m_refDataProvider;
-private:
-	wxString m_sName;
-};
-
-class StaticPlaylist : public Playlist 
-{
-public:
-    StaticPlaylist(PlaylistDataProvider & DataProvider,const wxString & name)
-        :Playlist(DataProvider,name)
+    const wxString & DisplayName() const
     {
-        Init();
+        return m_sDisplayName;
     }
+    wxString & DisplayName() 
+    {
+        return m_sDisplayName;
+    }
+
     virtual MusikSongId & operator[](size_t i)
     {
         return m_SongIdArray[i];
@@ -164,10 +152,40 @@ public:
         return m_SongIdArray[i];
     }
 
+    virtual wxLongLong GetColumnSum(PlaylistColumn::eId id) const = 0;
+    virtual ~Playlist(){}
+
+protected:
+    PlaylistDataProvider & m_refDataProvider;
+    MusikSongIdArray m_SongIdArray;
+private:
+	wxString m_sNameID;
+    wxString m_sDisplayName;
+};
+
+class EditablePlaylist : public Playlist
+{
+public:
+	EditablePlaylist();
+	~EditablePlaylist();
+protected:
     void Add( const Playlist & p ); 
     void Insert( const Playlist & ids ,size_t nInsertBefore); 
     void Move(size_t nIndexMoveTo ,const wxArrayInt &arrIndexToMove );
-    void Remove(size_t nRemove);
+    void Remove(size_t nRemove);	
+private:
+};
+
+
+class StaticPlaylist : public EditablePlaylist 
+{
+public:
+    StaticPlaylist(PlaylistDataProvider & DataProvider,const wxString & nameID)
+        :Playlist(DataProvider,nameID)
+    {
+        Init();
+    }
+
 protected:
     void Init()
     {
@@ -176,16 +194,15 @@ protected:
 
     bool Load()
     {
-        return m_refDataProvider.RetrieveIdArray(*this,m_SongIdArray);
+        return m_refDataProvider.Load(*this);
     }
-    MusikSongIdArray m_SongIdArray;
 };
 
 class DynamicPlaylist : public Playlist 
 {
 public:
-    DynamicPlaylist(PlaylistDataProvider & DataProvider,const wxString & name,const wxString & query)
-        :Playlist(DataProvider,name)
+    DynamicPlaylist(PlaylistDataProvider & DataProvider,const wxString & nameID,const wxString & query)
+        :Playlist(DataProvider,nameID)
         ,m_sQuery(query)
         ,m_SortColumn(PlaylistColumn::INVALID)
         ,m_bSortAscending(true)
@@ -207,24 +224,11 @@ public:
         m_bSortAscending = bSortAscending;
         return true;
     }
-    bool GetSortColumn(PlaylistColumn::eId &id,bool & bSortAscending)
+    bool GetSortColumn(PlaylistColumn::eId &id,bool & bSortAscending) const
     {
         id = m_SortColumn;
         bSortAscending = m_bSortAscending;
         return true;
-    }
-    virtual MusikSongId & operator[](size_t i)
-    {
-        return m_SongIdArray[i];
-    }
-    virtual const MusikSongId & operator[](size_t i) const
-    {
-        return m_SongIdArray[i];
-    }
-    const MusikSongIdArray & SongIdArray()
-    {
-        Realize();
-        return m_SongIdArray;
     }
 
 protected:
@@ -236,12 +240,11 @@ protected:
     void Realize()
     {
 
-        m_refDataProvider.RetrieveIdArray(*this,m_SongIdArray);          
+        m_refDataProvider.Load(*this);          
     }
 
  
     wxString m_sQuery;
-    MusikSongIdArray m_SongIdArray;
     PlaylistColumn::eId m_SortColumn;
     bool m_bSortAscending;
 };
@@ -257,8 +260,8 @@ public:
     {
     }
 
-    virtual bool RetrieveIdArray(Playlist & pl,MusikSongIdArray  &idarr);
-    virtual bool Save(Playlist & pl) const;
+    virtual bool Load(Playlist & pl) const;
+    virtual bool Save(const Playlist & pl);
 
 protected:
     CMusikLibrary &m_refLib;

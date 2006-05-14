@@ -414,6 +414,7 @@ void CNowPlayingCtrl::SetTime( wxString sTimeStr )
 
 void CNowPlayingCtrl::ResetInfo()
 {
+    m_CurrSong = CMusikSong();
 	stSong->SetLabel	( _( "Playback Stopped" )	);
 	stArtist->SetLabel	( _( "Playback Stopped" )	);
 	stCurtime->SetLabel	( wxT( " - 0:00" )			);

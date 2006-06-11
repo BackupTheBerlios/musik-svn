@@ -1,5 +1,16 @@
 SUBDIRS(src)
 
 # fmodex library
-FIND_LIBRARY(FMOD_LIBRARY NAMES fmodex  PATHS /usr/lib /usr/local/lib)
+INCLUDE_DIRECTORIES("${wxMusik_SOURCE_DIR}/3rd-Party")
 
+IF(APPLE)
+IF(CMAKE_OSX_ARCHITECTURES STREQUAL i386)
+   FIND_LIBRARY(FMOD_LIBRARY NAMES fmodex  PATHS ${wxMusik_SOURCE_DIR}/3rd-Party/bin/fmodex/MacOs/intel  /usr/lib /usr/local/lib)
+ELSE(CMAKE_OSX_ARCHITECTURES STREQUAL i386)
+   FIND_LIBRARY(FMOD_LIBRARY NAMES fmodex  PATHS ${wxMusik_SOURCE_DIR}/3rd-Party/bin/fmodex/MacOs/ppc  /usr/lib /usr/local/lib)
+ENDIF(CMAKE_OSX_ARCHITECTURES STREQUAL i386)
+ENDIF(APPLE)
+
+IF(CMAKE_SYSTEM_NAME MATCHES "Linux")
+FIND_LIBRARY(FMOD_LIBRARY NAMES fmodex  PATHS ${wxMusik_SOURCE_DIR}/3rd-Party/bin/fmodex/linux32  /usr/lib /usr/local/lib)
+ENDIF(CMAKE_SYSTEM_NAME MATCHES "Linux")

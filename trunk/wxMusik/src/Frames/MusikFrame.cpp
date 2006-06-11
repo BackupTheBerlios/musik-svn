@@ -108,7 +108,14 @@ bool MusikTaskBarIcon::SetIcon(const wxIcon& icon,
 {
     bool bRes = false;
 #ifndef __WXMSW__
+#ifdef __WXMAC__
+// on mac we do not set the icon, because the correct icon is already taken
+// from wxMusik.icns file from resoources folder.
+// doing SetIcon here would replace this by the 16x16 icon used for windows
+// and linux tray bar. 
+#else
     bRes =  wxTaskBarIcon::SetIcon(icon,tooltip);
+#endif
 #else
     if(m_dwShellDllVersion < PACKVERSION(5,00))
         bRes =  wxTaskBarIcon::SetIcon(icon,tooltip);
@@ -324,7 +331,7 @@ void BottomPanel::OnSize(wxSizeEvent& event)
 
 // main dialog constructor
 MusikFrame::MusikFrame() 
-	: wxFrame( (wxFrame*)NULL, -1, MUSIKAPPNAME_VERSION, wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE | wxTAB_TRAVERSAL | wxCLIP_CHILDREN )
+	: wxFrame( (wxFrame*)NULL, -1, MUSIKAPPNAME_VERSION)
 {
 	//--- pointer to main dialog, defined in MusikGlobals ---//
 	g_MusikFrame = this;
@@ -347,7 +354,8 @@ MusikFrame::MusikFrame()
 #endif
 
 #ifdef __WXMAC__
-	MacSetMetalAppearance(true);
+	//MacSetMetalAppearance(true);
+	SetExtraStyle(GetExtraStyle() | wxFRAME_EX_METAL);
 #endif
 	//--- colours ---//
 //	this->SetBackgroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_3DFACE ) );

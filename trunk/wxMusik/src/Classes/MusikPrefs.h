@@ -348,7 +348,7 @@ public:
 		,bWebServerEnable(this,wxT( "EnableWebserver" ),false)
 		,nWebServerPort(this,wxT( "Webserverport" ),6395)
         ,nWebServerRefresh(this,wxT( "WebserverRefresh" ),5)
-		,sFramePlacement(this,wxT( "FramePlacement" ),wxT("0,0,800,600,0,0"))
+		,sFramePlacement(this,wxT( "FramePlacement" ),wxT("-1,-1,800,600,0,0"))
 
 #ifdef wxHAS_TASK_BAR_ICON
 		,bHideOnMinimize(this,wxT("HideOnMinimize"),false )

@@ -190,7 +190,8 @@ bool CMusikPlayer::InitializeSndEngine( )
             wxGetApp().Prefs.nSndRate = nOldSndRate; // the sndrate is probably not the problem
             return false;
         }
-        wxMessageBox( _("Initialization of FMOD sound system succeeded using a sound rate of 44100 hz."), MUSIKAPPNAME_VERSION, wxOK | wxICON_ERROR );
+        if(nOldSndRate != wxGetApp().Prefs.nSndRate)
+            wxMessageBox( _("Initialization of FMOD sound system succeeded using a sound rate of 44100 hz."), MUSIKAPPNAME_VERSION, wxOK | wxICON_ERROR );
     }
     m_SndEngine.SetBufferMs(wxGetApp().Prefs.nSndBuffer);
     if(m_SndEngine.Equalizer())

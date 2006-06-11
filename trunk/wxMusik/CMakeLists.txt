@@ -23,6 +23,7 @@ FIND_LIBRARY(SQLITE_LIBRARY NAMES sqlite PATHS /usr/lib /usr/local/lib)
 
 
 INCLUDE_DIRECTORIES("${wxMusik_SOURCE_DIR}")
+INCLUDE_DIRECTORIES("${wxMusik_SOURCE_DIR}/3rd-Party")
 INCLUDE_DIRECTORIES("${wxMusik_SOURCE_DIR}/src")
 INCLUDE_DIRECTORIES("${wxMusik_SOURCE_DIR}/3rd-Party/taglib")
 INCLUDE_DIRECTORIES("${wxMusik_SOURCE_DIR}/3rd-Party/taglib/toolkit")

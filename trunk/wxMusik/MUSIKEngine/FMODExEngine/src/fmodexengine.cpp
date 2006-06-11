@@ -23,13 +23,10 @@
 #include "MUSIKEngine/MUSIKEngine/inc/defaultdecoder.h"
 #include "fmodexstreamout.h"
 #ifdef WIN32
-#include <fmod.hpp>
-#include <fmod_errors.h>
 #define snprintf _snprintf
-#else
+#endif
 #include <fmodex/fmod.hpp>
 #include <fmodex/fmod_errors.h>
-#endif
 #include <stdio.h>
 
 
@@ -85,7 +82,7 @@ MUSIKEngine::Error FMODExEngine::_Init(int idOutput ,int idDevice,int nMixRate,i
         if ( m_pSystem->setOutput( FMOD_OUTPUTTYPE_ESD ) != FMOD_OK )
             return errOutputInitFailed;
     }
-#elif defined (__apple__)
+#elif defined (APPLE)
     if ( idOutput == 0 )
     {
         if( m_pSystem->setOutput( FMOD_OUTPUTTYPE_COREAUDIO ) != FMOD_OK )
@@ -100,7 +97,7 @@ MUSIKEngine::Error FMODExEngine::_Init(int idOutput ,int idDevice,int nMixRate,i
     #error System not supported
 #endif
 
-   if(idDevice > 0)
+    if(idDevice > 0)
     {
         //---------------------//
         //--- setup device	---//
@@ -151,7 +148,11 @@ MUSIKEngine::Error FMODExEngine::EnumDevices(MUSIKEngine::IEnumNames * pen) cons
     m_pSystem->getNumDrivers(&numDrivers);
     for ( int i = 0; i < numDrivers ; i++ )
     {
+#ifdef APPLE
+	strcpy(name,"Default");
+#else
         m_pSystem->getDriverName(i,name,sizeof(name) - 1);
+#endif
         pen->EnumNamesCallback(name,i);
     }
     return errSuccess;
@@ -168,7 +169,7 @@ MUSIKEngine::Error FMODExEngine::EnumOutputs(IEnumNames * pen) const
         "OSS",
         "ESD",
         "ALSA 0.9"
-#elif defined( __apple__)
+#elif defined(APPLE)
         "CoreAudio",
         "SoundManager"
 #else 

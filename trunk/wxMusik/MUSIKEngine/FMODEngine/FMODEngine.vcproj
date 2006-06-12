@@ -20,7 +20,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(VCInstallDir)include&quot;;&quot;$(FMODDIR)\api\inc&quot;;&quot;$(ProjectDir)\..\..&quot;;&quot;$(ProjectDir)\..&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)\3rd-Party\&quot;;&quot;$(ProjectDir)\..\..&quot;;&quot;$(ProjectDir)\..&quot;"
 				MinimalRebuild="TRUE"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -65,7 +65,7 @@
 				InlineFunctionExpansion="1"
 				EnableIntrinsicFunctions="TRUE"
 				FavorSizeOrSpeed="2"
-				AdditionalIncludeDirectories="&quot;$(VCInstallDir)include&quot;;&quot;$(FMODDIR)\api\inc&quot;;&quot;$(ProjectDir)\..&quot;;&quot;$(ProjectDir)\..\..&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)\3rd-Party\&quot;;&quot;$(ProjectDir)\..\..&quot;;&quot;$(ProjectDir)\..&quot;"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"

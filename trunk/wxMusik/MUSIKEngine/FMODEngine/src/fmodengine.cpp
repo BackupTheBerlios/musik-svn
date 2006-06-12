@@ -23,8 +23,8 @@
 #include "MUSIKEngine/MUSIKEngine/inc/defaultdecoder.h"
 #include "fmodstreamout.h"
 #include "fmodequalizer.h"
-#include <fmod.h>
-#include <fmod_errors.h>
+#include <fmod/fmod.h>
+#include <fmod/fmod_errors.h>
 #include <stdio.h>
 #ifdef _WIN32
 #define snprintf _snprintf

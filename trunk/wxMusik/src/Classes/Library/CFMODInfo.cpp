@@ -9,7 +9,7 @@
 
 
 #ifdef USE_FMOD3
-#include <fmod.h>
+#include <fmod/fmod.h>
 
 
 CFMODInfo::CFMODInfo()

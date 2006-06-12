@@ -12,7 +12,7 @@
 ** This file contains code to implement the "sqlite" command line
 ** utility for accessing SQLite databases.
 **
-** $Id: shell.c,v 1.135 2006/03/19 13:00:25 drh Exp $
+** $Id: shell.c,v 1.138 2006/06/06 12:32:21 drh Exp $
 */
 #include <stdlib.h>
 #include <string.h>
@@ -198,7 +198,7 @@ static char *one_input_line(const char *zPrior, FILE *in){
   }
   zResult = readline(zPrompt);
 #if defined(HAVE_READLINE) && HAVE_READLINE==1
-  if( zResult ) add_history(zResult);
+  if( zResult && *zResult ) add_history(zResult);
 #endif
   return zResult;
 }
@@ -1472,6 +1472,10 @@ static void process_input(struct callback_data *p, FILE *in){
       if( zLine[i]!=0 ){
         nSql = strlen(zLine);
         zSql = malloc( nSql+1 );
+        if( zSql==0 ){
+          fprintf(stderr, "out of memory\n");
+          exit(1);
+        }
         strcpy(zSql, zLine);
       }
     }else{
@@ -1494,7 +1498,7 @@ static void process_input(struct callback_data *p, FILE *in){
       open_db(p);
       rc = sqlite3_exec(p->db, zSql, callback, p, &zErrMsg);
       if( rc || zErrMsg ){
-        if( in!=0 && !p->echoOn ) printf("%s\n",zSql);
+        /* if( in!=0 && !p->echoOn ) printf("%s\n",zSql); */
         if( zErrMsg!=0 ){
           printf("SQL error: %s\n", zErrMsg);
           sqlite3_free(zErrMsg);
@@ -1743,7 +1747,7 @@ int main(int argc, char **argv){
       data.echoOn = 1;
     }else if( strcmp(z,"-version")==0 ){
       printf("%s\n", sqlite3_libversion());
-      return 1;
+      return 0;
     }else if( strcmp(z,"-help")==0 ){
       usage(1);
     }else{

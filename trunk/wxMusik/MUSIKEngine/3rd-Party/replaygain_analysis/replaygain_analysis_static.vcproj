@@ -3,6 +3,7 @@
 	ProjectType="Visual C++"
 	Version="7.10"
 	Name="replaygain_analysis_static"
+	ProjectGUID="{BE656F15-A5C3-4472-9E7A-9CB970974395}"
 	SccProjectName="replaygain_analysis"
 	SccLocalPath="..\..\..">
 	<Platforms>
@@ -23,7 +24,7 @@
 				Optimization="2"
 				InlineFunctionExpansion="1"
 				ImproveFloatingPointConsistency="TRUE"
-				AdditionalIncludeDirectories=".\include,..\..\..\include\share"
+				AdditionalIncludeDirectories=".\include,..\include\share"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
 				StringPooling="TRUE"
 				RuntimeLibrary="2"
@@ -74,7 +75,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\include,..\..\..\include\share"
+				AdditionalIncludeDirectories=".\include,..\include\share"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"

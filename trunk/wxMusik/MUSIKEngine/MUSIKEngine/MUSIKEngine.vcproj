@@ -20,7 +20,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..;&quot;$(FLACDIR)/include&quot;;&quot;$(MAC_SDKDIR)&quot;;&quot;$(FLACDIR)/src&quot;"
+				AdditionalIncludeDirectories="..;&quot;../3rd-Party/include&quot;;&quot;../3rd-Party/MAC&quot;;&quot;../3rd-Party&quot;"
 				PreprocessorDefinitions="FLAC__NO_DLL"
 				MinimalRebuild="TRUE"
 				BasicRuntimeChecks="3"
@@ -65,7 +65,7 @@
 				GlobalOptimizations="FALSE"
 				FavorSizeOrSpeed="2"
 				OmitFramePointers="TRUE"
-				AdditionalIncludeDirectories="..;&quot;$(FLACDIR)/src&quot;;&quot;$(FLACDIR)/include&quot;;&quot;$(MAC_SDKDIR)&quot;"
+				AdditionalIncludeDirectories="..;&quot;../3rd-Party/include&quot;;&quot;../3rd-Party/MAC&quot;;&quot;../3rd-Party&quot;"
 				PreprocessorDefinitions="FLAC__NO_DLL"
 				StringPooling="TRUE"
 				RuntimeLibrary="2"

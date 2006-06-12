@@ -23,7 +23,7 @@
 #endif
 #ifndef MUSIKENGINE_NO_APE_SUPPORT
 #ifdef _WIN32
-#include "All.h" // monkeys audio
+#include "Shared/All.h" // monkeys audio
 #else
 #define BUILD_CROSS_PLATFORM
 #include "mac/All.h" // monkeys audio

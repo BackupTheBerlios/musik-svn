@@ -27,8 +27,8 @@
 
 #ifdef _WIN32
 #include "Shared/All.h"							/* Monkey's Audio include file */
-#include "Shared/MACLib.h"						/* Monkey's Audio include file */
-#include "Source/Shared/CharacterHelper.h"
+#include "MACLib/MACLib.h"						/* Monkey's Audio include file */
+#include "Shared/CharacterHelper.h"
 #ifdef __VISUALC__
 #pragma comment(lib,"MACLib")
 #endif

@@ -3,6 +3,7 @@
 	ProjectType="Visual C++"
 	Version="7.10"
 	Name="grabbag_static"
+	ProjectGUID="{48D3E3D1-924B-4C8B-A22A-3BEDFE3521E2}"
 	SccProjectName="grabbag"
 	SccLocalPath="..\..\..">
 	<Platforms>
@@ -21,7 +22,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\include,..\..\..\include"
+				AdditionalIncludeDirectories=".\include;..\include"
 				PreprocessorDefinitions="FLAC__NO_DLL;WIN32;_DEBUG;_LIB"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -74,7 +75,7 @@
 				Optimization="2"
 				InlineFunctionExpansion="1"
 				ImproveFloatingPointConsistency="TRUE"
-				AdditionalIncludeDirectories=".\include,..\..\..\include"
+				AdditionalIncludeDirectories=".\include;..\include"
 				PreprocessorDefinitions="FLAC__NO_DLL;WIN32;NDEBUG;_LIB"
 				StringPooling="TRUE"
 				RuntimeLibrary="2"

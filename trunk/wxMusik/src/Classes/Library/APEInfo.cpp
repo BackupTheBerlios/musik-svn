@@ -1,9 +1,9 @@
 #include "myprec.h"
 #ifndef MUSIKENGINE_NO_APE_SUPPORT
 #ifdef _WIN32
-#include "All.h"							/* Monkey's Audio include file */
-#include "MACLib.h"						/* Monkey's Audio include file */
-#include "APETag.h"
+#include "Shared/All.h"							/* Monkey's Audio include file */
+#include "MACLib/MACLib.h"						/* Monkey's Audio include file */
+#include "MACLib/APETag.h"
 #else
 #define BUILD_CROSS_PLATFORM
 #include "mac/All.h"							/* Monkey's Audio include file */

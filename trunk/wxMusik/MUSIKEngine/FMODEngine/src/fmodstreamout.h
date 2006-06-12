@@ -22,7 +22,7 @@
 #ifndef FMODSTREAMOUT_H
 #define FMODSTREAMOUT_H
 
-#include <fmod.h>
+#include <fmod/fmod.h>
 #include "MUSIKEngine/inc/imusikstreamout.h"
 #include "MUSIKEngine/FMODEngine/inc/fmodengine.h"
 class MUSIKStream;

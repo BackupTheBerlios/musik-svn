@@ -66,7 +66,7 @@ IMPLEMENT_APP(MusikApp)
                        
 #pragma comment(lib,"wxmsw" WXLIB "_netutils")
 
-#pragma comment(lib,"sqlite")
+#pragma comment(lib,"sqlite2")
 #pragma comment(lib,"plugin_common_static")
 #pragma comment(lib,"grabbag_static")
 // windows libs

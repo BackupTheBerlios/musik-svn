@@ -70,7 +70,7 @@ struct NullEncoder
 
 template <class T , int MYSIZE,int MYBASE = 0,class T1 =T,class V_ENC = NullEncoder<T> >
 class CConfigSettingArray 
-{
+        {
 public:
 	CConfigSettingArray(wxConfigBase * pConfig,const wxString &sName, const T1 Default[])
 		:m_pConfig(pConfig)
@@ -257,6 +257,8 @@ static const PlaylistColumn::eId DefaultActBoxType[ActivityBoxesMaxCount] =
 {
     PlaylistColumn::ARTIST,
     PlaylistColumn::ALBUM,
+    PlaylistColumn::INVALID,
+    PlaylistColumn::INVALID,
     PlaylistColumn::INVALID,
     PlaylistColumn::INVALID
 };

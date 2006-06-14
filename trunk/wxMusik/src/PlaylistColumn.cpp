@@ -30,5 +30,6 @@ const PlaylistColumn g_PlaylistColumn[PlaylistColumn::NCOLUMNS] =
     {PlaylistColumn::BITRATE,       wxT( "bitrate"     ), wxT("%s")                          ,wxTRANSLATE( "Bitrate"    )   ,wxLIST_FORMAT_RIGHT    ,PlaylistColumn::Numeric ,PlaylistColumn::SortCase          ,true  ,false  },
     {PlaylistColumn::FILENAME,      wxT( "filename"    ), wxT("%s")                          ,wxTRANSLATE( "Filename"	)   ,wxLIST_FORMAT_LEFT     ,PlaylistColumn::Textual ,PlaylistColumn::SortCase          ,false ,false  },
     {PlaylistColumn::NOTES,         wxT( "notes"       ), wxT("%s")                          ,wxTRANSLATE( "Notes"		)   ,wxLIST_FORMAT_LEFT     ,PlaylistColumn::Textual ,PlaylistColumn::SortCase          ,false ,false  },
-    {PlaylistColumn::TIMEADDED,	    wxT( "timeadded"   ), wxT("julianday(%s,'start of day')"),wxTRANSLATE( "Added on"	)   ,wxLIST_FORMAT_RIGHT    ,PlaylistColumn::Date    ,PlaylistColumn::SortCase          ,true  ,false  }
+    {PlaylistColumn::TIMEADDED,	    wxT( "timeadded"   ), wxT("julianday(%s,'start of day')"),wxTRANSLATE( "Added on"	)   ,wxLIST_FORMAT_RIGHT    ,PlaylistColumn::Date    ,PlaylistColumn::SortCase          ,true  ,false  },
+    {PlaylistColumn::MODIFIED,	    wxT( "modified"    ), wxT("julianday(%s,'start of day')"),wxTRANSLATE( "Modified on")   ,wxLIST_FORMAT_RIGHT    ,PlaylistColumn::Date    ,PlaylistColumn::SortCase          ,true  ,false  }
 };	 			

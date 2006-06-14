@@ -22,6 +22,7 @@ struct PlaylistColumn
         FILENAME,
         NOTES,
         TIMEADDED,
+        MODIFIED,
         NCOLUMNS			//--- this is ALWAYS the last entry ---//
     };
     enum eSortOrder

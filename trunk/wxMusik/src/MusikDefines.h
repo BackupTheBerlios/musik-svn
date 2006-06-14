@@ -102,7 +102,7 @@
 const int  MUSIK_MIN_RATING = -9;
 const int  MUSIK_MAX_RATING = 9;
 
-const size_t ActivityBoxesMaxCount = 4;
+const size_t ActivityBoxesMaxCount = 6;
 
 //-------------------------//
 //--- enumerated values ---//

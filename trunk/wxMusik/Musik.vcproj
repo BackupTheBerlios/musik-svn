@@ -685,9 +685,6 @@ xcopy &quot;$(ProjectDir)\3rd-Party\bin\fmod\win32\fmod.dll&quot;  &quot;$(OutDi
 		<Filter
 			Name="Events"
 			Filter="">
-			<File
-				RelativePath=".\src\Classes\ActivityAreaCtrl.cpp">
-			</File>
 			<Filter
 				Name="NowPlayingCtrl"
 				Filter="">
@@ -711,6 +708,9 @@ xcopy &quot;$(ProjectDir)\3rd-Party\bin\fmod\win32\fmod.dll&quot;  &quot;$(OutDi
 			<Filter
 				Name="ActivityArea"
 				Filter="">
+				<File
+					RelativePath=".\src\Classes\ActivityAreaCtrl.cpp">
+				</File>
 				<File
 					RelativePath=".\src\Classes\ActivityAreaCtrl.h">
 				</File>

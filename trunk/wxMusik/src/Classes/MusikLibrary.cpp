@@ -631,6 +631,33 @@ int CMusikLibrary::db_callbackAddToStringArray(void *args, int WXUNUSED(numCols)
 	p->Add( ConvFromUTF8( results[0] )); 
 	return 0;
 }
+
+void _Add_IN_ClauseForColumn(wxString & query,const PlaylistColumn & Column,const wxArrayString & aList)
+{
+    bool bQuote = (Column.Type == PlaylistColumn::Textual);
+
+    query << wxString::Format(Column.ColQueryMask,Column.DBName.c_str())
+        << wxT(" in (");
+    for ( int i = 0; i < (int)aList.GetCount(); i++ )
+    {
+        if ( i > 0 )
+            query << wxT(',');
+        if(bQuote)
+        {
+            query << wxT('\'');
+            wxString s (aList.Item( i ));
+            s.Replace( wxT("'"), wxT("''") );
+            query << s;
+        }
+        else
+            query << aList.Item( i );
+        if(bQuote)
+            query << wxT('\'');
+
+    }
+    query << wxT(')');
+}
+
 void CMusikLibrary::GetInfo( const wxArrayString & aList, const PlaylistColumn & ColumnIn, const PlaylistColumn & ColumnOut ,wxArrayString & aReturn, bool bSorted )
 {
 	aReturn.Clear();
@@ -648,29 +675,7 @@ void CMusikLibrary::GetInfo( const wxArrayString & aList, const PlaylistColumn &
 	}
 	else
 		query = wxT("select distinct ") + sColumnOut + wxT(" from songs where ");
-
-    bool bQuote = (ColumnIn.Type == PlaylistColumn::Textual);
-
-    query << wxString::Format(ColumnIn.ColQueryMask,ColumnIn.DBName.c_str())
-          << wxT(" in (");
-	for ( int i = 0; i < (int)aList.GetCount(); i++ )
-	{
-		if ( i > 0 )
-			query << wxT(',');
-        if(bQuote)
-        {
-            query << wxT('\'');
-            wxString s (aList.Item( i ));
-            s.Replace( wxT("'"), wxT("''") );
-            query << s;
-        }
-        else
-		    query << aList.Item( i );
-        if(bQuote)
-    		query << wxT('\'');
-
-	}
-    query << wxT(')');
+    _Add_IN_ClauseForColumn(query,ColumnIn,aList);
 	if(bSorted)
 	{
 		switch ( ColumnOut.SortOrder )
@@ -709,24 +714,8 @@ void CMusikLibrary::GetSongs( const wxArrayString & aList, const PlaylistColumn 
 	aReturn.Alloc(GetSongCount()); // optimize item adding performance,
   	wxString sQuery;
   
-    sQuery =  wxString::Format(Column.ColQueryMask,Column.DBName.c_str()) + wxT(" in(");
 	sQuery.Alloc(sQuery.Len() + 30 + aList.GetCount() * 30); // optimization ( the 30 is a wild guess)
-
-	//--- for each item in the input list, we're going to query the database ---//
-	for ( size_t i = 0; i < aList.GetCount(); i++ )
-	{	
-    	aList.Item( i ).Replace( wxT( "'" ), wxT( "''" ), true );
-  	 	sQuery += wxT("'");
-		sQuery += aList.Item( i );
-		
-		//--- not at the end ---//
-		if ( i != aList.GetCount() - 1 )
-			sQuery += wxT("', ");
-		 
-		//--- at the end ---//
-		else
-			sQuery += wxT("' ) ");
- 	}
+    _Add_IN_ClauseForColumn(sQuery,Column,aList);
 	QuerySongsWhere( sQuery, aReturn,true); // query sorted
 	return;
 }
@@ -773,24 +762,11 @@ void CMusikLibrary::GetFilelistSongs( const wxArrayString & aFiles, MusikSongIdA
 	aReturn.Clear();
 	if(aFiles.GetCount() == 0)
         return;
-	wxString sQuery = wxT("select songs.songid,songs.filename from songs where filename in (");
+	wxString sQuery = wxT("select songs.songid,songs.filename from songs where ");
 
 	sQuery.Alloc(sQuery.Len() + aFiles.GetCount() * 30); // optimization ( the 30 is a wild guess)
-	for ( size_t i = 0; i < aFiles.GetCount(); i++ )
-	{
-		//--- if song has a ' ---//	
-		wxString filename( aFiles.Item( i ) );
-		filename.Replace( wxT("'"), wxT("''"), TRUE );
-
-		sQuery += wxT("'");
-		sQuery += filename;
-		//--- not at the end ---//
-		if ( i != aFiles.GetCount() - 1 )
-			sQuery += wxT("', ");
-		//--- at the end ---//
-		else
-			sQuery += wxT("' );");
-	}
+    _Add_IN_ClauseForColumn(sQuery,g_PlaylistColumn[PlaylistColumn::FILENAME],aFiles);
+    sQuery << wxT(";");
 
 	myStringToMusikSongIdPtrMap theMap;
 	//---------------------------------------------------------------------//
@@ -1191,7 +1167,7 @@ bool CMusikLibrary::RenameFile( CMusikSong & song )
 	newfilename.AssignDir(sRootPath);
 	newfilename.SetName(sFile);
 	newfilename.SetExt(song.MetaData.Filename.GetExt());
-	newfilename.Normalize();
+//	newfilename.Normalize();
 	//--- filename already the same? return ---//
 	if ( song.MetaData.Filename == newfilename )
 	{

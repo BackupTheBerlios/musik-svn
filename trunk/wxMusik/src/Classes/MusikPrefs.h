@@ -388,9 +388,13 @@ public:
 
 		,eSearchmode(this,wxT( "Searchmode" ),MUSIK_SEARCHMODE_ALLWORDS)
 		,eFuzzySearchmode(this,wxT( "FuzzySearchmode" ),MUSIK_FUZZYSEARCHMODE_NONE)
-
+#if defined( __WXMAC_)
+		,sFilemanagerCmd(this,wxT( "FilemanagerCmd" ),wxT("open \"%s\""))			
+#elif defined(__WXMSW__)
 		,sFilemanagerCmd(this,wxT( "FilemanagerCmd" ),wxT("explorer.exe \"%s\""))			
-
+#else
+		,sFilemanagerCmd(this,wxT( "FilemanagerCmd" ),wxT("nautilus  \"%s\""))			
+#endif
 		,bAllowTagGuessing(this,wxT("AllowTagGuessing"),true)		
 #ifdef wxUSE_HOTKEY
 		,bEnablePlayerHotkeys(this,	wxT("EnablePlayerHotkeys"),false)

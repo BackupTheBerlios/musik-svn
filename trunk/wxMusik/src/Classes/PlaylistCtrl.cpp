@@ -64,7 +64,7 @@ public:
 	//-------------------------//
 	bool  HighlightSel( const  wxPoint &pPos );
 private:
-	wxTextDataObject * m_pSonglistDObj;
+	CMusikSonglistDataObject * m_pSonglistDObj;
 	wxFileDataObject * m_pFileDObj;
 
 	CPlaylistCtrl *m_pPlaylistCtrl;	//--- pointer to the playlist ---//

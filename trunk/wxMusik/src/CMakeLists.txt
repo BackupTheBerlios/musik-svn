@@ -69,10 +69,11 @@ SET(MAIN_SRCS
         ./Frames/Prefs/WebServerPanel.cpp
     )
 IF(OPTION_SUPPORT_FLAC)
-SET(FLAC_ADDITIONAL_LIBS "plugin_common grabbag  replaygain_synthesis replaygain_analysis")
-SEPARATE_ARGUMENTS(FLAC_ADDITIONAL_LIBS)
+SET(FLAC_LIBS "myflac plugin_common grabbag  replaygain_synthesis replaygain_analysis")
+INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/../MUSIKEngine/3rd-Party/include)
+SEPARATE_ARGUMENTS(FLAC_LIBS)
 ELSE(OPTION_SUPPORT_FLAC)
-SET(FLAC_ADDITIONAL_LIBS "")
+SET(FLAC_LIBS "")
 ENDIF(OPTION_SUPPORT_FLAC)
 
 IF(NOT OPTION_SUPPORT_APE)
@@ -81,7 +82,6 @@ ADD_DEFINITIONS(-DMUSIKENGINE_NO_APE_SUPPORT)
 ENDIF(NOT OPTION_SUPPORT_APE)
 
 IF(NOT OPTION_SUPPORT_FLAC)
-SET(FLAC_LIBRARY "")
 ADD_DEFINITIONS(-DMUSIKENGINE_NO_FLAC_SUPPORT)
 ENDIF(NOT OPTION_SUPPORT_FLAC)
 
@@ -115,14 +115,13 @@ TARGET_LINK_LIBRARIES(wxMusik
         MUSIKEngine
         shibatch
         mysqlite3
+        mysqlite2
         ${WXWINDOWS_LIBRARY}
-        ${SQLITE_LIBRARY}
         ${MUSEPACK_LIBRARY}
         ${MAC_LIBRARY}
-        ${FLAC_LIBRARY}
         ${FMOD_LIBRARY}
         TagLib
-        ${FLAC_ADDITIONAL_LIBS}
+        ${FLAC_LIBS}
     )
 
 

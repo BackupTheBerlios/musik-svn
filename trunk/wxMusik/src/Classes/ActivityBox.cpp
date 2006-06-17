@@ -75,6 +75,19 @@ wxString wxStringRemovePrefix(const wxString &s)
 }
 // NOTE: wxStrcoll sorts by using the current locale. This means they are sorted lexically.
 // case is ignored in th lexically order of most locales ( don't know why MS has a separate stricoll function)
+#ifdef __WXMAC__
+//wcscoll does not work correctly sorts like wcscmp.
+// we want nocase sorting
+int wxCMPFUNC_CONV wxStringSortAscendingLocaleRemovePrefix(const wxString& s1, const wxString& s2)
+{
+    return wxStricmp(wxStringRemovePrefix(s1).c_str(), wxStringRemovePrefix(s2).c_str());
+}
+
+int wxCMPFUNC_CONV wxStringSortAscendingLocale(const wxString& s1,const  wxString& s2)
+{
+    return wxStricmp(s1.c_str(), s2.c_str());
+}
+#else
 int wxCMPFUNC_CONV wxStringSortAscendingLocaleRemovePrefix(const wxString& s1, const wxString& s2)
 {
     return wxStrcoll(wxStringRemovePrefix(s1).c_str(), wxStringRemovePrefix(s2).c_str());
@@ -84,6 +97,7 @@ int wxCMPFUNC_CONV wxStringSortAscendingLocale(const wxString& s1,const  wxStrin
 {
     return wxStrcoll(s1.c_str(), s2.c_str());
 }
+#endif
 
 //------------------------//
 //--- CActivityListBox ---//

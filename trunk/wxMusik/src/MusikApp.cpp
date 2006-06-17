@@ -217,7 +217,7 @@ bool MusikApp::OnInit()
 	wxImage::AddHandler( new wxGIFHandler );
 
 
-
+	setlocale(LC_ALL,"");
 	//-----------------------------------------//
 	//--- check to see if a new version has	---//
 	//--- been installed. if it has, see	---//

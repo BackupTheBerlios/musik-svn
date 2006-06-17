@@ -12,12 +12,6 @@ ENDIF(NOT WIN32)
 # Configure for a wxWindows build
 INCLUDE( ${CMAKE_CURRENT_SOURCE_DIR}/scripts/cmake/MyUse_wxWindows.cmake)
 
-
-# SQLite library
-FIND_LIBRARY(SQLITE_LIBRARY NAMES sqlite PATHS /usr/lib /usr/local/lib)
-
-
-
 # Vorbis library
 #FIND_LIBRARY(VORBIS_LIBRARY NAMES vorbis PATHS /usr/lib /usr/local/lib)
 

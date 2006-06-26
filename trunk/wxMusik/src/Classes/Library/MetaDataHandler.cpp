@@ -32,6 +32,10 @@ static CMyAPEInfo apeinfo;
 #ifdef USE_TAGLIB
 #include "TagLibInfo.h"
 static CTagLibInfo taglibinfo;
+#ifndef MUSIKENGINE_NO_FLAC_SUPPORT
+#include "FlacInfo.h"
+static CFlacInfo flacinfo;
+#endif
 #else
 #include "CMP3Info.h"
 static CMP3Info mp3info;
@@ -95,7 +99,12 @@ static const tSongClass valid_SongClasses[] =
 	,{wxT("mpc"),wxTRANSLATE("Musepack Audio File"),MUSIK_FORMAT_MPC,&taglibinfo,&taglibinfo}
 #endif
 #ifndef MUSIKENGINE_NO_FLAC_SUPPORT
-	,{wxT("flac"),wxTRANSLATE("Flac Lossless Audio File"),MUSIK_FORMAT_FLAC,&taglibinfo,&taglibinfo}
+	,{wxT("flac"),wxTRANSLATE("Flac Lossless Audio File"),MUSIK_FORMAT_FLAC,&flacinfo,&flacinfo}
+#endif
+#ifndef MUSIKENGINE_NO_FAAD2_SUPPORT
+	,{wxT("aac"),wxTRANSLATE("AAC Audio File"),MUSIK_FORMAT_AAC,NULL,NULL}
+	,{wxT("mp4"),wxTRANSLATE("MP4 Audio File"),MUSIK_FORMAT_MP4,NULL,NULL}
+	,{wxT("mp4a"),wxTRANSLATE("MP4A Audio File"),MUSIK_FORMAT_MP4A,NULL,NULL}
 #endif
 	,{wxT("mp2"),wxTRANSLATE("MPEG Layer 2 Audio File"),MUSIK_FORMAT_MP2,&taglibinfo,&taglibinfo}
 

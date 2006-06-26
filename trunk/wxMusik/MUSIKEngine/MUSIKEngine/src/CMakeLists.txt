@@ -25,7 +25,8 @@ ENDIF(${USE_MPCDEC_12})
 ADD_LIBRARY(MUSIKEngine apedecoder.cpp  
 		decoder.cpp  
 		engine.cpp  
-		flacdecoder.cpp  
+		flacdecoder.cpp
+		aacdecoder.cpp  
 		mpcdecoder.cpp
 		stream.cpp
 )
@@ -33,6 +34,7 @@ ADD_LIBRARY(MUSIKEngine apedecoder.cpp
 OPTION(OPTION_SUPPORT_APE "Support Ape (Monkeys Audio Files) " ON)
 OPTION(OPTION_SUPPORT_MPC "Support Musepack (MPC) Audio Files " ON)
 OPTION(OPTION_SUPPORT_FLAC "Support FLAC Audio Files " ON)
+OPTION(OPTION_SUPPORT_FAAD2 "Support AAC/MP4 Audio Files " ON)
 
 
 
@@ -51,6 +53,14 @@ ELSE(OPTION_SUPPORT_FLAC)
 #SET(FLAC_LIBRARY "")
 ADD_DEFINITIONS(-DMUSIKENGINE_NO_FLAC_SUPPORT)
 ENDIF(OPTION_SUPPORT_FLAC)
+
+IF(OPTION_SUPPORT_FAAD2)
+# FLAC library
+#FIND_LIBRARY(FLAC_LIBRARY NAMES FLAC PATHS /usr/lib /usr/local/lib)
+ELSE(OPTION_SUPPORT_FAAD2)
+#SET(FLAC_LIBRARY "")
+ADD_DEFINITIONS(-DMUSIKENGINE_NO_FAAD2_SUPPORT)
+ENDIF(OPTION_SUPPORT_FAAD2)
 
 IF(OPTION_SUPPORT_MPC)
 # musepack library

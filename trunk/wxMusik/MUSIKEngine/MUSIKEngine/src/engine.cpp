@@ -28,6 +28,7 @@
 #include "apedecoder.h"
 #include "mpcdecoder.h"
 #include "flacdecoder.h"
+#include "aacdecoder.h"
 
 #ifndef _WIN32
 #define _stricmp strcasecmp
@@ -129,6 +130,15 @@ MUSIKStream* MUSIKEngine::OpenMedia(const char *FileName)
 	{
 		so = CreateStreamOut(); 
 		d = new MUSIKFLACDecoder(so);
+	}
+	else 
+#endif	
+#ifndef MUSIKENGINE_NO_FAAD2_SUPPORT	
+	if ((_stricmp(FileExt,".aac") == 0) || (_stricmp(FileExt,".mp4")==0) || (_stricmp(FileExt,".mp4a")==0))
+
+	{
+		so = CreateStreamOut(); 
+		d = new MUSIKAACDecoder(so);
 	}
 	else 
 #endif	

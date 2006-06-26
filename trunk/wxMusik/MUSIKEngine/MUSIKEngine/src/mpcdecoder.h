@@ -55,10 +55,10 @@ class MUSIKMPCDecoder: public MUSIKDecoder
 		{
 			fclose(m_file);
 		}
-                mpc_int32_t read ( void *ptr, mpc_int32_t size ) {return fread(ptr,1,size,m_file);}
-                bool seek ( mpc_int32_t offset ) {return m_seekable ? !fseek(m_file,offset,SEEK_SET) : false;}
-                mpc_int32_t tell () {return ftell(m_file);}
-                mpc_int32_t get_size () {return m_size;}
+	    mpc_int32_t read ( void *ptr, mpc_int32_t size ) {return fread(ptr,1,size,m_file);}
+		bool seek ( mpc_int32_t offset ) {return m_seekable ? !fseek(m_file,offset,SEEK_SET) : false;}
+		mpc_int32_t tell () {return ftell(m_file);}
+		mpc_int32_t get_size () {return m_size;}
 		bool canseek() {return m_seekable;}
 	private:
 		FILE * m_file;

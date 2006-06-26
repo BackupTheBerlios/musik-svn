@@ -2,7 +2,7 @@
 #include <FLAC/format.h>
 #include <FLAC/metadata.h>
 #include "FlacInfo.h"
-#include "../MusikUtils.h"
+#include "MusikUtils.h"
 
 CFlacInfo::CFlacInfo(void)
 {

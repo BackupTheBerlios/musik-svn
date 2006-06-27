@@ -206,13 +206,13 @@ bool MUSIKAACDecoder::OpenMedia(const char *FileName)
 	{
 
 		/* convert from samples to ms */
-		m_Info.SampleCount = m_AacInfo.m_NumSamples;
+		m_Info.SampleCount = m_AacInfo.m_Length;
 		m_Info.channels = m_AacInfo.m_Channels;
 		m_Info.frequency = m_AacInfo.m_SampleRate;
 		m_Info.bitrate = m_AacInfo.m_BitRate;
         m_Info.bits_per_sample = 16;
 
-		int decoder_buffer_size = sizeof(m_AacInfo.fbuf);
+		int decoder_buffer_size = 4096 * (m_Info.bits_per_sample>>3)  ;
 		return CreateBuffer(decoder_buffer_size);
 	}
 	Close();
@@ -351,7 +351,7 @@ bool MUSIKAACDecoder::CreateMP4Stream()
 	}
 	m_AacInfo.m_NumSamples=mp4ff_num_samples(m_AacInfo.m_pMP4File,m_AacInfo.mp4track);
 	m_AacInfo.sampleid=0;
-
+    m_AacInfo.m_BitRate = mp4ff_get_avg_bitrate(m_AacInfo.m_pMP4File,m_AacInfo.mp4track);
 //	ReadMP4Meta(stream); // read tags before decoding
 	free(buffer);
 	return true;

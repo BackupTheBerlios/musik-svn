@@ -25,6 +25,7 @@
 				MinimalRebuild="TRUE"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
+				BufferSecurityCheck="TRUE"
 				UsePrecompiledHeader="0"
 				WarningLevel="4"
 				Detect64BitPortabilityProblems="TRUE"
@@ -106,6 +107,9 @@
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}">
 			<File
+				RelativePath=".\src\aacdecoder.cpp">
+			</File>
+			<File
 				RelativePath=".\src\apedecoder.cpp">
 			</File>
 			<File
@@ -155,6 +159,9 @@
 		<Filter
 			Name="Internal Header Files"
 			Filter="">
+			<File
+				RelativePath=".\src\aacdecoder.h">
+			</File>
 			<File
 				RelativePath=".\src\apedecoder.h">
 			</File>

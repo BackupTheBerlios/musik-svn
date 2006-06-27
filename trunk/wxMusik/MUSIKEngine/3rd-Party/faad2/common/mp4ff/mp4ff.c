@@ -206,10 +206,10 @@ int32_t mp4ff_time_scale(const mp4ff_t *f, const int32_t track)
     return f->track[track]->timeScale;
 }
 
-/*uint32_t mp4ff_get_avg_bitrate(const mp4ff_t *f, const int32_t track)
+uint32_t mp4ff_get_avg_bitrate(const mp4ff_t *f, const int32_t track)
 {
 	return f->track[track]->avgBitrate;
-}*/
+}
 
 int64_t mp4ff_get_track_duration(const mp4ff_t *f, const int32_t track)
 {

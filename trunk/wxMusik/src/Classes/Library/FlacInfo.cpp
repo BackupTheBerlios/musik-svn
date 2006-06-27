@@ -1,4 +1,4 @@
-#include "wx/wxprec.h"
+#include "myprec.h"
 #include <FLAC/format.h>
 #include <FLAC/metadata.h>
 #include "FlacInfo.h"

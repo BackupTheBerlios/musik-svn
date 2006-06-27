@@ -817,6 +817,12 @@ xcopy &quot;$(ProjectDir)\3rd-Party\bin\fmod\win32\fmod.dll&quot;  &quot;$(OutDi
 					RelativePath=".\src\Classes\Library\CInfo.h">
 				</File>
 				<File
+					RelativePath=".\src\Classes\Library\FlacInfo.cpp">
+				</File>
+				<File
+					RelativePath=".\src\Classes\Library\FlacInfo.h">
+				</File>
+				<File
 					RelativePath=".\src\Classes\Library\MetaDataHandler.cpp">
 				</File>
 				<File

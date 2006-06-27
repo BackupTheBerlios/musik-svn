@@ -67,7 +67,7 @@ int32_t mp4ff_total_tracks(const mp4ff_t *f);
 int32_t mp4ff_num_samples(const mp4ff_t *f, const int track);
 int32_t mp4ff_time_scale(const mp4ff_t *f, const int track);
 
-//uint32_t mp4ff_get_avg_bitrate(const mp4ff_t *f, const int32_t track);
+uint32_t mp4ff_get_avg_bitrate(const mp4ff_t *f, const int32_t track);
 int64_t mp4ff_get_track_duration(const mp4ff_t *f, const int32_t track); //returns (-1) if unknown
 int64_t mp4ff_get_track_duration_use_offsets(const mp4ff_t *f, const int32_t track); //returns (-1) if unknown
 uint32_t mp4ff_get_audio_type(const mp4ff_t * f,const int32_t track);

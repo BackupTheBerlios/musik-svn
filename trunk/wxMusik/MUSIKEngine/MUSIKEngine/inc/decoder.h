@@ -87,6 +87,8 @@ public:
 	virtual bool CanSeek() = 0;
     virtual bool SetSamplePos( int64_t samplepos)
     {
+        if(GetSamplePos() == samplepos)
+            return true;
         if(false == CanSeek())
             return false;
         m_seek_needed = samplepos;

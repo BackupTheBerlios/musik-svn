@@ -105,6 +105,7 @@ class MUSIKAACDecoder :public MUSIKDecoder
             tags = NULL;	
             m_pReader = NULL;
             decoder = NULL;
+            fbuflen = 0;
 		}
         
         ~AACStreamInfo()
@@ -115,13 +116,11 @@ class MUSIKAACDecoder :public MUSIKDecoder
         {
             decoder=NeAACDecOpen();
             m_pReader = pReader;
+            fbuflen = 0;
             return true;
         }
         void Close()
         {
-            if(decoder)
-                NeAACDecClose(decoder);
-            decoder = NULL;    
             if (m_pMP4File) 
                 mp4ff_close(m_pMP4File);
             m_pMP4File = NULL;
@@ -131,6 +130,9 @@ class MUSIKAACDecoder :public MUSIKDecoder
             tags = NULL;
             delete m_pReader;
             m_pReader = NULL;
+            if(decoder)
+                NeAACDecClose(decoder);
+            decoder = NULL;    
         }
     protected:
         int FindAACIndex();

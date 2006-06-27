@@ -80,6 +80,7 @@
 				PreprocessorDefinitions="VERSION=\&quot;1.1.2\&quot;;FLAC__NO_DLL;FLAC__CPU_IA32;FLAC__HAS_NASM;FLAC__USE_3DNOW;WIN32;_DEBUG;_LIB"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
+				BufferSecurityCheck="TRUE"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderFile=".\Debug_static/libFLAC_static.pch"
 				AssemblerListingLocation=".\Debug_static/"

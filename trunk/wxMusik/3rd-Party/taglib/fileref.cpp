@@ -27,7 +27,7 @@
 #include "vorbisfile.h"
 #include "flacfile.h"
 #include "mpcfile.h"
-
+#include "m4a/mp4file.h"
 using namespace TagLib;
 
 class FileRef::FileRefPrivate : public RefCounter
@@ -158,17 +158,23 @@ File *FileRef::create(const Filename & fileName, bool readAudioProperties,
 
   String s = (const TCHAR*)fileName;
 
-  if(s.size() > 4) {	
-    if(s.substr(s.size() - 4, 4).upper() == ".OGG")
-      return new Vorbis::File(fileName, readAudioProperties, audioPropertiesStyle);
-    if(s.substr(s.size() - 4, 4).upper() == ".MP3")
-      return new MPEG::File(fileName, readAudioProperties, audioPropertiesStyle);
-  if(s.substr(s.size() - 4, 4).upper() == ".MP2")
-    return new MPEG::File(fileName, readAudioProperties, audioPropertiesStyle);
+    if(s.size() > 4) {	
+        if(s.substr(s.size() - 4, 4).upper() == ".OGG")
+        return new Vorbis::File(fileName, readAudioProperties, audioPropertiesStyle);
+        if(s.substr(s.size() - 4, 4).upper() == ".MP3")
+        return new MPEG::File(fileName, readAudioProperties, audioPropertiesStyle);
+    if(s.substr(s.size() - 4, 4).upper() == ".MP2")
+        return new MPEG::File(fileName, readAudioProperties, audioPropertiesStyle);
     if(s.substr(s.size() - 5, 5).upper() == ".FLAC")
-      return new FLAC::File(fileName, readAudioProperties, audioPropertiesStyle);
+        return new FLAC::File(fileName, readAudioProperties, audioPropertiesStyle);
     if(s.substr(s.size() - 4, 4).upper() == ".MPC")
-      return new MPC::File(fileName, readAudioProperties, audioPropertiesStyle);
+        return new MPC::File(fileName, readAudioProperties, audioPropertiesStyle);
+    if(s.substr(s.size() - 4, 4).upper() == ".MP4")
+        return new MP4::File(fileName, readAudioProperties, audioPropertiesStyle);
+    if(s.substr(s.size() - 5, 5).upper() == ".MP4A")
+        return new MP4::File(fileName, readAudioProperties, audioPropertiesStyle);
+    if(s.substr(s.size() - 4, 4).upper() == ".AAC")
+        return new MPEG::File(fileName, readAudioProperties, audioPropertiesStyle);
   }
 
   return 0;

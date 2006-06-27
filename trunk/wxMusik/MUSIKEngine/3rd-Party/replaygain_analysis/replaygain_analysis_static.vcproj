@@ -79,6 +79,7 @@
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
+				BufferSecurityCheck="TRUE"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderFile=".\Debug_static/replaygain_analysis_static.pch"
 				AssemblerListingLocation=".\Debug_static/"

@@ -80,6 +80,7 @@
 				PreprocessorDefinitions="_DEBUG;WIN32;_LIB"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
+				BufferSecurityCheck="TRUE"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderFile=".\Debug/libfaad.pch"
 				AssemblerListingLocation=".\Debug/"

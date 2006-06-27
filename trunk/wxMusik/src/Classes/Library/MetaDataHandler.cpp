@@ -104,7 +104,7 @@ static const tSongClass valid_SongClasses[] =
 #ifndef MUSIKENGINE_NO_FAAD2_SUPPORT
 	,{wxT("aac"),wxTRANSLATE("AAC Audio File"),MUSIK_FORMAT_AAC,&taglibinfo,&taglibinfo}
 	,{wxT("mp4"),wxTRANSLATE("MP4 Audio File"),MUSIK_FORMAT_MP4,&taglibinfo,&taglibinfo}
-	,{wxT("mp4a"),wxTRANSLATE("MP4A Audio File"),MUSIK_FORMAT_MP4A,&taglibinfo,&taglibinfo}
+	,{wxT("m4a"),wxTRANSLATE("MP4A Audio File"),MUSIK_FORMAT_MP4A,&taglibinfo,&taglibinfo}
 #endif
 	,{wxT("mp2"),wxTRANSLATE("MPEG Layer 2 Audio File"),MUSIK_FORMAT_MP2,&taglibinfo,&taglibinfo}
 

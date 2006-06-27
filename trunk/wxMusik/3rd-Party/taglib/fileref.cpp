@@ -171,7 +171,7 @@ File *FileRef::create(const Filename & fileName, bool readAudioProperties,
         return new MPC::File(fileName, readAudioProperties, audioPropertiesStyle);
     if(s.substr(s.size() - 4, 4).upper() == ".MP4")
         return new MP4::File(fileName, readAudioProperties, audioPropertiesStyle);
-    if(s.substr(s.size() - 5, 5).upper() == ".MP4A")
+    if(s.substr(s.size() - 4, 4).upper() == ".M4A")
         return new MP4::File(fileName, readAudioProperties, audioPropertiesStyle);
     if(s.substr(s.size() - 4, 4).upper() == ".AAC")
         return new MPEG::File(fileName, readAudioProperties, audioPropertiesStyle);

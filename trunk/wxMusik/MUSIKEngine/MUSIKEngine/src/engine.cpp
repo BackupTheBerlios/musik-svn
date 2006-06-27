@@ -134,7 +134,7 @@ MUSIKStream* MUSIKEngine::OpenMedia(const char *FileName)
 	else 
 #endif	
 #ifndef MUSIKENGINE_NO_FAAD2_SUPPORT	
-	if ((_stricmp(FileExt,".aac") == 0) || (_stricmp(FileExt,".mp4")==0) || (_stricmp(FileExt,".mp4a")==0))
+	if ((_stricmp(FileExt,".aac") == 0) || (_stricmp(FileExt,".mp4")==0) || (_stricmp(FileExt,".m4a")==0))
 
 	{
 		so = CreateStreamOut(); 

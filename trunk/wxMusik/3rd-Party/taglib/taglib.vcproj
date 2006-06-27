@@ -615,9 +615,6 @@
 				<File
 					RelativePath=".\m4a\mp4udtabox.h">
 				</File>
-				<File
-					RelativePath=".\m4a\taglib_mp4filetyperesolver.h">
-				</File>
 			</Filter>
 		</Filter>
 		<Filter

@@ -12,6 +12,7 @@ INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/ogg/flac)
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/mpeg/id3v1)
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/mpeg/id3v2)
 
+INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/m4a)
 
 
 
@@ -58,4 +59,41 @@ ADD_LIBRARY(TagLib ./ape/apefooter.cpp
 	./toolkit/tstring.cpp
 	./toolkit/tstringlist.cpp
 	./toolkit/unicode.cpp
+
+    ./m4a/boxfactory.cpp
+    ./m4a/itunesalbbox.cpp
+    ./m4a/itunesartbox.cpp
+    ./m4a/itunescmtbox.cpp
+    ./m4a/itunescvrbox.cpp
+    ./m4a/itunesdatabox.cpp
+    ./m4a/itunesdaybox.cpp
+    ./m4a/itunesdiskbox.cpp
+    ./m4a/itunesgenbox.cpp
+    ./m4a/itunesgrpbox.cpp
+    ./m4a/itunesnambox.cpp
+    ./m4a/itunestmpobox.cpp
+    ./m4a/itunestrknbox.cpp
+    ./m4a/ituneswrtbox.cpp
+    ./m4a/mp4audioproperties.cpp
+    ./m4a/mp4audiosampleentry.cpp
+    ./m4a/mp4file.cpp
+    ./m4a/mp4fourcc.cpp
+    ./m4a/mp4hdlrbox.cpp
+    ./m4a/mp4ilstbox.cpp
+    ./m4a/mp4isobox.cpp
+    ./m4a/mp4isofullbox.cpp
+    ./m4a/mp4itunestag.cpp
+    ./m4a/mp4mdiabox.cpp
+    ./m4a/mp4metabox.cpp
+    ./m4a/mp4minfbox.cpp
+    ./m4a/mp4moovbox.cpp
+    ./m4a/mp4mvhdbox.cpp
+    ./m4a/mp4propsproxy.cpp
+    ./m4a/mp4sampleentry.cpp
+    ./m4a/mp4skipbox.cpp
+    ./m4a/mp4stblbox.cpp
+    ./m4a/mp4stsdbox.cpp
+    ./m4a/mp4tagsproxy.cpp
+    ./m4a/mp4trakbox.cpp
+    ./m4a/mp4udtabox.cpp
 )

@@ -64,7 +64,7 @@ public:
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-Ogg::FLAC::File::File(const Filename &file, bool readProperties,
+Ogg::FLAC::File::File(const char *file, bool readProperties,
                       Properties::ReadStyle propertiesStyle) : Ogg::File(file)
 {
   d = new FilePrivate;
@@ -181,7 +181,7 @@ void Ogg::FLAC::File::scan()
   int ipacket = 0;
   long overhead = 0;
 
-  ByteVector metadataHeader = packet(ipacket++);
+  ByteVector metadataHeader = packet(ipacket);
   if(metadataHeader.isNull())
     return;
 
@@ -197,7 +197,7 @@ void Ogg::FLAC::File::scan()
   }
   else {
     // FLAC 1.1.0 & 1.1.1
-    metadataHeader = packet(ipacket++);
+    metadataHeader = packet(++ipacket);
 
   if(metadataHeader.isNull())
     return;
@@ -232,7 +232,7 @@ void Ogg::FLAC::File::scan()
   // Search through the remaining metadata
 
   while(!lastBlock) {
-    metadataHeader = packet(ipacket++);
+    metadataHeader = packet(++ipacket);
 
     if(metadataHeader.isNull())
       return;

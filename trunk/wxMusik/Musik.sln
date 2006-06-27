@@ -17,6 +17,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Musik", "Musik.vcproj", "{C
 		{B07504EC-F135-4BC3-A5AF-43EBCE64C6F9} = {B07504EC-F135-4BC3-A5AF-43EBCE64C6F9}
 		{3F2AF4F0-807B-4209-AC26-BDB81652AE8D} = {3F2AF4F0-807B-4209-AC26-BDB81652AE8D}
 		{36A39AF9-ACEB-4A9B-BFE7-4745BD60D67C} = {36A39AF9-ACEB-4A9B-BFE7-4745BD60D67C}
+		{8A581DFC-55C0-42B7-8D8E-D3991B04363B} = {8A581DFC-55C0-42B7-8D8E-D3991B04363B}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MMShellHook", "MMShellHook\MMShellHook.vcproj", "{C372ABA2-E90B-459B-B5B2-A9A181DFE807}"
@@ -29,6 +30,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MUSIKEngine", "MUSIKEngine\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "taglib", "3rd-Party\taglib\taglib.vcproj", "{68CBA667-F4CB-4771-9AA2-821F22CA8BF2}"
 	ProjectSection(ProjectDependencies) = postProject
+		{8A581DFC-55C0-42B7-8D8E-D3991B04363B} = {8A581DFC-55C0-42B7-8D8E-D3991B04363B}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FMODEngine", "MUSIKEngine\FMODEngine\FMODEngine.vcproj", "{B91E6845-EE0F-4083-A255-6089CB87D13D}"
@@ -80,6 +82,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mp4ff", "MUSIKEngine\3rd-Pa
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libfaad", "MUSIKEngine\3rd-Party\faad2\libfaad\libfaad.vcproj", "{5EFCFACB-1835-422C-ACDA-E3B3A2F51387}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libmp4v2_st", "3rd-Party\libmp4v2\libmp4v2_st60.vcproj", "{8A581DFC-55C0-42B7-8D8E-D3991B04363B}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
@@ -927,6 +933,54 @@ Global
 		{5EFCFACB-1835-422C-ACDA-E3B3A2F51387}.Universal Unicode Debug.Build.0 = Debug|Win32
 		{5EFCFACB-1835-422C-ACDA-E3B3A2F51387}.Universal Unicode Release.ActiveCfg = Release|Win32
 		{5EFCFACB-1835-422C-ACDA-E3B3A2F51387}.Universal Unicode Release.Build.0 = Release|Win32
+		{8A581DFC-55C0-42B7-8D8E-D3991B04363B}.Debug.ActiveCfg = Debug|Win32
+		{8A581DFC-55C0-42B7-8D8E-D3991B04363B}.Debug.Build.0 = Debug|Win32
+		{8A581DFC-55C0-42B7-8D8E-D3991B04363B}.Debug DLL.ActiveCfg = Debug|Win32
+		{8A581DFC-55C0-42B7-8D8E-D3991B04363B}.Debug DLL.Build.0 = Debug|Win32
+		{8A581DFC-55C0-42B7-8D8E-D3991B04363B}.Debug Unicode.ActiveCfg = Debug|Win32
+		{8A581DFC-55C0-42B7-8D8E-D3991B04363B}.Debug Unicode.Build.0 = Debug|Win32
+		{8A581DFC-55C0-42B7-8D8E-D3991B04363B}.Debug Unicode DLL.ActiveCfg = Debug|Win32
+		{8A581DFC-55C0-42B7-8D8E-D3991B04363B}.Debug Unicode DLL.Build.0 = Debug|Win32
+		{8A581DFC-55C0-42B7-8D8E-D3991B04363B}.DLL Debug.ActiveCfg = Debug|Win32
+		{8A581DFC-55C0-42B7-8D8E-D3991B04363B}.DLL Debug.Build.0 = Debug|Win32
+		{8A581DFC-55C0-42B7-8D8E-D3991B04363B}.DLL Release.ActiveCfg = Release|Win32
+		{8A581DFC-55C0-42B7-8D8E-D3991B04363B}.DLL Release.Build.0 = Release|Win32
+		{8A581DFC-55C0-42B7-8D8E-D3991B04363B}.DLL Unicode Debug.ActiveCfg = Debug|Win32
+		{8A581DFC-55C0-42B7-8D8E-D3991B04363B}.DLL Unicode Debug.Build.0 = Debug|Win32
+		{8A581DFC-55C0-42B7-8D8E-D3991B04363B}.DLL Unicode Release.ActiveCfg = Release|Win32
+		{8A581DFC-55C0-42B7-8D8E-D3991B04363B}.DLL Unicode Release.Build.0 = Release|Win32
+		{8A581DFC-55C0-42B7-8D8E-D3991B04363B}.DLL Universal Debug.ActiveCfg = Debug|Win32
+		{8A581DFC-55C0-42B7-8D8E-D3991B04363B}.DLL Universal Debug.Build.0 = Debug|Win32
+		{8A581DFC-55C0-42B7-8D8E-D3991B04363B}.DLL Universal Release.ActiveCfg = Release|Win32
+		{8A581DFC-55C0-42B7-8D8E-D3991B04363B}.DLL Universal Release.Build.0 = Release|Win32
+		{8A581DFC-55C0-42B7-8D8E-D3991B04363B}.DLL Universal Unicode Debug.ActiveCfg = Debug|Win32
+		{8A581DFC-55C0-42B7-8D8E-D3991B04363B}.DLL Universal Unicode Debug.Build.0 = Debug|Win32
+		{8A581DFC-55C0-42B7-8D8E-D3991B04363B}.DLL Universal Unicode Release.ActiveCfg = Release|Win32
+		{8A581DFC-55C0-42B7-8D8E-D3991B04363B}.DLL Universal Unicode Release.Build.0 = Release|Win32
+		{8A581DFC-55C0-42B7-8D8E-D3991B04363B}.NASM Debug.ActiveCfg = Debug|Win32
+		{8A581DFC-55C0-42B7-8D8E-D3991B04363B}.NASM Debug.Build.0 = Debug|Win32
+		{8A581DFC-55C0-42B7-8D8E-D3991B04363B}.NASM Release.ActiveCfg = Release|Win32
+		{8A581DFC-55C0-42B7-8D8E-D3991B04363B}.NASM Release.Build.0 = Release|Win32
+		{8A581DFC-55C0-42B7-8D8E-D3991B04363B}.Release.ActiveCfg = Release|Win32
+		{8A581DFC-55C0-42B7-8D8E-D3991B04363B}.Release.Build.0 = Release|Win32
+		{8A581DFC-55C0-42B7-8D8E-D3991B04363B}.Release DLL.ActiveCfg = Release|Win32
+		{8A581DFC-55C0-42B7-8D8E-D3991B04363B}.Release DLL.Build.0 = Release|Win32
+		{8A581DFC-55C0-42B7-8D8E-D3991B04363B}.Release Unicode.ActiveCfg = Release|Win32
+		{8A581DFC-55C0-42B7-8D8E-D3991B04363B}.Release Unicode.Build.0 = Release|Win32
+		{8A581DFC-55C0-42B7-8D8E-D3991B04363B}.Release Unicode DLL.ActiveCfg = Release|Win32
+		{8A581DFC-55C0-42B7-8D8E-D3991B04363B}.Release Unicode DLL.Build.0 = Release|Win32
+		{8A581DFC-55C0-42B7-8D8E-D3991B04363B}.Unicode Debug.ActiveCfg = Debug|Win32
+		{8A581DFC-55C0-42B7-8D8E-D3991B04363B}.Unicode Debug.Build.0 = Debug|Win32
+		{8A581DFC-55C0-42B7-8D8E-D3991B04363B}.Unicode Release.ActiveCfg = Release|Win32
+		{8A581DFC-55C0-42B7-8D8E-D3991B04363B}.Unicode Release.Build.0 = Release|Win32
+		{8A581DFC-55C0-42B7-8D8E-D3991B04363B}.Universal Debug.ActiveCfg = Debug|Win32
+		{8A581DFC-55C0-42B7-8D8E-D3991B04363B}.Universal Debug.Build.0 = Debug|Win32
+		{8A581DFC-55C0-42B7-8D8E-D3991B04363B}.Universal Release.ActiveCfg = Release|Win32
+		{8A581DFC-55C0-42B7-8D8E-D3991B04363B}.Universal Release.Build.0 = Release|Win32
+		{8A581DFC-55C0-42B7-8D8E-D3991B04363B}.Universal Unicode Debug.ActiveCfg = Debug|Win32
+		{8A581DFC-55C0-42B7-8D8E-D3991B04363B}.Universal Unicode Debug.Build.0 = Debug|Win32
+		{8A581DFC-55C0-42B7-8D8E-D3991B04363B}.Universal Unicode Release.ActiveCfg = Release|Win32
+		{8A581DFC-55C0-42B7-8D8E-D3991B04363B}.Universal Unicode Release.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection

@@ -20,7 +20,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)&quot;;&quot;$(ProjectDir)/ogg&quot;;&quot;$(ProjectDir)/mpeg/id3v2&quot;;&quot;$(ProjectDir)/toolkit&quot;;&quot;$(ProjectDir)/flac&quot;;&quot;$(ProjectDir)/mpeg/id3v1&quot;;&quot;$(ProjectDir)/mpeg&quot;;&quot;$(ProjectDir)/ape&quot;;&quot;$(ProjectDir)/ogg/vorbis&quot;;&quot;$(ProjectDir)/mpc&quot;;&quot;$(ProjectDir)/..&quot;"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)&quot;;&quot;$(ProjectDir)/ogg&quot;;&quot;$(ProjectDir)/mpeg/id3v2&quot;;&quot;$(ProjectDir)/toolkit&quot;;&quot;$(ProjectDir)/flac&quot;;&quot;$(ProjectDir)/mpeg/id3v1&quot;;&quot;$(ProjectDir)/mpeg&quot;;&quot;$(ProjectDir)/ape&quot;;&quot;$(ProjectDir)/ogg/vorbis&quot;;&quot;$(ProjectDir)/mpc&quot;;&quot;$(ProjectDir)/mp4&quot;;&quot;$(ProjectDir)/../libmp4v2&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
 				StringPooling="TRUE"
 				MinimalRebuild="TRUE"
@@ -68,7 +68,7 @@
 				Name="VCCLCompilerTool"
 				EnableIntrinsicFunctions="TRUE"
 				OmitFramePointers="TRUE"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)&quot;;&quot;$(ProjectDir)/ogg&quot;;&quot;$(ProjectDir)/mpeg/id3v2&quot;;&quot;$(ProjectDir)/toolkit&quot;;&quot;$(ProjectDir)/flac&quot;;&quot;$(ProjectDir)/mpeg/id3v1&quot;;&quot;$(ProjectDir)/mpeg&quot;;&quot;$(ProjectDir)/ape&quot;;&quot;$(ProjectDir)/ogg/vorbis&quot;;&quot;$(ProjectDir)/mpc&quot;;&quot;$(ProjectDir)/..&quot;"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)&quot;;&quot;$(ProjectDir)/ogg&quot;;&quot;$(ProjectDir)/mpeg/id3v2&quot;;&quot;$(ProjectDir)/toolkit&quot;;&quot;$(ProjectDir)/flac&quot;;&quot;$(ProjectDir)/mpeg/id3v1&quot;;&quot;$(ProjectDir)/mpeg&quot;;&quot;$(ProjectDir)/ape&quot;;&quot;$(ProjectDir)/ogg/vorbis&quot;;&quot;$(ProjectDir)/mpc&quot;;&quot;$(ProjectDir)/mp4&quot;;&quot;$(ProjectDir)/../libmp4v2&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
 				RuntimeLibrary="2"
 				RuntimeTypeInfo="TRUE"
@@ -109,7 +109,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)&quot;;&quot;$(ProjectDir)/ogg&quot;;&quot;$(ProjectDir)/mpeg/id3v2&quot;;&quot;$(ProjectDir)/toolkit&quot;;&quot;$(ProjectDir)/flac&quot;;&quot;$(ProjectDir)/mpeg/id3v1&quot;;&quot;$(ProjectDir)/mpeg&quot;;&quot;$(ProjectDir)/ape&quot;;&quot;$(ProjectDir)/ogg/vorbis&quot;;&quot;$(ProjectDir)/mpc&quot;;&quot;$(ProjectDir)/..&quot;"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)&quot;;&quot;$(ProjectDir)/ogg&quot;;&quot;$(ProjectDir)/mpeg/id3v2&quot;;&quot;$(ProjectDir)/toolkit&quot;;&quot;$(ProjectDir)/flac&quot;;&quot;$(ProjectDir)/mpeg/id3v1&quot;;&quot;$(ProjectDir)/mpeg&quot;;&quot;$(ProjectDir)/ape&quot;;&quot;$(ProjectDir)/ogg/vorbis&quot;;&quot;$(ProjectDir)/mpc&quot;;&quot;$(ProjectDir)/mp4&quot;;&quot;$(ProjectDir)/../libmp4v2&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;UNICODE;_UNICODE"
 				StringPooling="TRUE"
 				MinimalRebuild="TRUE"
@@ -161,7 +161,7 @@
 				EnableIntrinsicFunctions="TRUE"
 				FavorSizeOrSpeed="2"
 				OmitFramePointers="TRUE"
-				AdditionalIncludeDirectories="&quot;$(ProjectDir)&quot;;&quot;$(ProjectDir)/ogg&quot;;&quot;$(ProjectDir)/mpeg/id3v2&quot;;&quot;$(ProjectDir)/toolkit&quot;;&quot;$(ProjectDir)/flac&quot;;&quot;$(ProjectDir)/mpeg/id3v1&quot;;&quot;$(ProjectDir)/mpeg&quot;;&quot;$(ProjectDir)/ape&quot;;&quot;$(ProjectDir)/ogg/vorbis&quot;;&quot;$(ProjectDir)/mpc&quot;;&quot;$(ProjectDir)/..&quot;"
+				AdditionalIncludeDirectories="&quot;$(ProjectDir)&quot;;&quot;$(ProjectDir)/ogg&quot;;&quot;$(ProjectDir)/mpeg/id3v2&quot;;&quot;$(ProjectDir)/toolkit&quot;;&quot;$(ProjectDir)/flac&quot;;&quot;$(ProjectDir)/mpeg/id3v1&quot;;&quot;$(ProjectDir)/mpeg&quot;;&quot;$(ProjectDir)/ape&quot;;&quot;$(ProjectDir)/ogg/vorbis&quot;;&quot;$(ProjectDir)/mpc&quot;;&quot;$(ProjectDir)/mp4&quot;;&quot;$(ProjectDir)/../libmp4v2&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;UNICODE;_UNICODE"
 				RuntimeLibrary="2"
 				RuntimeTypeInfo="TRUE"
@@ -331,115 +331,16 @@
 				RelativePath=".\ogg\xiphcomment.cpp">
 			</File>
 			<Filter
-				Name="mp4a"
+				Name="mp4"
 				Filter="">
 				<File
-					RelativePath=".\m4a\boxfactory.cpp">
+					RelativePath=".\mp4\mp4file.cpp">
 				</File>
 				<File
-					RelativePath=".\m4a\itunesalbbox.cpp">
+					RelativePath=".\mp4\mp4properties.cpp">
 				</File>
 				<File
-					RelativePath=".\m4a\itunesartbox.cpp">
-				</File>
-				<File
-					RelativePath=".\m4a\itunescmtbox.cpp">
-				</File>
-				<File
-					RelativePath=".\m4a\itunescvrbox.cpp">
-				</File>
-				<File
-					RelativePath=".\m4a\itunesdatabox.cpp">
-				</File>
-				<File
-					RelativePath=".\m4a\itunesdaybox.cpp">
-				</File>
-				<File
-					RelativePath=".\m4a\itunesdiskbox.cpp">
-				</File>
-				<File
-					RelativePath=".\m4a\itunesgenbox.cpp">
-				</File>
-				<File
-					RelativePath=".\m4a\itunesgrpbox.cpp">
-				</File>
-				<File
-					RelativePath=".\m4a\itunesnambox.cpp">
-				</File>
-				<File
-					RelativePath=".\m4a\itunestmpobox.cpp">
-				</File>
-				<File
-					RelativePath=".\m4a\itunestrknbox.cpp">
-				</File>
-				<File
-					RelativePath=".\m4a\ituneswrtbox.cpp">
-				</File>
-				<File
-					RelativePath=".\m4a\mp4audioproperties.cpp">
-				</File>
-				<File
-					RelativePath=".\m4a\mp4audiosampleentry.cpp">
-				</File>
-				<File
-					RelativePath=".\m4a\mp4file.cpp">
-				</File>
-				<File
-					RelativePath=".\m4a\mp4fourcc.cpp">
-				</File>
-				<File
-					RelativePath=".\m4a\mp4hdlrbox.cpp">
-				</File>
-				<File
-					RelativePath=".\m4a\mp4ilstbox.cpp">
-				</File>
-				<File
-					RelativePath=".\m4a\mp4isobox.cpp">
-				</File>
-				<File
-					RelativePath=".\m4a\mp4isofullbox.cpp">
-				</File>
-				<File
-					RelativePath=".\m4a\mp4itunestag.cpp">
-				</File>
-				<File
-					RelativePath=".\m4a\mp4mdiabox.cpp">
-				</File>
-				<File
-					RelativePath=".\m4a\mp4metabox.cpp">
-				</File>
-				<File
-					RelativePath=".\m4a\mp4minfbox.cpp">
-				</File>
-				<File
-					RelativePath=".\m4a\mp4moovbox.cpp">
-				</File>
-				<File
-					RelativePath=".\m4a\mp4mvhdbox.cpp">
-				</File>
-				<File
-					RelativePath=".\m4a\mp4propsproxy.cpp">
-				</File>
-				<File
-					RelativePath=".\m4a\mp4sampleentry.cpp">
-				</File>
-				<File
-					RelativePath=".\m4a\mp4skipbox.cpp">
-				</File>
-				<File
-					RelativePath=".\m4a\mp4stblbox.cpp">
-				</File>
-				<File
-					RelativePath=".\m4a\mp4stsdbox.cpp">
-				</File>
-				<File
-					RelativePath=".\m4a\mp4tagsproxy.cpp">
-				</File>
-				<File
-					RelativePath=".\m4a\mp4trakbox.cpp">
-				</File>
-				<File
-					RelativePath=".\m4a\mp4udtabox.cpp">
+					RelativePath=".\mp4\mp4tag.cpp">
 				</File>
 			</Filter>
 		</Filter>
@@ -505,115 +406,16 @@
 				RelativePath=".\ogg\xiphcomment.h">
 			</File>
 			<Filter
-				Name="mp4a"
+				Name="mp4"
 				Filter="">
 				<File
-					RelativePath=".\m4a\boxfactory.h">
+					RelativePath=".\mp4\mp4file.h">
 				</File>
 				<File
-					RelativePath=".\m4a\itunesalbbox.h">
+					RelativePath=".\mp4\mp4properties.h">
 				</File>
 				<File
-					RelativePath=".\m4a\itunesartbox.h">
-				</File>
-				<File
-					RelativePath=".\m4a\itunescmtbox.h">
-				</File>
-				<File
-					RelativePath=".\m4a\itunescvrbox.h">
-				</File>
-				<File
-					RelativePath=".\m4a\itunesdatabox.h">
-				</File>
-				<File
-					RelativePath=".\m4a\itunesdaybox.h">
-				</File>
-				<File
-					RelativePath=".\m4a\itunesdiskbox.h">
-				</File>
-				<File
-					RelativePath=".\m4a\itunesgenbox.h">
-				</File>
-				<File
-					RelativePath=".\m4a\itunesgrpbox.h">
-				</File>
-				<File
-					RelativePath=".\m4a\itunesnambox.h">
-				</File>
-				<File
-					RelativePath=".\m4a\itunestmpobox.h">
-				</File>
-				<File
-					RelativePath=".\m4a\itunestrknbox.h">
-				</File>
-				<File
-					RelativePath=".\m4a\ituneswrtbox.h">
-				</File>
-				<File
-					RelativePath=".\m4a\mp4audioproperties.h">
-				</File>
-				<File
-					RelativePath=".\m4a\mp4audiosampleentry.h">
-				</File>
-				<File
-					RelativePath=".\m4a\mp4file.h">
-				</File>
-				<File
-					RelativePath=".\m4a\mp4fourcc.h">
-				</File>
-				<File
-					RelativePath=".\m4a\mp4hdlrbox.h">
-				</File>
-				<File
-					RelativePath=".\m4a\mp4ilstbox.h">
-				</File>
-				<File
-					RelativePath=".\m4a\mp4isobox.h">
-				</File>
-				<File
-					RelativePath=".\m4a\mp4isofullbox.h">
-				</File>
-				<File
-					RelativePath=".\m4a\mp4itunestag.h">
-				</File>
-				<File
-					RelativePath=".\m4a\mp4mdiabox.h">
-				</File>
-				<File
-					RelativePath=".\m4a\mp4metabox.h">
-				</File>
-				<File
-					RelativePath=".\m4a\mp4minfbox.h">
-				</File>
-				<File
-					RelativePath=".\m4a\mp4moovbox.h">
-				</File>
-				<File
-					RelativePath=".\m4a\mp4mvhdbox.h">
-				</File>
-				<File
-					RelativePath=".\m4a\mp4propsproxy.h">
-				</File>
-				<File
-					RelativePath=".\m4a\mp4sampleentry.h">
-				</File>
-				<File
-					RelativePath=".\m4a\mp4skipbox.h">
-				</File>
-				<File
-					RelativePath=".\m4a\mp4stblbox.h">
-				</File>
-				<File
-					RelativePath=".\m4a\mp4stsdbox.h">
-				</File>
-				<File
-					RelativePath=".\m4a\mp4tagsproxy.h">
-				</File>
-				<File
-					RelativePath=".\m4a\mp4trakbox.h">
-				</File>
-				<File
-					RelativePath=".\m4a\mp4udtabox.h">
+					RelativePath=".\mp4\mp4tag.h">
 				</File>
 			</Filter>
 		</Filter>

@@ -221,7 +221,7 @@ public:
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-MPEG::File::File(const Filename &file, bool readProperties,
+MPEG::File::File(const char *file, bool readProperties,
                  Properties::ReadStyle propertiesStyle) : TagLib::File(file)
 {
   d = new FilePrivate;
@@ -231,7 +231,7 @@ MPEG::File::File(const Filename &file, bool readProperties,
   }
 }
 
-MPEG::File::File(const Filename &file, ID3v2::FrameFactory *frameFactory,
+MPEG::File::File(const char *file, ID3v2::FrameFactory *frameFactory,
                  bool readProperties, Properties::ReadStyle propertiesStyle) :
   TagLib::File(file)
 {
@@ -324,6 +324,7 @@ bool MPEG::File::save(int tags, bool stripOthers)
     success = strip(ID3v1, false) && success;
 
   // Dont save an APE-tag unless one has been created
+
   if((APE & tags) && d->APETag) {
     if(d->hasAPE)
       insert(d->APETag->render(), d->APELocation, d->APEOriginalSize);
@@ -450,8 +451,8 @@ long MPEG::File::nextFrameOffset(long position)
   ByteVector buffer = readBlock(bufferSize());
   char firstByte = 0;	
   while(buffer.size() > 0) {
-    uint i = 0;
-    for(; i < buffer.size() - 1; i++) {
+    
+    for(uint i = 0; i < buffer.size() - 1; i++) {
       firstByte = buffer[i];
       if( (firstByte == (char)0xff) && secondSynchByte(buffer[i + 1]))
         return position + i;

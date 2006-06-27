@@ -31,7 +31,7 @@ namespace TagLib {
   class String;
   class File;
   class Tag;
-  class Filename;
+
   //! This class provides a simple abstraction for creating and handling files
 
   /*!
@@ -88,7 +88,6 @@ namespace TagLib {
     class FileTypeResolver
     {
      public:
-      virtual ~FileTypeResolver(){}
       /*!
        * This method must be overriden to provide an additional file type
        * resolver.  If the resolver is able to determine the file type it should
@@ -98,7 +97,7 @@ namespace TagLib {
        * deleted.  Deletion will happen automatically when the FileRef passes
        * out of scope.
        */
-      virtual File *createFile(const Filename &fileName,
+      virtual File *createFile(const char *fileName,
                                bool readAudioProperties = true,
                                AudioProperties::ReadStyle
                                audioPropertiesStyle = AudioProperties::Average) const = 0;
@@ -118,7 +117,7 @@ namespace TagLib {
      * Also see the note in the class documentation about why you may not want to
      * use this method in your application.
      */
-    explicit FileRef(const Filename &fileName,
+    explicit FileRef(const char *fileName,
                      bool readAudioProperties = true,
                      AudioProperties::ReadStyle
                      audioPropertiesStyle = AudioProperties::Average);
@@ -241,9 +240,10 @@ namespace TagLib {
      *
      * \deprecated
      */
-    static File *create(const Filename &fileName,
+    static File *create(const char *fileName,
                         bool readAudioProperties = true,
                         AudioProperties::ReadStyle audioPropertiesStyle = AudioProperties::Average);
+
 
   private:
     class FileRefPrivate;

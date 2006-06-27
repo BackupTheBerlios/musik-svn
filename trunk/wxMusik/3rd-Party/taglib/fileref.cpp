@@ -27,7 +27,7 @@
 #include "vorbisfile.h"
 #include "flacfile.h"
 #include "mpcfile.h"
-#include "m4a/mp4file.h"
+#include "mp4/mp4file.h"
 using namespace TagLib;
 
 class FileRef::FileRefPrivate : public RefCounter
@@ -53,7 +53,7 @@ FileRef::FileRef()
     d = new FileRefPrivate(0);
 }
 
-FileRef::FileRef(const Filename & fileName, bool readAudioProperties,
+FileRef::FileRef(const char *fileName, bool readAudioProperties,
                  AudioProperties::ReadStyle audioPropertiesStyle)
 {
   d = new FileRefPrivate(create(fileName, readAudioProperties, audioPropertiesStyle));
@@ -142,7 +142,7 @@ bool FileRef::operator!=(const FileRef &ref) const
   return ref.d->file != d->file;
 }
 
-File *FileRef::create(const Filename & fileName, bool readAudioProperties,
+File *FileRef::create(const char *fileName, bool readAudioProperties,
                       AudioProperties::ReadStyle audioPropertiesStyle) // static
 {
 
@@ -156,7 +156,11 @@ File *FileRef::create(const Filename & fileName, bool readAudioProperties,
 
   // Ok, this is really dumb for now, but it works for testing.
 
-  String s = (const TCHAR*)fileName;
+  String s = fileName;
+
+  // If this list is updated, the method defaultFileExtensions() should also be
+  // updated.  However at some point that list should be created at the same time
+  // that a default file type resolver is created.
 
     if(s.size() > 4) {	
         if(s.substr(s.size() - 4, 4).upper() == ".OGG")

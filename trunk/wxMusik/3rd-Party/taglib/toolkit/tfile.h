@@ -21,9 +21,7 @@
 
 #ifndef TAGLIB_FILE_H
 #define TAGLIB_FILE_H
-#ifdef _WIN32
-#include <tchar.h>
-#endif
+
 #include "taglib.h"
 #include "tbytevector.h"
 
@@ -33,54 +31,6 @@ namespace TagLib {
   class Tag;
   class AudioProperties;
 
-  class Filename
-  {
-  public:
-#ifndef _TCHAR_DEFINED
-#define TCHAR char
-#endif
-	  ~Filename()
-	  {
-		  free(filename);
-	  }
-	  Filename(const TCHAR *  s)
-	  {
-			filename = strdup(s);
-	  }
-	  operator const TCHAR *()	const 
-	  {
-#ifdef _WIN32
-          return filename ? filename : _T("");
-#else
-          return filename ? filename : "";
-#endif
-	  }
-	  Filename(const Filename & rhs)
-	  {
-		  filename = strdup(rhs.filename);
-	  }
-	  const Filename & operator=(const Filename & rhs)
-	  {
-		  if(this != &rhs)
-		  {
-	          free(filename);
-			  filename =  strdup(rhs.filename);
-		  }
-		  return *this;
-	  }
-  private:
-	  TCHAR * filename;
-	  TCHAR * strdup(const TCHAR *  s)
-	  {
-          if(s == NULL)
-              return NULL;
-#ifdef _WIN32
-		  return ::_tcsdup(s);
-#else
-		  return ::strdup(s);
-#endif
-	  }
-  };
   //! A file class with some useful methods for tag manipulation
 
   /*!
@@ -112,7 +62,7 @@ namespace TagLib {
     /*!
      * Returns the file name in the local file system encoding.
      */
-    const Filename  &name() const;
+    const char *name() const;
 
     /*!
      * Returns a pointer to this file's tag.  This should be reimplemented in
@@ -243,12 +193,12 @@ namespace TagLib {
      * Returns true if \a file can be opened for reading.  If the file does not
      * exist, this will return false.
      */
-    static bool isReadable(const Filename &file);
+    static bool isReadable(const char *file);
 
     /*!
      * Returns true if \a file can be opened for writing.
      */
-    static bool isWritable(const Filename &name);
+    static bool isWritable(const char *name);
 
   protected:
     /*!
@@ -258,7 +208,7 @@ namespace TagLib {
      * \note Constructor is protected since this class should only be
      * instantiated through subclasses.
      */
-    File(const Filename & file);
+    File(const char *file);
 
     /*!
      * Marks the file as valid or invalid.

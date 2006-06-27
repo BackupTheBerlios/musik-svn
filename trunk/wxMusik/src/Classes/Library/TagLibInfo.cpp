@@ -28,11 +28,7 @@ bool CTagLibInfo::ReadMetaData(CSongMetaData & MetaData) const
                                      //( without xing header) and some files with garbage at the start
                                          // we use mp3tech.c code from mp3info 0.8.4 therefore
     { // fileref scope
-    #ifdef __WXMSW__
-	    TagLib::FileRef f(  MetaData.Filename.GetFullPath().c_str(),readAudioProperties,audioPropertiesStyle);
-    #else
-	    TagLib::FileRef f(TagLib::Filename((const char*)ConvFn2A(MetaData.Filename.GetFullPath())) ,readAudioProperties,audioPropertiesStyle);
-    #endif
+	    TagLib::FileRef f((const char*)ConvFn2A(MetaData.Filename.GetFullPath()) ,readAudioProperties,audioPropertiesStyle);
 	    if(f.isNull())
 		    return false;
 	    TagLib::Tag *tag = f.tag();
@@ -68,11 +64,7 @@ bool CTagLibInfo::ReadMetaData(CSongMetaData & MetaData) const
     {
         mp3info infomp3;
         memset(&infomp3,0,sizeof(infomp3));
-#ifdef __WXMSW__
         infomp3.file = wxFopen(MetaData.Filename.GetFullPath(),wxT("rb"));
-#else
-        infomp3.file = wxFopen(MetaData.Filename.GetFullPath(),wxT("r"));
-#endif
         if(infomp3.file == NULL)
             return false;
         get_mp3_info(&infomp3,SCAN_QUICK,0);
@@ -95,11 +87,7 @@ bool CTagLibInfo::ReadMetaData(CSongMetaData & MetaData) const
 
 bool  CTagLibInfo::WriteMetaData(const CSongMetaData & MetaData,bool bClearAll)
 {
-#ifdef __WXMSW__
-	TagLib::FileRef f( TagLib::Filename(MetaData.Filename.GetFullPath().c_str()));
-#else
-	TagLib::FileRef f(TagLib::Filename((const char*)ConvFn2A(MetaData.Filename.GetFullPath())) );
-#endif
+	TagLib::FileRef f((const char*)ConvFn2A(MetaData.Filename.GetFullPath()));
 	if(f.isNull())
 		return false;
 	
@@ -117,12 +105,7 @@ bool  CTagLibInfo::WriteMetaData(const CSongMetaData & MetaData,bool bClearAll)
 
 bool CTagLibInfo::LoadImage(const wxString & sFilename, wxImage & img)
 {
-#ifdef __WXMSW__
-    TagLib::Filename fn(sFilename.c_str());
-#else
-    TagLib::Filename fn((const char*)ConvFn2A(sFilename));
-#endif
-    TagLib::MPEG::File *pMpegfile =new TagLib::MPEG::File( fn ,false);
+    TagLib::MPEG::File *pMpegfile =new TagLib::MPEG::File( (const char*)ConvFn2A(sFilename) ,false);
 	TagLib::FileRef f(pMpegfile);  // to take care of deletion.
     
     if(pMpegfile->isValid() == false || pMpegfile->ID3v2Tag() == NULL)

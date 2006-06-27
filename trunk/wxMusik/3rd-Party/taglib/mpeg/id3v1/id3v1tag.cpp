@@ -165,7 +165,7 @@ void ID3v1::Tag::setComment(const String &s)
 
 void ID3v1::Tag::setGenre(const String &s)
 {
-  d->genre = (uchar)ID3v1::genreIndex(s);
+  d->genre = ID3v1::genreIndex(s);
 }
 
 void ID3v1::Tag::setYear(uint i)
@@ -175,7 +175,7 @@ void ID3v1::Tag::setYear(uint i)
 
 void ID3v1::Tag::setTrack(uint i)
 {
-  d->track = i < 256 ? (uchar)i : 0;
+  d->track = i < 256 ? i : 0;
 }
 
 void ID3v1::Tag::setStringHandler(const StringHandler *handler)

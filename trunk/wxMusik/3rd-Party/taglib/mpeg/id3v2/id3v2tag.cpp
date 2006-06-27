@@ -425,6 +425,7 @@ void ID3v2::Tag::parse(const ByteVector &data)
     if(data.at(frameDataPosition) == 0) {
       if(d->header.footerPresent())
         debug("Padding *and* a footer found.  This is not allowed by the spec.");
+
       d->paddingSize = frameDataLength - frameDataPosition;
       return;
     }

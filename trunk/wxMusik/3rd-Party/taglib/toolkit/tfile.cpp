@@ -46,7 +46,7 @@ using namespace TagLib;
 class File::FilePrivate
 {
 public:
-  FilePrivate(const Filename & fileName) :
+  FilePrivate(const char *fileName) :
     file(0),
     name(fileName),
     readOnly(true),
@@ -56,10 +56,11 @@ public:
 
   ~FilePrivate()
   {
+    free((void *)name);
   }
 
   FILE *file;
-  Filename name;
+  const char *name;
   bool readOnly;
   bool valid;
   ulong size;
@@ -70,27 +71,20 @@ public:
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-File::File(const Filename & file)
+File::File(const char *file)
 {
-  d = new FilePrivate(file);
+  d = new FilePrivate(::strdup(file));
 
   d->readOnly = !isWritable(file);
-#ifdef _WIN32
-  d->file = _tfopen(file, d->readOnly ? _T("rb") : _T("r+b"));
-#else
-  d->file = fopen(file, d->readOnly ? "r" : "r+");
-#endif
+  d->file = fopen(file, d->readOnly ? "rb" : "rb+");
+
   if(!d->file)
   {
     // at leasst on Mac OSX  with a samba share
     // i had the problem, that isWritable ( which uses access() internally ) return true
     // but a fopen for read/write failed)
     // so lets retry with fopen readonly
-#ifdef _WIN32
-    d->file = _tfopen(file,  _T("rb"));
-#else
-    d->file = fopen(file, "r");
-#endif
+    d->file = fopen(file, "rb");
 
     if(d->file)
         d->readOnly = true;
@@ -106,7 +100,7 @@ File::~File()
   delete d;
 }
 
-const Filename &File::name() const
+const char *File::name() const
 {
   return d->name;
 }
@@ -438,13 +432,9 @@ bool File::readOnly() const
   return d->readOnly;
 }
 
-bool File::isReadable(const Filename &file)
+bool File::isReadable(const char *file)
 {
-#ifdef _WIN32
-	return _taccess(file, R_OK) == 0;
-#else
 	return access(file, R_OK) == 0;
-#endif
 }
 
 bool File::isOpen() const
@@ -508,13 +498,9 @@ long File::length()
   return endpos;
 }
 
-bool File::isWritable(const Filename &file)
+bool File::isWritable(const char *file)
 {
-#ifdef _WIN32
-  return _taccess(file, W_OK) == 0;
-#else
   return access(file, W_OK) == 0;
-#endif
 }
 
 ////////////////////////////////////////////////////////////////////////////////

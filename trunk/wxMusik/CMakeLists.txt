@@ -24,6 +24,7 @@ INCLUDE_DIRECTORIES("${wxMusik_SOURCE_DIR}/3rd-Party/taglib/toolkit")
 INCLUDE_DIRECTORIES("${wxMusik_SOURCE_DIR}/3rd-Party/taglib/mpeg/id3v2")
 INCLUDE_DIRECTORIES("${wxMusik_SOURCE_DIR}/MUSIKEngine")
 INCLUDE_DIRECTORIES("${wxMusik_SOURCE_DIR}/3rd-Party/sqlite3")
+INCLUDE_DIRECTORIES("${wxMusik_SOURCE_DIR}/3rd-Party/sqlite2")
 
 
 # Set build variables

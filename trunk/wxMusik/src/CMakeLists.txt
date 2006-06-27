@@ -136,6 +136,7 @@ TARGET_LINK_LIBRARIES(wxMusik
         TagLib
         ${FLAC_LIBS}
 	${FAAD2_LIBS}
+        ${FLAC_LIBRARY}
     )
 
 

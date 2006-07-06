@@ -27,7 +27,7 @@
 #ifdef WIN32
 #include "mpeg4ip_win32.h"
 #else /* UNIX */
-
+#include "config.h"
 #include <arpa/inet.h>
 #include <sys/types.h>
 #include <sys/time.h>

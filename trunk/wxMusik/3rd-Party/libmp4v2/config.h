@@ -9,8 +9,11 @@
 #define HAVE_DLFCN_H 1
 
 /* Define to 1 if `__pos' is member of `fpos_t'. */
+#if defined(__APPLE__)
+//#define HAVE_FPOS_T___POS 0
+#else
 #define HAVE_FPOS_T___POS 1
-
+#endif
 /* Define to 1 if you have the <inttypes.h> header file. */
 #define HAVE_INTTYPES_H 1
 

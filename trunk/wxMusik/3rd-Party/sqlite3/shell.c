@@ -1450,6 +1450,10 @@ static void process_input(struct callback_data *p, FILE *in){
   int nSql = 0;
   char *zErrMsg;
   int rc;
+  clock_t start, finish;
+  double  duration;
+  static int fInMeta = 0;
+
   while( fflush(p->out), (zLine = one_input_line(zSql, in))!=0 ){
     if( seenInterrupt ){
       if( in!=0 ) break;
@@ -1457,8 +1461,16 @@ static void process_input(struct callback_data *p, FILE *in){
     }
     if( p->echoOn ) printf("%s\n", zLine);
     if( (zSql==0 || zSql[0]==0) && _all_whitespace(zLine) ) continue;
+    if(!fInMeta)
+        start = clock();
     if( zLine && zLine[0]=='.' && nSql==0 ){
-      int rc = do_meta_command(zLine, p);
+      int rc;
+      fInMeta = 1;  
+      rc = do_meta_command(zLine, p);
+      finish = clock();
+      duration = (double)(finish - start) / CLOCKS_PER_SEC;
+      printf( "%.3f seconds\n", duration );
+      fInMeta = 0;
       free(zLine);
       if( rc ) break;
       continue;
@@ -1491,9 +1503,6 @@ static void process_input(struct callback_data *p, FILE *in){
     }
     free(zLine);
     if( zSql && _ends_with_semicolon(zSql, nSql) && sqlite3_complete(zSql) ){
-      clock_t start, finish;
-      double  duration;
-      start = clock();
       p->cnt = 0;
       open_db(p);
       rc = sqlite3_exec(p->db, zSql, callback, p, &zErrMsg);
@@ -1508,9 +1517,12 @@ static void process_input(struct callback_data *p, FILE *in){
         }
       }
       free(zSql);
-      finish = clock();
-      duration = (double)(finish - start) / CLOCKS_PER_SEC;
-      printf( "%.3f seconds\n", duration );
+      if(!fInMeta)
+      {
+          finish = clock();
+          duration = (double)(finish - start) / CLOCKS_PER_SEC;
+          printf( "%.3f seconds\n", duration );
+      }
       zSql = 0;
       nSql = 0;
     }

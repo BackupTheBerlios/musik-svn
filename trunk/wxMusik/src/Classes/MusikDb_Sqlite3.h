@@ -45,6 +45,10 @@ public:
     {
         InternalClose();
     }
+	virtual void BeginTransaction()
+	{
+        Exec( "begin immediate;");
+	}
 
     virtual bool SetCacheSize(int size)
     {

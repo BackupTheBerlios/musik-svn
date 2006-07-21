@@ -212,7 +212,7 @@ public:
     virtual bool Open	(const wxString & dbfilename)=0;
 	virtual void Close	() = 0;
 
-    void BeginTransaction()
+    virtual void BeginTransaction()
 	{
         Exec( "begin transaction;");
 	}

@@ -424,6 +424,18 @@ xcopy &quot;$(ProjectDir)\3rd-Party\bin\fmod\win32\fmod.dll&quot;  &quot;$(OutDi
 			<File
 				RelativePath=".\3rd-Party\nedmalloc\nedmalloc.c">
 				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"/>
+				</FileConfiguration>
+				<FileConfiguration
 					Name="Debug Unicode|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
@@ -431,6 +443,12 @@ xcopy &quot;$(ProjectDir)\3rd-Party\bin\fmod\win32\fmod.dll&quot;  &quot;$(OutDi
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release Unicode|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Universal Unicode Debug|Win32">
 					<Tool
 						Name="VCCLCompilerTool"
 						UsePrecompiledHeader="0"/>

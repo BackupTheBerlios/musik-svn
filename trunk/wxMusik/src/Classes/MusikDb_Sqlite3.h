@@ -65,7 +65,7 @@ public:
     }
 
     virtual bool Exec(const char * q,ResultSet * pRes);
-    virtual bool Exec(const char * q,DbError *perr );
+    virtual bool Exec(const char * q,DbError *perr=NULL );
     virtual bool Exec(const char * q,int * pInt,DbError *perr)
     {
         wxString n;

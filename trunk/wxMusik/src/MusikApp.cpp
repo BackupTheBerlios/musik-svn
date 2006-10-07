@@ -356,7 +356,7 @@ the same order as the playlist
 
 SiW
 */
-void MusikApp::CopyFiles(const MusikSongIdArray &songs)
+void MusikApp::CopyFiles(const MusikSongIdArray &songs, eCopyFileOptions options)
 {
 	//--------------------------------//
 	//--- first choose a directory ---//
@@ -404,15 +404,20 @@ void MusikApp::CopyFiles(const MusikSongIdArray &songs)
 	{
 		const wxFileName & sourcename = songs[n].Song()->MetaData.Filename;
 		wxFileName destname( sourcename );
+		
 		destname.SetPath(destdir.GetPath(0));   // GetPath(0) because the default is GetPath(int flags = wxPATH_GET_VOLUME,
 		destname.SetVolume(destdir.GetVolume());	  // i do it this complicated way, because wxFileName::SetPath() is buggy, as it does not handle the volume of path
+		if(options & MusikApp::CopyPreserveDirectories)
+		{
+			destname.SetPath(destname.GetPath(0) + MusikGetRootPath(sourcename.GetFullPath()));
+		}
 		wxLongLong llPercent = ((llNeeded - llRemaining) * wxLL(100) /llNeeded );
 		
 		if(!dialog.Update(llPercent.ToLong(),wxString::Format(_("copying %s"),(const wxChar *)sourcename.GetFullPath())))
 		{
 			break;
 		}
-		if(!wxCopyFile( sourcename.GetFullPath(), destname.GetFullPath()))
+		if(!wxFileName::Mkdir(destname.GetPath(),0777,wxPATH_MKDIR_FULL) || !wxCopyFile( sourcename.GetFullPath(), destname.GetFullPath()))
 		{
 
 			wxString errmsg = wxString::Format(_("Failed to copy file %s. Continue?"),(const wxChar *)sourcename.GetFullPath());

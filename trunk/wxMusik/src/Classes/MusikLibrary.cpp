@@ -1111,21 +1111,9 @@ bool CMusikLibrary::RenameFile( CMusikSong & song )
 	wxString sRootPath = sPrePath;
 	if ( wxGetApp().Prefs.sAutoRename.Find( wxFileName::GetPathSeparator() ) > - 1 )
 	{
-		if ( g_Paths.GetCount() == 0 )
+		sRootPath = MusikGetRootPath(song.MetaData.Filename.GetPath());
+		if(sRootPath.IsEmpty())
 			return false;
-
-		sCheck = song.MetaData.Filename.GetPath();
-		for ( size_t i = 0; i < g_Paths.GetCount(); i++ )
-		{
-			if ( sCheck.Find( g_Paths.Item( i ) ) > -1 )
-			{
-				sRootPath = g_Paths.Item( i );
-				break;
-			}
-
-			else if ( i == g_Paths.GetCount() - 1 )
-				return false;
-		}
 	}
 
 	//--------------------------------------------//

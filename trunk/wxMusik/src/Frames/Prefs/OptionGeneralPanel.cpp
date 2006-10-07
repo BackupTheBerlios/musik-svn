@@ -69,6 +69,7 @@ wxSizer * OptionGeneralPanel::CreateControls()
     PREF_CREATE_CHECKBOX(AutoAdd,_("Automatically scan for new songs on startup"));
     PREF_CREATE_CHECKBOX(ShowAllSongs,	_("Selecting library shows all songs in playlist"));
     PREF_CREATE_CHECKBOX(BlankSwears,_("Censor common swearwords"));
+    PREF_CREATE_CHECKBOX(CopyPreserveDirectories,_("Preserve directories when copying"));
 
     PREF_CREATE_CHECKBOX_EX(SortArtistWithoutPrefix,_("Sort Artist without prefix"),&snkPlaylistActivityNeedUpdate);
     PREF_CREATE_CHECKBOX_EX(PLStripes,_("Show \"stripes\" in playlist"),&snkPlaylistNeedUpdate);
@@ -103,6 +104,8 @@ wxSizer * OptionGeneralPanel::CreateControls()
     vsOptions_Interface->Add( chkShowAllSongs,			0, wxALL, 4 );
     vsOptions_Interface->Add( chkBlankSwears,			0, wxALL, 4 );
     vsOptions_Interface->Add( chkSortArtistWithoutPrefix,0, wxALL, 4 );
+	vsOptions_Interface->Add( chkCopyPreserveDirectories,0, wxALL, 4 );
+	
     vsOptions_Interface->Add( chkPLStripes,		0, wxALL, 4 );
     vsOptions_Interface->Add( btnPlaylistStripeColour,	0, wxALL, 4 );
     vsOptions_Interface->Add( chkActStripes,	0, wxALL, 4 );

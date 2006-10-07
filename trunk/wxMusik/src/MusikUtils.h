@@ -457,7 +457,7 @@ inline void InternalErrorMessageBox( const wxString &sText)
 	wxMessageBox( sMessage,MUSIKAPPNAME_VERSION, wxOK|wxICON_ERROR );
 
 }
-
+wxString MusikGetRootPath(wxString sPath);
 wxString MusikGetStaticDataPath();
 wxString MusikGetHomePath();
 

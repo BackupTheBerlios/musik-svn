@@ -285,7 +285,8 @@ public:
 		,sLocale(this,wxT( "Locale" ),wxT("default"))
 		,bShowLibraryOnStart(this,wxT( "ShowLibraryOnStart" ),false)
 		,bDoubleClickReplacesPlaylist(this,wxT( "DoubleClickReplacesPlaylist" ),false)
-
+		,bCopyPreserveDirectories(this,wxT("CopyPreserveDirectories"),false)
+		
 		,nSndOutput(this,wxT( "OutputDriver" ),0)
 		,nSndDevice(this,wxT( "SoundDevice" ),0)
 		,nSndRate(this,wxT( "MixRate" ),0)
@@ -428,6 +429,7 @@ public:
 	CConfigSettingString sLocale;
 	CConfigSettingBool bShowLibraryOnStart;
 	CConfigSettingBool bDoubleClickReplacesPlaylist;
+	CConfigSettingBool bCopyPreserveDirectories;
 
 	CConfigSettingInt nSndOutput;
 	CConfigSettingInt nSndDevice;

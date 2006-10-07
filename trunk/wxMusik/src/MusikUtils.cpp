@@ -982,6 +982,23 @@ wxString SecToStr( int nSec )
 	return result;
 }
 
+wxString MusikGetRootPath(wxString sPath)
+{
+	wxString sRootPath;
+	if ( g_Paths.GetCount() == 0 )
+		return sRootPath;
+	for ( size_t i = 0; i < g_Paths.GetCount(); i++ )
+	{
+		if ( sPath.StartsWith( g_Paths.Item( i ) ) )
+		{
+			sRootPath = g_Paths.Item( i );
+			break;
+		}
+	}
+	return sRootPath;
+}
+
+
 bool GetFileTypeAssociationInfo(const wxString &sExt,wxString*psDescription,bool * pbAssociatedWithApp)
 {
 	*pbAssociatedWithApp = false;

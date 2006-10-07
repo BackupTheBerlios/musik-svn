@@ -52,7 +52,8 @@ public:
 #endif
 
 	void OnPlayFiles(const wxArrayString &aFilelist);
-	void CopyFiles(const MusikSongIdArray &songs);
+	enum eCopyFileOptions { CopyDefault = 0,CopyPreserveDirectories = 1};
+	void CopyFiles(const MusikSongIdArray &songs, eCopyFileOptions options = CopyDefault);
 public:
 	CMusikPrefs			Prefs;
 	CMusikLibrary		Library;

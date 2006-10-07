@@ -413,7 +413,10 @@ SiW
 */
 void CSourcesListBox::CopyFiles( wxCommandEvent& WXUNUSED(event) )
 {
-	wxGetApp().CopyFiles(g_PlaylistBox->PlaylistCtrl().Playlist());
+	MusikApp::eCopyFileOptions opts = MusikApp::CopyDefault;
+	if(wxGetApp().Prefs.bCopyPreserveDirectories)
+		opts = MusikApp::CopyPreserveDirectories;
+	wxGetApp().CopyFiles(g_PlaylistBox->PlaylistCtrl().Playlist(),opts);
 }
 
 

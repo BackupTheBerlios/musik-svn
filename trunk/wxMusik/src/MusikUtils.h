@@ -458,6 +458,8 @@ inline void InternalErrorMessageBox( const wxString &sText)
 
 }
 wxString MusikGetRootPath(wxString sPath);
+wxString MusikGetSubPath(wxString sFullPath);
+
 wxString MusikGetStaticDataPath();
 wxString MusikGetHomePath();
 

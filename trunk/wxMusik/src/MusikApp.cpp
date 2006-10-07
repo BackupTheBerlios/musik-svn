@@ -409,7 +409,7 @@ void MusikApp::CopyFiles(const MusikSongIdArray &songs, eCopyFileOptions options
 		destname.SetVolume(destdir.GetVolume());	  // i do it this complicated way, because wxFileName::SetPath() is buggy, as it does not handle the volume of path
 		if(options & MusikApp::CopyPreserveDirectories)
 		{
-			destname.SetPath(destname.GetPath(0) + MusikGetRootPath(sourcename.GetFullPath()));
+			destname.Assign(destname.GetPathWithSep().Append(MusikGetSubPath(sourcename.GetFullPath())));
 		}
 		wxLongLong llPercent = ((llNeeded - llRemaining) * wxLL(100) /llNeeded );
 		

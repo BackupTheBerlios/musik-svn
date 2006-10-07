@@ -998,6 +998,14 @@ wxString MusikGetRootPath(wxString sPath)
 	return sRootPath;
 }
 
+wxString MusikGetSubPath(wxString sFullPath)
+{
+    wxString sRootPath = MusikGetRootPath(sFullPath);
+    wxString sSubPath = sFullPath.Right(sFullPath.Length() - sRootPath.Length());
+    sSubPath.StartsWith(wxString(wxFileName::GetPathSeparator()),&sSubPath);
+    return sSubPath;
+}
+
 
 bool GetFileTypeAssociationInfo(const wxString &sExt,wxString*psDescription,bool * pbAssociatedWithApp)
 {

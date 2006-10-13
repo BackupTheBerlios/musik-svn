@@ -24,7 +24,7 @@ public:
 	bool WriteMetaData(const CSongMetaData & MetaData,bool bClearAll = false);
 private:
 	static bool SetVorbisComment(FLAC__Metadata_Chain *chain,const CSongMetaData & MetaData,bool bRemoveAll);
-	static bool CFlacInfo::SetCommentEntry(FLAC__StreamMetadata *pBlock,const char *name, int value);
+	static bool SetCommentEntry(FLAC__StreamMetadata *pBlock,const char *name, int value);
 	static bool SetCommentEntry(FLAC__StreamMetadata *pBlock,const char *name, const char *value);
 	static int ReadEntry( const FLAC__StreamMetadata *metadata,const char * name,int offset,CSongMetaData::StringData & s);
 	static void FLACMetaCallback(const FLAC__FileDecoder *decoder, const FLAC__StreamMetadata *metadata, void *client_data);

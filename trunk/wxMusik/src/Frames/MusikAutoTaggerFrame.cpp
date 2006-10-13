@@ -231,6 +231,5 @@ void CMusikAutoTaggerFrame::OnOk( wxCommandEvent& event )
 	int sel = m_CBTagMask->GetSelection();
 	sel = (wxNOT_FOUND == sel) ? m_CBTagMask->GetCount()-1 : sel;
 	wxGetApp().Prefs.sAutoTag += IntTowxString(sel);
-	// Insert custom code here
 	event.Skip();
 }

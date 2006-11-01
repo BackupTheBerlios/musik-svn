@@ -15,6 +15,7 @@
 #include <wx/textfile.h>
 #include <wx/cmdline.h>
 #include <wx/progdlg.h>
+#include<wx/sysopt.h>
 #include "MusikApp.h"
 /***** the XInitThreads call leads to strange behaviour when doing 
 ****** 'drag and drop' in a listview. the whole xserver is locked, until the app is 
@@ -138,6 +139,7 @@ void MusikApp::OnPlayFiles(const wxArrayString &aFilelist)
 #endif
 bool MusikApp::OnInit()
 {
+	wxSystemOptions::SetOption(wxT("mac.listctrl.always_use_generic"), 1); 
 	if(Prefs.bEnableCrashHandling)
 	{
 #if wxUSE_DEBUGREPORT

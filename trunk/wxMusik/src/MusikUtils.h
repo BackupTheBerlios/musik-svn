@@ -187,10 +187,13 @@ public:
         {
             return strcmp((const char *)*this,rhs) == 0;
         }
-
-		operator const char *()	const 
+		const char * c_str() const
 		{
 			return IsEmpty() ? "" : m_szData;
+		}
+		operator const char *()	const 
+		{
+			return c_str();
 		}
 		bool IsEmpty()	const 
 		{

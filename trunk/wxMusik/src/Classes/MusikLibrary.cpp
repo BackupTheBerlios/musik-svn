@@ -544,27 +544,9 @@ bool CMusikLibrary::UpdateSongDataFromFile( const wxString & filename , bool bFo
 	}
 	if(rc == CMetaDataHandler::success )
 	{
-        int songid = QueryCount(MusikDb::QueryString( "select distinct songs.songid from songs where filename = %Q;", ( const char* )ConvToUTF8(MetaData.Filename.GetFullPath()) ));
-        wxASSERT(songid >= 0);
-    	//--- run the query ---//
-		if(m_pDB->Exec(MusikDb::QueryString("update songs set format=%d, vbr=%d, artist=%Q, title=%Q, album=%Q, tracknum=%d, year=%Q, genre=%Q, notes=%Q, bitrate=%d, duration=%d, filesize=%d, dirty=0,modified=julianday('now') where songid = %d;", 
-			(int)MetaData.eFormat,	
-			MetaData.bVBR, 
-			( const char* )MetaData.Artist, 
-			( const char* )MetaData.Title, 
-			( const char* )MetaData.Album, 
-			MetaData.nTracknum, 
-			( const char* )MetaData.Year, 
-			( const char* )MetaData.Genre, 
-			( const char* )MetaData.Notes, 
-			MetaData.nBitrate, 
-			MetaData.nDuration_ms, 
-			MetaData.nFilesize,
-			songid
-			)))
-        {
-            OnSongDataChange(songid);
-        }
+		int songid = QueryCount(MusikDb::QueryString( "select distinct songs.songid from songs where filename = %Q;", ( const char* )ConvToUTF8(MetaData.Filename.GetFullPath()) ));
+		wxASSERT(songid >= 0);
+		UpdateFullSongData(songid,MetaData);
 	}
 	else if(rc == CMetaDataHandler::fail)
 	{
@@ -578,6 +560,30 @@ bool CMusikLibrary::UpdateSongDataFromFile( const wxString & filename , bool bFo
 	return rc != CMetaDataHandler::fail;
 }
 
+bool CMusikLibrary::UpdateFullSongData(int songid, const CSongMetaData &MetaData )
+{
+	//--- run the query ---//
+	if(m_pDB->Exec(MusikDb::QueryString("update songs set format=%d, vbr=%d, artist=%Q, title=%Q, album=%Q, tracknum=%d, year=%Q, genre=%Q, notes=%Q, bitrate=%d, duration=%d, filesize=%d, dirty=0,modified=julianday('now') where songid = %d;", 
+		(int)MetaData.eFormat,	
+		MetaData.bVBR, 
+		( const char* )MetaData.Artist, 
+		( const char* )MetaData.Title, 
+		( const char* )MetaData.Album, 
+		MetaData.nTracknum, 
+		( const char* )MetaData.Year, 
+		( const char* )MetaData.Genre, 
+		( const char* )MetaData.Notes, 
+		MetaData.nBitrate, 
+		MetaData.nDuration_ms, 
+		MetaData.nFilesize,
+		songid
+		)))
+	{
+		OnSongDataChange(songid);
+		return true;
+	}
+	return false;
+}
 
 bool CMusikLibrary::WriteTag(  MusikSongId & songid, bool ClearAll , bool bUpdateDB )
 {
@@ -979,31 +985,31 @@ bool CMusikLibrary::QuerySongFromSongid( int songid, CMusikSong *pSong )
 }
 bool CMusikLibrary::UpdateItem( MusikSongId &songinfoid, bool bDirty )
 {
-   bool bRes = UpdateItem(songinfoid.SongCopy(),bDirty);
+   bool bRes = UpdateItem(songinfoid.Id(),songinfoid.SongCopy().MetaData,bDirty);
    if(bRes)
     songinfoid.Check1 = 0;
    return bRes;
 }
-bool CMusikLibrary::UpdateItem( const CMusikSong & newsonginfo, bool bDirty )
+bool CMusikLibrary::UpdateItem(  int  songid ,const CSongMetaData &MetaData, bool bDirty)
 {
     // this only updates user changeable properties of the song.	
     if(!m_pDB->Exec(MusikDb::QueryString("update songs set artist=%Q, title=%Q,"
 											"album=%Q, tracknum=%d, year=%Q, genre=%Q,"
 											"notes=%Q, dirty=%d, modified=julianday('now') where songid = %d;",
-			( const char* )newsonginfo.MetaData.Artist, 
-			( const char* )newsonginfo.MetaData.Title , 
-			( const char * )newsonginfo.MetaData.Album , 
-			newsonginfo.MetaData.nTracknum, 
-			( const char* )newsonginfo.MetaData.Year, 
-			( const char* )newsonginfo.MetaData.Genre,
-			( const char* )newsonginfo.MetaData.Notes, 
+			( const char* )MetaData.Artist, 
+			( const char* )MetaData.Title , 
+			( const char * )MetaData.Album , 
+			MetaData.nTracknum, 
+			( const char* )MetaData.Year, 
+			( const char* )MetaData.Genre,
+			( const char* )MetaData.Notes, 
 			(int)bDirty, 
-			 newsonginfo.songid)))
+			 songid)))
     {
 		wxMessageBox( _( "An error occurred when attempting to update the database" ), MUSIKAPPNAME_VERSION, wxOK | wxICON_ERROR );
         return false;
     }
-    OnSongDataChange(newsonginfo.songid);
+    OnSongDataChange(songid);
     return true;
 
 }
@@ -1032,14 +1038,57 @@ void CMusikLibrary::SetRating( int songid, int nVal )
     }
 }
 
-bool CMusikLibrary::CheckAndPurge( const wxString & filename )
+bool CMusikLibrary::FindOrPurgeMissing( const wxString & filename )
 {
 	if ( !wxFileExists( filename ) )
 	{   
-		RemoveSong( filename );
+		int songidMissing = QueryCount(MusikDb::QueryString( "select distinct songs.songid from songs where filename = %Q;", ( const char* )ConvToUTF8(filename) ));
+		CMusikSong songMissing;
+		QuerySongFromSongid(songidMissing,&songMissing);
+		wxFileName fn(filename);
+		wxString Name;
+		Name << wxString(wxFileName::GetPathSeparator()) << fn.GetName() << wxT(".");
+		// search for "/xxx." in filenames, files where only the path has been changed or the file type, will be found this way
+		int songidCandidate = QueryCount(MusikDb::QueryString( "select distinct songs.songid from songs where filename like '%%%q%%' and songid <> %d ;",
+								( const char* )ConvToUTF8(Name), songidMissing));
+		CMusikSong songCandidate;
+		if(songidCandidate != -1)
+		{	
+			QuerySongFromSongid(songidCandidate,&songCandidate);
+			if(songCandidate.MetaData.nDuration_ms != songMissing.MetaData.nDuration_ms
+				|| songCandidate.TimeAdded < songMissing.TimeAdded)
+			{
+				songCandidate.songid = -1;// mark as nothing found
+			}
+		}
+		if(songCandidate.songid == -1)
+		{
+			// now we try to find a song entry which has the same title and artist
+			songidCandidate = QueryCount(MusikDb::QueryString( "select distinct songs.songid from songs where title = %q and artist = %q and album = %q;", 
+														songMissing.MetaData.Title.c_str(),songMissing.MetaData.Artist.c_str(),songMissing.MetaData.Album.c_str()));
+			QuerySongFromSongid(songidCandidate,&songCandidate);
+			if(songCandidate.MetaData.nDuration_ms != songMissing.MetaData.nDuration_ms
+				|| songCandidate.TimeAdded < songMissing.TimeAdded)
+			{
+				songCandidate.songid = -1;// mark as nothing found
+			}
+		}
+		if(songCandidate.songid == -1)
+		{
+			// we did not found any candidate, song is really missing, so we delete it from db
+			RemoveSong(songidMissing);
+			return true;
+		}
+
+		
+		RemoveSong(songidCandidate);
+		m_pDB->Exec(MusikDb::QueryString("update songs set filename=%Q where songid = %d", 
+						( const char* )ConvToUTF8(songCandidate.MetaData.Filename.GetFullPath()),
+						songidMissing));
+		UpdateFullSongData(songidMissing,songCandidate.MetaData);
 		return true;
 	}
-	return false;
+	return false;// db  not modified
 }
 
 void CMusikLibrary::RemoveSongDir( const wxString &  sDir )
@@ -1199,7 +1248,7 @@ bool CMusikLibrary::RetagFile(const CMusikTagger & tagger, CMusikSong & Song )
 	
 	if(!tagger.Retag(&Song))
 		return false;
-	UpdateItem( Song, true );
+	UpdateItem( Song.songid,Song.MetaData, true );
 	return true;
 }
 

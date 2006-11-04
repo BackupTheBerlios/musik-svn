@@ -46,7 +46,6 @@ BEGIN_EVENT_TABLE(MusikLibraryDialog, wxDialog)
 	EVT_BUTTON			( MUSIK_PATHS_CLEAR_LIBRARY,	MusikLibraryDialog::OnClickClearLibrary		)
 	EVT_BUTTON			( MUSIK_PATHS_REBUILD_LIBRARY,	MusikLibraryDialog::OnRebuildAll				)
 	EVT_BUTTON			( MUSIK_PATHS_UPDATE_LIBRARY,	MusikLibraryDialog::OnUpdateAll				)
-	EVT_BUTTON			( MUSIK_PATHS_PURGE_LIBRARY,	MusikLibraryDialog::OnPurgeLibrary			)
 	EVT_BUTTON			( wxID_OK,							MusikLibraryDialog::OnClickOK				)
 	EVT_BUTTON			( wxID_CANCEL,						MusikLibraryDialog::OnClickCancel			)
 	EVT_LIST_KEY_DOWN	( MUSIK_PATHS_LIST,					MusikLibraryDialog::OnListKeyDown				)
@@ -192,13 +191,11 @@ void MusikLibraryDialog::CreateControls()
 	wxButton *btnUPDATE_LIBRARY  =	new wxButton( this, MUSIK_PATHS_UPDATE_LIBRARY, _("&Update Library") );
 	wxButton *btnREBUILD_LIBRARY =	new wxButton( this, MUSIK_PATHS_REBUILD_LIBRARY, _("&Rebuild Library") );
 	PREF_CREATE_CHECKBOX(AllowTagGuessing,_("Allow tag guessing from filename"));
-	wxButton *btnPURGE_LIBRARY   =	new wxButton( this, MUSIK_PATHS_PURGE_LIBRARY, _("Purge &Missing Songs") );
 	wxButton *btnCLEAR_LIBRARY   =	new wxButton( this, MUSIK_PATHS_CLEAR_LIBRARY, _("Clear &Library") );
 
 	hsLibraryButtons = new wxGridSizer(2,2,5,5);
 	hsLibraryButtons->Add(btnUPDATE_LIBRARY,0,wxEXPAND);
 	hsLibraryButtons->Add(btnREBUILD_LIBRARY,0,wxEXPAND);
-	hsLibraryButtons->Add(btnPURGE_LIBRARY,0,wxEXPAND);
 	hsLibraryButtons->Add(btnCLEAR_LIBRARY,0,wxEXPAND);
 
 	//--------------------//
@@ -583,18 +580,6 @@ void MusikLibraryDialog::UpdateLibrary( bool bConfirm ,unsigned long flags)
 	else
 		InternalErrorMessageBox(wxT("Previous thread not terminated correctly."));
 }
-
-void MusikLibraryDialog::PurgeLibrary()
-{
-	if ( !m_ActiveThreadController.IsAlive())
-	{
-		m_ActiveThreadController.AttachAndRun( new MusikPurgeLibThread(this) );
-	}
-	else
-		InternalErrorMessageBox(wxT("Previous thread not terminated correctly."));
-
-}
-
 void MusikLibraryDialog::EnableProgress( bool enable )
 {
 	vsTopSizer->Show( gProgress, enable );
@@ -679,15 +664,6 @@ void MusikLibraryDialog::OnThreadEnd( wxCommandEvent& event )
 			g_PlaylistBox->SetPlaylist(&g_thePlaylist);
 		}
 		m_bRebuild = false;
-	}
-
-	else if ( GetProgressType() == MUSIK_LIBRARY_PURGE_THREAD )
-	{
-		bool bDatabaseChanged = event.GetExtraLong()?true:false;
-		if(bDatabaseChanged)
-		{
-			g_ActivityAreaCtrl->ReloadAllContents();
-		}
 	}
 
 	SetProgress	( 0 );

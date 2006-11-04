@@ -45,6 +45,7 @@ public:
 	void Shutdown	();
 	bool AddSongDataFromFile	( const wxString & filename );
 	bool UpdateSongDataFromFile	( const wxString & filename ,bool bForce = false);
+	bool UpdateFullSongData	( int songid,const CSongMetaData &newsonginfo );
 	void BeginTransaction();
 	void EndTransaction();
     void SignalSlaveTransactionEnd();
@@ -52,7 +53,7 @@ public:
 	//--- updating ---//
 	//----------------//
     bool UpdateItem				( MusikSongId &songinfoid, bool bDirty );
-	bool UpdateItem				( const CMusikSong &newsonginfo, bool bDirty );
+	bool UpdateItem				( int  songid ,const CSongMetaData &MetaData, bool bDirty );
 	void UpdateItemLastPlayed	( int  songid   );
 	void UpdateItemResetDirty	( int  songid  );
 	void SetRating				( int songid, int nVal );
@@ -69,7 +70,7 @@ public:
 	//----------------//
 	//--- removing ---//
 	//----------------//
-	bool CheckAndPurge	( const wxString & sFilename	);
+	bool FindOrPurgeMissing	( const wxString & sFilename	);
 	void RemoveSongDir	( const wxString & sDir			);
 	void RemoveSong		( const wxString & sSong		);
 	void RemoveSong		( int songid					);

@@ -396,19 +396,25 @@ bool CMusikPlayer::Play( size_t nItem, int nStartPos, int nFadeType )
 			Stop();
 			return false;
 	}
-	bool bSongChanged = (m_Playlist[nItem] != m_CurrentSong) && IsPlaying() && (nStartPos == 0);
+	bool bSongChanged = (m_Playlist[nItem] != m_CurrentSong) && (nStartPos == 0);// send bSongChanged even when not playing, because on start the songs changes from nothing to something
+
 	if(bSongChanged )
 	{
 	  // player is currently playing, so we have to record history here, because Stop() is not 
 	  // called between the playing of the songs of the playlist.
+		if(IsPlaying())
 			wxGetApp().Library.RecordSongHistory(m_CurrentSong,GetTime(UNIT_MILLISEC));
+
 	}
 	//---------------------------------------------//
 	//--- start with the basics					---//
 	//---------------------------------------------//
 	m_Stopping		= false;
 	m_CurrentSong	= m_Playlist.Item( nItem );
+	g_PlaylistBox->PlaylistCtrl().RefreshItem(m_Playlist.CurrentIndex());
     m_Playlist.CurrentIndex(nItem);
+	g_PlaylistBox->PlaylistCtrl().RefreshItem(m_Playlist.CurrentIndex());
+
 	//---------------------------------------------//
 	//--- if there is already a fade in			---//
 	//--- progress, then we need to abort it	---//
@@ -438,6 +444,12 @@ bool CMusikPlayer::Play( size_t nItem, int nStartPos, int nFadeType )
 		m_MetaDataSong = CMusikSong();
 		m_MetaDataSong.MetaData.eFormat = MUSIK_FORMAT_NETSTREAM;
 		m_p_NETSTREAM_Connecting = pNewStream;
+		if(!IsPlaying())
+		{
+			// send start event only when we are not already playing
+			MusikPlayerEvent ev_start(this,wxEVT_MUSIKPLAYER_PLAY_START);
+			ProcessEvent(ev_start);
+		}
 		m_Playing = true;
 		m_b_NETSTREAM_AbortConnect = false;
 		bool bExit = false;
@@ -509,11 +521,7 @@ bool CMusikPlayer::Play( size_t nItem, int nStartPos, int nFadeType )
 		return false;
 
 	}
-	
-	m_Playing = true;
-	m_Paused = false;
-	if(g_FaderThread)
-    	g_FaderThread->CrossfaderAbort();
+
 	//---------------------------------------------//
 	//--- update the global arrays containing	---//
 	//--- active channels and streams			---//
@@ -522,23 +530,29 @@ bool CMusikPlayer::Play( size_t nItem, int nStartPos, int nFadeType )
 		wxCriticalSectionLocker lock(m_protectingStreamArrays);
 		m_ActiveStreams.Add( pNewStream );
 	}
+
+	m_Playing = true;
+	m_Paused = false;
+	if(g_FaderThread)
+		g_FaderThread->CrossfaderAbort();
+	
+	if(bSongChanged)
+	{
+		MusikPlayerEvent ev_songchange(this,wxEVT_MUSIKPLAYER_SONG_CHANGED);
+		ProcessEvent(ev_songchange);
+	}
 	//---------------------------------------------//
 	//--- playback has been started, update the	---//
 	//--- user interface to reflect it			---//
 	//---------------------------------------------//
-    MusikPlayerEvent ev_start(this,wxEVT_MUSIKPLAYER_PLAY_START);
-	ProcessEvent(ev_start);
     
 	UpdateUI();//TODO: remove this. replace by event handling of playlistctrl etc.
 	//---------------------------------------------//
 	//--- record history in database			---//
 	//---------------------------------------------//
-	if(bSongChanged)
-	{
-        MusikPlayerEvent ev_songchange(this,wxEVT_MUSIKPLAYER_SONG_CHANGED);
-        ProcessEvent(ev_songchange);
-		wxGetApp().Library.UpdateItemLastPlayed	( m_CurrentSong );//TODO: replace by event handling of  wxEVT_MUSIKPLAYER_SONG_CHANGED in library
-	}
+	wxGetApp().Library.UpdateItemLastPlayed	( m_CurrentSong );		//TODO: replace by event handling of  wxEVT_MUSIKPLAYER_SONG_CHANGED in library
+
+
 	//---------------------------------------------//
 	//--- if fading is not enabled, shut down	---//
 	//--- all of the old channels, and set the	---//
@@ -619,7 +633,7 @@ void CMusikPlayer::UpdateUI()
 	}
 	else
 	{
-		g_PlaylistBox->PlaylistCtrl().Update(false);
+		
 	}
 	if(g_SourcesCtrl->GetSelType() == MUSIK_SOURCES_NOW_PLAYING)
 	{
@@ -769,6 +783,8 @@ void CMusikPlayer::Stop( bool bCheckFade, bool bExit )
 
 void CMusikPlayer::FinalizeStop()
 {
+	g_PlaylistBox->PlaylistCtrl().RefreshItem( m_Playlist.CurrentIndex() ); //TODO: replace by handling of MusikPlayerEvent
+
 	if(m_CurrentSong.IsInLibrary() &&IsPlaying())
 	{
 		wxGetApp().Library.RecordSongHistory(m_CurrentSong,m_nLastSongTime);
@@ -776,10 +792,10 @@ void CMusikPlayer::FinalizeStop()
 	else
 		m_nLastSongTime = 0;
 	m_CurrentSong = MusikSongId();
+	m_Playlist.CurrentIndex(0);
 	m_Playing = false;
 	m_Paused = false;
 	m_Stopping = false;
-	g_PlaylistBox->PlaylistCtrl().RefreshItem( m_Playlist.CurrentIndex() ); //TODO: replace by handling of MusikPlayerEvent
     
     MusikPlayerEvent ev(this,wxEVT_MUSIKPLAYER_PLAY_STOP);
     ProcessEvent(ev);
@@ -862,8 +878,7 @@ void CMusikPlayer::NextSong()
 		if ( m_Playlist.CurrentIndex() >= m_Playlist.GetCount() - 1)
 		{
 			Stop();
-            m_Playlist.CurrentIndex(0);
-		}
+ 		}
 		else
         {
 			Play( m_Playlist.CurrentIndex() + 1  );

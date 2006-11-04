@@ -221,7 +221,7 @@ void CMusikAutoTaggerFrame::OnBnRemoveMask( wxCommandEvent& event )
 void CMusikAutoTaggerFrame::OnOk( wxCommandEvent& event )
 {
 	wxGetApp().Prefs.sAutoTag.Empty();
-	for(size_t i = 0 ; i < m_CBTagMask->GetCount();i++)
+	for(int i = 0 ; i < m_CBTagMask->GetCount();i++)
 	{
 		wxGetApp().Prefs.sAutoTag += m_CBTagMask->GetString(i);
 		wxGetApp().Prefs.sAutoTag +='|';

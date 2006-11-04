@@ -5,7 +5,7 @@
     - remove all stuff about idtag /removed functions and structures)
     - replace dependency on filename ( stat() usage) 
     - make code usable for c++ callers using extern "C"
-    - move most private prottypes from .h to .c
+    - move most private prototypes from .h to .c
     - remove #include "mp3info.h" and replaced it by all needed c runtime headers and mp3tech.h        
     - added Xing and VBRI vbr header detection and usage
     - detect invalid bitrate 0xF

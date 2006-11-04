@@ -63,7 +63,6 @@ protected:
 	void ClearLibrary	();
 	void UpdateLibrary	( bool bConfirm ,unsigned long flags = 0);
 	void ScanNew		();
-	void PurgeLibrary	();
 	void EnableProgress	( bool );
 	bool ValidatePath	( wxString sPath );
 	
@@ -84,7 +83,6 @@ protected:
 	void OnClickScan			( wxCommandEvent  &WXUNUSED(event)	)		{ ScanNew();													}
 	void OnUpdateAll			( wxCommandEvent  &WXUNUSED(event)	);
 	void OnRebuildAll			( wxCommandEvent  &WXUNUSED(event)	);
-	void OnPurgeLibrary			( wxCommandEvent  &WXUNUSED(event)	)		{ PurgeLibrary();												}
 	void TranslateKeys			( wxKeyEvent	  &WXUNUSED(event)	);
 
 	//--- events we get from threads ---//

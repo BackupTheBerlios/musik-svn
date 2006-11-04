@@ -29,6 +29,7 @@ enum MUSIK_LIBRARY_THREAD_COMMAND
 	SET_TOTAL,
 	SET_NEW
 };
+class CMusikLibrary;
 class wxMusicTraverser;
 
 class MusikScanNewThread : public wxThread
@@ -57,7 +58,8 @@ public:
 
 	virtual void *Entry();
 	virtual void OnExit();
-
+protected:
+	void MusikPurgeLibrary(CMusikLibrary *pLibrary,const wxArrayString &songs);
 private:
 	wxArrayString* m_pPathesToAdd;
 	wxArrayString* m_pPathesDel;

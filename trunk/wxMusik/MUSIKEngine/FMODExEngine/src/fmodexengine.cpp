@@ -83,6 +83,7 @@ MUSIKEngine::Error FMODExEngine::_Init(int idOutput ,int idDevice,int nMixRate,i
             return errOutputInitFailed;
     }
 #elif defined (APPLE)
+#if 0
     if ( idOutput == 0 )
     {
         if( m_pSystem->setOutput( FMOD_OUTPUTTYPE_COREAUDIO ) != FMOD_OK )
@@ -93,6 +94,7 @@ MUSIKEngine::Error FMODExEngine::_Init(int idOutput ,int idDevice,int nMixRate,i
         if( m_pSystem->setOutput( FMOD_OUTPUTTYPE_SOUNDMANAGER ) != FMOD_OK )
             return errOutputInitFailed;
     }
+#endif
 #else 
     #error System not supported
 #endif

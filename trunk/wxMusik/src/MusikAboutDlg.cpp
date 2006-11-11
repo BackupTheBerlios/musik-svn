@@ -165,7 +165,7 @@ CMusikAboutDlg::CMusikAboutDlg(wxWindow *pParent)
 
 	wxBoxSizer *topsizer = new wxBoxSizer(wxVERTICAL);
 
-	wxHtmlWindow *html = new MyHtmlWindow(this, wxID_ANY, wxDefaultPosition, wxDefaultSize/* , 0wxHW_SCROLLBAR_NEVER*/);
+	wxHtmlWindow *html = new MyHtmlWindow(this,wxID_ANY,wxDefaultPosition,wxSize(120, 10)/* wxDefaultSize*/);
 	html -> SetBorders(0);
 	html -> LoadPage(MusikGetStaticDataPath() + wxT("about.html"));
 	html -> SetSize(html -> GetInternalRepresentation() -> GetWidth()+wxSystemSettings::GetMetric(wxSYS_VSCROLL_X), 
@@ -181,7 +181,6 @@ CMusikAboutDlg::CMusikAboutDlg(wxWindow *pParent)
 	SetAutoLayout(true);
 	SetSizer(topsizer);
 	topsizer->Fit(this);
-	Layout();	
 	Centre();
 }
 

@@ -70,7 +70,11 @@ void CPictureBox::OnIdle(wxIdleEvent & event)
 	}
 	if(nSel == -1)
 	{
-		if(m_image	!= m_DefImage)
+#if !wxCHECK_VERSION(2,7,2)
+		if(m_image != m_DefImage)
+#else
+		if(m_image.IsSameAs(m_DefImage))
+#endif
 		{
 			m_image	= m_DefImage;
 			Refresh();
@@ -190,12 +194,23 @@ void CPictureBox::OnPaint(wxPaintEvent &)
 	}
 	wxCoord width,height;
 	dc.GetSize(&width,&height);
+	// we use a clipping region to paint border and picture flickerfree.
+#ifdef __WXMAC__
+// in wxWidgets 2.7.2 the clipping stuff for osx is broken,SetClippingRegion seems to be ignored,
+// and as osx uses double buffering on system level, we dont really need the
+// clipping stuff here.
+        wxColour BGColor =  GetBackgroundColour();
+        wxBrush MyBrush(BGColor ,wxSOLID);
+        dc.SetBackground(MyBrush);
+        dc.Clear();
+#else
 	// Now  declare the Clipping Region which is
 	// what needs to be repainted
 	wxRegion MyRegion(0,0,width,height); 
 	wxRect cliprect;
 	dc.GetClippingBox(cliprect); 
 	MyRegion.Subtract(cliprect);
+#endif
     if(m_image.Ok())
     {
 	    const int offset= 5;
@@ -230,10 +245,17 @@ void CPictureBox::OnPaint(wxPaintEvent &)
 		    }
 	    }
 	    m_image.ConvertAlphaToMask();
-	    wxBitmap bmp = wxBitmap(m_image.Scale(bmpwidth, bmpheight));
+	    wxBitmap bmp = 
+#if !wxCHECK_VERSION(2,7,2)
+                 		wxBitmap(m_image.Scale(bmpwidth,bmpheight));
+#else
+		 		wxBitmap(m_image.Scale(bmpwidth,bmpheight,wxIMAGE_QUALITY_HIGH));
+#endif
+
 	    wxCoord x = abs(bmpwidth - width)/2 + offset;
 	    wxCoord y = abs(bmpheight - height)/2 + offset ;
 	    dc.DrawBitmap(bmp,x,y,true);
+#ifndef __WXMAC__
 	    wxRegion regionBmp(bmp);
 	    regionBmp.Offset(x,y);
 	    MyRegion.Subtract(regionBmp);
@@ -241,11 +263,14 @@ void CPictureBox::OnPaint(wxPaintEvent &)
 	    dc.DestroyClippingRegion();
 	    //and set the new one
 	    dc.SetClippingRegion(MyRegion);
+#endif
     }
+#ifndef __WXMAC__
     wxColour BGColor =  GetBackgroundColour();
     wxBrush MyBrush(BGColor ,wxSOLID);
     dc.SetBackground(MyBrush);
-	dc.Clear();
+    dc.Clear();
+#endif
 }
 
 void CPictureBox::OnTimer(wxTimerEvent& )

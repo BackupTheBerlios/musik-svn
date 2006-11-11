@@ -15,7 +15,7 @@
 #include <wx/textfile.h>
 #include <wx/cmdline.h>
 #include <wx/progdlg.h>
-#include<wx/sysopt.h>
+#include <wx/sysopt.h>
 #include "MusikApp.h"
 /***** the XInitThreads call leads to strange behaviour when doing 
 ****** 'drag and drop' in a listview. the whole xserver is locked, until the app is 

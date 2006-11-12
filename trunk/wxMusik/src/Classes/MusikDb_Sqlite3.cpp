@@ -59,6 +59,7 @@ bool MusikDb_Sqlite3::Exec(const char * q,MusikDb::ResultSet * pRes)
         return true;
     }
     SetError(pRes,e,errmsg);
+    sqlite3_free(errmsg);
     return false;
 }
 
@@ -76,6 +77,7 @@ bool MusikDb_Sqlite3::Exec(const char * q,MusikDb::DbError *perr)
         return true;
     }
     SetError(perr,e,errmsg);
+    sqlite3_free(errmsg);
     return false;
 
 }
@@ -132,6 +134,7 @@ bool MusikDb_Sqlite3::Exec(const char * q,MusikDb::ResultCB  & ResCb)
         return true;
     }
     SetError(&ResCb,e,errmsg);
+    sqlite3_free(errmsg);
     return false;
 }
 

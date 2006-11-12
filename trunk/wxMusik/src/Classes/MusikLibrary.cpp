@@ -1064,7 +1064,7 @@ bool CMusikLibrary::FindOrPurgeMissing( const wxString & filename )
 		if(songCandidate.songid == -1)
 		{
 			// now we try to find a song entry which has the same title and artist
-			songidCandidate = QueryCount(MusikDb::QueryString( "select distinct songs.songid from songs where title = %q and artist = %q and album = %q;", 
+			songidCandidate = QueryCount(MusikDb::QueryString( "select distinct songs.songid from songs where title = %Q and artist = %Q and album = %Q;", 
 														songMissing.MetaData.Title.c_str(),songMissing.MetaData.Artist.c_str(),songMissing.MetaData.Album.c_str()));
 			QuerySongFromSongid(songidCandidate,&songCandidate);
 			if(songCandidate.MetaData.nDuration_ms != songMissing.MetaData.nDuration_ms

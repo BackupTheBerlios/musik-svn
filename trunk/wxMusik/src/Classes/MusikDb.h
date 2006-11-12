@@ -96,7 +96,7 @@ public:
             if(m_errmsg)
                 free(m_errmsg);
             m_err=err;
-            m_errmsg = (char*)errmsg; /*? strdup(errmsg):NULL;*/
+            m_errmsg = errmsg ? strdup(errmsg):NULL;
             if(m_errmsg)
                 wxLogError(wxT("%s"),ConvA2W(errmsg).c_str());
 

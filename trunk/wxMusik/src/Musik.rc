@@ -8,6 +8,7 @@
 // Generated from the TEXTINCLUDE 2 resource.
 //
 #define APSTUDIO_HIDDEN_SYMBOLS
+aICON                   ICON                    "musik.ico"
 MUSICBOX                ICON                    "musik.ico"
 #include "wx/msw/wx.rc"
 #define wxT(x) x 
@@ -33,6 +34,7 @@ END
 2 TEXTINCLUDE 
 BEGIN
     "#define APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "1                       ICON                    ""musik.ico""\r\n"
     "MUSICBOX                ICON                    ""musik.ico""\r\n"
     "#include ""wx/msw/wx.rc""\r\n"
 	"#define wxT(x) x \r\n"

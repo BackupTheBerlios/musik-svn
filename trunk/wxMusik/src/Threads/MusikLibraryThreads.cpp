@@ -23,10 +23,10 @@
 //---	  purge old files		---//
 //---------------------------------//
 
-void MusikUpdateLibThread::MusikPurgeLibrary(CMusikLibrary *pLibrary,const wxArrayString &songs)
+void MusikUpdateLibThread::MusikPurgeLibrary( CMusikLibrary *pLibrary,const wxArrayString &songs,bool & bDatabaseChanged )
 {
 	//--- setup ---//
-	bool bDatabaseChanged = false;
+	bDatabaseChanged = false;
 	//--- events we'll post as we go along ---//
 	wxCommandEvent PurgeStartEvt	( wxEVT_COMMAND_MENU_SELECTED, MUSIK_LIBRARY_THREAD_START );
 	PurgeStartEvt.SetExtraLong(MUSIK_LIBRARY_PURGE_THREAD);
@@ -180,11 +180,11 @@ void *MusikUpdateLibThread::Entry()
 
 	}
 	pSlaveLibrary->EndTransaction();
-
-	MusikPurgeLibrary(pSlaveLibrary.get(),songsBeforeUpdate);
+    bool bDbChangedByPurge = false;
+	MusikPurgeLibrary(pSlaveLibrary.get(),songsBeforeUpdate,bDbChangedByPurge);
 
 	wxCommandEvent UpdateLibEndEvt	( wxEVT_COMMAND_MENU_SELECTED, MUSIK_LIBRARY_THREAD_END );	
-	UpdateLibEndEvt.SetExtraLong(bDatabaseChanged ? 1:0);
+	UpdateLibEndEvt.SetExtraLong(bDatabaseChanged || bDbChangedByPurge ? 1:0);
 	wxPostEvent( Parent(), UpdateLibEndEvt );
 	return NULL;
 }

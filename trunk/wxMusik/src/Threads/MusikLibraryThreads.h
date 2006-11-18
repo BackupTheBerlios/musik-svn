@@ -59,7 +59,7 @@ public:
 	virtual void *Entry();
 	virtual void OnExit();
 protected:
-	void MusikPurgeLibrary(CMusikLibrary *pLibrary,const wxArrayString &songs);
+    void MusikPurgeLibrary(CMusikLibrary *pLibrary,const wxArrayString &songs,bool & bDatabaseChanged);
 private:
 	wxArrayString* m_pPathesToAdd;
 	wxArrayString* m_pPathesDel;

@@ -193,7 +193,7 @@ BEGIN_EVENT_TABLE(CPlaylistCtrl, CMusikListCtrl)
 	EVT_UPDATE_UI				( MUSIK_PLAYLIST_DISPLAY_SMART,											CPlaylistCtrl::OnUpdateUIDisplaySmart)
 	EVT_MENU					( MUSIK_PLAYLIST_DISPLAY_FIT,											CPlaylistCtrl::OnDisplayFit			)
 	EVT_MENU					( MUSIK_PLAYLIST_CLEARPLAYERLIST,										CPlaylistCtrl::OnClearPlayerlist	)
-	EVT_KEY_DOWN				(																		CPlaylistCtrl::OnKeyDown			)
+	EVT_KEY_UP                  (																		CPlaylistCtrl::OnKeyDown			)// we use up event because using down leads to problems with deleting songs    
 	EVT_LIST_COL_CLICK			( -1,																	CPlaylistCtrl::OnColumnClick		)
 
 	//---------------------------------------------------------//

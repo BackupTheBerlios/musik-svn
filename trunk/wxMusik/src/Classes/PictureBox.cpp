@@ -213,7 +213,7 @@ void CPictureBox::OnPaint(wxPaintEvent &)
 #endif
     if(m_image.Ok())
     {
-	    const int offset= 5;
+	    const int offset= 1;
 	    width -= 2*offset;
 	    height -= 2*offset;
 	    int bmpwidth = m_image.GetWidth(),bmpheight = m_image.GetHeight();

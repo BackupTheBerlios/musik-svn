@@ -956,7 +956,7 @@ void CSourcesListBox::RescaleColumns()
 		#if defined(__WXMSW__) && !defined(USE_GENERICLISTCTRL)
 			SetColumnWidth	( main_col, nWidth );
 		#else
-			SetColumnWidth( main_col, nWidth - wxSystemSettings::GetMetric(wxSYS_HSCROLL_Y) /*- GetColumnWidth( 0 )*/ - 1 );			
+			SetColumnWidth( main_col, nWidth -/* wxSystemSettings::GetMetric(wxSYS_HSCROLL_Y)*/ /*- GetColumnWidth( 0 )*/ - 1 );			
 		#endif 
 	}
 }
@@ -1595,10 +1595,10 @@ BEGIN_EVENT_TABLE(CSourcesBox, wxSashLayoutWindow)
 END_EVENT_TABLE()
 
 CSourcesBox::CSourcesBox( wxWindow *parent )
-	: wxSashLayoutWindow( parent, MUSIK_SOURCES, wxDefaultPosition , wxDefaultSize, wxNO_BORDER | wxCLIP_CHILDREN |wxSW_3D|wxTAB_TRAVERSAL )
+	: wxSashLayoutWindow( parent, MUSIK_SOURCES, wxDefaultPosition , wxDefaultSize, wxNO_BORDER | wxCLIP_CHILDREN |wxSW_3DSASH|wxTAB_TRAVERSAL )
 {
 
-	m_pPanel = new wxPanel( this, -1, wxDefaultPosition , wxDefaultSize , wxNO_BORDER|wxCLIP_CHILDREN|wxTAB_TRAVERSAL );
+	m_pPanel = new wxPanel( this, -1, wxDefaultPosition , wxDefaultSize , wxSUNKEN_BORDER|wxCLIP_CHILDREN|wxTAB_TRAVERSAL );
 	//--- CSourcesListBox ---//
 	m_pListBox	= new CSourcesListBox( m_pPanel );
 	m_pPictureBox = new CPictureBox(m_pPanel);

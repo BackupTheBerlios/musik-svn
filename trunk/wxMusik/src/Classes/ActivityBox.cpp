@@ -425,6 +425,8 @@ void CActivityListBox::GetSelected(wxArrayString & aReturn)
 		nIndex = GetNextItem( nIndex, wxLIST_NEXT_ALL , wxLIST_STATE_SELECTED );
 		if ( nIndex == -1 )
 			break;
+        if( nIndex == 0 && HasShowAllRow())
+            continue;
 		aReturn.Add( GetRowText( nIndex ) );
 	}
 	return;

@@ -1051,10 +1051,55 @@ xcopy &quot;$(ProjectDir)\3rd-Party\bin\fmod\win32\fmod.dll&quot;  &quot;$(OutDi
 			</Filter>
 		</Filter>
 		<File
+			RelativePath=".\src\wx\msw\blank.cur">
+		</File>
+		<File
+			RelativePath=".\src\wx\msw\bullseye.cur">
+		</File>
+		<File
+			RelativePath=".\src\wx\msw\cdrom.ico">
+		</File>
+		<File
 			RelativePath=".\changelog.txt">
 		</File>
 		<File
+			RelativePath=".\src\wx\msw\colours.bmp">
+		</File>
+		<File
+			RelativePath=".\src\wx\msw\computer.ico">
+		</File>
+		<File
+			RelativePath=".\src\wx\msw\cross.cur">
+		</File>
+		<File
+			RelativePath=".\src\wx\msw\csquery.bmp">
+		</File>
+		<File
 			RelativePath=".\genlocal\de.po">
+		</File>
+		<File
+			RelativePath=".\src\wx\msw\drive.ico">
+		</File>
+		<File
+			RelativePath=".\src\wx\msw\file1.ico">
+		</File>
+		<File
+			RelativePath=".\src\wx\msw\floppy.ico">
+		</File>
+		<File
+			RelativePath=".\src\wx\msw\folder1.ico">
+		</File>
+		<File
+			RelativePath=".\src\wx\msw\folder2.ico">
+		</File>
+		<File
+			RelativePath=".\src\wx\msw\hand.cur">
+		</File>
+		<File
+			RelativePath=".\src\wx\msw\magnif1.cur">
+		</File>
+		<File
+			RelativePath=".\src\musik.ico">
 		</File>
 		<File
 			RelativePath=".\src\Musik.rc">
@@ -1090,7 +1135,34 @@ xcopy &quot;$(ProjectDir)\3rd-Party\bin\fmod\win32\fmod.dll&quot;  &quot;$(OutDi
 			</FileConfiguration>
 		</File>
 		<File
+			RelativePath=".\src\wx\msw\pbrush.cur">
+		</File>
+		<File
+			RelativePath=".\src\wx\msw\pencil.cur">
+		</File>
+		<File
+			RelativePath=".\src\wx\msw\pntleft.cur">
+		</File>
+		<File
+			RelativePath=".\src\wx\msw\pntright.cur">
+		</File>
+		<File
+			RelativePath=".\src\wx\msw\removble.ico">
+		</File>
+		<File
+			RelativePath=".\src\wx\msw\rightarr.cur">
+		</File>
+		<File
+			RelativePath=".\src\wx\msw\roller.cur">
+		</File>
+		<File
+			RelativePath=".\src\wx\msw\std.ico">
+		</File>
+		<File
 			RelativePath=".\todo.txt">
+		</File>
+		<File
+			RelativePath=".\src\wx\msw\wx.manifest">
 		</File>
 	</Files>
 	<Globals>

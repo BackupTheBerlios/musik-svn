@@ -24,6 +24,7 @@ namespace FMOD
     class Sound;
     class Channel;
     class ChannelGroup;
+    class Reverb;
     class DSP;
     class Geometry;
 
@@ -32,6 +33,8 @@ namespace FMOD
     */
     inline FMOD_RESULT Memory_Initialize(void *poolmem, int poollen, FMOD_MEMORY_ALLOCCALLBACK useralloc, FMOD_MEMORY_REALLOCCALLBACK userrealloc, FMOD_MEMORY_FREECALLBACK userfree) { return FMOD_Memory_Initialize(poolmem, poollen, useralloc, userrealloc, userfree); }
     inline FMOD_RESULT Memory_GetStats  (int *currentalloced, int *maxalloced) { return FMOD_Memory_GetStats(currentalloced, maxalloced); }
+    inline FMOD_RESULT Debug_SetLevel(FMOD_DEBUGLEVEL level)  { return FMOD_Debug_SetLevel(level); }
+    inline FMOD_RESULT Debug_GetLevel(FMOD_DEBUGLEVEL *level) { return FMOD_Debug_GetLevel(level); }
 
     /*
         FMOD System factory functions.
@@ -131,7 +134,9 @@ namespace FMOD
         // Reverb API                           
         FMOD_RESULT F_API setReverbProperties    (const FMOD_REVERB_PROPERTIES *prop);
         FMOD_RESULT F_API getReverbProperties    (FMOD_REVERB_PROPERTIES *prop);
-                                                  
+
+
+                                                 
         // System level DSP access.
         FMOD_RESULT F_API getDSPHead             (DSP **dsp);
         FMOD_RESULT F_API addDSP                 (DSP *dsp);
@@ -281,6 +286,10 @@ namespace FMOD
         FMOD_RESULT F_API get3DOcclusion         (float *directocclusion, float *reverbocclusion);
         FMOD_RESULT F_API set3DSpread            (float angle);
         FMOD_RESULT F_API get3DSpread            (float *angle);
+        FMOD_RESULT F_API set3DPanLevel          (float level);
+        FMOD_RESULT F_API get3DPanLevel          (float *level);
+        FMOD_RESULT F_API set3DDopplerLevel      (float level);
+        FMOD_RESULT F_API get3DDopplerLevel      (float *level);
 
         // DSP functionality only for channels playing sounds created with FMOD_SOFTWARE.
         FMOD_RESULT F_API getDSPHead             (DSP **dsp);
@@ -386,6 +395,10 @@ namespace FMOD
         FMOD_RESULT F_API getInputMix            (int index, float *volume);
         FMOD_RESULT F_API setInputLevels         (int index, FMOD_SPEAKER speaker, float *levels, int numlevels);
         FMOD_RESULT F_API getInputLevels         (int index, FMOD_SPEAKER speaker, float *levels, int numlevels);
+        FMOD_RESULT F_API setOutputMix            (int index, float volume);
+        FMOD_RESULT F_API getOutputMix            (int index, float *volume);
+        FMOD_RESULT F_API setOutputLevels         (int index, FMOD_SPEAKER speaker, float *levels, int numlevels);
+        FMOD_RESULT F_API getOutputLevels         (int index, FMOD_SPEAKER speaker, float *levels, int numlevels);
 
         // DSP unit control.
         FMOD_RESULT F_API setActive              (bool active);
@@ -403,6 +416,7 @@ namespace FMOD
         
         // DSP attributes.        
         FMOD_RESULT F_API getInfo                (char *name, unsigned int *version, int *channels, int *configwidth, int *configheight);
+        FMOD_RESULT F_API getType                (FMOD_DSP_TYPE *type); 
         FMOD_RESULT F_API setDefaults            (float frequency, float volume, float pan, int priority);
         FMOD_RESULT F_API getDefaults            (float *frequency, float *volume, float *pan, int *priority);
                                                 
@@ -455,6 +469,8 @@ namespace FMOD
         FMOD_RESULT F_API setUserData            (void *userdata);
         FMOD_RESULT F_API getUserData            (void **userdata);
     };
+
+
 };
 
 #endif

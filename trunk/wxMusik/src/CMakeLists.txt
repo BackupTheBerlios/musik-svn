@@ -141,6 +141,7 @@ TARGET_LINK_LIBRARIES(wxMusik
 
 
 IF(APPLE)
+    INCLUDE( ${wxMusik_SOURCE_DIR}/scripts/cmake/CopyIfDifferent.cmake)
 
     MAKE_DIRECTORY(${EXECUTABLE_OUTPUT_PATH}/wxMusik.app/Contents/MacOS)
     CONFIGURE_FILE( ${PROJECT_SOURCE_DIR}/scripts/cmake/MacOSXBundleInfo.plist.in
@@ -151,6 +152,17 @@ IF(APPLE)
 
     CONFIGURE_FILE(${FMOD_LIBRARY} 
                     ${EXECUTABLE_OUTPUT_PATH}/wxMusik.app/Contents/FrameWorks/libfmodex.dylib  COPYONLY)
+
+    SET(RSRC_FILES about.html musik.png wxMusik.jpg)
+    COPY_IF_DIFFERENT( ${PROJECT_SOURCE_DIR}/data  ${EXECUTABLE_OUTPUT_PATH}/wxMusik.app/Contents/Resources "${RSRC_FILES}"  RsrcTargets "RsrcFiles")
+
+    SET(RSRC_FILES2 rating1.png rating3.png rating5.png  rating7.png  rating9.png       ratingminus2.png  ratingminus4.png  ratingminus6.png  ratingminus8.png
+                    rating0.png     rating2.png  rating4.png  rating6.png  rating8.png  ratingminus1.png  ratingminus3.png  ratingminus5.png  ratingminus7.png  ratingminus9.png)
+    COPY_IF_DIFFERENT( ${PROJECT_SOURCE_DIR}/data/ratingart ${EXECUTABLE_OUTPUT_PATH}/wxMusik.app/Contents/Resources/ratingart  "${RSRC_FILES2}" RsrcTargets2 "RsrcFiles2")   
+
+    SET(RSRC_FILES3 Next.png  Next_down.png  Pause.png  Pause_down.png  Play.png  Play_down.png  Prev.png  Prev_down.png  Stop.png  Stop_down.png  Volume.png  Volume_down.png )
+    COPY_IF_DIFFERENT( ${PROJECT_SOURCE_DIR}/data/playbackart ${EXECUTABLE_OUTPUT_PATH}/wxMusik.app/Contents/Resources/playbackart  "${RSRC_FILES3}" RsrcTargets3 "RsrcFiles3") 
+    ADD_CUSTOM_TARGET(CopyRsrcFiles ALL DEPENDS ${RsrcTargets} ${RsrcTargets2} ${RsrcTargets3})
 
     WRITE_FILE(${EXECUTABLE_OUTPUT_PATH}/wxMusik.app/Contents/PkgInfo "APPL????")
 #    ADD_CUSTOM_COMMAND(
@@ -164,6 +176,7 @@ IF(APPLE)
                 COMMAND /usr/bin/install_name_tool -change /usr/local/lib/libfmodex.dylib @executable_path/../Frameworks/libfmodex.dylib ${EXECUTABLE_OUTPUT_PATH}/wxMusik.app/Contents/MacOS/wxMusik
                 )
     ADD_DEPENDENCIES(WXMUSIK_NAME  wxMusik)
+    ADD_DEPENDENCIES(CopyRsrcFiles wxMusik )	
 ENDIF(APPLE)
 
 # Set install options

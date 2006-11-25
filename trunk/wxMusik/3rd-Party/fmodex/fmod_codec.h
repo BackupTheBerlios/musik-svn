@@ -11,6 +11,7 @@
 #define _FMOD_CODEC_H
 
 typedef struct FMOD_CODEC_STATE FMOD_CODEC_STATE;
+typedef struct FMOD_CODEC_WAVEFORMAT FMOD_CODEC_WAVEFORMAT;
 
 /*
     Codec callbacks
@@ -23,6 +24,7 @@ typedef FMOD_RESULT (F_CALLBACK *FMOD_CODEC_SETPOSITIONCALLBACK) (FMOD_CODEC_STA
 typedef FMOD_RESULT (F_CALLBACK *FMOD_CODEC_GETPOSITIONCALLBACK) (FMOD_CODEC_STATE *codec_state, unsigned int *position, FMOD_TIMEUNIT postype);
 typedef FMOD_RESULT (F_CALLBACK *FMOD_CODEC_SOUNDCREATECALLBACK) (FMOD_CODEC_STATE *codec_state, int subsound, FMOD_SOUND *sound);
 typedef FMOD_RESULT (F_CALLBACK *FMOD_CODEC_METADATACALLBACK)    (FMOD_CODEC_STATE *codec_state, FMOD_TAGTYPE tagtype, char *name, void *data, unsigned int datalen, FMOD_TAGDATATYPE datatype, int unique);
+typedef FMOD_RESULT (F_CALLBACK *FMOD_CODEC_GETWAVEFORMAT)       (FMOD_CODEC_STATE *codec_state, int index, FMOD_CODEC_WAVEFORMAT *waveformat);
 
 
 /*
@@ -36,7 +38,7 @@ typedef FMOD_RESULT (F_CALLBACK *FMOD_CODEC_METADATACALLBACK)    (FMOD_CODEC_STA
     Members marked with [out] mean the variable is modified by FMOD and is for reading purposes only.  Do not change this value.<br>
 
     [PLATFORMS]
-    Win32, Win64, Linux, Linux64, Macintosh, Xbox, Xbox360, PlayStation 2, GameCube, PlayStation Portable, PlayStation 3
+    Win32, Win64, Linux, Linux64, Macintosh, Xbox, Xbox360, PlayStation 2, GameCube, PlayStation Portable, PlayStation 3, Wii
 
     [SEE_ALSO]
     FMOD_CODEC_STATE
@@ -55,6 +57,7 @@ typedef struct FMOD_CODEC_DESCRIPTION
     FMOD_CODEC_SETPOSITIONCALLBACK  setposition;     /* [in] Seek callback for the codec for when FMOD tries to seek within the file with Channel::setPosition. */
     FMOD_CODEC_GETPOSITIONCALLBACK  getposition;     /* [in] Tell callback for the codec for when FMOD tries to get the current position within the with Channel::getPosition. */
     FMOD_CODEC_SOUNDCREATECALLBACK  soundcreate;     /* [in] Sound creation callback for the codec when FMOD finishes creating the sound.  (So the codec can set more parameters for the related created sound, ie loop points/mode or 3D attributes etc). */
+    FMOD_CODEC_GETWAVEFORMAT        getwaveformat;   /* [in] Callback to tell FMOD about the waveformat of a particular subsound.  This is to save memory, rather than saving 1000 FMOD_CODEC_WAVEFORMAT structures in the codec, the codec might have a more optimal way of storing this information. */
 } FMOD_CODEC_DESCRIPTION;
 
 
@@ -78,7 +81,7 @@ typedef struct FMOD_CODEC_DESCRIPTION
     When a sound has 1 or more subsounds, you must play the individual sounds specified by first obtaining the subsound with Sound::getSubSound.
     
     [PLATFORMS]
-    Win32, Win64, Linux, Linux64, Macintosh, Xbox, Xbox360, PlayStation 2, GameCube, PlayStation Portable, PlayStation 3
+    Win32, Win64, Linux, Linux64, Macintosh, Xbox, Xbox360, PlayStation 2, GameCube, PlayStation Portable, PlayStation 3, Wii
 
     [SEE_ALSO]
     FMOD_SOUND_FORMAT
@@ -89,7 +92,7 @@ typedef struct FMOD_CODEC_DESCRIPTION
     Sound::getNumSubSounds
 ]
 */
-typedef struct FMOD_CODEC_WAVEFORMAT
+struct FMOD_CODEC_WAVEFORMAT
 {
     char               name[256];     /* [in] Name of sound.*/
     FMOD_SOUND_FORMAT  format;        /* [in] Format for (decompressed) codec output, ie FMOD_SOUND_FORMAT_PCM8, FMOD_SOUND_FORMAT_PCM16.*/
@@ -102,7 +105,7 @@ typedef struct FMOD_CODEC_WAVEFORMAT
     int                loopend;       /* [in] Loopend in decompressed, PCM samples of file. */
     FMOD_MODE          mode;          /* [in] Mode to determine whether the sound should by default load as looping, non looping, 2d or 3d. */
     unsigned int       channelmask;   /* [in] Microsoft speaker channel mask, as defined for WAVEFORMATEXTENSIBLE and is found in ksmedia.h.  Leave at 0 to play in natural speaker order. */
-} FMOD_CODEC_WAVEFORMAT;
+};
 
 
 /*
@@ -127,7 +130,7 @@ typedef struct FMOD_CODEC_WAVEFORMAT
     When a sound has 1 or more subsounds, you must play the individual sounds specified by first obtaining the subsound with Sound::getSubSound.
     
     [PLATFORMS]
-    Win32, Win64, Linux, Linux64, Macintosh, Xbox, Xbox360, PlayStation 2, GameCube, PlayStation Portable, PlayStation 3
+    Win32, Win64, Linux, Linux64, Macintosh, Xbox, Xbox360, PlayStation 2, GameCube, PlayStation Portable, PlayStation 3, Wii
 
     [SEE_ALSO]
     FMOD_SOUND_FORMAT
@@ -141,7 +144,7 @@ typedef struct FMOD_CODEC_WAVEFORMAT
 struct FMOD_CODEC_STATE
 {
     int                         numsubsounds;  /* [in] Number of 'subsounds' in this sound.  Anything other than 0 makes it a 'container' format (ie CDDA/DLS/FSB etc which contain 1 or more su bsounds).  For most normal, single sound codec such as WAV/AIFF/MP3, this should be 0 as they are not a container for subsounds, they are the sound by itself. */
-    FMOD_CODEC_WAVEFORMAT      *waveformat;    /* [in] Pointer to an array of format structures containing information about each sample.  The number of entries here must equal the number of subsounds defined in the subsound parameter. If numsubsounds = 0 then there should be 1 instance of this structure. */
+    FMOD_CODEC_WAVEFORMAT      *waveformat;    /* [in] Pointer to an array of format structures containing information about each sample.  Can be 0 or NULL if FMOD_CODEC_GETWAVEFORMAT callback is preferred.  The number of entries here must equal the number of subsounds defined in the subsound parameter. If numsubsounds = 0 then there should be 1 instance of this structure. */
     void                       *plugindata;    /* [in] Plugin writer created data the codec author wants to attach to this object. */
                                                
     void                       *filehandle;    /* [out] This will return an internal FMOD file handle to use with the callbacks provided.  */

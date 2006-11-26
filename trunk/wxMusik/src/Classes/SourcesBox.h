@@ -147,7 +147,7 @@ private:
 	wxListItemAttr m_DarkBold;
 	wxListItemAttr m_Dark;
 
-
+	bool HaveDelayedSELCHANGED;
 	//--- if deleting, make sure events don't go through ---//
 	bool m_Deleting;
 

@@ -263,7 +263,7 @@ CSourcesListBox::CSourcesListBox( wxWindow* parent )
 	//--- initialize variables ---//
 	m_CurSel = 0;
 	m_DragIndex	= -1;
-	
+	HaveDelayedSELCHANGED = false;	
 
 	InsertColumn( 0, _( "Sources" ), wxLIST_FORMAT_LEFT );
 	SetDropTarget( new SourcesDropTarget( this ) );
@@ -533,8 +533,16 @@ void CSourcesListBox::BeginDrag( wxListEvent &WXUNUSED(event) )
 
 void CSourcesListBox::OnUpdateSel( wxCommandEvent& event )
 {
+#if 1 
+   if(!HaveDelayedSELCHANGED)
+    {
+    	HaveDelayedSELCHANGED = true;
+    	wxPostEvent(this,event);    
+    	return;	
+    }	
+#endif   	
     event.Skip();
-    wxTheApp->Yield(true);   // call yield to let the SetItemState changes go through the system.
+ //   wxTheApp->Yield(true);   // call yield to let the SetItemState changes go through the system.
     UpdateSel( event.GetInt() );	
 }
 

@@ -34,6 +34,11 @@ void MusikUpdateLibThread::MusikPurgeLibrary( CMusikLibrary *pLibrary,const wxAr
 	wxString sProgress;
 	size_t nTotal = songs.GetCount();
 
+	wxCommandEvent evtSetProgressType	( wxEVT_COMMAND_MENU_SELECTED, MUSIK_LIBRARY_THREAD_PROG );
+	evtSetProgressType.SetInt(SET_PROGRESSTYPE);
+	evtSetProgressType.SetExtraLong( MUSIK_LIBRARY_PURGE_THREAD );
+	wxPostEvent( Parent(), evtSetProgressType );
+
 	wxCommandEvent evtSetTotalFiles	( wxEVT_COMMAND_MENU_SELECTED, MUSIK_LIBRARY_THREAD_PROG );
 	evtSetTotalFiles.SetInt(SET_TOTAL);
 	evtSetTotalFiles.SetExtraLong( nTotal );

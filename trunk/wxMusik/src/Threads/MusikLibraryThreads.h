@@ -27,7 +27,8 @@ enum MUSIK_LIBRARY_THREAD_COMMAND
 {
 	SET_CURRENT = 1,
 	SET_TOTAL,
-	SET_NEW
+	SET_NEW,
+	SET_PROGRESSTYPE
 };
 class CMusikLibrary;
 class wxMusicTraverser;

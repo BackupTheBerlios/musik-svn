@@ -679,6 +679,11 @@ void MusikLibraryDialog::OnThreadEnd( wxCommandEvent& event )
 void MusikLibraryDialog::OnThreadProg( wxCommandEvent& event )
 {	
 	
+	if( SET_PROGRESSTYPE == event.GetInt())
+	{
+		SetProgressType	( event.GetExtraLong() );
+		return;
+	}
 	if( SET_TOTAL == event.GetInt())
 	{
 		SetTotal(  event.GetExtraLong());

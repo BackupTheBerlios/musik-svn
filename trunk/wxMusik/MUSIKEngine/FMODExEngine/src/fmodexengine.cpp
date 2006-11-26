@@ -99,6 +99,7 @@ MUSIKEngine::Error FMODExEngine::_Init(int idOutput ,int idDevice,int nMixRate,i
     #error System not supported
 #endif
 
+#ifndef APPLE
     if(idDevice > 0)
     {
         //---------------------//
@@ -118,7 +119,7 @@ MUSIKEngine::Error FMODExEngine::_Init(int idOutput ,int idDevice,int nMixRate,i
         if(m_pSystem->setSoftwareFormat(nMixRate,oldFormat,oldNumOutCh,oldNumInCh,resamplemethod) != FMOD_OK)
             return errUnknown;
     }
-
+#endif //!APPLE
     FMOD_RESULT result = m_pSystem->init(nMaxChannels, FMOD_INIT_NORMAL, 0);
 
     if(result != FMOD_OK)

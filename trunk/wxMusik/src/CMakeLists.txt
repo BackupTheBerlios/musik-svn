@@ -10,7 +10,6 @@ SET(MAIN_SRCS
         ./MusikGlobals
         ./MusikUtils
         ./MusikAboutDlg
-#        ./wxmod_listctrl
         ./Classes/ActivityBox
         ./Classes/ActivityAreaCtrl
         ./Classes/BtnDown
@@ -110,6 +109,8 @@ ENDIF(WIN32)
 
 
 IF(APPLE)
+    SET(OTHER_SRCS  ./wxmod_listctrl)
+
     SET(MACOSX_BUNDLE_EXECUTABLE_NAME wxMusik)
     SET(MACOSX_BUNDLE_INFO_STRING "wxMusik version ${PROJECT_VERSION_MAJOR}, (c) Gunnar Roth")
     SET(MACOSX_BUNDLE_GUI_IDENTIFIER "roth.gunnar.wxMusik")
@@ -121,7 +122,7 @@ IF(APPLE)
     SET(MACOSX_BUNDLE_COPYRIGHT "Copyright 2006 Gunnar Roth")
 ENDIF(APPLE)
 
-ADD_EXECUTABLE(wxMusik ${WIN32_EXECUTABLE} MACOSX_BUNDLE  ${MAIN_SRCS})
+ADD_EXECUTABLE(wxMusik ${WIN32_EXECUTABLE} MACOSX_BUNDLE  ${MAIN_SRCS} ${OTHER_SRCS})
 
 TARGET_LINK_LIBRARIES(wxMusik
         ${MUSIK_ENGINE}

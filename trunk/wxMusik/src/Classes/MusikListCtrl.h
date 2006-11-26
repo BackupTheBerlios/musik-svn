@@ -19,9 +19,9 @@
 #ifndef WX_PRECOMP
 	#include "wx/wx.h"
 #endif 
-//#if !defined(__WXMAC__) 
-//#define  USE_GENERICLISTCTRL   
-//#endif
+#if defined(__WXMAC__) 
+#define  USE_GENERICLISTCTRL   
+#endif
 #define USE_NATIVELISTCTRL_DOUBLEBUFFERED_PAINTING 1
 
 #ifdef USE_GENERICLISTCTRL

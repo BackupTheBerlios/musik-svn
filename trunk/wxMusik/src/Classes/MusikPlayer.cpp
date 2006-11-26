@@ -1332,6 +1332,7 @@ void CMusikPlayer::AddToPlaylist( MusikSongIdArray & songstoadd ,bool bPlayFirst
 		{
 			m_Playlist.Add(songstoadd.Detach(0));
 		}
+		g_PlaylistBox->PlaylistCtrl().Update(false);
 		if(bPlayFirstAdded)
 		{
 			m_Playlist.CurrentIndex(plsize);
@@ -1351,6 +1352,7 @@ void CMusikPlayer::InsertToPlaylist( MusikSongIdArray & songstoadd ,bool bPlayFi
 	if(plsize == 0 || !IsPlaying())
 	{// list empty, add
 		AddToPlaylist(songstoadd,bPlayFirstInserted);
+		g_PlaylistBox->PlaylistCtrl().Update(false);
 		return;
 
 	}
@@ -1360,6 +1362,8 @@ void CMusikPlayer::InsertToPlaylist( MusikSongIdArray & songstoadd ,bool bPlayFi
 	{
 		m_Playlist.Insert(songstoadd.Detach(0), nSongIndex + 1 + i );
 	}
+	if(size)
+		g_PlaylistBox->PlaylistCtrl().Update(false);
 	if(bPlayFirstInserted)
 	{
 		m_Playlist.CurrentIndex(nSongIndex + 1);

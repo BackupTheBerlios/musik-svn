@@ -109,7 +109,7 @@ ENDIF(WIN32)
 
 
 IF(APPLE)
-    SET(OTHER_SRCS  ./wxmod_listctrl)
+#    SET(OTHER_SRCS  ./wxmod_listctrl)
 
     SET(MACOSX_BUNDLE_EXECUTABLE_NAME wxMusik)
     SET(MACOSX_BUNDLE_INFO_STRING "wxMusik version ${PROJECT_VERSION_MAJOR}, (c) Gunnar Roth")

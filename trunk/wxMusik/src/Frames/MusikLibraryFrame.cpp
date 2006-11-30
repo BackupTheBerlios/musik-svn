@@ -335,7 +335,8 @@ void MusikLibraryDialog::Close( bool bCancel )
 		}
 	}
 
-	delete paths_context_menu;	
+	delete paths_context_menu;
+	paths_context_menu = NULL;
 	//g_MusikFrame->Enable( TRUE );
 	Destroy();
 }
@@ -368,7 +369,8 @@ void MusikLibraryDialog::PathsGetSel( wxArrayString &aReturn )
 
 void MusikLibraryDialog::PathsPopupMenu( wxContextMenuEvent& WXUNUSED(event) )
 {
-	PopupMenu( paths_context_menu);
+	if(paths_context_menu)
+		PopupMenu( paths_context_menu);
 }
 
 //-----------------------//

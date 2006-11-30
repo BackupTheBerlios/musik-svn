@@ -399,7 +399,9 @@ wxMenu * CPlaylistCtrl::CreateContextMenu()
 	if ( GetSelectedItemCount() > 0 )
 	{
 		int nFirstIndex = GetNextItem( -1, wxLIST_NEXT_ALL , wxLIST_STATE_SELECTED );
-		bNetStreamSel  =  m_pPlaylist && m_pPlaylist->Item ( nFirstIndex ).IsFormat(MUSIK_FORMAT_NETSTREAM);
+		wxASSERT(nFirstIndex >= 0);// this should not happen, but a user had a crash here.
+		if(nFirstIndex >= 0)
+			bNetStreamSel  =  m_pPlaylist && m_pPlaylist->Item ( nFirstIndex ).IsFormat(MUSIK_FORMAT_NETSTREAM);
 	}
 	bool bIsNowPlayingSelected = (g_SourcesCtrl->GetSelType() == MUSIK_SOURCES_NOW_PLAYING);
 

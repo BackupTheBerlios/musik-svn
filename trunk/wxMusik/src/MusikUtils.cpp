@@ -710,11 +710,11 @@ bool CMusikTagger::Retag(CMusikSong * Song) const
 			case '6':
 			case 'n':
 			case 'N':
-				Song->MetaData.nTracknum += atoi( sField);
+				Song->MetaData.nTracknum = atoi( sField);
 				break;
             case 'h':
             case 'H':
-                Song->MetaData.nTracknum += atoi( sField)*100;
+                Song->MetaData.nTracknum = atoi( sField)*100;
                 break;
 			default:
 				// skip

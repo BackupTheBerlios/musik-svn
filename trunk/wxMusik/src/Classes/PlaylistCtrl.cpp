@@ -633,7 +633,9 @@ void CPlaylistCtrl::BeginDrag( wxListEvent& WXUNUSED(event) )
 		wxFileDataObject *pfile_data = new wxFileDataObject;
 		for (size_t i = 0; i < aCurSel.GetCount();i++)
 		{
-			pfile_data->AddFile(m_pPlaylist->Item(aCurSel[i]).Song()->MetaData.Filename.GetFullPath());
+            wxFileName fn(m_pPlaylist->Item(aCurSel[i]).Song()->MetaData.Filename.GetFullPath());
+            fn.MakeAbsolute();
+			pfile_data->AddFile(fn.GetFullPath());
 		}
 		wxDataObjectComposite dobj;
 		dobj.Add(psong_data,true);

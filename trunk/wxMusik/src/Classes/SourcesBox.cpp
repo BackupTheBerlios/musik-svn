@@ -964,7 +964,7 @@ void CSourcesListBox::RescaleColumns()
 		#if defined(__WXMSW__) && !defined(USE_GENERICLISTCTRL)
 			SetColumnWidth	( main_col, nWidth );
 		#else
-			SetColumnWidth( main_col, nWidth -/* wxSystemSettings::GetMetric(wxSYS_HSCROLL_Y)*/ /*- GetColumnWidth( 0 )*/ - 1 );			
+			SetColumnWidth( main_col, nWidth - wxSystemSettings::GetMetric(wxSYS_HSCROLL_Y) /*- GetColumnWidth( 0 )*/ - 1 );			
 		#endif 
 	}
 }

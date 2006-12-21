@@ -1006,7 +1006,7 @@ wxString MusikGetSubPath(wxString sFullPath)
     return sSubPath;
 }
 
-
+#if wxUSE_MIMETYPE
 bool GetFileTypeAssociationInfo(const wxString &sExt,wxString*psDescription,bool * pbAssociatedWithApp)
 {
 	*pbAssociatedWithApp = false;
@@ -1058,6 +1058,7 @@ void UnassociateWithFileType(const wxString &sExt)
 	}	
 	delete pFT;
 }
+#endif //wxUSE_MIMETYPE
 // MusikLogWindow
 // -----------
 BEGIN_EVENT_TABLE(MusikLogWindow, wxEvtHandler)

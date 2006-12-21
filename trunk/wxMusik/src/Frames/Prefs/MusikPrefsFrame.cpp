@@ -166,7 +166,9 @@ bool MusikPrefsDialog::Create( wxWindow *pParent, const wxString &sTitle )
     AddPanel(nOptionsRootID,new OptionGeneralPanel(this));
     AddPanel(nOptionsRootID,new OptionSelectionsPanel(this));
     AddPanel(nOptionsRootID,new OptionPlaylistPanel(this));
+#if wxUSE_MIMETYPE    
     AddPanel(nOptionsRootID,new OptionFileAssocPanel(this));
+#endif    
     AddPanel(nOptionsRootID,new OptionTunagePanel(this));
     AddPanel(nOptionsRootID,new OptionAutoDJPanel(this));
     AddPanel(nTagRootID,new TaggingGeneralPanel(this));

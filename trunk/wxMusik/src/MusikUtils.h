@@ -475,6 +475,7 @@ void  ReplaceChars(wxString &s,const wxString &chars,wxChar replaceby = wxT('_')
 
 wxString SecToStr	( int nSec );
 
+#if  wxUSE_MIMETYPE
 bool GetFileTypeAssociationInfo(const wxString &sExt,wxString *psDescription,bool * pbAssociatedWithApp);
 inline bool FileTypeIsAssociated(const wxString &sExt)
 {
@@ -484,6 +485,7 @@ inline bool FileTypeIsAssociated(const wxString &sExt)
 bool FileTypeIsAssociated(const wxFileType &ft);
 void AssociateWithFileType(const wxString &sExt,const wxString &sDescription);
 void UnassociateWithFileType(const wxString &sExt);
+#endif //  wxUSE_MIMETYPE
 
 inline wxString JDN2LocalTimeString(double jdn, const wxString & sFormatMask = wxT("%x %X"))
 {

@@ -16,7 +16,7 @@
 #ifndef WX_PRECOMP
 #include <wx/wx.h>
 #endif 
-
+#if wxUSE_MIMETYPE
 #ifdef __WXMSW__
 #include <shlobj.h>
 #endif
@@ -41,11 +41,11 @@ wxSizer * OptionFileAssocPanel::CreateControls()
         const tSongClass *pSongClass = CMetaDataHandler::GetSongClass((EMUSIK_FORMAT_TYPE)i);
         if(pSongClass)
         {
-            bool bRegisterdForwxMusik = false;
+            bool bRegisteredForwxMusik = false;
             wxString sDesc = wxGetTranslation(pSongClass->szDescription);
-            GetFileTypeAssociationInfo(pSongClass->szExtension,NULL,&bRegisterdForwxMusik);
+            GetFileTypeAssociationInfo(pSongClass->szExtension,NULL,&bRegisteredForwxMusik);
             chklbFileAssocs->Append(wxString::Format(wxT("%s %s"),pSongClass->szExtension,sDesc.c_str()));
-            if(bRegisterdForwxMusik)
+            if(bRegisteredForwxMusik)
                 chklbFileAssocs->Check(chklbFileAssocs->GetCount()-1);
         }
     }
@@ -94,3 +94,4 @@ void OptionFileAssocPanel::DoFileAssociations()
         SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST, NULL, NULL);
 #endif
 }
+#endif // wxUSE_MIMETYPE

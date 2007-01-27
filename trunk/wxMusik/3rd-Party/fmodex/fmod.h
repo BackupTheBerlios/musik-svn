@@ -16,7 +16,7 @@
     0xaaaabbcc -> aaaa = major version number.  bb = minor version number.  cc = development version number.
 */
 
-#define FMOD_VERSION    0x00040451
+#define FMOD_VERSION    0x00040601
 
 /*
     Compiler specific settings.
@@ -755,13 +755,14 @@ typedef enum
 #define FMOD_OPENONLY                  0x00002000  /* Just open the file, dont prebuffer or read.  Good for fast opens for info, or when sound::readData is to be used. */
 #define FMOD_ACCURATETIME              0x00004000  /* For System::createSound - for accurate Sound::getLength/Channel::setPosition on VBR MP3, and MOD/S3M/XM/IT/MIDI files.  Scans file first, so takes longer to open. FMOD_OPENONLY does not affect this. */
 #define FMOD_MPEGSEARCH                0x00008000  /* For corrupted / bad MP3 files.  This will search all the way through the file until it hits a valid MPEG header.  Normally only searches for 4k. */
-#define FMOD_NONBLOCKING               0x00010000  /* For opening sounds asyncronously.  Use Sound::getOpenState to poll the state of the sound as it opens in the background. */
+#define FMOD_NONBLOCKING               0x00010000  /* For opening sounds and getting streamed subsounds (seeking) asyncronously.  Use Sound::getOpenState to poll the state of the sound as it opens or retrieves the subsound in the background. */
 #define FMOD_UNIQUE                    0x00020000  /* Unique sound, can only be played one at a time */
 #define FMOD_3D_HEADRELATIVE           0x00040000  /* Make the sound's position, velocity and orientation relative to the listener. */
 #define FMOD_3D_WORLDRELATIVE          0x00080000  /* Make the sound's position, velocity and orientation absolute (relative to the world). (DEFAULT) */
 #define FMOD_3D_LOGROLLOFF             0x00100000  /* This sound will follow the standard logarithmic rolloff model where mindistance = full volume, maxdistance = where sound stops attenuating, and rolloff is fixed according to the global rolloff factor.  (DEFAULT) */
 #define FMOD_3D_LINEARROLLOFF          0x00200000  /* This sound will follow a linear rolloff model where mindistance = full volume, maxdistance = silence.  Rolloffscale is ignored. */
 #define FMOD_3D_CUSTOMROLLOFF          0x04000000  /* This sound will follow a rolloff model defined by Sound::set3DCustomRolloff / Channel::set3DCustomRolloff.  */
+#define FMOD_3D_IGNOREGEOMETRY         0x40000000  /* Is not affect by geometry occlusion.  If not specified in Sound::setMode, or Channel::setMode, the flag is cleared and it is affected by geometry again. */
 #define FMOD_CDDA_FORCEASPI            0x00400000  /* For CDDA sounds only - use ASPI instead of NTSCSI to access the specified CD/DVD device. */
 #define FMOD_CDDA_JITTERCORRECT        0x00800000  /* For CDDA sounds only - perform jitter correction. Jitter correction helps produce a more accurate CDDA stream at the cost of more CPU time. */
 #define FMOD_UNICODE                   0x01000000  /* Filename is double-byte unicode. */
@@ -1364,7 +1365,7 @@ typedef struct FMOD_REVERB_PROPERTIES
 #define FMOD_PRESET_DIZZY            {  0,  24, 1.8f,   0.60f, -1000,  -400,   0,   17.23f, 0.56f, 1.0f,  -1713, 0.020f, { 0.0f,0.0f,0.0f },  -613, 0.030f, { 0.0f,0.0f,0.0f }, 0.250f, 1.00f, 0.81f, 0.310f, -5.0f, 5000.0f, 250.0f, 0.0f, 100.0f, 100.0f, 0x1f }
 #define FMOD_PRESET_PSYCHOTIC        {  0,  25, 1.0f,   0.50f, -1000,  -151,   0,   7.56f,  0.91f, 1.0f,  -626,  0.020f, { 0.0f,0.0f,0.0f },   774, 0.030f, { 0.0f,0.0f,0.0f }, 0.250f, 0.00f, 4.00f, 1.000f, -5.0f, 5000.0f, 250.0f, 0.0f, 100.0f, 100.0f, 0x1f }
 
-/* PlayStation 2 Only presets */
+/* PlayStation 2 / PlayStation Portable Only presets */
 
 #define FMOD_PRESET_PS2_ROOM         {  0,  1,  0,      0,     0,      0,      0,   0.0f,   0.0f,  0.0f,     0,  0.000f, { 0.0f,0.0f,0.0f },     0, 0.000f, { 0.0f,0.0f,0.0f }, 0.250f, 0.00f, 0.00f, 0.000f,  0.0f, 0000.0f,   0.0f, 0.0f,   0.0f,   0.0f, 0x31f }
 #define FMOD_PRESET_PS2_STUDIO_A     {  0,  2,  0,      0,     0,      0,      0,   0.0f,   0.0f,  0.0f,     0,  0.000f, { 0.0f,0.0f,0.0f },     0, 0.000f, { 0.0f,0.0f,0.0f }, 0.250f, 0.00f, 0.00f, 0.000f,  0.0f, 0000.0f,   0.0f, 0.0f,   0.0f,   0.0f, 0x31f }
@@ -1543,13 +1544,15 @@ extern "C"
 #endif
 
 /*
-    FMOD System memory functions (optional).
+    FMOD global system functions (optional).
 */
 
 FMOD_RESULT F_API FMOD_Memory_Initialize           (void *poolmem, int poollen, FMOD_MEMORY_ALLOCCALLBACK useralloc, FMOD_MEMORY_REALLOCCALLBACK userrealloc, FMOD_MEMORY_FREECALLBACK userfree);
 FMOD_RESULT F_API FMOD_Memory_GetStats             (int *currentalloced, int *maxalloced);
 FMOD_RESULT F_API FMOD_Debug_SetLevel              (FMOD_DEBUGLEVEL level);
 FMOD_RESULT F_API FMOD_Debug_GetLevel              (FMOD_DEBUGLEVEL *level);
+FMOD_RESULT F_API FMOD_File_SetDiskBusy            (int busy);
+FMOD_RESULT F_API FMOD_File_GetDiskBusy            (int *busy);
 
 /*
     FMOD System factory functions.  Use this to create an FMOD System Instance.  below you will see FMOD_System_Init/Close to get started.
@@ -1576,7 +1579,6 @@ FMOD_RESULT F_API FMOD_System_GetDriverCaps          (FMOD_SYSTEM *system, int i
 FMOD_RESULT F_API FMOD_System_SetDriver              (FMOD_SYSTEM *system, int driver);
 FMOD_RESULT F_API FMOD_System_GetDriver              (FMOD_SYSTEM *system, int *driver);
 FMOD_RESULT F_API FMOD_System_SetHardwareChannels    (FMOD_SYSTEM *system, int min2d, int max2d, int min3d, int max3d);
-FMOD_RESULT F_API FMOD_System_GetHardwareChannels    (FMOD_SYSTEM *system, int *num2d, int *num3d, int *total);
 FMOD_RESULT F_API FMOD_System_SetSoftwareChannels    (FMOD_SYSTEM *system, int numsoftwarechannels);
 FMOD_RESULT F_API FMOD_System_GetSoftwareChannels    (FMOD_SYSTEM *system, int *numsoftwarechannels);
 FMOD_RESULT F_API FMOD_System_SetSoftwareFormat      (FMOD_SYSTEM *system, int samplerate, FMOD_SOUND_FORMAT format, int numoutputchannels, int maxinputchannels, FMOD_DSP_RESAMPLER resamplemethod);
@@ -1635,6 +1637,7 @@ FMOD_RESULT F_API FMOD_System_GetStreamBufferSize    (FMOD_SYSTEM *system, unsig
 FMOD_RESULT F_API FMOD_System_GetVersion             (FMOD_SYSTEM *system, unsigned int *version);
 FMOD_RESULT F_API FMOD_System_GetOutputHandle        (FMOD_SYSTEM *system, void **handle);
 FMOD_RESULT F_API FMOD_System_GetChannelsPlaying     (FMOD_SYSTEM *system, int *channels);
+FMOD_RESULT F_API FMOD_System_GetHardwareChannels    (FMOD_SYSTEM *system, int *num2d, int *num3d, int *total);
 FMOD_RESULT F_API FMOD_System_GetCPUUsage            (FMOD_SYSTEM *system, float *dsp, float *stream, float *update, float *total);
 FMOD_RESULT F_API FMOD_System_GetSoundRAM            (FMOD_SYSTEM *system, int *currentalloced, int *maxalloced, int *total);
 FMOD_RESULT F_API FMOD_System_GetNumCDROMDrives      (FMOD_SYSTEM *system, int *numdrives);
@@ -1945,6 +1948,7 @@ FMOD_RESULT F_API FMOD_DSP_GetSystemObject           (FMOD_DSP *dsp, FMOD_SYSTEM
 
 FMOD_RESULT F_API FMOD_DSP_AddInput                  (FMOD_DSP *dsp, FMOD_DSP *target);
 FMOD_RESULT F_API FMOD_DSP_DisconnectFrom            (FMOD_DSP *dsp, FMOD_DSP *target);
+FMOD_RESULT F_API FMOD_DSP_DisconnectAll             (FMOD_DSP *dsp, FMOD_BOOL inputs, FMOD_BOOL outputs);
 FMOD_RESULT F_API FMOD_DSP_Remove                    (FMOD_DSP *dsp);
 FMOD_RESULT F_API FMOD_DSP_GetNumInputs              (FMOD_DSP *dsp, int *numinputs);
 FMOD_RESULT F_API FMOD_DSP_GetNumOutputs             (FMOD_DSP *dsp, int *numoutputs);

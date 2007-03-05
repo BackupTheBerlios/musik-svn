@@ -1473,7 +1473,7 @@ void CPlaylistCtrl::RebuildTagSelFiles()
 		wxArrayString aFiles;
 		GetSelFilesList(aFiles);
 		
-		g_MusikFrame->AutoUpdate(aFiles, MUSIK_UpdateFlags::RebuildTags|MUSIK_UpdateFlags::WaitUntilDone );
+		g_MusikFrame->AutoUpdate(aFiles, MUSIK_UpdateFlags::RebuildTags|MUSIK_UpdateFlags::WaitUntilDone |MUSIK_UpdateFlags::NoPurge);
 		RefreshSelectedSongs();
 }
 
@@ -1542,7 +1542,7 @@ void CPlaylistCtrl::DNDDone()
 
 wxDragResult CPlaylistCtrl::OnDropFiles(wxCoord WXUNUSED(x), wxCoord WXUNUSED(y), const wxArrayString& filenames,wxDragResult def)
 {
-	g_MusikFrame->AutoUpdate(filenames,((def == wxDragMove)|| wxGetApp().Prefs.bAutoPlayOnDropFilesInPlaylist) ? (MUSIK_UpdateFlags::InsertFilesIntoPlayer|MUSIK_UpdateFlags::PlayFiles) : MUSIK_UpdateFlags::EnquequeFilesIntoPlayer );
+	g_MusikFrame->AutoUpdate(filenames,((def == wxDragMove)|| wxGetApp().Prefs.bAutoPlayOnDropFilesInPlaylist) ? (MUSIK_UpdateFlags::InsertFilesIntoPlayer|MUSIK_UpdateFlags::PlayFiles) : MUSIK_UpdateFlags::EnquequeFilesIntoPlayer|MUSIK_UpdateFlags::NoPurge );
 
    return def;
 }

@@ -128,7 +128,7 @@ void MusikApp::OnPlayFiles(const wxArrayString &aFilelist)
 	bRecursiveEntry = true;
 	if(g_MusikFrame)
 	{
-		g_MusikFrame->AutoUpdate(aFilelist,MUSIK_UpdateFlags::InsertFilesIntoPlayer|MUSIK_UpdateFlags::PlayFiles);
+		g_MusikFrame->AutoUpdate(aFilelist,MUSIK_UpdateFlags::InsertFilesIntoPlayer|MUSIK_UpdateFlags::PlayFiles|MUSIK_UpdateFlags::NoPurge);
 	}
 	bRecursiveEntry = false;
 }
@@ -276,7 +276,7 @@ bool MusikApp::OnInit()
         if(Prefs.bAutoAdd)
 			pMain->AutoUpdate();
 		if(arrParams.GetCount() > 0)
-			pMain->AutoUpdate(arrParams,MUSIK_UpdateFlags::InsertFilesIntoPlayer|MUSIK_UpdateFlags::PlayFiles);
+			pMain->AutoUpdate(arrParams,MUSIK_UpdateFlags::InsertFilesIntoPlayer|MUSIK_UpdateFlags::PlayFiles|MUSIK_UpdateFlags::NoPurge);
 	}
 	
     if (Prefs.bShowLibraryOnStart)

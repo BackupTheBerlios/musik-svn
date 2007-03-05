@@ -490,7 +490,7 @@ void CSourcesListBox::ImportPlaylist (wxCommandEvent& WXUNUSED(event) )
     wxBusyCursor bc;
     wxArrayString arrFiles;
     ImportM3U(fdlg.GetPath(),arrFiles);
-    g_MusikFrame->AutoUpdate(arrFiles,MUSIK_UpdateFlags::WaitUntilDone|MUSIK_UpdateFlags::Quiet);
+    g_MusikFrame->AutoUpdate(arrFiles,MUSIK_UpdateFlags::WaitUntilDone|MUSIK_UpdateFlags::Quiet|MUSIK_UpdateFlags::NoPurge);
     MusikSongIdArray songids;
     wxGetApp().Library.GetFilelistSongs(arrFiles,songids);
     NewPlaylist(wxFileName::FileName(fdlg.GetPath()).GetName(),songids,MUSIK_SOURCES_PLAYLIST_STANDARD);

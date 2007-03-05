@@ -173,22 +173,25 @@ void *MusikUpdateLibThread::Entry()
 	}
 	pSlaveLibrary->EndTransaction();
     bool bDbChangedByPurge = false;
-    if ( !TestDestroy() )
-    {
-    	MusikPurgeLibrary(pSlaveLibrary.get(),songsBeforeUpdate,bDbChangedByPurge);
+	if(0 == (m_flagsUpdate & MUSIK_UpdateFlags::NoPurge))
+	{
+		if ( !TestDestroy() )
+		{
+    		MusikPurgeLibrary(pSlaveLibrary.get(),songsBeforeUpdate,bDbChangedByPurge);
 
-	    if (m_pPathesDel &&  m_pPathesDel->GetCount() > 0 )
-	    {
-		    for ( size_t i = 0; i < m_pPathesDel->GetCount(); i++ )
-		    {
-                if ( TestDestroy() )
-                    break;
-			    if ( m_pPathesDel->Item( i ) != wxT("") )
-				    pSlaveLibrary->RemoveSongDir( m_pPathesDel->Item( i ) );
-		    }
-		    m_pPathesDel->Clear();
-	    }
-    }
+			if (m_pPathesDel &&  m_pPathesDel->GetCount() > 0 )
+			{
+				for ( size_t i = 0; i < m_pPathesDel->GetCount(); i++ )
+				{
+					if ( TestDestroy() )
+						break;
+					if ( m_pPathesDel->Item( i ) != wxT("") )
+						pSlaveLibrary->RemoveSongDir( m_pPathesDel->Item( i ) );
+				}
+				m_pPathesDel->Clear();
+			}
+		}
+	}
 	wxCommandEvent UpdateLibEndEvt	( wxEVT_COMMAND_MENU_SELECTED, MUSIK_LIBRARY_THREAD_END );	
 	UpdateLibEndEvt.SetExtraLong(bDatabaseChanged || bDbChangedByPurge ? 1:0);
 	wxPostEvent( Parent(), UpdateLibEndEvt );

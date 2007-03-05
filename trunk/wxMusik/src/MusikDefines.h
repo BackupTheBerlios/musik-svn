@@ -325,7 +325,8 @@ struct MUSIK_UpdateFlags
 		PlayFiles				=4,
 		RebuildTags             =8,
 		WaitUntilDone			=16,
-        Quiet                   =32
+        Quiet                   =32,
+		NoPurge					=64
 	};
 };
 

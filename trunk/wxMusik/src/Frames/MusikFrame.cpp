@@ -396,7 +396,6 @@ MusikFrame::MusikFrame()
 	g_ActivityAreaCtrl->SetDefaultSize(wxSize(1000,wxGetApp().Prefs.nActivityCtrlHeight));
 	g_ActivityAreaCtrl->SetAlignment(wxLAYOUT_TOP);
 	g_ActivityAreaCtrl->SetOrientation(wxLAYOUT_HORIZONTAL);
-	g_ActivityAreaCtrl->SetSashBorder(wxSASH_BOTTOM, true);
 	g_ActivityAreaCtrl->SetExtraBorderSize(5);
 	
 

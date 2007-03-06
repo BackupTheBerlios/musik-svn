@@ -426,8 +426,13 @@ void CSourcesListBox::ExportPlaylist (wxCommandEvent& WXUNUSED(event) )
 	//build a playlist
 	//offer option to save it.
 	wxFileDialog fdlg (g_MusikFrame, _("Select the path and filename for your playlist"),
-						wxT(""), wxT(""), wxT("Winamp Playlist (.m3u)|*.m3u"), 
-						wxSAVE);
+						wxT(""), wxT(""), wxT("Winamp Playlist (.m3u)|*.m3u"),
+#if !wxCHECK_VERSION(2,8,0)						 
+						wxSAVE
+#else					
+						wxFD_SAVE
+#endif							
+						);
 	if ( fdlg.ShowModal() != wxID_OK )
 		return;
 	
@@ -484,7 +489,12 @@ void CSourcesListBox::ImportPlaylist (wxCommandEvent& WXUNUSED(event) )
     //offer option to save it.
     wxFileDialog fdlg (g_MusikFrame, _("Select the path and filename for your playlist"),
         wxT(""), wxT(""), wxT("Winamp Playlist (.m3u)|*.m3u"), 
-        wxOPEN);
+#if !wxCHECK_VERSION(2,8,0)
+        wxOPEN
+#else
+	wxFD_OPEN	
+#endif        
+        );
     if ( fdlg.ShowModal() != wxID_OK )
         return;  
     wxBusyCursor bc;

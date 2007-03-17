@@ -15,7 +15,7 @@
 
 #include "MusikDefines.h"
 #include "MusikUtils.h"
-#include <sqlite.h>
+#include <sqlite3.h>
 
 #include <taglib.h>
 #ifndef MUSIKENGINE_NO_FLAC_SUPPORT
@@ -56,7 +56,7 @@ TAG_HANDLER_PROC(tag)
 		else if(	sParamValue == wxT("sqlite"))
 		{
 			
-			sTextToInsert = ConvA2W(sqlite_version);
+			sTextToInsert = ConvA2W(sqlite3_version);
 		}
 		else if(sParamValue == wxT("wxWidgets"))
 		{

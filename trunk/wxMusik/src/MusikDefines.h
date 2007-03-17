@@ -22,7 +22,10 @@
 #define WXSYSTEMCOLOUR(x)	*wxTheColourDatabase->FindColour(x)
 #endif
 
-
+#if wxCHECK_VERSION(2,6,3)
+const int wxADJUST_MINSIZE = 0; //dummy this flag i not used in 2.8 anymore
+#endif
+ 
 #if defined( __WXGTK__ ) || defined( __WXMAC__)
 #define WXLISTCTRL_SETITEMSTATE_IS_BUGGY 1
 #endif

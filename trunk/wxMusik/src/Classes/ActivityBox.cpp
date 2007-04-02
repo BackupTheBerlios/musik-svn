@@ -140,7 +140,7 @@ void CActivityListBox::OnChar(wxKeyEvent& event)
 			// Reset the search string.
 			m_sSearch.Empty();
 		}
-		m_sSearch+=keycode;
+		m_sSearch+=(wxChar)keycode;
 		ScrollToItem(m_sSearch);
 		m_OnCharStopWatch.Start();
 	} 

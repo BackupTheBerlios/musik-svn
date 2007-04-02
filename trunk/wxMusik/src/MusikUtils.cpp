@@ -1040,7 +1040,7 @@ void AssociateWithFileType(const wxString &sExt,const wxString &sDescription)
 	wxString sAppName = wxString::Format(wxT("\"%s\""),wxGetApp().argv[0]);
 	
 
-    wxFileTypeInfo fti(sMimetype,sAppName,wxT(""),sDescription,sExt.c_str(),NULL);
+    wxFileTypeInfo fti(sMimetype,sAppName,wxT(""),sDescription,(const wxChar*)sExt,NULL);
 	wxString sShortDesc=wxT("wxMusik ")+sExt + wxT(" File");
 #ifdef __WXMSW__
 	fti.SetShortDesc(sShortDesc);

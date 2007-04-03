@@ -106,7 +106,7 @@ public:
    wxString GetExt() const
    {
 		size_t pos = m_sPath.rfind('.');
-		if(pos != wxStringBase::npos )
+		if(pos != wxString::npos )
 		{
 			return m_sPath.Right(m_sPath.Len() - pos - 1);
 		}

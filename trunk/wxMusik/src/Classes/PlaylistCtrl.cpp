@@ -814,7 +814,7 @@ wxString CPlaylistCtrl::OnGetItemText(long item, long column) const
 
 wxString CPlaylistCtrl::EmptyColumnString()	const
 {
-	return wxGetApp().Prefs.bDisplayEmptyPlaylistColumnAsUnkown == true ? _( "<unknown>" ):wxEmptyString;
+	return wxGetApp().Prefs.bDisplayEmptyPlaylistColumnAsUnkown == true ? _( "<unknown>"):wxT("");
 }
 
 wxString CPlaylistCtrl::GetItemText(long item, PlaylistColumn::eId eColumnId) const

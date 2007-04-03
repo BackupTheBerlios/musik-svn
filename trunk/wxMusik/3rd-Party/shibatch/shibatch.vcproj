@@ -60,6 +60,8 @@
 			CharacterSet="2">
 			<Tool
 				Name="VCCLCompilerTool"
+				EnableIntrinsicFunctions="TRUE"
+				FavorSizeOrSpeed="1"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"

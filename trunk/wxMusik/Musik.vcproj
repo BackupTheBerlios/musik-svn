@@ -235,11 +235,11 @@ xcopy &quot;$(ProjectDir)\3rd-Party\bin\fmod\win32\fmod.dll&quot;  &quot;$(OutDi
 			WholeProgramOptimization="TRUE">
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="1"
-				GlobalOptimizations="FALSE"
+				Optimization="2"
+				GlobalOptimizations="TRUE"
 				InlineFunctionExpansion="2"
 				EnableIntrinsicFunctions="TRUE"
-				FavorSizeOrSpeed="2"
+				FavorSizeOrSpeed="1"
 				OmitFramePointers="TRUE"
 				OptimizeForProcessor="0"
 				OptimizeForWindowsApplication="TRUE"

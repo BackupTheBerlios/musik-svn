@@ -21,7 +21,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="..\nedmalloc"
-				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;THREADSAFE"
+				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;THREADSAFE;SQLITE_OMIT_LOAD_EXTENSION"
 				MinimalRebuild="TRUE"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -67,7 +67,7 @@
 				OmitFramePointers="TRUE"
 				OptimizeForWindowsApplication="TRUE"
 				AdditionalIncludeDirectories="..\nedmalloc"
-				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;THREADSAFE"
+				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;THREADSAFE;SQLITE_OMIT_LOAD_EXTENSION"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -151,6 +151,9 @@
 				RelativePath=".\legacy.c">
 			</File>
 			<File
+				RelativePath=".\loadext.c">
+			</File>
+			<File
 				RelativePath=".\main.c">
 			</File>
 			<File
@@ -221,6 +224,9 @@
 			</File>
 			<File
 				RelativePath=".\vdbemem.c">
+			</File>
+			<File
+				RelativePath=".\vtab.c">
 			</File>
 			<File
 				RelativePath=".\where.c">

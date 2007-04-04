@@ -1542,7 +1542,7 @@ void CPlaylistCtrl::DNDDone()
 
 wxDragResult CPlaylistCtrl::OnDropFiles(wxCoord WXUNUSED(x), wxCoord WXUNUSED(y), const wxArrayString& filenames,wxDragResult def)
 {
-	g_MusikFrame->AutoUpdate(filenames,((def == wxDragMove)|| wxGetApp().Prefs.bAutoPlayOnDropFilesInPlaylist) ? (MUSIK_UpdateFlags::InsertFilesIntoPlayer|MUSIK_UpdateFlags::PlayFiles) : MUSIK_UpdateFlags::EnquequeFilesIntoPlayer|MUSIK_UpdateFlags::NoPurge );
+	g_MusikFrame->AutoUpdate(filenames, MUSIK_UpdateFlags::NoPurge | (((def == wxDragMove)|| wxGetApp().Prefs.bAutoPlayOnDropFilesInPlaylist) ? (MUSIK_UpdateFlags::InsertFilesIntoPlayer|MUSIK_UpdateFlags::PlayFiles) : MUSIK_UpdateFlags::EnquequeFilesIntoPlayer));
 
    return def;
 }

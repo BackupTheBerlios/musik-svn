@@ -411,9 +411,20 @@ bool CMusikPlayer::Play( size_t nItem, int nStartPos, int nFadeType )
 	//---------------------------------------------//
 	m_Stopping		= false;
 	m_CurrentSong	= m_Playlist.Item( nItem );
-	g_PlaylistBox->PlaylistCtrl().RefreshItem(m_Playlist.CurrentIndex());
+    if(g_SourcesCtrl->GetSelType() == MUSIK_SOURCES_NOW_PLAYING)
+    {
+        g_PlaylistBox->PlaylistCtrl().RefreshItem(m_Playlist.CurrentIndex());
+    }
     m_Playlist.CurrentIndex(nItem);
-	g_PlaylistBox->PlaylistCtrl().RefreshItem(m_Playlist.CurrentIndex());
+    if(g_SourcesCtrl->GetSelType() == MUSIK_SOURCES_NOW_PLAYING)
+    {
+        g_PlaylistBox->PlaylistCtrl().RefreshItem(m_Playlist.CurrentIndex());
+    }
+    else
+    {
+        // we are not showing nowplaying. we better refresh the whole listctrl, as we dont know if the current or last song is currently displayed.
+        g_PlaylistBox->PlaylistCtrl().Refresh();
+    }
 
 	//---------------------------------------------//
 	//--- if there is already a fade in			---//
@@ -437,6 +448,13 @@ bool CMusikPlayer::Play( size_t nItem, int nStartPos, int nFadeType )
 		Stop(false);
 		return false;
 	}
+    if(!IsPlaying())
+	{
+		// send start event only when we are not already playing
+		MusikPlayerEvent ev_start(this,wxEVT_MUSIKPLAYER_PLAY_START);
+		ProcessEvent(ev_start);
+	}
+
     pNewStream->SetMetadataCallback(this);
 	if(_CurrentSongIsNetStream()&& _IsNETSTREAMConnecting() == false)
 	{
@@ -444,12 +462,6 @@ bool CMusikPlayer::Play( size_t nItem, int nStartPos, int nFadeType )
 		m_MetaDataSong = CMusikSong();
 		m_MetaDataSong.MetaData.eFormat = MUSIK_FORMAT_NETSTREAM;
 		m_p_NETSTREAM_Connecting = pNewStream;
-		if(!IsPlaying())
-		{
-			// send start event only when we are not already playing
-			MusikPlayerEvent ev_start(this,wxEVT_MUSIKPLAYER_PLAY_START);
-			ProcessEvent(ev_start);
-		}
 		m_Playing = true;
 		m_b_NETSTREAM_AbortConnect = false;
 		bool bExit = false;
@@ -783,7 +795,15 @@ void CMusikPlayer::Stop( bool bCheckFade, bool bExit )
 
 void CMusikPlayer::FinalizeStop()
 {
-	g_PlaylistBox->PlaylistCtrl().RefreshItem( m_Playlist.CurrentIndex() ); //TODO: replace by handling of MusikPlayerEvent
+    if(g_SourcesCtrl->GetSelType() != MUSIK_SOURCES_NOW_PLAYING)
+    {
+        g_PlaylistBox->PlaylistCtrl().RefreshItem(m_Playlist.CurrentIndex()); //TODO: replace by handling of MusikPlayerEvent
+    }
+    else
+    {
+        // we are not showing nowplaying. we better refresh the whole listctrl, as we dont know if the current or last song is currently displayed.
+        g_PlaylistBox->PlaylistCtrl().Refresh();
+    }
 
 	if(m_CurrentSong.IsInLibrary() &&IsPlaying())
 	{

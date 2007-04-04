@@ -534,9 +534,7 @@ void MusikApp::OnFatalException ()
 {
     wxDebugReportCompress report;
 
-    // add all standard files: currently this means just a minidump and an
-    // XML file with system info and stack trace
-    report.AddAll(wxDebugReport::Context_Exception);
+     report.AddDump(wxDebugReport::Context_Exception);
  
     // create a copy of our preferences file to include it in the report
     wxFileName destfn(report.GetDirectory(), _T("musik.ini"));

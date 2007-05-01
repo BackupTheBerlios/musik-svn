@@ -3,6 +3,7 @@
 
 ADD_LIBRARY(mymp4v2 3gp.cpp
         atom_hdlr.cpp  
+        atom_ohdr.cpp
 	atom_s263.cpp      
 	atom_treftype.cpp
 	mp4descriptor.cpp

@@ -62,10 +62,14 @@
 			CharacterSet="2">
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="1"
-				GlobalOptimizations="FALSE"
-				FavorSizeOrSpeed="2"
+				Optimization="2"
+				GlobalOptimizations="TRUE"
+				InlineFunctionExpansion="2"
+				EnableIntrinsicFunctions="TRUE"
+				FavorSizeOrSpeed="1"
 				OmitFramePointers="TRUE"
+				OptimizeForProcessor="0"
+				OptimizeForWindowsApplication="TRUE"
 				AdditionalIncludeDirectories="..;&quot;../3rd-Party/include&quot;;&quot;../3rd-Party/MAC&quot;;&quot;../3rd-Party&quot;"
 				PreprocessorDefinitions="FLAC__NO_DLL"
 				StringPooling="TRUE"

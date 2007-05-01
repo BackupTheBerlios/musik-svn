@@ -15,7 +15,7 @@ DefaultGroupName={#MyAppName}
 AllowNoIcons=true
 LicenseFile=license.txt
 
-#emit 'OutputBaseFilename=' + MyAppName + '_v' + MyAppVer+ '_Setup'
+#emit 'OutputBaseFilename=' + MyAppName + '_v' + MyAppVer+ '_Setup_Win9x'
 VersionInfoVersion={#MyAppVer}
 VersionInfoDescription=A music player and library application
 Compression=lzma/ultra
@@ -29,10 +29,11 @@ DisableFinishedPage=true
 FlatComponentsList=false
 ShowTasksTreeLines=true
 ChangesAssociations=false
-PrivilegesRequired=poweruser
+PrivilegesRequired=none
 AppMutex=.{#MyAppName}.single_instance_check
 InternalCompressLevel=ultra
 SolidCompression=true
+MinVersion=4.1.1998,0
 [Tasks]
 Name: desktopicon; Description: {cm:CreateDesktopIcon}; GroupDescription: {cm:AdditionalIcons}
 Name: quicklaunchicon; Description: {cm:CreateQuickLaunchIcon}; GroupDescription: {cm:AdditionalIcons}; Flags: unchecked

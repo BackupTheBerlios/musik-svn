@@ -1,28 +1,33 @@
 /*
 ** FAAD2 - Freeware Advanced Audio (AAC) Decoder including SBR decoding
-** Copyright (C) 2003-2004 M. Bakker, Ahead Software AG, http://www.nero.com
-**
+** Copyright (C) 2003-2005 M. Bakker, Nero AG, http://www.nero.com
+**  
 ** This program is free software; you can redistribute it and/or modify
 ** it under the terms of the GNU General Public License as published by
 ** the Free Software Foundation; either version 2 of the License, or
 ** (at your option) any later version.
-**
+** 
 ** This program is distributed in the hope that it will be useful,
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 ** GNU General Public License for more details.
-**
+** 
 ** You should have received a copy of the GNU General Public License
-** along with this program; if not, write to the Free Software
+** along with this program; if not, write to the Free Software 
 ** Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 **
 ** Any non-GPL usage of this software or parts of this software is strictly
 ** forbidden.
 **
-** Commercial non-GPL licensing of this software is possible.
-** For more info contact Ahead Software through Mpeg4AAClicense@nero.com.
+** Software using this code must display the following message visibly in or
+** on each copy of the software:
+** "FAAD2 AAC/HE-AAC/HE-AACv2/DRM decoder (c) Nero AG, www.nero.com"
+** in, for example, the about-box or help/startup screen.
 **
-** $Id: mp4sample.c,v 1.16 2004/03/27 11:14:49 menno Exp $
+** Commercial non-GPL licensing of this software is possible.
+** For more info contact Nero AG through Mpeg4AAClicense@nero.com.
+**
+** $Id: mp4sample.c,v 1.18 2006/05/07 18:09:00 menno Exp $
 **/
 
 #include <stdlib.h>
@@ -37,7 +42,9 @@ static int32_t mp4ff_chunk_of_sample(const mp4ff_t *f, const int32_t track, cons
     int32_t chunk1, chunk2, chunk1samples, range_samples, total = 0;
 
     if (f->track[track] == NULL)
+    {
         return -1;
+    }
 
     total_entries = f->track[track]->stsc_entry_count;
 
@@ -78,11 +85,13 @@ static int32_t mp4ff_chunk_to_offset(const mp4ff_t *f, const int32_t track, cons
     const mp4ff_track_t * p_track = f->track[track];
 
     if (p_track->stco_entry_count && (chunk > p_track->stco_entry_count))
+    {
         return p_track->stco_chunk_offset[p_track->stco_entry_count - 1];
-    else if (p_track->stco_entry_count)
+    } else if (p_track->stco_entry_count) {
         return p_track->stco_chunk_offset[chunk - 1];
-    else
+    } else {
         return 8;
+    }
 
     return 0;
 }
@@ -94,31 +103,55 @@ static int32_t mp4ff_sample_range_size(const mp4ff_t *f, const int32_t track,
     const mp4ff_track_t * p_track = f->track[track];
 
     if (p_track->stsz_sample_size)
+    {
         return (sample - chunk_sample) * p_track->stsz_sample_size;
+    }
     else
     {
         if (sample>=p_track->stsz_sample_count) return 0;//error
 
         for(i = chunk_sample, total = 0; i < sample; i++)
+        {
             total += p_track->stsz_table[i];
+        }
     }
 
     return total;
 }
 
-int32_t mp4ff_sample_to_offset(const mp4ff_t *f, const int32_t track, const int32_t sample)
+static int32_t mp4ff_sample_to_offset(const mp4ff_t *f, const int32_t track, const int32_t sample)
 {
-	int32_t chunk, chunk_sample;
-	mp4ff_chunk_of_sample(f, track, sample, &chunk_sample, &chunk);
-	return mp4ff_chunk_to_offset(f,track,chunk)+mp4ff_sample_range_size(f,track, chunk_sample,sample);
+    int32_t chunk, chunk_sample, chunk_offset1, chunk_offset2;
+
+    mp4ff_chunk_of_sample(f, track, sample, &chunk_sample, &chunk);
+
+    chunk_offset1 = mp4ff_chunk_to_offset(f, track, chunk);
+    chunk_offset2 = chunk_offset1 + mp4ff_sample_range_size(f, track, chunk_sample, sample);
+
+    return chunk_offset2;
 }
 
 int32_t mp4ff_audio_frame_size(const mp4ff_t *f, const int32_t track, const int32_t sample)
 {
+    int32_t bytes;
     const mp4ff_track_t * p_track = f->track[track];
 
     if (p_track->stsz_sample_size)
-        return p_track->stsz_sample_size;
+    {
+        bytes = p_track->stsz_sample_size;
+    } else {
+        bytes = p_track->stsz_table[sample];
+    }
 
-	return p_track->stsz_table[sample];
+    return bytes;
+}
+
+int32_t mp4ff_set_sample_position(mp4ff_t *f, const int32_t track, const int32_t sample)
+{
+    int32_t offset;
+
+    offset = mp4ff_sample_to_offset(f, track, sample);
+    mp4ff_set_position(f, offset);
+
+    return 0;
 }

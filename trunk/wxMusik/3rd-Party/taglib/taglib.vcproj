@@ -161,6 +161,7 @@
 				EnableIntrinsicFunctions="TRUE"
 				FavorSizeOrSpeed="1"
 				OmitFramePointers="TRUE"
+				OptimizeForProcessor="0"
 				OptimizeForWindowsApplication="TRUE"
 				AdditionalIncludeDirectories="&quot;$(ProjectDir)&quot;;&quot;$(ProjectDir)/ogg&quot;;&quot;$(ProjectDir)/mpeg/id3v2&quot;;&quot;$(ProjectDir)/toolkit&quot;;&quot;$(ProjectDir)/flac&quot;;&quot;$(ProjectDir)/mpeg/id3v1&quot;;&quot;$(ProjectDir)/mpeg&quot;;&quot;$(ProjectDir)/ape&quot;;&quot;$(ProjectDir)/ogg/vorbis&quot;;&quot;$(ProjectDir)/mpc&quot;;&quot;$(ProjectDir)/mp4&quot;;&quot;$(ProjectDir)/../libmp4v2&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;UNICODE;_UNICODE"

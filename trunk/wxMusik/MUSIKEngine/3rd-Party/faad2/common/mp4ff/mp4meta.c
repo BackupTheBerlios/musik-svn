@@ -1,28 +1,33 @@
 /*
 ** FAAD2 - Freeware Advanced Audio (AAC) Decoder including SBR decoding
-** Copyright (C) 2003-2004 M. Bakker, Ahead Software AG, http://www.nero.com
-**
+** Copyright (C) 2003-2005 M. Bakker, Nero AG, http://www.nero.com
+**  
 ** This program is free software; you can redistribute it and/or modify
 ** it under the terms of the GNU General Public License as published by
 ** the Free Software Foundation; either version 2 of the License, or
 ** (at your option) any later version.
-**
+** 
 ** This program is distributed in the hope that it will be useful,
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 ** GNU General Public License for more details.
-**
+** 
 ** You should have received a copy of the GNU General Public License
-** along with this program; if not, write to the Free Software
+** along with this program; if not, write to the Free Software 
 ** Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 **
 ** Any non-GPL usage of this software or parts of this software is strictly
 ** forbidden.
 **
-** Commercial non-GPL licensing of this software is possible.
-** For more info contact Ahead Software through Mpeg4AAClicense@nero.com.
+** Software using this code must display the following message visibly in or
+** on each copy of the software:
+** "FAAD2 AAC/HE-AAC/HE-AACv2/DRM decoder (c) Nero AG, www.nero.com"
+** in, for example, the about-box or help/startup screen.
 **
-** $Id: mp4meta.c,v 1.15 2004/09/03 19:38:58 menno Exp $
+** Commercial non-GPL licensing of this software is possible.
+** For more info contact Nero AG through Mpeg4AAClicense@nero.com.
+**
+** $Id: mp4meta.c,v 1.17 2006/05/07 18:09:00 menno Exp $
 **/
 
 #ifdef USE_TAGGING
@@ -61,6 +66,25 @@ static int32_t mp4ff_tag_add_field(mp4ff_metadata_t *tags, const char *item, con
         tags->count++;
         return 1;
     }
+}
+
+static int32_t mp4ff_tag_set_field(mp4ff_metadata_t *tags, const char *item, const char *value)
+{
+    unsigned int i;
+
+    if (!item || (item && !*item) || !value) return 0;
+
+    for (i = 0; i < tags->count; i++)
+    {
+        if (!stricmp(tags->tags[i].item, item))
+        {
+			free(tags->tags[i].value);
+			tags->tags[i].value = strdup(value);
+            return 1;
+        }
+    }
+
+    return mp4ff_tag_add_field(tags, item, value);
 }
 
 int32_t mp4ff_tag_delete(mp4ff_metadata_t *tags)
@@ -112,20 +136,33 @@ static const char* ID3v1GenreList[] = {
 
 uint32_t mp4ff_meta_genre_to_index(const char * genrestr)
 {
-	unsigned int n=0;
-	//for (n=0;n<sizeof(ID3v1GenreList)/sizeof(ID3v1GenreList[0]);n++)
-	do {
+	unsigned n;
+	for(n=0;n<sizeof(ID3v1GenreList)/sizeof(ID3v1GenreList[0]);n++)
+	{
 		if (!stricmp(genrestr,ID3v1GenreList[n])) return n+1;
-	} while (++n<sizeof(ID3v1GenreList)/sizeof(ID3v1GenreList[0]));
+	}
 	return 0;
 }
 
 const char * mp4ff_meta_index_to_genre(uint32_t idx)
 {
 	if (idx>0 && idx<=sizeof(ID3v1GenreList)/sizeof(ID3v1GenreList[0]))
+	{
 		return ID3v1GenreList[idx-1];
+	}
 	else
+	{
 		return 0;
+	}
+}
+
+
+static int32_t TrackToString(char** str, const uint16_t track, const uint16_t totalTracks)
+{
+	char temp[32];
+    sprintf(temp, "%.5u of %.5u", track, totalTracks);
+	*str = strdup(temp);
+    return 0;
 }
 
 static int32_t mp4ff_set_metadata_name(mp4ff_t *f, const uint8_t atom_type, char **name)
@@ -171,8 +208,8 @@ static int32_t mp4ff_parse_tag(mp4ff_t *f, const uint8_t parent_atom_type, const
 	uint32_t done = 0;
 
 
-    //while (sumsize < size)
-    do {
+    while (sumsize < size)
+    {
 		uint64_t destpos;
         subsize = mp4ff_atom_read_header(f, &atom_type, &header_size);
 		destpos = mp4ff_position(f)+subsize-header_size;
@@ -201,7 +238,9 @@ static int32_t mp4ff_parse_tag(mp4ff_t *f, const uint8_t parent_atom_type, const
 						{
 							const char * temp = mp4ff_meta_index_to_genre(val);
 							if (temp)
+							{
 								mp4ff_tag_add_field(&(f->tags), "genre", temp);
+							}
 						}
 						done = 1;
 					}
@@ -238,10 +277,10 @@ static int32_t mp4ff_parse_tag(mp4ff_t *f, const uint8_t parent_atom_type, const
 					name = mp4ff_read_string(f,(uint32_t)(subsize-(header_size+4)));
 				}
 			}
-			if (mp4ff_set_position(f, destpos)<0) break; // return 0
+			mp4ff_set_position(f, destpos);
 			sumsize += subsize;
 		}
-    } while (sumsize<size);
+    }
 
 	if (data)
 	{
@@ -263,13 +302,36 @@ int32_t mp4ff_parse_metadata(mp4ff_t *f, const int32_t size)
     uint8_t atom_type;
     uint8_t header_size = 0;
 
-    //while (sumsize < size)
-    do {
+    while (sumsize < size)
+    {
         subsize = mp4ff_atom_read_header(f, &atom_type, &header_size);
+        if (subsize == 0)
+            break;
         mp4ff_parse_tag(f, atom_type, (uint32_t)(subsize-header_size));
         sumsize += subsize;
-    } while (sumsize<size);
+    }
 
+    return 0;
+}
+
+/* find a metadata item by name */
+/* returns 0 if item found, 1 if no such item */
+static int32_t mp4ff_meta_find_by_name(const mp4ff_t *f, const char *item, char **value)
+{
+    uint32_t i;
+
+    for (i = 0; i < f->tags.count; i++)
+    {
+        if (!stricmp(f->tags.tags[i].item, item))
+        {
+			*value = strdup(f->tags.tags[i].value);
+            return 1;
+        }
+    }
+
+    *value = NULL;
+
+    /* not found */
     return 0;
 }
 
@@ -278,11 +340,94 @@ int32_t mp4ff_meta_get_num_items(const mp4ff_t *f)
     return f->tags.count;
 }
 
-void mp4ff_meta_get_by_index(const mp4ff_t *f, uint32_t index,
+int32_t mp4ff_meta_get_by_index(const mp4ff_t *f, uint32_t index,
                                 char **item, char **value)
 {
-	*item = strdup(f->tags.tags[index].item);
-	*value = strdup(f->tags.tags[index].value);
+    if (index >= f->tags.count)
+    {
+        *item = NULL;
+        *value = NULL;
+        return 0;
+    } else {
+		*item = strdup(f->tags.tags[index].item);
+		*value = strdup(f->tags.tags[index].value);
+		return 1;
+    }
+}
+
+int32_t mp4ff_meta_get_title(const mp4ff_t *f, char **value)
+{
+    return mp4ff_meta_find_by_name(f, "title", value);
+}
+
+int32_t mp4ff_meta_get_artist(const mp4ff_t *f, char **value)
+{
+    return mp4ff_meta_find_by_name(f, "artist", value);
+}
+
+int32_t mp4ff_meta_get_writer(const mp4ff_t *f, char **value)
+{
+    return mp4ff_meta_find_by_name(f, "writer", value);
+}
+
+int32_t mp4ff_meta_get_album(const mp4ff_t *f, char **value)
+{
+    return mp4ff_meta_find_by_name(f, "album", value);
+}
+
+int32_t mp4ff_meta_get_date(const mp4ff_t *f, char **value)
+{
+    return mp4ff_meta_find_by_name(f, "date", value);
+}
+
+int32_t mp4ff_meta_get_tool(const mp4ff_t *f, char **value)
+{
+    return mp4ff_meta_find_by_name(f, "tool", value);
+}
+
+int32_t mp4ff_meta_get_comment(const mp4ff_t *f, char **value)
+{
+    return mp4ff_meta_find_by_name(f, "comment", value);
+}
+
+int32_t mp4ff_meta_get_genre(const mp4ff_t *f, char **value)
+{
+    return mp4ff_meta_find_by_name(f, "genre", value);
+}
+
+int32_t mp4ff_meta_get_track(const mp4ff_t *f, char **value)
+{
+    return mp4ff_meta_find_by_name(f, "track", value);
+}
+
+int32_t mp4ff_meta_get_totaltracks(const mp4ff_t *f, char **value)
+{
+    return mp4ff_meta_find_by_name(f, "totaltracks", value);
+}
+
+int32_t mp4ff_meta_get_disc(const mp4ff_t *f, char **value)
+{
+    return mp4ff_meta_find_by_name(f, "disc", value);
+}
+
+int32_t mp4ff_meta_get_totaldiscs(const mp4ff_t *f, char **value)
+{
+    return mp4ff_meta_find_by_name(f, "totaldiscs", value);
+}
+
+int32_t mp4ff_meta_get_compilation(const mp4ff_t *f, char **value)
+{
+    return mp4ff_meta_find_by_name(f, "compilation", value);
+}
+
+int32_t mp4ff_meta_get_tempo(const mp4ff_t *f, char **value)
+{
+    return mp4ff_meta_find_by_name(f, "tempo", value);
+}
+
+int32_t mp4ff_meta_get_coverart(const mp4ff_t *f, char **value)
+{
+    return mp4ff_meta_find_by_name(f, "cover", value);
 }
 
 #endif

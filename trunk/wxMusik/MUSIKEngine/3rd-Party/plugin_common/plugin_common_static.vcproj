@@ -73,12 +73,15 @@
 			CharacterSet="2">
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="3"
+				Optimization="2"
 				GlobalOptimizations="TRUE"
-				InlineFunctionExpansion="1"
+				InlineFunctionExpansion="2"
 				EnableIntrinsicFunctions="TRUE"
 				ImproveFloatingPointConsistency="TRUE"
-				FavorSizeOrSpeed="2"
+				FavorSizeOrSpeed="1"
+				OmitFramePointers="TRUE"
+				OptimizeForProcessor="0"
+				OptimizeForWindowsApplication="TRUE"
 				AdditionalIncludeDirectories=".\include,..\include"
 				PreprocessorDefinitions="FLAC__NO_DLL;WIN32;NDEBUG;_LIB"
 				RuntimeLibrary="2"

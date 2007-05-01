@@ -75,12 +75,14 @@ nasmw -d WIN32 -f win32 -o Assembly.obj Assembly.nas
 			CharacterSet="1">
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="3"
+				Optimization="2"
 				GlobalOptimizations="TRUE"
 				InlineFunctionExpansion="2"
 				EnableIntrinsicFunctions="TRUE"
 				FavorSizeOrSpeed="1"
-				OptimizeForProcessor="2"
+				OmitFramePointers="TRUE"
+				OptimizeForProcessor="0"
+				OptimizeForWindowsApplication="TRUE"
 				AdditionalIncludeDirectories="..\Shared"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;UNICODE"
 				RuntimeLibrary="2"

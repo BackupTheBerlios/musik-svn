@@ -72,9 +72,9 @@ bool CTagLibInfo::ReadMetaData(CSongMetaData & MetaData) const
         MetaData.nDuration_ms = infomp3.seconds * 1000;
         MetaData.nBitrate = (int)infomp3.vbr_average;
         MetaData.bVBR = infomp3.vbr > 0 ? true:false;
-        if( infomp3.vbr && infomp3.vbr_average < 100)
+        if( infomp3.vbr && infomp3.vbr_average < 100 && infomp3.seconds > 300)
         {
-            // vbr_average seems to low ,make full scan.
+            // vbr_average seems to low and song seems to be longer than 5 minutes ,make full scan.
             get_mp3_info(&infomp3,SCAN_QUICK,1);
             MetaData.nFilesize = infomp3.datasize;
             MetaData.nDuration_ms = infomp3.seconds * 1000;

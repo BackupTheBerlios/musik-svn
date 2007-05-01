@@ -539,6 +539,9 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\atom_ohdr.cpp">
+			</File>
+			<File
 				RelativePath="atom_root.cpp">
 				<FileConfiguration
 					Name="Release|Win32">

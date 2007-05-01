@@ -1,28 +1,33 @@
 /*
 ** FAAD2 - Freeware Advanced Audio (AAC) Decoder including SBR decoding
-** Copyright (C) 2003-2004 M. Bakker, Ahead Software AG, http://www.nero.com
-**
+** Copyright (C) 2003-2005 M. Bakker, Nero AG, http://www.nero.com
+**  
 ** This program is free software; you can redistribute it and/or modify
 ** it under the terms of the GNU General Public License as published by
 ** the Free Software Foundation; either version 2 of the License, or
 ** (at your option) any later version.
-**
+** 
 ** This program is distributed in the hope that it will be useful,
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 ** GNU General Public License for more details.
-**
+** 
 ** You should have received a copy of the GNU General Public License
-** along with this program; if not, write to the Free Software
+** along with this program; if not, write to the Free Software 
 ** Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 **
 ** Any non-GPL usage of this software or parts of this software is strictly
 ** forbidden.
 **
-** Commercial non-GPL licensing of this software is possible.
-** For more info contact Ahead Software through Mpeg4AAClicense@nero.com.
+** Software using this code must display the following message visibly in or
+** on each copy of the software:
+** "FAAD2 AAC/HE-AAC/HE-AACv2/DRM decoder (c) Nero AG, www.nero.com"
+** in, for example, the about-box or help/startup screen.
 **
-** $Id: mp4ffint.h,v 1.18 2004/04/12 18:17:42 menno Exp $
+** Commercial non-GPL licensing of this software is possible.
+** For more info contact Nero AG through Mpeg4AAClicense@nero.com.
+**
+** $Id: mp4ffint.h,v 1.20 2006/05/07 18:09:00 menno Exp $
 **/
 
 #ifndef MP4FF_INTERNAL_H
@@ -33,10 +38,10 @@ extern "C" {
 #endif /* __cplusplus */
 
 #include "mp4ff_int_types.h"
-
+#include <stdlib.h>
 
 #if defined(_WIN32) && !defined(_WIN32_WCE)
-//#define ITUNES_DRM
+#define ITUNES_DRM
 
 static __inline uint32_t GetDWLE( void const * _p )
 {
@@ -81,7 +86,6 @@ static __inline uint64_t U64_AT( void const * _p )
 #define FOURCC_priv VLC_FOURCC( 'p', 'r', 'i', 'v' )
 
 #endif
-
 #define MAX_TRACKS 1024
 #define TRACK_UNKNOWN 0
 #define TRACK_AUDIO   1
@@ -121,7 +125,6 @@ static __inline uint64_t U64_AT( void const * _p )
 #define ATOM_USER 155
 #define ATOM_KEY  156
 
-#define ATOM_ALAC 222
 #define ATOM_UNKNOWN 255
 #define ATOM_FREE ATOM_UNKNOWN
 #define ATOM_SKIP ATOM_UNKNOWN
@@ -154,11 +157,14 @@ static __inline uint64_t U64_AT( void const * _p )
 #define ATOM_SCHI 25
 
 #ifdef HAVE_CONFIG_H
-#include "../../config.h"
+#include "../../config.h"   
 #endif
 
 #if !(defined(_WIN32) || defined(_WIN32_WCE))
 #define stricmp strcasecmp
+#else
+#define stricmp _stricmp
+#define strdup _strdup
 #endif
 
 /* file callback structure */
@@ -298,6 +304,9 @@ static int32_t mp4ff_read_stsd(mp4ff_t *f);
 static int32_t mp4ff_read_stsc(mp4ff_t *f);
 static int32_t mp4ff_read_stco(mp4ff_t *f);
 static int32_t mp4ff_read_stts(mp4ff_t *f);
+#ifdef USE_TAGGING
+static int32_t mp4ff_read_meta(mp4ff_t *f, const uint64_t size);
+#endif
 int32_t mp4ff_atom_read(mp4ff_t *f, const int32_t size, const uint8_t atom_type);
 
 /* mp4sample.c */
@@ -306,36 +315,58 @@ static int32_t mp4ff_chunk_of_sample(const mp4ff_t *f, const int32_t track, cons
 static int32_t mp4ff_chunk_to_offset(const mp4ff_t *f, const int32_t track, const int32_t chunk);
 static int32_t mp4ff_sample_range_size(const mp4ff_t *f, const int32_t track,
                                        const int32_t chunk_sample, const int32_t sample);
-int32_t mp4ff_sample_to_offset(const mp4ff_t *f, const int32_t track, const int32_t sample);
+static int32_t mp4ff_sample_to_offset(const mp4ff_t *f, const int32_t track, const int32_t sample);
 int32_t mp4ff_audio_frame_size(const mp4ff_t *f, const int32_t track, const int32_t sample);
-//void mp4ff_set_sample_position(mp4ff_t *f, const int32_t track, const int32_t sample);
+int32_t mp4ff_set_sample_position(mp4ff_t *f, const int32_t track, const int32_t sample);
 
 #ifdef USE_TAGGING
 /* mp4meta.c */
 static int32_t mp4ff_tag_add_field(mp4ff_metadata_t *tags, const char *item, const char *value);
+static int32_t mp4ff_tag_set_field(mp4ff_metadata_t *tags, const char *item, const char *value);
 static int32_t mp4ff_set_metadata_name(mp4ff_t *f, const uint8_t atom_type, char **name);
 static int32_t mp4ff_parse_tag(mp4ff_t *f, const uint8_t parent_atom_type, const int32_t size);
+static int32_t mp4ff_meta_find_by_name(const mp4ff_t *f, const char *item, char **value);
 int32_t mp4ff_parse_metadata(mp4ff_t *f, const int32_t size);
 int32_t mp4ff_tag_delete(mp4ff_metadata_t *tags);
 int32_t mp4ff_meta_get_num_items(const mp4ff_t *f);
-void mp4ff_meta_get_by_index(const mp4ff_t *f, uint32_t index,
+int32_t mp4ff_meta_get_by_index(const mp4ff_t *f, uint32_t index,
                             char **item, char **value);
+int32_t mp4ff_meta_get_title(const mp4ff_t *f, char **value);
+int32_t mp4ff_meta_get_artist(const mp4ff_t *f, char **value);
+int32_t mp4ff_meta_get_writer(const mp4ff_t *f, char **value);
+int32_t mp4ff_meta_get_album(const mp4ff_t *f, char **value);
+int32_t mp4ff_meta_get_date(const mp4ff_t *f, char **value);
+int32_t mp4ff_meta_get_tool(const mp4ff_t *f, char **value);
+int32_t mp4ff_meta_get_comment(const mp4ff_t *f, char **value);
+int32_t mp4ff_meta_get_genre(const mp4ff_t *f, char **value);
+int32_t mp4ff_meta_get_track(const mp4ff_t *f, char **value);
+int32_t mp4ff_meta_get_disc(const mp4ff_t *f, char **value);
+int32_t mp4ff_meta_get_compilation(const mp4ff_t *f, char **value);
+int32_t mp4ff_meta_get_tempo(const mp4ff_t *f, char **value);
+int32_t mp4ff_meta_get_coverart(const mp4ff_t *f, char **value);
 #endif
 
 /* mp4ff.c */
 mp4ff_t *mp4ff_open_read(mp4ff_callback_t *f);
+#ifdef USE_TAGGING
+mp4ff_t *mp4ff_open_edit(mp4ff_callback_t *f);
+#endif
 void mp4ff_close(mp4ff_t *ff);
-/*void mp4ff_track_add(mp4ff_t *f);*/
-int32_t parse_sub_atoms(mp4ff_t *f, const uint64_t total_size);
-int32_t parse_atoms(mp4ff_t *f);
+//void mp4ff_track_add(mp4ff_t *f);
+int32_t parse_sub_atoms(mp4ff_t *f, const uint64_t total_size,int meta_only);
+int32_t parse_atoms(mp4ff_t *f,int meta_only);
 
-int32_t mp4ff_find_sample(const mp4ff_t *f, const int32_t track, const int64_t offset);
+int32_t mp4ff_get_sample_duration(const mp4ff_t *f, const int32_t track, const int32_t sample);
+int64_t mp4ff_get_sample_position(const mp4ff_t *f, const int32_t track, const int32_t sample);
+int32_t mp4ff_get_sample_offset(const mp4ff_t *f, const int32_t track, const int32_t sample);
+int32_t mp4ff_find_sample(const mp4ff_t *f, const int32_t track, const int64_t offset,int32_t * toskip);
 
 int32_t mp4ff_read_sample(mp4ff_t *f, const int32_t track, const int32_t sample,
                           uint8_t **audio_buffer,  uint32_t *bytes);
 int32_t mp4ff_get_decoder_config(const mp4ff_t *f, const int32_t track,
                                  uint8_t** ppBuf, uint32_t* pBufSize);
 int32_t mp4ff_total_tracks(const mp4ff_t *f);
+int32_t mp4ff_time_scale(const mp4ff_t *f, const int32_t track);
 int32_t mp4ff_num_samples(const mp4ff_t *f, const int32_t track);
 
 uint32_t mp4ff_meta_genre_to_index(const char * genrestr);//returns 1-based index, 0 if not found

@@ -261,7 +261,8 @@ bool MUSIKAACDecoder::DoSeek(int64_t samplepos)
 	if (m_AacInfo.m_pMP4File) 
 	{
 		double seconds=(double)(samplepos)/m_AacInfo.m_SampleRate;
-		m_AacInfo.sampleid=mp4ff_find_sample(m_AacInfo.m_pMP4File,m_AacInfo.mp4track,seconds * m_AacInfo.timescale);
+        int32_t toskip = 0;
+		m_AacInfo.sampleid=mp4ff_find_sample(m_AacInfo.m_pMP4File,m_AacInfo.mp4track,seconds * m_AacInfo.timescale,&toskip);
 		SetDecodeSamplePos(seconds * m_AacInfo.m_SampleRate);
 		return true;
 		

@@ -795,7 +795,7 @@ void CMusikPlayer::Stop( bool bCheckFade, bool bExit )
 
 void CMusikPlayer::FinalizeStop()
 {
-    if(g_SourcesCtrl->GetSelType() != MUSIK_SOURCES_NOW_PLAYING)
+    if(g_SourcesCtrl->GetSelType() == MUSIK_SOURCES_NOW_PLAYING)
     {
         g_PlaylistBox->PlaylistCtrl().RefreshItem(m_Playlist.CurrentIndex()); //TODO: replace by handling of MusikPlayerEvent
     }

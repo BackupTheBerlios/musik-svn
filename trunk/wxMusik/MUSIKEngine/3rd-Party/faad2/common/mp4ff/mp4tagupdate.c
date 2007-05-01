@@ -51,8 +51,9 @@ unsigned membuffer_write(membuffer * buf,const void * ptr,unsigned bytes)
 	if (dest_size > buf->allocated)
 	{
 		do
+		{
 			buf->allocated <<= 1;
-		while(dest_size > buf->allocated);
+		} while(dest_size > buf->allocated);
 		
 		{
 			void * newptr = realloc(buf->data,buf->allocated);
@@ -229,11 +230,11 @@ static stdmeta_entry stdmetas[] =
 
 static const char* find_standard_meta(const char * name) //returns atom name if found, 0 if not
 {
-	unsigned int n=0;
-	//for(n=0;n<sizeof(stdmetas)/sizeof(stdmetas[0]);n++)
-	do {
+	unsigned n;
+	for(n=0;n<sizeof(stdmetas)/sizeof(stdmetas[0]);n++)
+	{
 		if (!stricmp(name,stdmetas[n].name)) return stdmetas[n].atom;
-	} while (++n<sizeof(stdmetas)/sizeof(stdmetas[0]));
+	}
     return 0;
 }
 
@@ -301,7 +302,7 @@ static uint32_t myatoi(const char * param)
 static uint32_t create_ilst(const mp4ff_metadata_t * data,void ** out_buffer,uint32_t * out_size)
 {
 	membuffer * buf = membuffer_create();
-	unsigned int metaptr=0;
+	unsigned metaptr;
 	char * mask = (char*)malloc(data->count);
 	memset(mask,0,data->count);
 
@@ -309,8 +310,8 @@ static uint32_t create_ilst(const mp4ff_metadata_t * data,void ** out_buffer,uin
 		const char * tracknumber_ptr = 0, * totaltracks_ptr = 0;
 		const char * discnumber_ptr = 0, * totaldiscs_ptr = 0;
 		const char * genre_ptr = 0, * tempo_ptr = 0;
-		//for(metaptr = 0; metaptr < data->count; metaptr++)
-		do {
+		for(metaptr = 0; metaptr < data->count; metaptr++)
+		{
 			mp4ff_tag_t * tag = &data->tags[metaptr];
 			if (!stricmp(tag->item,"tracknumber") || !stricmp(tag->item,"track"))
 			{
@@ -343,7 +344,7 @@ static uint32_t create_ilst(const mp4ff_metadata_t * data,void ** out_buffer,uin
 				mask[metaptr] = 1;
 			}
 
-		} while (++metaptr<data->count);
+		}
 
 		if (tracknumber_ptr) membuffer_write_track_tag(buf,"trkn",myatoi(tracknumber_ptr),myatoi(totaltracks_ptr));
 		if (discnumber_ptr) membuffer_write_track_tag(buf,"disk",myatoi(discnumber_ptr),myatoi(totaldiscs_ptr));
@@ -359,19 +360,22 @@ static uint32_t create_ilst(const mp4ff_metadata_t * data,void ** out_buffer,uin
 		}
 	}
 	
-	metaptr=0;
-	//for(metaptr = 0; metaptr < data->count; metaptr++)
-	do {
+	for(metaptr = 0; metaptr < data->count; metaptr++)
+	{
 		if (!mask[metaptr])
 		{
 			mp4ff_tag_t * tag = &data->tags[metaptr];
 			const char * std_meta_atom = find_standard_meta(tag->item);
 			if (std_meta_atom)
+			{
 				membuffer_write_std_tag(buf,std_meta_atom,tag->value);
+			}
 			else
+			{
 				membuffer_write_custom_tag(buf,tag->item,tag->value);
+			}
 		}
-	} while (++metaptr<data->count);
+	}
 
 	free(mask);
 
@@ -419,8 +423,8 @@ static uint32_t find_atom(mp4ff_t * f,uint64_t base,uint32_t size,const char * n
 static uint32_t find_atom_v2(mp4ff_t * f,uint64_t base,uint32_t size,const char * name,uint32_t extraheaders,const char * name_inside)
 {
 	uint64_t first_base = (uint64_t)(-1);
-	//while(find_atom(f,base,size,name))//try to find atom <name> with atom <name_inside> in it
-	do {
+	while(find_atom(f,base,size,name))//try to find atom <name> with atom <name_inside> in it
+	{
 		uint64_t mybase = mp4ff_position(f);
 		uint32_t mysize = mp4ff_read_int32(f);
 
@@ -436,7 +440,7 @@ static uint32_t find_atom_v2(mp4ff_t * f,uint64_t base,uint32_t size,const char 
 		base += mysize;
 		if (size<=mysize) {size=0;break;}
 		size -= mysize;
-	} while (find_atom(f,base,size,name));
+	}
 
 	if (first_base != (uint64_t)(-1))//wanted atom inside not found
 	{
@@ -525,7 +529,7 @@ static uint32_t modify_moov(mp4ff_t * f,const mp4ff_metadata_t * data,void ** ou
 	{
 		udta_offset = mp4ff_position(f);
 		udta_size = mp4ff_read_int32(f);
-		if (find_atom_v2(f,udta_offset+8,udta_size-8,"meta",4,"ilst")<2)
+		if (!find_atom_v2(f,udta_offset+8,udta_size-8,"meta",4,"ilst"))
 		{
 			membuffer * buf;
 			void * new_meta_buffer;
@@ -589,5 +593,53 @@ static uint32_t modify_moov(mp4ff_t * f,const mp4ff_metadata_t * data,void ** ou
 	}
 	return 1;
 
+}
+
+int32_t mp4ff_meta_update(mp4ff_callback_t *f,const mp4ff_metadata_t * data)
+{
+	void * new_moov_data;
+	uint32_t new_moov_size;
+
+    mp4ff_t *ff = malloc(sizeof(mp4ff_t));
+
+    memset(ff, 0, sizeof(mp4ff_t));
+    ff->stream = f;
+	mp4ff_set_position(ff,0);
+
+    parse_atoms(ff,1);
+
+
+	if (!modify_moov(ff,data,&new_moov_data,&new_moov_size))
+	{
+		mp4ff_close(ff);
+		return 0;
+	}
+
+    /* copy moov atom to end of the file */
+    if (ff->last_atom != ATOM_MOOV)
+    {
+        char *free_data = "free";
+
+        /* rename old moov to free */
+        mp4ff_set_position(ff, ff->moov_offset + 4);
+        mp4ff_write_data(ff, free_data, 4);
+	
+        mp4ff_set_position(ff, ff->file_size);
+		mp4ff_write_int32(ff,new_moov_size + 8);
+		mp4ff_write_data(ff,"moov",4);
+		mp4ff_write_data(ff, new_moov_data, new_moov_size);
+    }
+	else
+	{
+        mp4ff_set_position(ff, ff->moov_offset);
+		mp4ff_write_int32(ff,new_moov_size + 8);
+		mp4ff_write_data(ff,"moov",4);
+		mp4ff_write_data(ff, new_moov_data, new_moov_size);
+	}
+
+	mp4ff_truncate(ff);
+
+	mp4ff_close(ff);
+    return 1;
 }
 #endif

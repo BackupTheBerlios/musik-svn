@@ -149,17 +149,17 @@ CNowPlayingCtrl::CNowPlayingCtrl( wxWindow *parent ,CMusikPlayer & refMusikPlaye
 
 	//--- buttons, seek bar panel ---//
 	wxGridSizer *hsButtons = new wxGridSizer(5);
-	hsButtons->Add( btnPrev ,0,wxALIGN_CENTRE_HORIZONTAL | wxLEFT ,1);
-	hsButtons->Add( btnPlayPause ,0,wxALIGN_CENTRE_HORIZONTAL | wxLEFT ,1);
-	hsButtons->Add( btnStop ,0,wxALIGN_CENTRE_HORIZONTAL | wxLEFT ,1);
-	hsButtons->Add( btnNext ,0,wxALIGN_CENTRE_HORIZONTAL | wxLEFT ,1);
-	hsButtons->Add( btnVolume,0,wxALIGN_CENTRE_HORIZONTAL | wxLEFT ,1);
+	hsButtons->Add( btnPrev );
+	hsButtons->Add( btnPlayPause );
+	hsButtons->Add( btnStop );
+	hsButtons->Add( btnNext );
+	hsButtons->Add( btnVolume);
 
 	vsRightCol = new wxBoxSizer( wxVERTICAL );
 
 	//--- playmode ---//
 	wxBoxSizer *vsPlayModeCol = new wxBoxSizer( wxHORIZONTAL );
-	vsPlayModeCol->Add( hsButtons, 1,wxEXPAND|wxALL,2 );
+	vsPlayModeCol->Add( hsButtons);
 
 //	vsPlayModeCol->Add( new wxStaticText	( this, -1, _( "Play mode" ) ), 1 );
 	const wxString playmode_choices[] ={_("Normal"),_("Repeat Song"),_("Repeat List"),_("Shuffle"),_("Auto DJ"),_("Auto DJ Album")};

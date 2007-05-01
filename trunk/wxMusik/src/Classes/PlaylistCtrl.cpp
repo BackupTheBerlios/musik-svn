@@ -1727,7 +1727,6 @@ void CSearchBox::DoSearchQuery( wxString sQueryVal )
 	if(   !sQueryVal.IsEmpty() )
 	{
 		sQueryVal.Replace( wxT("'"), wxT("''") ); //--- double apostrophe to make valid syntax ---//
-		sQueryVal.MakeLower();
 		wxArrayString sTokens;
 		wxString sCompareTempl;
 		
@@ -1741,15 +1740,18 @@ void CSearchBox::DoSearchQuery( wxString sQueryVal )
 			fuzzy = 0.0;
 			break;
 		case MUSIK_FUZZYSEARCHMODE_LOW:
+            sQueryVal.MakeLower();
 			sCompareTempl << wxT("fuzzycmp('.*%s.*',lower(%s),%d)"); 
 			fuzzy = 1.2;
 			break;
 		case MUSIK_FUZZYSEARCHMODE_MIDDLE:
+            sQueryVal.MakeLower();
 			sCompareTempl << wxT("fuzzycmp('.*%s.*',lower(%s),%d)"); 
 
 			fuzzy = 1.5;
 			break;
 		case MUSIK_FUZZYSEARCHMODE_HIGH:
+            sQueryVal.MakeLower();
 			sCompareTempl << wxT("fuzzycmp('.*%s.*',lower(%s),%d)"); 
 			fuzzy = 1.8;
 			break;

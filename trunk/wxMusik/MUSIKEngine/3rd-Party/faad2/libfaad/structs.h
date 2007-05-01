@@ -1,28 +1,33 @@
 /*
 ** FAAD2 - Freeware Advanced Audio (AAC) Decoder including SBR decoding
-** Copyright (C) 2003-2004 M. Bakker, Ahead Software AG, http://www.nero.com
-**
+** Copyright (C) 2003-2005 M. Bakker, Nero AG, http://www.nero.com
+**  
 ** This program is free software; you can redistribute it and/or modify
 ** it under the terms of the GNU General Public License as published by
 ** the Free Software Foundation; either version 2 of the License, or
 ** (at your option) any later version.
-**
+** 
 ** This program is distributed in the hope that it will be useful,
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 ** GNU General Public License for more details.
-**
+** 
 ** You should have received a copy of the GNU General Public License
-** along with this program; if not, write to the Free Software
+** along with this program; if not, write to the Free Software 
 ** Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 **
 ** Any non-GPL usage of this software or parts of this software is strictly
 ** forbidden.
 **
-** Commercial non-GPL licensing of this software is possible.
-** For more info contact Ahead Software through Mpeg4AAClicense@nero.com.
+** Software using this code must display the following message visibly in or
+** on each copy of the software:
+** "FAAD2 AAC/HE-AAC/HE-AACv2/DRM decoder (c) Nero AG, www.nero.com"
+** in, for example, the about-box or help/startup screen.
 **
-** $Id: structs.h,v 1.42 2004/09/08 09:43:11 gcp Exp $
+** Commercial non-GPL licensing of this software is possible.
+** For more info contact Nero AG through Mpeg4AAClicense@nero.com.
+**
+** $Id: structs.h,v 1.44 2006/05/07 18:09:03 menno Exp $
 **/
 
 #ifndef __STRUCTS_H__
@@ -247,6 +252,7 @@ typedef struct
     uint8_t scale_factor_grouping;
     uint16_t sect_sfb_offset[8][15*8];
     uint16_t swb_offset[52];
+    uint16_t swb_offset_max;
 
     uint8_t sect_cb[8][15*8];
     uint16_t sect_start[8][15*8];
@@ -261,6 +267,7 @@ typedef struct
     uint8_t ms_used[MAX_WINDOW_GROUPS][MAX_SFB];
 
     uint8_t noise_used;
+    uint8_t is_used;
 
     uint8_t pulse_data_present;
     uint8_t tns_data_present;
@@ -446,6 +453,14 @@ typedef struct
 #ifdef LTP_DEC
     int16_t *lt_pred_stat[MAX_CHANNELS];
 #endif
+
+#ifdef DRM
+    uint8_t error_state;
+#endif
+
+    /* RNG states */
+    uint32_t __r1;
+    uint32_t __r2;
 
     /* Program Config Element */
     uint8_t pce_set;

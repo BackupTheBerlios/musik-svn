@@ -1,28 +1,33 @@
 /*
 ** FAAD2 - Freeware Advanced Audio (AAC) Decoder including SBR decoding
-** Copyright (C) 2003-2004 M. Bakker, Ahead Software AG, http://www.nero.com
-**
+** Copyright (C) 2003-2005 M. Bakker, Nero AG, http://www.nero.com
+**  
 ** This program is free software; you can redistribute it and/or modify
 ** it under the terms of the GNU General Public License as published by
 ** the Free Software Foundation; either version 2 of the License, or
 ** (at your option) any later version.
-**
+** 
 ** This program is distributed in the hope that it will be useful,
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 ** GNU General Public License for more details.
-**
+** 
 ** You should have received a copy of the GNU General Public License
-** along with this program; if not, write to the Free Software
+** along with this program; if not, write to the Free Software 
 ** Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 **
 ** Any non-GPL usage of this software or parts of this software is strictly
 ** forbidden.
 **
-** Commercial non-GPL licensing of this software is possible.
-** For more info contact Ahead Software through Mpeg4AAClicense@nero.com.
+** Software using this code must display the following message visibly in or
+** on each copy of the software:
+** "FAAD2 AAC/HE-AAC/HE-AACv2/DRM decoder (c) Nero AG, www.nero.com"
+** in, for example, the about-box or help/startup screen.
 **
-** $Id: common.h,v 1.65 2004/09/08 09:43:11 gcp Exp $
+** Commercial non-GPL licensing of this software is possible.
+** For more info contact Nero AG through Mpeg4AAClicense@nero.com.
+**
+** $Id: common.h,v 1.68 2006/08/07 18:13:28 menno Exp $
 **/
 
 #ifndef __COMMON_H__
@@ -36,7 +41,12 @@ extern "C" {
 #  include "../config.h"
 #endif
 
+#if 1
 #define INLINE __inline
+#else
+#define INLINE inline
+#endif
+
 #if 0 //defined(_WIN32) && !defined(_WIN32_WCE)
 #define ALIGN __declspec(align(16))
 #else
@@ -65,7 +75,6 @@ extern "C" {
 #define FIXED_POINT
 #endif
 
-
 #define ERROR_RESILIENCE
 
 
@@ -77,8 +86,6 @@ extern "C" {
 #define LTP_DEC
 /* Allow decoding of LD profile AAC */
 #define LD_DEC
-/* Allow decoding of scalable profiles */
-//#define SCALABLE_DEC
 /* Allow decoding of Digital Radio Mondiale (DRM) */
 //#define DRM
 //#define DRM_PS
@@ -112,6 +119,10 @@ extern "C" {
 //#define SBR_LOW_POWER
 #define PS_DEC
 
+#ifdef SBR_LOW_POWER
+#undef PS_DEC
+#endif
+
 /* FIXED POINT: No MAIN decoding */
 #ifdef FIXED_POINT
 # ifdef MAIN_DEC
@@ -120,9 +131,13 @@ extern "C" {
 #endif // FIXED_POINT
 
 #ifdef DRM
-# ifndef SCALABLE_DEC
-#  define SCALABLE_DEC
+# ifndef ALLOW_SMALL_FRAMELENGTH
+#  define ALLOW_SMALL_FRAMELENGTH
 # endif
+# undef LD_DEC
+# undef LTP_DEC
+# undef MAIN_DEC
+# undef SSR_DEC
 #endif
 
 
@@ -164,15 +179,6 @@ typedef float float32_t;
 
 #else
 
-#define HAVE_SYS_TYPES_H 1
-#define HAVE_SYS_STAT_H 1
-#define HAVE_SYS_STDC_HEADERS 1
-#define HAVE_STDLIB_H 1
-#define HAVE_STRING_H 1
-#define HAVE_INTTYPES_H 1
-#define HAVE_STDINT_H 1
-#define HAVE_LRINTF 1
-
 #include <stdio.h>
 #if HAVE_SYS_TYPES_H
 # include <sys/types.h>
@@ -204,18 +210,23 @@ typedef float float32_t;
 #  include <stdint.h>
 # else
 /* we need these... */
+#ifndef __TCS__
 typedef unsigned long long uint64_t;
+typedef long long int64_t;
+#else
+typedef unsigned long uint64_t;
+typedef long int64_t;
+#endif
 typedef unsigned long uint32_t;
 typedef unsigned short uint16_t;
 typedef unsigned char uint8_t;
-typedef long long int64_t;
 typedef long int32_t;
 typedef short int16_t;
 typedef char int8_t;
 # endif
 #endif
 #if HAVE_UNISTD_H
-# include <unistd.h>
+//# include <unistd.h>
 #endif
 
 #ifndef HAVE_FLOAT32_T
@@ -297,7 +308,7 @@ char *strchr(), *strrchr();
       *y2 = MUL_F(x2, c1) - MUL_F(x1, c2);
   }
 
-#if (HAVE_LRINTF==0)
+
   #if defined(_WIN32) && !defined(__MINGW32__)
     #define HAS_LRINTF
     static INLINE int lrintf(float f)
@@ -310,7 +321,8 @@ char *strchr(), *strrchr();
         }
         return i;
     }
-  #elif (defined(__i386__) && defined(__GNUC__))
+  #elif (defined(__i386__) && defined(__GNUC__) && \
+	!defined(__CYGWIN__) && !defined(__MINGW32__))
     #define HAS_LRINTF
     // from http://www.stereopsis.com/FPU.html
     static INLINE int lrintf(float f)
@@ -324,7 +336,7 @@ char *strchr(), *strrchr();
         return i;
     }
   #endif
-#endif
+
 
   #ifdef __ICL /* only Intel C compiler has fmath ??? */
 
@@ -388,7 +400,7 @@ typedef real_t complex_t[2];
 
 /* common functions */
 uint8_t cpu_has_sse(void);
-uint32_t random_int(void);
+uint32_t ne_rng(uint32_t *__r1, uint32_t *__r2);
 uint32_t ones32(uint32_t x);
 uint32_t floor_log2(uint32_t x);
 uint32_t wl_min_lzc(uint32_t x);

@@ -1,32 +1,36 @@
 /*
 ** FAAD2 - Freeware Advanced Audio (AAC) Decoder including SBR decoding
-** Copyright (C) 2003-2004 M. Bakker, Ahead Software AG, http://www.nero.com
-**
+** Copyright (C) 2003-2005 M. Bakker, Nero AG, http://www.nero.com
+**  
 ** This program is free software; you can redistribute it and/or modify
 ** it under the terms of the GNU General Public License as published by
 ** the Free Software Foundation; either version 2 of the License, or
 ** (at your option) any later version.
-**
+** 
 ** This program is distributed in the hope that it will be useful,
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 ** GNU General Public License for more details.
-**
+** 
 ** You should have received a copy of the GNU General Public License
-** along with this program; if not, write to the Free Software
+** along with this program; if not, write to the Free Software 
 ** Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 **
 ** Any non-GPL usage of this software or parts of this software is strictly
 ** forbidden.
 **
-** Commercial non-GPL licensing of this software is possible.
-** For more info contact Ahead Software through Mpeg4AAClicense@nero.com.
+** Software using this code must display the following message visibly in or
+** on each copy of the software:
+** "FAAD2 AAC/HE-AAC/HE-AACv2/DRM decoder (c) Nero AG, www.nero.com"
+** in, for example, the about-box or help/startup screen.
 **
-** $Id: mp4atom.c,v 1.21 2004/05/17 10:18:02 menno Exp $
+** Commercial non-GPL licensing of this software is possible.
+** For more info contact Nero AG through Mpeg4AAClicense@nero.com.
+**
+** $Id: mp4atom.c,v 1.23 2006/05/07 18:09:00 menno Exp $
 **/
 
 #include <stdlib.h>
-#include <stdio.h>
 #ifndef _WIN32
 #include "config.h"
 #else
@@ -49,7 +53,18 @@
 /* parse atom header size */
 static int32_t mp4ff_atom_get_size(const int8_t *data)
 {
-    return (int32_t)((uint8_t)data[0]<<24)|((uint8_t)data[1]<<16)|((uint8_t)data[2]<<8)|(uint8_t)data[3];
+    uint32_t result;
+    uint32_t a, b, c, d;
+
+    a = (uint8_t)data[0];
+    b = (uint8_t)data[1];
+    c = (uint8_t)data[2];
+    d = (uint8_t)data[3];
+
+    result = (a<<24) | (b<<16) | (c<<8) | d;
+    //if (result > 0 && result < 8) result = 8;
+
+    return (int32_t)result;
 }
 
 /* comnapre 2 atom names, returns 1 for equal, 0 for unequal */
@@ -182,8 +197,6 @@ static uint8_t mp4ff_atom_name_to_type(const int8_t a, const int8_t b,
         return ATOM_USER;
     else if (mp4ff_atom_compare(a,b,c,d, 'k','e','y',' '))
         return ATOM_KEY;
-	else if (mp4ff_atom_compare(a,b,c,d, 'a','l','a','c'))
-        return ATOM_ALAC;
     else
         return ATOM_UNKNOWN;
 }
@@ -225,14 +238,14 @@ static int32_t mp4ff_read_stsz(mp4ff_t *f)
 
     if (f->track[f->total_tracks - 1]->stsz_sample_size == 0)
     {
-        int32_t i=0;
+        int32_t i;
         f->track[f->total_tracks - 1]->stsz_table =
             (int32_t*)malloc(f->track[f->total_tracks - 1]->stsz_sample_count*sizeof(int32_t));
 
-        //for (i = 0; i < f->track[f->total_tracks - 1]->stsz_sample_count; i++)
-		do {
+        for (i = 0; i < f->track[f->total_tracks - 1]->stsz_sample_count; i++)
+        {
             f->track[f->total_tracks - 1]->stsz_table[i] = mp4ff_read_int32(f);
-		} while (++i<f->track[f->total_tracks-1]->stsz_sample_count);
+        }
     }
 
     return 0;
@@ -252,16 +265,21 @@ static int32_t mp4ff_read_esds(mp4ff_t *f)
     {
         /* read length */
         if (mp4ff_read_mp4_descr_length(f) < 5 + 15)
+        {
             return 1;
+        }
         /* skip 3 bytes */
         mp4ff_read_int24(f);
-    } else
+    } else {
         /* skip 2 bytes */
         mp4ff_read_int16(f);
+    }
 
     /* get and verify DecoderConfigDescrTab */
     if (mp4ff_read_char(f) != 0x04)
+    {
         return 1;
+    }
 
     /* read length */
     temp = mp4ff_read_mp4_descr_length(f);
@@ -274,7 +292,9 @@ static int32_t mp4ff_read_esds(mp4ff_t *f)
 
     /* get and verify DecSpecificInfoTag */
     if (mp4ff_read_char(f) != 0x05)
+    {
         return 1;
+    }
 
     /* read length */
     f->track[f->total_tracks - 1]->decoderConfigLen = mp4ff_read_mp4_descr_length(f);
@@ -283,9 +303,11 @@ static int32_t mp4ff_read_esds(mp4ff_t *f)
         free(f->track[f->total_tracks - 1]->decoderConfig);
     f->track[f->total_tracks - 1]->decoderConfig = malloc(f->track[f->total_tracks - 1]->decoderConfigLen);
     if (f->track[f->total_tracks - 1]->decoderConfig)
+    {
         mp4ff_read_data(f, f->track[f->total_tracks - 1]->decoderConfig, f->track[f->total_tracks - 1]->decoderConfigLen);
-    else
+    } else {
         f->track[f->total_tracks - 1]->decoderConfigLen = 0;
+    }
 
     /* will skip the remainder of the atom */
     return 0;
@@ -299,7 +321,9 @@ static int32_t mp4ff_read_mp4a(mp4ff_t *f)
     uint8_t header_size = 0;
 
     for (i = 0; i < 6; i++)
+    {
         mp4ff_read_char(f); /* reserved */
+    }
     /* data_reference_index */ mp4ff_read_int16(f);
 
     mp4ff_read_int32(f); /* reserved */
@@ -317,7 +341,9 @@ static int32_t mp4ff_read_mp4a(mp4ff_t *f)
 
     size = mp4ff_atom_read_header(f, &atom_type, &header_size);
     if (atom_type == ATOM_ESDS)
+    {
         mp4ff_read_esds(f);
+    }
 
     return 0;
 }
@@ -349,7 +375,9 @@ char *GetHomeDir( void )
         {
             p_homedir = (char *)malloc( MAX_PATH );
             if( !p_homedir )
+            {
                 return NULL;
+            }
 
             /* get the "Application Data" folder for the current user */
             if( S_OK == SHGetFolderPath( NULL,
@@ -373,14 +401,18 @@ char *GetHomeDir( void )
         if( ( p_tmp = getenv( "HOME" ) ) == NULL )
         {
             if( ( p_tmp = getenv( "TMP" ) ) == NULL )
+            {
                 p_tmp = "/tmp";
+            }
         }
 
         p_homedir = strdup( p_tmp );
     }
 #if defined(HAVE_GETPWUID)
     else
+    {
         p_homedir = strdup( p_pw->pw_dir );
+    }
 #endif
 
     return p_homedir;
@@ -396,7 +428,9 @@ static int32_t mp4ff_read_drms(mp4ff_t *f, uint64_t skip)
     f->track[f->total_tracks - 1]->p_drms = drms_alloc( GetHomeDir() );
 
     for (i = 0; i < 6; i++)
+    {
         mp4ff_read_char(f); /* reserved */
+    }
     /* data_reference_index */ mp4ff_read_int16(f);
 
     mp4ff_read_int32(f); /* reserved */
@@ -414,12 +448,16 @@ static int32_t mp4ff_read_drms(mp4ff_t *f, uint64_t skip)
 
     size = mp4ff_atom_read_header(f, &atom_type, &header_size);
     if (atom_type == ATOM_ESDS)
+    {
         mp4ff_read_esds(f);
+    }
     mp4ff_set_position(f, skip+size+28);
 
     size = mp4ff_atom_read_header(f, &atom_type, &header_size);
     if (atom_type == ATOM_SINF)
-        parse_sub_atoms(f, size-header_size);
+    {
+        parse_sub_atoms(f, size-header_size,0);
+    }
 
     return 0;
 }
@@ -434,13 +472,15 @@ static int32_t mp4ff_read_frma(mp4ff_t *f)
     atom_type = mp4ff_atom_name_to_type(type[0], type[1], type[2], type[3]);
 
     if (atom_type == ATOM_MP4A)
+    {
         f->track[f->total_tracks - 1]->type = TRACK_AUDIO;
-    else if (atom_type == ATOM_MP4V)
+    } else if (atom_type == ATOM_MP4V) {
         f->track[f->total_tracks - 1]->type = TRACK_VIDEO;
-    else if (atom_type == ATOM_MP4S)
+    } else if (atom_type == ATOM_MP4S) {
         f->track[f->total_tracks - 1]->type = TRACK_SYSTEM;
-    else
+    } else {
         f->track[f->total_tracks - 1]->type = TRACK_UNKNOWN;
+    }
 
     return 0;
 }
@@ -451,8 +491,10 @@ static int32_t mp4ff_read_name(mp4ff_t *f, uint64_t size)
     mp4ff_read_data(f, data, size);
 
     if (f->track[f->total_tracks - 1]->p_drms != NULL)
+    {
         drms_init(f->track[f->total_tracks - 1]->p_drms,
             FOURCC_name, data, strlen(data) );
+    }
 
     if (data)
         free(data);
@@ -466,8 +508,10 @@ static int32_t mp4ff_read_priv(mp4ff_t *f, uint64_t size)
     mp4ff_read_data(f, data, size);
 
     if (f->track[f->total_tracks - 1]->p_drms != 0)
+    {
         drms_init(f->track[f->total_tracks - 1]->p_drms,
             FOURCC_priv, data, size );
+    }
 
     if (data)
         free(data);
@@ -481,8 +525,10 @@ static int32_t mp4ff_read_iviv(mp4ff_t *f, uint64_t size)
     mp4ff_read_data(f, data, size);
 
     if (f->track[f->total_tracks - 1]->p_drms != 0)
+    {
         drms_init(f->track[f->total_tracks - 1]->p_drms,
             FOURCC_iviv, data, sizeof(uint32_t) * 4 );
+    }
 
     if (data)
         free(data);
@@ -496,8 +542,10 @@ static int32_t mp4ff_read_user(mp4ff_t *f, uint64_t size)
     mp4ff_read_data(f, data, size);
 
     if (f->track[f->total_tracks - 1]->p_drms != 0)
+    {
         drms_init(f->track[f->total_tracks - 1]->p_drms,
             FOURCC_user, data, size );
+    }
 
     if (data)
         free(data);
@@ -511,8 +559,10 @@ static int32_t mp4ff_read_key(mp4ff_t *f, uint64_t size)
     mp4ff_read_data(f, data, size);
 
     if (f->track[f->total_tracks - 1]->p_drms != 0)
+    {
         drms_init(f->track[f->total_tracks - 1]->p_drms,
             FOURCC_key, data, size );
+    }
 
     if (data)
         free(data);
@@ -543,22 +593,21 @@ static int32_t mp4ff_read_stsd(mp4ff_t *f)
         {
             f->track[f->total_tracks - 1]->type = TRACK_AUDIO;
             mp4ff_read_mp4a(f);
-        } else if (atom_type == ATOM_MP4V)
+        } else if (atom_type == ATOM_MP4V) {
             f->track[f->total_tracks - 1]->type = TRACK_VIDEO;
-        else if (atom_type == ATOM_MP4S)
+        } else if (atom_type == ATOM_MP4S) {
             f->track[f->total_tracks - 1]->type = TRACK_SYSTEM;
 #ifdef ITUNES_DRM
-        else if (atom_type == ATOM_DRMS) {
+        } else if (atom_type == ATOM_DRMS) {
             // track type is read from the "frma" atom
             f->track[f->total_tracks - 1]->type = TRACK_UNKNOWN;
             mp4ff_read_drms(f, skip-size+header_size);
 #endif
-        else if (atom_type == ATOM_ALAC)
-            return 1;
-        else
+        } else {
             f->track[f->total_tracks - 1]->type = TRACK_UNKNOWN;
+        }
 
-        if (mp4ff_set_position(f, skip)<0) return 1;
+        mp4ff_set_position(f, skip);
     }
 
     return 0;
@@ -566,7 +615,7 @@ static int32_t mp4ff_read_stsd(mp4ff_t *f)
 
 static int32_t mp4ff_read_stsc(mp4ff_t *f)
 {
-    int32_t i=0;
+    int32_t i;
 
     mp4ff_read_char(f); /* version */
     mp4ff_read_int24(f); /* flags */
@@ -579,19 +628,19 @@ static int32_t mp4ff_read_stsc(mp4ff_t *f)
     f->track[f->total_tracks - 1]->stsc_sample_desc_index =
         (int32_t*)malloc(f->track[f->total_tracks - 1]->stsc_entry_count*sizeof(int32_t));
 
-	do
+    for (i = 0; i < f->track[f->total_tracks - 1]->stsc_entry_count; i++)
     {
         f->track[f->total_tracks - 1]->stsc_first_chunk[i] = mp4ff_read_int32(f);
         f->track[f->total_tracks - 1]->stsc_samples_per_chunk[i] = mp4ff_read_int32(f);
         f->track[f->total_tracks - 1]->stsc_sample_desc_index[i] = mp4ff_read_int32(f);
-    } while (++i<f->track[f->total_tracks-1]->stsc_entry_count);
+    }
 
     return 0;
 }
 
 static int32_t mp4ff_read_stco(mp4ff_t *f)
 {
-    int32_t i=0;
+    int32_t i;
 
     mp4ff_read_char(f); /* version */
     mp4ff_read_int24(f); /* flags */
@@ -600,17 +649,17 @@ static int32_t mp4ff_read_stco(mp4ff_t *f)
     f->track[f->total_tracks - 1]->stco_chunk_offset =
         (int32_t*)malloc(f->track[f->total_tracks - 1]->stco_entry_count*sizeof(int32_t));
 
-	do {
-    //for (i = 0; i < f->track[f->total_tracks - 1]->stco_entry_count; i++)
+    for (i = 0; i < f->track[f->total_tracks - 1]->stco_entry_count; i++)
+    {
         f->track[f->total_tracks - 1]->stco_chunk_offset[i] = mp4ff_read_int32(f);
-	} while (++i<f->track[f->total_tracks-1]->stco_entry_count);
+    }
 
     return 0;
 }
 
 static int32_t mp4ff_read_ctts(mp4ff_t *f)
 {
-    int32_t i=0;
+    int32_t i;
     mp4ff_track_t * p_track = f->track[f->total_tracks - 1];
 
     if (p_track->ctts_entry_count) return 0;
@@ -631,18 +680,18 @@ static int32_t mp4ff_read_ctts(mp4ff_t *f)
     }
     else
     {
-        //for (i = 0; i < f->track[f->total_tracks - 1]->ctts_entry_count; i++)
-        do {
+        for (i = 0; i < f->track[f->total_tracks - 1]->ctts_entry_count; i++)
+        {
             p_track->ctts_sample_count[i] = mp4ff_read_int32(f);
             p_track->ctts_sample_offset[i] = mp4ff_read_int32(f);
-        } while (++i<f->track[f->total_tracks-1]->ctts_entry_count);
+        }
         return 1;
     }
 }
 
 static int32_t mp4ff_read_stts(mp4ff_t *f)
 {
-    int32_t i=0;
+    int32_t i;
     mp4ff_track_t * p_track = f->track[f->total_tracks - 1];
 
     if (p_track->stts_entry_count) return 0;
@@ -663,11 +712,11 @@ static int32_t mp4ff_read_stts(mp4ff_t *f)
     }
     else
     {
-        //for (i = 0; i < f->track[f->total_tracks - 1]->stts_entry_count; i++)
-        do {
+        for (i = 0; i < f->track[f->total_tracks - 1]->stts_entry_count; i++)
+        {
             p_track->stts_sample_count[i] = mp4ff_read_int32(f);
             p_track->stts_sample_delta[i] = mp4ff_read_int32(f);
-        } while (++i<f->track[f->total_tracks-1]->stts_entry_count);
+        }
         return 1;
     }
 }
@@ -684,10 +733,14 @@ static int32_t mp4ff_read_mvhd(mp4ff_t *f)
     f->duration = mp4ff_read_int32(f);
     /* preferred_rate */ mp4ff_read_int32(f); /*mp4ff_read_fixed32(f);*/
     /* preferred_volume */ mp4ff_read_int16(f); /*mp4ff_read_fixed16(f);*/
-	for (i = 0; i < 10; i++)
+    for (i = 0; i < 10; i++)
+    {
         /* reserved */ mp4ff_read_char(f);
+    }
     for (i = 0; i < 9; i++)
+    {
         mp4ff_read_int32(f); /* matrix */
+    }
     /* preview_time */ mp4ff_read_int32(f);
     /* preview_duration */ mp4ff_read_int32(f);
     /* poster_time */ mp4ff_read_int32(f);
@@ -779,15 +832,16 @@ static int32_t mp4ff_read_meta(mp4ff_t *f, const uint64_t size)
     mp4ff_read_int24(f); /* flags */
 
     while (sumsize < (size-(header_size+4)))
-	{
+    {
         subsize = mp4ff_atom_read_header(f, &atom_type, &header_size);
         if (subsize <= header_size+4)
             return 1;
         if (atom_type == ATOM_ILST)
+        {
             mp4ff_parse_metadata(f, (uint32_t)(subsize-(header_size+4)));
-        else {
-            if (mp4ff_set_position(f, mp4ff_position(f)+subsize-header_size)<0) return 1;
-		}
+        } else {
+            mp4ff_set_position(f, mp4ff_position(f)+subsize-header_size);
+        }
         sumsize += subsize;
     }
 
@@ -799,51 +853,53 @@ int32_t mp4ff_atom_read(mp4ff_t *f, const int32_t size, const uint8_t atom_type)
 {
     uint64_t dest_position = mp4ff_position(f)+size-8;
     if (atom_type == ATOM_STSZ)
+    {
         /* sample size box */
         mp4ff_read_stsz(f);
-    else if (atom_type == ATOM_STTS)
+    } else if (atom_type == ATOM_STTS) {
         /* time to sample box */
         mp4ff_read_stts(f);
-    else if (atom_type == ATOM_CTTS)
+    } else if (atom_type == ATOM_CTTS) {
         /* composition offset box */
         mp4ff_read_ctts(f);
-    else if (atom_type == ATOM_STSC)
+    } else if (atom_type == ATOM_STSC) {
         /* sample to chunk box */
         mp4ff_read_stsc(f);
-    else if (atom_type == ATOM_STCO)
+    } else if (atom_type == ATOM_STCO) {
         /* chunk offset box */
         mp4ff_read_stco(f);
-    else if (atom_type == ATOM_STSD)
+    } else if (atom_type == ATOM_STSD) {
         /* sample description box */
         mp4ff_read_stsd(f);
-    else if (atom_type == ATOM_MVHD)
+    } else if (atom_type == ATOM_MVHD) {
         /* movie header box */
         mp4ff_read_mvhd(f);
-    else if (atom_type == ATOM_MDHD)
+    } else if (atom_type == ATOM_MDHD) {
         /* track header */
         mp4ff_read_mdhd(f);
 #ifdef ITUNES_DRM
-    else if (atom_type == ATOM_FRMA)
+    } else if (atom_type == ATOM_FRMA) {
         /* DRM track format */
         mp4ff_read_frma(f);
-    else if (atom_type == ATOM_IVIV)
+    } else if (atom_type == ATOM_IVIV) {
         mp4ff_read_iviv(f, size-8);
-    else if (atom_type == ATOM_NAME)
+    } else if (atom_type == ATOM_NAME) {
         mp4ff_read_name(f, size-8);
-    else if (atom_type == ATOM_PRIV)
+    } else if (atom_type == ATOM_PRIV) {
         mp4ff_read_priv(f, size-8);
-    else if (atom_type == ATOM_USER)
+    } else if (atom_type == ATOM_USER) {
         mp4ff_read_user(f, size-8);
-    else if (atom_type == ATOM_KEY)
+    } else if (atom_type == ATOM_KEY) {
         mp4ff_read_key(f, size-8);
 #endif
 #ifdef USE_TAGGING
-    else if (atom_type == ATOM_META)
+    } else if (atom_type == ATOM_META) {
         /* iTunes Metadata box */
         mp4ff_read_meta(f, size);
 #endif
+    }
 
-    if (mp4ff_set_position(f, dest_position)<0) return 1;
+    mp4ff_set_position(f, dest_position);
 
 
     return 0;

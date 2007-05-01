@@ -1,28 +1,33 @@
 /*
 ** FAAD2 - Freeware Advanced Audio (AAC) Decoder including SBR decoding
-** Copyright (C) 2003-2004 M. Bakker, Ahead Software AG, http://www.nero.com
-**
+** Copyright (C) 2003-2005 M. Bakker, Nero AG, http://www.nero.com
+**  
 ** This program is free software; you can redistribute it and/or modify
 ** it under the terms of the GNU General Public License as published by
 ** the Free Software Foundation; either version 2 of the License, or
 ** (at your option) any later version.
-**
+** 
 ** This program is distributed in the hope that it will be useful,
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 ** GNU General Public License for more details.
-**
+** 
 ** You should have received a copy of the GNU General Public License
-** along with this program; if not, write to the Free Software
+** along with this program; if not, write to the Free Software 
 ** Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 **
 ** Any non-GPL usage of this software or parts of this software is strictly
 ** forbidden.
 **
-** Commercial non-GPL licensing of this software is possible.
-** For more info contact Ahead Software through Mpeg4AAClicense@nero.com.
+** Software using this code must display the following message visibly in or
+** on each copy of the software:
+** "FAAD2 AAC/HE-AAC/HE-AACv2/DRM decoder (c) Nero AG, www.nero.com"
+** in, for example, the about-box or help/startup screen.
 **
-** $Id: mp4util.c,v 1.16 2004/03/27 11:14:49 menno Exp $
+** Commercial non-GPL licensing of this software is possible.
+** For more info contact Nero AG through Mpeg4AAClicense@nero.com.
+**
+** $Id: mp4util.c,v 1.18 2006/05/07 18:09:00 menno Exp $
 **/
 
 #include "mp4ffint.h"
@@ -55,12 +60,29 @@ int32_t mp4ff_write_data(mp4ff_t *f, int8_t *data, uint32_t size)
     return result;
 }
 
+int32_t mp4ff_write_int32(mp4ff_t *f,const uint32_t data)
+{
+	uint32_t result;
+    uint32_t a, b, c, d;
+    int8_t temp[4];
+    
+    *(uint32_t*)temp = data;
+    a = (uint8_t)temp[0];
+    b = (uint8_t)temp[1];
+    c = (uint8_t)temp[2];
+    d = (uint8_t)temp[3];
+
+    result = (a<<24) | (b<<16) | (c<<8) | d;
+
+    return mp4ff_write_data(f,(uint8_t*)&result,sizeof(result));
+}
+
 int32_t mp4ff_set_position(mp4ff_t *f, const int64_t position)
 {
-	if (!f->stream->seek(f->stream->user_data, position))
-		return -1;
+    f->stream->seek(f->stream->user_data, position);
     f->current_position = position;
-	return 0;
+
+    return 0;
 }
 
 int64_t mp4ff_position(const mp4ff_t *f)
@@ -77,7 +99,9 @@ uint64_t mp4ff_read_int64(mp4ff_t *f)
     mp4ff_read_data(f, data, 8);
 
     for (i = 0; i < 8; i++)
+    {
         result |= ((uint64_t)data[i]) << ((7 - i) * 8);
+    }
 
     return result;
 }
@@ -138,7 +162,9 @@ char * mp4ff_read_string(mp4ff_t * f,uint32_t length)
 			str = 0;
 		}
 		else
+		{
 			str[length] = 0;
+		}
 	}
 	return str;	
 }

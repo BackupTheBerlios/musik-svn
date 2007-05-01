@@ -1,5 +1,8 @@
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/../include)
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR})
+IF(APPLE)
+ADD_DEFINITIONS(-DHAVE_STDINT_H -DHAVE_LRINTF -DSTDC_HEADERS)
+ENDIF(APPLE)
 
 ADD_LIBRARY(myfaad2 bits.c     drc.c       hcr.c         lt_predict.c
 		    output.c     pulse.c    sbr_e_nf.c   sbr_huff.c     specrec.c   syntax.c

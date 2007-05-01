@@ -308,6 +308,7 @@ char *strchr(), *strrchr();
       *y2 = MUL_F(x2, c1) - MUL_F(x1, c2);
   }
 
+#ifndef HAVE_LRINTF
 
   #if defined(_WIN32) && !defined(__MINGW32__)
     #define HAS_LRINTF
@@ -336,7 +337,7 @@ char *strchr(), *strrchr();
         return i;
     }
   #endif
-
+#endif
 
   #ifdef __ICL /* only Intel C compiler has fmath ??? */
 

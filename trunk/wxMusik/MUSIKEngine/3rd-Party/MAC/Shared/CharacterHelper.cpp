@@ -118,7 +118,7 @@ str_utf8 * GetUTF8FromUTF16(const str_utf16 * pUTF16)
 
     // create the UTF-8 string
     int nUTF8Index = 0;
-    for (z = 0; z < nCharacters; z++)
+    for (int z = 0; z < nCharacters; z++)
     {
         if (pUTF16[z] < 0x0080)
         {

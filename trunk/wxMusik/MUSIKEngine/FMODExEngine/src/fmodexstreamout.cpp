@@ -161,7 +161,7 @@ bool FMODExStreamOut::Open(const char *FileName)
 	static const char * szhttp = "http://";
 	bNetStream = (strncmp(FileName,szhttp,strlen(szhttp)) == 0);
     FMODExEngine::eOpenMode openmode = m_Engine.GetOpenMode();
-	int nFlags = FMOD_HARDWARE | FMOD_2D | FMOD_CREATESTREAM|FMOD_MPEGSEARCH|(openmode == FMODExEngine::OpenMode_MPEGACCURATE ? FMOD_ACCURATETIME:0);
+	int nFlags = /*FMOD_HARDWARE |*/ FMOD_2D | FMOD_CREATESTREAM|FMOD_MPEGSEARCH|(openmode == FMODExEngine::OpenMode_MPEGACCURATE ? FMOD_ACCURATETIME:0);
 #ifdef WIN32
     if(bNetStream) nFlags |= FMOD_NONBLOCKING;
 #else

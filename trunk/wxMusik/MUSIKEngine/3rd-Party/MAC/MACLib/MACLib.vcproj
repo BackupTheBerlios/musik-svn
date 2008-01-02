@@ -1,92 +1,129 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="7.10"
+	Version="8,00"
 	Name="MACLib"
 	ProjectGUID="{36A39AF9-ACEB-4A9B-BFE7-4745BD60D67C}"
-	SccProjectName="&quot;$/Monkey&apos;s Audio/MACLib&quot;, SCAAAAAA"
-	SccLocalPath=".">
+	>
 	<Platforms>
 		<Platform
-			Name="Win32"/>
+			Name="Win32"
+		/>
 	</Platforms>
+	<ToolFiles>
+	</ToolFiles>
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
 			OutputDirectory=".\Debug"
 			IntermediateDirectory=".\Debug"
 			ConfigurationType="4"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="FALSE"
-			CharacterSet="1">
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="..\Shared"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;UNICODE"
 				BasicRuntimeChecks="3"
-				RuntimeLibrary="3"
+				RuntimeLibrary="1"
 				PrecompiledHeaderFile=".\Debug/MACLib.pch"
 				AssemblerListingLocation=".\Debug/"
 				ObjectFile=".\Debug/"
 				ProgramDataBaseFileName=".\Debug/"
 				WarningLevel="3"
-				SuppressStartupBanner="TRUE"
+				SuppressStartupBanner="true"
 				DebugInformationFormat="4"
-				CompileAs="0"/>
+				CompileAs="0"
+			/>
 			<Tool
-				Name="VCCustomBuildTool"/>
-			<Tool
-				Name="VCLibrarianTool"
-				OutputFile=".\Debug\MACLib.lib"
-				SuppressStartupBanner="TRUE"/>
-			<Tool
-				Name="VCMIDLTool"/>
-			<Tool
-				Name="VCPostBuildEventTool"/>
-			<Tool
-				Name="VCPreBuildEventTool"/>
-			<Tool
-				Name="VCPreLinkEventTool"
-				Description="Building assembly..."
-				CommandLine="cd &quot;$(ProjectDir)&quot;Assembly
-nasmw -d WIN32 -f win32 -o Assembly.obj Assembly.nas
-"/>
+				Name="VCManagedResourceCompilerTool"
+			/>
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG"
-				Culture="1033"/>
+				Culture="1033"
+			/>
 			<Tool
-				Name="VCWebServiceProxyGeneratorTool"/>
+				Name="VCPreLinkEventTool"
+				Description="Building assembly..."
+				CommandLine="cd &quot;$(ProjectDir)&quot;Assembly&#x0D;&#x0A;nasmw -d WIN32 -f win32 -o Assembly.obj Assembly.nas&#x0D;&#x0A;"
+			/>
 			<Tool
-				Name="VCXMLDataGeneratorTool"/>
+				Name="VCLibrarianTool"
+				OutputFile=".\Debug\MACLib.lib"
+				SuppressStartupBanner="true"
+			/>
 			<Tool
-				Name="VCManagedWrapperGeneratorTool"/>
+				Name="VCALinkTool"
+			/>
 			<Tool
-				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
 			OutputDirectory=".\Release"
 			IntermediateDirectory=".\Release"
 			ConfigurationType="4"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="FALSE"
-			CharacterSet="1">
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
-				GlobalOptimizations="TRUE"
 				InlineFunctionExpansion="2"
-				EnableIntrinsicFunctions="TRUE"
+				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="1"
-				OmitFramePointers="TRUE"
-				OptimizeForProcessor="0"
-				OptimizeForWindowsApplication="TRUE"
+				OmitFramePointers="true"
 				AdditionalIncludeDirectories="..\Shared"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;UNICODE"
-				RuntimeLibrary="2"
-				UsePrecompiledHeader="2"
+				RuntimeLibrary="0"
+				UsePrecompiledHeader="0"
 				PrecompiledHeaderThrough="all.h"
 				PrecompiledHeaderFile=".\Release/MACLib.pch"
 				AssemblerListingLocation=".\Release/"
@@ -94,38 +131,42 @@ nasmw -d WIN32 -f win32 -o Assembly.obj Assembly.nas
 				ProgramDataBaseFileName=".\Release/"
 				BrowseInformation="1"
 				WarningLevel="3"
-				SuppressStartupBanner="TRUE"
-				CompileAs="0"/>
+				SuppressStartupBanner="true"
+				CompileAs="0"
+			/>
 			<Tool
-				Name="VCCustomBuildTool"/>
-			<Tool
-				Name="VCLibrarianTool"
-				OutputFile=".\Release\MACLib.lib"
-				SuppressStartupBanner="TRUE"/>
-			<Tool
-				Name="VCMIDLTool"/>
-			<Tool
-				Name="VCPostBuildEventTool"/>
-			<Tool
-				Name="VCPreBuildEventTool"/>
-			<Tool
-				Name="VCPreLinkEventTool"
-				Description="Building assembly..."
-				CommandLine="cd &quot;$(ProjectDir)&quot;Assembly
-nasmw -d WIN32 -f win32 -o Assembly.obj Assembly.nas
-"/>
+				Name="VCManagedResourceCompilerTool"
+			/>
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG"
-				Culture="1033"/>
+				Culture="1033"
+			/>
 			<Tool
-				Name="VCWebServiceProxyGeneratorTool"/>
+				Name="VCPreLinkEventTool"
+				Description="Building assembly..."
+				CommandLine="cd &quot;$(ProjectDir)&quot;Assembly&#x0D;&#x0A;nasmw -d WIN32 -f win32 -o Assembly.obj Assembly.nas&#x0D;&#x0A;"
+			/>
 			<Tool
-				Name="VCXMLDataGeneratorTool"/>
+				Name="VCLibrarianTool"
+				OutputFile=".\Release\MACLib.lib"
+				SuppressStartupBanner="true"
+			/>
 			<Tool
-				Name="VCManagedWrapperGeneratorTool"/>
+				Name="VCALinkTool"
+			/>
 			<Tool
-				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
 		</Configuration>
 	</Configurations>
 	<References>
@@ -133,728 +174,894 @@ nasmw -d WIN32 -f win32 -o Assembly.obj Assembly.nas
 	<Files>
 		<Filter
 			Name="Source Files"
-			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat">
+			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
+			>
 			<File
-				RelativePath="APESimple.cpp">
+				RelativePath="APESimple.cpp"
+				>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="Debug|Win32"
+					>
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						BasicRuntimeChecks="3"/>
+						BasicRuntimeChecks="3"
+					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="Release|Win32"
+					>
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="3"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						BrowseInformation="1"/>
+						BrowseInformation="1"
+					/>
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="MACLib.cpp">
+				RelativePath="MACLib.cpp"
+				>
 				<FileConfiguration
-					Name="Debug|Win32">
+					Name="Debug|Win32"
+					>
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="0"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						BasicRuntimeChecks="3"/>
+						BasicRuntimeChecks="3"
+					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32">
+					Name="Release|Win32"
+					>
 					<Tool
 						Name="VCCLCompilerTool"
 						Optimization="3"
 						AdditionalIncludeDirectories=""
 						PreprocessorDefinitions=""
-						BrowseInformation="1"/>
+						BrowseInformation="1"
+					/>
 				</FileConfiguration>
 			</File>
 			<Filter
 				Name="Compress"
-				Filter="">
+				>
 				<File
-					RelativePath="APECompress.cpp">
+					RelativePath="APECompress.cpp"
+					>
 					<FileConfiguration
-						Name="Debug|Win32">
+						Name="Debug|Win32"
+						>
 						<Tool
 							Name="VCCLCompilerTool"
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
-							BasicRuntimeChecks="3"/>
+							BasicRuntimeChecks="3"
+						/>
 					</FileConfiguration>
 					<FileConfiguration
-						Name="Release|Win32">
+						Name="Release|Win32"
+						>
 						<Tool
 							Name="VCCLCompilerTool"
 							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
-							BrowseInformation="1"/>
+							BrowseInformation="1"
+						/>
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="APECompressCore.cpp">
+					RelativePath="APECompressCore.cpp"
+					>
 					<FileConfiguration
-						Name="Debug|Win32">
+						Name="Debug|Win32"
+						>
 						<Tool
 							Name="VCCLCompilerTool"
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
-							BasicRuntimeChecks="3"/>
+							BasicRuntimeChecks="3"
+						/>
 					</FileConfiguration>
 					<FileConfiguration
-						Name="Release|Win32">
+						Name="Release|Win32"
+						>
 						<Tool
 							Name="VCCLCompilerTool"
 							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
-							BrowseInformation="1"/>
+							BrowseInformation="1"
+						/>
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="APECompressCreate.cpp">
+					RelativePath="APECompressCreate.cpp"
+					>
 					<FileConfiguration
-						Name="Debug|Win32">
+						Name="Debug|Win32"
+						>
 						<Tool
 							Name="VCCLCompilerTool"
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
-							BasicRuntimeChecks="3"/>
+							BasicRuntimeChecks="3"
+						/>
 					</FileConfiguration>
 					<FileConfiguration
-						Name="Release|Win32">
+						Name="Release|Win32"
+						>
 						<Tool
 							Name="VCCLCompilerTool"
 							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
-							BrowseInformation="1"/>
+							BrowseInformation="1"
+						/>
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="BitArray.cpp">
+					RelativePath="BitArray.cpp"
+					>
 					<FileConfiguration
-						Name="Debug|Win32">
+						Name="Debug|Win32"
+						>
 						<Tool
 							Name="VCCLCompilerTool"
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
-							BasicRuntimeChecks="3"/>
+							BasicRuntimeChecks="3"
+						/>
 					</FileConfiguration>
 					<FileConfiguration
-						Name="Release|Win32">
+						Name="Release|Win32"
+						>
 						<Tool
 							Name="VCCLCompilerTool"
 							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
-							BrowseInformation="1"/>
+							BrowseInformation="1"
+						/>
 					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
 				Name="Decompress"
-				Filter="">
+				>
 				<File
-					RelativePath="APEDecompress.cpp">
+					RelativePath="APEDecompress.cpp"
+					>
 					<FileConfiguration
-						Name="Debug|Win32">
+						Name="Debug|Win32"
+						>
 						<Tool
 							Name="VCCLCompilerTool"
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
-							BasicRuntimeChecks="3"/>
+							BasicRuntimeChecks="3"
+						/>
 					</FileConfiguration>
 					<FileConfiguration
-						Name="Release|Win32">
+						Name="Release|Win32"
+						>
 						<Tool
 							Name="VCCLCompilerTool"
 							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
-							BrowseInformation="1"/>
+							BrowseInformation="1"
+						/>
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="UnBitArray.cpp">
+					RelativePath="UnBitArray.cpp"
+					>
 					<FileConfiguration
-						Name="Debug|Win32">
+						Name="Debug|Win32"
+						>
 						<Tool
 							Name="VCCLCompilerTool"
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
-							BasicRuntimeChecks="3"/>
+							BasicRuntimeChecks="3"
+						/>
 					</FileConfiguration>
 					<FileConfiguration
-						Name="Release|Win32">
+						Name="Release|Win32"
+						>
 						<Tool
 							Name="VCCLCompilerTool"
 							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
-							BrowseInformation="1"/>
+							BrowseInformation="1"
+						/>
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="UnBitArrayBase.cpp">
+					RelativePath="UnBitArrayBase.cpp"
+					>
 					<FileConfiguration
-						Name="Debug|Win32">
+						Name="Debug|Win32"
+						>
 						<Tool
 							Name="VCCLCompilerTool"
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
-							BasicRuntimeChecks="3"/>
+							BasicRuntimeChecks="3"
+						/>
 					</FileConfiguration>
 					<FileConfiguration
-						Name="Release|Win32">
+						Name="Release|Win32"
+						>
 						<Tool
 							Name="VCCLCompilerTool"
 							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
-							BrowseInformation="1"/>
+							BrowseInformation="1"
+						/>
 					</FileConfiguration>
 				</File>
 				<Filter
 					Name="Old"
-					Filter="">
+					>
 					<File
-						RelativePath="Old\Anti-Predictor.cpp">
+						RelativePath="Old\Anti-Predictor.cpp"
+						>
 						<FileConfiguration
-							Name="Debug|Win32">
+							Name="Debug|Win32"
+							>
 							<Tool
 								Name="VCCLCompilerTool"
 								Optimization="0"
 								AdditionalIncludeDirectories=""
 								PreprocessorDefinitions=""
-								BasicRuntimeChecks="3"/>
+								BasicRuntimeChecks="3"
+							/>
 						</FileConfiguration>
 						<FileConfiguration
-							Name="Release|Win32">
+							Name="Release|Win32"
+							>
 							<Tool
 								Name="VCCLCompilerTool"
 								Optimization="3"
 								AdditionalIncludeDirectories=""
 								PreprocessorDefinitions=""
-								BrowseInformation="1"/>
+								BrowseInformation="1"
+							/>
 						</FileConfiguration>
 					</File>
 					<File
-						RelativePath="Old\AntiPredictorExtraHigh.cpp">
+						RelativePath="Old\AntiPredictorExtraHigh.cpp"
+						>
 						<FileConfiguration
-							Name="Debug|Win32">
+							Name="Debug|Win32"
+							>
 							<Tool
 								Name="VCCLCompilerTool"
 								Optimization="0"
 								AdditionalIncludeDirectories=""
 								PreprocessorDefinitions=""
-								BasicRuntimeChecks="3"/>
+								BasicRuntimeChecks="3"
+							/>
 						</FileConfiguration>
 						<FileConfiguration
-							Name="Release|Win32">
+							Name="Release|Win32"
+							>
 							<Tool
 								Name="VCCLCompilerTool"
 								Optimization="3"
 								AdditionalIncludeDirectories=""
 								PreprocessorDefinitions=""
-								BrowseInformation="1"/>
+								BrowseInformation="1"
+							/>
 						</FileConfiguration>
 					</File>
 					<File
-						RelativePath="Old\AntiPredictorFast.cpp">
+						RelativePath="Old\AntiPredictorFast.cpp"
+						>
 						<FileConfiguration
-							Name="Debug|Win32">
+							Name="Debug|Win32"
+							>
 							<Tool
 								Name="VCCLCompilerTool"
 								Optimization="0"
 								AdditionalIncludeDirectories=""
 								PreprocessorDefinitions=""
-								BasicRuntimeChecks="3"/>
+								BasicRuntimeChecks="3"
+							/>
 						</FileConfiguration>
 						<FileConfiguration
-							Name="Release|Win32">
+							Name="Release|Win32"
+							>
 							<Tool
 								Name="VCCLCompilerTool"
 								Optimization="3"
 								AdditionalIncludeDirectories=""
 								PreprocessorDefinitions=""
-								BrowseInformation="1"/>
+								BrowseInformation="1"
+							/>
 						</FileConfiguration>
 					</File>
 					<File
-						RelativePath="Old\AntiPredictorHigh.cpp">
+						RelativePath="Old\AntiPredictorHigh.cpp"
+						>
 						<FileConfiguration
-							Name="Debug|Win32">
+							Name="Debug|Win32"
+							>
 							<Tool
 								Name="VCCLCompilerTool"
 								Optimization="0"
 								AdditionalIncludeDirectories=""
 								PreprocessorDefinitions=""
-								BasicRuntimeChecks="3"/>
+								BasicRuntimeChecks="3"
+							/>
 						</FileConfiguration>
 						<FileConfiguration
-							Name="Release|Win32">
+							Name="Release|Win32"
+							>
 							<Tool
 								Name="VCCLCompilerTool"
 								Optimization="3"
 								AdditionalIncludeDirectories=""
 								PreprocessorDefinitions=""
-								BrowseInformation="1"/>
+								BrowseInformation="1"
+							/>
 						</FileConfiguration>
 					</File>
 					<File
-						RelativePath="Old\AntiPredictorNormal.cpp">
+						RelativePath="Old\AntiPredictorNormal.cpp"
+						>
 						<FileConfiguration
-							Name="Debug|Win32">
+							Name="Debug|Win32"
+							>
 							<Tool
 								Name="VCCLCompilerTool"
 								Optimization="0"
 								AdditionalIncludeDirectories=""
 								PreprocessorDefinitions=""
-								BasicRuntimeChecks="3"/>
+								BasicRuntimeChecks="3"
+							/>
 						</FileConfiguration>
 						<FileConfiguration
-							Name="Release|Win32">
+							Name="Release|Win32"
+							>
 							<Tool
 								Name="VCCLCompilerTool"
 								Optimization="3"
 								AdditionalIncludeDirectories=""
 								PreprocessorDefinitions=""
-								BrowseInformation="1"/>
+								BrowseInformation="1"
+							/>
 						</FileConfiguration>
 					</File>
 					<File
-						RelativePath="Old\APEDecompressCore.cpp">
+						RelativePath="Old\APEDecompressCore.cpp"
+						>
 						<FileConfiguration
-							Name="Debug|Win32">
+							Name="Debug|Win32"
+							>
 							<Tool
 								Name="VCCLCompilerTool"
 								Optimization="0"
 								AdditionalIncludeDirectories=""
 								PreprocessorDefinitions=""
-								BasicRuntimeChecks="3"/>
+								BasicRuntimeChecks="3"
+							/>
 						</FileConfiguration>
 						<FileConfiguration
-							Name="Release|Win32">
+							Name="Release|Win32"
+							>
 							<Tool
 								Name="VCCLCompilerTool"
 								Optimization="3"
 								AdditionalIncludeDirectories=""
 								PreprocessorDefinitions=""
-								BrowseInformation="1"/>
+								BrowseInformation="1"
+							/>
 						</FileConfiguration>
 					</File>
 					<File
-						RelativePath="Old\APEDecompressOld.cpp">
+						RelativePath="Old\APEDecompressOld.cpp"
+						>
 						<FileConfiguration
-							Name="Debug|Win32">
+							Name="Debug|Win32"
+							>
 							<Tool
 								Name="VCCLCompilerTool"
 								Optimization="0"
 								AdditionalIncludeDirectories=""
 								PreprocessorDefinitions=""
-								BasicRuntimeChecks="3"/>
+								BasicRuntimeChecks="3"
+							/>
 						</FileConfiguration>
 						<FileConfiguration
-							Name="Release|Win32">
+							Name="Release|Win32"
+							>
 							<Tool
 								Name="VCCLCompilerTool"
 								Optimization="3"
 								AdditionalIncludeDirectories=""
 								PreprocessorDefinitions=""
-								BrowseInformation="1"/>
+								BrowseInformation="1"
+							/>
 						</FileConfiguration>
 					</File>
 					<File
-						RelativePath="Old\UnBitArrayOld.cpp">
+						RelativePath="Old\UnBitArrayOld.cpp"
+						>
 						<FileConfiguration
-							Name="Debug|Win32">
+							Name="Debug|Win32"
+							>
 							<Tool
 								Name="VCCLCompilerTool"
 								Optimization="0"
 								AdditionalIncludeDirectories=""
 								PreprocessorDefinitions=""
-								BasicRuntimeChecks="3"/>
+								BasicRuntimeChecks="3"
+							/>
 						</FileConfiguration>
 						<FileConfiguration
-							Name="Release|Win32">
+							Name="Release|Win32"
+							>
 							<Tool
 								Name="VCCLCompilerTool"
 								Optimization="3"
 								AdditionalIncludeDirectories=""
 								PreprocessorDefinitions=""
-								BrowseInformation="1"/>
+								BrowseInformation="1"
+							/>
 						</FileConfiguration>
 					</File>
 					<File
-						RelativePath="Old\UnMAC.cpp">
+						RelativePath="Old\UnMAC.cpp"
+						>
 						<FileConfiguration
-							Name="Debug|Win32">
+							Name="Debug|Win32"
+							>
 							<Tool
 								Name="VCCLCompilerTool"
 								Optimization="0"
 								AdditionalIncludeDirectories=""
 								PreprocessorDefinitions=""
-								BasicRuntimeChecks="3"/>
+								BasicRuntimeChecks="3"
+							/>
 						</FileConfiguration>
 						<FileConfiguration
-							Name="Release|Win32">
+							Name="Release|Win32"
+							>
 							<Tool
 								Name="VCCLCompilerTool"
 								Optimization="3"
 								AdditionalIncludeDirectories=""
 								PreprocessorDefinitions=""
-								BrowseInformation="1"/>
+								BrowseInformation="1"
+							/>
 						</FileConfiguration>
 					</File>
 				</Filter>
 			</Filter>
 			<Filter
 				Name="Info"
-				Filter="">
+				>
 				<File
-					RelativePath="APEHeader.cpp">
+					RelativePath="APEHeader.cpp"
+					>
 					<FileConfiguration
-						Name="Debug|Win32">
+						Name="Debug|Win32"
+						>
 						<Tool
 							Name="VCCLCompilerTool"
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
-							BasicRuntimeChecks="3"/>
+							BasicRuntimeChecks="3"
+						/>
 					</FileConfiguration>
 					<FileConfiguration
-						Name="Release|Win32">
+						Name="Release|Win32"
+						>
 						<Tool
 							Name="VCCLCompilerTool"
 							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
-							BrowseInformation="1"/>
+							BrowseInformation="1"
+						/>
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="APEInfo.cpp">
+					RelativePath="APEInfo.cpp"
+					>
 					<FileConfiguration
-						Name="Debug|Win32">
+						Name="Debug|Win32"
+						>
 						<Tool
 							Name="VCCLCompilerTool"
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
-							BasicRuntimeChecks="3"/>
+							BasicRuntimeChecks="3"
+						/>
 					</FileConfiguration>
 					<FileConfiguration
-						Name="Release|Win32">
+						Name="Release|Win32"
+						>
 						<Tool
 							Name="VCCLCompilerTool"
 							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
-							BrowseInformation="1"/>
+							BrowseInformation="1"
+						/>
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="APELink.cpp">
+					RelativePath="APELink.cpp"
+					>
 					<FileConfiguration
-						Name="Debug|Win32">
+						Name="Debug|Win32"
+						>
 						<Tool
 							Name="VCCLCompilerTool"
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
-							BasicRuntimeChecks="3"/>
+							BasicRuntimeChecks="3"
+						/>
 					</FileConfiguration>
 					<FileConfiguration
-						Name="Release|Win32">
+						Name="Release|Win32"
+						>
 						<Tool
 							Name="VCCLCompilerTool"
 							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
-							BrowseInformation="1"/>
+							BrowseInformation="1"
+						/>
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="APETag.cpp">
+					RelativePath="APETag.cpp"
+					>
 					<FileConfiguration
-						Name="Debug|Win32">
+						Name="Debug|Win32"
+						>
 						<Tool
 							Name="VCCLCompilerTool"
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
-							BasicRuntimeChecks="3"/>
+							BasicRuntimeChecks="3"
+						/>
 					</FileConfiguration>
 					<FileConfiguration
-						Name="Release|Win32">
+						Name="Release|Win32"
+						>
 						<Tool
 							Name="VCCLCompilerTool"
 							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
-							BrowseInformation="1"/>
+							BrowseInformation="1"
+						/>
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="WAVInputSource.cpp">
+					RelativePath="WAVInputSource.cpp"
+					>
 					<FileConfiguration
-						Name="Debug|Win32">
+						Name="Debug|Win32"
+						>
 						<Tool
 							Name="VCCLCompilerTool"
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
-							BasicRuntimeChecks="3"/>
+							BasicRuntimeChecks="3"
+						/>
 					</FileConfiguration>
 					<FileConfiguration
-						Name="Release|Win32">
+						Name="Release|Win32"
+						>
 						<Tool
 							Name="VCCLCompilerTool"
 							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
-							BrowseInformation="1"/>
+							BrowseInformation="1"
+						/>
 					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
 				Name="Tools"
-				Filter="">
+				>
 				<File
-					RelativePath="..\Shared\CharacterHelper.cpp">
+					RelativePath="..\Shared\CharacterHelper.cpp"
+					>
 					<FileConfiguration
-						Name="Debug|Win32">
+						Name="Debug|Win32"
+						>
 						<Tool
 							Name="VCCLCompilerTool"
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
-							BasicRuntimeChecks="3"/>
+							BasicRuntimeChecks="3"
+						/>
 					</FileConfiguration>
 					<FileConfiguration
-						Name="Release|Win32">
+						Name="Release|Win32"
+						>
 						<Tool
 							Name="VCCLCompilerTool"
 							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
-							BrowseInformation="1"/>
+							BrowseInformation="1"
+						/>
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="..\Shared\CircleBuffer.cpp">
+					RelativePath="..\Shared\CircleBuffer.cpp"
+					>
 					<FileConfiguration
-						Name="Debug|Win32">
+						Name="Debug|Win32"
+						>
 						<Tool
 							Name="VCCLCompilerTool"
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
-							BasicRuntimeChecks="3"/>
+							BasicRuntimeChecks="3"
+						/>
 					</FileConfiguration>
 					<FileConfiguration
-						Name="Release|Win32">
+						Name="Release|Win32"
+						>
 						<Tool
 							Name="VCCLCompilerTool"
 							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
-							BrowseInformation="1"/>
+							BrowseInformation="1"
+						/>
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="..\Shared\GlobalFunctions.cpp">
+					RelativePath="..\Shared\GlobalFunctions.cpp"
+					>
 					<FileConfiguration
-						Name="Debug|Win32">
+						Name="Debug|Win32"
+						>
 						<Tool
 							Name="VCCLCompilerTool"
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
-							BasicRuntimeChecks="3"/>
+							BasicRuntimeChecks="3"
+						/>
 					</FileConfiguration>
 					<FileConfiguration
-						Name="Release|Win32">
+						Name="Release|Win32"
+						>
 						<Tool
 							Name="VCCLCompilerTool"
 							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
-							BrowseInformation="1"/>
+							BrowseInformation="1"
+						/>
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="MACProgressHelper.cpp">
+					RelativePath="MACProgressHelper.cpp"
+					>
 					<FileConfiguration
-						Name="Debug|Win32">
+						Name="Debug|Win32"
+						>
 						<Tool
 							Name="VCCLCompilerTool"
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
-							BasicRuntimeChecks="3"/>
+							BasicRuntimeChecks="3"
+						/>
 					</FileConfiguration>
 					<FileConfiguration
-						Name="Release|Win32">
+						Name="Release|Win32"
+						>
 						<Tool
 							Name="VCCLCompilerTool"
 							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
-							BrowseInformation="1"/>
+							BrowseInformation="1"
+						/>
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="MD5.cpp">
+					RelativePath="MD5.cpp"
+					>
 					<FileConfiguration
-						Name="Debug|Win32">
+						Name="Debug|Win32"
+						>
 						<Tool
 							Name="VCCLCompilerTool"
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
-							BasicRuntimeChecks="3"/>
+							BasicRuntimeChecks="3"
+						/>
 					</FileConfiguration>
 					<FileConfiguration
-						Name="Release|Win32">
+						Name="Release|Win32"
+						>
 						<Tool
 							Name="VCCLCompilerTool"
 							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
-							BrowseInformation="1"/>
+							BrowseInformation="1"
+						/>
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath="Prepare.cpp">
+					RelativePath="Prepare.cpp"
+					>
 					<FileConfiguration
-						Name="Debug|Win32">
+						Name="Debug|Win32"
+						>
 						<Tool
 							Name="VCCLCompilerTool"
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
-							BasicRuntimeChecks="3"/>
+							BasicRuntimeChecks="3"
+						/>
 					</FileConfiguration>
 					<FileConfiguration
-						Name="Release|Win32">
+						Name="Release|Win32"
+						>
 						<Tool
 							Name="VCCLCompilerTool"
 							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
-							BrowseInformation="1"/>
+							BrowseInformation="1"
+						/>
 					</FileConfiguration>
 				</File>
 				<Filter
 					Name="IO"
-					Filter="">
+					>
 					<File
-						RelativePath="..\Shared\StdLibFileIO.cpp">
+						RelativePath="..\Shared\StdLibFileIO.cpp"
+						>
 						<FileConfiguration
-							Name="Debug|Win32">
+							Name="Debug|Win32"
+							>
 							<Tool
 								Name="VCCLCompilerTool"
 								Optimization="0"
 								AdditionalIncludeDirectories=""
 								PreprocessorDefinitions=""
-								BasicRuntimeChecks="3"/>
+								BasicRuntimeChecks="3"
+							/>
 						</FileConfiguration>
 						<FileConfiguration
-							Name="Release|Win32">
+							Name="Release|Win32"
+							>
 							<Tool
 								Name="VCCLCompilerTool"
 								Optimization="3"
 								AdditionalIncludeDirectories=""
 								PreprocessorDefinitions=""
-								BrowseInformation="1"/>
+								BrowseInformation="1"
+							/>
 						</FileConfiguration>
 					</File>
 					<File
-						RelativePath="..\Shared\WinFileIO.cpp">
+						RelativePath="..\Shared\WinFileIO.cpp"
+						>
 						<FileConfiguration
-							Name="Debug|Win32">
+							Name="Debug|Win32"
+							>
 							<Tool
 								Name="VCCLCompilerTool"
 								Optimization="0"
 								AdditionalIncludeDirectories=""
 								PreprocessorDefinitions=""
-								BasicRuntimeChecks="3"/>
+								BasicRuntimeChecks="3"
+							/>
 						</FileConfiguration>
 						<FileConfiguration
-							Name="Release|Win32">
+							Name="Release|Win32"
+							>
 							<Tool
 								Name="VCCLCompilerTool"
 								Optimization="3"
 								AdditionalIncludeDirectories=""
 								PreprocessorDefinitions=""
-								BrowseInformation="1"/>
+								BrowseInformation="1"
+							/>
 						</FileConfiguration>
 					</File>
 				</Filter>
 			</Filter>
 			<Filter
 				Name="Prediction"
-				Filter="">
+				>
 				<File
-					RelativePath="NewPredictor.cpp">
+					RelativePath="NewPredictor.cpp"
+					>
 					<FileConfiguration
-						Name="Debug|Win32">
+						Name="Debug|Win32"
+						>
 						<Tool
 							Name="VCCLCompilerTool"
 							Optimization="0"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
-							BasicRuntimeChecks="3"/>
+							BasicRuntimeChecks="3"
+						/>
 					</FileConfiguration>
 					<FileConfiguration
-						Name="Release|Win32">
+						Name="Release|Win32"
+						>
 						<Tool
 							Name="VCCLCompilerTool"
 							Optimization="3"
 							AdditionalIncludeDirectories=""
 							PreprocessorDefinitions=""
-							BrowseInformation="1"/>
+							BrowseInformation="1"
+						/>
 					</FileConfiguration>
 				</File>
 				<Filter
 					Name="Filters"
-					Filter="">
+					>
 					<File
-						RelativePath="NNFilter.cpp">
+						RelativePath="NNFilter.cpp"
+						>
 						<FileConfiguration
-							Name="Debug|Win32">
+							Name="Debug|Win32"
+							>
 							<Tool
 								Name="VCCLCompilerTool"
 								Optimization="0"
 								AdditionalIncludeDirectories=""
 								PreprocessorDefinitions=""
-								BasicRuntimeChecks="3"/>
+								BasicRuntimeChecks="3"
+							/>
 						</FileConfiguration>
 						<FileConfiguration
-							Name="Release|Win32">
+							Name="Release|Win32"
+							>
 							<Tool
 								Name="VCCLCompilerTool"
 								Optimization="3"
 								AdditionalIncludeDirectories=""
 								PreprocessorDefinitions=""
-								BrowseInformation="1"/>
+								BrowseInformation="1"
+							/>
 						</FileConfiguration>
 					</File>
 				</Filter>
@@ -862,159 +1069,200 @@ nasmw -d WIN32 -f win32 -o Assembly.obj Assembly.nas
 		</Filter>
 		<Filter
 			Name="Header Files"
-			Filter="h;hpp;hxx;hm;inl">
+			Filter="h;hpp;hxx;hm;inl"
+			>
 			<File
-				RelativePath="..\Shared\All.h">
+				RelativePath="..\Shared\All.h"
+				>
 			</File>
 			<File
-				RelativePath="Assembly\Assembly.h">
+				RelativePath="Assembly\Assembly.h"
+				>
 			</File>
 			<File
-				RelativePath="MACLib.h">
+				RelativePath="MACLib.h"
+				>
 			</File>
 			<Filter
 				Name="Compress (h)"
-				Filter="">
+				>
 				<File
-					RelativePath="APECompress.h">
+					RelativePath="APECompress.h"
+					>
 				</File>
 				<File
-					RelativePath="APECompressCore.h">
+					RelativePath="APECompressCore.h"
+					>
 				</File>
 				<File
-					RelativePath="APECompressCreate.h">
+					RelativePath="APECompressCreate.h"
+					>
 				</File>
 				<File
-					RelativePath="BitArray.h">
+					RelativePath="BitArray.h"
+					>
 				</File>
 			</Filter>
 			<Filter
 				Name="Decompress (h)"
-				Filter="">
+				>
 				<File
-					RelativePath="APEDecompress.h">
+					RelativePath="APEDecompress.h"
+					>
 				</File>
 				<File
-					RelativePath="UnBitArray.h">
+					RelativePath="UnBitArray.h"
+					>
 				</File>
 				<File
-					RelativePath="UnBitArrayBase.h">
+					RelativePath="UnBitArrayBase.h"
+					>
 				</File>
 				<Filter
 					Name="Old (h)"
-					Filter="">
+					>
 					<File
-						RelativePath="Old\Anti-Predictor.h">
+						RelativePath="Old\Anti-Predictor.h"
+						>
 					</File>
 					<File
-						RelativePath="Old\APEDecompressCore.h">
+						RelativePath="Old\APEDecompressCore.h"
+						>
 					</File>
 					<File
-						RelativePath="Old\APEDecompressOld.h">
+						RelativePath="Old\APEDecompressOld.h"
+						>
 					</File>
 					<File
-						RelativePath="Old\UnBitArrayOld.h">
+						RelativePath="Old\UnBitArrayOld.h"
+						>
 					</File>
 					<File
-						RelativePath="Old\UnMAC.h">
+						RelativePath="Old\UnMAC.h"
+						>
 					</File>
 				</Filter>
 			</Filter>
 			<Filter
 				Name="Info (h)"
-				Filter="">
+				>
 				<File
-					RelativePath="APEHeader.h">
+					RelativePath="APEHeader.h"
+					>
 				</File>
 				<File
-					RelativePath="APEInfo.h">
+					RelativePath="APEInfo.h"
+					>
 				</File>
 				<File
-					RelativePath="APELink.h">
+					RelativePath="APELink.h"
+					>
 				</File>
 				<File
-					RelativePath="APETag.h">
+					RelativePath="APETag.h"
+					>
 				</File>
 				<File
-					RelativePath="WAVInputSource.h">
+					RelativePath="WAVInputSource.h"
+					>
 				</File>
 			</Filter>
 			<Filter
 				Name="Tools (h)"
-				Filter="">
+				>
 				<File
-					RelativePath="..\Shared\CharacterHelper.h">
+					RelativePath="..\Shared\CharacterHelper.h"
+					>
 				</File>
 				<File
-					RelativePath="..\Shared\CircleBuffer.h">
+					RelativePath="..\Shared\CircleBuffer.h"
+					>
 				</File>
 				<File
-					RelativePath="..\Shared\GlobalFunctions.h">
+					RelativePath="..\Shared\GlobalFunctions.h"
+					>
 				</File>
 				<File
-					RelativePath="MACProgressHelper.h">
+					RelativePath="MACProgressHelper.h"
+					>
 				</File>
 				<File
-					RelativePath="md5.h">
+					RelativePath="md5.h"
+					>
 				</File>
 				<File
-					RelativePath="..\Shared\NoWindows.h">
+					RelativePath="..\Shared\NoWindows.h"
+					>
 				</File>
 				<File
-					RelativePath="Prepare.h">
+					RelativePath="Prepare.h"
+					>
 				</File>
 				<File
-					RelativePath="..\Shared\SmartPtr.h">
+					RelativePath="..\Shared\SmartPtr.h"
+					>
 				</File>
 				<Filter
 					Name="IO (h)"
-					Filter="">
+					>
 					<File
-						RelativePath="..\Shared\IO.h">
+						RelativePath="..\Shared\IO.h"
+						>
 					</File>
 					<File
-						RelativePath="..\Shared\StdLibFileIO.h">
+						RelativePath="..\Shared\StdLibFileIO.h"
+						>
 					</File>
 					<File
-						RelativePath="..\Shared\WinFileIO.h">
+						RelativePath="..\Shared\WinFileIO.h"
+						>
 					</File>
 				</Filter>
 			</Filter>
 			<Filter
 				Name="Prediction (h)"
-				Filter="">
+				>
 				<File
-					RelativePath="NewPredictor.h">
+					RelativePath="NewPredictor.h"
+					>
 				</File>
 				<File
-					RelativePath="Predictor.h">
+					RelativePath="Predictor.h"
+					>
 				</File>
 				<Filter
 					Name="Filters (h)"
-					Filter="">
+					>
 					<File
-						RelativePath="NNFilter.h">
+						RelativePath="NNFilter.h"
+						>
 					</File>
 					<File
-						RelativePath="..\Shared\RollBuffer.h">
+						RelativePath="..\Shared\RollBuffer.h"
+						>
 					</File>
 					<File
-						RelativePath="ScaledFirstOrderFilter.h">
+						RelativePath="ScaledFirstOrderFilter.h"
+						>
 					</File>
 				</Filter>
 			</Filter>
 		</Filter>
 		<File
-			RelativePath="Assembly\Assembly.obj">
+			RelativePath="Assembly\Assembly.obj"
+			>
 		</File>
 		<File
-			RelativePath="..\Credits.txt">
+			RelativePath="..\Credits.txt"
+			>
 		</File>
 		<File
-			RelativePath="..\History.txt">
+			RelativePath="..\History.txt"
+			>
 		</File>
 		<File
-			RelativePath="..\To Do.txt">
+			RelativePath="..\To Do.txt"
+			>
 		</File>
 	</Files>
 	<Globals>

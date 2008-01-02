@@ -59,7 +59,7 @@ bool MP4::Tag::isEmpty() const {
 
 void MP4::Tag::duplicate(const Tag *source, Tag *target, bool overwrite) {
     // Duplicate standard information
-    Tag::duplicate(source, target, overwrite);
+	TagLib::Tag::duplicate(source, target, overwrite);
 
     if (overwrite || target->compilation() == Undefined && source->compilation() != Undefined)
         target->setCompilation(source->compilation());

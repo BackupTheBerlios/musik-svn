@@ -37,8 +37,8 @@ typedef FMOD_RESULT (F_CALLBACK *FMOD_OUTPUT_READFROMMIXER)        (FMOD_OUTPUT_
     When creating an output, declare one of these and provide the relevant callbacks and name for FMOD to use when it opens and reads a file of this type.
 
     [REMARKS]
-    Members marked with [in] mean the variable can be written to.  The user can set the value.<br>
-    Members marked with [out] mean the variable is modified by FMOD and is for reading purposes only.  Do not change this value.<br>
+    Members marked with [in] mean the variable can be written to.  The user can set the value.
+    Members marked with [out] mean the variable is modified by FMOD and is for reading purposes only.  Do not change this value.
 
     [PLATFORMS]
     Win32, Win64, Linux, Linux64, Macintosh, Xbox, Xbox360, PlayStation 2, GameCube, PlayStation Portable, PlayStation 3, Wii
@@ -72,8 +72,8 @@ typedef struct FMOD_OUTPUT_DESCRIPTION
     Output plugin structure that is passed into each callback.
 
     [REMARKS]
-    Members marked with [in] mean the variable can be written to.  The user can set the value.<br>
-    Members marked with [out] mean the variable is modified by FMOD and is for reading purposes only.  Do not change this value.<br>
+    Members marked with [in] mean the variable can be written to.  The user can set the value.
+    Members marked with [out] mean the variable is modified by FMOD and is for reading purposes only.  Do not change this value.
 
     [PLATFORMS]
     Win32, Win64, Linux, Linux64, Macintosh, Xbox, Xbox360, PlayStation 2, GameCube, PlayStation Portable, PlayStation 3, Wii

@@ -1,4 +1,3 @@
-/*$ preserve start $*/
 
 /* ============================================================================================== */
 /* FMOD Ex - Error string header file. Copyright (c), Firelight Technologies Pty, Ltd. 2004-2006. */
@@ -21,7 +20,6 @@ static char *FMOD_ErrorString(FMOD_RESULT errcode)
 {
     switch (errcode)
     {
-/*$ preserve end $*/
         case FMOD_ERR_ALREADYLOCKED:          return "Tried to call lock a second time before unlock was called. ";
         case FMOD_ERR_BADCOMMAND:             return "Tried to call a function on a data type that does not allow this type of functionality (ie calling Sound::lock on a streaming sound). ";
         case FMOD_ERR_CDDA_DRIVERS:           return "Neither NTSCSI nor ASPI could be initialised. ";
@@ -40,13 +38,16 @@ static char *FMOD_ErrorString(FMOD_RESULT errcode)
         case FMOD_ERR_DSP_NOTFOUND:           return "DSP connection error.  Couldn't find the DSP unit specified. ";
         case FMOD_ERR_DSP_RUNNING:            return "DSP error.  Cannot perform this operation while the network is in the middle of running.  This will most likely happen if a connection or disconnection is attempted in a DSP callback. ";
         case FMOD_ERR_DSP_TOOMANYCONNECTIONS: return "DSP connection error.  The unit being connected to or disconnected should only have 1 input or output. ";
-        case FMOD_ERR_EVENT_FAILED:           return "An Event failed to be retrieved, most likely due to 'just fail' being specified as the max playbacks behaviour. ";
+        case FMOD_ERR_EVENT_FAILED:           return "An Event failed to be retrieved, most likely due to 'just fail' being specified as the max playbacks behavior. ";
         case FMOD_ERR_EVENT_INFOONLY:         return "Can't execute this command on an EVENT_INFOONLY event. ";
         case FMOD_ERR_EVENT_INTERNAL:         return "An error occured that wasn't supposed to.  See debug log for reason. ";
+        case FMOD_ERR_EVENT_MAXSTREAMS:       return "Event failed because 'Max streams' was hit when FMOD_INIT_FAIL_ON_MAXSTREAMS was specified. ";
+        case FMOD_ERR_EVENT_MISMATCH:         return "FSB mis-matches the FEV it was compiled with. ";
         case FMOD_ERR_EVENT_NAMECONFLICT:     return "A category with the same name already exists. ";
         case FMOD_ERR_EVENT_NOTFOUND:         return "The requested event, event group, event category or event property could not be found. ";
         case FMOD_ERR_FILE_BAD:               return "Error loading file. ";
         case FMOD_ERR_FILE_COULDNOTSEEK:      return "Couldn't perform seek operation.  This is a limitation of the medium (ie netstreams) or the file format. ";
+        case FMOD_ERR_FILE_DISKEJECTED:       return "Media was ejected while reading. ";
         case FMOD_ERR_FILE_EOF:               return "End of file unexpectedly reached while trying to read essential data (truncated data?). ";
         case FMOD_ERR_FILE_NOTFOUND:          return "File not found. ";
         case FMOD_ERR_FILE_UNWANTED:          return "Unwanted file access occured. ";
@@ -66,6 +67,7 @@ static char *FMOD_ErrorString(FMOD_RESULT errcode)
         case FMOD_ERR_INVALID_SPEAKER:        return "An invalid speaker was passed to this function based on the current speaker mode. ";
         case FMOD_ERR_INVALID_VECTOR:         return "The vectors passed in are not unit length, or perpendicular. ";
         case FMOD_ERR_IRX:                    return "PS2 only.  fmodex.irx failed to initialize.  This is most likely because you forgot to load it. ";
+        case FMOD_ERR_MAXAUDIBLE:             return "Reached maximum audible playback count for this sound's soundgroup. ";
         case FMOD_ERR_MEMORY:                 return "Not enough memory or resources. ";
         case FMOD_ERR_MEMORY_CANTPOINT:       return "Can't use FMOD_OPENMEMORY_POINT on non PCM source data, or non mp3/xma/adpcm data if FMOD_CREATECOMPRESSEDSAMPLE was used. ";
         case FMOD_ERR_MEMORY_IOP:             return "PS2 only.  Not enough memory or resources on PlayStation 2 IOP ram. ";
@@ -77,6 +79,7 @@ static char *FMOD_ErrorString(FMOD_RESULT errcode)
         case FMOD_ERR_NET_CONNECT:            return "Couldn't connect to the specified host. ";
         case FMOD_ERR_NET_SOCKET_ERROR:       return "A socket error occurred.  This is a catch-all for socket-related errors not listed elsewhere. ";
         case FMOD_ERR_NET_URL:                return "The specified URL couldn't be resolved. ";
+        case FMOD_ERR_NET_WOULD_BLOCK:        return "Operation on a non-blocking socket could not complete immediately. ";
         case FMOD_ERR_NOTREADY:               return "Operation could not be performed because specified sound is not ready. ";
         case FMOD_ERR_OUTPUT_ALLOCATED:       return "Error initializing output device, but more specifically, the output device is already in use and cannot be reused. ";
         case FMOD_ERR_OUTPUT_CREATEBUFFER:    return "Error creating hardware sound buffer. ";
@@ -87,6 +90,7 @@ static char *FMOD_ErrorString(FMOD_RESULT errcode)
         case FMOD_ERR_OUTPUT_NOSOFTWARE:      return "Attempted to create a software sound but no software channels were specified in System::init. ";
         case FMOD_ERR_PAN:                    return "Panning only works with mono or stereo sound sources. ";
         case FMOD_ERR_PLUGIN:                 return "An unspecified error has been returned from a 3rd party plugin. ";
+        case FMOD_ERR_PLUGIN_INSTANCES:       return "The number of allowed instances of a plugin has been exceeded. ";
         case FMOD_ERR_PLUGIN_MISSING:         return "A requested output, dsp unit type or codec was not available. ";
         case FMOD_ERR_PLUGIN_RESOURCE:        return "A resource that the plugin requires cannot be found. (ie the DLS file for MIDI playback) ";
         case FMOD_ERR_RECORD:                 return "An error occured trying to initialize the recording device. ";
@@ -102,9 +106,7 @@ static char *FMOD_ErrorString(FMOD_RESULT errcode)
         case FMOD_ERR_VERSION:                return "The version number of this file format is not supported. ";
         case FMOD_OK:                         return "No errors.";
         default :                             return "Unknown error.";
-/*$ preserve start $*/
     };
 }
 
 #endif
-/*$ preserve end $*/

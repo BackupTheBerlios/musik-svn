@@ -120,7 +120,24 @@ MUSIKEngine::Error FMODExEngine::_Init(int idOutput ,int idDevice,int nMixRate,i
             return errUnknown;
     }
 #endif //!APPLE
-    FMOD_RESULT result = m_pSystem->init(nMaxChannels, FMOD_INIT_NORMAL, 0);
+
+	FMOD_SPEAKERMODE speakermode = FMOD_SPEAKERMODE_STEREO; 
+	FMOD_CAPS        caps; 
+	FMOD_RESULT result = m_pSystem->getDriverCaps(0, &caps, 0, 0, &speakermode); 
+	result = m_pSystem->setSpeakerMode(speakermode);       /* Set the user selected speaker mode. */ 
+
+	if (caps & FMOD_CAPS_HARDWARE_EMULATED)             /* The user has the 'Acceleration' slider set to off!  This is really bad for latency!. */ 
+	{                                                   /* You might want to warn the user about this. */ 
+		result = m_pSystem->setDSPBufferSize(1024, 10);    /* At 48khz, the latency between issuing an fmod command and hearing it will now be about 213ms. */ 
+	} 
+
+    result = m_pSystem->init(nMaxChannels, FMOD_INIT_NORMAL, 0);
+	if (result == FMOD_ERR_OUTPUT_CREATEBUFFER)         /* Ok, the speaker mode selected isn't supported by this soundcard.  Switch it back to stereo... */ 
+	{ 
+		result = m_pSystem->setSpeakerMode(FMOD_SPEAKERMODE_STEREO); 
+
+		result = m_pSystem->init(100, FMOD_INIT_NORMAL, 0); /* Replace with whatever channel count and flags you use! */ 
+	} 
 
     if(result != FMOD_OK)
     {
@@ -254,11 +271,11 @@ bool FMODExEngine::SetPlayState( MUSIKEngine::PlayState state)
 	switch (state )
 	{
 	case MUSIKEngine::Paused:
-		return chgroup->overridePaused(true) == FMOD_OK;
+		return chgroup->setPaused(true) == FMOD_OK;
 	case MUSIKEngine::Playing:
-		return chgroup->overridePaused(false) == FMOD_OK;
+		return chgroup->setPaused(false) == FMOD_OK;
 	case MUSIKEngine::Stopped:
-		return chgroup->overridePaused(true) == FMOD_OK;
+		return chgroup->setPaused(true) == FMOD_OK;
 	case MUSIKEngine::Invalid:
 		return false;
 	}

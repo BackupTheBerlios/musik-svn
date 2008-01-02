@@ -316,12 +316,16 @@ ByteVector::~ByteVector()
 
 ByteVector &ByteVector::setData(const char *data, uint length)
 {
-  detach();
+  if(length)
+  {
+	detach();
 
-  resize(length);
-  ::memcpy(DATA(d), data, length);
-
-  return *this;
+	resize(length);
+	::memcpy(DATA(d), data, length);
+	return *this;
+  }
+  else
+	  return clear();
 }
 
 ByteVector &ByteVector::setData(const char *data)
@@ -332,12 +336,12 @@ ByteVector &ByteVector::setData(const char *data)
 char *ByteVector::data()
 {
   detach();
-  return DATA(d);
+  return size() ? DATA(d) : NULL;
 }
 
 const char *ByteVector::data() const
 {
-  return DATA(d);
+  return size() ? DATA(d) : NULL;
 }
 
 ByteVector ByteVector::mid(uint index, uint length) const
@@ -432,12 +436,14 @@ int ByteVector::endsWithPartialMatch(const ByteVector &pattern) const
 
 ByteVector &ByteVector::append(const ByteVector &v)
 {
-  detach();
+  if(v.size())
+  {
+    detach();
 
-  uint originalSize = d->size;
-  resize(d->size + v.d->size);
-  ::memcpy(DATA(d) + originalSize, DATA(v.d), v.size());
-
+    uint originalSize = d->size;
+    resize(d->size + v.d->size);
+    ::memcpy(DATA(d) + originalSize, DATA(v.d), v.size());
+  }
   return *this;
 }
 

@@ -17,13 +17,18 @@
  *   License along with this library; if not, write to the Free Software   *
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  *
  *   USA                                                                   *
+ *                                                                         *
+ *   Alternatively, this file is available under the Mozilla Public        *
+ *   License Version 1.1.  You may obtain a copy of the License at         *
+ *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
 #ifndef TAGLIB_ID3V2EXTENDEDHEADER_H
 #define TAGLIB_ID3V2EXTENDEDHEADER_H
 
-#include <tbytevector.h>
-#include <taglib.h>
+#include "taglib_export.h"
+#include "tbytevector.h"
+#include "taglib.h"
 
 namespace TagLib {
 
@@ -40,7 +45,7 @@ namespace TagLib {
      * (Structure, <a href="id3v2-structure.html#3.2">3.2</a>)
      */
 
-    class ExtendedHeader
+    class TAGLIB_EXPORT ExtendedHeader
     {
     public:
       /*!

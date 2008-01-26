@@ -256,11 +256,13 @@ bool MusikLibraryDialog::Show( bool show )
 	//---------------------------//
 	if ( wxGetApp().Prefs.bFirstRun )
 	{
-		wxString sMessage = 	_( "This is the first time %s has been run.\n\nTo begin, you must first add directories to the database. Select \"Add Directory\" from the \"Directories\" menu, then press the \"OK\" button to rebuild the library.\n\nTo display this window again, press CTRL+L in the main window, or select \"Library Setup\" from the \"Library\" menu.");
+		wxString sMessage = 	_( "This is the first time %s has been run.\n\nTo begin, you must first add directories to the database. Select \"Add\" from the upper right corner to add directories\n, then press the \"OK\" button to rebuild the library.\n\nTo display this window again, press CTRL+L in the main window, or select \"Library Setup\" from the \"Library\" menu.");
 							
 		wxMessageBox( wxString::Format(sMessage,MUSIKAPPNAME), MUSIKAPPNAME_VERSION, wxICON_INFORMATION );
 	
-		wxGetApp().Prefs.bFirstRun = 0;
+		wxGetApp().Prefs.bFirstRun = false;
+		PathsListAdd();
+
 	}
 	
 	//--- auto start ---//

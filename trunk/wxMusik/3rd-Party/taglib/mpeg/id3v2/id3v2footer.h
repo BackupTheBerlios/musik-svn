@@ -17,12 +17,17 @@
  *   License along with this library; if not, write to the Free Software   *
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  *
  *   USA                                                                   *
+ *                                                                         *
+ *   Alternatively, this file is available under the Mozilla Public        *
+ *   License Version 1.1.  You may obtain a copy of the License at         *
+ *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
 #ifndef TAGLIB_ID3V2FOOTER_H
 #define TAGLIB_ID3V2FOOTER_H
 
-#include <tbytevector.h>
+#include "taglib_export.h"
+#include "tbytevector.h"
 
 namespace TagLib {
 
@@ -42,7 +47,7 @@ namespace TagLib {
      * has been set in the ID3v2::Tag, TagLib will render a footer.
      */
 
-    class Footer
+    class TAGLIB_EXPORT Footer
     {
     public:
       /*!

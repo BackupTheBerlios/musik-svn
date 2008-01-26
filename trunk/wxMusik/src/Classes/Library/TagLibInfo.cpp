@@ -28,7 +28,7 @@ bool CTagLibInfo::ReadMetaData(CSongMetaData & MetaData) const
                                      //( without xing header) and some files with garbage at the start
                                          // we use mp3tech.c code from mp3info 0.8.4 therefore
     { // fileref scope
-	    TagLib::FileRef f((const char*)ConvFn2A(MetaData.Filename.GetFullPath()) ,readAudioProperties,audioPropertiesStyle);
+	    TagLib::FileRef f(MetaData.Filename.GetFullPath().c_str() ,readAudioProperties,audioPropertiesStyle);
 	    if(f.isNull())
 		    return false;
 	    TagLib::Tag *tag = f.tag();
@@ -87,7 +87,7 @@ bool CTagLibInfo::ReadMetaData(CSongMetaData & MetaData) const
 
 bool  CTagLibInfo::WriteMetaData(const CSongMetaData & MetaData,bool bClearAll)
 {
-	TagLib::FileRef f((const char*)ConvFn2A(MetaData.Filename.GetFullPath()));
+	TagLib::FileRef f(MetaData.Filename.GetFullPath().c_str());
 	if(f.isNull())
 		return false;
 	
@@ -105,7 +105,7 @@ bool  CTagLibInfo::WriteMetaData(const CSongMetaData & MetaData,bool bClearAll)
 
 bool CTagLibInfo::LoadImage(const wxString & sFilename, wxImage & img)
 {
-    TagLib::MPEG::File *pMpegfile =new TagLib::MPEG::File( (const char*)ConvFn2A(sFilename) ,false);
+    TagLib::MPEG::File *pMpegfile =new TagLib::MPEG::File(sFilename.c_str(),false);
 	TagLib::FileRef f(pMpegfile);  // to take care of deletion.
     
     if(pMpegfile->isValid() == false || pMpegfile->ID3v2Tag() == NULL)

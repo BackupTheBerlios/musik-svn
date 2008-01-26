@@ -4,6 +4,8 @@
 	Version="8,00"
 	Name="replaygain_analysis_static"
 	ProjectGUID="{BE656F15-A5C3-4472-9E7A-9CB970974395}"
+	RootNamespace="replaygain_analysis_static"
+	Keyword="Win32Proj"
 	>
 	<Platforms>
 		<Platform
@@ -14,92 +16,10 @@
 	</ToolFiles>
 	<Configurations>
 		<Configuration
-			Name="Release|Win32"
-			OutputDirectory=".\..\..\..\obj\release\lib"
-			IntermediateDirectory=".\Release_static"
-			ConfigurationType="4"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
-			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="false"
-			CharacterSet="2"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-				Optimization="2"
-				InlineFunctionExpansion="2"
-				EnableIntrinsicFunctions="true"
-				FavorSizeOrSpeed="1"
-				OmitFramePointers="true"
-				AdditionalIncludeDirectories=".\include,..\include\share"
-				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
-				StringPooling="true"
-				RuntimeLibrary="0"
-				EnableFunctionLevelLinking="true"
-				UsePrecompiledHeader="0"
-				PrecompiledHeaderFile=".\Release_static/replaygain_analysis_static.pch"
-				AssemblerListingLocation=".\Release_static/"
-				ObjectFile=".\Release_static/"
-				ProgramDataBaseFileName=".\Release_static/"
-				WarningLevel="3"
-				SuppressStartupBanner="true"
-				CompileAs="0"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG"
-				Culture="1033"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLibrarianTool"
-				OutputFile=".\..\..\..\obj\release\lib\replaygain_analysis_static.lib"
-				SuppressStartupBanner="true"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-			/>
-		</Configuration>
-		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory=".\..\..\..\obj\debug\lib"
-			IntermediateDirectory=".\Debug_static"
+			OutputDirectory="..\..\..\obj\debug\lib"
+			IntermediateDirectory="Debug_static"
 			ConfigurationType="4"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
-			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="false"
-			CharacterSet="2"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -119,36 +39,97 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\include,..\include\share"
-				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
+				AdditionalIncludeDirectories=".\include;..\include\share"
+				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;FLAC__NO_DLL;DEBUG"
+				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
-				BufferSecurityCheck="true"
 				UsePrecompiledHeader="0"
-				PrecompiledHeaderFile=".\Debug_static/replaygain_analysis_static.pch"
-				AssemblerListingLocation=".\Debug_static/"
-				ObjectFile=".\Debug_static/"
-				ProgramDataBaseFileName=".\Debug_static/"
 				WarningLevel="3"
-				SuppressStartupBanner="true"
+				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="4"
 				CompileAs="0"
+				DisableSpecificWarnings="4267;4996"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG"
-				Culture="1033"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile=".\..\..\..\obj\debug\lib\replaygain_analysis_static.lib"
-				SuppressStartupBanner="true"
+				OutputFile="..\..\..\obj\debug\lib\$(ProjectName).lib"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Release|Win32"
+			OutputDirectory="..\..\..\obj\release\lib"
+			IntermediateDirectory="Release_static"
+			ConfigurationType="4"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				EnableIntrinsicFunctions="true"
+				FavorSizeOrSpeed="1"
+				OmitFramePointers="true"
+				WholeProgramOptimization="true"
+				AdditionalIncludeDirectories=".\include;..\include\share"
+				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;FLAC__NO_DLL"
+				RuntimeLibrary="0"
+				BufferSecurityCheck="false"
+				UsePrecompiledHeader="0"
+				WarningLevel="3"
+				Detect64BitPortabilityProblems="true"
+				DebugInformationFormat="3"
+				CompileAs="0"
+				DisableSpecificWarnings="4267;4996"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLibrarianTool"
+				OutputFile="..\..\..\obj\release\lib\$(ProjectName).lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -171,34 +152,10 @@
 	</References>
 	<Files>
 		<Filter
-			Name="Source Files"
-			Filter="c"
+			Name="Header Files"
+			Filter="h;hpp;hxx;hm;inl;inc;xsd"
+			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
-			<File
-				RelativePath="replaygain_analysis.c"
-				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-						BasicRuntimeChecks="3"
-					/>
-				</FileConfiguration>
-			</File>
 		</Filter>
 		<Filter
 			Name="Public Header Files"
@@ -209,12 +166,14 @@
 			</File>
 		</Filter>
 		<Filter
-			Name="Private Header Files"
+			Name="Source Files"
+			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
+			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
-		</Filter>
-		<Filter
-			Name="Protected Header Files"
-			>
+			<File
+				RelativePath=".\replaygain_analysis.c"
+				>
+			</File>
 		</Filter>
 	</Files>
 	<Globals>

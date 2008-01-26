@@ -17,6 +17,10 @@
  *   License along with this library; if not, write to the Free Software   *
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  *
  *   USA                                                                   *
+ *                                                                         *
+ *   Alternatively, this file is available under the Mozilla Public        *
+ *   License Version 1.1.  You may obtain a copy of the License at         *
+ *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
 #include <algorithm>
@@ -138,11 +142,10 @@ typename List<T>::ConstIterator List<T>::end() const
 }
 
 template <class T>
-List<T> &List<T>::insert(Iterator it, const T &item)
+typename List<T>::Iterator List<T>::insert(Iterator it, const T &item)
 {
   detach();
-  d->list.insert(it, item);
-  return *this;
+  return d->list.insert(it, item);
 }
 
 template <class T>
@@ -233,10 +236,9 @@ bool List<T>::contains(const T &value) const
 }
 
 template <class T>
-List<T> &List<T>::erase(Iterator it)
+typename List<T>::Iterator List<T>::erase(Iterator it)
 {
-  d->list.erase(it);
-  return *this;
+  return d->list.erase(it);
 }
 
 template <class T>

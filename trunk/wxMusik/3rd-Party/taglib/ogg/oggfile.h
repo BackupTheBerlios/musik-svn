@@ -17,10 +17,15 @@
  *   License along with this library; if not, write to the Free Software   *
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  *
  *   USA                                                                   *
+ *                                                                         *
+ *   Alternatively, this file is available under the Mozilla Public        *
+ *   License Version 1.1.  You may obtain a copy of the License at         *
+ *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
-#include <tfile.h>
-#include <tbytevectorlist.h>
+#include "taglib_export.h"
+#include "tfile.h"
+#include "tbytevectorlist.h"
 
 #ifndef TAGLIB_OGGFILE_H
 #define TAGLIB_OGGFILE_H
@@ -42,7 +47,7 @@ namespace TagLib {
      * these available (via subclassing) to the codec meta data implementations.
      */
 
-    class File : public TagLib::File
+    class TAGLIB_EXPORT File : public TagLib::File
     {
     public:
       virtual ~File();
@@ -85,7 +90,7 @@ namespace TagLib {
        * instantiated directly but rather should be used through the codec
        * specific subclasses.
        */
-      File(const char *file);
+      File(FileName file);
 
     private:
       File(const File &);

@@ -17,6 +17,10 @@
  *   License along with this library; if not, write to the Free Software   *
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  *
  *   USA                                                                   *
+ *                                                                         *
+ *   Alternatively, this file is available under the Mozilla Public        *
+ *   License Version 1.1.  You may obtain a copy of the License at         *
+ *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
 #ifndef TAGLIB_LIST_H
@@ -99,7 +103,7 @@ namespace TagLib {
     /*!
      * Inserts a copy of \a value before \a it.
      */
-    List<T> &insert(Iterator it, const T &value);
+    Iterator insert(Iterator it, const T &value);
 
     /*!
      * Inserts the \a value into the list.  This assumes that the list is
@@ -147,12 +151,12 @@ namespace TagLib {
     bool isEmpty() const;
 
     /*!
-     * Find the first occurance of \a value.
+     * Find the first occurrence of \a value.
      */
     Iterator find(const T &value);
 
     /*!
-     * Find the first occurance of \a value.
+     * Find the first occurrence of \a value.
      */
     ConstIterator find(const T &value) const;
 
@@ -164,7 +168,7 @@ namespace TagLib {
     /*!
      * Erase the item at \a it from the list.
      */
-    List<T> &erase(Iterator it);
+    Iterator erase(Iterator it);
 
     /*!
      * Returns a reference to the first item in the list.

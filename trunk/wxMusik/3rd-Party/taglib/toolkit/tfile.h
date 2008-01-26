@@ -5,7 +5,7 @@
 
 /***************************************************************************
  *   This library is free software; you can redistribute it and/or modify  *
- *   it  under the terms of the GNU Lesser General Public License version  *
+ *   it under the terms of the GNU Lesser General Public License version   *
  *   2.1 as published by the Free Software Foundation.                     *
  *                                                                         *
  *   This library is distributed in the hope that it will be useful, but   *
@@ -17,11 +17,16 @@
  *   License along with this library; if not, write to the Free Software   *
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  *
  *   USA                                                                   *
+ *                                                                         *
+ *   Alternatively, this file is available under the Mozilla Public        *
+ *   License Version 1.1.  You may obtain a copy of the License at         *
+ *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
 #ifndef TAGLIB_FILE_H
 #define TAGLIB_FILE_H
 
+#include "taglib_export.h"
 #include "taglib.h"
 #include "tbytevector.h"
 
@@ -31,6 +36,23 @@ namespace TagLib {
   class Tag;
   class AudioProperties;
 
+
+#ifdef _WIN32
+  class TAGLIB_EXPORT FileName
+  {
+  public:
+    FileName(const wchar_t *name) : name(0), wname(name) {}
+    FileName(const char *name) : name(name), wname(0) {}
+    operator const wchar_t *() { return wname; }
+    operator const char *() { return name; }
+  protected:
+    const char *name;
+    const wchar_t *wname;
+  };
+#else
+  typedef const char *FileName;
+#endif
+
   //! A file class with some useful methods for tag manipulation
 
   /*!
@@ -39,7 +61,7 @@ namespace TagLib {
    * ByteVector and a binary search method for finding patterns in a file.
    */
 
-  class File
+  class TAGLIB_EXPORT File
   {
   public:
     /*!
@@ -62,7 +84,7 @@ namespace TagLib {
     /*!
      * Returns the file name in the local file system encoding.
      */
-    const char *name() const;
+    FileName name() const;
 
     /*!
      * Returns a pointer to this file's tag.  This should be reimplemented in
@@ -80,6 +102,12 @@ namespace TagLib {
     /*!
      * Save the file and its associated tags.  This should be reimplemented in
      * the concrete subclasses.  Returns true if the save succeeds.
+     *
+     * \warning On UNIX multiple processes are able to write to the same file at
+     * the same time.  This can result in serious file corruption.  If you are
+     * developing a program that makes use of TagLib from multiple processes you
+     * must insure that you are only doing writes to a particular file from one
+     * of them.
      */
     virtual bool save() = 0;
 
@@ -192,11 +220,15 @@ namespace TagLib {
     /*!
      * Returns true if \a file can be opened for reading.  If the file does not
      * exist, this will return false.
+     *
+     * \deprecated
      */
     static bool isReadable(const char *file);
 
     /*!
      * Returns true if \a file can be opened for writing.
+     *
+     * \deprecated
      */
     static bool isWritable(const char *name);
 
@@ -208,7 +240,7 @@ namespace TagLib {
      * \note Constructor is protected since this class should only be
      * instantiated through subclasses.
      */
-    File(const char *file);
+    File(FileName file);
 
     /*!
      * Marks the file as valid or invalid.

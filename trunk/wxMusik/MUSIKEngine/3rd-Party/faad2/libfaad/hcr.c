@@ -19,15 +19,13 @@
 ** Any non-GPL usage of this software or parts of this software is strictly
 ** forbidden.
 **
-** Software using this code must display the following message visibly in or
-** on each copy of the software:
-** "FAAD2 AAC/HE-AAC/HE-AACv2/DRM decoder (c) Nero AG, www.nero.com"
-** in, for example, the about-box or help/startup screen.
+** The "appropriate copyright message" mentioned in section 2c of the GPLv2
+** must read: "Code from FAAD2 is copyright (c) Nero AG, www.nero.com"
 **
 ** Commercial non-GPL licensing of this software is possible.
 ** For more info contact Nero AG through Mpeg4AAClicense@nero.com.
 **
-** $Id: hcr.c,v 1.21 2006/07/22 14:13:21 menno Exp $
+** $Id: hcr.c,v 1.24 2007/11/01 12:33:30 menno Exp $
 **/
 
 #include "common.h"
@@ -410,6 +408,7 @@ uint8_t reordered_spectral_data(NeAACDecHandle hDecoder, ic_stream *ics,
             rewrev_bits(&segment[i]);
     }
 
+#if 0 // Seems to give false errors
     bitsleft = 0;    
         
     for (i = 0; i < numberOfSegments && !bitsleft; i++)
@@ -422,8 +421,10 @@ uint8_t reordered_spectral_data(NeAACDecHandle hDecoder, ic_stream *ics,
     for (i = 0; (i < numberOfCodewords - numberOfSegments) && (!codewordsleft); i++)    
         if (!codeword[i].decoded)            
                 codewordsleft++; 
-        
+
     if (codewordsleft) return 10;
+#endif
+
 
     return 0;
 

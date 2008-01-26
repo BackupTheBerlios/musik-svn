@@ -17,12 +17,17 @@
  *   License along with this library; if not, write to the Free Software   *
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  *
  *   USA                                                                   *
+ *                                                                         *
+ *   Alternatively, this file is available under the Mozilla Public        *
+ *   License Version 1.1.  You may obtain a copy of the License at         *
+ *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
 #ifndef TAGLIB_TEXTIDENTIFICATIONFRAME_H
 #define TAGLIB_TEXTIDENTIFICATIONFRAME_H
 
 #include <tstringlist.h>
+#include "taglib_export.h"
 
 #include <id3v2frame.h>
 
@@ -92,7 +97,7 @@ namespace TagLib {
      * be used to determine the frame type.
      */
 
-    class TextIdentificationFrame : public Frame
+    class TAGLIB_EXPORT TextIdentificationFrame : public Frame
     {
       friend class FrameFactory;
 
@@ -187,7 +192,7 @@ namespace TagLib {
 
     //! An ID3v2 custom text identification frame implementationx
 
-    class UserTextIdentificationFrame : public TextIdentificationFrame
+    class TAGLIB_EXPORT UserTextIdentificationFrame : public TextIdentificationFrame
     {
       friend class FrameFactory;
 
@@ -212,7 +217,7 @@ namespace TagLib {
 
       /*!
        * Sets the description of the frame to \a s.  \a s must be unique.  You can
-       * check for the presense of another user defined text frame of the same type
+       * check for the presence of another user defined text frame of the same type
        * using find() and testing for null.
        */
       void setDescription(const String &s);
@@ -231,6 +236,8 @@ namespace TagLib {
       UserTextIdentificationFrame(const ByteVector &data, Header *h);
       UserTextIdentificationFrame(const TextIdentificationFrame &);
       UserTextIdentificationFrame &operator=(const UserTextIdentificationFrame &);
+
+      void checkFields();
 
       class UserTextIdentificationFramePrivate;
       UserTextIdentificationFramePrivate *d;

@@ -19,15 +19,13 @@
 ** Any non-GPL usage of this software or parts of this software is strictly
 ** forbidden.
 **
-** Software using this code must display the following message visibly in the
-** software:
-** "FAAD2 AAC/HE-AAC/HE-AACv2/DRM decoder (c) Ahead Software, www.nero.com"
-** in, for example, the about-box or help/startup screen.
+** The "appropriate copyright message" mentioned in section 2c of the GPLv2
+** must read: "Code from FAAD2 is copyright (c) Nero AG, www.nero.com"
 **
 ** Commercial non-GPL licensing of this software is possible.
 ** For more info contact Ahead Software through Mpeg4AAClicense@nero.com.
 **
-** $Id: ssr_ipqf.h,v 1.15 2005/02/01 13:15:59 menno Exp $
+** $Id: ssr_ipqf.h,v 1.17 2007/11/01 12:33:39 menno Exp $
 **/
 
 #ifndef __SSR_IPQF_H__

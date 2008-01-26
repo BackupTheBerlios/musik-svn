@@ -17,12 +17,17 @@
  *   License along with this library; if not, write to the Free Software   *
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  *
  *   USA                                                                   *
+ *                                                                         *
+ *   Alternatively, this file is available under the Mozilla Public        *
+ *   License Version 1.1.  You may obtain a copy of the License at         *
+ *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
 #ifndef TAGLIB_ID3V2HEADER_H
 #define TAGLIB_ID3V2HEADER_H
 
-#include <tbytevector.h>
+#include "tbytevector.h"
+#include "taglib_export.h"
 
 namespace TagLib {
 
@@ -39,7 +44,7 @@ namespace TagLib {
      * (Structure, <a href="id3v2-structure.html#3.1">3.1</a>)
      */
 
-    class Header
+    class TAGLIB_EXPORT Header
     {
     public:
       /*!
@@ -63,6 +68,13 @@ namespace TagLib {
        * ID3v2.4.0.  The 2 is implied.)
        */
       uint majorVersion() const;
+
+      /*!
+       * Set the the major version number to \a version.  (Note: This is
+       * the 4, not the 2 in ID3v2.4.0.  The 2 is implied.)
+       * \see majorVersion()
+       */
+      void setMajorVersion(uint version);
 
       /*!
        * Returns the revision number.  (Note: This is the 0, not the 4 in
@@ -128,8 +140,8 @@ namespace TagLib {
       static ByteVector fileIdentifier();
 
       /*!
-       * Sets the data that will be used as the extended header.  10 bytes,
-       * starting from \a data will be used.
+       * Sets the data that will be used as the header.  10 bytes, starting from
+       * the beginning of \a data are used.
        */
       void setData(const ByteVector &data);
 

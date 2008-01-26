@@ -17,15 +17,20 @@
  *   License along with this library; if not, write to the Free Software   *
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  *
  *   USA                                                                   *
+ *                                                                         *
+ *   Alternatively, this file is available under the Mozilla Public        *
+ *   License Version 1.1.  You may obtain a copy of the License at         *
+ *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
 #ifndef TAGLIB_OGGFLACFILE_H
 #define TAGLIB_OGGFLACFILE_H
 
-#include <oggfile.h>
-#include <xiphcomment.h>
+#include "taglib_export.h"
+#include "oggfile.h"
+#include "xiphcomment.h"
 
-#include <flacproperties.h>
+#include "flacproperties.h"
 
 namespace TagLib {
 
@@ -55,7 +60,7 @@ namespace TagLib {
      * information specific to Ogg FLAC files.
      */
 
-    class File : public Ogg::File
+    class TAGLIB_EXPORT File : public Ogg::File
     {
     public:
       /*!
@@ -63,7 +68,7 @@ namespace TagLib {
        * the file's audio properties will also be read using \a propertiesStyle.
        * If false, \a propertiesStyle is ignored.
        */
-      File(const char *file, bool readProperties = true,
+      File(FileName file, bool readProperties = true,
            Properties::ReadStyle propertiesStyle = Properties::Average);
 
       /*!

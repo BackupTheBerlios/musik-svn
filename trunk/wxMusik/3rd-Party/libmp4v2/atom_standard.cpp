@@ -41,10 +41,15 @@ MP4StandardAtom::MP4StandardAtom (const char *type) : MP4Atom(type)
    * Try to keep it in alphabetical order - it should only be called
    * 1 time per atom, so it's not that urgent.
    */
+  if (ATOMID(type) == ATOMID("aART") ||
+      ATOMID(type) == ATOMID("akID") ||
+      ATOMID(type) == ATOMID("apID") ||
+      ATOMID(type) == ATOMID("atID")) {
+      ExpectChildAtom("data", Required, OnlyOne);
   /*
    * b???
    */
-  if (ATOMID(type) == ATOMID("bitr")) {
+  } else if (ATOMID(type) == ATOMID("bitr")) {
     AddProperty( /* 0 */
 		new MP4Integer32Property("avgBitrate"));
     
@@ -55,6 +60,8 @@ MP4StandardAtom::MP4StandardAtom (const char *type) : MP4Atom(type)
     AddProperty( new MP4Integer32Property("bufferSizeDB")); /* 0 */
     AddProperty( new MP4Integer32Property("avgBitrate"));   /* 1 */
     AddProperty( new MP4Integer32Property("maxBitrate"));   /* 2 */
+  } else if (ATOMID(type) == ATOMID("burl")) {
+    AddProperty( new MP4StringProperty("base_url"));
   /*
    * c???
    */
@@ -75,12 +82,17 @@ MP4StandardAtom::MP4StandardAtom (const char *type) : MP4Atom(type)
     ExpectChildAtom("data", Required, OnlyOne);
   } else if (ATOMID(type) == ATOMID("covr")) { /* Apple iTunes */
     ExpectChildAtom("data", Required, Many);
-  } else if (ATOMID(type) == ATOMID("cprt")) {
+  } else if (ATOMID(type) == ATOMID("cprt") ||
+	     ATOMID(type) == ATOMID("cnID")) {
+#if 0
     AddVersionAndFlags();
     AddProperty(
 		new MP4Integer16Property("language"));
     AddProperty(
 		new MP4StringProperty("notice"));
+#else
+    ExpectChildAtom("data", Required, OnlyOne);
+#endif
 
   } else if (ATOMID(type) == ATOMID("ctts")) {
     AddVersionAndFlags();
@@ -138,7 +150,12 @@ MP4StandardAtom::MP4StandardAtom (const char *type) : MP4Atom(type)
   /*
    * g???
    */
-  } else if (ATOMID(type) == ATOMID("gnre")) { // Apple iTunes 
+  } else if (ATOMID(type) == ATOMID("gmhd")) { 
+    ExpectChildAtom("gmin", Required, OnlyOne);
+    ExpectChildAtom("tmcd", Optional, OnlyOne);
+    ExpectChildAtom("text", Optional, OnlyOne);
+  } else if (ATOMID(type) == ATOMID("gnre") ||
+	     ATOMID(type) == ATOMID("geID")) { // Apple iTunes 
     ExpectChildAtom("data", Optional, OnlyOne);
 
   /*
@@ -186,7 +203,9 @@ MP4StandardAtom::MP4StandardAtom (const char *type) : MP4Atom(type)
     ExpectChildAtom("cpil", Optional, OnlyOne); /* compilation */
     ExpectChildAtom("tmpo", Optional, OnlyOne); /* BPM */
     ExpectChildAtom("covr", Optional, OnlyOne); /* cover art */
+    ExpectChildAtom("aART", Optional, OnlyOne); /* album artist */
     ExpectChildAtom("----", Optional, Many); /* ---- free form */
+    ExpectChildAtom("pgap", Optional, OnlyOne); /* part of gapless album */
 
   }  else if (ATOMID(type) == ATOMID("imif")) {
     AddVersionAndFlags();
@@ -225,6 +244,7 @@ MP4StandardAtom::MP4StandardAtom (const char *type) : MP4Atom(type)
     ExpectChildAtom("smhd", Optional, OnlyOne);
     ExpectChildAtom("hmhd", Optional, OnlyOne);
     ExpectChildAtom("nmhd", Optional, OnlyOne);
+    ExpectChildAtom("gmhd", Optional, OnlyOne);
     ExpectChildAtom("dinf", Required, OnlyOne);
     ExpectChildAtom("stbl", Required, OnlyOne);
 
@@ -264,9 +284,16 @@ MP4StandardAtom::MP4StandardAtom (const char *type) : MP4Atom(type)
     AddProperty(new MP4Integer32Property("payloadNumber"));
     AddProperty(new MP4StringProperty("rtpMap", Counted));
 
+  } else if (ATOMID(type) == ATOMID("pinf")) {
+    ExpectChildAtom("frma", Required, OnlyOne);
   } else if (ATOMID(type) == ATOMID("pmax")) {
     AddProperty( // max packet size 
 		new MP4Integer32Property("bytes"));
+  } else if (ATOMID(type) == ATOMID("pgap") ||
+	     ATOMID(type) == ATOMID("plID") ||
+	     ATOMID(type) == ATOMID("purd") ||
+	     ATOMID(type) == ATOMID("rtng")) {
+    ExpectChildAtom("data", Required, OnlyOne);
   /*
    * s???
    */
@@ -342,7 +369,9 @@ MP4StandardAtom::MP4StandardAtom (const char *type) : MP4Atom(type)
 
     pTable->AddProperty(new MP4Integer32Property("sampleCount"));
     pTable->AddProperty(new MP4Integer32Property("sampleDelta"));
-
+  } else if (ATOMID(type) == ATOMID("sfID") ||
+	     ATOMID(type) == ATOMID("stik")) {
+    ExpectChildAtom("data", Required, OnlyOne);
   /*
    * t???
    */
@@ -373,6 +402,7 @@ MP4StandardAtom::MP4StandardAtom (const char *type) : MP4Atom(type)
     ExpectChildAtom("udta", Optional, Many);
 
   } else if (ATOMID(type) == ATOMID("tref")) {
+    ExpectChildAtom("chap", Optional, OnlyOne);
     ExpectChildAtom("dpnd", Optional, OnlyOne);
     ExpectChildAtom("hint", Optional, OnlyOne);
     ExpectChildAtom("ipir", Optional, OnlyOne);

@@ -58,6 +58,17 @@ static char* PrintAudioInfo(
 		"MPEG-4 ER HVXC",
 		"MPEG-4 ER HILN",
 		"MPEG-4 ER Parametric",
+		"MPEG-4 SSC",
+		"MPEG-4 PS",
+		"MPEG-4 MPEG Surround",
+		NULL,
+		"MPEG-4 Layer-1",
+		"MPEG-4 Layer-2",
+		"MPEG-4 Layer-3",
+		"MPEG-4 DST",
+		"MPEG-4 Audio Lossless",
+		"MPEG-4 SLS",
+		"MPEG-4 SLS non-core", 
 	};
 
 	static const u_int8_t mpegAudioTypes[] = {
@@ -115,26 +126,14 @@ static char* PrintAudioInfo(
 	    foundType = true;
 	    break;
 	  case MP4_MPEG4_AUDIO_TYPE:  {
-	    u_int8_t* pAacConfig = NULL;
-	    u_int32_t aacConfigLength;
-	    
-	    MP4GetTrackESConfiguration(mp4File,
-				       trackId,
-				       &pAacConfig,
-				       &aacConfigLength);
-	    
-	    if (pAacConfig != NULL && aacConfigLength >= 2) {
-	      type = (pAacConfig[0] >> 3) & 0x1f;
-	      if (type == 0 || /* type == 5 || */ type == 10 || type == 11 ||
-		  type == 18 || type >= 28) {
-		typeName = "MPEG-4 Unknown Profile";
-	      } else {
-	        typeName = mpeg4AudioNames[type - 1];
-		foundType = true;
-	      }
-	      free(pAacConfig);
+	
+	    type = MP4GetTrackAudioMpeg4Type(mp4File, trackId);
+	    if (type == MP4_MPEG4_INVALID_AUDIO_TYPE ||
+		type > NUM_ELEMENTS_IN_ARRAY(mpeg4AudioNames) || 
+		mpeg4AudioNames[type - 1] == NULL) {
+	      typeName = "MPEG-4 Unknown Profile";
 	    } else {
-	      typeName = "MPEG-4 (no GAConfig)";
+	      typeName = mpeg4AudioNames[type - 1];
 	      foundType = true;
 	    }
 	    break;
@@ -171,7 +170,7 @@ static char* PrintAudioInfo(
 
 	// type duration avgBitrate samplingFrequency
 	if (foundType)
-	  sprintf(sInfo,
+	  snprintf(sInfo, 256, 
 		  "%u\taudio\t%s%s, %.3f secs, %u kbps, %u Hz\n",
 		  trackId,
 		  MP4IsIsmaCrypMediaTrack(mp4File, trackId) ? "enca - " : "",
@@ -180,7 +179,7 @@ static char* PrintAudioInfo(
 		  (avgBitRate + 500) / 1000,
 		  timeScale);
 	else
-	  sprintf(sInfo,
+	  snprintf(sInfo, 256,
 		  "%u\taudio\t%s%s(%u), %.3f secs, %u kbps, %u Hz\n",
 		  trackId,
 		  MP4IsIsmaCrypMediaTrack(mp4File, trackId) ? "enca - " : "",
@@ -304,14 +303,29 @@ static char* PrintVideoInfo(
 	const char* typeName = "Unknown";
 
 	const char *media_data_name;
+	char originalFormat[8];
+	char  oformatbuffer[32];
+	originalFormat[0] = 0;
+	*oformatbuffer = 0;
 	uint8_t type = 0;
 	
 	media_data_name = MP4GetTrackMediaDataName(mp4File, trackId);
+	// encv 264b
+	if (strcasecmp(media_data_name, "encv") == 0) {
+	  if (MP4GetTrackMediaDataOriginalFormat(mp4File, 
+						 trackId, 
+						 originalFormat, 
+						 sizeof(originalFormat)) == false)
+	      media_data_name = NULL;
+	      
+	}
+  
 	char  typebuffer[80];
 	if (media_data_name == NULL) {
 	  typeName = "Unknown - no media data name";
 	  foundTypeName = true;
-	} else if (strcasecmp(media_data_name, "avc1") == 0) {
+	} else if ((strcasecmp(media_data_name, "avc1") == 0) ||
+	  	(strcasecmp(originalFormat, "264b") == 0)) {
 	  // avc
 	  uint8_t profile, level;
 	  char profileb[20], levelb[20];
@@ -332,24 +346,27 @@ static char* PrintVideoInfo(
 	    } else if (profile == 144) {
 	      strcpy(profileb, "High 4:4:4");
 	    } else {
-	      sprintf(profileb, "Unknown Profile %x", profile);
+	      snprintf(profileb, 20, "Unknown Profile %x", profile);
 	    } 
 	    switch (level) {
 	    case 10: case 20: case 30: case 40: case 50:
-	      sprintf(levelb, "%u", level / 10);
+	      snprintf(levelb, 20, "%u", level / 10);
 	      break;
 	    case 11: case 12: case 13:
 	    case 21: case 22:
 	    case 31: case 32:
 	    case 41: case 42:
 	    case 51:
-	      sprintf(levelb, "%u.%u", level / 10, level % 10);
+	      snprintf(levelb, 20, "%u.%u", level / 10, level % 10);
 	      break;
 	    default:
-	      sprintf(levelb, "unknown level %x", level);
+	      snprintf(levelb, 20, "unknown level %x", level);
 	      break;
 	    }
-	    sprintf(typebuffer, "H264 %s@%s", profileb, levelb);
+	    if (originalFormat != NULL && originalFormat[0] != '\0') 
+	      snprintf(oformatbuffer, 32, "(%s) ", originalFormat);
+	    snprintf(typebuffer, sizeof(typebuffer), "H264 %s%s@%s", 
+		    oformatbuffer, profileb, levelb);
 	    typeName = typebuffer;
 	  } else {
 	    typeName = "H.264 - profile/level error";
@@ -474,11 +491,12 @@ static char* PrintHintInfo(
 		MP4GetHintTrackReferenceTrackId(mp4File, trackId);
 
 	char* payloadName = NULL;
-	MP4GetHintTrackRtpPayload(mp4File, trackId, &payloadName);
+	if (!MP4GetHintTrackRtpPayload(mp4File, trackId, &payloadName))
+	  return NULL;
 
 	char *sInfo = (char*)MP4Malloc(256);
 
-	sprintf(sInfo,
+	snprintf(sInfo, 256, 
 		"%u\thint\tPayload %s for track %u\n",
 		trackId,
 		payloadName,
@@ -497,6 +515,7 @@ static char* PrintTrackInfo(
 
 	const char* trackType =
 		MP4GetTrackType(mp4File, trackId);
+	if (trackType == NULL) return NULL;
 
 	if (!strcmp(trackType, MP4_AUDIO_TRACK_TYPE)) {
 		trackInfo = PrintAudioInfo(mp4File, trackId);
@@ -509,15 +528,15 @@ static char* PrintTrackInfo(
 	} else {
 		trackInfo = (char*)MP4Malloc(256);
 		if (!strcmp(trackType, MP4_OD_TRACK_TYPE)) {
-			sprintf(trackInfo,
+		  snprintf(trackInfo, 256,
 				"%u\tod\tObject Descriptors\n",
 				trackId);
 		} else if (!strcmp(trackType, MP4_SCENE_TRACK_TYPE)) {
-			sprintf(trackInfo,
+		  snprintf(trackInfo, 256,
 				"%u\tscene\tBIFS\n",
 				trackId);
 		} else {
-			sprintf(trackInfo,
+		  snprintf(trackInfo, 256,
 					"%u\t%s\n",
 					trackId, trackType);
 		}
@@ -535,16 +554,21 @@ extern "C" char* MP4Info(
 	if (MP4_IS_VALID_FILE_HANDLE(mp4File)) {
 		try {
 			if (trackId == MP4_INVALID_TRACK_ID) {
-				info = (char*)MP4Calloc(4*1024);
+			  uint buflen = 4 * 1024;
+				info = (char*)MP4Calloc(buflen);
 
-				sprintf(info, "Track\tType\tInfo\n");
+				buflen -= snprintf(info, buflen,
+						"Track\tType\tInfo\n");
 
 				u_int32_t numTracks = MP4GetNumberOfTracks(mp4File);
 
 				for (u_int32_t i = 0; i < numTracks; i++) {
 					trackId = MP4FindTrackId(mp4File, i);
 					char* trackInfo = PrintTrackInfo(mp4File, trackId);
-					strcat(info, trackInfo);
+					strncat(info, trackInfo, buflen);
+					uint newlen = strlen(trackInfo);
+					if (newlen > buflen) buflen = 0;
+					else buflen -= newlen;
 					MP4Free(trackInfo);
 				}
 			} else {

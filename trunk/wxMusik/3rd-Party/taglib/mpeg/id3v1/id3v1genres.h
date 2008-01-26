@@ -17,13 +17,18 @@
  *   License along with this library; if not, write to the Free Software   *
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  *
  *   USA                                                                   *
+ *                                                                         *
+ *   Alternatively, this file is available under the Mozilla Public        *
+ *   License Version 1.1.  You may obtain a copy of the License at         *
+ *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
 #ifndef TAGLIB_ID3V1GENRE_H
 #define TAGLIB_ID3V1GENRE_H
 
-#include <tmap.h>
-#include <tstringlist.h>
+#include "tmap.h"
+#include "tstringlist.h"
+#include "taglib_export.h"
 
 namespace TagLib {
   namespace ID3v1 {
@@ -34,7 +39,7 @@ namespace TagLib {
      * Returns the list of canonical ID3v1 genre names in the order that they
      * are listed in the standard.
      */
-    StringList genreList();
+    StringList TAGLIB_EXPORT genreList();
 
     /*!
      * A "reverse mapping" that goes from the canonical ID3v1 genre name to the

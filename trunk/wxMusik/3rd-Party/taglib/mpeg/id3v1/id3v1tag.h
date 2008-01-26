@@ -17,13 +17,18 @@
  *   License along with this library; if not, write to the Free Software   *
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  *
  *   USA                                                                   *
+ *                                                                         *
+ *   Alternatively, this file is available under the Mozilla Public        *
+ *   License Version 1.1.  You may obtain a copy of the License at         *
+ *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
 #ifndef TAGLIB_ID3V1TAG_H
 #define TAGLIB_ID3V1TAG_H
 
-#include <tag.h>
-#include <tbytevector.h>
+#include "tag.h"
+#include "tbytevector.h"
+#include "taglib_export.h"
 
 namespace TagLib {
 
@@ -52,9 +57,11 @@ namespace TagLib {
      * \see ID3v1::Tag::setStringHandler()
      */
 
-    class StringHandler
+    class TAGLIB_EXPORT StringHandler
     {
     public:
+      // BIC: Add virtual destructor.
+
       /*!
        * Decode a string from \a data.  The default implementation assumes that
        * \a data is an ISO-8859-1 (Latin1) character array.
@@ -92,7 +99,7 @@ namespace TagLib {
      * truncation happens automatically when the tag is rendered.
      */
 
-    class Tag : public TagLib::Tag
+    class TAGLIB_EXPORT Tag : public TagLib::Tag
     {
     public:
       /*!

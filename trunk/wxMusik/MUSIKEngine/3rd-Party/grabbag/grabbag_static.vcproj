@@ -4,6 +4,8 @@
 	Version="8,00"
 	Name="grabbag_static"
 	ProjectGUID="{48D3E3D1-924B-4C8B-A22A-3BEDFE3521E2}"
+	RootNamespace="grabbag_static"
+	Keyword="Win32Proj"
 	>
 	<Platforms>
 		<Platform
@@ -15,13 +17,9 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory=".\..\..\..\obj\debug\lib"
-			IntermediateDirectory=".\Debug_static"
+			OutputDirectory="..\..\..\obj\debug\lib"
+			IntermediateDirectory="Debug_static"
 			ConfigurationType="4"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
-			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="false"
-			CharacterSet="2"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -42,35 +40,29 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories=".\include;..\include"
-				PreprocessorDefinitions="FLAC__NO_DLL;WIN32;_DEBUG;_LIB"
+				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;FLAC__NO_DLL;DEBUG"
+				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
-				BufferSecurityCheck="true"
 				UsePrecompiledHeader="0"
-				PrecompiledHeaderFile=".\Debug_static/grabbag_static.pch"
-				AssemblerListingLocation=".\Debug_static/"
-				ObjectFile=".\Debug_static/"
-				ProgramDataBaseFileName=".\Debug_static/"
 				WarningLevel="3"
-				SuppressStartupBanner="true"
+				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="4"
 				CompileAs="0"
+				DisableSpecificWarnings="4267;4996"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG"
-				Culture="1033"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile=".\..\..\..\obj\debug\lib\grabbag_static.lib"
-				SuppressStartupBanner="true"
+				OutputFile="..\..\..\obj\debug\lib\$(ProjectName).lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -90,13 +82,9 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\..\..\..\obj\release\lib"
-			IntermediateDirectory=".\Release_static"
+			OutputDirectory="..\..\..\obj\release\lib"
+			IntermediateDirectory="Release_static"
 			ConfigurationType="4"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
-			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="false"
-			CharacterSet="2"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -115,40 +103,33 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="2"
-				InlineFunctionExpansion="2"
 				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="1"
 				OmitFramePointers="true"
+				WholeProgramOptimization="true"
 				AdditionalIncludeDirectories=".\include;..\include"
-				PreprocessorDefinitions="FLAC__NO_DLL;WIN32;NDEBUG;_LIB"
-				StringPooling="true"
+				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;FLAC__NO_DLL"
 				RuntimeLibrary="0"
-				EnableFunctionLevelLinking="true"
+				BufferSecurityCheck="false"
 				UsePrecompiledHeader="0"
-				PrecompiledHeaderFile=".\Release_static/grabbag_static.pch"
-				AssemblerListingLocation=".\Release_static/"
-				ObjectFile=".\Release_static/"
-				ProgramDataBaseFileName=".\Release_static/"
 				WarningLevel="3"
-				SuppressStartupBanner="true"
+				Detect64BitPortabilityProblems="true"
+				DebugInformationFormat="3"
 				CompileAs="0"
+				DisableSpecificWarnings="4267;4996"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG"
-				Culture="1033"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile=".\..\..\..\obj\release\lib\grabbag_static.lib"
-				SuppressStartupBanner="true"
+				OutputFile="..\..\..\obj\release\lib\$(ProjectName).lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -171,127 +152,34 @@
 	</References>
 	<Files>
 		<Filter
-			Name="Source Files"
-			Filter="c"
+			Name="Header Files"
+			Filter="h;hpp;hxx;hm;inl;inc;xsd"
+			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
-			<File
-				RelativePath="cuesheet.c"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-						BasicRuntimeChecks="3"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="file.c"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-						BasicRuntimeChecks="3"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="replaygain.c"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-						BasicRuntimeChecks="3"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="seektable.c"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-						BasicRuntimeChecks="3"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="2"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-			</File>
 		</Filter>
 		<Filter
-			Name="Private Header Files"
+			Name="Source Files"
+			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
+			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\..\..\include\share\grabbag\cuesheet.h"
+				RelativePath=".\cuesheet.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\include\share\grabbag\file.h"
+				RelativePath=".\file.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\include\share\grabbag\replaygain.h"
+				RelativePath=".\picture.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\include\share\grabbag\seektable.h"
+				RelativePath=".\replaygain.c"
+				>
+			</File>
+			<File
+				RelativePath=".\seektable.c"
 				>
 			</File>
 		</Filter>
@@ -302,10 +190,30 @@
 				RelativePath="..\..\..\include\share\grabbag.h"
 				>
 			</File>
-		</Filter>
-		<Filter
-			Name="Protected Header Files"
-			>
+			<Filter
+				Name="grabbag"
+				>
+				<File
+					RelativePath="..\..\..\include\share\grabbag\cuesheet.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\include\share\grabbag\file.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\include\share\grabbag\picture.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\include\share\grabbag\replaygain.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\include\share\grabbag\seektable.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 	</Files>
 	<Globals>

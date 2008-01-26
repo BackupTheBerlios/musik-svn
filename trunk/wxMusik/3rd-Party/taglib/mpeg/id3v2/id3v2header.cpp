@@ -17,6 +17,10 @@
  *   License along with this library; if not, write to the Free Software   *
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  *
  *   USA                                                                   *
+ *                                                                         *
+ *   Alternatively, this file is available under the Mozilla Public        *
+ *   License Version 1.1.  You may obtain a copy of the License at         *
+ *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
 #include <iostream>
@@ -97,6 +101,11 @@ TagLib::uint Header::majorVersion() const
   return d->majorVersion;
 }
 
+void Header::setMajorVersion(TagLib::uint version)
+{
+  d->majorVersion = version;
+}
+
 TagLib::uint Header::revisionNumber() const
 {
   return d->revisionNumber;
@@ -157,6 +166,12 @@ ByteVector Header::render() const
 
   v.append(char(4));
   v.append(char(0));
+
+  // Currently we don't actually support writing extended headers or footers, so
+  // make sure that the flags are set accordingly.
+
+  d->extendedHeader = false;
+  d->footerPresent = false;
 
   // render and add the flags
   std::bitset<8> flags;

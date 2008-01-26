@@ -17,13 +17,17 @@
  *   License along with this library; if not, write to the Free Software   *
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  *
  *   USA                                                                   *
+ *                                                                         *
+ *   Alternatively, this file is available under the Mozilla Public        *
+ *   License Version 1.1.  You may obtain a copy of the License at         *
+ *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
 #ifndef TAGLIB_ID3V2SYNCHDATA_H
 #define TAGLIB_ID3V2SYNCHDATA_H
 
-#include <tbytevector.h>
-#include <taglib.h>
+#include "tbytevector.h"
+#include "taglib.h"
 
 namespace TagLib {
 
@@ -47,12 +51,17 @@ namespace TagLib {
        * <a href="id3v2-structure.html#6.2">6.2</a>).  The default \a length of
        * 4 is used if another value is not specified.
        */
-      uint toUInt(const ByteVector &data);
+      TAGLIB_EXPORT uint toUInt(const ByteVector &data);
 
       /*!
        * Returns a 4 byte (32 bit) synchsafe integer based on \a value.
        */
-      ByteVector fromUInt(uint value);
+      TAGLIB_EXPORT ByteVector fromUInt(uint value);
+
+      /*!
+       * Deunsynchronize the data (in-place).
+       */
+      TAGLIB_EXPORT void decode(ByteVector &data);
     }
 
   }

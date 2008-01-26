@@ -64,7 +64,7 @@ LIB32=link.exe -lib
 # PROP Intermediate_Dir "Debug_static"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /YX /FD /GZ /c
-# ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /I ".\include" /I "..\..\include" /D "FLAC__NO_DLL" /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /YX /FD /GZ /c
+# ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /I ".\include" /I "..\..\include" /D "FLAC__NO_DLL" /D "WIN32" /D "_DEBUG" /D "DEBUG" /D "_MBCS" /D "_LIB" /YX /FD /GZ /c
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
 # ADD RSC /l 0x409 /d "_DEBUG"
 BSC32=bscmake.exe
@@ -85,10 +85,6 @@ LIB32=link.exe -lib
 # PROP Default_Filter "cpp"
 # Begin Source File
 
-SOURCE=.\canonical_tag.c
-# End Source File
-# Begin Source File
-
 SOURCE=.\charset.c
 # End Source File
 # Begin Source File
@@ -97,7 +93,11 @@ SOURCE=.\dither.c
 # End Source File
 # Begin Source File
 
-SOURCE=.\vorbiscomment.c
+SOURCE=.\replaygain.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\tags.c
 # End Source File
 # End Group
 # Begin Group "Public Header Files"
@@ -109,10 +109,6 @@ SOURCE=.\all.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\canonical_tag.h
-# End Source File
-# Begin Source File
-
 SOURCE=.\charset.h
 # End Source File
 # Begin Source File
@@ -121,11 +117,11 @@ SOURCE=.\dither.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\locale_hack.h
+SOURCE=.\replaygain.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\vorbiscomment.h
+SOURCE=.\tags.h
 # End Source File
 # End Group
 # End Target

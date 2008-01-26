@@ -17,11 +17,16 @@
  *   License along with this library; if not, write to the Free Software   *
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  *
  *   USA                                                                   *
+ *                                                                         *
+ *   Alternatively, this file is available under the Mozilla Public        *
+ *   License Version 1.1.  You may obtain a copy of the License at         *
+ *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
 #ifndef TAGLIB_MPCFILE_H
 #define TAGLIB_MPCFILE_H
 
+#include "taglib_export.h"
 #include "tfile.h"
 
 #include "mpcproperties.h"
@@ -55,7 +60,7 @@ namespace TagLib {
      * The only invalid tag combination supported is an ID3v1 tag after an APE tag.
      */
 
-    class File : public TagLib::File
+    class TAGLIB_EXPORT File : public TagLib::File
     {
     public:
       /*!
@@ -80,7 +85,7 @@ namespace TagLib {
        * file's audio properties will also be read using \a propertiesStyle.  If
        * false, \a propertiesStyle is ignored.
        */
-      File(const char *file, bool readProperties = true,
+      File(FileName file, bool readProperties = true,
            Properties::ReadStyle propertiesStyle = Properties::Average);
 
       /*!

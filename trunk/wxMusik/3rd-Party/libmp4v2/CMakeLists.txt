@@ -4,6 +4,9 @@
 ADD_LIBRARY(mymp4v2 3gp.cpp
         atom_hdlr.cpp  
         atom_ohdr.cpp
+        atom_gmin.cpp
+        atom_stz2.cpp
+        atom_text.cpp
 	atom_s263.cpp      
 	atom_treftype.cpp
 	mp4descriptor.cpp
@@ -28,5 +31,5 @@ ADD_LIBRARY(mymp4v2 3gp.cpp
 	atom_free.cpp  atom_root.cpp  atom_tfhd.cpp      mp4container.cpp
 	qosqualifiers.cpp
 	atom_ftyp.cpp  atom_rtp.cpp   atom_tkhd.cpp      mp4.cpp
-	rtphint.cpp
+	rtphint.cpp virtual_io.cpp
 )

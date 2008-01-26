@@ -17,19 +17,23 @@
  *   License along with this library; if not, write to the Free Software   *
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  *
  *   USA                                                                   *
+ *                                                                         *
+ *   Alternatively, this file is available under the Mozilla Public        *
+ *   License Version 1.1.  You may obtain a copy of the License at         *
+ *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
 #ifndef TAGLIB_FILEREF_H
 #define TAGLIB_FILEREF_H
 
+#include <tfile.h>
 #include <tstringlist.h>
 
+#include "taglib_export.h"
 #include "audioproperties.h"
 
 namespace TagLib {
 
-  class String;
-  class File;
   class Tag;
 
   //! This class provides a simple abstraction for creating and handling files
@@ -52,7 +56,7 @@ namespace TagLib {
    * \see addFileTypeResolver()
    */
 
-  class FileRef
+  class TAGLIB_EXPORT FileRef
   {
   public:
     
@@ -68,7 +72,7 @@ namespace TagLib {
    *
    * class MyFileTypeResolver : FileTypeResolver
    * {
-   *   TagLib::File *createFile(const char *fileName, bool, AudioProperties::ReadStyle)
+   *   TagLib::File *createFile(TagLib::FileName *fileName, bool, AudioProperties::ReadStyle)
    * {
    *     if(someCheckForAnMP3File(fileName))
    *       return new TagLib::MPEG::File(fileName);
@@ -88,8 +92,11 @@ namespace TagLib {
     class FileTypeResolver
     {
      public:
+      // do not fix compiler warning about missing virtual destructor
+      // since this would not be binary compatible
+      // let Scott fix it whenever he thinks BIC changes can next be applied
       /*!
-       * This method must be overriden to provide an additional file type
+       * This method must be overridden to provide an additional file type
        * resolver.  If the resolver is able to determine the file type it should
        * return a valid File object; if not it should return 0.
        *
@@ -97,7 +104,7 @@ namespace TagLib {
        * deleted.  Deletion will happen automatically when the FileRef passes
        * out of scope.
        */
-      virtual File *createFile(const char *fileName,
+      virtual File *createFile(FileName fileName,
                                bool readAudioProperties = true,
                                AudioProperties::ReadStyle
                                audioPropertiesStyle = AudioProperties::Average) const = 0;
@@ -117,7 +124,7 @@ namespace TagLib {
      * Also see the note in the class documentation about why you may not want to
      * use this method in your application.
      */
-    explicit FileRef(const char *fileName,
+    explicit FileRef(FileName fileName,
                      bool readAudioProperties = true,
                      AudioProperties::ReadStyle
                      audioPropertiesStyle = AudioProperties::Average);
@@ -240,7 +247,7 @@ namespace TagLib {
      *
      * \deprecated
      */
-    static File *create(const char *fileName,
+    static File *create(FileName fileName,
                         bool readAudioProperties = true,
                         AudioProperties::ReadStyle audioPropertiesStyle = AudioProperties::Average);
 

@@ -17,6 +17,10 @@
  *   License along with this library; if not, write to the Free Software   *
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  *
  *   USA                                                                   *
+ *                                                                         *
+ *   Alternatively, this file is available under the Mozilla Public        *
+ *   License Version 1.1.  You may obtain a copy of the License at         *
+ *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
 #include <tbytevector.h>
@@ -64,7 +68,7 @@ public:
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-Ogg::FLAC::File::File(const char *file, bool readProperties,
+Ogg::FLAC::File::File(FileName file, bool readProperties,
                       Properties::ReadStyle propertiesStyle) : Ogg::File(file)
 {
   d = new FilePrivate;
@@ -216,7 +220,7 @@ void Ogg::FLAC::File::scan()
   // <24> Length of metadata to follow
 
   char blockType = header[0] & 0x7f;
-  bool lastBlock = header[0] & 0x80;
+  bool lastBlock = (header[0] & 0x80) != 0;
   uint length = header.mid(1, 3).toUInt();
   overhead += length;
 
@@ -239,7 +243,7 @@ void Ogg::FLAC::File::scan()
 
     header = metadataHeader.mid(0, 4);
     blockType = header[0] & 0x7f;
-    lastBlock = header[0] & 0x80;
+    lastBlock = (header[0] & 0x80) != 0;
     length = header.mid(1, 3).toUInt();
     overhead += length;
 

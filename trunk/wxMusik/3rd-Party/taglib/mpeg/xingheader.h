@@ -17,12 +17,17 @@
  *   License along with this library; if not, write to the Free Software   *
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  *
  *   USA                                                                   *
+ *                                                                         *
+ *   Alternatively, this file is available under the Mozilla Public        *
+ *   License Version 1.1.  You may obtain a copy of the License at         *
+ *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
 #ifndef TAGLIB_XINGHEADER_H
 #define TAGLIB_XINGHEADER_H
 
 #include "mpegheader.h"
+#include "taglib_export.h"
 
 namespace TagLib {
 
@@ -42,7 +47,7 @@ namespace TagLib {
      * and the XMMS sources as references.
      */
 
-    class XingHeader
+    class TAGLIB_EXPORT XingHeader
     {
       public:
         /*!
@@ -57,7 +62,7 @@ namespace TagLib {
         virtual ~XingHeader();
 
         /*!
-         * Returns true if the data was parsed properly and if there is a vaild
+       * Returns true if the data was parsed properly and if there is a valid
 	 * Xing header present.
          */
         bool isValid() const;
@@ -76,10 +81,14 @@ namespace TagLib {
          * Returns the offset for the start of this Xing header, given the
 	 * version and channels of the frame
          */
+      // BIC: rename to offset()
         static int xingHeaderOffset(TagLib::MPEG::Header::Version v,
                                     TagLib::MPEG::Header::ChannelMode c);
 
       private:
+      XingHeader(const XingHeader &);
+      XingHeader &operator=(const XingHeader &);
+
         void parse(const ByteVector &data);
 
 	class XingHeaderPrivate;

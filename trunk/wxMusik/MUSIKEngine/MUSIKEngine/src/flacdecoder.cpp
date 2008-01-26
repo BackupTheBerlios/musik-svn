@@ -53,21 +53,16 @@ bool MUSIKFLACDecoder::OpenMedia(const char *FileName)
 	fclose(MyFLACFILE);
 	m_FlacInfo.flac_abort = false;
 	m_Info.SampleCount = 0;
-	FLAC__FileDecoder *decoder  = FLAC__file_decoder_new();
+	FLAC__StreamDecoder *decoder  = FLAC__stream_decoder_new();
 	m_FlacInfo.Decoder = decoder;
-	FLAC__file_decoder_set_client_data(decoder,(void *)&m_FlacInfo);
-	FLAC__file_decoder_set_md5_checking(decoder, false);
-	FLAC__file_decoder_set_filename(decoder, FileName);
-	FLAC__file_decoder_set_metadata_ignore_all(decoder);
-	FLAC__file_decoder_set_metadata_respond(decoder, FLAC__METADATA_TYPE_STREAMINFO);
-	FLAC__file_decoder_set_metadata_respond(decoder, FLAC__METADATA_TYPE_VORBIS_COMMENT);
-	FLAC__file_decoder_set_metadata_callback(decoder, FLACMetaCallback);
-	FLAC__file_decoder_set_write_callback(decoder, FLACWriteCallback);
-	FLAC__file_decoder_set_error_callback(decoder,FLACErrorCallback);
-	FLAC__FileDecoderState nRetVal = FLAC__file_decoder_init(decoder);
-	if (nRetVal == FLAC__FILE_DECODER_OK)
+	FLAC__stream_decoder_set_md5_checking(decoder, false);
+	FLAC__stream_decoder_set_metadata_ignore_all(decoder);
+	FLAC__stream_decoder_set_metadata_respond(decoder, FLAC__METADATA_TYPE_STREAMINFO);
+	FLAC__stream_decoder_set_metadata_respond(decoder, FLAC__METADATA_TYPE_VORBIS_COMMENT);
+	FLAC__StreamDecoderInitStatus nRetVal = FLAC__stream_decoder_init_file(decoder,FileName,FLACWriteCallback,FLACMetaCallback,FLACErrorCallback,(void *)&m_FlacInfo);
+	if (nRetVal == FLAC__STREAM_DECODER_INIT_STATUS_OK)
 	{
-		FLAC__file_decoder_process_until_end_of_metadata(decoder);
+		FLAC__stream_decoder_process_until_end_of_metadata(decoder);
 
 		int decoder_buffer_size = (FLAC_SAMPLES_PER_WRITE * m_FlacInfo.streaminfo.channels * m_FlacInfo.streaminfo.bits_per_sample)*4;
 		/* convert from samples to ms */
@@ -100,11 +95,11 @@ int MUSIKFLACDecoder::DecodeBlocks(unsigned char *buff,int /*len*/)
 	
 	while(m_FlacInfo.wide_samples_in_reservoir_ < FLAC_SAMPLES_PER_WRITE) 
 	{
-		if(FLAC__file_decoder_get_state(m_FlacInfo.Decoder) == FLAC__FILE_DECODER_END_OF_FILE) {
+		if(FLAC__stream_decoder_get_state(m_FlacInfo.Decoder) == FLAC__STREAM_DECODER_END_OF_STREAM) {
 			return 0;
 		}
-		else if(!FLAC__file_decoder_process_single(m_FlacInfo.Decoder)) {
-			//show_error("Error while processing frame (%s).", FLAC__FileDecoderStateString[FLAC__file_decoder_get_state(m_FlacInfo.Decoder)]);
+		else if(!FLAC__stream_decoder_process_single(m_FlacInfo.Decoder)) {
+			//show_error("Error while processing frame (%s).", FLAC__FileDecoderStateString[FLAC__stream_decoder_get_state(m_FlacInfo.Decoder)]);
 			return 0;
 		}
 	}
@@ -164,7 +159,7 @@ int MUSIKFLACDecoder::DecodeBlocks(unsigned char *buff,int /*len*/)
 	}
 	return 0;
 }
-FLAC__StreamDecoderWriteStatus MUSIKFLACDecoder::FLACWriteCallback(const FLAC__FileDecoder *decoder, 
+FLAC__StreamDecoderWriteStatus MUSIKFLACDecoder::FLACWriteCallback(const FLAC__StreamDecoder *decoder, 
 																	const FLAC__Frame *frame, 
 																	const FLAC__int32 * const buffer[], void *client_data)
 {
@@ -183,7 +178,7 @@ FLAC__StreamDecoderWriteStatus MUSIKFLACDecoder::FLACWriteCallback(const FLAC__F
 	return FLAC__STREAM_DECODER_WRITE_STATUS_CONTINUE;
 }
 
-void MUSIKFLACDecoder::FLACMetaCallback(const FLAC__FileDecoder * /*decoder*/, const FLAC__StreamMetadata *metadata, void *client_data)
+void MUSIKFLACDecoder::FLACMetaCallback(const FLAC__StreamDecoder * /*decoder*/, const FLAC__StreamMetadata *metadata, void *client_data)
 {
 	/* TO-DO: Meta data */
 	FLACStreamInfo *pFlacInfo=(FLACStreamInfo *)client_data;
@@ -194,8 +189,8 @@ void MUSIKFLACDecoder::FLACMetaCallback(const FLAC__FileDecoder * /*decoder*/, c
 	else if(metadata->type == FLAC__METADATA_TYPE_VORBIS_COMMENT) 
 	{
 //#if temporary_disabled
-		double gain, peak;
-		if(grabbag__replaygain_load_from_vorbiscomment(metadata, pFlacInfo->cfg.replaygain.album_mode, &gain, &peak)) {
+		double reference,gain, peak;
+		if(grabbag__replaygain_load_from_vorbiscomment(metadata, pFlacInfo->cfg.replaygain.album_mode,/*strict=*/false, &reference, &gain, &peak)) {
 			pFlacInfo->has_replaygain = true;
 			pFlacInfo->replay_scale = grabbag__replaygain_compute_scale_factor(peak, gain, (double)pFlacInfo->cfg.replaygain.preamp, !pFlacInfo->cfg.replaygain.hard_limit);
 		}
@@ -206,7 +201,7 @@ void MUSIKFLACDecoder::FLACMetaCallback(const FLAC__FileDecoder * /*decoder*/, c
 }
 
 
-void MUSIKFLACDecoder::FLACErrorCallback(const FLAC__FileDecoder * /*decoder*/, FLAC__StreamDecoderErrorStatus status, void *client_data) 
+void MUSIKFLACDecoder::FLACErrorCallback(const FLAC__StreamDecoder * /*decoder*/, FLAC__StreamDecoderErrorStatus status, void *client_data) 
 {
 	/* TO-DO: Error handling */
 	FLACStreamInfo *pFlacInfo=(FLACStreamInfo *)client_data;
@@ -222,7 +217,7 @@ void MUSIKFLACDecoder::FLACErrorCallback(const FLAC__FileDecoder * /*decoder*/, 
 bool MUSIKFLACDecoder::DoSeek(int64_t samplepos)
 {
 	
-	if(FLAC__file_decoder_seek_absolute(m_FlacInfo.Decoder, (FLAC__uint64)samplepos)) {
+	if(FLAC__stream_decoder_seek_absolute(m_FlacInfo.Decoder, (FLAC__uint64)samplepos)) {
 		SetDecodeSamplePos(samplepos);
 		return true;
 	}
@@ -232,7 +227,7 @@ bool MUSIKFLACDecoder::DoSeek(int64_t samplepos)
 bool MUSIKFLACDecoder::Close()
 {
 	MUSIKDecoder::Close();
-	FLAC__file_decoder_delete(m_FlacInfo.Decoder);
+	FLAC__stream_decoder_delete(m_FlacInfo.Decoder);
 	return true;
 }
 

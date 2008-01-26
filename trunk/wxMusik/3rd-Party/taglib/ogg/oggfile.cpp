@@ -17,6 +17,10 @@
  *   License along with this library; if not, write to the Free Software   *
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  *
  *   USA                                                                   *
+ *                                                                         *
+ *   Alternatively, this file is available under the Mozilla Public        *
+ *   License Version 1.1.  You may obtain a copy of the License at         *
+ *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
 #include <tbytevectorlist.h>
@@ -114,7 +118,7 @@ ByteVector Ogg::File::packet(uint i)
   // packet that we're fetching or where the last packet is complete.
 
   ByteVector packet = d->currentPackets.back();
-  while((d->currentPacketPage->containsPacket(i) & Page::EndsWithPacket) &&
+  while(d->currentPacketPage->containsPacket(i) & Page::EndsWithPacket &&
         !d->currentPacketPage->header()->lastPacketCompleted())
   {
     pageIndex++;
@@ -204,7 +208,7 @@ bool Ogg::File::save()
 // protected members
 ////////////////////////////////////////////////////////////////////////////////
 
-Ogg::File::File(const char *file) : TagLib::File(file)
+Ogg::File::File(FileName file) : TagLib::File(file)
 {
   d = new FilePrivate;
 }

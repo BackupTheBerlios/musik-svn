@@ -1,5 +1,5 @@
-/* libFLAC - Free Lossless Audio Codec library
- * Copyright (C) 2000,2001,2002,2003,2004,2005  Josh Coalson
+/* libFLAC - Free Lossless Audio Codec
+ * Copyright (C) 2004,2005,2006,2007  Josh Coalson
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -29,14 +29,19 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLAC__PROTECTED__SEEKABLE_STREAM_DECODER_H
-#define FLAC__PROTECTED__SEEKABLE_STREAM_DECODER_H
-
-#include "FLAC/seekable_stream_decoder.h"
-
-typedef struct FLAC__SeekableStreamDecoderProtected {
-	FLAC__bool md5_checking; /* if true, generate MD5 signature of decoded data and compare against signature in the STREAMINFO metadata block */
-	FLAC__SeekableStreamDecoderState state;
-} FLAC__SeekableStreamDecoderProtected;
-
+#if HAVE_CONFIG_H
+#  include <config.h>
 #endif
+
+#include "private/ogg_mapping.h"
+
+const unsigned FLAC__OGG_MAPPING_PACKET_TYPE_LEN = 8; /* bits */
+
+const FLAC__byte FLAC__OGG_MAPPING_FIRST_HEADER_PACKET_TYPE = 0x7f;
+
+const FLAC__byte * const FLAC__OGG_MAPPING_MAGIC = (const FLAC__byte * const)"FLAC";
+
+const unsigned FLAC__OGG_MAPPING_VERSION_MAJOR_LEN = 8; /* bits */
+const unsigned FLAC__OGG_MAPPING_VERSION_MINOR_LEN = 8; /* bits */
+
+const unsigned FLAC__OGG_MAPPING_NUM_HEADERS_LEN = 16; /* bits */

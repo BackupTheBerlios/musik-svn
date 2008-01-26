@@ -19,15 +19,13 @@
 ** Any non-GPL usage of this software or parts of this software is strictly
 ** forbidden.
 **
-** Software using this code must display the following message visibly in or
-** on each copy of the software:
-** "FAAD2 AAC/HE-AAC/HE-AACv2/DRM decoder (c) Nero AG, www.nero.com"
-** in, for example, the about-box or help/startup screen.
+** The "appropriate copyright message" mentioned in section 2c of the GPLv2
+** must read: "Code from FAAD2 is copyright (c) Nero AG, www.nero.com"
 **
 ** Commercial non-GPL licensing of this software is possible.
 ** For more info contact Nero AG through Mpeg4AAClicense@nero.com.
 **
-** $Id: structs.h,v 1.44 2006/05/07 18:09:03 menno Exp $
+** $Id: structs.h,v 1.46 2007/11/01 12:33:40 menno Exp $
 **/
 
 #ifndef __STRUCTS_H__
@@ -478,6 +476,7 @@ typedef struct
     int64_t scalefac_cycles;
     int64_t requant_cycles;
 #endif
+	const unsigned char *cmes;
 } NeAACDecStruct, *NeAACDecHandle;
 
 

@@ -17,6 +17,10 @@
  *   License along with this library; if not, write to the Free Software   *
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  *
  *   USA                                                                   *
+ *                                                                         *
+ *   Alternatively, this file is available under the Mozilla Public        *
+ *   License Version 1.1.  You may obtain a copy of the License at         *
+ *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
 #include <tfile.h>
@@ -26,6 +30,7 @@
 #include "id3v2header.h"
 #include "id3v2extendedheader.h"
 #include "id3v2footer.h"
+#include "id3v2synchdata.h"
 
 #include "id3v1genres.h"
 
@@ -124,69 +129,47 @@ String ID3v2::Tag::genre() const
   // should be separated by " / " instead of " ".  For the moment to keep
   // the behavior the same as released versions it is being left with " ".
 
-  if(!d->frameListMap["TCON"].isEmpty() &&
-     dynamic_cast<TextIdentificationFrame *>(d->frameListMap["TCON"].front()))
+  if(d->frameListMap["TCON"].isEmpty() ||
+     !dynamic_cast<TextIdentificationFrame *>(d->frameListMap["TCON"].front()))
   {
-    Frame *frame = d->frameListMap["TCON"].front();
-
-    // ID3v2.4 lists genres as the fields in its frames field list.  If the field
-    // is simply a number it can be assumed that it is an ID3v1 genre number.
-    // Here was assume that if an ID3v1 string is present that it should be
-    // appended to the genre string.  Multiple fields will be appended as the
-    // string is built.
-
-    if(d->header.majorVersion() == 4) {
-      TextIdentificationFrame *f = static_cast<TextIdentificationFrame *>(frame);
-      StringList fields = f->fieldList();
-
-      String genreString;
-      bool hasNumber = false;
-
-      for(StringList::ConstIterator it = fields.begin(); it != fields.end(); ++it) {
-        bool isNumber = true;
-        for(String::ConstIterator charIt = (*it).begin();
-            isNumber && charIt != (*it).end();
-            ++charIt)
-        {
-          isNumber = *charIt >= '0' && *charIt <= '9';
-        }
-
-        if(!genreString.isEmpty())
-          genreString.append(' ');
-
-        if(isNumber) {
-          int number = (*it).toInt();
-          if(number >= 0 && number <= 255) {
-            hasNumber = true;
-            genreString.append(ID3v1::genre(number));
-          }
-        }
-        else
-          genreString.append(*it);
-      }
-      if(hasNumber)
-        return genreString;
-    }
-
-    String s = frame->toString();
-
-    // ID3v2.3 "content type" can contain a ID3v1 genre number in parenthesis at
-    // the beginning of the field.  If this is all that the field contains, do a
-    // translation from that number to the name and return that.  If there is a
-    // string folloing the ID3v1 genre number, that is considered to be
-    // authoritative and we return that instead.  Or finally, the field may
-    // simply be free text, in which case we just return the value.
-
-    int closing = s.find(")");
-    if(s.substr(0, 1) == "(" && closing > 0) {
-      if(closing == int(s.size() - 1))
-        return ID3v1::genre(s.substr(1, s.size() - 2).toInt());
-      else
-        return s.substr(closing + 1);
-    }
-    return s;
+    return String::null;
   }
-  return String::null;
+
+// ID3v2.4 lists genres as the fields in its frames field list.  If the field
+  // is simply a number it can be assumed that it is an ID3v1 genre number.
+  // Here was assume that if an ID3v1 string is present that it should be
+  // appended to the genre string.  Multiple fields will be appended as the
+  // string is built.
+
+  TextIdentificationFrame *f = static_cast<TextIdentificationFrame *>(
+    d->frameListMap["TCON"].front());
+
+  StringList fields = f->fieldList();
+
+  StringList genres;
+
+  for(StringList::Iterator it = fields.begin(); it != fields.end(); ++it) {
+
+    bool isNumber = true;
+
+    for(String::ConstIterator charIt = (*it).begin();
+        isNumber && charIt != (*it).end();
+        ++charIt)
+    {
+      isNumber = *charIt >= '0' && *charIt <= '9';
+    }
+
+    if(isNumber) {
+      int number = (*it).toInt();
+      if(number >= 0 && number <= 255)
+        *it = ID3v1::genre(number);
+    }
+
+    if(std::find(genres.begin(), genres.end(), *it) == genres.end())
+      genres.append(*it);
+  }
+
+  return genres.toString();
 }
 
 TagLib::uint ID3v2::Tag::year() const
@@ -241,12 +224,23 @@ void ID3v2::Tag::setGenre(const String &s)
     return;
   }
 
+  // iTunes can't handle correctly encoded ID3v2.4 numerical genres.  Just use
+  // strings until iTunes sucks less.
+
+#ifdef NO_ITUNES_HACKS
+
   int index = ID3v1::genreIndex(s);
 
   if(index != 255)
     setTextFrame("TCON", String::number(index));
   else
     setTextFrame("TCON", s);
+
+#else
+
+  setTextFrame("TCON", s);
+
+#endif
 }
 
 void ID3v2::Tag::setYear(uint i)
@@ -388,8 +382,14 @@ void ID3v2::Tag::read()
   }
 }
 
-void ID3v2::Tag::parse(const ByteVector &data)
+void ID3v2::Tag::parse(const ByteVector &origData)
 {
+  ByteVector data = origData;
+
+  if(d->header.unsynchronisation() && d->header.majorVersion() <= 3) {
+    SynchData::decode(data);
+  }
+
   uint frameDataPosition = 0;
   uint frameDataLength = data.size();
 
@@ -431,8 +431,8 @@ void ID3v2::Tag::parse(const ByteVector &data)
     }
 
     Frame *frame = d->factory->createFrame(data.mid(frameDataPosition),
-                                           d->header.majorVersion());
-#if 0
+                                           &d->header);
+
     if(!frame)
       return;
 
@@ -442,15 +442,10 @@ void ID3v2::Tag::parse(const ByteVector &data)
       delete frame;
       return;
     }
-#endif
-	if(frame)
-	{
+
 		frameDataPosition += frame->size() + Frame::headerSize(d->header.majorVersion());
 		addFrame(frame);
 	}
-	else
-		frameDataPosition +=  Frame::headerSize(d->header.majorVersion());
-  }
 }
 
 void ID3v2::Tag::setTextFrame(const ByteVector &id, const String &value)

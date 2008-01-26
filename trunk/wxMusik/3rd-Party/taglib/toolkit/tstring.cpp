@@ -17,6 +17,10 @@
  *   License along with this library; if not, write to the Free Software   *
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  *
  *   USA                                                                   *
+ *                                                                         *
+ *   Alternatively, this file is available under the Mozilla Public        *
+ *   License Version 1.1.  You may obtain a copy of the License at         *
+ *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
 #include "tstring.h"
@@ -24,6 +28,8 @@
 #include "tdebug.h"
 
 #include <iostream>
+
+#include <string.h>
 
 namespace TagLib {
 
@@ -88,7 +94,7 @@ String::String(const std::string &s, Type t)
     return;
   }
 
-  int length = (int)s.length();
+  int length = s.length();
   d->data.resize(length);
   wstring::iterator targetIt = d->data.begin();
 
@@ -121,7 +127,7 @@ String::String(const char *s, Type t)
     return;
   }
 
-  int length = (int)::strlen(s);
+  int length = ::strlen(s);
   d->data.resize(length);
 
   wstring::iterator targetIt = d->data.begin();
@@ -210,7 +216,7 @@ std::string String::to8Bit(bool unicode) const
     return s;
   }
 
-  const int outputBufferSize = (int)d->data.size() * 3 + 1;
+  const int outputBufferSize = d->data.size() * 3 + 1;
 
   Unicode::UTF16 *sourceBuffer = new Unicode::UTF16[d->data.size() + 1];
   Unicode::UTF8  *targetBuffer = new Unicode::UTF8[outputBufferSize];
@@ -287,6 +293,14 @@ int String::find(const String &s, int offset) const
     return -1;
 }
 
+bool String::startsWith(const String &s) const
+{
+  if(s.length() > length())
+    return false;
+
+  return substr(0, s.length()) == s;
+}
+
 String String::substr(uint position, uint n) const
 {
   if(n > position + d->data.size())
@@ -325,6 +339,11 @@ TagLib::uint String::size() const
   return d->data.size();
 }
 
+TagLib::uint String::length() const
+{
+  return size();
+}
+
 bool String::isEmpty() const
 {
   return d->data.size() == 0;
@@ -344,7 +363,7 @@ ByteVector String::data(Type t) const
   case Latin1:
   {
     for(wstring::const_iterator it = d->data.begin(); it != d->data.end(); it++)
-		v.append((*it > 0xff) ? char('?') : char(*it));
+      v.append(char(*it));
     break;
   }
   case UTF8:
@@ -378,8 +397,8 @@ ByteVector String::data(Type t) const
       char c1 = *it >> 8;
       char c2 = *it & 0xff;
 
-      v.append(c2);
       v.append(c1);
+      v.append(c2);
     }
     break;
   }
@@ -421,8 +440,9 @@ String String::stripWhiteSpace() const
   wstring::const_iterator begin = d->data.begin();
   wstring::const_iterator end = d->data.end();
 
-  while(*begin == '\t' || *begin == '\n' || *begin == '\f' ||
-        *begin == '\r' || *begin == ' ' && begin != end)
+  while(begin != end &&
+        (*begin == '\t' || *begin == '\n' || *begin == '\f' ||
+         *begin == '\r' || *begin == ' '))
   {
     ++begin;
   }
@@ -430,7 +450,7 @@ String String::stripWhiteSpace() const
   if(begin == end)
     return null;
 
-  // There must be at least one non-whitespace charater here for us to have
+  // There must be at least one non-whitespace character here for us to have
   // gotten this far, so we should be safe not doing bounds checking.
 
   do {
@@ -595,7 +615,7 @@ String &String::operator=(const char *s)
 
   d = new StringPrivate;
 
-  int length = (int)::strlen(s);
+  int length = ::strlen(s);
   d->data.resize(length);
 
   wstring::iterator targetIt = d->data.begin();

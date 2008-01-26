@@ -19,15 +19,13 @@
 ** Any non-GPL usage of this software or parts of this software is strictly
 ** forbidden.
 **
-** Software using this code must display the following message visibly in or
-** on each copy of the software:
-** "FAAD2 AAC/HE-AAC/HE-AACv2/DRM decoder (c) Nero AG, www.nero.com"
-** in, for example, the about-box or help/startup screen.
+** The "appropriate copyright message" mentioned in section 2c of the GPLv2
+** must read: "Code from FAAD2 is copyright (c) Nero AG, www.nero.com"
 **
 ** Commercial non-GPL licensing of this software is possible.
 ** For more info contact Nero AG through Mpeg4AAClicense@nero.com.
 **
-** $Id: bits.h,v 1.42 2006/05/07 18:09:00 menno Exp $
+** $Id: bits.h,v 1.45 2007/11/01 12:33:29 menno Exp $
 **/
 
 #ifndef __BITS_H__
@@ -256,11 +254,15 @@ static INLINE void faad_flushbits_rev(bitfile *ld, uint32_t bits)
         ld->start--;
         ld->bits_left += (32 - bits);
 
-        ld->bytes_left -= 4;
+        if (ld->bytes_left < 4)
+        {
+            ld->error = 1;
+            ld->bytes_left = 0;
+        } else {
+            ld->bytes_left -= 4;
+        }
 //        if (ld->bytes_left == 0)
 //            ld->no_more_reading = 1;
-        if (ld->bytes_left < 0)
-            ld->error = 1;
     }
 }
 

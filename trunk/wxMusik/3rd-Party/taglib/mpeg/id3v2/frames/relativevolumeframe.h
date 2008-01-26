@@ -17,6 +17,10 @@
  *   License along with this library; if not, write to the Free Software   *
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  *
  *   USA                                                                   *
+ *                                                                         *
+ *   Alternatively, this file is available under the Mozilla Public        *
+ *   License Version 1.1.  You may obtain a copy of the License at         *
+ *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
 #ifndef TAGLIB_RELATIVEVOLUMEFRAME_H
@@ -24,6 +28,7 @@
 
 #include <tlist.h>
 #include <id3v2frame.h>
+#include "taglib_export.h"
 
 namespace TagLib {
 
@@ -33,7 +38,7 @@ namespace TagLib {
 
     /*!
      * This is an implementation of ID3v2 relative volume adjustment.  The
-     * presense of this frame makes it possible to specify an increase in volume
+     * presence of this frame makes it possible to specify an increase in volume
      * for an audio file or specific audio tracks in that file.
      *
      * Multiple relative volume adjustment frames may be present in the tag
@@ -41,7 +46,7 @@ namespace TagLib {
      * different channel types.
      */
 
-    class RelativeVolumeFrame : public Frame
+    class TAGLIB_EXPORT RelativeVolumeFrame : public Frame
     {
       friend class FrameFactory;
 
@@ -238,6 +243,18 @@ namespace TagLib {
       void setPeakVolume(const PeakVolume &peak);
 
 #endif
+
+      /*!
+       * Returns the identification for this frame.
+       */
+      String identification() const;
+
+      /*!
+       * Sets the identification of the frame to \a s. The string
+       * is used to identify the situation and/or device where this
+       * adjustment should apply.
+       */
+      void setIdentification(const String &s);
 
     protected:
       virtual void parseFields(const ByteVector &data);

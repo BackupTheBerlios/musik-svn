@@ -17,6 +17,10 @@
  *   License along with this library; if not, write to the Free Software   *
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  *
  *   USA                                                                   *
+ *                                                                         *
+ *   Alternatively, this file is available under the Mozilla Public        *
+ *   License Version 1.1.  You may obtain a copy of the License at         *
+ *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
 #include <tdebug.h>
@@ -50,8 +54,8 @@ AttachedPictureFrame::AttachedPictureFrame() : Frame("APIC")
 
 AttachedPictureFrame::AttachedPictureFrame(const ByteVector &data) : Frame(data)
 {
-  setData(data);
   d = new AttachedPictureFramePrivate;
+  setData(data);
 }
 
 AttachedPictureFrame::~AttachedPictureFrame()
@@ -126,29 +130,13 @@ void AttachedPictureFrame::parseFields(const ByteVector &data)
     return;
   }
 
-  int pos = 0;
+  d->textEncoding = String::Type(data[0]);
 
-  d->textEncoding = String::Type(data[pos]);
-  pos += 1;
+  int pos = 1;
 
-  int offset = data.find(textDelimiter(String::Latin1), pos);
-
-  if(offset < pos)
-    return;
-
-  d->mimeType = String(data.mid(pos, offset - pos), String::Latin1);
-  pos = offset + 1;
-
-  d->type = Type(data[pos]);
-  pos += 1;
-
-  offset = data.find(textDelimiter(d->textEncoding), pos);
-
-  if(offset < pos)
-    return;  
-
-  d->description = String(data.mid(pos, offset - pos), d->textEncoding);
-  pos = offset + 1;
+  d->mimeType = readStringField(data, String::Latin1, &pos);
+  d->type = (TagLib::ID3v2::AttachedPictureFrame::Type)data[pos++];
+  d->description = readStringField(data, d->textEncoding, &pos);
 
   d->data = data.mid(pos);
 }

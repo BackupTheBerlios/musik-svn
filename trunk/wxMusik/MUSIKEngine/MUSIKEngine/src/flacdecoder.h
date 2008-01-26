@@ -35,7 +35,7 @@
 #ifndef MUSIKENGINE_NO_FLAC_SUPPORT
 
 #include <FLAC/format.h>
-#include <FLAC/file_decoder.h>
+#include <FLAC/stream_decoder.h>
 #include <plugin_common/defs.h>
 extern "C"
 {
@@ -69,7 +69,7 @@ class MUSIKFLACDecoder :public MUSIKDecoder
 	} output_config_t;
 	struct FLACStreamInfo
 	{
-		FLAC__FileDecoder					*Decoder;
+		FLAC__StreamDecoder					*Decoder;
 		FLAC__StreamMetadata_StreamInfo		streaminfo;	/* FLAC: metadata infos */
 		bool								flac_abort;	/* FLAC: abort flac when an error occured */
 		bool								has_replaygain;
@@ -120,24 +120,24 @@ protected:
 	int DecodeBlocks(unsigned char *buff,int len);
 	bool DoSeek(int64_t samplepos);
 
-	static FLAC__StreamDecoderWriteStatus FLACWriteCallback(const FLAC__FileDecoder *decoder, 
+	static FLAC__StreamDecoderWriteStatus FLACWriteCallback(const FLAC__StreamDecoder *decoder, 
 		const FLAC__Frame *frame, 
 		const FLAC__int32 * const buffer[], void *client_data);
-	static void FLACMetaCallback(const FLAC__FileDecoder *decoder, const FLAC__StreamMetadata *metadata, void *client_data);
-	static void FLACErrorCallback(const FLAC__FileDecoder *decoder, FLAC__StreamDecoderErrorStatus status, void *client_data);
+	static void FLACMetaCallback(const FLAC__StreamDecoder *decoder, const FLAC__StreamMetadata *metadata, void *client_data);
+	static void FLACErrorCallback(const FLAC__StreamDecoder *decoder, FLAC__StreamDecoderErrorStatus status, void *client_data);
 
 private:
 	void safe_decoder_finish_()
 	{
-		if(m_FlacInfo.Decoder && FLAC__file_decoder_get_state(m_FlacInfo.Decoder) != FLAC__FILE_DECODER_UNINITIALIZED)
-			FLAC__file_decoder_finish(m_FlacInfo.Decoder );
+		if(m_FlacInfo.Decoder && FLAC__stream_decoder_get_state(m_FlacInfo.Decoder) != FLAC__STREAM_DECODER_UNINITIALIZED)
+			FLAC__stream_decoder_finish(m_FlacInfo.Decoder );
 	}
 
 	void safe_decoder_delete_()
 	{
 		if(m_FlacInfo.Decoder ) {
 			safe_decoder_finish_();
-			FLAC__file_decoder_delete(m_FlacInfo.Decoder );
+			FLAC__stream_decoder_delete(m_FlacInfo.Decoder );
 		}
 		m_FlacInfo.Decoder = NULL;
 	}

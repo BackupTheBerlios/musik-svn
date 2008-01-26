@@ -6,16 +6,16 @@
 
 CFlacInfo::CFlacInfo(void)
 {
-	m_pDecoder = FLAC__file_decoder_new();
+	m_pDecoder = FLAC__stream_decoder_new();
 
 }
 CFlacInfo::~CFlacInfo()
 {
-	FLAC__file_decoder_delete(m_pDecoder);
+	FLAC__stream_decoder_delete(m_pDecoder);
 
 }
 
-void CFlacInfo::FLACMetaCallback(const FLAC__FileDecoder *WXUNUSED(decoder), const FLAC__StreamMetadata *metadata, void *client_data)
+void CFlacInfo::FLACMetaCallback(const FLAC__StreamDecoder *WXUNUSED(decoder), const FLAC__StreamMetadata *metadata, void *client_data)
 {
 	
 	CSongMetaData *pMetaData = (CSongMetaData *)client_data;
@@ -65,26 +65,20 @@ bool CFlacInfo::ReadMetaData(CSongMetaData & MetaData) const
 	MetaData.nFilesize = ftell(MyFLACFILE);
 	MetaData.bVBR= false;
 	fclose(MyFLACFILE);
-	FLAC__file_decoder_set_client_data(m_pDecoder,(void *)&MetaData);
-	FLAC__file_decoder_set_md5_checking(m_pDecoder, false);
-	FLAC__file_decoder_set_filename(m_pDecoder, ConvFn2A(MetaData.Filename.GetFullPath()));
-	FLAC__file_decoder_set_metadata_ignore_all(m_pDecoder);
-	FLAC__file_decoder_set_metadata_respond(m_pDecoder, FLAC__METADATA_TYPE_STREAMINFO);
-	FLAC__file_decoder_set_metadata_respond(m_pDecoder, FLAC__METADATA_TYPE_VORBIS_COMMENT);
-	FLAC__file_decoder_set_metadata_callback(m_pDecoder, FLACMetaCallback);
-	FLAC__file_decoder_set_write_callback(m_pDecoder, FLACWriteCallback);
-	FLAC__file_decoder_set_error_callback(m_pDecoder, FLACErrorCallback);
-
-	FLAC__FileDecoderState nRetVal = FLAC__file_decoder_init(m_pDecoder);
-	if (nRetVal == FLAC__FILE_DECODER_OK)
+	FLAC__stream_decoder_set_md5_checking(m_pDecoder, false);
+	FLAC__stream_decoder_set_metadata_ignore_all(m_pDecoder);
+	FLAC__stream_decoder_set_metadata_respond(m_pDecoder, FLAC__METADATA_TYPE_STREAMINFO);
+	FLAC__stream_decoder_set_metadata_respond(m_pDecoder, FLAC__METADATA_TYPE_VORBIS_COMMENT);
+	FLAC__StreamDecoderInitStatus nRetVal = FLAC__stream_decoder_init_file(m_pDecoder,ConvFn2A(MetaData.Filename.GetFullPath()),FLACWriteCallback,FLACMetaCallback,FLACErrorCallback,(void *)&MetaData);
+	if (nRetVal == FLAC__STREAM_DECODER_INIT_STATUS_OK)
 	{
-		FLAC__file_decoder_process_until_end_of_metadata(m_pDecoder);
+		FLAC__stream_decoder_process_until_end_of_metadata(m_pDecoder);
 	}
-	FLAC__file_decoder_finish(m_pDecoder);
-	return nRetVal == FLAC__FILE_DECODER_OK;
+	FLAC__stream_decoder_finish(m_pDecoder);
+	return nRetVal == FLAC__STREAM_DECODER_INIT_STATUS_OK;
 }
 
-FLAC__StreamDecoderWriteStatus CFlacInfo::FLACWriteCallback(const FLAC__FileDecoder *WXUNUSED(decoder), 
+FLAC__StreamDecoderWriteStatus CFlacInfo::FLACWriteCallback(const FLAC__StreamDecoder *WXUNUSED(decoder), 
 																   const FLAC__Frame *WXUNUSED(frame), 
 																   const FLAC__int32 * const WXUNUSED(buffer)[], void * WXUNUSED(client_data))
 {
@@ -94,7 +88,7 @@ FLAC__StreamDecoderWriteStatus CFlacInfo::FLACWriteCallback(const FLAC__FileDeco
 	WXUNUSED(client_data);
 	return FLAC__STREAM_DECODER_WRITE_STATUS_ABORT;
 }
-void CFlacInfo::FLACErrorCallback(const FLAC__FileDecoder *WXUNUSED(decoder), FLAC__StreamDecoderErrorStatus WXUNUSED(status), void *WXUNUSED(client_data)) 
+void CFlacInfo::FLACErrorCallback(const FLAC__StreamDecoder *WXUNUSED(decoder), FLAC__StreamDecoderErrorStatus WXUNUSED(status), void *WXUNUSED(client_data)) 
 {
 }
 

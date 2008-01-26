@@ -457,6 +457,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\atom_gmin.cpp"
+				>
+			</File>
+			<File
 				RelativePath="atom_hdlr.cpp"
 				>
 				<FileConfiguration
@@ -987,6 +991,14 @@
 						PreprocessorDefinitions=""
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\atom_stz2.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\atom_text.cpp"
+				>
 			</File>
 			<File
 				RelativePath="atom_tfhd.cpp"
@@ -1615,6 +1627,10 @@
 						PreprocessorDefinitions=""
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\virtual_io.cpp"
+				>
 			</File>
 		</Filter>
 		<Filter

@@ -17,6 +17,10 @@
  *   License along with this library; if not, write to the Free Software   *
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  *
  *   USA                                                                   *
+ *                                                                         *
+ *   Alternatively, this file is available under the Mozilla Public        *
+ *   License Version 1.1.  You may obtain a copy of the License at         *
+ *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
 #include <tdebug.h>
@@ -130,7 +134,7 @@ float RelativeVolumeFrame::volumeAdjustment() const
 
 void RelativeVolumeFrame::setVolumeAdjustment(float adjustment, ChannelType type)
 {
-  d->channels[type].volumeAdjustment = short(adjustment / float(512));
+  d->channels[type].volumeAdjustment = short(adjustment * float(512));
 }
 
 void RelativeVolumeFrame::setVolumeAdjustment(float adjustment)
@@ -158,18 +162,28 @@ void RelativeVolumeFrame::setPeakVolume(const PeakVolume &peak)
   setPeakVolume(peak, MasterVolume);
 }
 
+String RelativeVolumeFrame::identification() const
+{
+  return d->identification;
+}
+
+void RelativeVolumeFrame::setIdentification(const String &s)
+{
+  d->identification = s;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // protected members
 ////////////////////////////////////////////////////////////////////////////////
 
 void RelativeVolumeFrame::parseFields(const ByteVector &data)
 {
-  uint pos = data.find(textDelimiter(String::Latin1));
-  d->identification = String(data.mid(0, pos), String::Latin1);
+  int pos = 0;
+  d->identification = readStringField(data, String::Latin1, &pos);
 
   // Each channel is at least 4 bytes.
 
-  while(pos <= data.size() - 4) {
+  while(pos <= (int)data.size() - 4) {
 
 
     ChannelType type = ChannelType(data[pos]);

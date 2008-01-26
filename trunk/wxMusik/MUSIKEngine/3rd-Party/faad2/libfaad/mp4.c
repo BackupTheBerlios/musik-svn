@@ -19,15 +19,13 @@
 ** Any non-GPL usage of this software or parts of this software is strictly
 ** forbidden.
 **
-** Software using this code must display the following message visibly in or
-** on each copy of the software:
-** "FAAD2 AAC/HE-AAC/HE-AACv2/DRM decoder (c) Nero AG, www.nero.com"
-** in, for example, the about-box or help/startup screen.
+** The "appropriate copyright message" mentioned in section 2c of the GPLv2
+** must read: "Code from FAAD2 is copyright (c) Nero AG, www.nero.com"
 **
 ** Commercial non-GPL licensing of this software is possible.
 ** For more info contact Nero AG through Mpeg4AAClicense@nero.com.
 **
-** $Id: mp4.c,v 1.35 2006/08/06 18:57:15 menno Exp $
+** $Id: mp4.c,v 1.38 2007/11/01 12:33:32 menno Exp $
 **/
 
 #include "common.h"
@@ -248,7 +246,7 @@ int8_t AudioSpecificConfig2(uint8_t *pBuffer,
             uint8_t tmp_OTi = (uint8_t)faad_getbits(&ld, 5
                 DEBUGVAR(1,10,"parse_audio_decoder_specific_info(): extensionAudioObjectType"));
 
-            if (mp4ASC->objectTypeIndex == 5)
+            if (tmp_OTi == 5)
             {
                 mp4ASC->sbr_present_flag = (uint8_t)faad_get1bit(&ld
                     DEBUGVAR(1,11,"parse_audio_decoder_specific_info(): sbr_present_flag"));

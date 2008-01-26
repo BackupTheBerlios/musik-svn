@@ -19,15 +19,13 @@
 ** Any non-GPL usage of this software or parts of this software is strictly
 ** forbidden.
 **
-** Software using this code must display the following message visibly in or
-** on each copy of the software:
-** "FAAD2 AAC/HE-AAC/HE-AACv2/DRM decoder (c) Nero AG, www.nero.com"
-** in, for example, the about-box or help/startup screen.
+** The "appropriate copyright message" mentioned in section 2c of the GPLv2
+** must read: "Code from FAAD2 is copyright (c) Nero AG, www.nero.com"
 **
 ** Commercial non-GPL licensing of this software is possible.
 ** For more info contact Nero AG through Mpeg4AAClicense@nero.com.
 **
-** $Id: fixed.h,v 1.28 2006/05/07 18:09:00 menno Exp $
+** $Id: fixed.h,v 1.32 2007/11/01 12:33:30 menno Exp $
 **/
 
 #ifndef __FIXED_H__
@@ -246,8 +244,26 @@ static INLINE void ComplexMult(real_t *y1, real_t *y2,
       return _MulHigh(A,B) << (32-FRAC_BITS);
   }
 #else
+#ifdef __BFIN__
+#define _MulHigh(X,Y) ({ int __xxo;                      \
+     asm (                                               \
+         "a1 = %2.H * %1.L (IS,M);\n\t"                  \
+         "a0 = %1.H * %2.H, a1+= %1.H * %2.L (IS,M);\n\t"\
+         "a1 = a1 >>> 16;\n\t"                           \
+         "%0 = (a0 += a1);\n\t"                          \
+         : "=d" (__xxo) : "d" (X), "d" (Y) : "A0","A1"); __xxo; })
+
+#define MUL_F(X,Y) ({ int __xxo;                         \
+     asm (                                               \
+         "a1 = %2.H * %1.L (M);\n\t"                     \
+         "a0 = %1.H * %2.H, a1+= %1.H * %2.L (M);\n\t"   \
+         "a1 = a1 >>> 16;\n\t"                           \
+         "%0 = (a0 += a1);\n\t"                          \
+         : "=d" (__xxo) : "d" (X), "d" (Y) : "A0","A1"); __xxo; })
+#else
   #define _MulHigh(A,B) (real_t)(((int64_t)(A)*(int64_t)(B)+(1 << (FRAC_SIZE-1))) >> FRAC_SIZE)
   #define MUL_F(A,B) (real_t)(((int64_t)(A)*(int64_t)(B)+(1 << (FRAC_BITS-1))) >> FRAC_BITS)
+#endif
 #endif
   #define MUL_Q2(A,B) (real_t)(((int64_t)(A)*(int64_t)(B)+(1 << (Q2_BITS-1))) >> Q2_BITS)
   #define MUL_SHIFT6(A,B) (real_t)(((int64_t)(A)*(int64_t)(B)+(1 << (6-1))) >> 6)

@@ -19,15 +19,13 @@
 ** Any non-GPL usage of this software or parts of this software is strictly
 ** forbidden.
 **
-** Software using this code must display the following message visibly in or
-** on each copy of the software:
-** "FAAD2 AAC/HE-AAC/HE-AACv2/DRM decoder (c) Nero AG, www.nero.com"
-** in, for example, the about-box or help/startup screen.
+** The "appropriate copyright message" mentioned in section 2c of the GPLv2
+** must read: "Code from FAAD2 is copyright (c) Nero AG, www.nero.com"
 **
 ** Commercial non-GPL licensing of this software is possible.
 ** For more info contact Nero AG through Mpeg4AAClicense@nero.com.
 **
-** $Id: common.h,v 1.68 2006/08/07 18:13:28 menno Exp $
+** $Id: common.h,v 1.72 2007/11/01 12:33:30 menno Exp $
 **/
 
 #ifndef __COMMON_H__
@@ -72,6 +70,10 @@ extern "C" {
 //#define PREFER_POINTERS
 
 #ifdef _WIN32_WCE
+#define FIXED_POINT
+#endif
+
+#ifdef __BFIN__
 #define FIXED_POINT
 #endif
 
@@ -308,7 +310,6 @@ char *strchr(), *strrchr();
       *y2 = MUL_F(x2, c1) - MUL_F(x1, c2);
   }
 
-#ifndef HAVE_LRINTF
 
   #if defined(_WIN32) && !defined(__MINGW32__)
     #define HAS_LRINTF
@@ -324,6 +325,7 @@ char *strchr(), *strrchr();
     }
   #elif (defined(__i386__) && defined(__GNUC__) && \
 	!defined(__CYGWIN__) && !defined(__MINGW32__))
+    #ifndef HAVE_LRINTF
     #define HAS_LRINTF
     // from http://www.stereopsis.com/FPU.html
     static INLINE int lrintf(float f)
@@ -336,8 +338,9 @@ char *strchr(), *strrchr();
             : "m" (f));
         return i;
     }
+    #endif /* HAVE_LRINTF */
   #endif
-#endif
+
 
   #ifdef __ICL /* only Intel C compiler has fmath ??? */
 

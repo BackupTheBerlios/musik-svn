@@ -17,6 +17,10 @@
  *   License along with this library; if not, write to the Free Software   *
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  *
  *   USA                                                                   *
+ *                                                                         *
+ *   Alternatively, this file is available under the Mozilla Public        *
+ *   License Version 1.1.  You may obtain a copy of the License at         *
+ *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
 namespace TagLib {
@@ -26,13 +30,18 @@ namespace TagLib {
 ////////////////////////////////////////////////////////////////////////////////
 
 template <class Key, class T>
-template <class KeyP, class TP> class Map<Key, T>::MapPrivate : public RefCounter
+template <class KeyP, class TP>
+class Map<Key, T>::MapPrivate : public RefCounter
 {
 public:
   MapPrivate() : RefCounter() {}
+#ifdef WANT_CLASS_INSTANTIATION_OF_MAP
+  MapPrivate(const std::map<class KeyP, class TP>& m) : RefCounter(), map(m) {}
+  std::map<class KeyP, class TP> map;
+#else
   MapPrivate(const std::map<KeyP, TP> &m) : RefCounter(), map(m) {}
-
   std::map<KeyP, TP> map;
+#endif
 };
 
 template <class Key, class T>
@@ -84,8 +93,7 @@ template <class Key, class T>
 Map<Key, T> &Map<Key, T>::insert(const Key &key, const T &value)
 {
   detach();
-  std::pair<Key, T> item(key, value);
-  d->map.insert(item);
+  d->map[key] = value;
   return *this;
 }
 
@@ -106,6 +114,7 @@ bool Map<Key, T>::isEmpty() const
 template <class Key, class T>
 typename Map<Key, T>::Iterator Map<Key, T>::find(const Key &key)
 {
+  detach();
   return d->map.find(key);
 }
 
@@ -124,6 +133,17 @@ bool Map<Key, T>::contains(const Key &key) const
 template <class Key, class T>
 Map<Key, T> &Map<Key,T>::erase(Iterator it)
 {
+  detach();
+  d->map.erase(it);
+  return *this;
+}
+
+template <class Key, class T>
+Map<Key, T> &Map<Key,T>::erase(const Key &key)
+{
+  detach();
+  Iterator it = d->map.find(key);
+  if(it != d->map.end())
   d->map.erase(it);
   return *this;
 }
@@ -143,6 +163,7 @@ const T &Map<Key, T>::operator[](const Key &key) const
 template <class Key, class T>
 T &Map<Key, T>::operator[](const Key &key)
 {
+  detach();
     return d->map[key];
 }
 

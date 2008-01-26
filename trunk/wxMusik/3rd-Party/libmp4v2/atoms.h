@@ -111,8 +111,8 @@ class MP4AvcCAtom : public MP4Atom {
  public:
   MP4AvcCAtom();
   void Generate();
+  void Clone(MP4AvcCAtom *dstAtom);
 };
-
 
 
 class MP4D263Atom : public MP4Atom {
@@ -204,6 +204,12 @@ public:
 	MP4FtypAtom();
 	void Generate();
 	void Read();
+};
+
+class MP4GminAtom : public MP4Atom {
+public:
+	MP4GminAtom();
+	void Generate();
 };
 
 class MP4HdlrAtom : public MP4Atom {
@@ -331,6 +337,25 @@ public:
 	MP4StszAtom();
 	void Read();
 	void Write();
+};
+
+class MP4Stz2Atom : public MP4Atom {
+public:
+	MP4Stz2Atom();
+	void Read();
+};
+
+class MP4TextAtom : public MP4Atom {
+public:
+	MP4TextAtom();
+	void Generate();
+	void Read();
+protected:
+	void AddPropertiesStsdType();
+	void AddPropertiesGmhdType();
+
+	void GenerateStsdType();
+	void GenerateGmhdType();
 };
 
 class MP4TfhdAtom : public MP4Atom {

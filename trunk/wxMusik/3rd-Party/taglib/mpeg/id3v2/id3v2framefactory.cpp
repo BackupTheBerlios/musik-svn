@@ -17,6 +17,10 @@
  *   License along with this library; if not, write to the Free Software   *
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  *
  *   USA                                                                   *
+ *                                                                         *
+ *   Alternatively, this file is available under the Mozilla Public        *
+ *   License Version 1.1.  You may obtain a copy of the License at         *
+ *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
 #include <config.h>
@@ -24,6 +28,7 @@
 #include <tdebug.h>
 
 #include "id3v2framefactory.h"
+#include "id3v2synchdata.h"
 
 #include "frames/attachedpictureframe.h"
 #include "frames/commentsframe.h"
@@ -31,6 +36,8 @@
 #include "frames/textidentificationframe.h"
 #include "frames/uniquefileidentifierframe.h"
 #include "frames/unknownframe.h"
+#include "frames/generalencapsulatedobjectframe.h"
+#include "frames/urllinkframe.h"
 
 using namespace TagLib;
 using namespace ID3v2;
@@ -66,13 +73,25 @@ Frame *FrameFactory::createFrame(const ByteVector &data, bool synchSafeInts) con
 
 Frame *FrameFactory::createFrame(const ByteVector &data, uint version) const
 {
+  Header tagHeader;
+  tagHeader.setMajorVersion(version);
+  return createFrame(data, &tagHeader);
+}
+
+Frame *FrameFactory::createFrame(const ByteVector &origData, Header *tagHeader) const
+{
+  ByteVector data = origData;
+  uint version = tagHeader->majorVersion();
   Frame::Header *header = new Frame::Header(data, version);
   ByteVector frameID = header->frameID();
 
   // A quick sanity check -- make sure that the frameID is 4 uppercase Latin1
   // characters.  Also make sure that there is data in the frame.
 
-  if(!frameID.size() == (version < 3 ? 3 : 4) || header->frameSize() <= 0) {
+  if(!frameID.size() == (version < 3 ? 3 : 4) ||
+     header->frameSize() <= (header->dataLengthIndicator() ? 4 : 0) ||
+     header->frameSize() > data.size())
+  {
     delete header;
     return 0;
   }
@@ -82,6 +101,14 @@ Frame *FrameFactory::createFrame(const ByteVector &data, uint version) const
       delete header;
       return 0;
     }
+  }
+
+  if(version > 3 && (tagHeader->unsynchronisation() || header->unsynchronisation())) {
+    // Data lengths are not part of the encoded data, but since they are synch-safe
+    // integers they will be never actually encoded.
+    ByteVector frameData = data.mid(Frame::Header::size(version), header->frameSize());
+    SynchData::decode(frameData);
+    data = data.mid(0, Frame::Header::size(version)) + frameData;
   }
 
   // TagLib doesn't mess with encrypted frames, so just treat them
@@ -121,6 +148,10 @@ Frame *FrameFactory::createFrame(const ByteVector &data, uint version) const
 
     if(d->useDefaultEncoding)
       f->setTextEncoding(d->defaultEncoding);
+
+    if(frameID == "TCON")
+      updateGenre(f);
+
     return f;
   }
 
@@ -151,6 +182,24 @@ Frame *FrameFactory::createFrame(const ByteVector &data, uint version) const
 
   if(frameID == "UFID")
     return new UniqueFileIdentifierFrame(data, header);
+
+  // General Encapsulated Object (frames 4.15)
+
+  if(frameID == "GEOB")
+    return new GeneralEncapsulatedObjectFrame(data, header);
+
+  // URL link (frames 4.3)
+
+  if(frameID.startsWith("W")) {
+    if(frameID != "WXXX") {
+      return new UrlLinkFrame(data, header);
+    } else {
+      UserUrlLinkFrame *f = new UserUrlLinkFrame(data, header);
+      if(d->useDefaultEncoding)
+        f->setTextEncoding(d->defaultEncoding);
+      return f;
+    }
+  }
 
   return new UnknownFrame(data, header);
 }
@@ -242,7 +291,7 @@ bool FrameFactory::updateFrame(Frame::Header *header) const
     convertFrame("TPA", "TPOS", header);
     convertFrame("TPB", "TPUB", header);
     convertFrame("TRC", "TSRC", header);
-//    convertFrame("TRD", "TDRC", header);
+    convertFrame("TRD", "TDRC", header);
     convertFrame("TRK", "TRCK", header);
     convertFrame("TSS", "TSSE", header);
     convertFrame("TT1", "TIT1", header);
@@ -271,15 +320,13 @@ bool FrameFactory::updateFrame(Frame::Header *header) const
        frameID == "TIME" ||
        frameID == "TRDA" ||
        frameID == "TSIZ" ||
-       frameID == "TDAT"
-       )
+       frameID == "TDAT")
     {
       debug("ID3v2.4 no longer supports the frame type " + String(frameID) +
             ".  It will be discarded from the tag.");
       return false;
     }
 
-//    convertFrame("TDAT", "TDRC", header);  // a simple conversion of TDAT to TDRC is not possible. TDAT is has not the year but only DDMM.
     convertFrame("TORY", "TDOR", header);
     convertFrame("TYER", "TDRC", header);
 
@@ -312,4 +359,30 @@ void FrameFactory::convertFrame(const char *from, const char *to,
   //       "been converted to the type " + String(to) + ".");
 
   header->setFrameID(to);
+}
+
+void FrameFactory::updateGenre(TextIdentificationFrame *frame) const
+{
+  StringList fields;
+  String s = frame->toString();
+
+  while(s.startsWith("(")) {
+
+    int closing = s.find(")");
+
+    if(closing < 0)
+      break;
+
+    fields.append(s.substr(1, closing - 1));
+
+    s = s.substr(closing + 1);
+  }
+
+  if(!s.isEmpty())
+    fields.append(s);
+
+  if(fields.isEmpty())
+    fields.append(String::null);
+
+  frame->setText(fields);
 }

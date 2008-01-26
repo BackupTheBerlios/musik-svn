@@ -533,7 +533,7 @@ void MusikApp::OnFatalException ()
 void MusikApp::OnFatalException ()
 {
     wxDebugReportCompress report;
-#ifdef wxCHECKVERSION(2,8,0)
+#if wxCHECK_VERSION(2,8,0)
      report.AddDump(wxDebugReport::Context_Exception);
 #else
      report.AddAll(wxDebugReport::Context_Exception);	     	

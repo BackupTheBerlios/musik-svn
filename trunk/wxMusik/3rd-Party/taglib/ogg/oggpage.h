@@ -17,12 +17,17 @@
  *   License along with this library; if not, write to the Free Software   *
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  *
  *   USA                                                                   *
+ *                                                                         *
+ *   Alternatively, this file is available under the Mozilla Public        *
+ *   License Version 1.1.  You may obtain a copy of the License at         *
+ *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
 #ifndef TAGLIB_OGGPAGE_H
 #define TAGLIB_OGGPAGE_H
 
-#include <tbytevectorlist.h>
+#include "taglib_export.h"
+#include "tbytevectorlist.h"
 
 namespace TagLib {
 
@@ -44,7 +49,7 @@ namespace TagLib {
      * could potentially be useful for non-meta data purposes.
      */
 
-    class Page
+    class TAGLIB_EXPORT Page
     {
     public:
       /*!

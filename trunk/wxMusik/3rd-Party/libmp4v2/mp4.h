@@ -31,22 +31,20 @@
 #ifndef __MP4_INCLUDED__
 #define __MP4_INCLUDED__
 
+/* include system and project specific headers */
 #include "mpeg4ip.h"
-#include <stdio.h>
-#ifndef __cplusplus
-typedef int bool;
-#endif
-
 #include <math.h>	/* to define float HUGE_VAL and/or NAN */
 #ifndef NAN
 #define NAN HUGE_VAL
 #endif
 
+#ifndef DEFAULT
 #ifdef __cplusplus
 /* exploit C++ ability of default values for function parameters */
 #define DEFAULT(x)	=x
 #else
 #define DEFAULT(x)
+#endif
 #endif
 
 /* MP4 API types */
@@ -56,6 +54,26 @@ typedef u_int32_t	MP4SampleId;
 typedef u_int64_t	MP4Timestamp;
 typedef u_int64_t	MP4Duration;
 typedef u_int32_t	MP4EditId;
+
+typedef u_int64_t (*VIRTUALIO_GETFILELENGTH)(void *user); // return file length in bytes
+typedef int (*VIRTUALIO_SETPOSITION)(void *user, u_int64_t position); // return 0 on success
+typedef int (*VIRTUALIO_GETPOSITION)(void *user, u_int64_t *position); // fill position, return 0 on success
+typedef size_t (*VIRTUALIO_READ)(void *user, void *buffer, size_t size); // return number of bytes actually read
+typedef size_t (*VIRTUALIO_WRITE)(void *user, void *buffer, size_t size); // return number of bytes actually written
+typedef int (*VIRTUALIO_ENDOFFILE)(void *user); // return 1 if file hit EOF
+typedef int (*VIRTUALIO_CLOSE)(void *user); // return 0 on success
+
+typedef struct Virtual_IO
+{
+	VIRTUALIO_GETFILELENGTH	GetFileLength;
+	VIRTUALIO_SETPOSITION SetPosition;
+	VIRTUALIO_GETPOSITION GetPosition;
+	VIRTUALIO_READ Read;
+	VIRTUALIO_WRITE Write;
+	VIRTUALIO_ENDOFFILE EndOfFile;
+	VIRTUALIO_CLOSE Close;
+} Virtual_IO_t;
+
 
 /* Invalid values for API types */
 #define MP4_INVALID_FILE_HANDLE	((MP4FileHandle)NULL)
@@ -103,6 +121,7 @@ typedef u_int32_t	MP4EditId;
 #define MP4_VIDEO_TRACK_TYPE	"vide"
 #define MP4_HINT_TRACK_TYPE		"hint"
 #define MP4_CNTL_TRACK_TYPE     "cntl"
+#define MP4_TEXT_TRACK_TYPE		"text"
 /*
  * This second set of track types should be created 
  * via MP4AddSystemsTrack(type)
@@ -172,6 +191,11 @@ typedef u_int32_t	MP4EditId;
 #define MP4_MPEG4_WAVETABLE_AUDIO_TYPE		14
 #define MP4_MPEG4_MIDI_AUDIO_TYPE			15
 #define MP4_MPEG4_ALGORITHMIC_FX_AUDIO_TYPE	16
+#define MP4_MPEG4_ALS_AUDIO_TYPE    31
+#define MP4_MPEG4_LAYER1_AUDIO_TYPE 32
+#define MP4_MPEG4_LAYER2_AUDIO_TYPE 33
+#define MP4_MPEG4_LAYER3_AUDIO_TYPE 34
+#define MP4_MPEG4_SLS_AUDIO_TYPE    35
 
 /* MP4 Audio type utilities following common usage */
 #define MP4_IS_MP3_AUDIO_TYPE(type) \
@@ -316,7 +340,13 @@ MP4FileHandle MP4Read(
 	const char* fileName, 
 	u_int32_t verbosity DEFAULT(0));
 
-bool MP4Close(
+// benski>
+MP4FileHandle MP4ReadEx(const char* fileName,
+			void *user, 
+			Virtual_IO_t *virtual_IO,
+			u_int32_t verbosity DEFAULT(0));
+ 
+void MP4Close(
 	MP4FileHandle hFile);
 
 bool MP4Optimize(
@@ -343,7 +373,7 @@ char* MP4FileInfo(
 
 u_int32_t MP4GetVerbosity(MP4FileHandle hFile);
 
-bool MP4SetVerbosity(MP4FileHandle hFile, u_int32_t verbosity);
+void MP4SetVerbosity(MP4FileHandle hFile, u_int32_t verbosity);
 
 MP4Duration MP4GetDuration(MP4FileHandle hFile);
 
@@ -362,11 +392,11 @@ bool MP4SetSceneProfileLevel(MP4FileHandle hFile, u_int8_t value);
 u_int8_t MP4GetVideoProfileLevel(MP4FileHandle hFile,
 				 MP4TrackId trackId DEFAULT(MP4_INVALID_TRACK_ID));
 
-bool MP4SetVideoProfileLevel(MP4FileHandle hFile, u_int8_t value);
+void MP4SetVideoProfileLevel(MP4FileHandle hFile, u_int8_t value);
 
 u_int8_t MP4GetAudioProfileLevel(MP4FileHandle hFile);
 
-bool MP4SetAudioProfileLevel(MP4FileHandle hFile, u_int8_t value);
+void MP4SetAudioProfileLevel(MP4FileHandle hFile, u_int8_t value);
 
 u_int8_t MP4GetGraphicsProfileLevel(MP4FileHandle hFile);
 
@@ -443,9 +473,12 @@ typedef struct mp4v2_ismacryp_session_params {
   u_int8_t  key_ind_len;
   u_int8_t  iv_len;
   u_int8_t  selective_enc;
-  char      *kms_uri;
+  const char   *kms_uri;
 } mp4v2_ismacrypParams;
 
+// API to initialize ismacryp properties to sensible defaults
+// if input param is null then mallocs a params struct
+mp4v2_ismacrypParams *MP4DefaultISMACrypParams(mp4v2_ismacrypParams *ptr);
 
 MP4TrackId MP4AddEncAudioTrack(
 	MP4FileHandle hFile, 
@@ -453,6 +486,7 @@ MP4TrackId MP4AddEncAudioTrack(
 	MP4Duration sampleDuration,
         mp4v2_ismacrypParams *icPp,
 	u_int8_t audioType DEFAULT(MP4_MPEG4_AUDIO_TYPE));
+
 MP4TrackId MP4AddAmrAudioTrack(
 		MP4FileHandle hFile,
 		u_int32_t timeScale,
@@ -476,8 +510,11 @@ uint16_t MP4GetAmrModeSet(MP4FileHandle hFile, MP4TrackId trackId);
 
 MP4TrackId MP4AddHrefTrack(MP4FileHandle hFile, 
 			   uint32_t timeScale, 
-			   MP4Duration sampleDuration);
+			   MP4Duration sampleDuration,
+			   const char *base_url DEFAULT(NULL));
 
+const char *MP4GetHrefTrackBaseUrl(MP4FileHandle hFile,
+				   MP4TrackId trackId);
 MP4TrackId MP4AddVideoTrack(
 	MP4FileHandle hFile, 
 	u_int32_t timeScale, 
@@ -493,7 +530,8 @@ MP4TrackId MP4AddEncVideoTrack(
 	u_int16_t width, 
 	u_int16_t height,
         mp4v2_ismacrypParams *icPp,
-	u_int8_t videoType DEFAULT(MP4_MPEG4_VIDEO_TYPE));
+	u_int8_t videoType DEFAULT(MP4_MPEG4_VIDEO_TYPE),
+	const char *oFormat DEFAULT(NULL));
 
 MP4TrackId MP4AddH264VideoTrack(
 				MP4FileHandle hFile,
@@ -505,11 +543,22 @@ MP4TrackId MP4AddH264VideoTrack(
 				uint8_t profile_compat,
 				uint8_t AVCLevelIndication,
 				uint8_t sampleLenFieldSizeMinusOne);
-bool MP4AddH264SequenceParameterSet(MP4FileHandle hFile,
+
+MP4TrackId MP4AddEncH264VideoTrack(
+				MP4FileHandle dstFile,
+				u_int32_t timeScale, 
+				MP4Duration sampleDuration, 
+				u_int16_t width, 
+				u_int16_t height, 
+				MP4FileHandle srcFile,
+				MP4TrackId srcTrackId,
+				mp4v2_ismacrypParams *icPp);
+
+void MP4AddH264SequenceParameterSet(MP4FileHandle hFile,
 				    MP4TrackId trackId,
 				    const uint8_t *pSequence,
 				    uint16_t sequenceLen);
-bool MP4AddH264PictureParameterSet(MP4FileHandle hFile,
+void MP4AddH264PictureParameterSet(MP4FileHandle hFile,
 				   MP4TrackId trackId,
 				   const uint8_t *pPict,
 				   uint16_t pictLen);
@@ -541,6 +590,14 @@ MP4TrackId MP4AddH263VideoTrack(
 		u_int32_t maxBitrate);
 
 MP4TrackId MP4AddHintTrack(
+	MP4FileHandle hFile, 
+	MP4TrackId refTrackId);
+
+MP4TrackId MP4AddTextTrack(
+	MP4FileHandle hFile, 
+	MP4TrackId refTrackId);
+
+MP4TrackId MP4AddChapterTextTrack(
 	MP4FileHandle hFile, 
 	MP4TrackId refTrackId);
 
@@ -576,7 +633,7 @@ MP4TrackId MP4EncAndCopyTrack(
 	bool applyEdits DEFAULT(false),
 	MP4TrackId dstHintTrackReferenceTrack DEFAULT(MP4_INVALID_TRACK_ID));
 
-bool MP4DeleteTrack(
+void MP4DeleteTrack(
 	MP4FileHandle hFile, 
 	MP4TrackId trackId);
 
@@ -609,6 +666,12 @@ const char* MP4GetTrackType(
 
 const char *MP4GetTrackMediaDataName(MP4FileHandle hFile,
 				     MP4TrackId trackId);
+
+// MP4GetTrackMediaDataOriginalFormat is to be used to get the original
+// MediaDataName if a track has been encrypted.
+bool MP4GetTrackMediaDataOriginalFormat(MP4FileHandle hFile,
+	    MP4TrackId trackId, char *originalFormat, u_int32_t buflen);
+
 MP4Duration MP4GetTrackDuration(
 	MP4FileHandle hFile, 
 	MP4TrackId trackId);
@@ -617,7 +680,7 @@ u_int32_t MP4GetTrackTimeScale(
 	MP4FileHandle hFile, 
 	MP4TrackId trackId);
 
-bool MP4SetTrackTimeScale(
+void MP4SetTrackTimeScale(
 	MP4FileHandle hFile, 
 	MP4TrackId trackId, 
 	u_int32_t value);
@@ -661,7 +724,7 @@ bool MP4GetTrackH264ProfileLevel(MP4FileHandle hFile,
 				 MP4TrackId trackId,
 				 uint8_t *pProfile,
 				 uint8_t *pLevel);
-bool MP4GetTrackH264SeqPictHeaders(MP4FileHandle hFile,
+void MP4GetTrackH264SeqPictHeaders(MP4FileHandle hFile,
 				   MP4TrackId trackId,
 				   uint8_t ***pSeqHeaders,
 				   uint32_t **pSeqHeaderSize,
@@ -1103,8 +1166,9 @@ MP4SampleId MP4GetSampleIdFromEditTime(
 /* iTunes metadata handling */
 bool MP4MetadataDelete(MP4FileHandle hFile);
 bool MP4GetMetadataByIndex(MP4FileHandle hFile, u_int32_t index,
-			   const char** ppName,
-			   u_int8_t** ppValue, u_int32_t* pValueSize);
+			   char** ppName, // need to free memory
+			   u_int8_t** ppValue,  // need to free
+			   u_int32_t* pValueSize);
 bool MP4SetMetadataName(MP4FileHandle hFile, const char* value);
 bool MP4GetMetadataName(MP4FileHandle hFile, char** value);
 bool MP4DeleteMetadataName(MP4FileHandle hFile);
@@ -1148,18 +1212,26 @@ bool MP4DeleteMetadataTempo(MP4FileHandle hFile);
 bool MP4SetMetadataCompilation(MP4FileHandle hFile, u_int8_t cpl);
 bool MP4GetMetadataCompilation(MP4FileHandle hFile, u_int8_t* cpl);
 bool MP4DeleteMetadataCompilation(MP4FileHandle hFile);
+bool MP4SetMetadataPartOfGaplessAlbum(MP4FileHandle hFile, uint8_t pgap);
+bool MP4GetMetadataPartOfGaplessAlbum(MP4FileHandle hFile, uint8_t *pgap);
+bool MP4DeleteMetadataPartOfGaplessAlbum(MP4FileHandle hFile);
 bool MP4SetMetadataCoverArt(MP4FileHandle hFile,
 			    u_int8_t *coverArt, u_int32_t size);
 bool MP4GetMetadataCoverArt(MP4FileHandle hFile,
-			    u_int8_t **coverArt, u_int32_t* size);
+			    u_int8_t **coverArt, u_int32_t* size,
+			    uint32_t index DEFAULT(0));
 u_int32_t MP4GetMetadataCoverArtCount(MP4FileHandle hFile);
 bool MP4DeleteMetadataCoverArt(MP4FileHandle hFile);
-bool MP4SetMetadataFreeForm(MP4FileHandle hFile, char *name,
-			    u_int8_t* pValue, u_int32_t valueSize);
-bool MP4GetMetadataFreeForm(MP4FileHandle hFile, char *name,
-			    u_int8_t** pValue, u_int32_t* valueSize);
-bool MP4DeleteMetadataFreeForm(MP4FileHandle hFile, char *name);
- 
+bool MP4SetMetadataAlbumArtist(MP4FileHandle hFile, const char* value);
+bool MP4GetMetadataAlbumArtist(MP4FileHandle hFile,    char** value);
+bool MP4DeleteMetadataAlbumArtist(MP4FileHandle hFile); 
+
+
+bool MP4SetMetadataFreeForm(MP4FileHandle hFile, const char *name,
+			    const u_int8_t* pValue, u_int32_t valueSize, const char *owner DEFAULT(NULL));
+bool MP4GetMetadataFreeForm(MP4FileHandle hFile, const char *name,
+			    u_int8_t** pValue, u_int32_t* valueSize, const char *owner DEFAULT(NULL));
+bool MP4DeleteMetadataFreeForm(MP4FileHandle hFile, const char *name, const char *owner DEFAULT(NULL));
 
 /* time conversion utilties */
 
@@ -1214,6 +1286,9 @@ char* MP4BinaryToBase64(
 uint8_t *Base64ToBinary(const char *pData, 
 			uint32_t decodeSize, 
 			uint32_t *pDataSize);
+void MP4Free(void *p);
+
+  void MP4SetLibFunc(lib_message_func_t libfunc);
 
 #ifdef __cplusplus
 }

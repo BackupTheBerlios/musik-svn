@@ -9,6 +9,10 @@
 #ifndef __MPEG4IP_INCLUDED__
 #define __MPEG4IP_INCLUDED__
 
+typedef void (*lib_message_func_t)(int loglevel,
+								   const char *lib,
+								   const char *fmt,
+								   ...);
 
 #ifndef MAX
 #define MAX(a,b) ((a) > (b) ? (a) : (b))
@@ -66,6 +70,7 @@
 #endif /* else WIN32 */
 
 #define CHECK_AND_FREE(a) if ((a) != NULL) { free((void *)(a)); (a) = NULL;}
+#define NUM_ELEMENTS_IN_ARRAY(name) ((sizeof((name))) / (sizeof(*(name))))
 
 #define U64  "%"U64F
 #define X64 "%"X64F

@@ -17,6 +17,10 @@
  *   License along with this library; if not, write to the Free Software   *
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  *
  *   USA                                                                   *
+ *                                                                         *
+ *   Alternatively, this file is available under the Mozilla Public        *
+ *   License Version 1.1.  You may obtain a copy of the License at         *
+ *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
 #include <tdebug.h>
@@ -55,7 +59,7 @@ const ID3v1::StringHandler *ID3v1::Tag::TagPrivate::stringHandler = new StringHa
 
 String ID3v1::StringHandler::parse(const ByteVector &data) const
 {
-  return String(data, String::Latin1);
+  return String(data, String::Latin1).stripWhiteSpace();
 }
 
 ByteVector ID3v1::StringHandler::render(const String &s) const

@@ -17,6 +17,10 @@
  *   License along with this library; if not, write to the Free Software   *
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  *
  *   USA                                                                   *
+ *                                                                         *
+ *   Alternatively, this file is available under the Mozilla Public        *
+ *   License Version 1.1.  You may obtain a copy of the License at         *
+ *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
 #include <id3v2tag.h>
@@ -188,9 +192,9 @@ public:
   ~FilePrivate() {
     delete ID3v2Tag;
     delete ID3v1Tag;
+    delete APETag;
     delete tag;
     delete properties;
-    delete APETag;
   }
 
   const ID3v2::FrameFactory *ID3v2FrameFactory;
@@ -221,7 +225,7 @@ public:
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-MPEG::File::File(const char *file, bool readProperties,
+MPEG::File::File(FileName file, bool readProperties,
                  Properties::ReadStyle propertiesStyle) : TagLib::File(file)
 {
   d = new FilePrivate;
@@ -231,7 +235,7 @@ MPEG::File::File(const char *file, bool readProperties,
   }
 }
 
-MPEG::File::File(const char *file, ID3v2::FrameFactory *frameFactory,
+MPEG::File::File(FileName file, ID3v2::FrameFactory *frameFactory,
                  bool readProperties, Properties::ReadStyle propertiesStyle) :
   TagLib::File(file)
 {
@@ -304,6 +308,18 @@ bool MPEG::File::save(int tags, bool stripOthers)
         d->ID3v2Location = 0;
 
       insert(d->ID3v2Tag->render(), d->ID3v2Location, d->ID3v2OriginalSize);
+
+      d->hasID3v2 = true;
+
+      // v1 tag location has changed, update if it exists
+
+      if(d->ID3v1Tag)
+        d->ID3v1Location = findID3v1();
+
+      // APE tag location has changed, update if it exists
+
+      if(d->APETag)
+        d->APELocation = findAPE();
     }
     else if(stripOthers)
       success = strip(ID3v2, false) && success;
@@ -316,6 +332,8 @@ bool MPEG::File::save(int tags, bool stripOthers)
       int offset = d->hasID3v1 ? -128 : 0;
       seek(offset, End);
       writeBlock(d->ID3v1Tag->render());
+      d->hasID3v1 = true;
+      d->ID3v1Location = findID3v1();
     }
     else if(stripOthers)
       success = strip(ID3v1) && success;
@@ -407,8 +425,14 @@ bool MPEG::File::strip(int tags, bool freeMemory)
     }
 
     // v1 tag location has changed, update if it exists
+
     if(d->ID3v1Tag)
       d->ID3v1Location = findID3v1();
+
+    // APE tag location has changed, update if it exists
+
+   if(d->APETag)
+      d->APELocation = findAPE();
   }
 
   if((tags & ID3v1) && d->hasID3v1) {

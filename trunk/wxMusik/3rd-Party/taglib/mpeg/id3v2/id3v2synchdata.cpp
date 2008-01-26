@@ -17,6 +17,10 @@
  *   License along with this library; if not, write to the Free Software   *
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  *
  *   USA                                                                   *
+ *                                                                         *
+ *   Alternatively, this file is available under the Mozilla Public        *
+ *   License Version 1.1.  You may obtain a copy of the License at         *
+ *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
 #include <iostream>
@@ -45,4 +49,24 @@ ByteVector SynchData::fromUInt(uint value)
     v[i] = uchar(value >> ((3 - i) * 7) & 0x7f);
 
   return v;
+}
+
+void SynchData::decode(ByteVector &data)
+{
+  char *n = data.data();
+  const char *o = data.data();
+  const char *end = o + data.size();
+
+  if(data.size() <= 0)
+    return;
+
+  while(o < end - 1) {
+    *n++ = *o;
+    if(o[0] == '\xFF' && o[1] == '\x00')
+      o++;
+    o++;
+  }
+  *n++ = *o;
+
+  data.resize(n - data.data());
 }

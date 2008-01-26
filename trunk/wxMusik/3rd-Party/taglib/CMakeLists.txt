@@ -76,6 +76,8 @@ ADD_LIBRARY(TagLib ./ape/apefooter.cpp
 	./mpeg/id3v2/frames/textidentificationframe.cpp
 	./mpeg/id3v2/frames/uniquefileidentifierframe.cpp
 	./mpeg/id3v2/frames/unknownframe.cpp
+	./mpeg/id3v2/frames/generalencapsulatedobjectframe.h
+	./mpeg/id3v2/frames/urllinkframe.h
 	./mpeg/id3v2/id3v2extendedheader.cpp
 	./mpeg/id3v2/id3v2footer.cpp
 	./mpeg/id3v2/id3v2frame.cpp

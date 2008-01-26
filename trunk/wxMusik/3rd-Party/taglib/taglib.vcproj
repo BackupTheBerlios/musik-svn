@@ -334,6 +334,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\mpeg\id3v2\frames\generalencapsulatedobjectframe.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\mpeg\id3v1\id3v1genres.cpp"
 				>
 			</File>
@@ -454,6 +458,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\mpeg\id3v2\frames\urllinkframe.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\ogg\vorbis\vorbisfile.cpp"
 				>
 			</File>
@@ -500,6 +508,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\mpeg\id3v2\frames\generalencapsulatedobjectframe.h"
+				>
+			</File>
+			<File
 				RelativePath=".\ogg\oggfile.h"
 				>
 			</File>
@@ -524,6 +536,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\taglib_export.h"
+				>
+			</File>
+			<File
 				RelativePath=".\toolkit\tbytevector.h"
 				>
 			</File>
@@ -544,6 +560,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\toolkit\tmap.h"
+				>
+			</File>
+			<File
 				RelativePath=".\toolkit\tstring.h"
 				>
 			</File>
@@ -553,6 +573,10 @@
 			</File>
 			<File
 				RelativePath=".\toolkit\unicode.h"
+				>
+			</File>
+			<File
+				RelativePath=".\mpeg\id3v2\frames\urllinkframe.h"
 				>
 			</File>
 			<File

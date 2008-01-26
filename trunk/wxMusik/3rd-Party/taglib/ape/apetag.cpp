@@ -17,7 +17,19 @@
  *   License along with this library; if not, write to the Free Software   *
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  *
  *   USA                                                                   *
+ *                                                                         *
+ *   Alternatively, this file is available under the Mozilla Public        *
+ *   License Version 1.1.  You may obtain a copy of the License at         *
+ *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
+
+#ifdef __SUNPRO_CC
+// Sun Studio finds multiple specializations of Map because
+// it considers specializations with and without class types
+// to be different; this define forces Map to use only the
+// specialization with the class keyword.
+#define WANT_CLASS_INSTANTIATION_OF_MAP (1)
+#endif
 
 #include <tdebug.h>
 #include <tfile.h>
@@ -208,7 +220,7 @@ void APE::Tag::read()
     d->file->seek(d->tagOffset);
     d->footer.setData(d->file->readBlock(Footer::size()));
 
-    if(d->footer.tagSize() == 0 ||
+    if(d->footer.tagSize() <= Footer::size() ||
        d->footer.tagSize() > uint(d->file->length()))
       return;
 

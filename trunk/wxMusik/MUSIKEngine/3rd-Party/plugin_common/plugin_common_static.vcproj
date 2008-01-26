@@ -4,6 +4,8 @@
 	Version="8,00"
 	Name="plugin_common_static"
 	ProjectGUID="{B07504EC-F135-4BC3-A5AF-43EBCE64C6F9}"
+	RootNamespace="plugin_common_static"
+	Keyword="Win32Proj"
 	>
 	<Platforms>
 		<Platform
@@ -15,13 +17,9 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory=".\..\..\obj\debug\lib"
-			IntermediateDirectory=".\Debug_static"
+			OutputDirectory="..\..\obj\debug\lib"
+			IntermediateDirectory="Debug_static"
 			ConfigurationType="4"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
-			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="false"
-			CharacterSet="2"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -41,37 +39,30 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\include,..\include"
-				PreprocessorDefinitions="FLAC__NO_DLL;WIN32;_DEBUG;_LIB"
+				AdditionalIncludeDirectories=".\include;..\include"
+				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;FLAC__NO_DLL;DEBUG"
+				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
-				BufferSecurityCheck="true"
 				UsePrecompiledHeader="0"
-				PrecompiledHeaderFile=".\Debug_static/plugin_common_static.pch"
-				AssemblerListingLocation=".\Debug_static/"
-				ObjectFile=".\Debug_static/"
-				ProgramDataBaseFileName=".\Debug_static/"
 				WarningLevel="3"
-				WarnAsError="false"
-				SuppressStartupBanner="true"
+				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="4"
 				CompileAs="0"
+				DisableSpecificWarnings="4267;4996"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG"
-				Culture="1033"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile=".\..\..\obj\debug\lib\plugin_common_static.lib"
-				SuppressStartupBanner="true"
+				OutputFile="..\..\obj\debug\lib\$(ProjectName).lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -91,13 +82,9 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\..\..\obj\release\lib"
-			IntermediateDirectory=".\Release_static"
+			OutputDirectory="..\..\obj\release\lib"
+			IntermediateDirectory="Release_static"
 			ConfigurationType="4"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
-			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="false"
-			CharacterSet="2"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -116,39 +103,33 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="2"
-				InlineFunctionExpansion="2"
 				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="1"
 				OmitFramePointers="true"
-				AdditionalIncludeDirectories=".\include,..\include"
-				PreprocessorDefinitions="FLAC__NO_DLL;WIN32;NDEBUG;_LIB"
+				WholeProgramOptimization="true"
+				AdditionalIncludeDirectories=".\include;..\include"
+				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;FLAC__NO_DLL"
 				RuntimeLibrary="0"
+				BufferSecurityCheck="false"
 				UsePrecompiledHeader="0"
-				PrecompiledHeaderFile=".\Release_static/plugin_common_static.pch"
-				AssemblerListingLocation=".\Release_static/"
-				ObjectFile=".\Release_static/"
-				ProgramDataBaseFileName=".\Release_static/"
 				WarningLevel="3"
-				WarnAsError="false"
-				SuppressStartupBanner="true"
+				Detect64BitPortabilityProblems="true"
+				DebugInformationFormat="3"
 				CompileAs="0"
+				DisableSpecificWarnings="4267;4996"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG"
-				Culture="1033"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile=".\..\..\obj\release\lib\plugin_common_static.lib"
-				SuppressStartupBanner="true"
+				OutputFile="..\..\..\obj\release\lib\$(ProjectName).lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -171,135 +152,54 @@
 	</References>
 	<Files>
 		<Filter
-			Name="Source Files"
-			Filter="cpp"
+			Name="Header Files"
+			Filter="h;hpp;hxx;hm;inl;inc;xsd"
+			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath="canonical_tag.c"
+				RelativePath=".\all.h"
 				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-						BasicRuntimeChecks="3"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="3"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="charset.c"
+				RelativePath=".\charset.h"
 				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-						BasicRuntimeChecks="3"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="3"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="dither.c"
+				RelativePath=".\defs.h"
 				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-						BasicRuntimeChecks="3"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="3"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="vorbiscomment.c"
+				RelativePath=".\dither.h"
 				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="0"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-						BasicRuntimeChecks="3"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						Optimization="3"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\replaygain.h"
+				>
+			</File>
+			<File
+				RelativePath=".\tags.h"
+				>
 			</File>
 		</Filter>
 		<Filter
-			Name="Public Header Files"
+			Name="Source Files"
+			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
+			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="all.h"
+				RelativePath=".\charset.c"
 				>
 			</File>
 			<File
-				RelativePath="canonical_tag.h"
+				RelativePath=".\dither.c"
 				>
 			</File>
 			<File
-				RelativePath="charset.h"
+				RelativePath=".\replaygain.c"
 				>
 			</File>
 			<File
-				RelativePath="dither.h"
-				>
-			</File>
-			<File
-				RelativePath="locale_hack.h"
-				>
-			</File>
-			<File
-				RelativePath="vorbiscomment.h"
+				RelativePath=".\tags.c"
 				>
 			</File>
 		</Filter>

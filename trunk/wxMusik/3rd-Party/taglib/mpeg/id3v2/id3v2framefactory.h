@@ -17,17 +17,25 @@
  *   License along with this library; if not, write to the Free Software   *
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  *
  *   USA                                                                   *
+ *                                                                         *
+ *   Alternatively, this file is available under the Mozilla Public        *
+ *   License Version 1.1.  You may obtain a copy of the License at         *
+ *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
 #ifndef TAGLIB_ID3V2FRAMEFACTORY_H
 #define TAGLIB_ID3V2FRAMEFACTORY_H
 
-#include <tbytevector.h>
+#include "taglib_export.h"
+#include "tbytevector.h"
 #include "id3v2frame.h"
+#include "id3v2header.h"
 
 namespace TagLib {
 
   namespace ID3v2 {
+
+    class TAGLIB_EXPORT TextIdentificationFrame;
 
     //! A factory for creating ID3v2 frames
 
@@ -48,7 +56,7 @@ namespace TagLib {
      * textbooks (Notably <i>Design Patters</i>).
      */
 
-    class FrameFactory
+    class TAGLIB_EXPORT FrameFactory
     {
     public:
       static FrameFactory *instance();
@@ -57,8 +65,8 @@ namespace TagLib {
        * false if we are parsing an old tag (v2.3 or older) that does not support
        * synchsafe ints.
        *
-       * \deprecated Please use the method below that accepts an ID3 version
-       * number in new code.
+       * \deprecated Please use the method below that accepts a ID3v2::Header
+       * instance in new code.
        */
       Frame *createFrame(const ByteVector &data, bool synchSafeInts) const;
 
@@ -66,9 +74,18 @@ namespace TagLib {
        * Create a frame based on \a data.  \a version should indicate the ID3v2
        * version of the tag.  As ID3v2.4 is the most current version of the
        * standard 4 is the default.
+       *
+       * \deprecated Please use the method below that accepts a ID3v2::Header
+       * instance in new code.
+       */
+      Frame *createFrame(const ByteVector &data, uint version = 4) const;
+
+      /*!
+       * Create a frame based on \a data.  \a tagHeader should be a valid
+       * ID3v2::Header instance.
        */
       // BIC: make virtual
-      Frame *createFrame(const ByteVector &data, uint version = 4) const;
+      Frame *createFrame(const ByteVector &data, Header *tagHeader) const;
 
       /*!
        * Returns the default text encoding for text frames.  If setTextEncoding()
@@ -85,6 +102,8 @@ namespace TagLib {
        * Set the default text encoding for all text frames that are created to
        * \a encoding.  If no value is set the frames with either default to the
        * encoding type that was parsed and new frames default to Latin1.
+       *
+       * Valid string types for ID3v2 tags are Latin1, UTF8, UTF16 and UTF16BE.
        *
        * \see defaultTextEncoding()
        */
@@ -127,6 +146,8 @@ namespace TagLib {
        */
       void convertFrame(const char *from, const char *to,
                         Frame::Header *header) const;
+
+      void updateGenre(TextIdentificationFrame *frame) const;
 
       static FrameFactory *factory;
 

@@ -190,8 +190,15 @@ void *MusikUpdateLibThread::Entry()
 				}
 				m_pPathesDel->Clear();
 			}
+			// hack: set progresstypoe back to MUSIK_LIBRARY_UPDATE_THREAD (in case MusikPurgeLibrary() was called)
+			wxCommandEvent evtSetProgressType	( wxEVT_COMMAND_MENU_SELECTED, MUSIK_LIBRARY_THREAD_PROG );
+			evtSetProgressType.SetInt(SET_PROGRESSTYPE);
+			evtSetProgressType.SetExtraLong( MUSIK_LIBRARY_UPDATE_THREAD);
+			wxPostEvent( Parent(), evtSetProgressType );
+
 		}
 	}
+
 	wxCommandEvent UpdateLibEndEvt	( wxEVT_COMMAND_MENU_SELECTED, MUSIK_LIBRARY_THREAD_END );	
 	UpdateLibEndEvt.SetExtraLong(bDatabaseChanged || bDbChangedByPurge ? 1:0);
 	wxPostEvent( Parent(), UpdateLibEndEvt );

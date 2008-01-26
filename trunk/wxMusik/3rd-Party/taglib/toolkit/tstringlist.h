@@ -17,6 +17,10 @@
  *   License along with this library; if not, write to the Free Software   *
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  *
  *   USA                                                                   *
+ *                                                                         *
+ *   Alternatively, this file is available under the Mozilla Public        *
+ *   License Version 1.1.  You may obtain a copy of the License at         *
+ *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
 #ifndef TAGLIB_STRINGLIST_H
@@ -25,6 +29,7 @@
 #include "tstring.h"
 #include "tlist.h"
 #include "tbytevectorlist.h"
+#include "taglib_export.h"
 
 #include <iostream>
 
@@ -37,7 +42,7 @@ namespace TagLib {
    * string operations.
    */
 
-  class StringList : public List<String>
+  class TAGLIB_EXPORT StringList : public List<String>
   {
   public:
 

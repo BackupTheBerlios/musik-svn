@@ -17,12 +17,17 @@
  *   License along with this library; if not, write to the Free Software   *
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  *
  *   USA                                                                   *
+ *                                                                         *
+ *   Alternatively, this file is available under the Mozilla Public        *
+ *   License Version 1.1.  You may obtain a copy of the License at         *
+ *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
 #ifndef TAGLIB_FLACFILE_H
 #define TAGLIB_FLACFILE_H
 
-#include <tfile.h>
+#include "taglib_export.h"
+#include "tfile.h"
 
 #include "flacproperties.h"
 
@@ -56,7 +61,7 @@ namespace TagLib {
      * information specific to FLAC files.
      */
 
-    class File : public TagLib::File
+    class TAGLIB_EXPORT File : public TagLib::File
     {
     public:
       /*!
@@ -67,7 +72,7 @@ namespace TagLib {
        * \deprecated This constructor will be dropped in favor of the one below
        * in a future version.
        */
-      File(const char *file, bool readProperties = true,
+      File(FileName file, bool readProperties = true,
            Properties::ReadStyle propertiesStyle = Properties::Average);
 
       /*!
@@ -79,7 +84,7 @@ namespace TagLib {
        * \a frameFactory.
        */
       // BIC: merge with the above constructor
-      File(const char *file, ID3v2::FrameFactory *frameFactory,
+      File(FileName file, ID3v2::FrameFactory *frameFactory,
            bool readProperties = true,
            Properties::ReadStyle propertiesStyle = Properties::Average);
 

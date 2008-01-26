@@ -17,6 +17,10 @@
  *   License along with this library; if not, write to the Free Software   *
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  *
  *   USA                                                                   *
+ *                                                                         *
+ *   Alternatively, this file is available under the Mozilla Public        *
+ *   License Version 1.1.  You may obtain a copy of the License at         *
+ *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
 #include <tbytevector.h>
@@ -99,7 +103,7 @@ public:
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-FLAC::File::File(const char *file, bool readProperties,
+FLAC::File::File(FileName file, bool readProperties,
                  Properties::ReadStyle propertiesStyle) :
   TagLib::File(file)
 {
@@ -107,7 +111,7 @@ FLAC::File::File(const char *file, bool readProperties,
   read(readProperties, propertiesStyle);
 }
 
-FLAC::File::File(const char *file, ID3v2::FrameFactory *frameFactory,
+FLAC::File::File(FileName file, ID3v2::FrameFactory *frameFactory,
                  bool readProperties, Properties::ReadStyle propertiesStyle) :
   TagLib::File(file)
 {
@@ -151,7 +155,7 @@ bool FLAC::File::save()
 
   // A Xiph comment portion of the data stream starts with a 4-byte descriptor.
   // The first byte indicates the frame type.  The last three bytes are used
-  // to give the lenght of the data segment.  Here we start 
+  // to give the length of the data segment.  Here we start
 
   ByteVector data = ByteVector::fromUInt(d->xiphCommentData.size());
 
@@ -174,7 +178,7 @@ bool FLAC::File::save()
 
       ByteVector header = readBlock(4);
     char blockType = header[0] & 0x7f;
-      isLastBlock = header[0] & 0x80;
+      isLastBlock = (header[0] & 0x80) != 0;
       uint blockLength = header.mid(1, 3).toUInt();
 
       if(blockType == VorbisComment) {
@@ -192,7 +196,7 @@ bool FLAC::File::save()
     seek(firstBlockOffset);
 
     ByteVector header = readBlock(4);
-    bool isLastBlock = header[0] & 0x80;
+    bool isLastBlock = (header[0] & 0x80) != 0;
     uint blockLength = header.mid(1, 3).toUInt();
 
     if(isLastBlock) {
@@ -385,7 +389,7 @@ void FLAC::File::scan()
   // <24> Length of metadata to follow
 
   char blockType = header[0] & 0x7f;
-  bool isLastBlock = header[0] & 0x80;
+  bool isLastBlock = (header[0] & 0x80) != 0;
   uint length = header.mid(1, 3).toUInt();
 
   // First block should be the stream_info metadata
@@ -404,7 +408,7 @@ void FLAC::File::scan()
   while(!isLastBlock) {
     header = readBlock(4);
     blockType = header[0] & 0x7f;
-    isLastBlock = header[0] & 0x80;
+    isLastBlock = (header[0] & 0x80) != 0;
     length = header.mid(1, 3).toUInt();
 
     if(blockType == Padding) {

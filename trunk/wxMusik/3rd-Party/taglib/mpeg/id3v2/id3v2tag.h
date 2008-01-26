@@ -17,16 +17,21 @@
  *   License along with this library; if not, write to the Free Software   *
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  *
  *   USA                                                                   *
+ *                                                                         *
+ *   Alternatively, this file is available under the Mozilla Public        *
+ *   License Version 1.1.  You may obtain a copy of the License at         *
+ *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
 #ifndef TAGLIB_ID3V2TAG_H
 #define TAGLIB_ID3V2TAG_H
 
-#include <tag.h>
-#include <tbytevector.h>
-#include <tstring.h>
-#include <tlist.h>
-#include <tmap.h>
+#include "tag.h"
+#include "tbytevector.h"
+#include "tstring.h"
+#include "tlist.h"
+#include "tmap.h"
+#include "taglib_export.h"
 
 #include "id3v2framefactory.h"
 
@@ -97,7 +102,7 @@ namespace TagLib {
      * working knowledge of ID3v2 structure.  You're been warned.
      */
 
-    class Tag : public TagLib::Tag
+    class TAGLIB_EXPORT Tag : public TagLib::Tag
     {
     public:
       /*!

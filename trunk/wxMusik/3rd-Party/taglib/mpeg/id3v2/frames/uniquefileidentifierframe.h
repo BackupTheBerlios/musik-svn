@@ -17,6 +17,10 @@
  *   License along with this library; if not, write to the Free Software   *
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  *
  *   USA                                                                   *
+ *                                                                         *
+ *   Alternatively, this file is available under the Mozilla Public        *
+ *   License Version 1.1.  You may obtain a copy of the License at         *
+ *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
 #ifndef TAGLIB_UNIQUEFILEIDENTIFIERFRAME
@@ -36,7 +40,7 @@ namespace TagLib {
 
     //! An implementation of ID3v2 unique identifier frames
 
-    class UniqueFileIdentifierFrame : public ID3v2::Frame
+    class TAGLIB_EXPORT UniqueFileIdentifierFrame : public ID3v2::Frame
     {
       friend class FrameFactory;
 
@@ -53,9 +57,9 @@ namespace TagLib {
       UniqueFileIdentifierFrame(const String &owner, const ByteVector &id);
 
       /*!
-      * Destroys this TextIdentificationFrame instance.
+       * Destroys the frame.
       */
-      virtual ~UniqueFileIdentifierFrame();
+      ~UniqueFileIdentifierFrame();
 
       /*!
        * Returns the owner for the frame; essentially this is the key for
@@ -95,6 +99,9 @@ namespace TagLib {
       virtual ByteVector renderFields() const;
 
     private:
+      UniqueFileIdentifierFrame(const UniqueFileIdentifierFrame &);
+      UniqueFileIdentifierFrame &operator=(UniqueFileIdentifierFrame &);
+
       UniqueFileIdentifierFrame(const ByteVector &data, Header *h);
 
       class UniqueFileIdentifierFramePrivate;

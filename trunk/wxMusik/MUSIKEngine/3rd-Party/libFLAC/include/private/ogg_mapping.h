@@ -1,5 +1,5 @@
-/* libFLAC - Free Lossless Audio Codec library
- * Copyright (C) 2001,2002,2003,2004,2005  Josh Coalson
+/* libFLAC - Free Lossless Audio Codec
+ * Copyright (C) 2004,2005,2006,2007  Josh Coalson
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -29,13 +29,35 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLAC__PROTECTED__FILE_ENCODER_H
-#define FLAC__PROTECTED__FILE_ENCODER_H
+#ifndef FLAC__PRIVATE__OGG_MAPPING_H
+#define FLAC__PRIVATE__OGG_MAPPING_H
 
-#include "FLAC/file_encoder.h"
+#include "FLAC/ordinals.h"
 
-typedef struct FLAC__FileEncoderProtected {
-	FLAC__FileEncoderState state;
-} FLAC__FileEncoderProtected;
+/** The length of the 'FLAC' magic in bytes. */
+#define FLAC__OGG_MAPPING_PACKET_TYPE_LENGTH (1u)
+
+extern const unsigned FLAC__OGG_MAPPING_PACKET_TYPE_LEN; /* = 8 bits */
+
+extern const FLAC__byte FLAC__OGG_MAPPING_FIRST_HEADER_PACKET_TYPE; /* = 0x7f */
+
+/** The length of the 'FLAC' magic in bytes. */
+#define FLAC__OGG_MAPPING_MAGIC_LENGTH (4u)
+
+extern const FLAC__byte * const FLAC__OGG_MAPPING_MAGIC; /* = "FLAC" */
+
+extern const unsigned FLAC__OGG_MAPPING_VERSION_MAJOR_LEN; /* = 8 bits */
+extern const unsigned FLAC__OGG_MAPPING_VERSION_MINOR_LEN; /* = 8 bits */
+
+/** The length of the Ogg FLAC mapping major version number in bytes. */
+#define FLAC__OGG_MAPPING_VERSION_MAJOR_LENGTH (1u)
+
+/** The length of the Ogg FLAC mapping minor version number in bytes. */
+#define FLAC__OGG_MAPPING_VERSION_MINOR_LENGTH (1u)
+
+extern const unsigned FLAC__OGG_MAPPING_NUM_HEADERS_LEN; /* = 16 bits */
+
+/** The length of the #-of-header-packets number bytes. */
+#define FLAC__OGG_MAPPING_NUM_HEADERS_LENGTH (2u)
 
 #endif

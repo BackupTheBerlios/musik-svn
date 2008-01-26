@@ -27,7 +27,7 @@ email                : andrew.leadbetter@gmail.com
 
 //#include <stdint.h>
 
-//#define MP4V2_HAS_WRITE_BUG 1
+#define MP4V2_HAS_WRITE_BUG 1
 
 namespace TagLib {
 ////////////////////////////////////////////////////////////////////////////////
@@ -155,11 +155,7 @@ bool MP4::File::save()
     }
 #endif
 
-    if(!MP4Close(handle))
-    {
-        fprintf(stderr, "close failed\n");
-    }
-
+    MP4Close(handle);
     mp4file = MP4Read(name());
     if(mp4file == MP4_INVALID_FILE_HANDLE)
     {

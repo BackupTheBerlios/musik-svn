@@ -19,15 +19,13 @@
 ** Any non-GPL usage of this software or parts of this software is strictly
 ** forbidden.
 **
-** Software using this code must display the following message visibly in or
-** on each copy of the software:
-** "FAAD2 AAC/HE-AAC/HE-AACv2/DRM decoder (c) Nero AG, www.nero.com"
-** in, for example, the about-box or help/startup screen.
+** The "appropriate copyright message" mentioned in section 2c of the GPLv2
+** must read: "Code from FAAD2 is copyright (c) Nero AG, www.nero.com"
 **
 ** Commercial non-GPL licensing of this software is possible.
 ** For more info contact Nero AG through Mpeg4AAClicense@nero.com.
 **
-** $Id: syntax.c,v 1.86 2006/08/07 18:00:49 menno Exp $
+** $Id: syntax.c,v 1.89 2007/11/01 12:33:40 menno Exp $
 **/
 
 /*
@@ -1749,12 +1747,12 @@ static uint8_t section_data(NeAACDecHandle hDecoder, ic_stream *ics, bitfile *ld
 
             if (ics->window_sequence == EIGHT_SHORT_SEQUENCE)
             {
-                if (k + sect_len >= 8*15)
+                if (k + sect_len > 8*15)
                     return 15;
                 if (i >= 8*15)
                     return 15;
             } else {
-                if (k + sect_len >= MAX_SFB)
+                if (k + sect_len > MAX_SFB)
                     return 15;
                 if (i >= MAX_SFB)
                     return 15;

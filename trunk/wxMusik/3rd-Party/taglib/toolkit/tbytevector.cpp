@@ -17,12 +17,18 @@
  *   License along with this library; if not, write to the Free Software   *
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  *
  *   USA                                                                   *
+ *                                                                         *
+ *   Alternatively, this file is available under the Mozilla Public        *
+ *   License Version 1.1.  You may obtain a copy of the License at         *
+ *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
 #include <iostream>
 
 #include <tstring.h>
 #include <tdebug.h>
+
+#include <string.h>
 
 #include "tbytevector.h"
 
@@ -89,7 +95,7 @@ namespace TagLib {
   template <class Vector>
   int vectorFind(const Vector &v, const Vector &pattern, uint offset, int byteAlign)
   {
-    if(pattern.size() > v.size() || offset >= v.size() - 1)
+    if(pattern.size() > v.size() || offset > v.size() - 1)
       return -1;
 
     // Let's go ahead and special case a pattern of size one since that's common
@@ -98,7 +104,7 @@ namespace TagLib {
     if(pattern.size() == 1) {
       char p = pattern[0];
       for(uint i = offset; i < v.size(); i++) {
-	if(v[i] == p && i % byteAlign == 0)
+        if(v[i] == p && ((i - offset) % byteAlign) == 0)
 	  return i;
       }
       return -1;
@@ -121,7 +127,7 @@ namespace TagLib {
         --iPattern;
       }
 
-      if(-1 == iPattern && (iBuffer + 1) % byteAlign == 0)
+      if(-1 == iPattern && ((iBuffer + 1 - offset) % byteAlign) == 0)
         return iBuffer + 1;
     }
 
@@ -316,16 +322,14 @@ ByteVector::~ByteVector()
 
 ByteVector &ByteVector::setData(const char *data, uint length)
 {
-  if(length)
-  {
-	detach();
+  detach();
 
-	resize(length);
-	::memcpy(DATA(d), data, length);
-	return *this;
-  }
-  else
-	  return clear();
+  resize(length);
+
+  if(length > 0)
+    ::memcpy(DATA(d), data, length);
+
+  return *this;
 }
 
 ByteVector &ByteVector::setData(const char *data)
@@ -336,12 +340,12 @@ ByteVector &ByteVector::setData(const char *data)
 char *ByteVector::data()
 {
   detach();
-  return size() ? DATA(d) : NULL;
+  return size() > 0 ? DATA(d) : 0;
 }
 
 const char *ByteVector::data() const
 {
-  return size() ? DATA(d) : NULL;
+  return size() > 0 ? DATA(d) : 0;
 }
 
 ByteVector ByteVector::mid(uint index, uint length) const
@@ -436,14 +440,15 @@ int ByteVector::endsWithPartialMatch(const ByteVector &pattern) const
 
 ByteVector &ByteVector::append(const ByteVector &v)
 {
-  if(v.size())
-  {
-    detach();
+  if(v.d->size == 0)
+    return *this; // Simply return if appending nothing.
 
-    uint originalSize = d->size;
-    resize(d->size + v.d->size);
-    ::memcpy(DATA(d) + originalSize, DATA(v.d), v.size());
-  }
+  detach();
+
+  uint originalSize = d->size;
+  resize(d->size + v.d->size);
+  ::memcpy(DATA(d) + originalSize, DATA(v.d), v.size());
+
   return *this;
 }
 
@@ -603,16 +608,12 @@ ByteVector &ByteVector::operator=(const ByteVector &v)
 
 ByteVector &ByteVector::operator=(char c)
 {
-  if(d->deref())
-    delete d;
   *this = ByteVector(c);
   return *this;
 }
 
 ByteVector &ByteVector::operator=(const char *data)
 {
-  if(d->deref())
-    delete d;
   *this = ByteVector(data);
   return *this;
 }

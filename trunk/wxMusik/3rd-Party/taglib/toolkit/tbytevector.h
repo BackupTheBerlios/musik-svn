@@ -17,14 +17,20 @@
  *   License along with this library; if not, write to the Free Software   *
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  *
  *   USA                                                                   *
+ *                                                                         *
+ *   Alternatively, this file is available under the Mozilla Public        *
+ *   License Version 1.1.  You may obtain a copy of the License at         *
+ *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
 
 #ifndef TAGLIB_BYTEVECTOR_H
 #define TAGLIB_BYTEVECTOR_H
 
 #include "taglib.h"
+#include "taglib_export.h"
 
 #include <vector>
+#include <ostream>
 
 namespace TagLib {
 
@@ -36,7 +42,7 @@ namespace TagLib {
    * useful for finding tag related paterns in a data array.
    */
 
-  class ByteVector
+  class TAGLIB_EXPORT ByteVector
   {
   public:
 #ifndef DO_NOT_DOCUMENT
@@ -124,8 +130,8 @@ namespace TagLib {
     /*!
      * Searches the ByteVector for \a pattern starting at \a offset and returns
      * the offset.  Returns -1 if the pattern was not found.  If \a byteAlign is
-     * specified the pattern will only be matched if it starts on a byteDivisible
-     * by \a byteAlign.
+     * specified the pattern will only be matched if it starts on a byte divisible
+     * by \a byteAlign (starting from \a offset).
      */
     int find(const ByteVector &pattern, uint offset = 0, int byteAlign = 1) const;
 
@@ -133,7 +139,7 @@ namespace TagLib {
      * Searches the ByteVector for \a pattern starting from either the end of the
      * vector or \a offset and returns the offset.  Returns -1 if the pattern was
      * not found.  If \a byteAlign is specified the pattern will only be matched
-     * if it starts on a byteDivisible by \a byteAlign.
+     * if it starts on a byte divisible by \a byteAlign (starting from \a offset).
      */
     int rfind(const ByteVector &pattern, uint offset = 0, int byteAlign = 1) const;
 
@@ -392,6 +398,6 @@ namespace TagLib {
  * \relates TagLib::ByteVector
  * Streams the ByteVector \a v to the output stream \a s.
  */
-std::ostream &operator<<(std::ostream &s, const TagLib::ByteVector &v);
+TAGLIB_EXPORT std::ostream &operator<<(std::ostream &s, const TagLib::ByteVector &v);
 
 #endif

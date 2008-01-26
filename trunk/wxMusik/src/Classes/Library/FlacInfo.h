@@ -13,7 +13,7 @@
 #include "CInfo.h"
 //--- globals ---//
 #include "../../MusikGlobals.h"
-#include "FLAC/file_decoder.h"
+#include "FLAC/stream_decoder.h"
 struct FLAC__Metadata_Chain;
 class CFlacInfo : public CInfoRead,public CInfoWrite
 {
@@ -27,12 +27,12 @@ private:
 	static bool SetCommentEntry(FLAC__StreamMetadata *pBlock,const char *name, int value);
 	static bool SetCommentEntry(FLAC__StreamMetadata *pBlock,const char *name, const char *value);
 	static int ReadEntry( const FLAC__StreamMetadata *metadata,const char * name,int offset,CSongMetaData::StringData & s);
-	static void FLACMetaCallback(const FLAC__FileDecoder *decoder, const FLAC__StreamMetadata *metadata, void *client_data);
-	static FLAC__StreamDecoderWriteStatus FLACWriteCallback(const FLAC__FileDecoder *decoder, 
+	static void FLACMetaCallback(const FLAC__StreamDecoder *decoder, const FLAC__StreamMetadata *metadata, void *client_data);
+	static FLAC__StreamDecoderWriteStatus FLACWriteCallback(const FLAC__StreamDecoder *decoder, 
 															const FLAC__Frame *frame, 
 															const FLAC__int32 * const buffer[], void *client_data);
-	static void FLACErrorCallback(const FLAC__FileDecoder *decoder, FLAC__StreamDecoderErrorStatus status, void *client_data); 
+	static void FLACErrorCallback(const FLAC__StreamDecoder *decoder, FLAC__StreamDecoderErrorStatus status, void *client_data); 
 
-	FLAC__FileDecoder *m_pDecoder;
+	FLAC__StreamDecoder *m_pDecoder;
 };
 #endif

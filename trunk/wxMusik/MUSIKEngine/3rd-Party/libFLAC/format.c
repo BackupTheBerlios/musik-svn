@@ -55,7 +55,7 @@
 #else
 #define FLAC__U64L(x) x##LLU
 #endif
-
+#define VERSION "1.2.1"
 /* VERSION should come from configure */
 FLAC_API const char *FLAC__VERSION_STRING = VERSION;
 

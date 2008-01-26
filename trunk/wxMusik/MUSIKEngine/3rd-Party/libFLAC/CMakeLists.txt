@@ -24,10 +24,10 @@ ADD_LIBRARY(myflac
 	memory.c 
 	metadata_iterators.c 
 	metadata_object.c 
-	ogg_decoder_ascpect.c
-	ogg_encoder_ascpect.c
-	ogg_helper.c
-	ogg_mapping.c
+#	ogg_decoder_aspect.c
+#	ogg_encoder_aspect.c
+#	ogg_helper.c
+#	ogg_mapping.c
 	window.c
 	stream_decoder.c 
 	stream_encoder.c 

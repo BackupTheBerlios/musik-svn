@@ -134,25 +134,6 @@ void CMusikPlayer::Init(bool bSuppressAutoPlay)
 }
 CMusikPlayer::~CMusikPlayer()
 {
-		wxRemoveFile( MUSIK_PLAYERLIST_FILENAME );
-		wxTextFile Out;
-		Out.Create( MUSIK_PLAYERLIST_FILENAME );
-		Out.Open();
-		if ( Out.IsOpened() )
-		{
-			if(!m_Playlist.GetCount())
-			{
-				m_nLastSongTime = 0;
-			}
-            Out.AddLine( wxString::Format(wxT("%d:%d"),m_Playlist.GetCount() ? m_Playlist.CurrentIndex():0, m_nLastSongTime));
-			for ( size_t i = 0; i < m_Playlist.GetCount(); i++ )
-			{
-				Out.AddLine( m_Playlist[i].Song()->MetaData.Filename.GetFullPath() );
-			}
-			
-			Out.Write( Out.GuessType() );
-			Out.Close();
-		}
 
 
 	//---------------------------------------------------------//
@@ -175,6 +156,28 @@ void CMusikPlayer::Shutdown( bool bClose,bool bNoFade)
     }
 	else
 		Stop(!bNoFade);
+
+// store current player playlist to a file
+    wxRemoveFile( MUSIK_PLAYERLIST_FILENAME );
+    wxTextFile Out;
+    Out.Create( MUSIK_PLAYERLIST_FILENAME );
+    Out.Open();
+    if ( Out.IsOpened() )
+    {
+        if(!m_Playlist.GetCount())
+        {
+            m_nLastSongTime = 0;
+        }
+        Out.AddLine( wxString::Format(wxT("%d:%d"),m_Playlist.GetCount() ? m_Playlist.CurrentIndex():0, m_nLastSongTime));
+        for ( size_t i = 0; i < m_Playlist.GetCount(); i++ )
+        {
+            Out.AddLine( m_Playlist[i].Song()->MetaData.Filename.GetFullPath() );
+        }
+        
+        Out.Write( Out.GuessType() );
+        Out.Close();
+    }
+
 }
 bool CMusikPlayer::InitializeSndEngine( )
 {

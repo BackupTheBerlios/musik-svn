@@ -42,7 +42,8 @@ typedef void (*lib_message_func_t)(int loglevel,
 #include <unistd.h>
 #include <errno.h>
 #include <ctype.h>
-
+#include <stdio.h>
+#include <sys/syslog.h>
 
 
 #define UINT64_TO_DOUBLE(a) ((double)(a))

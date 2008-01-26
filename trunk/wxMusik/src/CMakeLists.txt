@@ -174,7 +174,7 @@ IF(APPLE)
 #                TARGET wxMusik.app/Contents/MacOS/wxMusik
 #                )
     ADD_CUSTOM_TARGET(WXMUSIK_NAME ALL
-                COMMAND /usr/bin/install_name_tool -change /usr/local/lib/libfmodex.dylib @executable_path/../Frameworks/libfmodex.dylib ${EXECUTABLE_OUTPUT_PATH}/wxMusik.app/Contents/MacOS/wxMusik
+                COMMAND /usr/bin/install_name_tool -change ./libfmodex.dylib @executable_path/../Frameworks/libfmodex.dylib ${EXECUTABLE_OUTPUT_PATH}/wxMusik.app/Contents/MacOS/wxMusik
                 )
     ADD_DEPENDENCIES(WXMUSIK_NAME  wxMusik)
     ADD_DEPENDENCIES(CopyRsrcFiles wxMusik )	

@@ -533,11 +533,15 @@ void MusikApp::OnFatalException ()
 void MusikApp::OnFatalException ()
 {
     wxDebugReportCompress report;
+#if wxUSE_CRASHREPORT    
 #if wxCHECK_VERSION(2,8,0)
      report.AddDump(wxDebugReport::Context_Exception);
 #else
      report.AddAll(wxDebugReport::Context_Exception);	     	
 #endif 
+#else
+     report.AddAll(wxDebugReport::Context_Exception);	     	
+#endif
     // create a copy of our preferences file to include it in the report
     wxFileName destfn(report.GetDirectory(), _T("musik.ini"));
     wxCopyFile(wxFileConfig::GetLocalFileName(CONFIG_NAME),destfn.GetFullPath());

@@ -28,7 +28,12 @@ bool CTagLibInfo::ReadMetaData(CSongMetaData & MetaData) const
                                      //( without xing header) and some files with garbage at the start
                                          // we use mp3tech.c code from mp3info 0.8.4 therefore
     { // fileref scope
+ #ifdef __WXMSW__   
+ // on msw we can use the unicode version of taglib fileref.
 	    TagLib::FileRef f(MetaData.Filename.GetFullPath().c_str() ,readAudioProperties,audioPropertiesStyle);
+ #else
+	    TagLib::FileRef f(ConvFn2A(MetaData.Filename.GetFullPath()) ,readAudioProperties,audioPropertiesStyle);
+#endif        
 	    if(f.isNull())
 		    return false;
 	    TagLib::Tag *tag = f.tag();
@@ -87,7 +92,12 @@ bool CTagLibInfo::ReadMetaData(CSongMetaData & MetaData) const
 
 bool  CTagLibInfo::WriteMetaData(const CSongMetaData & MetaData,bool bClearAll)
 {
-	TagLib::FileRef f(MetaData.Filename.GetFullPath().c_str());
+ #ifdef __WXMSW__   
+ // on msw we can use the unicode version of taglib fileref.
+    TagLib::FileRef f(MetaData.Filename.GetFullPath().c_str());
+ #else
+    TagLib::FileRef f(ConvFn2A(MetaData.Filename.GetFullPath()));
+#endif        
 	if(f.isNull())
 		return false;
 	
@@ -105,7 +115,12 @@ bool  CTagLibInfo::WriteMetaData(const CSongMetaData & MetaData,bool bClearAll)
 
 bool CTagLibInfo::LoadImage(const wxString & sFilename, wxImage & img)
 {
+#ifdef __WXMSW__
+// on msw we can use the unicode version of taglib TagLib::MPEG::File.
     TagLib::MPEG::File *pMpegfile =new TagLib::MPEG::File(sFilename.c_str(),false);
+#else
+    TagLib::MPEG::File *pMpegfile =new TagLib::MPEG::File(ConvFn2A(sFilename),false);
+#endif    
 	TagLib::FileRef f(pMpegfile);  // to take care of deletion.
     
     if(pMpegfile->isValid() == false || pMpegfile->ID3v2Tag() == NULL)

@@ -3,7 +3,6 @@ PROJECT(wxMusik)
 
 SUBDIRS(data locale 3rd-Party MUSIKEngine src)
 INCLUDE (${wxMusik_SOURCE_DIR}/scripts/cmake/TargetDistclean.cmake)
-
 IF(NOT WIN32 )
 IF(NOT APPLE)
 SET(CMAKE_CXX_FLAGS " `pkg-config  --cflags-only-I gtk+-2.0`  ${CMAKE_CXX_FLAGS}")

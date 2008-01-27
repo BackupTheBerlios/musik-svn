@@ -402,6 +402,13 @@ public:
 		,sPlayerHotkeys(this,wxT("PlayerHotkey%d"),DefaultPlayerHotkeys)
 #endif
 		,bEnableCrashHandling(this,wxT("EnableCrashHandling"),true)	
+		,bEnableMimeTypePrefs(this,wxT("EnableMimeTypePrefs"),
+#ifdef __WXGTK__
+			false // the mime txpe pref is rather slow on linux because all kind off files are parsed. furthermore it hangs with 2.8.7 on sidux, so we disable it on gtk by default.
+#else
+			true
+#endif
+			)
         ,nDBCacheSize(this,wxT("DBCacheSize"),10000)
 	{
 		LoadPrefs();
@@ -542,6 +549,7 @@ public:
 #endif
 
 	CConfigSettingBool bEnableCrashHandling;
+	CConfigSettingBool bEnableMimeTypePrefs;
     CConfigSettingInt  nDBCacheSize;
 	wxString sDataPath;
 

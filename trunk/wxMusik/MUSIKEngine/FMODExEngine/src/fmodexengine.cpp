@@ -69,17 +69,17 @@ MUSIKEngine::Error FMODExEngine::_Init(int idOutput ,int idDevice,int nMixRate,i
 #elif defined (__linux)
     if ( idOutput == 0 )
     {
-        if( m_pSystem->setOutput( FMOD_OUTPUTTYPE_OSS ) != FMOD_OK )
-            idOutput = 2;
-    }
-    if ( idOutput == 2 )
-    {
         if ( m_pSystem->setOutput( FMOD_OUTPUTTYPE_ALSA ) != FMOD_OK )
             idOutput = 1;
     }
      if ( idOutput == 1 )
     {
         if ( m_pSystem->setOutput( FMOD_OUTPUTTYPE_ESD ) != FMOD_OK )
+           idOutput = 2;
+    }
+    if ( idOutput == 2 )
+    {
+         if( m_pSystem->setOutput( FMOD_OUTPUTTYPE_OSS ) != FMOD_OK )
             return errOutputInitFailed;
     }
 #elif defined (APPLE)
@@ -186,9 +186,9 @@ MUSIKEngine::Error FMODExEngine::EnumOutputs(IEnumNames * pen) const
         "Windows Multimedia",
         "ASIO"
 #elif defined(__linux)
-        "OSS",
-        "ESD",
         "ALSA 0.9"
+        "ESD",
+        "OSS",
 #elif defined(APPLE)
         "CoreAudio",
         "SoundManager"

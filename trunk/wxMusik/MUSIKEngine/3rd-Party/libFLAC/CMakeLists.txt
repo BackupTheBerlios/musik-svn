@@ -1,4 +1,4 @@
-
+IF(OPTION_SUPPORT_FLAC)
 #SRCS_NASM = \
 #	ia32/cpu_asm.nasm \
 #	ia32/fixed_asm.nasm \
@@ -33,3 +33,4 @@ ADD_LIBRARY(myflac
 	stream_encoder.c 
 	stream_encoder_framing.c
 )
+ENDIF(OPTION_SUPPORT_FLAC)

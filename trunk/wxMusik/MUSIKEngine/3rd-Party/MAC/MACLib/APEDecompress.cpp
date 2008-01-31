@@ -446,7 +446,7 @@ int CAPEDecompress::GetInfo(APE_DECOMPRESS_FIELDS Field, int nParam1, int nParam
             char * pBuffer = (char *) nParam1;
             int nMaxBytes = nParam2;
             
-            if (sizeof(WAVE_HEADER) > nMaxBytes)
+            if (sizeof(WAVE_HEADER) > (unsigned int)nMaxBytes)
             {
                 nRetVal = -1;
             }

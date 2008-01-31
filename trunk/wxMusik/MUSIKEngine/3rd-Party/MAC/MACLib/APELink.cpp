@@ -8,6 +8,16 @@
 #define APE_LINK_START_BLOCK_TAG        "Start Block="
 #define APE_LINK_FINISH_BLOCK_TAG       "Finish Block="
 
+#ifdef _WIN32
+
+#define FILE_SEPARATOR L'\\'
+
+#else
+
+#define FILE_SEPARATOR L'/'
+
+#endif
+
 CAPELink::CAPELink(const str_utf16 * pFilename)
 {
     // empty
@@ -53,10 +63,10 @@ void CAPELink::ParseData(const char * pData, const str_utf16 * pFilename)
     if (pData != NULL)
     {
         // parse out the information
-        const char * pHeader = strstr(pData, APE_LINK_HEADER);
-        const char * pImageFile = strstr(pData, APE_LINK_IMAGE_FILE_TAG);
-        const char * pStartBlock = strstr(pData, APE_LINK_START_BLOCK_TAG);
-        const char * pFinishBlock = strstr(pData, APE_LINK_FINISH_BLOCK_TAG);
+        char * pHeader = strstr(pData, APE_LINK_HEADER);
+        char * pImageFile = strstr(pData, APE_LINK_IMAGE_FILE_TAG);
+        char * pStartBlock = strstr(pData, APE_LINK_START_BLOCK_TAG);
+        char * pFinishBlock = strstr(pData, APE_LINK_FINISH_BLOCK_TAG);
 
         if (pHeader && pImageFile && pStartBlock && pFinishBlock)
         {
@@ -71,7 +81,7 @@ void CAPELink::ParseData(const char * pData, const str_utf16 * pFilename)
                 
                 // get the path
                 char cImageFile[MAX_PATH + 1]; int nIndex = 0;
-                const char * pImageCharacter = &pImageFile[strlen(APE_LINK_IMAGE_FILE_TAG)];
+                char * pImageCharacter = &pImageFile[strlen(APE_LINK_IMAGE_FILE_TAG)];
                 while ((*pImageCharacter != 0) && (*pImageCharacter != '\r') && (*pImageCharacter != '\n'))
                     cImageFile[nIndex++] = *pImageCharacter++;
                 cImageFile[nIndex] = 0;
@@ -79,11 +89,11 @@ void CAPELink::ParseData(const char * pData, const str_utf16 * pFilename)
                 CSmartPtr<str_utf16> spImageFileUTF16(GetUTF16FromUTF8((UCHAR *) cImageFile), TRUE);
 
                 // process the path
-                if (wcsrchr(spImageFileUTF16, '\\') == NULL)
+                if (wcsrchr(spImageFileUTF16, FILE_SEPARATOR) == NULL)
                 {
                     str_utf16 cImagePath[MAX_PATH + 1];
                     wcscpy(cImagePath, pFilename);
-                    wcscpy(wcsrchr(cImagePath, '\\') + 1, spImageFileUTF16);
+                    wcscpy(wcsrchr(cImagePath, FILE_SEPARATOR) + 1, spImageFileUTF16);
                     wcscpy(m_cImageFilename, cImagePath);
                 }
                 else

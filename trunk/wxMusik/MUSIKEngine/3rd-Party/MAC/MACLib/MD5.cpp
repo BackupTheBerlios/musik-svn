@@ -34,7 +34,7 @@ CopyToLittleEndian ( uint32_t*       dst,
                      const uint8_t*  src, 
              size_t          length ) 
 {
-    for ( ; length--; src += 4; dst++  ) {
+    for ( ;length > 0; length--, src += 4, dst++  ) {
     *dst = (( (uint32_t) src [3] ) << 24) |
            (( (uint32_t) src [2] ) << 16) |
            (( (uint32_t) src [1] ) <<  8) |
@@ -52,7 +52,8 @@ CopyToLittleEndian ( uint32_t*       dst,
    For other targets, we need to use the C versions below.
 */
 
-#if !(defined (__i386__) || ((defined (__arm__) && (__BYTE_ORDER == __LITTLE_ENDIAN))))
+//#if !(defined (__i386__) || ((defined (__arm__) && (__BYTE_ORDER == __LITTLE_ENDIAN))))
+#if 1
 
 /*
    Initialise the MD5 context.

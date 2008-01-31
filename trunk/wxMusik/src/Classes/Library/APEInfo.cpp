@@ -1,14 +1,11 @@
 #include "myprec.h"
 #ifndef MUSIKENGINE_NO_APE_SUPPORT
-#ifdef _WIN32
 #include "Shared/All.h"							/* Monkey's Audio include file */
 #include "MACLib/MACLib.h"						/* Monkey's Audio include file */
 #include "MACLib/APETag.h"
+#ifdef _WIN32
 #else
 #define BUILD_CROSS_PLATFORM
-#include "mac/All.h"							/* Monkey's Audio include file */
-#include "mac/MACLib.h"						/* Monkey's Audio include file */
-#include "mac/APETag.h"
 #endif
 #include "APEInfo.h"
 #include "MusikUtils.h"
@@ -26,11 +23,7 @@ bool CMyAPEInfo::ReadMetaData(CSongMetaData & MetaData) const
 }
 bool CMyAPEInfo::ReadTagData(CSongMetaData & MetaData) const
 {
-#ifdef __WXMAC__
-        CAPETag tag(MetaData.Filename.GetFullPath().mb_str(wxConvFile));
-#else
-        CAPETag tag(MetaData.Filename.GetFullPath().wc_str(wxConvFile));
-#endif
+    CAPETag tag(MetaData.Filename.GetFullPath().wc_str(wxConvFile));
 	GetFieldAsUtf8(APE_TAG_FIELD_TITLE,tag,MetaData.Title);
 	GetFieldAsUtf8(APE_TAG_FIELD_ARTIST,tag,MetaData.Artist);
 	GetFieldAsUtf8(APE_TAG_FIELD_ALBUM,tag,MetaData.Album);
@@ -45,11 +38,7 @@ bool CMyAPEInfo::ReadTagData(CSongMetaData & MetaData) const
 
 bool  CMyAPEInfo::WriteMetaData(const CSongMetaData & MetaData,bool bClearAll)
 {
-#ifdef __WXMAC__
-	CAPETag tag(MetaData.Filename.GetFullPath().mb_str(wxConvFile));
-#else
 	CAPETag tag(MetaData.Filename.GetFullPath().wc_str(wxConvFile));
-#endif
 	if(bClearAll)
 		tag.ClearFields();
 	tag.SetFieldString(APE_TAG_FIELD_TITLE,MetaData.Title,TRUE);
@@ -67,11 +56,7 @@ bool  CMyAPEInfo::WriteMetaData(const CSongMetaData & MetaData,bool bClearAll)
 bool CMyAPEInfo::ReadFileData(CSongMetaData & MetaData) const
 {
 	int nRetVal=0;
-#ifdef __WXMAC__
-	IAPEDecompress * pAPEDecompress = CreateIAPEDecompress(MetaData.Filename.GetFullPath().mb_str(wxConvFile), &nRetVal);
-#else
 	IAPEDecompress * pAPEDecompress = CreateIAPEDecompress(MetaData.Filename.GetFullPath().wc_str(wxConvFile), &nRetVal);
-#endif
 	if (pAPEDecompress != NULL)
 	{
 		MetaData.nBitrate = pAPEDecompress->GetInfo(APE_INFO_AVERAGE_BITRATE);

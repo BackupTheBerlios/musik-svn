@@ -155,3 +155,34 @@ int __stdcall FillWaveHeader(WAVE_HEADER * pWAVHeader, int nAudioBytes, WAVEFORM
     }
     catch(...) { return ERROR_UNDEFINED; }
 }
+
+#ifdef WORDS_BIGENDIAN
+
+void swap_ape_descriptor(APE_DESCRIPTOR *des)
+{
+    des->nVersion = swap_int16(des->nVersion);
+
+    des->nDescriptorBytes = swap_int32(des->nDescriptorBytes);
+    des->nHeaderBytes = swap_int32(des->nHeaderBytes);
+    des->nSeekTableBytes = swap_int32(des->nSeekTableBytes);
+    des->nHeaderDataBytes = swap_int32(des->nHeaderDataBytes);
+    des->nAPEFrameDataBytes = swap_int32(des->nAPEFrameDataBytes);
+    des->nAPEFrameDataBytesHigh = swap_int32(des->nAPEFrameDataBytesHigh);
+    des->nTerminatingDataBytes = swap_int32(des->nTerminatingDataBytes);
+}
+
+void swap_ape_header(APE_HEADER *header)
+{
+    header->nCompressionLevel = swap_int16(header->nCompressionLevel);
+    header->nFormatFlags = swap_int16(header->nFormatFlags);
+
+    header->nBlocksPerFrame = swap_int32(header->nBlocksPerFrame);
+    header->nFinalFrameBlocks = swap_int32(header->nFinalFrameBlocks);
+    header->nTotalFrames = swap_int32(header->nTotalFrames);
+
+    header->nBitsPerSample = swap_int16(header->nBitsPerSample);
+    header->nChannels = swap_int16(header->nChannels);
+    header->nSampleRate = swap_int32(header->nSampleRate);
+}
+
+#endif

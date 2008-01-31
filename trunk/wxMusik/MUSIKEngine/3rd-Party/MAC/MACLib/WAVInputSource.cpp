@@ -127,6 +127,16 @@ CWAVInputSource::~CWAVInputSource()
 
 }
 
+static void swap_wave_header(WAV_FORMAT_HEADER *header)
+{
+    header->nFormatTag = swap_int16(header->nFormatTag);
+    header->nChannels = swap_int16(header->nChannels);
+    header->nSamplesPerSecond = swap_int32(header->nSamplesPerSecond);
+    header->nBytesPerSecond = swap_int32(header->nBytesPerSecond);
+    header->nBlockAlign = swap_int16(header->nBlockAlign);
+    header->nBitsPerSample = swap_int16(header->nBitsPerSample);
+}
+
 int CWAVInputSource::AnalyzeSource()
 {
     // seek to the beginning (just in case)
@@ -138,6 +148,7 @@ int CWAVInputSource::AnalyzeSource()
     // get the RIFF header
     RIFF_HEADER RIFFHeader;
     RETURN_ON_ERROR(ReadSafe(m_spIO, &RIFFHeader, sizeof(RIFFHeader))) 
+    RIFFHeader.nBytes = swap_int32(RIFFHeader.nBytes);
 
     // make sure the RIFF header is valid
     if (!(RIFFHeader.cRIFF[0] == 'R' && RIFFHeader.cRIFF[1] == 'I' && RIFFHeader.cRIFF[2] == 'F' && RIFFHeader.cRIFF[3] == 'F')) 
@@ -154,6 +165,7 @@ int CWAVInputSource::AnalyzeSource()
     // find the 'fmt ' chunk
     RIFF_CHUNK_HEADER RIFFChunkHeader;
     RETURN_ON_ERROR(ReadSafe(m_spIO, &RIFFChunkHeader, sizeof(RIFFChunkHeader))) 
+	RIFFChunkHeader.nChunkBytes = swap_int32(RIFFChunkHeader.nChunkBytes);
     
     while (!(RIFFChunkHeader.cChunkLabel[0] == 'f' && RIFFChunkHeader.cChunkLabel[1] == 'm' && RIFFChunkHeader.cChunkLabel[2] == 't' && RIFFChunkHeader.cChunkLabel[3] == ' ')) 
     {
@@ -162,11 +174,13 @@ int CWAVInputSource::AnalyzeSource()
 
         // check again for the data chunk
         RETURN_ON_ERROR(ReadSafe(m_spIO, &RIFFChunkHeader, sizeof(RIFFChunkHeader))) 
+	RIFFChunkHeader.nChunkBytes = swap_int32(RIFFChunkHeader.nChunkBytes);
     }
     
     // read the format info
     WAV_FORMAT_HEADER WAVFormatHeader;
     RETURN_ON_ERROR(ReadSafe(m_spIO, &WAVFormatHeader, sizeof(WAVFormatHeader))) 
+	swap_wave_header(&WAVFormatHeader);
 
     // error check the header to see if we support it
     if (WAVFormatHeader.nFormatTag != 1)
@@ -184,6 +198,7 @@ int CWAVInputSource::AnalyzeSource()
     
     // find the data chunk
     RETURN_ON_ERROR(ReadSafe(m_spIO, &RIFFChunkHeader, sizeof(RIFFChunkHeader))) 
+	RIFFChunkHeader.nChunkBytes = swap_int32(RIFFChunkHeader.nChunkBytes);
 
     while (!(RIFFChunkHeader.cChunkLabel[0] == 'd' && RIFFChunkHeader.cChunkLabel[1] == 'a' && RIFFChunkHeader.cChunkLabel[2] == 't' && RIFFChunkHeader.cChunkLabel[3] == 'a')) 
     {
@@ -192,6 +207,7 @@ int CWAVInputSource::AnalyzeSource()
 
         // check again for the data chunk
         RETURN_ON_ERROR(ReadSafe(m_spIO, &RIFFChunkHeader, sizeof(RIFFChunkHeader))) 
+	RIFFChunkHeader.nChunkBytes = swap_int32(RIFFChunkHeader.nChunkBytes);
     }
 
     // we're at the data block

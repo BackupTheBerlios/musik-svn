@@ -45,6 +45,8 @@ unsigned int CUnBitArray::DecodeValue(DECODE_VALUE_METHOD DecodeMethod, int nPar
     {
     case DECODE_VALUE_METHOD_UNSIGNED_INT:
         return DecodeValueXBits(32);
+    default:
+	break;
     }
     
     return 0;
@@ -117,7 +119,7 @@ int CUnBitArray::DecodeValueRange(UNBIT_ARRAY_STATE & BitArrayState)
             int nRangeTotal = RangeDecodeFast(RANGE_OVERFLOW_SHIFT);
             
             // lookup the symbol (must be a faster way than this)
-            while (nRangeTotal >= RANGE_TOTAL_2[nOverflow + 1]) { nOverflow++; }
+            while ((unsigned int)nRangeTotal >= RANGE_TOTAL_2[nOverflow + 1]) { nOverflow++; }
             
             // update
             m_RangeCoderInfo.low -= m_RangeCoderInfo.range * RANGE_TOTAL_2[nOverflow];
@@ -135,7 +137,7 @@ int CUnBitArray::DecodeValueRange(UNBIT_ARRAY_STATE & BitArrayState)
         // get the value
         int nBase = 0;
         {
-            int nShift = 0;
+//            int nShift = 0;
             if (nPivotValue >= (1 << 16))
             {
                 int nPivotValueBits = 0;
@@ -198,7 +200,7 @@ int CUnBitArray::DecodeValueRange(UNBIT_ARRAY_STATE & BitArrayState)
         
         // lookup the symbol (must be a faster way than this)
         int nOverflow = 0;
-        while (nRangeTotal >= RANGE_TOTAL_1[nOverflow + 1]) { nOverflow++; }
+        while ((unsigned int)nRangeTotal >= RANGE_TOTAL_1[nOverflow + 1]) { nOverflow++; }
         
         // update
         m_RangeCoderInfo.low -= m_RangeCoderInfo.range * RANGE_TOTAL_1[nOverflow];

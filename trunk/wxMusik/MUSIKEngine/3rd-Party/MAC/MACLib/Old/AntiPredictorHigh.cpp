@@ -127,7 +127,7 @@ void CAntiPredictorHigh3600To3700::AntiPredict(int *pInputArray, int *pOutputArr
     int m3 = 28;
     int m4 = 16;
     int OP0;
-    int OP1 = pOutputArray[12];
+//    int OP1 = pOutputArray[12];
     int p4 = pInputArray[12];
     int p3 = (pInputArray[12] - pInputArray[11]) << 1;
     int p2 = pInputArray[12] + ((pInputArray[10] - pInputArray[11]) << 3);// - pInputArray[3] + pInputArray[2];
@@ -219,7 +219,7 @@ void CAntiPredictorHigh3600To3700::AntiPredict(int *pInputArray, int *pOutputArr
     }
     
     m4 = 370;
-    int m5 = 3900;
+//    int m5 = 3900;
 
     pOutputArray[1] = pInputArray[1] + pOutputArray[0];
     pOutputArray[2] = pInputArray[2] + pOutputArray[1];
@@ -261,8 +261,8 @@ void CAntiPredictorHigh3700To3800::AntiPredict(int *pInputArray, int *pOutputArr
     // the frame to start prediction on
     #define FIRST_ELEMENT    16
 
-    int x = 100;
-    int y = -25;
+//    int x = 100;
+//    int y = -25;
 
     // short frame handling
     if (NumberOfElements < 20) 
@@ -302,40 +302,40 @@ void CAntiPredictorHigh3700To3800::AntiPredict(int *pInputArray, int *pOutputArr
         if (Original > 0) 
         {
             bm[0] -= ip[-1] > 0 ? 1 : -1;
-            bm[1] += ((unsigned int(ip[-2]) >> 30) & 2) - 1;
+            bm[1] += (((unsigned int)(ip[-2]) >> 30) & 2) - 1;
             bm[2] -= ip[-3] > 0 ? 1 : -1;
-            bm[3] += ((unsigned int(ip[-4]) >> 30) & 2) - 1;
+            bm[3] += (((unsigned int)(ip[-4]) >> 30) & 2) - 1;
             bm[4] -= ip[-5] > 0 ? 1 : -1;
-            bm[5] += ((unsigned int(ip[-6]) >> 30) & 2) - 1;
+            bm[5] += (((unsigned int)(ip[-6]) >> 30) & 2) - 1;
             bm[6] -= ip[-7] > 0 ? 1 : -1;
-            bm[7] += ((unsigned int(ip[-8]) >> 30) & 2) - 1;
+            bm[7] += (((unsigned int)(ip[-8]) >> 30) & 2) - 1;
             bm[8] -= ip[-9] > 0 ? 1 : -1;
-            bm[9] += ((unsigned int(ip[-10]) >> 30) & 2) - 1;
+            bm[9] += (((unsigned int)(ip[-10]) >> 30) & 2) - 1;
             bm[10] -= ip[-11] > 0 ? 1 : -1;
-            bm[11] += ((unsigned int(ip[-12]) >> 30) & 2) - 1;
+            bm[11] += (((unsigned int)(ip[-12]) >> 30) & 2) - 1;
             bm[12] -= ip[-13] > 0 ? 1 : -1;
-            bm[13] += ((unsigned int(ip[-14]) >> 30) & 2) - 1;
+            bm[13] += (((unsigned int)(ip[-14]) >> 30) & 2) - 1;
             bm[14] -= ip[-15] > 0 ? 1 : -1;
-            bm[15] += ((unsigned int(ip[-16]) >> 30) & 2) - 1;
+            bm[15] += (((unsigned int)(ip[-16]) >> 30) & 2) - 1;
         }
         else if (Original < 0) 
         {
             bm[0] -= ip[-1] <= 0 ? 1 : -1;
-            bm[1] -= ((unsigned int(ip[-2]) >> 30) & 2) - 1;
+            bm[1] -= (((unsigned int)(ip[-2]) >> 30) & 2) - 1;
             bm[2] -= ip[-3] <= 0 ? 1 : -1;
-            bm[3] -= ((unsigned int(ip[-4]) >> 30) & 2) - 1;
+            bm[3] -= (((unsigned int)(ip[-4]) >> 30) & 2) - 1;
             bm[4] -= ip[-5] <= 0 ? 1 : -1;
-            bm[5] -= ((unsigned int(ip[-6]) >> 30) & 2) - 1;
+            bm[5] -= (((unsigned int)(ip[-6]) >> 30) & 2) - 1;
             bm[6] -= ip[-7] <= 0 ? 1 : -1;
-            bm[7] -= ((unsigned int(ip[-8]) >> 30) & 2) - 1;
+            bm[7] -= (((unsigned int)(ip[-8]) >> 30) & 2) - 1;
             bm[8] -= ip[-9] <= 0 ? 1 : -1;
-            bm[9] -= ((unsigned int(ip[-10]) >> 30) & 2) - 1;
+            bm[9] -= (((unsigned int)(ip[-10]) >> 30) & 2) - 1;
             bm[10] -= ip[-11] <= 0 ? 1 : -1;
-            bm[11] -= ((unsigned int(ip[-12]) >> 30) & 2) - 1;
+            bm[11] -= (((unsigned int)(ip[-12]) >> 30) & 2) - 1;
             bm[12] -= ip[-13] <= 0 ? 1 : -1;
-            bm[13] -= ((unsigned int(ip[-14]) >> 30) & 2) - 1;
+            bm[13] -= (((unsigned int)(ip[-14]) >> 30) & 2) - 1;
             bm[14] -= ip[-15] <= 0 ? 1 : -1;
-            bm[15] -= ((unsigned int(ip[-16]) >> 30) & 2) - 1;
+            bm[15] -= (((unsigned int)(ip[-16]) >> 30) & 2) - 1;
         }
 
         /////////////////////////////////////////////
@@ -399,7 +399,7 @@ void CAntiPredictorHigh3800ToCurrent::AntiPredict(int *pInputArray, int *pOutput
     int *op = &pOutputArray[FIRST_ELEMENT];
     int *ip = &pInputArray[FIRST_ELEMENT];
     int IPP2 = ip[-2];
-    int IPP1 = ip[-1];
+//    int IPP1 = ip[-1];
     int p7 = 2 * ip[-1] - ip[-2];
     int opp = op[-1];
     

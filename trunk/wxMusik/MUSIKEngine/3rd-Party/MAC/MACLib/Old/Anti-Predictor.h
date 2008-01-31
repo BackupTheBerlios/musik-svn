@@ -14,7 +14,7 @@ public:
 
     // construction/destruction
     CAntiPredictor();
-    ~CAntiPredictor();
+    virtual ~CAntiPredictor();
 
     // functions
     virtual void AntiPredict(int *pInputArray, int *pOutputArray, int NumberOfElements);

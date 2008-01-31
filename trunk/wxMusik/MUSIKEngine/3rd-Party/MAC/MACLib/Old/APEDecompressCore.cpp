@@ -50,7 +50,7 @@ CAPEDecompressCore::~CAPEDecompressCore()
 
 void CAPEDecompressCore::GenerateDecodedArrays(int nBlocks, int nSpecialCodes, int nFrameIndex, int nCPULoadBalancingFactor)
 {
-    CUnBitArray * pBitArray = (CUnBitArray *) m_pUnBitArray;
+//    CUnBitArray * pBitArray = (CUnBitArray *) m_pUnBitArray;
     
     if (m_pAPEDecompress->GetInfo(APE_INFO_CHANNELS) == 2)
     {

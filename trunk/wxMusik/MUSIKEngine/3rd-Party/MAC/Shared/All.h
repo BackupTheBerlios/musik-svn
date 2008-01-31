@@ -1,10 +1,15 @@
 #ifndef APE_ALL_H
 #define APE_ALL_H
 
+#include "config.h"
+#include "MACUtils.h"
+
 /*****************************************************************************************
 Cross platform building switch
 *****************************************************************************************/
-//#define BUILD_CROSS_PLATFORM
+#ifndef BUILD_CROSS_PLATFORM
+#define BUILD_CROSS_PLATFORM
+#endif
 
 /*****************************************************************************************
 Unicode
@@ -32,6 +37,7 @@ Global includes
     #include <sys/time.h>
     #include <sys/types.h>
     #include <sys/stat.h>
+    #include <wchar.h>
     #include "NoWindows.h"
 #endif
 
@@ -109,7 +115,49 @@ Byte order
 *****************************************************************************************/
 #define __LITTLE_ENDIAN     1234
 #define __BIG_ENDIAN        4321
+
+#ifdef WORDS_BIGENDIAN
+
+#define __BYTE_ORDER        __BIG_ENDIAN
+
+#else
+
 #define __BYTE_ORDER        __LITTLE_ENDIAN
+
+#endif
+
+#ifdef WORDS_BIGENDIAN
+
+static inline int16 swap_int16(int16 x)
+{
+    int16 y = x;
+
+#if __BYTE_ORDER == __BIG_ENDIAN
+    y = ((x & 0x00ff) << 8) |
+	((x & 0xff00) >> 8);
+#endif
+    return y;
+}
+
+static inline int32 swap_int32(int32 x)
+{
+    int32 y = x;
+
+#if __BYTE_ORDER == __BIG_ENDIAN
+    y = ((x & 0x000000ff) << 24) | 
+	((x & 0x0000ff00) << 8) |
+	((x & 0x00ff0000) >> 8) |
+	((x & 0xff000000) >> 24);
+#endif
+    return y;
+}
+
+#else
+
+#define swap_int16(a) (a)
+#define swap_int32(a) (a)
+
+#endif
 
 /*****************************************************************************************
 Macros

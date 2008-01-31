@@ -11,18 +11,23 @@ str_ansi * GetANSIFromUTF8(const str_utf8 * pUTF8)
 
 str_ansi * GetANSIFromUTF16(const str_utf16 * pUTF16)
 {
+    /* 
+     * In UTF-8, there will be at most 4 bytes for one character,
+     * so the memory that result string need is at most 4 * len + 1 bytes.
+     * That is supposed to be enough.
+     */
     const int nCharacters = pUTF16 ? wcslen(pUTF16) : 0;
-    #ifdef _WIN32
-        int nANSICharacters = (2 * nCharacters);
+    int nANSICharacters = (4 * nCharacters);
         str_ansi * pANSI = new str_ansi [nANSICharacters + 1];
         memset(pANSI, 0, (nANSICharacters + 1) * sizeof(str_ansi));
         if (pUTF16)
+    #ifdef _WIN32
             WideCharToMultiByte(CP_ACP, 0, pUTF16, -1, pANSI, nANSICharacters, NULL, NULL);
     #else
-        str_utf8 * pANSI = new str_utf8 [nCharacters + 1];
-        for (int z = 0; z < nCharacters; z++)
-            pANSI[z] = (pUTF16[z] >= 256) ? '?' : (str_utf8) pUTF16[z];
-        pANSI[nCharacters] = 0;
+    {
+	setlocale(LC_CTYPE, "");
+	wcstombs(pANSI, pUTF16, nANSICharacters);
+    }
     #endif
 
     return (str_ansi *) pANSI;
@@ -32,15 +37,15 @@ str_utf16 * GetUTF16FromANSI(const str_ansi * pANSI)
 {
     const int nCharacters = pANSI ? strlen(pANSI) : 0;
     str_utf16 * pUTF16 = new str_utf16 [nCharacters + 1];
-
-    #ifdef _WIN32
         memset(pUTF16, 0, sizeof(str_utf16) * (nCharacters + 1));
         if (pANSI)
+    #ifdef _WIN32
             MultiByteToWideChar(CP_ACP, 0, pANSI, -1, pUTF16, nCharacters);
     #else
-        for (int z = 0; z < nCharacters; z++)
-            pUTF16[z] = (str_utf16) ((str_utf8) pANSI[z]);
-        pUTF16[nCharacters] = 0;
+    {
+	setlocale(LC_CTYPE, "");
+	mbstowcs(pUTF16, pANSI, nCharacters);
+    }
     #endif
 
     return pUTF16;

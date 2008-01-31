@@ -72,7 +72,7 @@ int CBitArray::OutputBitArray(BOOL bFinalize)
     // write the entire file to disk
     unsigned int nBytesWritten = 0;
     unsigned int nBytesToWrite = 0;
-    unsigned int nRetVal = 0;
+//    unsigned int nRetVal = 0;
     
     if (bFinalize)
     {
@@ -80,6 +80,13 @@ int CBitArray::OutputBitArray(BOOL bFinalize)
 
         m_MD5.AddData(m_pBitArray, nBytesToWrite);
 
+#ifdef WORDS_BIGENDIAN
+	uint32 i ;
+	for (i = 0; i < nBytesToWrite / 4; i ++)
+	{
+	    m_pBitArray[i] = swap_int32(m_pBitArray[i]);
+	}
+#endif
         RETURN_ON_ERROR(m_pIO->Write(m_pBitArray, nBytesToWrite, &nBytesWritten))
 
         // reset the bit pointer
@@ -90,6 +97,14 @@ int CBitArray::OutputBitArray(BOOL bFinalize)
         nBytesToWrite = (m_nCurrentBitIndex >> 5) * 4;
 
         m_MD5.AddData(m_pBitArray, nBytesToWrite);
+
+#ifdef WORDS_BIGENDIAN
+	uint32 i ;
+	for (i = 0; i < nBytesToWrite / 4; i ++)
+	{
+	    m_pBitArray[i] = swap_int32(m_pBitArray[i]);
+	}
+#endif
 
         RETURN_ON_ERROR(m_pIO->Write(m_pBitArray, nBytesToWrite, &nBytesWritten))
         
@@ -220,7 +235,7 @@ int CBitArray::EncodeValue(int nEncode, BIT_ARRAY_STATE & BitArrayState)
     int nOriginalKSum = BitArrayState.nKSum;
 
     // get the working k
-    int nTempK = (BitArrayState.k) ? BitArrayState.k - 1 : 0;
+//    int nTempK = (BitArrayState.k) ? BitArrayState.k - 1 : 0;
     
     // update nKSum
     BitArrayState.nKSum += ((nEncode + 1) / 2) - ((BitArrayState.nKSum + 16) >> 5);

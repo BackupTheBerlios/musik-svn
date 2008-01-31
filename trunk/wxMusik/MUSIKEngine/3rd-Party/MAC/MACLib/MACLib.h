@@ -205,7 +205,7 @@ enum APE_DECOMPRESS_FIELDS
     APE_DECOMPRESS_CURRENT_BITRATE = 2004,      // current bitrate [ignored, ignored]
     APE_DECOMPRESS_AVERAGE_BITRATE = 2005,      // average bitrate (works with ranges) [ignored, ignored]
 
-    APE_INTERNAL_INFO = 3000,                   // for internal use -- don't use (returns APE_FILE_INFO *) [ignored, ignored]
+    APE_INTERNAL_INFO = 3000                    // for internal use -- don't use (returns APE_FILE_INFO *) [ignored, ignored]
 };
 
 /*************************************************************************************************
@@ -446,5 +446,17 @@ extern "C"
     DLLEXPORT int __stdcall FillWaveFormatEx(WAVEFORMATEX * pWaveFormatEx, int nSampleRate = 44100, int nBitsPerSample = 16, int nChannels = 2);
     DLLEXPORT int __stdcall FillWaveHeader(WAVE_HEADER * pWAVHeader, int nAudioBytes, WAVEFORMATEX * pWaveFormatEx, int nTerminatingBytes = 0);
 }
+
+#ifdef WORDS_BIGENDIAN
+
+    void swap_ape_descriptor(APE_DESCRIPTOR *des);
+    void swap_ape_header(APE_HEADER *header);
+
+#else
+
+#define swap_ape_descriptor(a) {}
+#define swap_ape_header(a) {}
+
+#endif
 
 #endif // #ifndef APE_MACLIB_H

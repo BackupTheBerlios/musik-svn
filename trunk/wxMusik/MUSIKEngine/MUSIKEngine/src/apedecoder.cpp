@@ -24,22 +24,17 @@
 
 #include "MUSIKEngine/inc/imusikstreamout.h"
 
-
-#ifdef _WIN32
 #include "Shared/All.h"							/* Monkey's Audio include file */
 #include "MACLib/MACLib.h"						/* Monkey's Audio include file */
 #include "Shared/CharacterHelper.h"
+
+#ifdef _WIN32
 #ifdef __VISUALC__
 #pragma comment(lib,"MACLib")
 #endif
 
 #else
 #define BUILD_CROSS_PLATFORM
-#include "mac/All.h"							/* Monkey's Audio include file */
-#include "mac/MACLib.h"						/* Monkey's Audio include file */
-#include "mac/CharacterHelper.h"
-
-
 #endif
 
 const float APEDecodeBufferSec = 0.5f;			/* APE:  Buffersize in seconds (changeable) */
@@ -67,13 +62,9 @@ bool MUSIKAPEDecoder::OpenMedia(const char *FileName)
 {
 
 	int nRetVal=0;
-#ifdef __APPLE__
-	IAPEDecompress * pAPEDecompress = CreateIAPEDecompress(FileName, &nRetVal);
-#else
 	CSmartPtr<wchar_t> wsFileName;
 	wsFileName.Assign(GetUTF16FromANSI(FileName),TRUE);
 	IAPEDecompress * pAPEDecompress = CreateIAPEDecompress(wsFileName, &nRetVal);
-#endif
 	if (pAPEDecompress != NULL)
 	{
 		m_ApeInfo.pAPEDecompress = pAPEDecompress;

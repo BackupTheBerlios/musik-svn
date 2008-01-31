@@ -22,11 +22,10 @@
 #include <FLAC/format.h>
 #endif
 #ifndef MUSIKENGINE_NO_APE_SUPPORT
-#ifdef _WIN32
 #include "Shared/All.h" // monkeys audio
+#ifdef _WIN32
 #else
 #define BUILD_CROSS_PLATFORM
-#include "mac/All.h" // monkeys audio
 #endif
 #endif //#ifndef MUSIKENGINE_NO_APE
 

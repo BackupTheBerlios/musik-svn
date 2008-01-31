@@ -248,7 +248,7 @@ int CAPEInfo::GetInfo(APE_DECOMPRESS_FIELDS Field, int nParam1, int nParam2)
         
         if (m_APEFileInfo.nFormatFlags & MAC_FORMAT_FLAG_CREATE_WAV_HEADER)
         {
-            if (sizeof(WAVE_HEADER) > nMaxBytes)
+            if (sizeof(WAVE_HEADER) > (unsigned int)nMaxBytes)
             {
                 nRetVal = -1;
             }
@@ -355,6 +355,8 @@ int CAPEInfo::GetInfo(APE_DECOMPRESS_FIELDS Field, int nParam1, int nParam2)
     case APE_INTERNAL_INFO:
         nRetVal = (int) &m_APEFileInfo;
         break;
+    default:
+	break;
     }
 
     return nRetVal;

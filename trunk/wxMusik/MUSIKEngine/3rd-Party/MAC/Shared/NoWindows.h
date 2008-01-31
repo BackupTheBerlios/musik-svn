@@ -3,11 +3,14 @@
 #ifndef APE_NOWINDOWS_H
 #define APE_NOWINDOWS_H
 
+#include "MACUtils.h"
+
 #define FALSE    0
 #define TRUE    1
 
 #define NEAR
 #define FAR
+
 
 typedef unsigned int        uint32;
 typedef int                    int32;
@@ -31,6 +34,8 @@ typedef long                LPARAM;
 typedef const char *        LPCSTR;
 typedef char *                LPSTR;
 typedef long                LRESULT;
+typedef unsigned char       UCHAR;
+typedef const wchar_t *     LPCWSTR;
 
 #define ZeroMemory(POINTER, BYTES) memset(POINTER, 0, BYTES);
 #define max(a,b)    (((a) > (b)) ? (a) : (b))
@@ -41,6 +46,24 @@ typedef long                LRESULT;
 
 #define _stricmp strcasecmp
 #define _strnicmp strncasecmp
+
+#ifdef HAVE_WCSCASECMP
+
+#define wcsnicmp wcsncasecmp
+#define _wcsicmp wcscasecmp
+#define wcsicmp wcscasecmp
+
+#else
+
+#define wcsnicmp mac_wcsncasecmp
+#define _wcsicmp mac_wcscasecmp
+#define wcsicmp mac_wcscasecmp
+
+#endif // HAVE_WCSCASECMP
+
+#define _wtoi(ws) wcstol(ws, NULL, 2)
+
+#include <locale.h> 
 
 #define _FPOSOFF(fp) ((long)(fp).__pos)
 #define MAX_PATH    260

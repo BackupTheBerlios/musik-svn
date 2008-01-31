@@ -128,7 +128,7 @@ void CAntiPredictorNormal3320To3800::AntiPredict(int *pInputArray, int *pOutputA
     int m2 = 64;
     int m3 = 28;
     int OP0;
-    int OP1 = pOutputArray[4];
+//    int OP1 = pOutputArray[4];
 
     int p3 = (3 * (pOutputArray[4] - pOutputArray[3])) + pOutputArray[2];
     int p2 = pInputArray[4] + ((pInputArray[2] - pInputArray[3]) << 3) - pInputArray[1] + pInputArray[0];

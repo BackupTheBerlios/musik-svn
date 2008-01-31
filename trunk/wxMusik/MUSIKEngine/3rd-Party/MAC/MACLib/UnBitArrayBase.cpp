@@ -67,6 +67,14 @@ int CUnBitArrayBase::FillAndResetBitArray(int nFileLocation, int nNewBitIndex)
     if (m_pIO->Read(((unsigned char *) m_pBitArray), m_nBytes, &nBytesRead) != 0)
         return ERROR_IO_READ;
 
+#ifdef WORDS_BIGENDIAN
+    uint32 i;
+    for (i = 0; i < (nBytesRead / 4); i ++)
+    {
+	m_pBitArray[i] = swap_int32(m_pBitArray[i]);
+    }
+#endif
+
     return 0;
 }
 
@@ -83,6 +91,16 @@ int CUnBitArrayBase::FillBitArray()
     unsigned int nBytesRead = 0;
     int nRetVal = m_pIO->Read((unsigned char *) (m_pBitArray + m_nElements - nBitArrayIndex), nBytesToRead, &nBytesRead);
     
+#ifdef WORDS_BIGENDIAN
+    uint32 i;
+    uint32 *ptr;
+    ptr = m_pBitArray + m_nElements - nBitArrayIndex;
+    for (i = 0; i < (nBytesRead / 4); i ++)
+    {
+	ptr[i] = swap_int32(ptr[i]);
+    }
+#endif
+
     // adjust the m_Bit pointer
     m_nCurrentBitIndex = m_nCurrentBitIndex & 31;
     

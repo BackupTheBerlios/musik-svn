@@ -29,7 +29,7 @@ void CAntiPredictorExtraHigh0000To3320::AntiPredictorOffset(int* Input_Array, in
 
     memcpy(Output_Array, Input_Array, Max_Order * 4);
     
-    int m = 512;
+//    int m = 512;
 
     if (dm > 0)
         for (q = Max_Order; q < Number_of_Elements; q++) {
@@ -208,7 +208,7 @@ void CAntiPredictorExtraHigh3800ToCurrent::AntiPredict(int *pInputArray, int *pO
     int *op = &pOutputArray[nFirstElement];
     int *ip = &pInputArray[nFirstElement];
     int IPP2 = ip[-2];
-    int IPP1 = ip[-1];
+//    int IPP1 = ip[-1];
     int p7 = 2 * ip[-1] - ip[-2];
     int opp = op[-1];
     int Original;

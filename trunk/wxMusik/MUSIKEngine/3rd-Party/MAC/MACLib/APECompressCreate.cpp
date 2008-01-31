@@ -131,6 +131,8 @@ int CAPECompressCreate::InitializeFile(CIO * pIO, const WAVEFORMATEX * pwfeInput
     APEDescriptor.nSeekTableBytes = nMaxFrames * sizeof(unsigned int);
     APEDescriptor.nHeaderDataBytes = (nHeaderBytes == CREATE_WAV_HEADER_ON_DECOMPRESSION) ? 0 : nHeaderBytes;
 
+    swap_ape_descriptor(&APEDescriptor);
+
     // create the header (only fill what we know now)
     APEHeader.nBitsPerSample = pwfeInput->wBitsPerSample;
     APEHeader.nChannels = pwfeInput->nChannels;
@@ -140,6 +142,8 @@ int CAPECompressCreate::InitializeFile(CIO * pIO, const WAVEFORMATEX * pwfeInput
     APEHeader.nFormatFlags = (nHeaderBytes == CREATE_WAV_HEADER_ON_DECOMPRESSION) ? MAC_FORMAT_FLAG_CREATE_WAV_HEADER : 0;
 
     APEHeader.nBlocksPerFrame = m_nSamplesPerFrame;
+
+    swap_ape_header(&APEHeader);
 
     // write the data to the file
     unsigned int nBytesWritten = 0;
@@ -187,10 +191,14 @@ int CAPECompressCreate::FinalizeFile(CIO * pIO, int nNumberOfFrames, int nFinalF
     nRetVal = pIO->Read(&APEDescriptor, sizeof(APEDescriptor), &nBytesRead);
     if ((nRetVal != 0) || (nBytesRead != sizeof(APEDescriptor))) { return ERROR_IO_READ; }
 
+    swap_ape_descriptor(&APEDescriptor);
+
     // get the header
     APE_HEADER APEHeader;
     nRetVal = pIO->Read(&APEHeader, sizeof(APEHeader), &nBytesRead);
     if (nRetVal != 0 || nBytesRead != sizeof(APEHeader)) { return ERROR_IO_READ; }
+    
+    swap_ape_header(&APEHeader);
     
     // update the header
     APEHeader.nFinalFrameBlocks = nFinalFrameBlocks;
@@ -208,11 +216,29 @@ int CAPECompressCreate::FinalizeFile(CIO * pIO, int nNumberOfFrames, int nFinalF
 
     // set the pointer and re-write the updated header and peak level
     nRetVal = pIO->Seek(0, FILE_BEGIN);
+
+    swap_ape_descriptor(&APEDescriptor);
+    swap_ape_header(&APEHeader);
+
     if (pIO->Write(&APEDescriptor, sizeof(APEDescriptor), &nBytesWritten) != 0) { return ERROR_IO_WRITE; }
     if (pIO->Write(&APEHeader, sizeof(APEHeader), &nBytesWritten) != 0) { return ERROR_IO_WRITE; }
     
+#ifdef WORDS_BIGENDIAN
+    int i;
+    for (i = 0; i < m_nMaxFrames; i ++)
+    {
+	m_spSeekTable[i] = swap_int32(m_spSeekTable[i]);
+    }
+#endif
     // write the updated seek table
     if (pIO->Write(m_spSeekTable, m_nMaxFrames * 4, &nBytesWritten) != 0) { return ERROR_IO_WRITE; }
+    
+#ifdef WORDS_BIGENDIAN
+    for (i = 0; i < m_nMaxFrames; i ++)
+    {
+	m_spSeekTable[i] = swap_int32(m_spSeekTable[i]);
+    }
+#endif
     
     return ERROR_SUCCESS;
 }

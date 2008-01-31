@@ -100,6 +100,8 @@ int CPrepare::Prepare(const unsigned char * pRawData, int nBytes, const WAVEFORM
                 else
                     L = (int) (nTemp & 0x7FFFFF);
 
+		
+
                 // check the peak
                 if (labs(L) > *pPeakLevel)
                     *pPeakLevel = labs(L);
@@ -159,6 +161,9 @@ int CPrepare::Prepare(const unsigned char * pRawData, int nBytes, const WAVEFORM
                 CRC = (CRC >> 8) ^ CRC32_TABLE[(CRC & 0xFF) ^ *pRawData++];
                 CRC = (CRC >> 8) ^ CRC32_TABLE[(CRC & 0xFF) ^ *pRawData++];
 
+		R = swap_int16(R);
+		L = swap_int16(L);
+
                 // check the peak
                 if (labs(L) > LPeak)
                     LPeak = labs(L);
@@ -198,6 +203,8 @@ int CPrepare::Prepare(const unsigned char * pRawData, int nBytes, const WAVEFORM
                 
                 CRC = (CRC >> 8) ^ CRC32_TABLE[(CRC & 0xFF) ^ *pRawData++];
                 CRC = (CRC >> 8) ^ CRC32_TABLE[(CRC & 0xFF) ^ *pRawData++];
+                
+		R = swap_int16(R);
                 
                 // check the peak
                 if (labs(R) > nPeak)
@@ -248,11 +255,13 @@ void CPrepare::Unprepare(int X, int Y, const WAVEFORMATEX * pWaveFormatEx, unsig
                 throw(-1);
             }
 
-            *(int16 *) pOutput = (int16) nR;
+//            *(int16 *) pOutput = (int16) nR;
+	    *(int16 *) pOutput = swap_int16(nR);
             CALCULATE_CRC_BYTE
             CALCULATE_CRC_BYTE
                 
-            *(int16 *) pOutput = (int16) nL;
+//            *(int16 *) pOutput = (int16) nL;
+		* (int16 *) pOutput = swap_int16(nL);
             CALCULATE_CRC_BYTE
             CALCULATE_CRC_BYTE
         }

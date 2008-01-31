@@ -31,7 +31,7 @@ int CAPEHeader::FindDescriptor(BOOL bSeek)
     if (cID3v2Header[0] == 'I' && cID3v2Header[1] == 'D' && cID3v2Header[2] == '3') 
     {
         // why is it so hard to figure the lenght of an ID3v2 tag ?!?
-        unsigned int nLength = *((unsigned int *) &cID3v2Header[6]);
+//        unsigned int nLength = *((unsigned int *) &cID3v2Header[6]);
 
         unsigned int nSyncSafeLength = 0;
         nSyncSafeLength = (cID3v2Header[6] & 127) << 21;
@@ -83,7 +83,7 @@ int CAPEHeader::FindDescriptor(BOOL bSeek)
 
     nBytesRead = 1;
     int nScanBytes = 0;
-    while ((nGoalID != nReadID) && (nBytesRead == 1) && (nScanBytes < (1024 * 1024)))
+    while ((nGoalID != swap_int32(nReadID)) && (nBytesRead == 1) && (nScanBytes < (1024 * 1024)))
     {
         unsigned char cTemp;
         m_pIO->Read(&cTemp, 1, &nBytesRead);
@@ -92,6 +92,7 @@ int CAPEHeader::FindDescriptor(BOOL bSeek)
         nScanBytes++;
     }
 
+    nReadID = swap_int32(nReadID);
     if (nGoalID != nReadID)
         nJunkBytes = -1;
 
@@ -114,7 +115,7 @@ int CAPEHeader::Analyze(APE_FILE_INFO * pInfo)
 {
     // error check
     if ((m_pIO == NULL) || (pInfo == NULL))
-        return ERROR_INVALID_PARAMETER;
+        return ERROR_INVALID_FUNCTION_PARAMETER;
 
     // variables
     unsigned int nBytesRead = 0;
@@ -127,6 +128,7 @@ int CAPEHeader::Analyze(APE_FILE_INFO * pInfo)
     // read the first 8 bytes of the descriptor (ID and version)
     APE_COMMON_HEADER CommonHeader; memset(&CommonHeader, 0, sizeof(APE_COMMON_HEADER));
     m_pIO->Read(&CommonHeader, sizeof(APE_COMMON_HEADER), &nBytesRead);
+    CommonHeader.nVersion = swap_int16(CommonHeader.nVersion);
 
     // make sure we're at the ID
     if (CommonHeader.cID[0] != 'M' || CommonHeader.cID[1] != 'A' || CommonHeader.cID[2] != 'C' || CommonHeader.cID[3] != ' ')
@@ -148,6 +150,29 @@ int CAPEHeader::Analyze(APE_FILE_INFO * pInfo)
     return nRetVal;
 }
 
+#ifdef WORDS_BIGENDIAN
+
+void swap_ape_header_old(APE_HEADER_OLD *header)
+{
+    header->nVersion = swap_int16(header->nVersion);
+    header->nCompressionLevel = swap_int16(header->nCompressionLevel);
+    header->nFormatFlags = swap_int16(header->nFormatFlags);
+
+    header->nChannels = swap_int16(header->nChannels);
+    header->nSampleRate = swap_int32(header->nSampleRate);
+
+    header->nHeaderBytes = swap_int32(header->nHeaderBytes);
+    header->nTerminatingBytes = swap_int32(header->nTerminatingBytes);
+    header->nTotalFrames = swap_int32(header->nTotalFrames);
+    header->nFinalFrameBlocks = swap_int32(header->nFinalFrameBlocks);
+}
+
+#else
+
+#define swap_ape_header_old(a) {}
+
+#endif
+
 int CAPEHeader::AnalyzeCurrent(APE_FILE_INFO * pInfo)
 {
     // variable declares
@@ -158,12 +183,14 @@ int CAPEHeader::AnalyzeCurrent(APE_FILE_INFO * pInfo)
     // read the descriptor
     m_pIO->Seek(pInfo->nJunkHeaderBytes, FILE_BEGIN);
     m_pIO->Read(pInfo->spAPEDescriptor, sizeof(APE_DESCRIPTOR), &nBytesRead);
+    swap_ape_descriptor((APE_DESCRIPTOR *)pInfo->spAPEDescriptor);
 
     if ((pInfo->spAPEDescriptor->nDescriptorBytes - nBytesRead) > 0)
         m_pIO->Seek(pInfo->spAPEDescriptor->nDescriptorBytes - nBytesRead, FILE_CURRENT);
 
     // read the header
     m_pIO->Read(&APEHeader, sizeof(APEHeader), &nBytesRead);
+    swap_ape_header(&APEHeader);
 
     if ((pInfo->spAPEDescriptor->nHeaderBytes - nBytesRead) > 0)
         m_pIO->Seek(pInfo->spAPEDescriptor->nHeaderBytes - nBytesRead, FILE_CURRENT);
@@ -197,6 +224,17 @@ int CAPEHeader::AnalyzeCurrent(APE_FILE_INFO * pInfo)
 
     m_pIO->Read((unsigned char *) pInfo->spSeekByteTable.GetPtr(), 4 * pInfo->nSeekTableElements, &nBytesRead);
 
+#ifdef WORDS_BIGENDIAN
+
+    uint32 *ptr = pInfo->spSeekByteTable.GetPtr();
+    int i = 0;
+    for (i = 0; i < pInfo->nSeekTableElements; i ++)
+    {
+	ptr[i] = swap_int32(ptr[i]);
+    }
+
+#endif
+
     // get the wave header
     if (!(APEHeader.nFormatFlags & MAC_FORMAT_FLAG_CREATE_WAV_HEADER))
     {
@@ -217,6 +255,7 @@ int CAPEHeader::AnalyzeOld(APE_FILE_INFO * pInfo)
     APE_HEADER_OLD APEHeader;
     m_pIO->Seek(pInfo->nJunkHeaderBytes, FILE_BEGIN);
     m_pIO->Read((unsigned char *) &APEHeader, sizeof(APEHeader), &nBytesRead);
+    swap_ape_header_old(&APEHeader);
 
     // fail on 0 length APE files (catches non-finalized APE files)
     if (APEHeader.nTotalFrames == 0)
@@ -224,10 +263,16 @@ int CAPEHeader::AnalyzeOld(APE_FILE_INFO * pInfo)
 
     int nPeakLevel = -1;
     if (APEHeader.nFormatFlags & MAC_FORMAT_FLAG_HAS_PEAK_LEVEL)
+    {
         m_pIO->Read((unsigned char *) &nPeakLevel, 4, &nBytesRead);
+	nPeakLevel = swap_int32(nPeakLevel);
+    }
 
     if (APEHeader.nFormatFlags & MAC_FORMAT_FLAG_HAS_SEEK_ELEMENTS)
+    {
         m_pIO->Read((unsigned char *) &pInfo->nSeekTableElements, 4, &nBytesRead);
+	pInfo->nSeekTableElements = swap_int32(pInfo->nSeekTableElements);
+    }
     else
         pInfo->nSeekTableElements = APEHeader.nTotalFrames;
     
@@ -267,6 +312,17 @@ int CAPEHeader::AnalyzeOld(APE_FILE_INFO * pInfo)
     if (pInfo->spSeekByteTable == NULL) { return ERROR_UNDEFINED; }
 
     m_pIO->Read((unsigned char *) pInfo->spSeekByteTable.GetPtr(), 4 * pInfo->nSeekTableElements, &nBytesRead);
+
+#ifdef WORDS_BIGENDIAN
+
+    uint32 *ptr = pInfo->spSeekByteTable.GetPtr();
+    int i = 0;
+    for (i = 0; i < pInfo->nSeekTableElements; i ++)
+    {
+	ptr[i] = swap_int32(ptr[i]);
+    }
+
+#endif
 
     if (APEHeader.nVersion <= 3800) 
     {

@@ -1,6 +1,7 @@
 #include "All.h"
 #include "GlobalFunctions.h"
 #include "IO.h"
+#include "CharacterHelper.h"
 
 /*
 #ifndef __GNUC_IA32__

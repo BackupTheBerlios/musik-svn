@@ -17,7 +17,7 @@ MACLib/APECompressCreate.cpp	MACLib/BitArray.cpp		MACLib/UnBitArray.cpp
 MACLib/APEDecompress.cpp	MACLib/MACLib.cpp		MACLib/UnBitArrayBase.cpp
 MACLib/APEHeader.cpp		MACLib/MACProgressHelper.cpp	MACLib/WAVInputSource.cpp
 MACLib/APEInfo.cpp		MACLib/MD5.cpp
-MACLib/APELink.cpp		MACLib/NNFilter.cpp	 	MACLib/Assembly/Common.cpp
+MACLib/APELink.cpp		MACLib/NNFilter.cpp	 	MACLib/Assembly/common.cpp
 MACLib/Old/APEDecompressCore.cpp	MACLib/Old/AntiPredictorExtraHigh.cpp	MACLib/Old/AntiPredictorNormal.cpp
 MACLib/Old/APEDecompressOld.cpp		MACLib/Old/AntiPredictorFast.cpp	MACLib/Old/UnBitArrayOld.cpp
 MACLib/Old/Anti-Predictor.cpp		MACLib/Old/AntiPredictorHigh.cpp	MACLib/Old/UnMAC.cpp

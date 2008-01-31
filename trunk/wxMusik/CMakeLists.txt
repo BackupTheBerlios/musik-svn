@@ -8,6 +8,10 @@ IF(NOT APPLE)
 SET(CMAKE_CXX_FLAGS " `pkg-config  --cflags-only-I gtk+-2.0`  ${CMAKE_CXX_FLAGS}")
 ENDIF(NOT APPLE)
 ENDIF(NOT WIN32)
+
+INCLUDE (TestBigEndian)
+TEST_BIG_ENDIAN(CMAKE_WORDS_BIGENDIAN)
+
 # Configure for a wxWindows build
 INCLUDE( ${CMAKE_CURRENT_SOURCE_DIR}/scripts/cmake/MyUse_wxWindows.cmake)
 

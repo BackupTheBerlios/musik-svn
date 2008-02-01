@@ -39,7 +39,7 @@ namespace TagLib {
                  * file's audio properties will also be read using \a propertiesStyle.  If
                  * false, \a propertiesStyle is ignored.
                  */
-                File(const char *file, bool readProperties = true,
+                File(FileName file, bool readProperties = true,
                         Properties::ReadStyle propertiesStyle = Properties::Average,
                         MP4FileHandle handle=MP4_INVALID_FILE_HANDLE);
 

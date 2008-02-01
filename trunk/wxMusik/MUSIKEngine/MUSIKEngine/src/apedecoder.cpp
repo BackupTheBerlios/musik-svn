@@ -90,7 +90,7 @@ int64_t MUSIKAPEDecoder::GetTime()
 
 bool MUSIKAPEDecoder::DoSeek(int64_t samplepos)
 {
-	if(m_ApeInfo.pAPEDecompress->Seek((int)samplepos))
+	if(m_ApeInfo.pAPEDecompress->Seek((int)samplepos) == 0) //Seek return 0 on success.
     {
         SetDecodeSamplePos(samplepos);
         return true;// do not stop

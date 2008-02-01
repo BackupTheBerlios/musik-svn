@@ -28,12 +28,7 @@ bool CTagLibInfo::ReadMetaData(CSongMetaData & MetaData) const
                                      //( without xing header) and some files with garbage at the start
                                          // we use mp3tech.c code from mp3info 0.8.4 therefore
     { // fileref scope
- #ifdef __WXMSW__   
- // on msw we can use the unicode version of taglib fileref.
-	    TagLib::FileRef f(MetaData.Filename.GetFullPath().c_str() ,readAudioProperties,audioPropertiesStyle);
- #else
-	    TagLib::FileRef f(ConvFn2A(MetaData.Filename.GetFullPath()) ,readAudioProperties,audioPropertiesStyle);
-#endif        
+ 	    TagLib::FileRef f((const char *)ConvFn2A(MetaData.Filename.GetFullPath()) ,readAudioProperties,audioPropertiesStyle);
 	    if(f.isNull())
 		    return false;
 	    TagLib::Tag *tag = f.tag();
@@ -92,12 +87,8 @@ bool CTagLibInfo::ReadMetaData(CSongMetaData & MetaData) const
 
 bool  CTagLibInfo::WriteMetaData(const CSongMetaData & MetaData,bool bClearAll)
 {
- #ifdef __WXMSW__   
- // on msw we can use the unicode version of taglib fileref.
-    TagLib::FileRef f(MetaData.Filename.GetFullPath().c_str());
- #else
-    TagLib::FileRef f(ConvFn2A(MetaData.Filename.GetFullPath()));
-#endif        
+ 
+    TagLib::FileRef f((const char *)ConvFn2A(MetaData.Filename.GetFullPath()));
 	if(f.isNull())
 		return false;
 	

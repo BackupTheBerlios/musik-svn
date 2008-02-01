@@ -34,7 +34,7 @@ namespace TagLib {
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-MP4::File::File(const char *file,
+MP4::File::File(FileName file,
         bool readProperties,
         Properties::ReadStyle propertiesStyle,
         MP4FileHandle handle) : TagLib::File(file),

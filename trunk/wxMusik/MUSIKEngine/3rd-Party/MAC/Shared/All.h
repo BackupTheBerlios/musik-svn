@@ -24,12 +24,11 @@ Unicode
 /*****************************************************************************************
 Global includes
 *****************************************************************************************/
-#ifndef BUILD_CROSS_PLATFORM
-    #include <windows.h>
-#endif
+
 
 #ifdef _WIN32
-    #include <mmsystem.h>
+	#include <windows.h>
+	#include <mmsystem.h>
     #include <tchar.h>
 #else
     #include <unistd.h>

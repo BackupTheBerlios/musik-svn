@@ -15,7 +15,7 @@
     0xaaaabbcc -> aaaa = major version number.  bb = minor version number.  cc = development version number.
 */
 
-#define FMOD_VERSION    0x00041004
+#define FMOD_VERSION    0x00041006
 
 /*
     Compiler specific settings.
@@ -186,6 +186,7 @@ typedef enum
     FMOD_ERR_OUTPUT_DRIVERCALL,     /* A call to a standard soundcard driver failed, which could possibly mean a bug in the driver or resources were missing or exhausted. */
     FMOD_ERR_OUTPUT_FORMAT,         /* Soundcard does not support the minimum features needed for this soundsystem (16bit stereo output). */
     FMOD_ERR_OUTPUT_INIT,           /* Error initializing output device. */
+    FMOD_ERR_OUTPUT_ENUMERATION,    /* Error enumerating the available driver list. List may be inconsistent due to a recent device addition or removal. */
     FMOD_ERR_OUTPUT_NOHARDWARE,     /* FMOD_HARDWARE was specified but the sound card does not have the resources nescessary to play it. */
     FMOD_ERR_OUTPUT_NOSOFTWARE,     /* Attempted to create a software sound but no software channels were specified in System::init. */
     FMOD_ERR_PAN,                   /* Panning only works with mono or stereo sound sources. */
@@ -209,7 +210,7 @@ typedef enum
     FMOD_ERR_EVENT_INTERNAL,        /* An error occured that wasn't supposed to.  See debug log for reason. */
     FMOD_ERR_EVENT_INFOONLY,        /* Can't execute this command on an EVENT_INFOONLY event. */
     FMOD_ERR_EVENT_MAXSTREAMS,      /* Event failed because 'Max streams' was hit when FMOD_INIT_FAIL_ON_MAXSTREAMS was specified. */
-    FMOD_ERR_EVENT_MISMATCH,        /* FSB mis-matches the FEV it was compiled with. */
+    FMOD_ERR_EVENT_MISMATCH,        /* FSB mismatches the FEV it was compiled with or FEV was built for a different platform. */
     FMOD_ERR_EVENT_NAMECONFLICT,    /* A category with the same name already exists. */
     FMOD_ERR_EVENT_NOTFOUND,        /* The requested event, event group, event category or event property could not be found. */
 

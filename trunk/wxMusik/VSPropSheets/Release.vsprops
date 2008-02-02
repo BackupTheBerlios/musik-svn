@@ -11,18 +11,18 @@
 		EnableIntrinsicFunctions="true"
 		FavorSizeOrSpeed="1"
 		OmitFramePointers="true"
+		WholeProgramOptimization="true"
 		StringPooling="true"
 		ExceptionHandling="1"
 		RuntimeLibrary="0"
 		BufferSecurityCheck="false"
-		EnableFunctionLevelLinking="true"		
+		EnableFunctionLevelLinking="true"
 	/>
 	<Tool
 		Name="VCLinkerTool"
 		LinkIncremental="2"
 		SubSystem="2"
 		TargetMachine="1"
-	
 	/>
 	<Tool
 		Name="VCMIDLTool"

@@ -73,7 +73,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\prec.cpp"
+				RelativePath=".\src\prec.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -153,7 +153,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\stdafx.h"
+				RelativePath=".\src\stdafx.h"
 				>
 			</File>
 		</Filter>

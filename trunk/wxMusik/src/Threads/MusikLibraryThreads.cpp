@@ -260,7 +260,6 @@ public:
 		if (psc) 
 		{
 			m_files.Add( filename );
-
 			if ( m_files.GetCount() % 100 == 0 )
 			{
 
@@ -343,7 +342,7 @@ void MusikScanNewThread::GetMusicDir( const wxString & sDir, wxArrayString & aFi
 		if ( dir.IsOpened() )
 		{
 			wxMusicTraverser traverser(this, aFiles );
-			dir.Traverse( traverser );
+			dir.Traverse( traverser,wxEmptyString,wxDIR_FILES | wxDIR_DIRS );
 
 			//-----------------------------------------//
 			//--- the traverser will post update	---//

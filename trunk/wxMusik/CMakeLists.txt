@@ -21,7 +21,6 @@ INCLUDE( ${CMAKE_CURRENT_SOURCE_DIR}/scripts/cmake/MyUse_wxWindows.cmake)
 
 INCLUDE_DIRECTORIES("${wxMusik_SOURCE_DIR}")
 INCLUDE_DIRECTORIES("${wxMusik_SOURCE_DIR}/3rd-Party")
-INCLUDE_DIRECTORIES("${wxMusik_SOURCE_DIR}/src")
 INCLUDE_DIRECTORIES("${wxMusik_SOURCE_DIR}/3rd-Party/taglib")
 INCLUDE_DIRECTORIES("${wxMusik_SOURCE_DIR}/3rd-Party/taglib/toolkit")
 INCLUDE_DIRECTORIES("${wxMusik_SOURCE_DIR}/3rd-Party/taglib/mpeg/id3v2")

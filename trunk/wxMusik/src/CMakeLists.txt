@@ -1,6 +1,20 @@
 SET(PROJECT_VERSION_MAJOR "0.4.3.0")
 
 INCLUDE( ${wxMusik_SOURCE_DIR}/MUSIKEngine/engine.cmake)
+include( ${wxMusik_SOURCE_DIR}/scripts/cmake/PCHSupport.cmake)
+
+
+include_directories(
+	"${CMAKE_CURRENT_BINARY_DIR}"
+	"${wxMusik_SOURCE_DIR}/src"
+)
+
+
+INCLUDE_DIRECTORIES("${wxMusik_SOURCE_DIR}")
+
+IF(PCHSupport_FOUND)
+ADD_DEFINITIONS(-DWX_PRECOMP)
+ENDIF(PCHSupport_FOUND)
 
 SET(MAIN_SRCS
         ./MusikApp
@@ -37,7 +51,6 @@ SET(MAIN_SRCS
         ./Classes/Library/MetaDataHandler
         ./Classes/Library/mp3tech
         
-        ${wxMusik_SOURCE_DIR}/3rd-Party/Bitap/libbitap.c
         ${wxMusik_SOURCE_DIR}/3rd-Party/TagHelper/idtag.cpp
 		
         ./Frames/MusikFrame
@@ -110,6 +123,11 @@ ADD_DEFINITIONS(-DMUSIKENGINE_NO_MPC_SUPPORT)
 #SET(MUSEPACK_LIBRARY "")
 ENDIF(OPTION_SUPPORT_MPC)
 
+
+
+ADD_LIBRARY(libbitap
+        ${wxMusik_SOURCE_DIR}/3rd-Party/Bitap/libbitap.c
+)
 IF(WIN32)
     SET(WIN32_EXECUTABLE WIN32)
 ENDIF(WIN32)
@@ -136,6 +154,7 @@ TARGET_LINK_LIBRARIES(wxMusik
         ${MUSIK_ENGINE}
         MUSIKEngine
         shibatch
+	libbitap
         mysqlite3
         mysqlite2
         ${WXWINDOWS_LIBRARY}
@@ -147,6 +166,11 @@ TARGET_LINK_LIBRARIES(wxMusik
 	${MPC_LIBS}
     )
 
+IF(PCHSupport_FOUND)
+add_precompiled_header( wxMusik 
+	${CMAKE_CURRENT_SOURCE_DIR}/myprec.h
+)  
+ENDIF(PCHSupport_FOUND)
 
 IF(APPLE)
     INCLUDE( ${wxMusik_SOURCE_DIR}/scripts/cmake/CopyIfDifferent.cmake)

@@ -98,8 +98,8 @@ const int wxADJUST_MINSIZE = 0; //dummy this flag i not used in 2.8.3 anymore
 //-----------------------------------------//
 
 #ifdef _MSC_VER
-#define strncasecmp strnicmp
-#define strcasecmp	stricmp 
+#define strncasecmp _strnicmp
+#define strcasecmp	_stricmp 
 #endif
 
 const int  MUSIK_MIN_RATING = -9;

@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8,00"
-	Name="Musik"
+	Name="wxMusik"
 	ProjectGUID="{C4650E41-AD5A-41D8-89D8-3ED472E4D10F}"
-	RootNamespace="Musik"
+	RootNamespace="wxMusik"
 	Keyword="Win32Proj"
 	>
 	<Platforms>
@@ -17,10 +17,8 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="_Debug"
-			IntermediateDirectory="_Debug"
 			ConfigurationType="1"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			InheritedPropertySheets="$(SolutionDir)/VSPropSheets/Base.vsprops;$(SolutionDir)/VSPropSheets/Debug.vsprops;$(SolutionDir)/VSPropSheets/wxWidgets.vsprops;$(SolutionDir)/VSPropSheets/wxMusik.vsprops"
 			CharacterSet="2"
 			>
 			<Tool
@@ -40,49 +38,18 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(WXDIR)\include\msvc&quot;;&quot;$(ProjectDir)\3rd-Party\taglib\mpeg\id3v2&quot;;&quot;$(ProjectDir)\3rd-Party\taglib\toolkit&quot;;&quot;$(ProjectDir)\3rd-Party\taglib\&quot;;&quot;$(ProjectDir)\3rd-Party\sqlite3\&quot;;&quot;$(ProjectDir)\MUSIKEngine\3rd-Party\MAC&quot;;&quot;$(ProjectDir)/MUSIKEngine&quot;;&quot;$(ProjectDir)/src&quot;;&quot;$(ProjectDir)\MUSIKEngine\3rd-Party\include&quot;;&quot;$(VORBISDIR)\include&quot;;&quot;$(ProjectDir)\3rd-Party\&quot;;&quot;$(OGGDIR)\include&quot;;&quot;$(WXDIR)\contrib\include&quot;;&quot;$(WXDIR)\include&quot;;&quot;$(ProjectDir)\3rd-Party\sqlite2\&quot;;MMShellHook;&quot;$(ProjectDir)&quot;"
-				PreprocessorDefinitions="_DEBUG;WIN32;_WINDOWS;WINVER=0x400;_WIN32_IE=0x0600;_MT;FLAC__NO_DLL;USE_FMODEX"
-				StringPooling="true"
-				MinimalRebuild="true"
-				ExceptionHandling="1"
-				BasicRuntimeChecks="3"
-				SmallerTypeCheck="true"
-				RuntimeLibrary="1"
-				DisableLanguageExtensions="false"
-				ForceConformanceInForLoopScope="true"
-				RuntimeTypeInfo="true"
-				UsePrecompiledHeader="2"
-				PrecompiledHeaderThrough="myprec.h"
-				WarningLevel="4"
-				Detect64BitPortabilityProblems="false"
-				DebugInformationFormat="3"
-				ShowIncludes="false"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				AdditionalIncludeDirectories="$(WXDIR)\include"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				ShowProgress="2"
-				OutputFile="$(OutDir)/wxMusik.exe"
-				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;$(ProjectDir)\MUSIKEngine\FMODEngine\lib&quot;;&quot;$(ProjectDir)\MUSIKEngine\FMODExEngine\lib&quot;;&quot;$(ProjectDir)\MUSIKEngine\MUSIKEngine\lib&quot;;&quot;$(ProjectDir)\MUSIKEngine\3rd-Party\MAC\MACLib\Debug&quot;;&quot;$(ProjectDir)\MUSIKEngine\3rd-Party\MPC\Debug&quot;;&quot;$(ProjectDir)\MUSIKEngine\3rd-Party\libFLAC\Debug_static&quot;;&quot;$(ProjectDir)\3rd-Party\sqlite2\Debug&quot;;&quot;$(WXDIR)\lib\vc_lib&quot;;&quot;$(ProjectDir)\3rd-Party\bin\fmod\win32&quot;;&quot;$(XINEDIR)/win32\Debug\libxine&quot;;..\MMShellHook\Debug;&quot;$(ProjectDir)\3rd-Party\bin\fmodex\win32&quot;"
-				IgnoreDefaultLibraryNames="LIBCMTD.LIB;MSVCRT.LIB"
-				GenerateDebugInformation="true"
-				ProgramDatabaseFile="$(OutDir)/wxMusik.pdb"
-				GenerateMapFile="true"
-				MapExports="true"
-				SubSystem="2"
-				TargetMachine="1"
-				FixedBaseAddress="1"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -107,16 +74,12 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="xcopy &quot;$(ProjectDir)\3rd-Party\bin\fmodex\win32\fmodex.dll&quot;  &quot;$(OutDir)&quot; /Y&#x0D;&#x0A;xcopy &quot;$(ProjectDir)\3rd-Party\bin\fmod\win32\fmod.dll&quot;  &quot;$(OutDir)&quot; /Y&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="_Release"
-			IntermediateDirectory="_Release"
 			ConfigurationType="1"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
-			UseOfMFC="0"
+			InheritedPropertySheets="$(SolutionDir)/VSPropSheets/Base.vsprops;$(SolutionDir)/VSPropSheets/Release.vsprops;$(SolutionDir)/VSPropSheets/wxWidgets.vsprops;$(SolutionDir)/VSPropSheets/wxMusik.vsprops"
 			CharacterSet="2"
 			WholeProgramOptimization="1"
 			>
@@ -137,55 +100,18 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="3"
-				InlineFunctionExpansion="2"
-				EnableIntrinsicFunctions="true"
-				FavorSizeOrSpeed="2"
-				OmitFramePointers="true"
-				AdditionalIncludeDirectories="&quot;$(WXDIR)\include\msvc&quot;;&quot;$(ProjectDir)\3rd-Party\taglib\mpeg\id3v2&quot;;&quot;$(ProjectDir)\3rd-Party\taglib\toolkit&quot;;&quot;$(ProjectDir)\3rd-Party\taglib\&quot;;&quot;$(ProjectDir)\3rd-Party\sqlite3\&quot;;&quot;$(ProjectDir)\MUSIKEngine\3rd-Party\MAC&quot;;&quot;$(ProjectDir)/MUSIKEngine&quot;;&quot;$(ProjectDir)/src&quot;;&quot;$(ProjectDir)\MUSIKEngine\3rd-Party\include&quot;;&quot;$(VORBISDIR)\include&quot;;&quot;$(ProjectDir)\3rd-Party\&quot;;&quot;$(OGGDIR)\include&quot;;&quot;$(WXDIR)\contrib\include&quot;;&quot;$(WXDIR)\include&quot;;&quot;$(ProjectDir)\3rd-Party\sqlite2\&quot;;MMShellHook;&quot;$(ProjectDir)&quot;"
-				PreprocessorDefinitions="NDEBUG;WIN32;_WINDOWS;WINVER=0x400;_WIN32_IE=0x0600;_MT;FLAC__NO_DLL;USE_FMODEX"
-				StringPooling="true"
-				ExceptionHandling="1"
-				RuntimeLibrary="0"
-				BufferSecurityCheck="false"
-				EnableFunctionLevelLinking="false"
-				DisableLanguageExtensions="false"
-				ForceConformanceInForLoopScope="true"
-				RuntimeTypeInfo="true"
-				UsePrecompiledHeader="2"
-				PrecompiledHeaderThrough="myprec.h"
-				WarningLevel="4"
-				Detect64BitPortabilityProblems="false"
-				DebugInformationFormat="3"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				AdditionalIncludeDirectories="$(WXDIR)\include"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="/NODEFAULTLIB:libcmt.lib"
-				ShowProgress="2"
-				OutputFile="$(OutDir)/wxMusik.exe"
-				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;$(ProjectDir)\MUSIKEngine\FMODEngine\lib&quot;;&quot;$(ProjectDir)\MUSIKEngine\FMODExEngine\lib&quot;;&quot;$(ProjectDir)\MUSIKEngine\MUSIKEngine\lib&quot;;&quot;$(ProjectDir)\MUSIKEngine\3rd-Party\MAC\MACLib\Release&quot;;&quot;$(ProjectDir)\MUSIKEngine\3rd-Party\MPC\\Release&quot;;&quot;$(ProjectDir)\MUSIKEngine\3rd-Party\libFLAC\\Release_static&quot;;&quot;$(ProjectDir)\3rd-Party\sqlite2\\Release&quot;;&quot;$(WXDIR)\lib\vc_lib&quot;;&quot;$(ProjectDir)\3rd-Party\bin\fmod\win32&quot;;&quot;$(XINEDIR)/win32\Release\libxine&quot;;..\MMShellHook\Release;&quot;$(ProjectDir)\3rd-Party\bin\fmodex\win32&quot;"
-				IgnoreAllDefaultLibraries="false"
-				GenerateDebugInformation="true"
-				ProgramDatabaseFile="$(OutDir)/wxMusik.pdb"
-				GenerateMapFile="true"
-				MapExports="true"
-				SubSystem="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
-				OptimizeForWindows98="2"
-				TargetMachine="1"
-				FixedBaseAddress="1"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -210,16 +136,12 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="xcopy &quot;$(InputDir)\_Release\MMShellHook.dll&quot; &quot;$(OutDir)&quot; /Y&#x0D;&#x0A;xcopy &quot;$(ProjectDir)\3rd-Party\bin\fmodex\win32\fmodex.dll&quot;  &quot;$(OutDir)&quot; /Y&#x0D;&#x0A;xcopy &quot;$(ProjectDir)\3rd-Party\bin\fmod\win32\fmod.dll&quot;  &quot;$(OutDir)&quot; /Y&#x0D;&#x0A;&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration
 			Name="Debug Unicode|Win32"
-			OutputDirectory="$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
-			CharacterSet="1"
+			InheritedPropertySheets="$(SolutionDir)/VSPropSheets/Base.vsprops;$(SolutionDir)/VSPropSheets/Debug.vsprops;$(SolutionDir)/VSPropSheets/Unicode.vsprops;$(SolutionDir)/VSPropSheets/wxWidgets.vsprops;$(SolutionDir)/VSPropSheets/wxMusik.vsprops"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -238,54 +160,24 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(WXDIR)\include\msvc&quot;;&quot;$(ProjectDir)\3rd-Party\taglib\mpeg\id3v2&quot;;&quot;$(ProjectDir)\3rd-Party\taglib\toolkit&quot;;&quot;$(ProjectDir)\3rd-Party\taglib\&quot;;&quot;$(ProjectDir)\3rd-Party\sqlite3\&quot;;&quot;$(ProjectDir)\MUSIKEngine\3rd-Party\MAC&quot;;&quot;$(ProjectDir)/MUSIKEngine&quot;;&quot;$(ProjectDir)/src&quot;;&quot;$(ProjectDir)\MUSIKEngine\3rd-Party\include&quot;;&quot;$(VORBISDIR)\include&quot;;&quot;$(ProjectDir)\3rd-Party\&quot;;&quot;$(OGGDIR)\include&quot;;&quot;$(WXDIR)\contrib\include&quot;;&quot;$(WXDIR)\include&quot;;&quot;$(ProjectDir)\3rd-Party\sqlite2\&quot;;MMShellHook;&quot;$(ProjectDir)&quot;"
-				PreprocessorDefinitions="_DEBUG;WIN32;_WINDOWS;WINVER=0x400;_WIN32_IE=0x0600;_MT;_UNICODE;wxUSE_UNICODE;FLAC__NO_DLL;ID3LIB_LINKOPTION=1;USE_FMODEX"
-				StringPooling="true"
-				MinimalRebuild="true"
-				ExceptionHandling="1"
-				BasicRuntimeChecks="3"
-				SmallerTypeCheck="false"
-				RuntimeLibrary="1"
-				DisableLanguageExtensions="false"
-				ForceConformanceInForLoopScope="true"
-				RuntimeTypeInfo="true"
-				UsePrecompiledHeader="2"
-				PrecompiledHeaderThrough="myprec.h"
-				WarningLevel="4"
-				Detect64BitPortabilityProblems="false"
-				DebugInformationFormat="3"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				AdditionalIncludeDirectories="$(WXDIR)\include"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="LIBCMTD.LIB"
-				ShowProgress="2"
-				OutputFile="$(OutDir)/wxMusik.exe"
-				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;$(ProjectDir)\MUSIKEngine\FMODEngine\lib&quot;;&quot;$(ProjectDir)\MUSIKEngine\FMODExEngine\lib&quot;;&quot;$(ProjectDir)\MUSIKEngine\MUSIKEngine\lib&quot;;&quot;$(ProjectDir)\MUSIKEngine\3rd-Party\MAC\MACLib\Debug&quot;;&quot;$(ProjectDir)\MUSIKEngine\3rd-Party\MPC\Debug&quot;;&quot;$(ProjectDir)\MUSIKEngine\3rd-Party\libFLAC\Debug_static&quot;;&quot;$(ProjectDir)\3rd-Party\sqlite2\Debug&quot;;&quot;$(WXDIR)\lib\vc_lib&quot;;&quot;$(ProjectDir)\3rd-Party\bin\fmod\win32&quot;;&quot;$(XINEDIR)/win32\Debug\libxine&quot;;..\MMShellHook\Debug;&quot;$(ProjectDir)\3rd-Party\bin\fmodex\win32&quot;"
-				IgnoreDefaultLibraryNames=""
-				GenerateDebugInformation="true"
-				ProgramDatabaseFile="$(OutDir)/wxMusik.pdb"
-				SubSystem="2"
-				TargetMachine="1"
-				FixedBaseAddress="1"
 			/>
 			<Tool
 				Name="VCALinkTool"
 			/>
 			<Tool
 				Name="VCManifestTool"
-				EmbedManifest="false"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -304,17 +196,12 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="xcopy &quot;$(InputDir)\_Debug\MMShellHook.dll&quot; &quot;$(OutDir)&quot; /Y&#x0D;&#x0A;xcopy &quot;$(ProjectDir)\3rd-Party\bin\fmodex\win32\fmodex.dll&quot;  &quot;$(OutDir)&quot; /Y&#x0D;&#x0A;xcopy &quot;$(ProjectDir)\3rd-Party\bin\fmod\win32\fmod.dll&quot;  &quot;$(OutDir)&quot; /Y&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration
 			Name="Release Unicode|Win32"
-			OutputDirectory="$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
-			UseOfMFC="0"
-			CharacterSet="1"
+			InheritedPropertySheets="$(SolutionDir)/VSPropSheets/Base.vsprops;$(SolutionDir)/VSPropSheets/Release.vsprops;$(SolutionDir)/VSPropSheets/Unicode.vsprops;$(SolutionDir)/VSPropSheets/wxWidgets.vsprops;$(SolutionDir)/VSPropSheets/wxMusik.vsprops"
 			WholeProgramOptimization="1"
 			>
 			<Tool
@@ -334,57 +221,18 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="2"
-				InlineFunctionExpansion="2"
-				EnableIntrinsicFunctions="true"
-				FavorSizeOrSpeed="1"
-				OmitFramePointers="true"
-				AdditionalIncludeDirectories="&quot;$(WXDIR)\include\msvc&quot;;&quot;$(ProjectDir)\3rd-Party\taglib\mpeg\id3v2&quot;;&quot;$(ProjectDir)\3rd-Party\taglib\toolkit&quot;;&quot;$(ProjectDir)\3rd-Party\taglib\&quot;;&quot;$(ProjectDir)\3rd-Party\sqlite3\&quot;;&quot;$(ProjectDir)\MUSIKEngine\3rd-Party\MAC&quot;;&quot;$(ProjectDir)/MUSIKEngine&quot;;&quot;$(ProjectDir)/src&quot;;&quot;$(ProjectDir)\MUSIKEngine\3rd-Party\include&quot;;&quot;$(VORBISDIR)\include&quot;;&quot;$(ProjectDir)\3rd-Party\&quot;;&quot;$(OGGDIR)\include&quot;;&quot;$(WXDIR)\contrib\include&quot;;&quot;$(WXDIR)\include&quot;;&quot;$(ProjectDir)\3rd-Party\sqlite2\&quot;;MMShellHook;&quot;$(ProjectDir)&quot;"
-				PreprocessorDefinitions="NDEBUG;WIN32;_WINDOWS;WINVER=0x400;_WIN32_IE=0x0600;_MT;_UNICODE;wxUSE_UNICODE;FLAC__NO_DLL;USE_FMODEX"
-				StringPooling="true"
-				ExceptionHandling="1"
-				RuntimeLibrary="0"
-				BufferSecurityCheck="false"
-				EnableFunctionLevelLinking="true"
-				DisableLanguageExtensions="false"
-				ForceConformanceInForLoopScope="true"
-				RuntimeTypeInfo="true"
-				UsePrecompiledHeader="2"
-				PrecompiledHeaderThrough="myprec.h"
-				WarningLevel="4"
-				Detect64BitPortabilityProblems="false"
-				DebugInformationFormat="3"
-				ShowIncludes="false"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				AdditionalIncludeDirectories="$(WXDIR)\include"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="/NODEFAULTLIB:libcmt.lib&#x0D;&#x0A;/NODEFAULTLIB:msvcrtd.lib"
-				AdditionalDependencies="libcmt.lib"
-				ShowProgress="2"
-				OutputFile="$(OutDir)/wxMusik.exe"
-				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;$(ProjectDir)\MUSIKEngine\FMODEngine\lib&quot;;&quot;$(ProjectDir)\MUSIKEngine\FMODExEngine\lib&quot;;&quot;$(ProjectDir)\MUSIKEngine\MUSIKEngine\lib&quot;;&quot;$(ProjectDir)\MUSIKEngine\3rd-Party\MAC\MACLib\Release&quot;;&quot;$(ProjectDir)\MUSIKEngine\3rd-Party\MPC\\Release&quot;;&quot;$(ProjectDir)\MUSIKEngine\3rd-Party\libFLAC\\Release_static&quot;;&quot;$(ProjectDir)\3rd-Party\sqlite2\\Release&quot;;&quot;$(WXDIR)\lib\vc_lib&quot;;&quot;$(ProjectDir)\3rd-Party\bin\fmod\win32&quot;;&quot;$(XINEDIR)/win32\Release\libxine&quot;;..\MMShellHook\Release;&quot;$(ProjectDir)\3rd-Party\bin\fmodex\win32&quot;"
-				IgnoreAllDefaultLibraries="false"
-				GenerateDebugInformation="true"
-				ProgramDatabaseFile="$(OutDir)/wxMusik.pdb"
-				GenerateMapFile="true"
-				MapFileName="$(OutDir)/wxMusik.map"
-				MapExports="true"
-				SubSystem="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
-				OptimizeForWindows98="1"
-				TargetMachine="1"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -409,98 +257,6 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="xcopy &quot;$(InputDir)\_Release\MMShellHook.dll&quot; &quot;$(OutDir)&quot; /Y&#x0D;&#x0A;xcopy &quot;$(ProjectDir)\3rd-Party\bin\fmodex\win32\fmodex.dll&quot;  &quot;$(OutDir)&quot; /Y&#x0D;&#x0A;xcopy &quot;$(ProjectDir)\3rd-Party\bin\fmod\win32\fmod.dll&quot;  &quot;$(OutDir)&quot; /Y&#x0D;&#x0A;&#x0D;&#x0A;"
-			/>
-		</Configuration>
-		<Configuration
-			Name="Universal Unicode Debug|Win32"
-			OutputDirectory="$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
-			ConfigurationType="1"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
-			CharacterSet="1"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(WXDIR)\include\msvc&quot;;&quot;$(ProjectDir)\3rd-Party\taglib\mpeg\id3v2&quot;;&quot;$(ProjectDir)\3rd-Party\taglib\toolkit&quot;;&quot;$(ProjectDir)\3rd-Party\taglib\&quot;;&quot;$(ProjectDir)\3rd-Party\sqlite3\&quot;;&quot;$(ProjectDir)\MUSIKEngine\3rd-Party\MAC&quot;;&quot;$(ProjectDir)/MUSIKEngine&quot;;&quot;$(ProjectDir)/src&quot;;&quot;$(ProjectDir)\MUSIKEngine\3rd-Party\include&quot;;&quot;$(VORBISDIR)\include&quot;;&quot;$(ProjectDir)\3rd-Party\&quot;;&quot;$(OGGDIR)\include&quot;;&quot;$(WXDIR)\contrib\include&quot;;&quot;$(WXDIR)\include&quot;;&quot;$(ProjectDir)\3rd-Party\sqlite2\&quot;;MMShellHook;&quot;$(ProjectDir)&quot;"
-				PreprocessorDefinitions="_DEBUG;WIN32;_WINDOWS;WINVER=0x400;_MT;_UNICODE;wxUSE_UNICODE"
-				StringPooling="true"
-				MinimalRebuild="true"
-				ExceptionHandling="1"
-				BasicRuntimeChecks="0"
-				SmallerTypeCheck="true"
-				RuntimeLibrary="3"
-				DisableLanguageExtensions="false"
-				ForceConformanceInForLoopScope="true"
-				RuntimeTypeInfo="true"
-				UsePrecompiledHeader="2"
-				PrecompiledHeaderThrough="myprec.h"
-				WarningLevel="4"
-				Detect64BitPortabilityProblems="false"
-				DebugInformationFormat="3"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-				AdditionalIncludeDirectories="$(WXDIR)\include"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="odbc32.lib odbccp32.lib comctl32.lib rpcrt4.lib wsock32.lib fmodvc.lib sqlite.lib vorbisfile_static_d.lib ogg_static_d.lib vorbis_static_d.lib MMShellHook.lib wxmswuniv26ud_core.lib wxbase26ud.lib wxbase26ud_net.lib wxregexud.lib wxmswuniv26ud_adv.lib wxzlibd.lib wxmswuniv26ud_html.lib wxpngd.lib wxjpegd.lib"
-				OutputFile="$(OutDir)/wxMusik.exe"
-				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;$(SQLITEDIR)\Debug&quot;;&quot;$(WXDIR)\lib\vc_lib&quot;;&quot;$(FMODDIR)\api\lib&quot;;&quot;$(VORBISDIR)\win32\Vorbis_Static_Debug&quot;;&quot;$(VORBISDIR)\win32\VorbisFile_Static_Debug&quot;;&quot;$(VORBISDIR)\win32\VorbisEnc_Static_Debug&quot;;&quot;$(OGGDIR)\win32\Static_Debug&quot;;_Debug"
-				GenerateDebugInformation="true"
-				ProgramDatabaseFile="$(OutDir)/wxMusik.pdb"
-				SubSystem="2"
-				TargetMachine="1"
-				FixedBaseAddress="1"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-				CommandLine="xcopy &quot;$(FMODEXDIR)\api\fmodex.dll&quot;  &quot;$(OutDir)&quot; /Y"
 			/>
 		</Configuration>
 	</Configurations>
@@ -628,14 +384,6 @@
 				</FileConfiguration>
 				<FileConfiguration
 					Name="Release Unicode|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="1"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Universal Unicode Debug|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -1258,14 +1006,6 @@
 							UsePrecompiledHeader="0"
 						/>
 					</FileConfiguration>
-					<FileConfiguration
-						Name="Universal Unicode Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-						/>
-					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\3rd-Party\Bitap\libbitap.h"
@@ -1310,14 +1050,6 @@
 							UsePrecompiledHeader="0"
 						/>
 					</FileConfiguration>
-					<FileConfiguration
-						Name="Universal Unicode Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-						/>
-					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\3rd-Party\TagHelper\idtag.h"
@@ -1326,67 +1058,11 @@
 			</Filter>
 		</Filter>
 		<File
-			RelativePath=".\src\wx\msw\blank.cur"
-			>
-		</File>
-		<File
-			RelativePath=".\src\wx\msw\bullseye.cur"
-			>
-		</File>
-		<File
-			RelativePath=".\src\wx\msw\cdrom.ico"
-			>
-		</File>
-		<File
 			RelativePath=".\changelog.txt"
 			>
 		</File>
 		<File
-			RelativePath=".\src\wx\msw\colours.bmp"
-			>
-		</File>
-		<File
-			RelativePath=".\src\wx\msw\computer.ico"
-			>
-		</File>
-		<File
-			RelativePath=".\src\wx\msw\cross.cur"
-			>
-		</File>
-		<File
-			RelativePath=".\src\wx\msw\csquery.bmp"
-			>
-		</File>
-		<File
 			RelativePath=".\genlocal\de.po"
-			>
-		</File>
-		<File
-			RelativePath=".\src\wx\msw\drive.ico"
-			>
-		</File>
-		<File
-			RelativePath=".\src\wx\msw\file1.ico"
-			>
-		</File>
-		<File
-			RelativePath=".\src\wx\msw\floppy.ico"
-			>
-		</File>
-		<File
-			RelativePath=".\src\wx\msw\folder1.ico"
-			>
-		</File>
-		<File
-			RelativePath=".\src\wx\msw\folder2.ico"
-			>
-		</File>
-		<File
-			RelativePath=".\src\wx\msw\hand.cur"
-			>
-		</File>
-		<File
-			RelativePath=".\src\wx\msw\magnif1.cur"
 			>
 		</File>
 		<File
@@ -1396,126 +1072,10 @@
 		<File
 			RelativePath=".\src\Musik.rc"
 			>
-			<FileConfiguration
-				Name="Debug|Win32"
-				>
-				<Tool
-					Name="VCResourceCompilerTool"
-					AdditionalIncludeDirectories="..\wx2\wxwindows\include"
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|Win32"
-				>
-				<Tool
-					Name="VCResourceCompilerTool"
-					AdditionalIncludeDirectories="..\wx2\wxwindows\include"
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Debug Unicode|Win32"
-				>
-				<Tool
-					Name="VCResourceCompilerTool"
-					AdditionalIncludeDirectories="..\wx2\wxwindows\include"
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release Unicode|Win32"
-				>
-				<Tool
-					Name="VCResourceCompilerTool"
-					AdditionalIncludeDirectories="..\wx2\wxwindows\include"
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Universal Unicode Debug|Win32"
-				>
-				<Tool
-					Name="VCResourceCompilerTool"
-					AdditionalIncludeDirectories="..\wx2\wxwindows\include"
-				/>
-			</FileConfiguration>
-		</File>
-		<File
-			RelativePath=".\src\wx\msw\pbrush.cur"
-			>
-		</File>
-		<File
-			RelativePath=".\src\wx\msw\pencil.cur"
-			>
-		</File>
-		<File
-			RelativePath=".\src\wx\msw\pntleft.cur"
-			>
-		</File>
-		<File
-			RelativePath=".\src\wx\msw\pntright.cur"
-			>
-		</File>
-		<File
-			RelativePath=".\src\wx\msw\removble.ico"
-			>
-		</File>
-		<File
-			RelativePath=".\src\wx\msw\rightarr.cur"
-			>
-		</File>
-		<File
-			RelativePath=".\src\wx\msw\roller.cur"
-			>
-		</File>
-		<File
-			RelativePath=".\src\wx\msw\std.ico"
-			>
 		</File>
 		<File
 			RelativePath=".\todo.txt"
 			>
-		</File>
-		<File
-			RelativePath=".\src\wx\msw\wx.manifest"
-			>
-			<FileConfiguration
-				Name="Debug|Win32"
-				ExcludedFromBuild="true"
-				>
-				<Tool
-					Name="VCCustomBuildTool"
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|Win32"
-				ExcludedFromBuild="true"
-				>
-				<Tool
-					Name="VCCustomBuildTool"
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Debug Unicode|Win32"
-				ExcludedFromBuild="true"
-				>
-				<Tool
-					Name="VCCustomBuildTool"
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release Unicode|Win32"
-				ExcludedFromBuild="true"
-				>
-				<Tool
-					Name="VCCustomBuildTool"
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Universal Unicode Debug|Win32"
-				ExcludedFromBuild="true"
-				>
-				<Tool
-					Name="VCCustomBuildTool"
-				/>
-			</FileConfiguration>
 		</File>
 	</Files>
 	<Globals>

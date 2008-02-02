@@ -1,5 +1,5 @@
 #include "fmodequalizer.h"
-#include "3rd-Party/shibatch/shibatch.h"
+#include "shibatch/shibatch.h"
 #include <fmod/fmod.h>
 
 void * F_CALLBACKAPI dspcallback(void * /*originalbuffer*/, void *newbuffer, int length, void * userdata)

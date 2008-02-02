@@ -18,7 +18,7 @@
 //SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, 
 //WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
 //OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
+#include "stdafx.h"
 
 #include "MUSIKEngine/inc/engine.h"
 #include "MUSIKEngine/inc/stream.h"
@@ -35,11 +35,7 @@
 #endif
 
 #ifdef __VISUALC__
-#ifdef _DEBUG
-#pragma comment(lib,"MUSIKEngined")
-#else
 #pragma comment(lib,"MUSIKEngine")
-#endif
 #endif
 
 MUSIKDefaultDecoder::MUSIKDefaultDecoder(IMUSIKStreamOutDefault * pIMUSIKStreamOutDefault)

@@ -22,6 +22,7 @@
 * along with this program; if not, write to the Free Software
 * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+#include "stdafx.h"
 #include "aacdecoder.h"
 #ifndef MUSIKENGINE_NO_FAAD2_SUPPORT
 
@@ -149,7 +150,7 @@ int MUSIKAACDecoder::AACStreamInfo::read_ADTS_header()
 	if (frames<2) return -1; // probably not an AAC file!
 
 	m_BitRate = (int)((((pos-startpos)  / frames) * (m_SampleRate/1024.0)) +0.5)*8;
-	m_Milliseconds = (1024.f*frames*1000/m_SampleRate);
+	m_Milliseconds = (int64_t)(1024.0*frames*1000/m_SampleRate);
 
 	return 0;
 }
@@ -262,8 +263,8 @@ bool MUSIKAACDecoder::DoSeek(int64_t samplepos)
 	{
 		double seconds=(double)(samplepos)/m_AacInfo.m_SampleRate;
         int32_t toskip = 0;
-		m_AacInfo.sampleid=mp4ff_find_sample(m_AacInfo.m_pMP4File,m_AacInfo.mp4track,seconds * m_AacInfo.timescale,&toskip);
-		SetDecodeSamplePos(seconds * m_AacInfo.m_SampleRate);
+		m_AacInfo.sampleid=mp4ff_find_sample(m_AacInfo.m_pMP4File,m_AacInfo.mp4track,(int64_t)(seconds * m_AacInfo.timescale),&toskip);
+		SetDecodeSamplePos((int64_t)(seconds * m_AacInfo.m_SampleRate));
 		return true;
 		
 	} 
@@ -323,7 +324,7 @@ bool MUSIKAACDecoder::CreateMP4Stream()
 	m_AacInfo.mp4cb.read=read_callback;
 	m_AacInfo.mp4cb.seek=seek_callback;
 	m_AacInfo.mp4cb.user_data=m_AacInfo.m_pReader;
-	if (!(m_AacInfo.m_pMP4File=mp4ff_open_read(&m_AacInfo.mp4cb))
+	if (NULL == (m_AacInfo.m_pMP4File=mp4ff_open_read(&m_AacInfo.mp4cb))
 		|| (m_AacInfo.mp4track=m_AacInfo.FindAACIndex())==-1) {
 		return false;
 	}

@@ -129,6 +129,8 @@ public:
         MUSIKEqualizer & m_Eq;
         enum Channel m_Channel;
         friend class Band;
+
+		const Bands & operator=(const Bands &);
     };
 public: 
    

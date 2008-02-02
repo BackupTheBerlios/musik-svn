@@ -99,7 +99,7 @@ class MUSIKAACDecoder :public MUSIKDecoder
      public:       
 		AACStreamInfo()
 		{
-			m_Channels = m_Milliseconds=m_Length=m_SampleRate=m_initbytes=0;
+			m_Milliseconds=m_Length=m_SampleRate=m_initbytes=m_Channels=0;
             m_pSeektable=NULL;
             m_pMP4File = NULL;
             tags = NULL;	

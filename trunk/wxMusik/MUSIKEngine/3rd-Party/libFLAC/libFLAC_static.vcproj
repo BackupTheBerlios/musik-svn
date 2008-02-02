@@ -17,134 +17,26 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="..\..\obj\debug\lib"
-			IntermediateDirectory="Debug_static"
+			InheritedPropertySheets="$(SolutionDir)/VSPropSheets/Base.vsprops;$(SolutionDir)/VSPropSheets/Debug.vsprops;$(SolutionDir)/VSPropSheets/3rdParty.vsprops"
 			ConfigurationType="4"
 			>
 			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-			/>
-			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="0"
 				AdditionalIncludeDirectories=".\include;..\include"
-				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;FLAC__CPU_IA32;FLAC__HAS_NASM;FLAC__USE_3DNOW;VERSION=\&quot;1.2.0\&quot;;FLAC__NO_DLL;DEBUG;FLAC__OVERFLOW_DETECT"
-				MinimalRebuild="true"
-				BasicRuntimeChecks="3"
-				RuntimeLibrary="1"
-				UsePrecompiledHeader="0"
-				WarningLevel="3"
-				Detect64BitPortabilityProblems="true"
-				DebugInformationFormat="4"
-				CompileAs="0"
+				PreprocessorDefinitions="FLAC__CPU_IA32;FLAC__HAS_NASM;FLAC__USE_3DNOW;VERSION=\&quot;1.2.1\&quot;;FLAC__NO_DLL;FLAC__OVERFLOW_DETECT"
 				DisableSpecificWarnings="4267;4996"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLibrarianTool"
-				OutputFile="..\..\obj\debug\lib\$(ProjectName).lib"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="..\..\obj\release\lib"
-			IntermediateDirectory="Release_static"
+			InheritedPropertySheets="$(SolutionDir)/VSPropSheets/Base.vsprops;$(SolutionDir)/VSPropSheets/Release.vsprops;$(SolutionDir)/VSPropSheets/3rdParty.vsprops"
 			ConfigurationType="4"
 			>
 			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-			/>
-			<Tool
 				Name="VCCLCompilerTool"
-				EnableIntrinsicFunctions="true"
-				FavorSizeOrSpeed="1"
-				OmitFramePointers="true"
-				WholeProgramOptimization="true"
 				AdditionalIncludeDirectories=".\include;..\include"
-				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;FLAC__CPU_IA32;FLAC__HAS_NASM;FLAC__USE_3DNOW;VERSION=\&quot;1.2.0\&quot;;FLAC__NO_DLL"
-				RuntimeLibrary="0"
-				BufferSecurityCheck="false"
-				UsePrecompiledHeader="0"
-				WarningLevel="3"
-				Detect64BitPortabilityProblems="true"
-				DebugInformationFormat="3"
-				CompileAs="0"
+				PreprocessorDefinitions="FLAC__CPU_IA32;FLAC__HAS_NASM;FLAC__USE_3DNOW;VERSION=\&quot;1.2.1\&quot;;FLAC__NO_DLL;FLAC__OVERFLOW_DETECT"
 				DisableSpecificWarnings="4267;4996"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLibrarianTool"
-				OutputFile="..\..\obj\release\lib\$(ProjectName).lib"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
 	</Configurations>
@@ -371,9 +263,9 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="nasmw.exe -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/bitreader_asm.nasm -o ia32/bitreader_asm.obj&#x0D;&#x0A;"
+					CommandLine="nasmw.exe -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/bitreader_asm.nasm -o $(IntermediatePath)\$(ProjectName)\$(ConfigurationName)/ia32/bitreader_asm.obj&#x0D;&#x0A;"
 					AdditionalDependencies="ia32/bitreader_asm.nasm;ia32/nasm.h"
-					Outputs="ia32/bitreader_asm.obj"
+					Outputs="$(IntermediatePath)\$(ProjectName)\$(ConfigurationName)/ia32/bitreader_asm.obj"
 				/>
 			</FileConfiguration>
 			<FileConfiguration
@@ -381,9 +273,9 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="nasmw.exe -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/bitreader_asm.nasm -o ia32/bitreader_asm.obj&#x0D;&#x0A;"
+					CommandLine="nasmw.exe -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/bitreader_asm.nasm -o $(IntermediatePath)\$(ProjectName)\$(ConfigurationName)/ia32/bitreader_asm.obj&#x0D;&#x0A;"
 					AdditionalDependencies="ia32/bitreader_asm.nasm;ia32/nasm.h"
-					Outputs="ia32/bitreader_asm.obj"
+					Outputs="$(IntermediatePath)\$(ProjectName)\$(ConfigurationName)/ia32/bitreader_asm.obj"
 				/>
 			</FileConfiguration>
 		</File>
@@ -395,9 +287,9 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="nasmw.exe -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/cpu_asm.nasm -o ia32/cpu_asm.obj&#x0D;&#x0A;"
+					CommandLine="nasmw.exe -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/cpu_asm.nasm -o &quot;$(IntermediatePath)\$(ProjectName)\$(ConfigurationName)/ia32/cpu_asm.obj&quot;&#x0D;&#x0A;"
 					AdditionalDependencies="ia32/cpu_asm.nasm;ia32/nasm.h"
-					Outputs="ia32/cpu_asm.obj"
+					Outputs="$(IntermediatePath)\$(ProjectName)\$(ConfigurationName)/ia32/cpu_asm.obj"
 				/>
 			</FileConfiguration>
 			<FileConfiguration
@@ -405,9 +297,9 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="nasmw.exe -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/cpu_asm.nasm -o ia32/cpu_asm.obj&#x0D;&#x0A;"
+					CommandLine="nasmw.exe -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/cpu_asm.nasm -o &quot;$(IntermediatePath)\$(ProjectName)\$(ConfigurationName)/ia32/cpu_asm.obj&quot;&#x0D;&#x0A;"
 					AdditionalDependencies="ia32/cpu_asm.nasm;ia32/nasm.h"
-					Outputs="ia32/cpu_asm.obj"
+					Outputs="$(IntermediatePath)\$(ProjectName)\$(ConfigurationName)/ia32/cpu_asm.obj"
 				/>
 			</FileConfiguration>
 		</File>
@@ -419,9 +311,9 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="nasmw.exe -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/fixed_asm.nasm -o ia32/fixed_asm.obj&#x0D;&#x0A;"
+					CommandLine="nasmw.exe -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/fixed_asm.nasm -o &quot;$(IntermediatePath)\$(ProjectName)\$(ConfigurationName)/ia32/fixed_asm.obj&quot;&#x0D;&#x0A;"
 					AdditionalDependencies="ia32/fixed_asm.nasm;ia32/nasm.h"
-					Outputs="ia32/fixed_asm.obj"
+					Outputs="$(IntermediatePath)\$(ProjectName)\$(ConfigurationName)/ia32/fixed_asm.obj"
 				/>
 			</FileConfiguration>
 			<FileConfiguration
@@ -429,9 +321,9 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="nasmw.exe -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/fixed_asm.nasm -o ia32/fixed_asm.obj&#x0D;&#x0A;"
+					CommandLine="nasmw.exe -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/fixed_asm.nasm -o &quot;$(IntermediatePath)\$(ProjectName)\$(ConfigurationName)/ia32/fixed_asm.obj&quot;&#x0D;&#x0A;"
 					AdditionalDependencies="ia32/fixed_asm.nasm;ia32/nasm.h"
-					Outputs="ia32/fixed_asm.obj"
+					Outputs="$(IntermediatePath)\$(ProjectName)\$(ConfigurationName)/ia32/fixed_asm.obj"
 				/>
 			</FileConfiguration>
 		</File>
@@ -443,9 +335,9 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="nasmw.exe -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/lpc_asm.nasm -o ia32/lpc_asm.obj&#x0D;&#x0A;"
+					CommandLine="nasmw.exe -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/lpc_asm.nasm -o &quot;$(IntermediatePath)\$(ProjectName)\$(ConfigurationName)/ia32/lpc_asm.obj&quot;&#x0D;&#x0A;"
 					AdditionalDependencies="ia32/lpc_asm.nasm;ia32/nasm.h"
-					Outputs="ia32/lpc_asm.obj"
+					Outputs="$(IntermediatePath)\$(ProjectName)\$(ConfigurationName)/ia32/lpc_asm.obj"
 				/>
 			</FileConfiguration>
 			<FileConfiguration
@@ -453,9 +345,9 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="nasmw.exe -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/lpc_asm.nasm -o ia32/lpc_asm.obj&#x0D;&#x0A;"
+					CommandLine="nasmw.exe -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/lpc_asm.nasm -o &quot;$(IntermediatePath)\$(ProjectName)\$(ConfigurationName)/ia32/lpc_asm.obj&quot;&#x0D;&#x0A;"
 					AdditionalDependencies="ia32/lpc_asm.nasm;ia32/nasm.h"
-					Outputs="ia32/lpc_asm.obj"
+					Outputs="$(IntermediatePath)\$(ProjectName)\$(ConfigurationName)/ia32/lpc_asm.obj"
 				/>
 			</FileConfiguration>
 		</File>
@@ -467,9 +359,9 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="nasmw.exe -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/stream_encoder_asm.nasm -o ia32/stream_encoder_asm.obj&#x0D;&#x0A;"
+					CommandLine="nasmw.exe -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/stream_encoder_asm.nasm -o &quot;$(IntermediatePath)\$(ProjectName)\$(ConfigurationName)/ia32/stream_encoder_asm.obj&quot;&#x0D;&#x0A;"
 					AdditionalDependencies="ia32/stream_encoder_asm.nasm;ia32/nasm.h"
-					Outputs="ia32/stream_encoder_asm.obj"
+					Outputs="$(IntermediatePath)\$(ProjectName)\$(ConfigurationName)/ia32/stream_encoder_asm.obj"
 				/>
 			</FileConfiguration>
 			<FileConfiguration
@@ -477,9 +369,9 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="nasmw.exe -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/stream_encoder_asm.nasm -o ia32/stream_encoder_asm.obj&#x0D;&#x0A;"
+					CommandLine="nasmw.exe -f win32 -d OBJ_FORMAT_win32 -i ia32/ ia32/stream_encoder_asm.nasm -o &quot;$(IntermediatePath)\$(ProjectName)\$(ConfigurationName)/ia32/stream_encoder_asm.obj&quot;&#x0D;&#x0A;"
 					AdditionalDependencies="ia32/stream_encoder_asm.nasm;ia32/nasm.h"
-					Outputs="ia32/stream_encoder_asm.obj"
+					Outputs="$(IntermediatePath)\$(ProjectName)\$(ConfigurationName)/ia32/stream_encoder_asm.obj"
 				/>
 			</FileConfiguration>
 		</File>

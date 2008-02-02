@@ -24,7 +24,7 @@
 #include <fmodex/fmod.h>
 #include <fmodex/fmod.hpp>
 #include "MUSIKEngine/inc/imusikstreamout.h"
-#include "MUSIKEngine/FMODExEngine/inc/fmodexengine.h"
+#include "FMODExEngine/inc/fmodexengine.h"
 class MUSIKStream;
 
 class FMODExStreamOut	 : public IMUSIKStreamOutDefault

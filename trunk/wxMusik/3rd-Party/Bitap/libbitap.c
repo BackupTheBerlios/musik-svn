@@ -95,7 +95,8 @@ static int ParseRegex (bitapType *b, const unsigned char *regex, const unsigned 
     }
     lastLen = 1;
     if (*regex == '[') {
-      if ((inverse = *++regex == '^')) regex++;
+		inverse = *++regex == '^';
+      if (inverse) regex++;
       do {
 	if (*regex == '\0') return start - regex - 1;
 	i = regex[0]; /* TODO : Handle [a-] */
@@ -116,9 +117,11 @@ static int ParseRegex (bitapType *b, const unsigned char *regex, const unsigned 
     else if (*regex == '\\') {
       regex++; /* Strip off '\' */
       lastLen++;
+/*
       if (0 && *regex == 'E') {
 	continue;
       }
+*/
       if (b->s) {
 	if (strchr ("bBdDdSwW<>", *regex)) {
 	  for (i = 0; i < ALPHABET; i++) {

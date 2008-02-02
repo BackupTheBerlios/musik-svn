@@ -19,8 +19,8 @@
 //WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
 //OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#include "MUSIKEngine/FMODEngine/inc/fmodengine.h"
-#include "MUSIKEngine/MUSIKEngine/inc/defaultdecoder.h"
+#include "FMODEngine/inc/fmodengine.h"
+#include "MUSIKEngine/inc/defaultdecoder.h"
 #include "fmodstreamout.h"
 #include "fmodequalizer.h"
 #include <fmod/fmod.h>

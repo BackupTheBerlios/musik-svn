@@ -145,7 +145,7 @@ File::File(FileName file)
     d->openFile(wname);
   }
   else {
-    d = new FilePrivate(::strdup(name));
+    d = new FilePrivate(::_strdup(name));
     d->openFile(name);
   }
 #else

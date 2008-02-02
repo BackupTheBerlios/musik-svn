@@ -23,9 +23,9 @@
 #define FMODENGINE_H
 
 
-#include "MUSIKEngine/MUSIKEngine/inc/engine.h"
-#include "MUSIKEngine/MUSIKEngine/inc/stream.h"
-#include "MUSIKEngine/MUSIKEngine/inc/decoder.h"
+#include "MUSIKEngine/inc/engine.h"
+#include "MUSIKEngine/inc/stream.h"
+#include "MUSIKEngine/inc/decoder.h"
 class MUSIKDefaultDecoder;
 class FMODExStreamOut;
 namespace FMOD
@@ -78,11 +78,7 @@ private:
 #ifdef __VISUALC__
 
 #pragma comment(lib,"fmodex_vc")
-#ifdef _DEBUG
-#pragma comment(lib,"fmodexengined")
-#else
 #pragma comment(lib,"fmodexengine")
-#endif
 #endif //__VISUALC__
 #endif
 

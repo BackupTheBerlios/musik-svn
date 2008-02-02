@@ -72,9 +72,14 @@ BOOL FileExists(wchar_t * pFilename)
 #ifdef _WIN32
 
     BOOL bFound = FALSE;
+#ifdef _UNICODE
+	CSmartPtr<wchar_t> spName((wchar_t *) pFilename, TRUE, FALSE);    
+#else
+	CSmartPtr<char> spName(GetANSIFromUTF16(pFilename), TRUE);
+#endif
 
     WIN32_FIND_DATA WFD;
-    HANDLE hFind = FindFirstFile(pFilename, &WFD);
+    HANDLE hFind = FindFirstFile(spName, &WFD);
     if (hFind != INVALID_HANDLE_VALUE)
     {
         bFound = TRUE;

@@ -10,6 +10,9 @@
  *  of this file, and for a DISCLAIMER OF ALL WARRANTIES.
 */
 
+#ifndef _WIN32_WINNT
+#define _WIN32_WINNT 0x0500
+#endif
 #include "MMShellHook.h"
 #include <tchar.h>
 #include <windows.h>

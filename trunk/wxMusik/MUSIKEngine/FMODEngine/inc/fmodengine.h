@@ -23,9 +23,9 @@
 #define FMODENGINE_H
 
 
-#include "MUSIKEngine/MUSIKEngine/inc/engine.h"
-#include "MUSIKEngine/MUSIKEngine/inc/stream.h"
-#include "MUSIKEngine/MUSIKEngine/inc/decoder.h"
+#include "MUSIKEngine/inc/engine.h"
+#include "MUSIKEngine/inc/stream.h"
+#include "MUSIKEngine/inc/decoder.h"
 class MUSIKDefaultDecoder;
 class FMODStreamOut;
 
@@ -69,11 +69,8 @@ private:
     int m_nMixRate;
 };
 #ifdef __VISUALC__
-#ifdef _DEBUG
-#pragma comment(lib,"fmodengined")
-#else
+
 #pragma comment(lib,"fmodengine")
-#endif
 #pragma comment(lib,"fmodvc")
 #endif //__VISUALC__
 #endif

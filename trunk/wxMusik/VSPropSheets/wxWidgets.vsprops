@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="wxWidgets"
+	>
+	<Tool
+		Name="VCCLCompilerTool"
+		AdditionalOptions=""
+		AdditionalIncludeDirectories="$(WXIncludeDirs)"
+	/>
+	<Tool
+		Name="VCLinkerTool"
+		AdditionalLibraryDirectories="&quot;$(WXDIR)\lib\vc_lib&quot;"
+	/>
+	<Tool
+		Name="VCResourceCompilerTool"
+		AdditionalIncludeDirectories="$(WXIncludeDirs)"
+	/>
+	<Tool
+		Name="VCManifestTool"
+		EmbedManifest="false"
+	/>
+	<UserMacro
+		Name="WXIncludeDirs"
+		Value="&quot;$(WXDIR)\include\msvc&quot;;&quot;$(WXDIR)\contrib\include&quot;;&quot;$(WXDIR)\include&quot;"
+	/>
+</VisualStudioPropertySheet>

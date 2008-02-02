@@ -24,7 +24,7 @@
 
 #include <fmod/fmod.h>
 #include "MUSIKEngine/inc/imusikstreamout.h"
-#include "MUSIKEngine/FMODEngine/inc/fmodengine.h"
+#include "FMODEngine/inc/fmodengine.h"
 class MUSIKStream;
 
 class FMODStreamOut	 : public IMUSIKStreamOutDefault

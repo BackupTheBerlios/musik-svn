@@ -186,7 +186,7 @@ MUSIKEngine::Error FMODExEngine::EnumOutputs(IEnumNames * pen) const
         "Windows Multimedia",
         "ASIO"
 #elif defined(__linux)
-        "ALSA 0.9"
+        "ALSA 0.9",
         "ESD",
         "OSS",
 #elif defined(APPLE)

@@ -19,9 +19,14 @@
 		EnableFunctionLevelLinking="true"
 	/>
 	<Tool
+		Name="VCLibrarianTool"
+		AdditionalOptions="/LTCG"
+	/>
+	<Tool
 		Name="VCLinkerTool"
 		LinkIncremental="2"
 		SubSystem="2"
+		LinkTimeCodeGeneration="1"
 		TargetMachine="1"
 	/>
 	<Tool

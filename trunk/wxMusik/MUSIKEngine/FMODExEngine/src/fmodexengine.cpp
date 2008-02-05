@@ -136,7 +136,7 @@ MUSIKEngine::Error FMODExEngine::_Init(int idOutput ,int idDevice,int nMixRate,i
 	{ 
 		result = m_pSystem->setSpeakerMode(FMOD_SPEAKERMODE_STEREO); 
 
-		result = m_pSystem->init(100, FMOD_INIT_NORMAL, 0); /* Replace with whatever channel count and flags you use! */ 
+		result = m_pSystem->init(nMaxChannels, FMOD_INIT_NORMAL, 0); /* Replace with whatever channel count and flags you use! */ 
 	} 
 
     if(result != FMOD_OK)
@@ -171,7 +171,7 @@ MUSIKEngine::Error FMODExEngine::EnumDevices(MUSIKEngine::IEnumNames * pen) cons
 #ifdef APPLE
 	strcpy(name,"Default");
 #else
-        m_pSystem->getDriverName(i,name,sizeof(name) - 1);
+        m_pSystem->getDriverInfo(i,name,sizeof(name) - 1,NULL);
 #endif
         pen->EnumNamesCallback(name,i);
     }

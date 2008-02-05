@@ -21,14 +21,55 @@
 #ifndef MUSIKENGINE_NO_FLAC_SUPPORT
 #include <FLAC/format.h>
 #endif
+#ifndef MUSIKENGINE_NO_FAAD2_SUPPORT
+#include <neaacdec.h>
+#endif
+
 #ifndef MUSIKENGINE_NO_APE_SUPPORT
+#undef VERSION
+#undef PACKAGE
+#undef PACKAGE_NAME 
+#undef PACKAGE_STRING 
+#undef PACKAGE_STRING 
+#undef PACKAGE_TARNAME
+#undef PACKAGE_VERSION
+
 #include "Shared/All.h" // monkeys audio
+const char  MACLIB_VERSION[] = VERSION;
+#undef VERSION
+#undef PACKAGE
+#undef PACKAGE_NAME 
+#undef PACKAGE_STRING 
+#undef PACKAGE_STRING 
+#undef PACKAGE_TARNAME
+#undef PACKAGE_VERSION
+
 #ifdef _WIN32
 #else
 #define BUILD_CROSS_PLATFORM
 #endif
 #endif //#ifndef MUSIKENGINE_NO_APE
 
+
+#ifndef MUSIKENGINE_NO_MPC_SUPPORT	
+#undef VERSION
+#undef PACKAGE
+#undef PACKAGE_NAME 
+#undef PACKAGE_STRING 
+#undef PACKAGE_STRING 
+#undef PACKAGE_TARNAME
+#undef PACKAGE_VERSION
+#include <3rd-Party/libmpcdec/include/config.h>
+const char  MPCDEC_VERSION[] = VERSION;
+#undef VERSION
+#undef PACKAGE
+#undef PACKAGE_NAME 
+#undef PACKAGE_STRING 
+#undef PACKAGE_STRING 
+#undef PACKAGE_TARNAME
+#undef PACKAGE_VERSION
+
+#endif
 DECLARE_APP( MusikApp )
 
 TAG_HANDLER_BEGIN(MUSIK_TAG, "MUSIK")
@@ -79,7 +120,7 @@ TAG_HANDLER_PROC(tag)
 		}
 		else if(sParamValue == wxT("OggVorbis"))
 		{
-			sTextToInsert = wxT("");
+			sTextToInsert = wxT("uses fmod");
 		}		
 		else if(sParamValue == wxT("libFlac"))
 		{
@@ -89,18 +130,26 @@ TAG_HANDLER_PROC(tag)
 			sTextToInsert = _("Not supported");
 #endif			
 		}
-		else if(sParamValue == wxT("MACSDK"))
+		else if(sParamValue == wxT("libfaad2"))
 		{
-#ifndef MUSIKENGINE_NO_APE_SUPPORT		
-			sTextToInsert = MAC_VERSION_STRING;
+#ifndef MUSIKENGINE_NO_FAAD2_SUPPORT		
+			sTextToInsert = wxT(FAAD2_VERSION);
 #else
 			sTextToInsert = _("Not supported");
 #endif			
 		}
-		else if(sParamValue == wxT("MPCDEC"))
+		else if(sParamValue == wxT("MACSDK"))
+		{
+#ifndef MUSIKENGINE_NO_APE_SUPPORT		
+			sTextToInsert = ConvA2W(MACLIB_VERSION);
+#else
+			sTextToInsert = _("Not supported");
+#endif			
+		}
+		else if(sParamValue == wxT("libmpcdec"))
 		{
 #ifndef MUSIKENGINE_NO_MPC_SUPPORT		
-			sTextToInsert = wxT("1.0.3"/*MPCDEC_VERSION*/);
+			sTextToInsert = ConvA2W(MPCDEC_VERSION);
 #else
 			sTextToInsert = _("Not supported");
 #endif			

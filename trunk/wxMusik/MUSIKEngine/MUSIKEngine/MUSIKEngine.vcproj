@@ -22,9 +22,51 @@
 			CharacterSet="2"
 			>
 			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..;&quot;../3rd-Party/include&quot;;&quot;../3rd-Party/MAC&quot;;&quot;../3rd-Party&quot;"
+				AdditionalIncludeDirectories="..;&quot;../3rd-Party/include&quot;;&quot;../3rd-Party/MAC&quot;;&quot;../3rd-Party&quot;;&quot;..\3rd-Party\libmpcdec\include&quot;"
 				PreprocessorDefinitions="FLAC__NO_DLL"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLibrarianTool"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
 		<Configuration
@@ -34,9 +76,51 @@
 			CharacterSet="2"
 			>
 			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..;&quot;../3rd-Party/include&quot;;&quot;../3rd-Party/MAC&quot;;&quot;../3rd-Party&quot;"
+				AdditionalIncludeDirectories="..;&quot;../3rd-Party/include&quot;;&quot;../3rd-Party/MAC&quot;;&quot;../3rd-Party&quot;;&quot;..\3rd-Party\libmpcdec\include&quot;"
 				PreprocessorDefinitions="FLAC__NO_DLL"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLibrarianTool"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
 	</Configurations>

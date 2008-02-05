@@ -31,87 +31,9 @@
 #ifndef MUSIKENGINE_NO_MPC_SUPPORT
 
 
-#ifndef _WIN32
-#define MP3DEC_NEW // non win32 systems use new mpc decoder
-#endif
-
-#ifdef MP3DEC_NEW
-
-#ifdef MUSIKENGINE_USE_LIBMUSEPACK_103
-
-#include "musepack/mpc_dec.h"
-class MUSIKMPCDecoder: public MUSIKDecoder
-{
-	class MPC_reader_impl : public MPC_reader
-	{
-	public:
-		MPC_reader_impl(FILE * p_file,bool p_seekable) : m_file(p_file), m_seekable(p_seekable)
-		{
-			fseek(m_file,0,SEEK_END);
-			m_size = ftell(m_file);
-			fseek(m_file,0,SEEK_SET);
-		}
-		virtual ~MPC_reader_impl()
-		{
-			fclose(m_file);
-		}
-	    mpc_int32_t read ( void *ptr, mpc_int32_t size ) {return fread(ptr,1,size,m_file);}
-		bool seek ( mpc_int32_t offset ) {return m_seekable ? !fseek(m_file,offset,SEEK_SET) : false;}
-		mpc_int32_t tell () {return ftell(m_file);}
-		mpc_int32_t get_size () {return m_size;}
-		bool canseek() {return m_seekable;}
-	private:
-		FILE * m_file;
-		long m_size;
-		bool m_seekable;
-	};
-
-	struct MPCStreamInfo
-	{
-		MPC_reader_impl						*Reader;
-		MPC_decoder							*Decoder;
-		StreamInfo							Info;
-
-		unsigned int						vbr_update_acc, vbr_update_bits;
-		int									Frames;
-		MPC_SAMPLE_FORMAT					reservoir_[MPC_decoder::DecodeBufferLength];
-	};
-
-	MUSIKMPCDecoder(IMUSIKStreamOut * pIMUSIKStreamOut);
-public:
-
-	~MUSIKMPCDecoder();
-	virtual bool CanSeek()
-	{
-		return true;
-	}
-	bool Close();
-	virtual const char * Type()
-	{
-		return "Musepack";
-	}
-protected:
-	virtual bool OpenMedia(const char *FileName);
-
-	virtual int DecodeBlocks(unsigned char *buff,int len);
-	virtual bool DoSeek(int64_t samplepos);
-
-	int CopySamplesToBuffer(const MPC_SAMPLE_FORMAT * p_buffer,unsigned p_size,unsigned char *pDestbuf);
-
-
-private:
-	MPCStreamInfo m_MPCInfo;
-
-	friend class MUSIKEngine;
-};
-#else //MUSIKENGINE_USE_LIBMUSEPACK_103
-#ifdef MUSIKENGINE_USE_LIBMPCDEC_12
 #include "mpcdec/mpcdec.h"
-#endif
-#ifdef MUSIKENGINE_USE_LIBMUSEPACK_110
-#include "musepack/musepack.h"
-#define mpc_bool_t BOOL
-#endif
+
+
 class MUSIKMPCDecoder: public MUSIKDecoder
 {
 
@@ -185,53 +107,6 @@ private:
 
 	friend class MUSIKEngine;
 };
-#endif // else MUSIKENGINE_USE_LIBMUSEPACK_103
 
-#else //#ifdef MP3DEC_NEW
-
-
-#include "MPC/mpc_dec.h"
-#include "MPC/in_mpc.h"
-
-class MUSIKMPCDecoder: public MUSIKDecoder
-{
-	struct MPCStreamInfo
-	{
-		Reader_file							*Reader;
-		MPC_decoder							*Decoder;
-		StreamInfo							Info;
-
-		unsigned int						vbr_update_acc, vbr_update_bits;
-		int									NumberOfConsecutiveBrokenFrames;
-
-		int									Frames;
-
-	};
-
-	MUSIKMPCDecoder(IMUSIKStreamOut * pIMUSIKStreamOut);
-public:
-	
-	~MUSIKMPCDecoder();
-	virtual bool CanSeek()
-	{
-		return true;
-	}
-	bool Close();
-	virtual const char * Type()
-	{
-		return "Musepack";
-	}
-protected:
-	virtual bool OpenMedia(const char *FileName);
-
-	virtual int DecodeBlocks(unsigned char *buff,int len);
-	virtual bool DoSeek(int64_t samplepos);
-
-private:
-	MPCStreamInfo m_MPCInfo;
-
-	friend class MUSIKEngine;
-};
-#endif
 #endif //!MUSIKENGINE_NO_MPC_SUPPORT
 #endif

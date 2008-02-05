@@ -109,7 +109,7 @@
 #endif
 #ifdef USE_FMODEX
 #include <fmodex/fmod.hpp>
-#endif#
+#endif
 #include <FLAC/format.h>
 #include <FLAC/metadata.h>
 

@@ -22,7 +22,7 @@
 #include <FLAC/format.h>
 #endif
 #ifndef MUSIKENGINE_NO_FAAD2_SUPPORT
-#include <neaacdec.h>
+#include "neaacdec.h"
 #endif
 
 #ifndef MUSIKENGINE_NO_APE_SUPPORT
@@ -133,7 +133,7 @@ TAG_HANDLER_PROC(tag)
 		else if(sParamValue == wxT("libfaad2"))
 		{
 #ifndef MUSIKENGINE_NO_FAAD2_SUPPORT		
-			sTextToInsert = wxT(FAAD2_VERSION);
+			sTextToInsert = ConvA2W(FAAD2_VERSION);
 #else
 			sTextToInsert = _("Not supported");
 #endif			

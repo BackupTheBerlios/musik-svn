@@ -77,7 +77,7 @@ protected:
 	{
 		return Decoder()->DoFillBuffer(buff,len);
 	}
-	virtual bool DoCreate(int /*buffersize_ms*/){ return true;};
+	virtual bool DoCreate(int /*buffersize_ms*/){ return true;}
 
 	MUSIKDecoder * Decoder()
 	{

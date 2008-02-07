@@ -60,7 +60,7 @@ bool CFMODInfo::ReadMetaData(CSongMetaData & MetaData) const
 	return true;
 }
 
-#else
+#elif defined USE_FMODEX
 // FMODEx
 #ifdef WIN32
 #pragma comment(lib,"fmodex_vc")

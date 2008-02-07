@@ -44,6 +44,9 @@ typedef FMODExEngine Engine_t;
 #elif defined(USE_FMOD3)
 #include "MUSIKEngine/FMODEngine/inc/fmodengine.h"
 typedef FMODEngine Engine_t;
+#elif defined(USE_AUDIOQUEUE)
+#include "MUSIKEngine/AudioQueueEngine/inc/audioqueueengine.h"
+typedef AudioQueueEngine Engine_t;
 #elif defined(USE_XINE)
 #include "MUSIKEngine/XineEngine/inc/xineengine.h"
 typedef XineEngine Engine_t;

@@ -19,7 +19,7 @@ protected:
 
 private:
 };
-#else
+#elif defined USE_FMODEX
 namespace FMOD
 {
     class System;

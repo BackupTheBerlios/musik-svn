@@ -50,9 +50,10 @@ static CMPCInfo mpcinfo;
 static CFlacInfo flacinfo;
 #endif
 #endif
+#if defined(USE_FMOD3) || defined (USE_FMODEX)
 #include "CFMODInfo.h"
 static CFMODInfo fmodinfo;
-
+#endif
 class CDummyInfo : public CInfoRead
 {
 public:
@@ -122,10 +123,13 @@ static const tSongClass valid_SongClasses[] =
 #ifndef MUSIKENGINE_NO_APE_SUPPORT
 	,{wxT("ape"),wxTRANSLATE("Monkey's Audio File"),MUSIK_FORMAT_APE,&apeinfo,&apeinfo}
 #endif
+#if defined(USE_FMOD3) || defined (USE_FMODEX)
+
 	,{wxT("wav"),wxTRANSLATE("WAVE Audio File"),MUSIK_FORMAT_WAV,&fmodinfo,NULL}
 	,{wxT("aiff"),wxTRANSLATE("AIFF Audio File"),MUSIK_FORMAT_AIFF,&fmodinfo,NULL}
 #ifdef __WXMSW__
 	,{wxT("wma"),wxTRANSLATE("Windows Media Audio File"),MUSIK_FORMAT_WMA,&fmodinfo,NULL}
+#endif
 #endif
 };
 

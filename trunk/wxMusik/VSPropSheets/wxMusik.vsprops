@@ -13,7 +13,7 @@
 	/>
 	<Tool
 		Name="VCLinkerTool"
-		AdditionalLibraryDirectories="$(ProjectDir)\3rd-Party\bin\fmodex\win32"
+		AdditionalLibraryDirectories="$(ProjectDir)\3rd-Party\bin\fmodex\win32;$(ProjectDir)\3rd-Party\bin\fmod\win32"
 	/>
 	<Tool
 		Name="VCPostBuildEventTool"

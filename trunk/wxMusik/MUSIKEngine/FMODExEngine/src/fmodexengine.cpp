@@ -165,8 +165,11 @@ MUSIKEngine::Error FMODExEngine::Init(int idOutput ,int idDevice ,int nMixRate ,
     Error e = _Init(idOutput,idDevice,nMixRate,nMaxChannels);
     m_bValid = (e == errSuccess);
 	if(m_bValid)
+    {
+        m_pSystem->getSoftwareFormat(&nMixRate,NULL,NULL,NULL,NULL,NULL);
 		m_pEq = new FMODExEqualizer(m_pSystem,nMixRate);
 
+    }
     return e;
 }
 MUSIKEngine::Error FMODExEngine::EnumDevices(MUSIKEngine::IEnumNames * pen) const

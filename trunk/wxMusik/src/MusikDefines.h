@@ -41,7 +41,7 @@ const int wxADJUST_MINSIZE = 0; //dummy this flag i not used in 2.8.3 anymore
 //---------------//
 //--- defines ---//
 //---------------//
-#if !defined(USE_FMODEX) && !defined(USE_XINE) &&!defined(USE_FMOD3)
+#if !defined(USE_FMODEX) && !defined(USE_XINE) &&!defined(USE_FMOD3) &&!defined(USE_AUDIOQUEUE)
 #define USE_FMOD3
 #endif
 //#define USE_FMODEX

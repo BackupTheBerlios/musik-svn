@@ -159,13 +159,15 @@ TARGET_LINK_LIBRARIES(wxMusik
 	libbitap
         mysqlite3
         mysqlite2
-        ${WXWINDOWS_LIBRARY}
+#        ${WXWINDOWS_LIBRARY}
         ${APE_LIBS}
         ${FMOD_LIBRARY}
         TagLib
         ${FLAC_LIBS}
 	${FAAD2_LIBS}
 	${MPC_LIBS}
+	${APPLE_FRAMEWORKS}
+
     )
 
 IF(PCHSupport_FOUND)
@@ -183,10 +185,10 @@ IF(APPLE)
     CONFIGURE_FILE(${PROJECT_SOURCE_DIR}/src/images/${MACOSX_BUNDLE_ICON_FILE}
 		   ${EXECUTABLE_OUTPUT_PATH}/wxMusik.app/Contents/Resources/${MACOSX_BUNDLE_ICON_FILE} COPYONLY)
 
-
+IF(USE_FMODEX)
     CONFIGURE_FILE(${FMOD_LIBRARY} 
                     ${EXECUTABLE_OUTPUT_PATH}/wxMusik.app/Contents/FrameWorks/libfmodex.dylib  COPYONLY)
-
+ENDIF(USE_FMODEX)
     SET(RSRC_FILES about.html musik.png wxMusik.jpg)
     COPY_IF_DIFFERENT( ${PROJECT_SOURCE_DIR}/data  ${EXECUTABLE_OUTPUT_PATH}/wxMusik.app/Contents/Resources "${RSRC_FILES}"  RsrcTargets "RsrcFiles")
 
@@ -206,10 +208,13 @@ IF(APPLE)
 #                "\"${EXECUTABLE_OUTPUT_PATH}/wxMusik.app/Contents/MacOS/wxMusik\""
 #                TARGET wxMusik.app/Contents/MacOS/wxMusik
 #                )
+IF(USE_FMODEX)
     ADD_CUSTOM_TARGET(WXMUSIK_NAME ALL
                 COMMAND /usr/bin/install_name_tool -change ./libfmodex.dylib @executable_path/../Frameworks/libfmodex.dylib ${EXECUTABLE_OUTPUT_PATH}/wxMusik.app/Contents/MacOS/wxMusik
                 )
+
     ADD_DEPENDENCIES(WXMUSIK_NAME  wxMusik)
+ENDIF(USE_FMODEX)
     ADD_DEPENDENCIES(CopyRsrcFiles wxMusik )	
 ENDIF(APPLE)
 

@@ -1,0 +1,6 @@
+
+
+IF(APPLE)
+SUBDIRS(src)
+ENDIF(APPLE)
+

@@ -18,16 +18,17 @@
 //SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, 
 //WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
 //OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
+#include <stdio.h>
 #include "FMODExEngine/inc/fmodexengine.h"
 #include "MUSIKEngine/inc/defaultdecoder.h"
 #include "fmodexstreamout.h"
+#include "fmodexequalizer.h"
 #ifdef WIN32
 #define snprintf _snprintf
 #endif
 #include <fmodex/fmod.hpp>
 #include <fmodex/fmod_errors.h>
-#include <stdio.h>
+
 
 
 FMODExEngine::FMODExEngine()
@@ -38,6 +39,7 @@ FMODExEngine::FMODExEngine()
     result = m_pSystem->getVersion(&version);
     snprintf(m_szVersion,sizeof(m_szVersion)/sizeof(m_szVersion[0]) - 1,"%x.%x.%x",version>>16,version&0xff00,version&0xff);
     m_bValid = false;
+	m_pEq = NULL;
 }
 
 MUSIKEngine::Error FMODExEngine::_Init(int idOutput ,int idDevice,int nMixRate,int nMaxChannels)
@@ -156,9 +158,15 @@ MUSIKEngine::Error FMODExEngine::Init(int idOutput ,int idDevice ,int nMixRate ,
     if(!m_pSystem)
         return errUnknown;
     if(m_bValid)
+	{
+		delete m_pEq;
         m_pSystem->close();
+	}
     Error e = _Init(idOutput,idDevice,nMixRate,nMaxChannels);
     m_bValid = (e == errSuccess);
+	if(m_bValid)
+		m_pEq = new FMODExEqualizer(m_pSystem,nMixRate);
+
     return e;
 }
 MUSIKEngine::Error FMODExEngine::EnumDevices(MUSIKEngine::IEnumNames * pen) const
@@ -290,7 +298,8 @@ const char * FMODExEngine::Version() const
 FMODExEngine::~FMODExEngine(void)
 {
     if(m_pSystem)
-    {
+    {    
+		delete m_pEq;
         if(m_bValid)
             m_pSystem->close();
         m_pSystem->release();

@@ -78,7 +78,7 @@ bool FMODExStreamOut::DoCreate(int buffersize_ms)
     }
     createsoundexinfo.pcmreadcallback   = pcmreadcallback;                             /* User callback for reading. */
     createsoundexinfo.userdata = this;
-    FMOD_MODE mode = FMOD_2D | FMOD_OPENUSER | FMOD_LOOP_NORMAL|FMOD_CREATESTREAM;
+    FMOD_MODE mode = FMOD_SOFTWARE|FMOD_2D | FMOD_OPENUSER | FMOD_LOOP_NORMAL|FMOD_CREATESTREAM; // FMOD_SOFTWARE is important, because else dsp will not work
     m_Engine.System().createSound(0, mode, &createsoundexinfo, &m_pSound);
     if(m_pSound)
     {
@@ -161,7 +161,7 @@ bool FMODExStreamOut::Open(const char *FileName)
 	static const char * szhttp = "http://";
 	bNetStream = (strncmp(FileName,szhttp,strlen(szhttp)) == 0);
     FMODExEngine::eOpenMode openmode = m_Engine.GetOpenMode();
-	int nFlags = /*FMOD_HARDWARE |*/ FMOD_2D | FMOD_CREATESTREAM|FMOD_MPEGSEARCH|(openmode == FMODExEngine::OpenMode_MPEGACCURATE ? FMOD_ACCURATETIME:0);
+	int nFlags = FMOD_SOFTWARE | FMOD_2D | FMOD_CREATESTREAM|FMOD_MPEGSEARCH|(openmode == FMODExEngine::OpenMode_MPEGACCURATE ? FMOD_ACCURATETIME:0); // FMOD_SOFTWARE is important, because else dsp will not work
 #ifdef WIN32
     if(bNetStream) nFlags |= FMOD_NONBLOCKING;
 #else

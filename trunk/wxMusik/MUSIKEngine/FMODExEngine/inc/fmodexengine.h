@@ -59,6 +59,10 @@ public:
     virtual bool IsValid() const{return m_bValid;}
 	static const char *ErrorString();
     virtual void SetBufferMs(int nSndBufferMs = 400);
+	virtual MUSIKEqualizer * Equalizer()
+	{
+		return  m_pEq;
+	}
     FMOD::System & System()
     {
         return *m_pSystem;
@@ -70,6 +74,7 @@ protected:
 	virtual IMUSIKStreamOut *CreateStreamOut();
 	eOpenMode m_OpenMode;
 private:
+	MUSIKEqualizer * m_pEq;
     bool m_bValid;
     char m_szVersion[20];
     FMOD::System *m_pSystem;

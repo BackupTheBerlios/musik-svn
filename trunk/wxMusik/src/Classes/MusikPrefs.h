@@ -305,7 +305,7 @@ public:
 		,sActStripeColour(this,wxT( "ActivityStripeColour" ),wxT("244, 244, 244"))
 		,sSourcesStripeColour(this,wxT( "SourcesStripeColour" ),wxT("244, 244, 244"))
 		,sPlaylistBorderColour(this,wxT( "PlaylistBorderColour" ),wxT("143, 143, 188"))
-
+		,nTransparentWindowAlpha(this,wxT("TransparentWindowAlpha"),85)
 		,bShowPLInfo(this,wxT( "ShowPlaylistInfo" ),true)
 		,bShowAlbumArt(this,wxT( "ShowAlbumArt" ),true)
 		,bShowSources(this,wxT( "ShowSources" ),true)
@@ -352,6 +352,11 @@ public:
 		,nWebServerPort(this,wxT( "Webserverport" ),6395)
         ,nWebServerRefresh(this,wxT( "WebserverRefresh" ),5)
 		,sFramePlacement(this,wxT( "FramePlacement" ),wxT("-1,-1,800,600,0,0"))
+		,sPrefsDialogPlacement(this,wxT( "PrefsDialogPlacement") ,wxT("-1,-1,-1,-1"))
+		,sLibraryDialogPlacement(this,wxT( "LibraryDialogPlacement") ,wxT("-1,-1,-1,-1"))
+		,sTagDialogPlacement(this,wxT( "TagDialogPlacement") ,wxT("-1,-1,-1,-1"))
+		,sAutoTagDialogPlacement(this,wxT( "AutoTagDialogPlacement") ,wxT("-1,-1,-1,-1"))
+		,sFXDialogPlacement(this,wxT( "FXDialogPlacement") ,wxT("-1,-1,-1,-1"))
 
 #ifdef wxHAS_TASK_BAR_ICON
 		,bHideOnMinimize(this,wxT("HideOnMinimize"),false )
@@ -456,6 +461,7 @@ public:
 	CConfigSettingString sActStripeColour;
 	CConfigSettingString sSourcesStripeColour;
 	CConfigSettingString sPlaylistBorderColour;
+	CConfigSettingInt	nTransparentWindowAlpha;
 	CConfigSettingBool bShowPLInfo;
 	CConfigSettingBool bShowAlbumArt;
 	CConfigSettingBool bShowSources;
@@ -502,7 +508,11 @@ public:
 	CConfigSettingInt nWebServerPort;
     CConfigSettingInt nWebServerRefresh;
 	CConfigSettingString sFramePlacement;
-
+	CConfigSettingString sPrefsDialogPlacement;
+	CConfigSettingString sLibraryDialogPlacement;
+	CConfigSettingString sTagDialogPlacement;
+	CConfigSettingString sAutoTagDialogPlacement;
+	CConfigSettingString sFXDialogPlacement;
 #ifdef wxHAS_TASK_BAR_ICON
 	CConfigSettingBool bHideOnMinimize;
 #endif

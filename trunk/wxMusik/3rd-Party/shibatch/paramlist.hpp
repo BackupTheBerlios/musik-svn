@@ -8,7 +8,7 @@ public:
 	class paramlistelm *next;
 
 	char left,right;
-	float lower,upper,gain,gain2;
+	float lower,upper,gain;
 	int sortindex;
 
 	paramlistelm(void) {

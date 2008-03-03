@@ -508,7 +508,7 @@ void MusikFrame::CreateMainMenu()
 }
 void MusikFrame::AutoUpdate	( const wxArrayString & Filenames ,unsigned long flags )
 {
-	MusikLibraryDialog *p= new MusikLibraryDialog( this, Filenames,flags );
+	MusikLibraryDialog *p= new MusikLibraryDialog( wxGetApp().Prefs.sLibraryDialogPlacement, this, Filenames,flags );
 	p->Show	( (flags & MUSIK_UpdateFlags::Quiet) != MUSIK_UpdateFlags::Quiet ); 
 }
 

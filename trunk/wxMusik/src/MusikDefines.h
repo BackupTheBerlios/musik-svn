@@ -329,7 +329,8 @@ struct MUSIK_UpdateFlags
 		RebuildTags             =8,
 		WaitUntilDone			=16,
         Quiet                   =32,
-		NoPurge					=64
+		NoPurge					=64,
+		RebuildTagsForce		=128
 	};
 };
 

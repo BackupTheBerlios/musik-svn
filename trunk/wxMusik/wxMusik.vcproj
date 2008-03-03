@@ -471,6 +471,14 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\Frames\Prefs\OptionVisualAttributesPanel.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Frames\Prefs\OptionVisualAttributesPanel.h"
+					>
+				</File>
+				<File
 					RelativePath=".\src\Frames\Prefs\PrefPanel.h"
 					>
 				</File>

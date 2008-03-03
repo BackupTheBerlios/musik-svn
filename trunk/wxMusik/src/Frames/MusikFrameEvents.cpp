@@ -183,7 +183,7 @@ void MusikFrame::OnClose( wxCloseEvent& WXUNUSED(event) )
 void MusikFrame::OnSetupPaths( wxCommandEvent& WXUNUSED(event) )
 {
 	wxSize mysize( 400, 300 );
-	MusikLibraryDialog* pMusikLibraryFrame = new MusikLibraryDialog(this, wxDefaultPosition, mysize );
+	MusikLibraryDialog* pMusikLibraryFrame = new MusikLibraryDialog(wxGetApp().Prefs.sLibraryDialogPlacement,this, wxDefaultPosition, mysize );
 	pMusikLibraryFrame->Show();
 }
 void MusikFrame::OnUpdateUISetupPaths( wxUpdateUIEvent&	event)
@@ -198,7 +198,7 @@ void MusikFrame::OnMenuAbout( wxCommandEvent &WXUNUSED(event) )
 }
 void MusikFrame::OnPreferences( wxCommandEvent &WXUNUSED(event) )
 {
-	wxDialog *pDlg = new MusikPrefsDialog( this, wxString(MUSIKAPPNAME) + _(" Preferences") );
+	wxDialog *pDlg = new MusikPrefsDialog(wxGetApp().Prefs.sPrefsDialogPlacement, this, wxString(MUSIKAPPNAME) + _(" Preferences") );
 	pDlg->Show();
 }
 void MusikFrame::OnUpdateUIPreferences( wxUpdateUIEvent &event )
@@ -216,7 +216,7 @@ void MusikFrame::OnFX( wxCommandEvent &WXUNUSED(event) )
 	}
 	else
 	{
-		w = new MusikFXDialog(wxGetApp().Player.SndEngine(), this, wxString(MUSIKAPPNAME) + _(" FX"), wxDefaultPosition, wxDefaultSize );
+		w = new MusikFXDialog(wxGetApp().Prefs.sFXDialogPlacement,wxGetApp().Player.SndEngine(), this, wxString(MUSIKAPPNAME) + _(" FX"), wxDefaultPosition, wxDefaultSize );
 		w->Show();
 	}	
 }

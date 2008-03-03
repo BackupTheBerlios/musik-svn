@@ -33,7 +33,7 @@ int wxCMPFUNC_CONV NoCaseCompareFunc (const wxString& first,
 	return first.CmpNoCase(second);
 }
 
-BEGIN_EVENT_TABLE( MusikTagFrame, wxFrame )
+BEGIN_EVENT_TABLE( MusikTagFrame, MusikDialog )
 	EVT_CHAR_HOOK		(							MusikTagFrame::OnTranslateKeys			)
 	EVT_COMMAND_RANGE		( MUSIK_TAG_CHK_TAGFIRST,MUSIK_TAG_CHK_TAGLAST,wxEVT_COMMAND_CHECKBOX_CLICKED ,	MusikTagFrame::OnClickCheckTags		)
 
@@ -54,10 +54,11 @@ BEGIN_EVENT_TABLE( MusikTagFrame, wxFrame )
 	EVT_MENU			( MUSIK_TAG_THREAD_PROG,	MusikTagFrame::OnTagThreadProg			)
 END_EVENT_TABLE()
 
-MusikTagFrame::MusikTagFrame( wxFrame* pParent, CPlaylistCtrl * pPlaylistctrl, int nCurFrame)
-	: wxFrame ( pParent, -1, wxT(""), wxDefaultPosition, wxDefaultSize, wxRESIZE_BORDER|wxCAPTION | wxTAB_TRAVERSAL | wxFRAME_FLOAT_ON_PARENT | wxFRAME_NO_TASKBAR )
+MusikTagFrame::MusikTagFrame(wxString &sPersistData, wxFrame* pParent, CPlaylistCtrl * pPlaylistctrl, int nCurFrame)
+	: MusikDialog (sPersistData)
 	, m_Songs(pPlaylistctrl->Playlist())
 {
+	Create(pParent, -1, wxT(""), wxDefaultPosition, wxDefaultSize, 0);
 	pPlaylistctrl->GetSelItems(m_arrSongsSelected);
 
 	m_bDirty = false;
@@ -265,9 +266,8 @@ MusikTagFrame::MusikTagFrame( wxFrame* pParent, CPlaylistCtrl * pPlaylistctrl, i
 	//-------------------//
 	//--- layout, etc ---//
 	//-------------------//
-	SetSizerAndFit( vsTopSizer );
+	SetSizer( vsTopSizer );
 	Layout();
-	Centre();
 
 	//-------------------//
 	//--- other stuff ---//
@@ -303,7 +303,7 @@ void MusikTagFrame::SetCaption()
 
 bool MusikTagFrame::Show( bool show )
 {
-	bool bRet = wxFrame::Show( show );
+	bool bRet = MusikDialog::Show( show );
 	
 	if ( show )
 	{

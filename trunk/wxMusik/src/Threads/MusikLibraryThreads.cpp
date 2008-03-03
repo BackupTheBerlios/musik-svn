@@ -159,9 +159,9 @@ void *MusikUpdateLibThread::Entry()
 				
 				
 			}
-			else if(m_flagsUpdate & MUSIK_UpdateFlags::RebuildTags)
+			else if(m_flagsUpdate & (MUSIK_UpdateFlags::RebuildTags|MUSIK_UpdateFlags::RebuildTagsForce))
 			{
-				if(pSlaveLibrary->UpdateSongDataFromFile( m_refFiles.Item( i ) ))
+				if(pSlaveLibrary->UpdateSongDataFromFile( m_refFiles.Item( i ),0 != (m_flagsUpdate & MUSIK_UpdateFlags::RebuildTagsForce )))
 				{
 					bDatabaseChanged = true;
 				}

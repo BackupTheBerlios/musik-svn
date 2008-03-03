@@ -1341,7 +1341,7 @@ void CPlaylistCtrl::EditTag( int i )
 	//---  tag dialog will re-enable when complete  ---//
 	if ( nSelCount > 0 )
 	{
-		MusikTagFrame* pMusikTagFrame = new MusikTagFrame( g_MusikFrame, this, i);
+		MusikTagFrame* pMusikTagFrame = new MusikTagFrame(wxGetApp().Prefs.sTagDialogPlacement, g_MusikFrame, this, i);
 //		g_MusikFrame->Enable( FALSE );
 		pMusikTagFrame->Show();
 	}
@@ -1455,7 +1455,7 @@ void CPlaylistCtrl::RetagSelFiles()
 {
 	if ( m_ActiveThreadController.IsAlive() == false )
 	{
-		CMusikAutoTaggerFrame dlg(this);
+		CMusikAutoTaggerFrame dlg(wxGetApp().Prefs.sAutoTagDialogPlacement,this);
 		dlg.SetConvertUnderscoresToSpaces((bool)wxGetApp().Prefs.bAutoTagConvertUnderscoresToSpaces);
 		if(dlg.ShowModal()==wxID_CANCEL)
 			return;
@@ -1473,7 +1473,7 @@ void CPlaylistCtrl::RebuildTagSelFiles()
 		wxArrayString aFiles;
 		GetSelFilesList(aFiles);
 		
-		g_MusikFrame->AutoUpdate(aFiles, MUSIK_UpdateFlags::RebuildTags|MUSIK_UpdateFlags::WaitUntilDone |MUSIK_UpdateFlags::NoPurge);
+		g_MusikFrame->AutoUpdate(aFiles, MUSIK_UpdateFlags::RebuildTagsForce|MUSIK_UpdateFlags::WaitUntilDone |MUSIK_UpdateFlags::NoPurge);
 		RefreshSelectedSongs();
 }
 

@@ -87,7 +87,7 @@ CMusikEQCtrl::CMusikEQCtrl( wxWindow* pParent,MUSIKEqualizer *pEQ )
 	pMainSizer->Add( pOptionsSizer, 0, wxEXPAND | wxBOTTOM, 4 );
 	pMainSizer->Add( pBandsSizer, 1 );
 
-	SetSizerAndFit( pMainSizer );
+	SetSizer( pMainSizer );
 	
 	//-------------------------------------//
 	//--- grab the band information.	---//

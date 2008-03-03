@@ -798,13 +798,52 @@ protected:
     IOnValueChangeByValidator *m_pIOnValueChangeByValidator;
 };
 
+class WXDLLEXPORT MusikDialog : public wxDialog
+{
+public:
+	MusikDialog();
 
-#endif
+	MusikDialog(wxString &sPersistData):m_refPersistData(sPersistData) { Init(); }
+
+	// full ctor
+	MusikDialog(wxString &sPersistData,wxWindow *parent, wxWindowID id,
+		const wxString& title,
+		const wxPoint& pos = wxDefaultPosition,
+		const wxSize& size = wxDefaultSize,
+		long style = wxDEFAULT_DIALOG_STYLE,
+		const wxString& name = wxDialogNameStr)
+		:m_refPersistData(sPersistData)
+	{
+		Init();
+		(void)Create(parent, id, title, pos, size, style, name);
+	}
+	void SetPersistData(wxString &sPersistData) { m_refPersistData = sPersistData;}
+	bool Create(wxWindow *parent, wxWindowID id,
+		const wxString& title,
+		const wxPoint& pos = wxDefaultPosition,
+		const wxSize& size = wxDefaultSize,
+		long style = wxDEFAULT_DIALOG_STYLE,
+		const wxString& name = wxDialogNameStr);
+
+	virtual bool Destroy();
+	virtual ~MusikDialog();
+
+private:
+	wxString & m_refPersistData;
+
+	DECLARE_DYNAMIC_CLASS(MusikDialog)
+	DECLARE_NO_COPY_CLASS(MusikDialog)
+};
+
+
 
 #ifdef __WXMSW__
 #define PACKVERSION(major,minor) MAKELONG(minor,major)
 DWORD GetDllVersion(LPCTSTR lpszDllName);
 #endif
+
+#endif
+
 
 // #ifdef USE_NEDMALLOC  
 // // Undefine temporarily (new is #defined in object.h) because we want to

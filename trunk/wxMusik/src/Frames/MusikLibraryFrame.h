@@ -33,19 +33,21 @@ enum EMUSIK_Library_OBJECT_ID
 	MUSIK_PATHS_LIST = 0,
 };
 
-class MusikLibraryDialog: public wxDialog
+class MusikLibraryDialog: public MusikDialog
 {
 public:
     MusikLibraryDialog()
     {
         Init();
     }
-	MusikLibraryDialog( wxWindow* pParent ,const wxArrayString &arrFilenamesToScan = wxArrayString(),unsigned long flags = 0)
-    {
+	MusikLibraryDialog(wxString &sPersistData, wxWindow* pParent ,const wxArrayString &arrFilenamesToScan = wxArrayString(),unsigned long flags = 0)
+		:MusikDialog(sPersistData)
+	{
         Init();
         Create(  pParent ,arrFilenamesToScan,flags);
     }
-	MusikLibraryDialog( wxWindow* pParent, const wxPoint &pos, const wxSize &size )
+	MusikLibraryDialog(wxString &sPersistData, wxWindow* pParent, const wxPoint &pos, const wxSize &size )
+		:MusikDialog(sPersistData)
     {
         Init();
         Create(  pParent ,pos,size);

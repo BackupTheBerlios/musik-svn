@@ -27,9 +27,9 @@
 //--- threads ---//
 #include "Threads/MusikLibraryThreads.h"
 
-IMPLEMENT_DYNAMIC_CLASS(MusikLibraryDialog,wxDialog)
+IMPLEMENT_DYNAMIC_CLASS(MusikLibraryDialog,MusikDialog)
 
-BEGIN_EVENT_TABLE(MusikLibraryDialog, wxDialog)
+BEGIN_EVENT_TABLE(MusikLibraryDialog, MusikDialog)
 	EVT_CONTEXT_MENU	( 									MusikLibraryDialog::PathsPopupMenu			)
 #ifdef 	__WXMSW__
 	EVT_CHAR_HOOK		(									MusikLibraryDialog::TranslateKeys			)
@@ -80,7 +80,7 @@ void MusikLibraryDialog::Init()
 //-----------------------------------//
 bool MusikLibraryDialog::Create( wxWindow* pParent ,const wxArrayString &arrFilenamesToScan,unsigned long flags)
 {
-    if(!wxDialog::Create( pParent, -1, _("Searching for and Adding New Files"), wxDefaultPosition, wxSize( 500, 48 )))
+    if(!MusikDialog::Create( pParent, -1, _("Searching for and Adding New Files"), wxDefaultPosition, wxSize( 500, 48 )))
         return false;
 	m_arrScannedFiles = arrFilenamesToScan;
 	//------------------------------//
@@ -107,8 +107,6 @@ bool MusikLibraryDialog::Create( wxWindow* pParent ,const wxArrayString &arrFile
 	wxSize size = vsTopSizer->GetMinSize();
 	SetClientSize( 600, size.GetHeight() );
 //	#endif
-
-	Centre();
     return true;
 }
 
@@ -119,7 +117,7 @@ bool MusikLibraryDialog::Create( wxWindow* pParent ,const wxArrayString &arrFile
 //---------------------------------//
 bool MusikLibraryDialog::Create( wxWindow* pParent, const wxPoint &pos, const wxSize & ) 
 {
-    if(!wxDialog::Create( pParent, -1, wxString(MUSIKAPPNAME) + _(" Library Setup"), pos, wxSize( 500, 300 ), wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER | wxCLIP_CHILDREN|wxMINIMIZE_BOX ))
+    if(!MusikDialog::Create( pParent, -1, wxString(MUSIKAPPNAME) + _(" Library Setup"), pos, wxSize( 500, 300 ), wxCLIP_CHILDREN|wxMINIMIZE_BOX ))
         return false;
 	//--------------------//
 	//--- Context menu ---//
@@ -144,7 +142,7 @@ bool MusikLibraryDialog::Create( wxWindow* pParent, const wxPoint &pos, const wx
 	//--------------------//
 	//--- center frame ---//
 	//--------------------//
-	Centre();
+
     return true;
 }
 
@@ -249,7 +247,7 @@ void MusikLibraryDialog::OnRebuildAll( wxCommandEvent& WXUNUSED(event) )
 }
 bool MusikLibraryDialog::Show( bool show )
 {
-	bool bRet = wxDialog::Show( show );
+	bool bRet = MusikDialog::Show( show );
 
 	//---------------------------//
 	//--- kill first run pref ---//

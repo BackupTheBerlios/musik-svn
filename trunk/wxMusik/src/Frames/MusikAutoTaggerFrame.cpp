@@ -9,9 +9,6 @@
 // Licence:  See the file "license.txt" for information on usage and redistribution  
 /////////////////////////////////////////////////////////////////////////////
 
-#ifdef __GNUG__
-#pragma implementation "MusikAutoTaggerFrame.cpp"
-#endif
 
 // For compilers that support precompilation, includes "wx/wx.h".
 #include "myprec.h"
@@ -35,13 +32,13 @@
  * CMusikAutoTaggerFrame type definition
  */
 
-IMPLEMENT_CLASS( CMusikAutoTaggerFrame, wxDialog )
+IMPLEMENT_CLASS( CMusikAutoTaggerFrame, MusikDialog )
 
 /*!
  * CMusikAutoTaggerFrame event table definition
  */
 
-BEGIN_EVENT_TABLE( CMusikAutoTaggerFrame, wxDialog )
+BEGIN_EVENT_TABLE( CMusikAutoTaggerFrame, MusikDialog )
 
 ////@begin CMusikAutoTaggerFrame event table entries
     EVT_BUTTON( ID_BN_ADDMASK, CMusikAutoTaggerFrame::OnBnAddMask )
@@ -62,7 +59,8 @@ CMusikAutoTaggerFrame::CMusikAutoTaggerFrame( )
 {
 }
 
-CMusikAutoTaggerFrame::CMusikAutoTaggerFrame( wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style )
+CMusikAutoTaggerFrame::CMusikAutoTaggerFrame(wxString &sPersistData, wxWindow* parent, wxWindowID id, const wxString& caption, const wxPoint& pos, const wxSize& size, long style )
+:MusikDialog(sPersistData)
 {
     Create(parent, id, caption, pos, size, style);
 
@@ -86,12 +84,11 @@ bool CMusikAutoTaggerFrame::Create( wxWindow* parent, wxWindowID id, const wxStr
 ////@end CMusikAutoTaggerFrame member initialisation
 
 ////@begin CMusikAutoTaggerFrame creation
-    wxDialog::Create( parent, id, caption, pos, size, style );
+    MusikDialog::Create( parent, id, caption, pos, size, style );
 
     CreateControls();
     GetSizer()->Fit(this);
     GetSizer()->SetSizeHints(this);
-    Centre();
 ////@end CMusikAutoTaggerFrame creation
     return TRUE;
 }

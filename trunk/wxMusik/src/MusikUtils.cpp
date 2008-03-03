@@ -1300,3 +1300,49 @@ DWORD GetDllVersion(LPCTSTR lpszDllName)
 	return dwVersion;
 }
 #endif //__WXMSW__
+
+
+static wxString MusikDialogEmptyString;
+
+IMPLEMENT_DYNAMIC_CLASS(MusikDialog,wxDialog)
+
+
+MusikDialog::MusikDialog()
+	: m_refPersistData(MusikDialogEmptyString) { Init(); }
+bool MusikDialog::Create( wxWindow *parent, wxWindowID id, const wxString& title, const wxPoint& pos /*= wxDefaultPosition*/, const wxSize& size /*= wxDefaultSize*/, long style /*= wxDEFAULT_DIALOG_STYLE*/, const wxString& name /*= wxDialogNameStr*/ )
+{
+	wxStringTokenizer st( m_refPersistData, wxT(",") );
+
+	long x=-1, y=-1, w=-1, h= -1;
+	bool ok;
+	ok = st.GetNextToken().ToLong( &x );
+	ok = ok && st.GetNextToken().ToLong( &y );
+	ok = ok && st.GetNextToken().ToLong( &w );
+	ok = ok && st.GetNextToken().ToLong( &h );
+	ok = ok && (x+w <= wxSystemSettings::GetMetric( wxSYS_SCREEN_X )) && (y+h <= wxSystemSettings::GetMetric( wxSYS_SCREEN_Y ));
+	wxPoint mypos = ok ? wxPoint(x,y) : wxDefaultPosition;
+	wxSize mysize = ok ? wxSize(w,h) : wxDefaultSize;
+	if(mypos == wxDefaultPosition && pos != wxDefaultPosition)
+		mypos = pos;
+	if(mysize == wxDefaultSize && size != wxDefaultSize)
+		mysize = size;
+
+	bool bRes = wxDialog::Create(parent,id,title,mypos,mysize,style|wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER,name);
+	if(mypos == wxDefaultPosition)
+		Centre();
+	SetTransparent(wxMulDivInt32(wxGetApp().Prefs.nTransparentWindowAlpha , 255 , 100));
+	return bRes;
+}
+
+MusikDialog::~MusikDialog()
+{
+		
+}
+
+bool MusikDialog::Destroy()
+{
+	wxPoint pos = GetPosition();
+	wxSize size = GetSize();
+	m_refPersistData = wxString::Format( wxT("%d,%d,%d,%d"), pos.x, pos.y, size.x, size.y );
+	return wxDialog::Destroy();
+}

@@ -12,9 +12,6 @@
 #ifndef _MUSIKAUTOTAGGERFRAME_H_
 #define _MUSIKAUTOTAGGERFRAME_H_
 
-#ifdef __GNUG__
-#pragma interface "MusikAutoTaggerFrame.h"
-#endif
 
 /*!
  * Includes
@@ -46,7 +43,7 @@
  * CMusikAutoTaggerFrame class declaration
  */
 
-class CMusikAutoTaggerFrame: public wxDialog
+class CMusikAutoTaggerFrame: public MusikDialog
 {    
     DECLARE_CLASS( CMusikAutoTaggerFrame )
     DECLARE_EVENT_TABLE()
@@ -54,10 +51,11 @@ class CMusikAutoTaggerFrame: public wxDialog
 public:
     /// Constructors
     CMusikAutoTaggerFrame( );
-    CMusikAutoTaggerFrame( wxWindow* parent, wxWindowID id = -1, const wxString& caption = wxString(MUSIKAPPNAME) + _(" Autotagger"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxRESIZE_BORDER|wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU );
+    CMusikAutoTaggerFrame(wxString &sPersistData, wxWindow* parent, wxWindowID id = -1, const wxString& caption = wxString(MUSIKAPPNAME) + _(" Autotagger"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = 0 );
+
 
     /// Creation
-    bool Create( wxWindow* parent, wxWindowID id = -1, const wxString& caption = wxString(MUSIKAPPNAME) + _(" Autotagger"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxRESIZE_BORDER|wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU );
+    bool Create( wxWindow* parent, wxWindowID id = -1, const wxString& caption = wxString(MUSIKAPPNAME) + _(" Autotagger"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = 0 );
 
     /// Creates the controls and sizers
     void CreateControls();

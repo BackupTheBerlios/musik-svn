@@ -59,10 +59,10 @@ const EMUSIK_TAG_OBJECT_ID	MUSIK_TAG_CHK_TAGLAST =  MUSIK_TAG_CHK_NOTES;
 
 class  CPlaylistCtrl;
 
-class MusikTagFrame : public wxFrame
+class MusikTagFrame : public MusikDialog
 {
 public:
-	MusikTagFrame( wxFrame* pParent, CPlaylistCtrl * playlistctrl, int nCurFrame);
+	MusikTagFrame(wxString &sPersistData, wxFrame* pParent, CPlaylistCtrl * playlistctrl, int nCurFrame);
 
 	//--- objects ---//
 	wxTextCtrl  *tcFilename;

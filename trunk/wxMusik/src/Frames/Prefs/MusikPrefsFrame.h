@@ -12,21 +12,22 @@
 
 #ifndef MUSIK_PREFS_FRAME_H
 #define MUSIK_PREFS_FRAME_H
-
+#include"MusikUtils.h"
 class wxTreeCtrl;
 class wxTreeEvent;
 class wxTreeItemId;
 
 class PrefPanel;
 
-class MusikPrefsDialog : public wxDialog
+class MusikPrefsDialog : public MusikDialog
 {
 public:
     MusikPrefsDialog()
     {
         Init();
     }
-	MusikPrefsDialog( wxWindow* pParent, const wxString &sTitle)
+	MusikPrefsDialog(wxString &sPersistData, wxWindow* pParent, const wxString &sTitle)
+		:MusikDialog(sPersistData)
     {
         Init();
         Create( pParent, sTitle);

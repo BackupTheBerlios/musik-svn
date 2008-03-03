@@ -12,14 +12,11 @@
 	<Tool
 		Name="VCLinkerTool"
 		AdditionalLibraryDirectories="&quot;$(WXDIR)\lib\vc_lib&quot;"
+		GenerateManifest="false"
 	/>
 	<Tool
 		Name="VCResourceCompilerTool"
 		AdditionalIncludeDirectories="$(WXIncludeDirs)"
-	/>
-	<Tool
-		Name="VCManifestTool"
-		EmbedManifest="false"
 	/>
 	<UserMacro
 		Name="WXIncludeDirs"

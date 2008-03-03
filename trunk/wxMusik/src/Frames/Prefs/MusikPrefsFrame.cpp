@@ -30,6 +30,7 @@
 #include "Frames/MusikFrame.h"
 
 #include "OptionGeneralPanel.h"
+#include "OptionVisualAttributesPanel.h"
 #include "OptionPlaylistPanel.h"
 #include "OptionSelectionsPanel.h"
 #include "OptionTunagePanel.h"
@@ -69,9 +70,9 @@ private:
     PrefPanel * m_pPanel;
 };
 
-IMPLEMENT_DYNAMIC_CLASS(MusikPrefsDialog,wxDialog)
+IMPLEMENT_DYNAMIC_CLASS(MusikPrefsDialog,MusikDialog)
 
-BEGIN_EVENT_TABLE(MusikPrefsDialog, wxDialog)
+BEGIN_EVENT_TABLE(MusikPrefsDialog, MusikDialog)
 #ifdef __WXMSW__
 	EVT_CHAR_HOOK			(								MusikPrefsDialog::OnTranslateKeys	)
 #else
@@ -91,7 +92,7 @@ void MusikPrefsDialog::Init()
 }
 bool MusikPrefsDialog::Create( wxWindow *pParent, const wxString &sTitle )
 {
-    if ( !wxDialog::Create( pParent, -1, sTitle, wxDefaultPosition, wxSize(750,700), wxDEFAULT_FRAME_STYLE|wxRESIZE_BORDER|wxCAPTION | wxTAB_TRAVERSAL | wxFRAME_FLOAT_ON_PARENT | wxFRAME_NO_TASKBAR ))
+    if ( !MusikDialog::Create( pParent, -1, sTitle, wxDefaultPosition, wxSize(750,700),  wxTAB_TRAVERSAL ))
         return false;
 	//---------------//
 	//--- colours ---//
@@ -164,6 +165,7 @@ bool MusikPrefsDialog::Create( wxWindow *pParent, const wxString &sTitle )
     vsRight->Add(m_sizerPanels,1,wxEXPAND|wxALL,10);
  
     AddPanel(nOptionsRootID,new OptionGeneralPanel(this));
+	AddPanel(nOptionsRootID,new OptionVisualAttributesPanel(this));
     AddPanel(nOptionsRootID,new OptionSelectionsPanel(this));
     AddPanel(nOptionsRootID,new OptionPlaylistPanel(this));
 #if wxUSE_MIMETYPE  
@@ -196,7 +198,7 @@ bool MusikPrefsDialog::Create( wxWindow *pParent, const wxString &sTitle )
 	//--- Layout ---//
 	//--------------//
 	
-	Centre();
+
 	//--------------------//
 	//--- Set Defaults ---//
 	//--------------------//
@@ -254,7 +256,6 @@ void MusikPrefsDialog::Close( bool bCancel )
 		if(!SavePrefs())
 			return;
 
-	//g_MusikFrame->Enable( TRUE );
 	Destroy();
 	
 }

@@ -32,10 +32,19 @@ enum EMUSIK_FX_OBJECT_ID
 
 class MUSIKEngine;
 class wxFileConfig;
-class MusikFXDialog : public wxDialog
+class MusikFXDialog : public MusikDialog
 {
 public:
-	MusikFXDialog(MUSIKEngine & e, wxWindow* pParent, const wxString &sTitle, const wxPoint &pos, const wxSize &size );
+	MusikFXDialog(wxString &sPersistData,MUSIKEngine & e, wxWindow* pParent, const wxString &sTitle, const wxPoint &pos, const wxSize &size )
+		: MusikDialog ( sPersistData)
+		,m_SndEngine(e)
+	{
+		Init();
+		if(!MusikDialog::Create( pParent, MUSIK_FRAME_ID_FX, sTitle, pos, size,wxCLIP_CHILDREN))
+			return;
+
+		Create();
+	}
 
 	//--------------//
 	//--- events ---//
@@ -57,6 +66,8 @@ public:
     static void	LoadBands		( wxFileConfig *pConfig ,MUSIKEqualizer *pEQ);
 
 protected:
+	bool Create();
+
     void SaveBands		( wxFileConfig *pConfig);
 
     MUSIKEngine & m_SndEngine;

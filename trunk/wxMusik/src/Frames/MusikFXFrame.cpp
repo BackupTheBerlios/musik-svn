@@ -35,7 +35,7 @@ enum EMUSIK_FXFRAME_ID
 	SLD_PITCH = wxID_HIGHEST
 };
 
-BEGIN_EVENT_TABLE(MusikFXDialog, wxDialog)
+BEGIN_EVENT_TABLE(MusikFXDialog, MusikDialog)
 	EVT_BUTTON				(wxID_OK			,MusikFXDialog::OnOk			)
 	EVT_BUTTON				(wxID_CANCEL		,MusikFXDialog::OnCancel			)
 	EVT_CONTEXT_MENU		(					MusikFXDialog::OnRightClick		)
@@ -83,10 +83,9 @@ void MusikFXDialog::OnEraseBackground( wxEraseEvent& event )
 #define wxCLOSE_BOX 0
 #endif
 
-MusikFXDialog::MusikFXDialog(MUSIKEngine & e, wxWindow *pParent, const wxString &sTitle, const wxPoint &pos, const wxSize &size ) 
-	: wxDialog ( pParent, MUSIK_FRAME_ID_FX, sTitle, pos, size, wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER |wxCLIP_CHILDREN )
-    ,m_SndEngine(e)
+bool MusikFXDialog::Create() 
 {
+
 	//---------------//
 	//--- colours ---//
 	//---------------//
@@ -118,11 +117,6 @@ MusikFXDialog::MusikFXDialog(MUSIKEngine & e, wxWindow *pParent, const wxString 
 	//-------------//
 	//--- pitch ---//
 	//-------------//
-	//-------------------------------------------------//
-	//--- Simon: not working right. commented out	---//
-	//--- for 0.1.3 release.						---//
-	//--- See Also: MusikPlayer::SetFrequency()		---//
-	//-------------------------------------------------//
 	
 	slPitch = new wxSlider( this, SLD_PITCH, 50, 0, 100, wxPoint( -1, -1 ), wxSize( -1, -1 ) );
 	slPitch->SetToolTip( _("Pitch control, right-click to reset") );
@@ -139,13 +133,13 @@ MusikFXDialog::MusikFXDialog(MUSIKEngine & e, wxWindow *pParent, const wxString 
 	vsMain->Add( hsPitch, 0,wxEXPAND | wxALL, 4 );
 	
 	vsMain->Add( CreateButtonSizer(wxOK|wxCANCEL));
-	SetSizerAndFit( vsMain );
+	SetSizer( vsMain );
 
 	//--------------//
 	//--- Layout ---//
 	//--------------//
 	Layout();
-	Centre();
+	return true;
 }
 
 //--------------//

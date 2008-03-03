@@ -78,6 +78,7 @@ SET(MAIN_SRCS
         ./Frames/Prefs/SoundCrossfaderPanel.cpp
         ./Frames/Prefs/SoundDriverPanel.cpp
         ./Frames/Prefs/OptionGeneralPanel.cpp
+        ./Frames/Prefs/OptionVisualAttributesPanel.cpp
         ./Frames/Prefs/OptionTunagePanel.cpp
         ./Frames/Prefs/WebServerPanel.cpp
     )

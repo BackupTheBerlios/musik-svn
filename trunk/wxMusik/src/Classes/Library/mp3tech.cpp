@@ -55,8 +55,8 @@ int header_layer(mp3header *h);
 int header_bitrate(mp3header *h);
 int sameConstant(mp3header *h1, mp3header *h2);
 int header_frequency(mp3header *h);
-char *header_emphasis(mp3header *h);
-char *header_mode(mp3header *h);
+const char *header_emphasis(mp3header *h);
+const char *header_mode(mp3header *h);
 int get_first_header(mp3info *mp3,long startpos,int consec_good_frames);
 int get_next_header(mp3info *mp3);
 int xingHeaderOffset(mp3header * h);
@@ -88,11 +88,11 @@ int bitrate[2][3][14] = {
 int frame_size_index[] = {24000, 72000, 72000};
 
 
-char *mode_text[] = {
+const char *mode_text[] = {
    "stereo", "joint stereo", "dual channel", "mono"
 };
 
-char *emphasis_text[] = {
+const char *emphasis_text[] = {
   "none", "50/15 microsecs", "reserved", "CCITT J 17"
 };
 
@@ -285,7 +285,7 @@ int get_header(FILE *file,mp3header *header)
     }
     header->crc=buffer[1] & 1;
     header->bitrate=(buffer[2] >> 4) & 0x0F;
-    if( header->bitrate == 0x0F )
+    if( header->bitrate == 0x0F || header->bitrate == 0x00)
         return 0; /* invalid bitrate */
     header->freq=(buffer[2] >> 2) & 0x3;
     header->padding=(buffer[2] >>1) & 0x1;
@@ -316,11 +316,11 @@ int header_frequency(mp3header *h) {
 	return frequencies[h->version][h->freq];
 }
 
-char *header_emphasis(mp3header *h) {
+const char *header_emphasis(mp3header *h) {
 	return emphasis_text[h->emphasis];
 }
 
-char *header_mode(mp3header *h) {
+const char *header_mode(mp3header *h) {
 	return mode_text[h->mode];
 }
 
@@ -408,3 +408,28 @@ int handle_vbri_header(mp3info *mp3)
 
     return 1;
 }
+
+
+#ifdef __TEST
+
+int main(int argc,char * argv[])
+{
+	FILE * f = fopen(argv[1],"rb");
+	if(!f)
+		return -10;
+	mp3info info;
+	memset(&info,0,sizeof(info));
+
+	info.file = f;
+	int res = get_mp3_info(&info,SCAN_QUICK,0);
+	if(res == 0)
+	{
+		printf("ok\n");
+	}
+	else
+	{
+		printf("error in get_mp3info\n");
+	}
+	return 0;
+}
+#endif

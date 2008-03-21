@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="wxWidgetsAddons"
+	InheritedPropertySheets="$(SolutionDir)/VSPropSheets/wxWidgets.vsprops"
+
+	>
+	<Tool
+		Name="VCCLCompilerTool"
+		AdditionalOptions=""
+		AdditionalIncludeDirectories="$(WXAddonsIncludeDirs)"
+	/>
+	<Tool
+		Name="VCResourceCompilerTool"
+		AdditionalIncludeDirectories="$(WXAddonsIncludeDirs)"
+	/>
+	<UserMacro
+		Name="WXAddonsIncludeDirs"
+		Value="&quot;$(SolutionDir)\3rd-Party\wxWidgetsAddons\include&quot;"
+	/>
+</VisualStudioPropertySheet>

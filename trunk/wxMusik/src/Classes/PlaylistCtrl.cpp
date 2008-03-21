@@ -15,6 +15,7 @@
 #include "myprec.h"
 
 #include "wx/file.h"
+#include "wx/srchctrl.h"
 
 #include "PlaylistCtrl.h"
 #include "Classes/ActivityAreaCtrl.h"
@@ -1663,9 +1664,7 @@ enum EMUSIK_SEARCHBOX_ID
 	MUSIK_SEARCHBOX_TEXT = 1,
 	MUSIK_SEARCHBOX_SEARCHMODE = 2,
 	MUSIK_SEARCHBOX_FUZZYSEARCHMODE = 3,
-	MUSIK_SEARCHBOX_TIMERID = 4,
-	MUSIK_SEARCHBOX_CLEAR = 5
-
+	MUSIK_SEARCHBOX_TIMERID = 4
 };
 
 BEGIN_EVENT_TABLE(CSearchBox, wxPanel)
@@ -1674,7 +1673,7 @@ EVT_CHOICE					(MUSIK_SEARCHBOX_SEARCHMODE,	CSearchBox::OnSearchMode	)
 EVT_CHOICE					(MUSIK_SEARCHBOX_FUZZYSEARCHMODE,	CSearchBox::OnFuzzySearchMode ) 
 EVT_TIMER					(MUSIK_SEARCHBOX_TIMERID, CSearchBox::OnTimer)
 EVT_TEXT_ENTER				(MUSIK_SEARCHBOX_TEXT, CSearchBox::OnTextEnter)
-EVT_BUTTON					(MUSIK_SEARCHBOX_CLEAR,CSearchBox::OnClear)
+EVT_SEARCHCTRL_CANCEL_BTN					(MUSIK_SEARCHBOX_TEXT,CSearchBox::OnClear)
 END_EVENT_TABLE()
 
 CSearchBox::CSearchBox( wxWindow *parent )
@@ -1693,21 +1692,15 @@ CSearchBox::CSearchBox( wxWindow *parent )
 	//--------------------//
 	wxBoxSizer *pSizer = new wxBoxSizer( wxHORIZONTAL );
 
-	wxStaticText *stSearch	= new wxStaticText_NoFlicker( this, -1, _( "Search:" ),wxPoint( -1, -1 ), wxSize( -1, -1 ), wxALIGN_RIGHT  );
-	m_pTextSimpleQuery		= new wxTextCtrl_NoFlicker( this, MUSIK_SEARCHBOX_TEXT, wxT( "" ), wxPoint( -1, -1 ), wxSize( -1, -1 ), 
-			wxSIMPLE_BORDER
-			|wxTE_PROCESS_ENTER 
-			);
-	wxButton *buttonClear =new wxButton_NoFlicker(this,MUSIK_SEARCHBOX_CLEAR,_("Clear"),wxDefaultPosition,wxDefaultSize,wxBU_EXACTFIT );
+	m_pTextSimpleQuery		= new wxSearchCtrl( this, MUSIK_SEARCHBOX_TEXT, wxT( "" ), wxDefaultPosition, wxDefaultSize,wxTE_PROCESS_ENTER);
+	m_pTextSimpleQuery->ShowCancelButton(true);
 	const wxString searchmode_choices[] ={_("All words"),_("Exact phrase"),_("Any word")};
 	wxChoice *choiceSearchmode = new wxChoice_NoFlicker(this,MUSIK_SEARCHBOX_SEARCHMODE,wxDefaultPosition,wxDefaultSize,WXSIZEOF(searchmode_choices),searchmode_choices);
 	choiceSearchmode->SetSelection(wxGetApp().Prefs.eSearchmode.val);
 	const wxString fuzzysearchmode_choices[] ={_("Fuzzy None"),_("Fuzzy Low"),_("Fuzzy Middle"),_("Fuzzy High")};
 	wxChoice *choiceFuzzySearchmode = new wxChoice_NoFlicker(this,MUSIK_SEARCHBOX_FUZZYSEARCHMODE,wxDefaultPosition,wxDefaultSize,WXSIZEOF(fuzzysearchmode_choices),fuzzysearchmode_choices);
 	choiceFuzzySearchmode->SetSelection(wxGetApp().Prefs.eFuzzySearchmode.val);
-	pSizer->Add( stSearch,	0, wxRIGHT | wxADJUST_MINSIZE | wxALIGN_CENTER_VERTICAL|wxALL, 4 );
 	pSizer->Add( m_pTextSimpleQuery, 1, wxADJUST_MINSIZE |wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM,4);
-	pSizer->Add( buttonClear, 0, wxADJUST_MINSIZE |wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM,4);
 	pSizer->Add( choiceSearchmode, 0, wxADJUST_MINSIZE |wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM,4);
 	pSizer->Add( choiceFuzzySearchmode, 0, wxADJUST_MINSIZE |wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM,4);
 	m_arrFieldsToSearch.Add(g_PlaylistColumn[PlaylistColumn::ARTIST].DBName);

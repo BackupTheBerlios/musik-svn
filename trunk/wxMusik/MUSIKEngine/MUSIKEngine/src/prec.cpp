@@ -1,1 +1,1 @@
-#include "stdafx.h"
+#include "myprec.h"

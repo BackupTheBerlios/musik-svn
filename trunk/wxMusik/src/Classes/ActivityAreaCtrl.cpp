@@ -349,7 +349,7 @@ void CActivityAreaCtrl::UpdateSel( CActivityBox *pSelectedBox ,bool bForceShowAl
 					    for ( size_t i = 0; i < rel.GetCount(); i++ )
 					    {
 						    n = FindStrInArray( &all, rel.Item( i ) );
-						    if ( n  > -1 )
+						    if ( n  != (size_t)-1 )
 						    {
 							    all.RemoveAt( n );
 							    all.Insert( rel.Item( i ), i );

@@ -165,7 +165,7 @@ int CAPEDecompressOld::Seek(int nBlockOffset)
     return ERROR_SUCCESS;
 }
 
-int CAPEDecompressOld::GetInfo(APE_DECOMPRESS_FIELDS Field, int nParam1, int nParam2)
+intptr_t CAPEDecompressOld::GetInfo(APE_DECOMPRESS_FIELDS Field, intptr_t nParam1, intptr_t nParam2)
 {
     int nRetVal = 0;
     BOOL bHandled = TRUE;
@@ -250,7 +250,7 @@ int CAPEDecompressOld::GetInfo(APE_DECOMPRESS_FIELDS Field, int nParam1, int nPa
             }
             else
             {
-                WAVEFORMATEX wfeFormat; GetInfo(APE_INFO_WAVEFORMATEX, (int) &wfeFormat, 0);
+                WAVEFORMATEX wfeFormat; GetInfo(APE_INFO_WAVEFORMATEX, (intptr_t) &wfeFormat, 0);
                 WAVE_HEADER WAVHeader; FillWaveHeader(&WAVHeader, 
                     (m_nFinishBlock - m_nStartBlock) * GetInfo(APE_INFO_BLOCK_ALIGN), 
                     &wfeFormat,    0);

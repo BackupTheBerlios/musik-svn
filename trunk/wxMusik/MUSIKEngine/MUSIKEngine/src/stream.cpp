@@ -19,7 +19,7 @@
 //WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
 //OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#include "stdafx.h"
+#include "myprec.h"
 #include "MUSIKEngine/inc/engine.h"
 #include "MUSIKEngine/inc/stream.h"
 #include "MUSIKEngine/inc/imusikstreamout.h"

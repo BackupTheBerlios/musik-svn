@@ -15,7 +15,7 @@
     0xaaaabbcc -> aaaa = major version number.  bb = minor version number.  cc = development version number.
 */
 
-#define FMOD_VERSION    0x00041200
+#define FMOD_VERSION    0x00041206
 
 /*
     Compiler specific settings.
@@ -647,6 +647,8 @@ typedef enum
 #define FMOD_INIT_PS2_DISABLECORE1REVERB  0x00020000 /* PS2 only - Disable reverb on CORE 1 to regain 256k SRAM. */
 #define FMOD_INIT_PS2_DONTUSESCRATCHPAD   0x00040000 /* PS2 only - Disable FMOD's usage of the scratchpad. */
 #define FMOD_INIT_PS2_SWAPDMACHANNELS     0x00080000 /* PS2 only - Changes FMOD from using SPU DMA channel 0 for software mixing, and 1 for sound data upload/file streaming, to 1 and 0 respectively. */
+#define FMOD_INIT_PS3_PREFERDTS           0x00800000 /* PS3 only - Prefer DTS over Dolby Digital if both are supported. Note: 8 and 6 channel LPCM is always preferred over both DTS and Dolby Digital. */
+#define FMOD_INIT_PS3_FORCE2CHLPCM        0x01000000 /* PS3 only - Force PS3 system output mode to 2 channel LPCM. */
 #define FMOD_INIT_XBOX_REMOVEHEADROOM     0x00100000 /* Xbox only - By default DirectSound attenuates all sound by 6db to avoid clipping/distortion.  CAUTION.  If you use this flag you are responsible for the final mix to make sure clipping / distortion doesn't happen. */
 #define FMOD_INIT_360_MUSICMUTENOTPAUSE   0x00200000 /* Xbox 360 only - The "music" channelgroup which by default pauses when custom 360 dashboard music is played, can be changed to mute (therefore continues playing) instead of pausing, by using this flag. */
 #define FMOD_INIT_SYNCMIXERWITHUPDATE     0x00400000 /* Win32/Wii/PS3/Xbox/Xbox 360 - FMOD Mixer thread is woken up to do a mix when System::update is called rather than waking periodically on its own timer. */

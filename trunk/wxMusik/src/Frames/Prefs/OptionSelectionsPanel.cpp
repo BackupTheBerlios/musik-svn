@@ -38,7 +38,7 @@ wxSizer * OptionSelectionsPanel::CreateControls()
     //-----------------------------------//
     //--- Options -> Selections Sizer ---//
     //-----------------------------------//
-    wxFlexGridSizer *vsOptions_Selections = new wxFlexGridSizer ( 4, 2, 2, 2 );
+    wxFlexGridSizer *vsOptions_Selections = new wxFlexGridSizer ( 2, 2, 2 );
 
     //----------------------------//
     //--- Options -> Selection ---//
@@ -47,7 +47,7 @@ wxSizer * OptionSelectionsPanel::CreateControls()
     //--- activity boxes ---//
     for(size_t i = 0; i < WXSIZEOF(cmbActivityBoxes);i++)
     {
-        vsOptions_Selections->Add(  PREF_STATICTEXT( wxString::Format(_("Selection Box %d:"),i + 1)),	0, wxCENTER | wxRIGHT | wxALIGN_CENTER_VERTICAL, 0 );
+        vsOptions_Selections->Add(  PREF_STATICTEXT( wxString::Format(_("Selection Box %d:"),i + 1)),	0, wxALIGN_CENTER_VERTICAL | wxADJUST_MINSIZE );
         cmbActivityBoxes[i] = new wxComboBox( this, -1, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY );
         cmbActivityBoxes[i]->Append( _("None"),new ActivityBoxCBData(PlaylistColumn::INVALID));
         for(int n = 0; n < PlaylistColumn::NCOLUMNS;n++)
@@ -57,7 +57,7 @@ wxSizer * OptionSelectionsPanel::CreateControls()
                 cmbActivityBoxes[i]->Append( wxGetTranslation( g_PlaylistColumn[n].Label ),new ActivityBoxCBData(g_PlaylistColumn[n].Id));
             }
         }
-        vsOptions_Selections->Add( cmbActivityBoxes[i],	1, wxCENTER, 0 );
+        vsOptions_Selections->Add( cmbActivityBoxes[i],	0);
     }
     //--- selection style ---//
     cmbSelStyle = new wxComboBox( this, -1, wxT(""), wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY );
@@ -66,8 +66,8 @@ wxSizer * OptionSelectionsPanel::CreateControls()
     cmbSelStyle->Append( _( "Highlight") );
     cmbSelStyle->Append( _( "Normal") );
 
-    vsOptions_Selections->Add( PREF_STATICTEXT(_("Selection Style:" )),		0, wxCENTER | wxRIGHT | wxALIGN_CENTER_VERTICAL, 0 );
-    vsOptions_Selections->Add( cmbSelStyle,		1, wxCENTER, 0 );
+    vsOptions_Selections->Add( PREF_STATICTEXT(_("Selection Style:" )),0,wxALIGN_CENTER_VERTICAL | wxADJUST_MINSIZE);
+    vsOptions_Selections->Add( cmbSelStyle,		0);
     return vsOptions_Selections;
 
 }

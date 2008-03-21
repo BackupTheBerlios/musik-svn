@@ -3,21 +3,23 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="Base"
-	OutputDirectory="$(GeneratePath)\$(ConfigurationName)"
-	IntermediateDirectory="$(IntermediatePath)\$(ProjectName)\$(ConfigurationName)"
-	BuildLogFile="$(LogPath)\$(ConfigurationName)\$(ProjectName).htm"
+	OutputDirectory="$(GeneratePath)\bin\$(PlatformName)\$(ConfigurationName)"
+	IntermediateDirectory="$(IntermediatePath)\$(ProjectName)\$(PlatformName)\$(ConfigurationName)"
+	BuildLogFile="$(LogPath)\$(PlatformName)\$(ConfigurationName)\$(ProjectName).htm"
 	>
 	<Tool
 		Name="VCCLCompilerTool"
 		AdditionalOptions=""
-		PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS;WIN32;_WIN32;_WINDOWS;WINVER=0x400;_WIN32_IE=0x0600"
+		PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS;WIN32;_WIN32;_WINDOWS;_WIN32_IE=0x0600"
 		MinimalRebuild="true"
 		ExceptionHandling="1"
 		DisableLanguageExtensions="false"
 		ForceConformanceInForLoopScope="true"
 		RuntimeTypeInfo="true"
 		UsePrecompiledHeader="2"
+		PrecompiledHeaderThrough="myprec.h"
 		WarningLevel="4"
+		Detect64BitPortabilityProblems="true"
 		DebugInformationFormat="3"
 	/>
 	<Tool
@@ -54,5 +56,13 @@
 	<UserMacro
 		Name="LogPath"
 		Value="$(GeneratePath)\Logs"
+	/>
+	<UserMacro
+		Name="PathCpuPrefix"
+		Value=""
+	/>
+	<UserMacro
+		Name="PathVisualStudioPrefix"
+		Value="vs2005"
 	/>
 </VisualStudioPropertySheet>

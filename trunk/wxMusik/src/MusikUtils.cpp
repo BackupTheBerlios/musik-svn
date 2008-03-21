@@ -246,14 +246,14 @@ int MusikRound(float x)
 		else return (int)(x - 1.0);
 }
 
-int	FindStrInArray( wxArrayString* array, wxString pattern )
+size_t	FindStrInArray( wxArrayString* array, wxString pattern )
 {
 	for ( size_t i = 0; i < array->GetCount(); i++ )
 	{
 		if ( array->Item( i ) == pattern )
 			return i;
 	}
-	return -1;
+	return (size_t)-1;
 }
 
 void ReplaceNoCase( wxString& str, const wxString& oldstr, const wxString& newstr )
@@ -295,10 +295,10 @@ const wxChar * BeginsWithPreposition( const wxString & s )
 
 	for(size_t i=0; i<sizeof(pPrefixArray)/sizeof(pPrefixArray[0]); i++)
 	{
-		int prefixlen = wxStrlen(pPrefixArray[i]);
+		size_t prefixlen = wxStrlen(pPrefixArray[i]);
 		if(wxStrnicmp(pPrefixArray[i],s.c_str(),prefixlen) == 0)
 		{
-			if(s.size() >= (size_t)prefixlen)
+			if(s.size() >= prefixlen)
 			{
 				return pPrefixArray[i];
 			}
@@ -747,16 +747,20 @@ wxString MusikGetStaticDataPath()
 #endif //__WXMAC__
 }
 
+bool g_bPortableAppMode = false;
+
 wxString MusikGetHomePath()
 {
     wxString sHomeSubPath(wxT( ".Musik" ));
     wxStandardPathsBase & stdpaths = wxStandardPaths::Get();
     wxFileName LocalHomePath;
-    LocalHomePath.AssignDir(stdpaths.GetDataDir());
+    LocalHomePath.AssignDir(stdpaths.GetExecutablePath());
     LocalHomePath.AppendDir(sHomeSubPath);
     if ( wxAccess(LocalHomePath.GetPath(),6) == 0)
+	{
+		g_bPortableAppMode = true;
         return LocalHomePath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR);//in the data dir exists a local sHomeSubPath and is r/w , use that. 
-
+	}
     // now get the musik home dir in the standard location.
     wxFileName DefHomePath;
     DefHomePath.AssignDir(wxFileName::GetHomeDir());
@@ -1330,7 +1334,8 @@ bool MusikDialog::Create( wxWindow *parent, wxWindowID id, const wxString& title
 	bool bRes = wxDialog::Create(parent,id,title,mypos,mysize,style|wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER,name);
 	if(mypos == wxDefaultPosition)
 		Centre();
-	SetTransparent(wxMulDivInt32(wxGetApp().Prefs.nTransparentWindowAlpha , 255 , 100));
+	wxGetApp().Prefs.nTransparentWindowAlpha = wxMin(50,wxMax(0,wxGetApp().Prefs.nTransparentWindowAlpha));
+	SetTransparent(wxMulDivInt32(100 - wxGetApp().Prefs.nTransparentWindowAlpha , 255 , 100));
 	return bRes;
 }
 

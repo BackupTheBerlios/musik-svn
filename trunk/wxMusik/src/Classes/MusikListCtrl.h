@@ -121,7 +121,7 @@ protected:
     bool m_bHideVertScrollbar;
 protected:
 #ifndef USE_GENERICLISTCTRL
-    long MSWWindowProc(WXUINT message, WXWPARAM wParam, WXLPARAM lParam);
+    WXLRESULT MSWWindowProc(WXUINT message, WXWPARAM wParam, WXLPARAM lParam);
 #endif
 #endif
 

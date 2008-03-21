@@ -21,6 +21,6 @@ protected:
 
 private:
     wxCheckBox* chkPLColumnEnable[PlaylistColumn::NCOLUMNS];
-    wxComboBox*	cmbPLColumnStatic[PlaylistColumn::NCOLUMNS];
+    wxRadioBox*	rdbPLColumnStatic[PlaylistColumn::NCOLUMNS];
 };
 #endif

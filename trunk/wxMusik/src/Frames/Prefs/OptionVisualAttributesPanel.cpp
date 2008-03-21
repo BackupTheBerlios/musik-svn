@@ -81,7 +81,7 @@ void OptionVisualAttributesPanel::OnTransparentWindowAlpha(wxScrollEvent& event)
 {
 	wxGetApp().Prefs.nTransparentWindowAlpha = event.GetInt();
 	wxTopLevelWindow *parent = GetTopLevelParent();
-	parent && parent->SetTransparent(wxMulDivInt32(wxGetApp().Prefs.nTransparentWindowAlpha , 255 , 100));
+	parent && parent->SetTransparent(wxMulDivInt32(100 - wxGetApp().Prefs.nTransparentWindowAlpha , 255 , 100));
 }
 wxTopLevelWindow * OptionVisualAttributesPanel::GetTopLevelParent()
 {
@@ -111,7 +111,7 @@ wxSizer * OptionVisualAttributesPanel::CreateControls()
 	if(parent && parent->CanSetTransparent())
 	{
 		sldTransparentWindowAlpha = new wxSlider(this,MUSIK_PREFERENCES_TRANSPARENTWINDOWALPHA,
-			wxMin(100,wxMax(50,wxGetApp().Prefs.nTransparentWindowAlpha)), 50, 100,
+			wxMin(50,wxMax(0,wxGetApp().Prefs.nTransparentWindowAlpha)), 0, 50,
 			wxDefaultPosition, wxDefaultSize,
 			wxSL_LABELS|wxSL_TOP);
 	}
@@ -119,18 +119,29 @@ wxSizer * OptionVisualAttributesPanel::CreateControls()
     wxBoxSizer *vsOptions_Interface = new wxBoxSizer( wxVERTICAL );
     vsOptions_Interface->Add( chkBlankSwears,			0, wxALL, 4 );
     vsOptions_Interface->Add( chkSortArtistWithoutPrefix,0, wxALL, 4 );
-	
-    vsOptions_Interface->Add( chkPLStripes,		0, wxALL, 4 );
-    vsOptions_Interface->Add( cpcPlaylistStripeColour,	0, wxALL, 4 );
-    vsOptions_Interface->Add( chkActStripes,	0, wxALL, 4 );
-    vsOptions_Interface->Add( cpcActivityStripeColour,	0, wxALL, 4 );
-    vsOptions_Interface->Add( chkSourcesStripes,		0, wxALL, 4 );
-    vsOptions_Interface->Add( cpcSourcesStripeColour,	0, wxALL, 4 );
-    vsOptions_Interface->Add( chkPlaylistBorder,		0, wxALL, 4 );
-    vsOptions_Interface->Add( cpcPlaylistBorderColour,	0, wxALL, 4 );
+
+	wxGridSizer *colorgridsizer = new wxGridSizer(2,2,2);
+	colorgridsizer->Add( chkPLStripes,	wxSizerFlags().Border().Left().Align(wxALIGN_CENTER_VERTICAL));
+    colorgridsizer->Add( cpcPlaylistStripeColour,	wxSizerFlags().Border().Expand() );
+
+    colorgridsizer->Add( chkActStripes,	wxSizerFlags().Border().Left().Align(wxALIGN_CENTER_VERTICAL));
+    colorgridsizer->Add( cpcActivityStripeColour,wxSizerFlags(2).Border().Expand() );
+    
+	colorgridsizer->Add( chkSourcesStripes,wxSizerFlags().Border().Left().Align(wxALIGN_CENTER_VERTICAL));
+    colorgridsizer->Add( cpcSourcesStripeColour,wxSizerFlags(2).Border().Expand() );
+
+	colorgridsizer->Add( chkPlaylistBorder,wxSizerFlags().Border().Left().Align(wxALIGN_CENTER_VERTICAL));
+	colorgridsizer->Add( cpcPlaylistBorderColour,wxSizerFlags(2).Border().Expand() );
+
+	vsOptions_Interface->Add( colorgridsizer,wxSizerFlags().Expand() );
+
 	if(sldTransparentWindowAlpha)
-		vsOptions_Interface->Add( sldTransparentWindowAlpha,0, wxALL, 4 );
-   
+	{
+		wxGridSizer *vsHorz = new wxGridSizer(2);
+		vsHorz->Add( PREF_STATICTEXT(_("Transparency of dialogs")),wxSizerFlags().Border().Left().Align(wxALIGN_CENTER_VERTICAL));
+		vsHorz->Add( sldTransparentWindowAlpha,wxSizerFlags().Border().Expand()  );
+		vsOptions_Interface->Add( vsHorz,wxSizerFlags().Expand() );
+	}
     return vsOptions_Interface;
 }
 

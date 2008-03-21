@@ -21,6 +21,6 @@
 	/>
 	<Tool
 		Name="VCResourceCompilerTool"
-		PreprocessorDefinitions="_UNCIODE;UNICODE"
+		PreprocessorDefinitions="_UNICODE;UNICODE"
 	/>
 </VisualStudioPropertySheet>

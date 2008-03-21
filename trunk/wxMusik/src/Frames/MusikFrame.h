@@ -258,7 +258,7 @@ protected:
     bool IsTLWActive(wxClassInfo * pci);
 #ifdef __WXMSW__
 protected:
-    	long MSWWindowProc(WXUINT message, WXWPARAM wParam, WXLPARAM lParam);
+    	WXLRESULT MSWWindowProc(WXUINT message, WXWPARAM wParam, WXLPARAM lParam);
 #endif
 private:
 #ifdef wxHAS_TASK_BAR_ICON

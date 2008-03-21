@@ -68,7 +68,7 @@ struct NullEncoder
 };
 
 
-template <class T , int MYSIZE,int MYBASE = 0,class T1 =T,class V_ENC = NullEncoder<T> >
+template <class T , size_t MYSIZE,size_t MYBASE = 0,class T1 =T,class V_ENC = NullEncoder<T> >
 class CConfigSettingArray 
         {
 public:
@@ -91,12 +91,12 @@ public:
 			m_pConfig->Write(wxString::Format(m_sName, i + MYBASE),m_Values[i]);
 		}
 	}
-	const T1 &operator [](int i)	 const
+	const T1 &operator [](size_t i)	 const
 	{
 		return m_Values[i];
 	}
 
-	T1& operator [] (int i)
+	T1& operator [] (size_t i)
 	{
 		return *(T1*)(&static_cast<T&>(m_Values[i]));
 	}
@@ -305,7 +305,7 @@ public:
 		,sActStripeColour(this,wxT( "ActivityStripeColour" ),wxT("244, 244, 244"))
 		,sSourcesStripeColour(this,wxT( "SourcesStripeColour" ),wxT("244, 244, 244"))
 		,sPlaylistBorderColour(this,wxT( "PlaylistBorderColour" ),wxT("143, 143, 188"))
-		,nTransparentWindowAlpha(this,wxT("TransparentWindowAlpha"),85)
+		,nTransparentWindowAlpha(this,wxT("TransparentWindowAlpha"),10)
 		,bShowPLInfo(this,wxT( "ShowPlaylistInfo" ),true)
 		,bShowAlbumArt(this,wxT( "ShowAlbumArt" ),true)
 		,bShowSources(this,wxT( "ShowSources" ),true)

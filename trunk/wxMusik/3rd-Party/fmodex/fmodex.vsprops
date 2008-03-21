@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="fmodex"
+	>
+	<Tool
+		Name="VCCLCompilerTool"
+		AdditionalIncludeDirectories="&quot;$(SolutionDir)\3rd-Party\&quot;"
+		PreprocessorDefinitions="USE_FMODEX"
+	/>
+	<Tool
+		Name="VCLinkerTool"
+		AdditionalLibraryDirectories="$(SolutionDir)\3rd-Party\bin\fmodex\win32"
+	/>
+	<Tool
+		Name="VCPostBuildEventTool"
+		CommandLine="xcopy &quot;$(ProjectDir)\3rd-Party\bin\fmodex\win32\fmodex.dll&quot;  &quot;$(OutDir)&quot; /Y&#x0D;&#x0A;xcopy &quot;$(ProjectDir)\3rd-Party\bin\fmodex\win32\fmodex64.dll&quot;  &quot;$(OutDir)&quot; /Y&#x0D;&#x0A;"
+	/>
+</VisualStudioPropertySheet>

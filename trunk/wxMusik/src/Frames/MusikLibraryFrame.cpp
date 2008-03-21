@@ -437,7 +437,13 @@ void MusikLibraryDialog::PathsListAdd()
 				if ( sPath.Right( 1 ) != wxT("/") )
 					sPath = sPath + wxT("/");
 			#endif
-
+			if(g_bPortableAppMode)
+			{
+				wxFileName dir(sPath);
+				wxStandardPathsBase & stdpaths = wxStandardPaths::Get();
+				dir.MakeRelativeTo(stdpaths.GetExecutablePath());
+				sPath = dir.GetPath(true);
+			}
 			if ( ValidatePath( sPath ) )
 			{
 				lcPaths->InsertItem( lcPaths->GetItemCount(), sPath );
@@ -483,7 +489,7 @@ bool MusikLibraryDialog::ValidatePath( wxString sPath )
 		//---------------------------------------------------------//
 		if ( sPath == sOldPath )
 		{
-			wxMessageBox( wxT( "The path entered already exists." ), MUSIKAPPNAME_VERSION, wxICON_INFORMATION );
+			wxMessageBox( _( "The path entered already exists." ), MUSIKAPPNAME_VERSION, wxICON_INFORMATION );
 			return false;
 		}
 
@@ -496,7 +502,7 @@ bool MusikLibraryDialog::ValidatePath( wxString sPath )
 		{
 			if ( sPath.Find( sOldPath ) > -1 )
 			{
-				wxMessageBox( wxT( "The path entered is already contained within the following path's scope:\n\n" ) + g_Paths.Item( i ), MUSIKAPPNAME_VERSION, wxICON_INFORMATION );
+				wxMessageBox( _( "The path entered is already contained within the following path's scope:\n\n" ) + g_Paths.Item( i ), MUSIKAPPNAME_VERSION, wxICON_INFORMATION );
 				return false;
 			}
 		}
@@ -521,7 +527,7 @@ bool MusikLibraryDialog::ValidatePath( wxString sPath )
 	//-----------------------------------------------------//
 	if ( sConflicts.Length() > 0 )
 	{
-		if ( wxMessageBox( wxT( "The path entered conflicts with the following paths:\n\n" ) + sConflicts + wxT( "\nDo you want me to fix this conflict for you?" ), MUSIKAPPNAME_VERSION, wxICON_INFORMATION | wxYES_NO ) == wxYES )
+		if ( wxMessageBox( _( "The path entered conflicts with the following paths:\n\n" ) + sConflicts + _( "\nDo you want me to fix this conflict for you?" ), MUSIKAPPNAME_VERSION, wxICON_INFORMATION | wxYES_NO ) == wxYES )
 		{
 			size_t nCount = g_Paths.GetCount();
 		

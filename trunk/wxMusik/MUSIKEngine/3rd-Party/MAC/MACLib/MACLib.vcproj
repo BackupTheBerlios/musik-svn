@@ -4,10 +4,14 @@
 	Version="8,00"
 	Name="MACLib"
 	ProjectGUID="{36A39AF9-ACEB-4A9B-BFE7-4745BD60D67C}"
+	RootNamespace="MACLib"
 	>
 	<Platforms>
 		<Platform
 			Name="Win32"
+		/>
+		<Platform
+			Name="x64"
 		/>
 	</Platforms>
 	<ToolFiles>
@@ -19,8 +23,103 @@
 			InheritedPropertySheets="$(SolutionDir)/VSPropSheets/Base.vsprops;$(SolutionDir)/VSPropSheets/Debug.vsprops;$(SolutionDir)/VSPropSheets/3rdParty.vsprops"
 			>
 			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\Shared"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLibrarianTool"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Debug|x64"
+			ConfigurationType="4"
+			InheritedPropertySheets="$(SolutionDir)/VSPropSheets/Base.vsprops;$(SolutionDir)/VSPropSheets/x64.vsprops;$(SolutionDir)/VSPropSheets/Debug.vsprops;$(SolutionDir)/VSPropSheets/3rdParty.vsprops"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="3"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories="..\Shared"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLibrarianTool"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
 		<Configuration
@@ -29,8 +128,103 @@
 			InheritedPropertySheets="$(SolutionDir)/VSPropSheets/Base.vsprops;$(SolutionDir)/VSPropSheets/Release.vsprops;$(SolutionDir)/VSPropSheets/3rdParty.vsprops"
 			>
 			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\Shared"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLibrarianTool"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Release|x64"
+			ConfigurationType="4"
+			InheritedPropertySheets="$(SolutionDir)/VSPropSheets/Base.vsprops;$(SolutionDir)/VSPropSheets/x64.vsprops;$(SolutionDir)/VSPropSheets/Release.vsprops;$(SolutionDir)/VSPropSheets/3rdParty.vsprops"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="3"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories="..\Shared"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLibrarianTool"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
 		<Configuration
@@ -39,8 +233,103 @@
 			InheritedPropertySheets="$(SolutionDir)/VSPropSheets/Base.vsprops;$(SolutionDir)/VSPropSheets/Debug.vsprops;$(SolutionDir)/VSPropSheets/Unicode.vsprops;$(SolutionDir)/VSPropSheets/3rdParty.vsprops"
 			>
 			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\Shared"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLibrarianTool"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Debug Unicode|x64"
+			ConfigurationType="4"
+			InheritedPropertySheets="$(SolutionDir)/VSPropSheets/Base.vsprops;$(SolutionDir)/VSPropSheets/x64.vsprops;$(SolutionDir)/VSPropSheets/Debug.vsprops;$(SolutionDir)/VSPropSheets/Unicode.vsprops;$(SolutionDir)/VSPropSheets/3rdParty.vsprops"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="3"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories="..\Shared"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLibrarianTool"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
 		<Configuration
@@ -49,8 +338,103 @@
 			InheritedPropertySheets="$(SolutionDir)/VSPropSheets/Base.vsprops;$(SolutionDir)/VSPropSheets/Release.vsprops;$(SolutionDir)/VSPropSheets/Unicode.vsprops;$(SolutionDir)/VSPropSheets/3rdParty.vsprops"
 			>
 			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\Shared"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLibrarianTool"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Release Unicode|x64"
+			ConfigurationType="4"
+			InheritedPropertySheets="$(SolutionDir)/VSPropSheets/Base.vsprops;$(SolutionDir)/VSPropSheets/x64.vsprops;$(SolutionDir)/VSPropSheets/Release.vsprops;$(SolutionDir)/VSPropSheets/Unicode.vsprops;$(SolutionDir)/VSPropSheets/3rdParty.vsprops"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="3"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories="..\Shared"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLibrarianTool"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
 	</Configurations>
@@ -66,6 +450,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Assembly\common.cpp"
+				>
+			</File>
+			<File
 				RelativePath="MACLib.cpp"
 				>
 			</File>
@@ -75,19 +463,19 @@
 				<File
 					RelativePath="APECompress.cpp"
 					>
-				</File>	
+				</File>
 				<File
 					RelativePath="APECompressCore.cpp"
 					>
-				</File>	
+				</File>
 				<File
 					RelativePath="APECompressCreate.cpp"
 					>
-				</File>	
+				</File>
 				<File
 					RelativePath="BitArray.cpp"
 					>
-				</File>	
+				</File>
 			</Filter>
 			<Filter
 				Name="Decompress"
@@ -95,11 +483,11 @@
 				<File
 					RelativePath="APEDecompress.cpp"
 					>
-				</File>	
+				</File>
 				<File
 					RelativePath="UnBitArray.cpp"
 					>
-				</File>	
+				</File>
 				<File
 					RelativePath="UnBitArrayBase.cpp"
 					>
@@ -110,15 +498,15 @@
 					<File
 						RelativePath="Old\Anti-Predictor.cpp"
 						>
-					</File>	
+					</File>
 					<File
 						RelativePath="Old\AntiPredictorExtraHigh.cpp"
 						>
-					</File>	
+					</File>
 					<File
 						RelativePath="Old\AntiPredictorFast.cpp"
 						>
-					</File>	
+					</File>
 					<File
 						RelativePath="Old\AntiPredictorHigh.cpp"
 						>
@@ -134,7 +522,7 @@
 					<File
 						RelativePath="Old\APEDecompressOld.cpp"
 						>
-					</File>	
+					</File>
 					<File
 						RelativePath="Old\UnBitArrayOld.cpp"
 						>
@@ -142,7 +530,7 @@
 					<File
 						RelativePath="Old\UnMAC.cpp"
 						>
-					</File>	
+					</File>
 				</Filter>
 			</Filter>
 			<Filter
@@ -155,7 +543,7 @@
 				<File
 					RelativePath="APEInfo.cpp"
 					>
-				</File>	
+				</File>
 				<File
 					RelativePath="APELink.cpp"
 					>
@@ -163,11 +551,11 @@
 				<File
 					RelativePath="APETag.cpp"
 					>
-				</File>	
+				</File>
 				<File
 					RelativePath="WAVInputSource.cpp"
 					>
-				</File>	
+				</File>
 			</Filter>
 			<Filter
 				Name="Tools"
@@ -175,7 +563,7 @@
 				<File
 					RelativePath="..\Shared\CharacterHelper.cpp"
 					>
-				</File>	
+				</File>
 				<File
 					RelativePath="..\Shared\CircleBuffer.cpp"
 					>
@@ -206,7 +594,7 @@
 					<File
 						RelativePath="..\Shared\WinFileIO.cpp"
 						>
-					</File>	
+					</File>
 				</Filter>
 			</Filter>
 			<Filter
@@ -215,14 +603,14 @@
 				<File
 					RelativePath="NewPredictor.cpp"
 					>
-				</File>	
+				</File>
 				<Filter
 					Name="Filters"
 					>
 					<File
 						RelativePath="NNFilter.cpp"
 						>
-					</File>	
+					</File>
 				</Filter>
 			</Filter>
 		</Filter>
@@ -407,50 +795,6 @@
 				</Filter>
 			</Filter>
 		</Filter>
-		<File
-			RelativePath="Assembly\Assembly.nas"
-			>
-			<FileConfiguration
-				Name="Debug|Win32"
-				>
-				<Tool
-					Name="VCCustomBuildTool"
-					CommandLine="Assembly\nasmw.exe -f win32 -d OBJ_FORMAT_win32 -I Assembly\ Assembly/Assembly.nas -o &quot;$(IntermediatePath)\$(ProjectName)\$(ConfigurationName)/ia32/Assembly.obj&quot;&#x0D;&#x0A;"
-					AdditionalDependencies="Assembly/Assembly.nas;Assembly/Tools.inc"
-					Outputs="$(IntermediatePath)\$(ProjectName)\$(ConfigurationName)/ia32/Assembly.obj"
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|Win32"
-				>
-				<Tool
-					Name="VCCustomBuildTool"
-					CommandLine="Assembly\nasmw.exe -f win32 -d OBJ_FORMAT_win32 -I Assembly\ Assembly/Assembly.nas -o &quot;$(IntermediatePath)\$(ProjectName)\$(ConfigurationName)/ia32/Assembly.obj&quot;&#x0D;&#x0A;"
-					AdditionalDependencies="Assembly/Assembly.nas;Assembly/Tools.inc"
-					Outputs="$(IntermediatePath)\$(ProjectName)\$(ConfigurationName)/ia32/Assembly.obj"
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Debug Unicode|Win32"
-				>
-				<Tool
-					Name="VCCustomBuildTool"
-					CommandLine="Assembly\nasmw.exe -f win32 -d OBJ_FORMAT_win32 -I Assembly\ Assembly/Assembly.nas -o &quot;$(IntermediatePath)\$(ProjectName)\$(ConfigurationName)/ia32/Assembly.obj&quot;&#x0D;&#x0A;"
-					AdditionalDependencies="Assembly/Assembly.nas;Assembly/Tools.inc"
-					Outputs="$(IntermediatePath)\$(ProjectName)\$(ConfigurationName)/ia32/Assembly.obj"
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release Unicode|Win32"
-				>
-				<Tool
-					Name="VCCustomBuildTool"
-					CommandLine="Assembly\nasmw.exe -f win32 -d OBJ_FORMAT_win32 -I Assembly\ Assembly/Assembly.nas -o &quot;$(IntermediatePath)\$(ProjectName)\$(ConfigurationName)/ia32/Assembly.obj&quot;&#x0D;&#x0A;"
-					AdditionalDependencies="Assembly/Assembly.nas;Assembly/Tools.inc"
-					Outputs="$(IntermediatePath)\$(ProjectName)\$(ConfigurationName)/ia32/Assembly.obj"
-				/>
-			</FileConfiguration>			
-		</File>
 		<File
 			RelativePath="..\Credits.txt"
 			>

@@ -29,7 +29,9 @@
 #include "MusikLibraryFrame.h"
 #include "MusikTagFrame.h"
 
-#ifdef __WXMSW__
+#define USE_MMSHELLHOOK
+
+#if defined __WXMSW__ && defined USE_MMSHELLHOOK
 	#include "../MMShellHook/MMShellHook.h"
 #endif
 #ifdef __WXGTK__
@@ -423,7 +425,7 @@ MusikFrame::MusikFrame()
 
 	SetActiveThread( NULL );
 
-#ifdef __WXMSW__
+#if defined __WXMSW__ && defined USE_MMSHELLHOOK
 	SetMMShellHook((HWND)GetHWND());
 #endif
 #ifdef __WXGTK__
@@ -772,7 +774,7 @@ void MusikFrame::SetSongInfoText(const CMusikSong& song)
 		#define APPCOMMAND_MEDIA_PLAY_PAUSE       14
 	#endif
 
-	long MusikFrame::MSWWindowProc(WXUINT message, WXWPARAM wParam, WXLPARAM lParam)
+	WXLRESULT MusikFrame::MSWWindowProc(WXUINT message, WXWPARAM wParam, WXLPARAM lParam)
 	{
 		if(message == WM_APPCOMMAND)
 		{

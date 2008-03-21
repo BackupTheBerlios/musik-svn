@@ -29,7 +29,7 @@
 #include "MusikGlobals.h"
 #include "MusikUtils.h"
 #include "MusikApp.h"
-#ifdef __WXMSW__
+#if defined __WXMSW__ && defined USE_MMSHELLHOOK
 	#include "../MMShellHook/MMShellHook.h"
 #endif
 #include "images/tray.xpm"
@@ -156,7 +156,7 @@ void MusikFrame::OnClose( wxCloseEvent& WXUNUSED(event) )
 		return;
 	}
 
-	#ifdef __WXMSW__
+	#if defined __WXMSW__ && defined USE_MMSHELLHOOK
 		UnSetMMShellHook((HWND)GetHWND());
 	#endif
 

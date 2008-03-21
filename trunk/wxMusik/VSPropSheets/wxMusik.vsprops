@@ -3,28 +3,17 @@
 	ProjectType="Visual C++"
 	Version="8.00"
 	Name="wxMusik"
+	InheritedPropertySheets="$(SolutionDir)\3rd-Party\fmodex\fmodex.vsprops;$(SolutionDir)\3rd-Party\wxWidgetsAddons\wxWidgetsAddons.vsprops"
 	>
 	<Tool
 		Name="VCCLCompilerTool"
 		AdditionalOptions=""
-		AdditionalIncludeDirectories="&quot;$(ProjectDir)\3rd-Party\taglib\mpeg\id3v2&quot;;&quot;$(ProjectDir)\3rd-Party\taglib\toolkit&quot;;&quot;$(ProjectDir)\3rd-Party\taglib\&quot;;&quot;$(ProjectDir)\3rd-Party\sqlite3\&quot;;&quot;$(ProjectDir)\MUSIKEngine\3rd-Party\MAC&quot;;&quot;$(ProjectDir)/MUSIKEngine&quot;;&quot;$(ProjectDir)/src&quot;;&quot;$(ProjectDir)\MUSIKEngine\3rd-Party\include&quot;;&quot;$(VORBISDIR)\include&quot;;&quot;$(ProjectDir)\3rd-Party\&quot;;&quot;$(ProjectDir)\3rd-Party\sqlite2\&quot;;MMShellHook;&quot;$(ProjectDir)&quot;;&quot;$(ProjectDir)\MUSIKEngine\3rd-Party\faad2/include&quot;"
-		PreprocessorDefinitions="FLAC__NO_DLL;USE_FMODEX"
+		AdditionalIncludeDirectories="&quot;$(SolutionDir)\3rd-Party\taglib\mpeg\id3v2&quot;;&quot;$(SolutionDir)\3rd-Party\taglib\toolkit&quot;;&quot;$(SolutionDir)\3rd-Party\taglib\&quot;;&quot;$(SolutionDir)\3rd-Party\sqlite3\&quot;;&quot;$(SolutionDir)\MUSIKEngine\3rd-Party\MAC&quot;;&quot;$(SolutionDir)/MUSIKEngine&quot;;&quot;$(SolutionDir)/src&quot;;&quot;$(SolutionDir)\MUSIKEngine\3rd-Party\include&quot;;&quot;$(VORBISDIR)\include&quot;;&quot;$(SolutionDir)\3rd-Party\&quot;;&quot;$(SolutionDir)\3rd-Party\sqlite2\&quot;;MMShellHook;&quot;$(SolutionDir)&quot;;&quot;$(SolutionDir)\MUSIKEngine\3rd-Party\faad2/include&quot;"
+		PreprocessorDefinitions="FLAC__NO_DLL"
 		PrecompiledHeaderThrough="myprec.h"
 	/>
 	<Tool
 		Name="VCLinkerTool"
-		AdditionalLibraryDirectories="$(ProjectDir)\3rd-Party\bin\fmodex\win32;$(ProjectDir)\3rd-Party\bin\fmod\win32"
-	/>
-	<Tool
-		Name="VCPostBuildEventTool"
-		CommandLine="xcopy &quot;$(ProjectDir)\3rd-Party\bin\fmodex\win32\fmodex.dll&quot;  &quot;$(OutDir)&quot; /Y&#x0D;&#x0A;xcopy &quot;$(ProjectDir)\3rd-Party\bin\fmod\win32\fmod.dll&quot;  &quot;$(OutDir)&quot; /Y&#x0D;&#x0A;"
-	/>
-	<Tool
-		Name="VCResourceCompilerTool"
-		AdditionalIncludeDirectories="$(WXIncludeDirs)"
-	/>
-	<UserMacro
-		Name="WXIncludeDirs"
-		Value="&quot;$(WXDIR)\include\msvc&quot;;&quot;$(WXDIR)\contrib\include&quot;;&quot;$(WXDIR)\include&quot;"
+		AdditionalLibraryDirectories=""
 	/>
 </VisualStudioPropertySheet>

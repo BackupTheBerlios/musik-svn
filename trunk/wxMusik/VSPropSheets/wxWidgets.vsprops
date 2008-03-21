@@ -11,7 +11,7 @@
 	/>
 	<Tool
 		Name="VCLinkerTool"
-		AdditionalLibraryDirectories="&quot;$(WXDIR)\lib\vc_lib&quot;"
+		AdditionalLibraryDirectories="&quot;$(WXDIR)\lib\vc$(PathCpuPrefix)_lib$(PathVisualStudioPrefix)&quot;"
 		GenerateManifest="false"
 	/>
 	<Tool
@@ -20,6 +20,6 @@
 	/>
 	<UserMacro
 		Name="WXIncludeDirs"
-		Value="&quot;$(WXDIR)\include\msvc&quot;;&quot;$(WXDIR)\contrib\include&quot;;&quot;$(WXDIR)\include&quot;"
+		Value="&quot;$(WXDIR)\include\msvc&quot;;&quot;$(WXDIR)\include&quot;"
 	/>
 </VisualStudioPropertySheet>

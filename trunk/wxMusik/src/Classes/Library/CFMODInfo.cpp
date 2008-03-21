@@ -62,8 +62,12 @@ bool CFMODInfo::ReadMetaData(CSongMetaData & MetaData) const
 
 #elif defined USE_FMODEX
 // FMODEx
-#ifdef WIN32
+#ifdef __VISUALC__
+#if defined _AMD64_
+#pragma comment(lib,"fmodex64_vc")
+#else
 #pragma comment(lib,"fmodex_vc")
+#endif
 #endif
 #include <fmodex/fmod.hpp>
 

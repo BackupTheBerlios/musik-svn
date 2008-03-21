@@ -65,7 +65,7 @@ IMPLEMENT_APP(MusikApp)
 
 #define WXLIB  MUSIK_STRINGIZE(wxMAJOR_VERSION) MUSIK_STRINGIZE(wxMINOR_VERSION) WXLIB_UNICODE  WXLIB_DEBUG
                        
-#pragma comment(lib,"wxmsw" WXLIB "_netutils")
+#pragma comment(lib,"wxNet")
 
 #pragma comment(lib,"sqlite2")
 #pragma comment(lib,"plugin_common_static")

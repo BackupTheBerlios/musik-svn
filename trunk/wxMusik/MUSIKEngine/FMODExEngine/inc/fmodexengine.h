@@ -81,8 +81,11 @@ private:
 
 };
 #ifdef __VISUALC__
-
+#if defined _AMD64_
+#pragma comment(lib,"fmodex64_vc")
+#else
 #pragma comment(lib,"fmodex_vc")
+#endif
 #pragma comment(lib,"fmodexengine")
 #endif //__VISUALC__
 #endif

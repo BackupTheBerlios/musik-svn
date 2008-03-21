@@ -27,6 +27,8 @@
 
 #include "MusikDefines.h"
 
+extern bool g_bPortableAppMode;
+
 class CSongPath
 {
 public:
@@ -333,7 +335,7 @@ void			GetPlaylistDir		( wxArrayString & aFiles );
 wxString		MStoStr				( int timems ,bool bAlwaysHours = false);
 wxArrayString	FileToStringArray	(  const wxString &  sFilename );
 int				MusikRound			( float x );
-int				FindStrInArray		( wxArrayString* array, wxString pattern );
+size_t			FindStrInArray		( wxArrayString* array, wxString pattern );
 wxString		MoveArtistPrefixToEnd( const wxString & str );
 const wxChar*	BeginsWithPreposition( const wxString & str );
 wxString		SanitizedString		( const wxString & str );

@@ -9,7 +9,7 @@ int MusikSongIdArray::MoveEntrys(int nMoveTo ,const wxArrayInt &arrToMove)
 {
     int nNewMoveToPos = nMoveTo;
     wxASSERT(nMoveTo >= 0 && nMoveTo <= (int)GetCount()); 
-    int i = arrToMove.GetCount() - 1;
+    int i = (int)arrToMove.GetCount() - 1;
     // first move all entries which are right from nMoveTo position
     for(;i >= 0 ; i--)
     {

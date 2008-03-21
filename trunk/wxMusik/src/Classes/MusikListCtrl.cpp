@@ -341,7 +341,7 @@ BOOL ModifyStyle(HWND hWnd,
 
 }
 
-long CMusikListCtrl::MSWWindowProc(WXUINT message, WXWPARAM wParam, WXLPARAM lParam)
+WXLRESULT CMusikListCtrl::MSWWindowProc(WXUINT message, WXWPARAM wParam, WXLPARAM lParam)
 {
     if(message == WM_NCCALCSIZE)
     {

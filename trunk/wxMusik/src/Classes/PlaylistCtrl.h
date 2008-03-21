@@ -231,6 +231,8 @@ private:
 
 };
 
+class wxSearchCtrl;
+
 class CSearchBox: public wxPanel
 {
 public:
@@ -246,7 +248,7 @@ public:
 	DECLARE_EVENT_TABLE()
 private:
 	wxArrayString m_arrFieldsToSearch;
-	wxTextCtrl *m_pTextSimpleQuery;
+	wxSearchCtrl *m_pTextSimpleQuery;
 	wxTimer		m_Timer;
 };
 

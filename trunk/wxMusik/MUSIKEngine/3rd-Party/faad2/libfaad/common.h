@@ -61,7 +61,7 @@ extern "C" {
 /* COMPILE TIME DEFINITIONS */
 
 /* use double precision */
-/* #define USE_DOUBLE_PRECISION */
+#define USE_DOUBLE_PRECISION
 /* use fixed point reals */
 //#define FIXED_POINT
 //#define BIG_IQ_TABLE

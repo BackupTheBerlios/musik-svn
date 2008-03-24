@@ -29,7 +29,7 @@ wxSizer * OptionPlaylistPanel::CreateControls()
     //--- Options -> Playlist Sizer ---//
     //---------------------------------//
     wxBoxSizer *vsOptions_Playlist = new wxBoxSizer( wxVERTICAL );
-    wxGridSizer *vsOptions_Playlist_Columns = new wxGridSizer( 2, 2, 2 );
+    wxFlexGridSizer *vsOptions_Playlist_Columns = new wxFlexGridSizer( 4, 0, 10 );
     vsOptions_Playlist->Add(vsOptions_Playlist_Columns);
     //---------------------------//
     //--- Options -> Playlist ---//
@@ -39,9 +39,9 @@ wxSizer * OptionPlaylistPanel::CreateControls()
     for(size_t i = 0; i < PlaylistColumn::NCOLUMNS; i++)
     {
         chkPLColumnEnable[i] = new  wxCheckBox_NoFlicker(	this, -1, wxString(wxGetTranslation(g_PlaylistColumn[i].Label))+wxT(":"));
-        vsOptions_Playlist_Columns->Add(chkPLColumnEnable[i],		0, wxALIGN_CENTER_VERTICAL | wxADJUST_MINSIZE );
-        rdbPLColumnStatic[i] = new wxRadioBox( this, -1, wxT(""), wxDefaultPosition, wxDefaultSize, WXSIZEOF(choicesCMBStatic), choicesCMBStatic );
-        vsOptions_Playlist_Columns->Add( rdbPLColumnStatic[i],		0 );
+        vsOptions_Playlist_Columns->Add(chkPLColumnEnable[i],		0, wxALIGN_BOTTOM);
+        rdbPLColumnStatic[i] = new wxRadioBox( this, -1, wxT(""), wxDefaultPosition, wxDefaultSize, WXSIZEOF(choicesCMBStatic), choicesCMBStatic, 2, wxRA_SPECIFY_COLS | wxBORDER_NONE);
+        vsOptions_Playlist_Columns->Add( rdbPLColumnStatic[i],		0 ,wxALIGN_TOP);
     }
     PREF_CREATE_CHECKBOX(DisplayEmptyPlaylistColumnAsUnkown,_("Display <unknown> in empty colums"));
     vsOptions_Playlist->Add( chkDisplayEmptyPlaylistColumnAsUnkown,		0, wxTOP, 5 );

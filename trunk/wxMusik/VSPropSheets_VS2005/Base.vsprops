@@ -63,6 +63,6 @@
 	/>
 	<UserMacro
 		Name="PathVisualStudioPrefix"
-		Value="vs2008"
+		Value="vs2005"
 	/>
 </VisualStudioPropertySheet>

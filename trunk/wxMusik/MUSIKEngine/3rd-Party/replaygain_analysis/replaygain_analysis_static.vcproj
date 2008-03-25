@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8,00"
+	Version="9,00"
 	Name="replaygain_analysis_static"
 	ProjectGUID="{BE656F15-A5C3-4472-9E7A-9CB970974395}"
 	RootNamespace="replaygain_analysis_static"

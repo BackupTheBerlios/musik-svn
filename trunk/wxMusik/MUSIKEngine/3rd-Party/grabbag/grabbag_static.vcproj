@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8,00"
+	Version="9,00"
 	Name="grabbag_static"
 	ProjectGUID="{48D3E3D1-924B-4C8B-A22A-3BEDFE3521E2}"
 	RootNamespace="grabbag_static"

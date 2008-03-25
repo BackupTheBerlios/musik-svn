@@ -1,6 +1,6 @@
-Microsoft Visual Studio Solution File, Format Version 10.00
+Microsoft Visual Studio Solution File, Format Version 9.00
 # Visual Studio 2005
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "wxMusik", "wxMusik.vcproj", "{C4650E41-AD5A-41D8-89D8-3ED472E4D10F}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "wxMusik", "wxMusik_VS2005.vcproj", "{C4650E41-AD5A-41D8-89D8-3ED472E4D10F}"
 	ProjectSection(WebsiteProperties) = preProject
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.Debug = "False"
@@ -26,19 +26,19 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "wxMusik", "wxMusik.vcproj",
 		{6F6CBA32-41A4-4E34-84AA-BE0C2B76A0BB} = {6F6CBA32-41A4-4E34-84AA-BE0C2B76A0BB}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MMShellHook", "MMShellHook\MMShellHook.vcproj", "{C372ABA2-E90B-459B-B5B2-A9A181DFE807}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MMShellHook", "MMShellHook\MMShellHook_VS2005.vcproj", "{C372ABA2-E90B-459B-B5B2-A9A181DFE807}"
 	ProjectSection(WebsiteProperties) = preProject
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.Debug = "False"
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MUSIKEngine", "MUSIKEngine\MUSIKEngine\MUSIKEngine.vcproj", "{2477BD73-12EC-4466-9061-8B71F28D6343}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MUSIKEngine", "MUSIKEngine\MUSIKEngine\MUSIKEngine_VS2005.vcproj", "{2477BD73-12EC-4466-9061-8B71F28D6343}"
 	ProjectSection(WebsiteProperties) = preProject
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.Debug = "False"
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "taglib", "3rd-Party\taglib\taglib.vcproj", "{68CBA667-F4CB-4771-9AA2-821F22CA8BF2}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "taglib", "3rd-Party\taglib\taglib_VS2005.vcproj", "{68CBA667-F4CB-4771-9AA2-821F22CA8BF2}"
 	ProjectSection(WebsiteProperties) = preProject
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.Debug = "False"
@@ -47,91 +47,91 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "taglib", "3rd-Party\taglib\
 		{8A581DFC-55C0-42B7-8D8E-D3991B04363B} = {8A581DFC-55C0-42B7-8D8E-D3991B04363B}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sqlite3", "3rd-Party\sqlite3\sqlite3.vcproj", "{2403AC39-77C9-4D42-A563-AA225B9CBED4}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sqlite3", "3rd-Party\sqlite3\sqlite3_VS2005.vcproj", "{2403AC39-77C9-4D42-A563-AA225B9CBED4}"
 	ProjectSection(WebsiteProperties) = preProject
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.Debug = "False"
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "shibatch", "3rd-Party\shibatch\shibatch.vcproj", "{6F6CBA32-41A4-4E34-84AA-BE0C2B76A0BB}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "shibatch", "3rd-Party\shibatch\shibatch_VS2005.vcproj", "{6F6CBA32-41A4-4E34-84AA-BE0C2B76A0BB}"
 	ProjectSection(WebsiteProperties) = preProject
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.Debug = "False"
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MACLib", "MUSIKEngine\3rd-Party\MAC\MACLib\MACLib.vcproj", "{36A39AF9-ACEB-4A9B-BFE7-4745BD60D67C}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MACLib", "MUSIKEngine\3rd-Party\MAC\MACLib\MACLib_VS2005.vcproj", "{36A39AF9-ACEB-4A9B-BFE7-4745BD60D67C}"
 	ProjectSection(WebsiteProperties) = preProject
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.Debug = "False"
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sqlite2", "3rd-Party\sqlite2\sqlite2.vcproj", "{D4F03351-EB2E-4BBE-9193-2E1E8FB17B79}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sqlite2", "3rd-Party\sqlite2\sqlite2_VS2005.vcproj", "{D4F03351-EB2E-4BBE-9193-2E1E8FB17B79}"
 	ProjectSection(WebsiteProperties) = preProject
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.Debug = "False"
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "grabbag_static", "MUSIKEngine\3rd-Party\grabbag\grabbag_static.vcproj", "{48D3E3D1-924B-4C8B-A22A-3BEDFE3521E2}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "grabbag_static", "MUSIKEngine\3rd-Party\grabbag\grabbag_static_VS2005.vcproj", "{48D3E3D1-924B-4C8B-A22A-3BEDFE3521E2}"
 	ProjectSection(WebsiteProperties) = preProject
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.Debug = "False"
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plugin_common_static", "MUSIKEngine\3rd-Party\plugin_common\plugin_common_static.vcproj", "{B07504EC-F135-4BC3-A5AF-43EBCE64C6F9}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plugin_common_static", "MUSIKEngine\3rd-Party\plugin_common\plugin_common_static_VS2005.vcproj", "{B07504EC-F135-4BC3-A5AF-43EBCE64C6F9}"
 	ProjectSection(WebsiteProperties) = preProject
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.Debug = "False"
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libFLAC_static", "MUSIKEngine\3rd-Party\libFLAC\libFLAC_static.vcproj", "{88E53656-AA26-4B51-9719-9F025BA1A02F}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libFLAC_static", "MUSIKEngine\3rd-Party\libFLAC\libFLAC_static_VS2005.vcproj", "{88E53656-AA26-4B51-9719-9F025BA1A02F}"
 	ProjectSection(WebsiteProperties) = preProject
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.Debug = "False"
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "replaygain_synthesis_static", "MUSIKEngine\3rd-Party\replaygain_synthesis\replaygain_synthesis_static.vcproj", "{3F2AF4F0-807B-4209-AC26-BDB81652AE8D}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "replaygain_synthesis_static", "MUSIKEngine\3rd-Party\replaygain_synthesis\replaygain_synthesis_static_VS2005.vcproj", "{3F2AF4F0-807B-4209-AC26-BDB81652AE8D}"
 	ProjectSection(WebsiteProperties) = preProject
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.Debug = "False"
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "replaygain_analysis_static", "MUSIKEngine\3rd-Party\replaygain_analysis\replaygain_analysis_static.vcproj", "{BE656F15-A5C3-4472-9E7A-9CB970974395}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "replaygain_analysis_static", "MUSIKEngine\3rd-Party\replaygain_analysis\replaygain_analysis_static_VS2005.vcproj", "{BE656F15-A5C3-4472-9E7A-9CB970974395}"
 	ProjectSection(WebsiteProperties) = preProject
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.Debug = "False"
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mp4ff", "MUSIKEngine\3rd-Party\faad2\common\mp4ff\mp4ff.vcproj", "{F470BB4A-7675-4D6A-B310-41F33AC6F987}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mp4ff", "MUSIKEngine\3rd-Party\faad2\common\mp4ff\mp4ff_VS2005.vcproj", "{F470BB4A-7675-4D6A-B310-41F33AC6F987}"
 	ProjectSection(WebsiteProperties) = preProject
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.Debug = "False"
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libfaad", "MUSIKEngine\3rd-Party\faad2\libfaad\libfaad.vcproj", "{5EFCFACB-1835-422C-ACDA-E3B3A2F51387}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libfaad", "MUSIKEngine\3rd-Party\faad2\libfaad\libfaad_VS2005.vcproj", "{5EFCFACB-1835-422C-ACDA-E3B3A2F51387}"
 	ProjectSection(WebsiteProperties) = preProject
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.Debug = "False"
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libmp4v2_st", "3rd-Party\libmp4v2\libmp4v2_st60.vcproj", "{8A581DFC-55C0-42B7-8D8E-D3991B04363B}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libmp4v2_st", "3rd-Party\libmp4v2\libmp4v2_st60_VS2005.vcproj", "{8A581DFC-55C0-42B7-8D8E-D3991B04363B}"
 	ProjectSection(WebsiteProperties) = preProject
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.Debug = "False"
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FMODExEngine", "MUSIKEngine\FMODExEngine\FMODExEngine.vcproj", "{0A29943E-A829-4861-B7C7-58498B058615}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FMODExEngine", "MUSIKEngine\FMODExEngine\FMODExEngine_VS2005.vcproj", "{0A29943E-A829-4861-B7C7-58498B058615}"
 	ProjectSection(WebsiteProperties) = preProject
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.Debug = "False"
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libmpcdec", "MUSIKEngine\3rd-Party\libmpcdec\win32\libmpcdec.vcproj", "{4C5362CD-0BF2-4B3B-971B-8293EB1A1DC3}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libmpcdec", "MUSIKEngine\3rd-Party\libmpcdec\win32\libmpcdec_VS2005.vcproj", "{4C5362CD-0BF2-4B3B-971B-8293EB1A1DC3}"
 	ProjectSection(WebsiteProperties) = preProject
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.Debug = "False"
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "wxNet", "3rd-Party\wxWidgetsAddons\src\net\wxNet.vcproj", "{0A943E00-4EE6-4A6F-9536-F0EB34730C95}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "wxNet", "3rd-Party\wxWidgetsAddons\src\net\wxNet_VS2005.vcproj", "{0A943E00-4EE6-4A6F-9536-F0EB34730C95}"
 	ProjectSection(WebsiteProperties) = preProject
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.Debug = "False"

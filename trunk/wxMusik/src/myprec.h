@@ -1,11 +1,15 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-// the following is an ugly hack, the Init() memeber of wxDialog is private for mac and linux ( but protected for windows)
+#ifndef _MSC_VER // ms visual studio compiler mangles the protected attribute into the function names, therefore this hack does not work, but fortunatly is not needed for windows.
+// the following is an ugly hack, the Init() member of wxDialog is private for mac and linux ( but protected for windows)
 // but i need to call the Init() from my wxDialog derived MusikDialog
 #define private protected // change all private keywords to protected.
+#endif //_MSC_VER
 #include <wx/dialog.h>
+#ifndef _MSC_VER
 #undef private // remove the hack
+#endif // _MSC_VER
 #include <wx/wxprec.h>
 
 #ifdef WX_PRECOMP

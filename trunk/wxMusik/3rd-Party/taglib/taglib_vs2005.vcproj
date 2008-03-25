@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9,00"
+	Version="8,00"
 	Name="taglib"
 	ProjectGUID="{68CBA667-F4CB-4771-9AA2-821F22CA8BF2}"
 	RootNamespace="taglib"
@@ -21,7 +21,7 @@
 		<Configuration
 			Name="Debug|Win32"
 			ConfigurationType="4"
-			InheritedPropertySheets="$(SolutionDir)/VSPropSheets/Base.vsprops;$(SolutionDir)/VSPropSheets/Debug.vsprops;$(SolutionDir)/VSPropSheets/3rdParty.vsprops"
+			InheritedPropertySheets="$(SolutionDir)/VSPropSheets_VS2005/Base.vsprops;$(SolutionDir)/VSPropSheets_VS2005/Debug.vsprops;$(SolutionDir)/VSPropSheets_VS2005/3rdParty.vsprops"
 			CharacterSet="2"
 			>
 			<Tool
@@ -74,7 +74,7 @@
 		<Configuration
 			Name="Debug|x64"
 			ConfigurationType="4"
-			InheritedPropertySheets="$(SolutionDir)/VSPropSheets/Base.vsprops;$(SolutionDir)/VSPropSheets/x64.vsprops;$(SolutionDir)/VSPropSheets/Debug.vsprops;$(SolutionDir)/VSPropSheets/3rdParty.vsprops"
+			InheritedPropertySheets="$(SolutionDir)/VSPropSheets_VS2005/Base.vsprops;$(SolutionDir)/VSPropSheets_VS2005/x64.vsprops;$(SolutionDir)/VSPropSheets_VS2005/Debug.vsprops;$(SolutionDir)/VSPropSheets_VS2005/3rdParty.vsprops"
 			CharacterSet="2"
 			>
 			<Tool
@@ -128,7 +128,7 @@
 		<Configuration
 			Name="Release|Win32"
 			ConfigurationType="4"
-			InheritedPropertySheets="$(SolutionDir)/VSPropSheets/Base.vsprops;$(SolutionDir)/VSPropSheets/Release.vsprops;$(SolutionDir)/VSPropSheets/3rdParty.vsprops"
+			InheritedPropertySheets="$(SolutionDir)/VSPropSheets_VS2005/Base.vsprops;$(SolutionDir)/VSPropSheets_VS2005/Release.vsprops;$(SolutionDir)/VSPropSheets_VS2005/3rdParty.vsprops"
 			CharacterSet="2"
 			>
 			<Tool
@@ -181,7 +181,7 @@
 		<Configuration
 			Name="Release|x64"
 			ConfigurationType="4"
-			InheritedPropertySheets="$(SolutionDir)/VSPropSheets/Base.vsprops;$(SolutionDir)/VSPropSheets/x64.vsprops;$(SolutionDir)/VSPropSheets/Release.vsprops;$(SolutionDir)/VSPropSheets/3rdParty.vsprops"
+			InheritedPropertySheets="$(SolutionDir)/VSPropSheets_VS2005/Base.vsprops;$(SolutionDir)/VSPropSheets_VS2005/x64.vsprops;$(SolutionDir)/VSPropSheets_VS2005/Release.vsprops;$(SolutionDir)/VSPropSheets_VS2005/3rdParty.vsprops"
 			CharacterSet="2"
 			>
 			<Tool
@@ -235,7 +235,7 @@
 		<Configuration
 			Name="Debug Unicode|Win32"
 			ConfigurationType="4"
-			InheritedPropertySheets="$(SolutionDir)/VSPropSheets/Base.vsprops;$(SolutionDir)/VSPropSheets/Debug.vsprops;$(SolutionDir)/VSPropSheets/Unicode.vsprops;$(SolutionDir)/VSPropSheets/3rdParty.vsprops"
+			InheritedPropertySheets="$(SolutionDir)/VSPropSheets_VS2005/Base.vsprops;$(SolutionDir)/VSPropSheets_VS2005/Debug.vsprops;$(SolutionDir)/VSPropSheets_VS2005/Unicode.vsprops;$(SolutionDir)/VSPropSheets_VS2005/3rdParty.vsprops"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -287,7 +287,7 @@
 		<Configuration
 			Name="Debug Unicode|x64"
 			ConfigurationType="4"
-			InheritedPropertySheets="$(SolutionDir)/VSPropSheets/Base.vsprops;$(SolutionDir)/VSPropSheets/x64.vsprops;$(SolutionDir)/VSPropSheets/Debug.vsprops;$(SolutionDir)/VSPropSheets/Unicode.vsprops;$(SolutionDir)/VSPropSheets/3rdParty.vsprops"
+			InheritedPropertySheets="$(SolutionDir)/VSPropSheets_VS2005/Base.vsprops;$(SolutionDir)/VSPropSheets_VS2005/x64.vsprops;$(SolutionDir)/VSPropSheets_VS2005/Debug.vsprops;$(SolutionDir)/VSPropSheets_VS2005/Unicode.vsprops;$(SolutionDir)/VSPropSheets_VS2005/3rdParty.vsprops"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -340,7 +340,7 @@
 		<Configuration
 			Name="Release Unicode|Win32"
 			ConfigurationType="4"
-			InheritedPropertySheets="$(SolutionDir)/VSPropSheets/Base.vsprops;$(SolutionDir)/VSPropSheets/Release.vsprops;$(SolutionDir)/VSPropSheets/Unicode.vsprops;$(SolutionDir)/VSPropSheets/3rdParty.vsprops"
+			InheritedPropertySheets="$(SolutionDir)/VSPropSheets_VS2005/Base.vsprops;$(SolutionDir)/VSPropSheets_VS2005/Release.vsprops;$(SolutionDir)/VSPropSheets_VS2005/Unicode.vsprops;$(SolutionDir)/VSPropSheets_VS2005/3rdParty.vsprops"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -392,7 +392,7 @@
 		<Configuration
 			Name="Release Unicode|x64"
 			ConfigurationType="4"
-			InheritedPropertySheets="$(SolutionDir)/VSPropSheets/Base.vsprops;$(SolutionDir)/VSPropSheets/x64.vsprops;$(SolutionDir)/VSPropSheets/Release.vsprops;$(SolutionDir)/VSPropSheets/Unicode.vsprops;$(SolutionDir)/VSPropSheets/3rdParty.vsprops"
+			InheritedPropertySheets="$(SolutionDir)/VSPropSheets_VS2005/Base.vsprops;$(SolutionDir)/VSPropSheets_VS2005/x64.vsprops;$(SolutionDir)/VSPropSheets_VS2005/Release.vsprops;$(SolutionDir)/VSPropSheets_VS2005/Unicode.vsprops;$(SolutionDir)/VSPropSheets_VS2005/3rdParty.vsprops"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8,00"
+	Version="9,00"
 	Name="shibatch"
 	ProjectGUID="{6F6CBA32-41A4-4E34-84AA-BE0C2B76A0BB}"
 	RootNamespace="shibatch"

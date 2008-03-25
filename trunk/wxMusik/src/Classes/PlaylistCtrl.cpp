@@ -1134,7 +1134,7 @@ void CPlaylistCtrl::Update( bool bSelFirst)
 
 	//--- SetItemCount() kinda tells the virtual list control to udpate ---//
 	// no Freeze() here , because RescaleColumns(); will not work correctly then
-	SetItemCount( ( long ) m_pPlaylist ? m_pPlaylist->GetCount():0 );
+	SetItemCount( ( long ) (m_pPlaylist ? m_pPlaylist->GetCount():0) );
 	RescaleColumns();
 
 	SelectNone( );

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="wxMusik"
+	InheritedPropertySheets="$(SolutionDir)\3rd-Party\fmodex\fmodex.vsprops;$(SolutionDir)\3rd-Party\wxWidgetsAddons\wxWidgetsAddons.vsprops"
+	>
+	<Tool
+		Name="VCCLCompilerTool"
+		AdditionalOptions=""
+		AdditionalIncludeDirectories="&quot;$(SolutionDir)\3rd-Party\taglib\mpeg\id3v2&quot;;&quot;$(SolutionDir)\3rd-Party\taglib\toolkit&quot;;&quot;$(SolutionDir)\3rd-Party\taglib\&quot;;&quot;$(SolutionDir)\3rd-Party\sqlite3\&quot;;&quot;$(SolutionDir)\MUSIKEngine\3rd-Party\MAC&quot;;&quot;$(SolutionDir)/MUSIKEngine&quot;;&quot;$(SolutionDir)/src&quot;;&quot;$(SolutionDir)\MUSIKEngine\3rd-Party\include&quot;;&quot;$(VORBISDIR)\include&quot;;&quot;$(SolutionDir)\3rd-Party\&quot;;&quot;$(SolutionDir)\3rd-Party\sqlite2\&quot;;MMShellHook;&quot;$(SolutionDir)&quot;;&quot;$(SolutionDir)\MUSIKEngine\3rd-Party\faad2/include&quot;"
+		PreprocessorDefinitions="FLAC__NO_DLL"
+		PrecompiledHeaderThrough="myprec.h"
+	/>
+	<Tool
+		Name="VCLinkerTool"
+		AdditionalLibraryDirectories=""
+	/>
+</VisualStudioPropertySheet>

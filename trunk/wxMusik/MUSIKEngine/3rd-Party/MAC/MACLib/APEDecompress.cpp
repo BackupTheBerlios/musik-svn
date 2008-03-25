@@ -23,7 +23,7 @@ CAPEDecompress::CAPEDecompress(int * pErrorCode, CAPEInfo * pAPEInfo, int nStart
     }
 
     // get format information
-    GetInfo(APE_INFO_WAVEFORMATEX, (int) &m_wfeInput);
+    GetInfo(APE_INFO_WAVEFORMATEX, (intptr_t) &m_wfeInput);
     m_nBlockAlign = GetInfo(APE_INFO_BLOCK_ALIGN);
 
     // initialize other stuff

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9,00"
-	Name="FMODExEngine"
-	ProjectGUID="{0A29943E-A829-4861-B7C7-58498B058615}"
-	RootNamespace="FMODEXEngine"
+	Version="8,00"
+	Name="MUSIKEngine"
+	ProjectGUID="{2477BD73-12EC-4466-9061-8B71F28D6343}"
+	RootNamespace="MUSIKEngine"
 	Keyword="Win32Proj"
 	>
 	<Platforms>
@@ -21,7 +21,7 @@
 		<Configuration
 			Name="Debug|Win32"
 			ConfigurationType="4"
-			InheritedPropertySheets="$(SolutionDir)/VSPropSheets/Base.vsprops;$(SolutionDir)/VSPropSheets/Debug.vsprops;$(SolutionDir)/VSPropSheets/3rdParty.vsprops;..\Engine.vsprops"
+			InheritedPropertySheets="$(SolutionDir)/VSPropSheets_VS2005/Base.vsprops;$(SolutionDir)/VSPropSheets_VS2005/Debug.vsprops"
 			CharacterSet="2"
 			>
 			<Tool
@@ -41,6 +41,8 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories="..;&quot;../3rd-Party/include&quot;;&quot;../3rd-Party/MAC&quot;;&quot;../3rd-Party&quot;;&quot;..\3rd-Party\libmpcdec\include&quot;"
+				PreprocessorDefinitions="FLAC__NO_DLL"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -68,13 +70,12 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine=""
 			/>
 		</Configuration>
 		<Configuration
 			Name="Debug|x64"
 			ConfigurationType="4"
-			InheritedPropertySheets="$(SolutionDir)/VSPropSheets/Base.vsprops;$(SolutionDir)/VSPropSheets/x64.vsprops;$(SolutionDir)/VSPropSheets/Debug.vsprops;$(SolutionDir)/VSPropSheets/3rdParty.vsprops;..\Engine.vsprops"
+			InheritedPropertySheets="$(SolutionDir)/VSPropSheets_VS2005/Base.vsprops;$(SolutionDir)/VSPropSheets_VS2005/x64.vsprops;$(SolutionDir)/VSPropSheets_VS2005/Debug.vsprops"
 			CharacterSet="2"
 			>
 			<Tool
@@ -95,6 +96,8 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories="..;&quot;../3rd-Party/include&quot;;&quot;../3rd-Party/MAC&quot;;&quot;../3rd-Party&quot;;&quot;..\3rd-Party\libmpcdec\include&quot;"
+				PreprocessorDefinitions="FLAC__NO_DLL"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -122,13 +125,12 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine=""
 			/>
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
 			ConfigurationType="4"
-			InheritedPropertySheets="$(SolutionDir)/VSPropSheets/Base.vsprops;$(SolutionDir)/VSPropSheets/Release.vsprops;$(SolutionDir)/VSPropSheets/3rdParty.vsprops;..\Engine.vsprops"
+			InheritedPropertySheets="$(SolutionDir)/VSPropSheets_VS2005/Base.vsprops;$(SolutionDir)/VSPropSheets_VS2005/Release.vsprops"
 			CharacterSet="2"
 			>
 			<Tool
@@ -148,6 +150,8 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories="..;&quot;../3rd-Party/include&quot;;&quot;../3rd-Party/MAC&quot;;&quot;../3rd-Party&quot;;&quot;..\3rd-Party\libmpcdec\include&quot;"
+				PreprocessorDefinitions="FLAC__NO_DLL"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -175,13 +179,12 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine=""
 			/>
 		</Configuration>
 		<Configuration
 			Name="Release|x64"
 			ConfigurationType="4"
-			InheritedPropertySheets="$(SolutionDir)/VSPropSheets/Base.vsprops;$(SolutionDir)/VSPropSheets/x64.vsprops;$(SolutionDir)/VSPropSheets/Release.vsprops;$(SolutionDir)/VSPropSheets/3rdParty.vsprops;..\Engine.vsprops"
+			InheritedPropertySheets="$(SolutionDir)/VSPropSheets_VS2005/Base.vsprops;$(SolutionDir)/VSPropSheets_VS2005/x64.vsprops;$(SolutionDir)/VSPropSheets_VS2005/Release.vsprops"
 			CharacterSet="2"
 			>
 			<Tool
@@ -202,6 +205,8 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories="..;&quot;../3rd-Party/include&quot;;&quot;../3rd-Party/MAC&quot;;&quot;../3rd-Party&quot;;&quot;..\3rd-Party\libmpcdec\include&quot;"
+				PreprocessorDefinitions="FLAC__NO_DLL"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -229,7 +234,6 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine=""
 			/>
 		</Configuration>
 	</Configurations>
@@ -242,15 +246,67 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\src\fmodexengine.cpp"
+				RelativePath=".\src\aacdecoder.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\src\fmodexequalizer.cpp"
+				RelativePath=".\src\apedecoder.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\src\fmodexstreamout.cpp"
+				RelativePath=".\src\decoder.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\engine.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\flacdecoder.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\mpcdecoder.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\prec.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Debug|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|x64"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\src\stream.cpp"
 				>
 			</File>
 		</Filter>
@@ -260,7 +316,27 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath=".\inc\fmodexengine.h"
+				RelativePath=".\inc\decoder.h"
+				>
+			</File>
+			<File
+				RelativePath=".\inc\defaultdecoder.h"
+				>
+			</File>
+			<File
+				RelativePath=".\inc\engine.h"
+				>
+			</File>
+			<File
+				RelativePath=".\inc\equalizer.h"
+				>
+			</File>
+			<File
+				RelativePath=".\inc\imusikstreamout.h"
+				>
+			</File>
+			<File
+				RelativePath=".\inc\stream.h"
 				>
 			</File>
 		</Filter>
@@ -274,11 +350,23 @@
 			Name="Internal Header Files"
 			>
 			<File
-				RelativePath=".\src\fmodexequalizer.h"
+				RelativePath=".\src\aacdecoder.h"
 				>
 			</File>
 			<File
-				RelativePath=".\src\fmodexstreamout.h"
+				RelativePath=".\src\apedecoder.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\flacdecoder.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\mpcdecoder.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\stdafx.h"
 				>
 			</File>
 		</Filter>

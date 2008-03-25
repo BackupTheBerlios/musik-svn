@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8,00"
+	Version="9,00"
 	Name="wxNet"
 	ProjectGUID="{0A943E00-4EE6-4A6F-9536-F0EB34730C95}"
 	RootNamespace="wxNet"

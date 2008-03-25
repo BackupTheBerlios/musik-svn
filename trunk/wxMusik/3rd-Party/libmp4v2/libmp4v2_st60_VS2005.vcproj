@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9,00"
+	Version="8,00"
 	Name="libmp4v2_st"
 	ProjectGUID="{8A581DFC-55C0-42B7-8D8E-D3991B04363B}"
 	RootNamespace="libmp4v2_st"
@@ -20,7 +20,7 @@
 		<Configuration
 			Name="Release|Win32"
 			ConfigurationType="4"
-			InheritedPropertySheets="$(SolutionDir)/VSPropSheets/Base.vsprops;$(SolutionDir)/VSPropSheets/Release.vsprops;$(SolutionDir)/VSPropSheets/3rdParty.vsprops"
+			InheritedPropertySheets="$(SolutionDir)/VSPropSheets_VS2005/Base.vsprops;$(SolutionDir)/VSPropSheets_VS2005/Release.vsprops;$(SolutionDir)/VSPropSheets_VS2005/3rdParty.vsprops"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -71,7 +71,7 @@
 		<Configuration
 			Name="Release|x64"
 			ConfigurationType="4"
-			InheritedPropertySheets="$(SolutionDir)/VSPropSheets/Base.vsprops;$(SolutionDir)/VSPropSheets/x64.vsprops;$(SolutionDir)/VSPropSheets/Release.vsprops;$(SolutionDir)/VSPropSheets/3rdParty.vsprops"
+			InheritedPropertySheets="$(SolutionDir)/VSPropSheets_VS2005/Base.vsprops;$(SolutionDir)/VSPropSheets_VS2005/x64.vsprops;$(SolutionDir)/VSPropSheets_VS2005/Release.vsprops;$(SolutionDir)/VSPropSheets_VS2005/3rdParty.vsprops"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -123,7 +123,7 @@
 		<Configuration
 			Name="Debug|Win32"
 			ConfigurationType="4"
-			InheritedPropertySheets="$(SolutionDir)/VSPropSheets/Base.vsprops;$(SolutionDir)/VSPropSheets/Debug.vsprops;$(SolutionDir)/VSPropSheets/3rdParty.vsprops"
+			InheritedPropertySheets="$(SolutionDir)/VSPropSheets_VS2005/Base.vsprops;$(SolutionDir)/VSPropSheets_VS2005/Debug.vsprops;$(SolutionDir)/VSPropSheets_VS2005/3rdParty.vsprops"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -175,7 +175,7 @@
 		<Configuration
 			Name="Debug|x64"
 			ConfigurationType="4"
-			InheritedPropertySheets="$(SolutionDir)/VSPropSheets/Base.vsprops;$(SolutionDir)/VSPropSheets/x64.vsprops;$(SolutionDir)/VSPropSheets/Debug.vsprops;$(SolutionDir)/VSPropSheets/3rdParty.vsprops"
+			InheritedPropertySheets="$(SolutionDir)/VSPropSheets_VS2005/Base.vsprops;$(SolutionDir)/VSPropSheets_VS2005/x64.vsprops;$(SolutionDir)/VSPropSheets_VS2005/Debug.vsprops;$(SolutionDir)/VSPropSheets_VS2005/3rdParty.vsprops"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"

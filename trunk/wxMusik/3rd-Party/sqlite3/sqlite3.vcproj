@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8,00"
+	Version="9,00"
 	Name="sqlite3"
 	ProjectGUID="{2403AC39-77C9-4D42-A563-AA225B9CBED4}"
 	RootNamespace="sqlite3"

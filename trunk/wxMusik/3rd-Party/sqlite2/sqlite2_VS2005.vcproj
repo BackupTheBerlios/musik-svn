@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9,00"
-	Name="FMODExEngine"
-	ProjectGUID="{0A29943E-A829-4861-B7C7-58498B058615}"
-	RootNamespace="FMODEXEngine"
+	Version="8,00"
+	Name="sqlite2"
+	ProjectGUID="{D4F03351-EB2E-4BBE-9193-2E1E8FB17B79}"
+	RootNamespace="sqlite2"
 	Keyword="Win32Proj"
 	>
 	<Platforms>
@@ -21,7 +21,7 @@
 		<Configuration
 			Name="Debug|Win32"
 			ConfigurationType="4"
-			InheritedPropertySheets="$(SolutionDir)/VSPropSheets/Base.vsprops;$(SolutionDir)/VSPropSheets/Debug.vsprops;$(SolutionDir)/VSPropSheets/3rdParty.vsprops;..\Engine.vsprops"
+			InheritedPropertySheets="$(SolutionDir)/VSPropSheets_VS2005/Base.vsprops;$(SolutionDir)/VSPropSheets_VS2005/Debug.vsprops;$(SolutionDir)/VSPropSheets_VS2005/3rdParty.vsprops"
 			CharacterSet="2"
 			>
 			<Tool
@@ -41,6 +41,9 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				PreprocessorDefinitions="THREADSAFE"
+				WarningLevel="0"
+				Detect64BitPortabilityProblems="false"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -68,13 +71,12 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine=""
 			/>
 		</Configuration>
 		<Configuration
 			Name="Debug|x64"
 			ConfigurationType="4"
-			InheritedPropertySheets="$(SolutionDir)/VSPropSheets/Base.vsprops;$(SolutionDir)/VSPropSheets/x64.vsprops;$(SolutionDir)/VSPropSheets/Debug.vsprops;$(SolutionDir)/VSPropSheets/3rdParty.vsprops;..\Engine.vsprops"
+			InheritedPropertySheets="$(SolutionDir)/VSPropSheets_VS2005/Base.vsprops;$(SolutionDir)/VSPropSheets_VS2005/x64.vsprops;$(SolutionDir)/VSPropSheets_VS2005/Debug.vsprops;$(SolutionDir)/VSPropSheets_VS2005/3rdParty.vsprops"
 			CharacterSet="2"
 			>
 			<Tool
@@ -95,6 +97,9 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				PreprocessorDefinitions="THREADSAFE"
+				WarningLevel="0"
+				Detect64BitPortabilityProblems="false"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -122,13 +127,12 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine=""
 			/>
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
 			ConfigurationType="4"
-			InheritedPropertySheets="$(SolutionDir)/VSPropSheets/Base.vsprops;$(SolutionDir)/VSPropSheets/Release.vsprops;$(SolutionDir)/VSPropSheets/3rdParty.vsprops;..\Engine.vsprops"
+			InheritedPropertySheets="$(SolutionDir)/VSPropSheets_VS2005/Base.vsprops;$(SolutionDir)/VSPropSheets_VS2005/Release.vsprops;$(SolutionDir)/VSPropSheets_VS2005/3rdParty.vsprops"
 			CharacterSet="2"
 			>
 			<Tool
@@ -148,6 +152,9 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				PreprocessorDefinitions="THREADSAFE"
+				WarningLevel="0"
+				Detect64BitPortabilityProblems="false"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -175,13 +182,12 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine=""
 			/>
 		</Configuration>
 		<Configuration
 			Name="Release|x64"
 			ConfigurationType="4"
-			InheritedPropertySheets="$(SolutionDir)/VSPropSheets/Base.vsprops;$(SolutionDir)/VSPropSheets/x64.vsprops;$(SolutionDir)/VSPropSheets/Release.vsprops;$(SolutionDir)/VSPropSheets/3rdParty.vsprops;..\Engine.vsprops"
+			InheritedPropertySheets="$(SolutionDir)/VSPropSheets_VS2005/Base.vsprops;$(SolutionDir)/VSPropSheets_VS2005/x64.vsprops;$(SolutionDir)/VSPropSheets_VS2005/Release.vsprops;$(SolutionDir)/VSPropSheets_VS2005/3rdParty.vsprops"
 			CharacterSet="2"
 			>
 			<Tool
@@ -202,6 +208,9 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				PreprocessorDefinitions="THREADSAFE"
+				WarningLevel="0"
+				Detect64BitPortabilityProblems="false"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -229,7 +238,6 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine=""
 			/>
 		</Configuration>
 	</Configurations>
@@ -242,15 +250,127 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\src\fmodexengine.cpp"
+				RelativePath=".\attach.c"
 				>
 			</File>
 			<File
-				RelativePath=".\src\fmodexequalizer.cpp"
+				RelativePath=".\auth.c"
 				>
 			</File>
 			<File
-				RelativePath=".\src\fmodexstreamout.cpp"
+				RelativePath=".\btree.c"
+				>
+			</File>
+			<File
+				RelativePath=".\btree_rb.c"
+				>
+			</File>
+			<File
+				RelativePath=".\build.c"
+				>
+			</File>
+			<File
+				RelativePath=".\copy.c"
+				>
+			</File>
+			<File
+				RelativePath=".\date.c"
+				>
+			</File>
+			<File
+				RelativePath=".\delete.c"
+				>
+			</File>
+			<File
+				RelativePath=".\encode.c"
+				>
+			</File>
+			<File
+				RelativePath=".\expr.c"
+				>
+			</File>
+			<File
+				RelativePath=".\func.c"
+				>
+			</File>
+			<File
+				RelativePath=".\hash.c"
+				>
+			</File>
+			<File
+				RelativePath=".\insert.c"
+				>
+			</File>
+			<File
+				RelativePath=".\main.c"
+				>
+			</File>
+			<File
+				RelativePath=".\opcodes.c"
+				>
+			</File>
+			<File
+				RelativePath=".\os.c"
+				>
+			</File>
+			<File
+				RelativePath=".\pager.c"
+				>
+			</File>
+			<File
+				RelativePath=".\parse.c"
+				>
+			</File>
+			<File
+				RelativePath=".\pragma.c"
+				>
+			</File>
+			<File
+				RelativePath=".\printf.c"
+				>
+			</File>
+			<File
+				RelativePath=".\random.c"
+				>
+			</File>
+			<File
+				RelativePath=".\select.c"
+				>
+			</File>
+			<File
+				RelativePath=".\table.c"
+				>
+			</File>
+			<File
+				RelativePath=".\tokenize.c"
+				>
+			</File>
+			<File
+				RelativePath=".\trigger.c"
+				>
+			</File>
+			<File
+				RelativePath=".\update.c"
+				>
+			</File>
+			<File
+				RelativePath=".\util.c"
+				>
+			</File>
+			<File
+				RelativePath=".\vacuum.c"
+				>
+			</File>
+			<File
+				RelativePath=".\vdbe.c"
+				>
+			</File>
+			<File
+				RelativePath=".\vdbeaux.c"
+				>
+			</File>
+			<File
+				RelativePath=".\where.c"
 				>
 			</File>
 		</Filter>
@@ -260,7 +380,47 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath=".\inc\fmodexengine.h"
+				RelativePath=".\btree.h"
+				>
+			</File>
+			<File
+				RelativePath=".\config.h"
+				>
+			</File>
+			<File
+				RelativePath=".\hash.h"
+				>
+			</File>
+			<File
+				RelativePath=".\opcodes.h"
+				>
+			</File>
+			<File
+				RelativePath=".\os.h"
+				>
+			</File>
+			<File
+				RelativePath=".\pager.h"
+				>
+			</File>
+			<File
+				RelativePath=".\parse.h"
+				>
+			</File>
+			<File
+				RelativePath=".\sqlite.h"
+				>
+			</File>
+			<File
+				RelativePath=".\sqliteInt.h"
+				>
+			</File>
+			<File
+				RelativePath=".\vdbe.h"
+				>
+			</File>
+			<File
+				RelativePath=".\vdbeInt.h"
 				>
 			</File>
 		</Filter>
@@ -269,18 +429,6 @@
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx"
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
-		</Filter>
-		<Filter
-			Name="Internal Header Files"
-			>
-			<File
-				RelativePath=".\src\fmodexequalizer.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\fmodexstreamout.h"
-				>
-			</File>
 		</Filter>
 		<File
 			RelativePath=".\ReadMe.txt"

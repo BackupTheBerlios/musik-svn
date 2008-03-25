@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9,00"
-	Name="FMODExEngine"
-	ProjectGUID="{0A29943E-A829-4861-B7C7-58498B058615}"
-	RootNamespace="FMODEXEngine"
+	Version="8,00"
+	Name="shibatch"
+	ProjectGUID="{6F6CBA32-41A4-4E34-84AA-BE0C2B76A0BB}"
+	RootNamespace="shibatch"
 	Keyword="Win32Proj"
 	>
 	<Platforms>
@@ -21,7 +21,7 @@
 		<Configuration
 			Name="Debug|Win32"
 			ConfigurationType="4"
-			InheritedPropertySheets="$(SolutionDir)/VSPropSheets/Base.vsprops;$(SolutionDir)/VSPropSheets/Debug.vsprops;$(SolutionDir)/VSPropSheets/3rdParty.vsprops;..\Engine.vsprops"
+			InheritedPropertySheets="$(SolutionDir)/VSPropSheets_VS2005/Base.vsprops;$(SolutionDir)/VSPropSheets_VS2005/Debug.vsprops;$(SolutionDir)/VSPropSheets_VS2005/3rdParty.vsprops"
 			CharacterSet="2"
 			>
 			<Tool
@@ -68,13 +68,12 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine=""
 			/>
 		</Configuration>
 		<Configuration
 			Name="Debug|x64"
 			ConfigurationType="4"
-			InheritedPropertySheets="$(SolutionDir)/VSPropSheets/Base.vsprops;$(SolutionDir)/VSPropSheets/x64.vsprops;$(SolutionDir)/VSPropSheets/Debug.vsprops;$(SolutionDir)/VSPropSheets/3rdParty.vsprops;..\Engine.vsprops"
+			InheritedPropertySheets="$(SolutionDir)/VSPropSheets_VS2005/Base.vsprops;$(SolutionDir)/VSPropSheets_VS2005/x64.vsprops;$(SolutionDir)/VSPropSheets_VS2005/Debug.vsprops;$(SolutionDir)/VSPropSheets_VS2005/3rdParty.vsprops"
 			CharacterSet="2"
 			>
 			<Tool
@@ -122,13 +121,12 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine=""
 			/>
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
 			ConfigurationType="4"
-			InheritedPropertySheets="$(SolutionDir)/VSPropSheets/Base.vsprops;$(SolutionDir)/VSPropSheets/Release.vsprops;$(SolutionDir)/VSPropSheets/3rdParty.vsprops;..\Engine.vsprops"
+			InheritedPropertySheets="$(SolutionDir)/VSPropSheets_VS2005/Base.vsprops;$(SolutionDir)/VSPropSheets_VS2005/Release.vsprops;$(SolutionDir)/VSPropSheets_VS2005/3rdParty.vsprops"
 			CharacterSet="2"
 			>
 			<Tool
@@ -175,13 +173,12 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine=""
 			/>
 		</Configuration>
 		<Configuration
 			Name="Release|x64"
 			ConfigurationType="4"
-			InheritedPropertySheets="$(SolutionDir)/VSPropSheets/Base.vsprops;$(SolutionDir)/VSPropSheets/x64.vsprops;$(SolutionDir)/VSPropSheets/Release.vsprops;$(SolutionDir)/VSPropSheets/3rdParty.vsprops;..\Engine.vsprops"
+			InheritedPropertySheets="$(SolutionDir)/VSPropSheets_VS2005/Base.vsprops;$(SolutionDir)/VSPropSheets_VS2005/x64.vsprops;$(SolutionDir)/VSPropSheets_VS2005/Release.vsprops;$(SolutionDir)/VSPropSheets_VS2005/3rdParty.vsprops"
 			CharacterSet="2"
 			>
 			<Tool
@@ -229,7 +226,6 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine=""
 			/>
 		</Configuration>
 	</Configurations>
@@ -242,15 +238,11 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\src\fmodexengine.cpp"
+				RelativePath=".\Equ.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\src\fmodexequalizer.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\fmodexstreamout.cpp"
+				RelativePath=".\Fftsg_fl.cpp"
 				>
 			</File>
 		</Filter>
@@ -260,7 +252,11 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath=".\inc\fmodexengine.h"
+				RelativePath=".\paramlist.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\shibatch.h"
 				>
 			</File>
 		</Filter>
@@ -269,18 +265,6 @@
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx"
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
-		</Filter>
-		<Filter
-			Name="Internal Header Files"
-			>
-			<File
-				RelativePath=".\src\fmodexequalizer.h"
-				>
-			</File>
-			<File
-				RelativePath=".\src\fmodexstreamout.h"
-				>
-			</File>
 		</Filter>
 		<File
 			RelativePath=".\ReadMe.txt"

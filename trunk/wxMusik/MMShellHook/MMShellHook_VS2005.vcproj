@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8,00"
 	Name="MMShellHook"
-	ProjectGUID="{C372ABA2-E90B-459B-B5B2-A9A181DFE807}"
+	ProjectGUID="{413FD3B6-DE68-4BD0-A04C-AB661C310778}"
 	RootNamespace="MMShellHook"
 	Keyword="Win32Proj"
 	>

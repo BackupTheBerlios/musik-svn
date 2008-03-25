@@ -47,7 +47,7 @@
 	/>
 	<UserMacro
 		Name="GeneratePath"
-		Value="$(BuildRoot)\Build"
+		Value="$(BuildRoot)\Build2005"
 	/>
 	<UserMacro
 		Name="IntermediatePath"

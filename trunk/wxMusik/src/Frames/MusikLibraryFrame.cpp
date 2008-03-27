@@ -189,9 +189,10 @@ void MusikLibraryDialog::CreateControls()
 	wxButton *btnUPDATE_LIBRARY  =	new wxButton( this, MUSIK_PATHS_UPDATE_LIBRARY, _("&Update Library") );
 	wxButton *btnREBUILD_LIBRARY =	new wxButton( this, MUSIK_PATHS_REBUILD_LIBRARY, _("&Rebuild Library") );
 	PREF_CREATE_CHECKBOX(AllowTagGuessing,_("Allow tag guessing from filename"));
+	PREF_CREATE_CHECKBOX(ScanMP3VBRQuick,_("Only quick scan for MP3-VBR files (faster)"));
 	wxButton *btnCLEAR_LIBRARY   =	new wxButton( this, MUSIK_PATHS_CLEAR_LIBRARY, _("Clear &Library") );
 
-	hsLibraryButtons = new wxGridSizer(2,2,5,5);
+	hsLibraryButtons = new wxBoxSizer(wxHORIZONTAL);
 	hsLibraryButtons->Add(btnUPDATE_LIBRARY,0,wxEXPAND);
 	hsLibraryButtons->Add(btnREBUILD_LIBRARY,0,wxEXPAND);
 	hsLibraryButtons->Add(btnCLEAR_LIBRARY,0,wxEXPAND);
@@ -201,19 +202,14 @@ void MusikLibraryDialog::CreateControls()
 	//--------------------//
 	gProgress 	= new wxGauge( this, -1, 100, wxPoint( 0, 0 ), wxSize( 0, 18 ), wxGA_SMOOTH );
 
+
 	//----------------------//
 	//--- system buttons ---//
 	//----------------------//
-	btnCancel =	new wxButton( this, wxID_CANCEL,	_("Cancel"));
-	btnOK =		new wxButton( this, wxID_OK,		_("OK"));
-
-	//----------------------------//
-	//--- system buttons sizer ---//
-	//----------------------------//
-	hsSysButtons = new wxBoxSizer( wxHORIZONTAL );
-	hsSysButtons->Add( btnCancel,	0, wxALIGN_LEFT		);
-	hsSysButtons->Add(-1,-1 ,	1, wxEXPAND			);
-	hsSysButtons->Add( btnOK,		0, wxALIGN_RIGHT	);	
+	hsSysButtons = new wxStdDialogButtonSizer;
+	hsSysButtons->AddButton( new wxButton( this, wxID_CANCEL,	_("Cancel")) );
+	hsSysButtons->AddButton( new wxButton( this, wxID_OK,		_("OK")) );
+	hsSysButtons->Realize();
 
 	//-----------------//
 	//--- top sizer ---//
@@ -221,6 +217,7 @@ void MusikLibraryDialog::CreateControls()
 	vsTopSizer = new wxBoxSizer( wxVERTICAL );
 	vsTopSizer->Add( sizerPaths, 1, wxEXPAND | wxALL, 2 );
     vsTopSizer->Add(chkAllowTagGuessing,0,wxALIGN_CENTER_VERTICAL|wxALL,4);
+	vsTopSizer->Add(chkScanMP3VBRQuick,0,wxALIGN_CENTER_VERTICAL|wxALL,4);
 	vsTopSizer->Add(hsLibraryButtons,0,wxALL,2);
 	vsTopSizer->Add( gProgress, 0, wxEXPAND | wxALL, 2 );
 	vsTopSizer->Add( hsSysButtons, 0, wxEXPAND | wxALL, 2 );
@@ -230,20 +227,17 @@ void MusikLibraryDialog::CreateControls()
 
 void MusikLibraryDialog::OnUpdateAll( wxCommandEvent& WXUNUSED(event) )	
 { 
-//	if ( wxMessageBox( _( "Would you like to clear Musik's library database?" ), MUSIKAPPNAME_VERSION, wxYES_NO | wxICON_QUESTION ) == wxYES )
-//		wxGetApp().Library.RemoveAll();
-
 	PathsSave(); 
-	UpdateLibrary( false );	
+	UpdateLibrary( false,MUSIK_UpdateFlags::RebuildTags );	
 }
 
 void MusikLibraryDialog::OnRebuildAll( wxCommandEvent& WXUNUSED(event) )	
 { 
-//	if ( wxMessageBox( _( "Would you like to clear Musik's library database?" ), MUSIKAPPNAME_VERSION, wxYES_NO | wxICON_QUESTION ) == wxYES )
-//		wxGetApp().Library.RemoveAll();
-
 	PathsSave(); 
-	UpdateLibrary( false ,MUSIK_UpdateFlags::RebuildTags);	
+	if ( wxMessageBox( _( "This will completely rebuild the database and can be slow. Only use this if the normal update does not work correctly. Do you really want to do this?" ), MUSIKAPPNAME_VERSION, wxYES_NO | wxICON_QUESTION ) == wxYES )
+	{
+		UpdateLibrary( false ,MUSIK_UpdateFlags::RebuildTagsForce);	
+	}
 }
 bool MusikLibraryDialog::Show( bool show )
 {
@@ -284,7 +278,7 @@ bool MusikLibraryDialog::Show( bool show )
 //------------------------------------------//
 void MusikLibraryDialog::PathsLoad()
 {
-	for ( size_t i = 0; i < g_Paths.GetCount(); i++ )
+	for ( long i = 0; i < (long)g_Paths.GetCount(); i++ )
 	{
 		if ( !g_Paths.Item( i ).IsEmpty() )
 		{
@@ -389,7 +383,6 @@ void MusikLibraryDialog::PathsListRemoveSel()
 	{
 		if ( lcPaths->GetItemState( i, wxLIST_STATE_SELECTED ) > 2 )	//THIS NEEDS TO BE FIXED?
 		{
-			m_aDelDirs.Add( lcPaths->GetItemText( i ) );
 			lcPaths->DeleteItem( i );
 			i--;
 			m_arrScannedFiles.Clear(); // we have to rescan the files
@@ -406,6 +399,7 @@ void MusikLibraryDialog::PathsListRemoveAll()
 	{
 		lcPaths->DeleteAllItems();
 		PathsSave();
+		m_bRebuild = true;
 	}
 	m_arrScannedFiles.Clear(); // we have to rescan the files
 }
@@ -529,9 +523,9 @@ bool MusikLibraryDialog::ValidatePath( wxString sPath )
 	{
 		if ( wxMessageBox( _( "The path entered conflicts with the following paths:\n\n" ) + sConflicts + _( "\nDo you want me to fix this conflict for you?" ), MUSIKAPPNAME_VERSION, wxICON_INFORMATION | wxYES_NO ) == wxYES )
 		{
-			size_t nCount = g_Paths.GetCount();
+			long nCount = (long)g_Paths.GetCount();
 		
-			for ( size_t i = 0; i < nCount; i++ )
+			for ( long i = 0; i < nCount; i++ )
 				lcPaths->DeleteItem( aConflicts.Item( i ) - i );
 
 			return true;
@@ -581,7 +575,7 @@ void MusikLibraryDialog::UpdateLibrary( bool bConfirm ,unsigned long flags)
     
 	if ( !m_ActiveThreadController.IsAlive())
 	{
-		m_ActiveThreadController.AttachAndRun( new MusikUpdateLibThread(this, &m_aDelDirs,m_arrScannedFiles ,flags) );
+		m_ActiveThreadController.AttachAndRun( new MusikUpdateLibThread(this,m_arrScannedFiles ,flags) );
 		if(flags & MUSIK_UpdateFlags::WaitUntilDone)
 			m_ActiveThreadController.Join();
 	}
@@ -709,10 +703,10 @@ void MusikLibraryDialog::OnThreadProg( wxCommandEvent& event )
 			//----------------------------------------------------------//
 			//--- MusikLibraryDialog::OnThreadScanProg will set title ---//
 			//----------------------------------------------------------//
-			lcPaths->SetItem( event.GetExtraLong(), 1, IntTowxString( m_Total ), -1 );
-			lcPaths->SetItem( event.GetExtraLong(), 2, (m_New >= 0) ? IntTowxString( m_New ): wxString(wxT("-")), -1 );
+			lcPaths->SetItem( event.GetExtraLong(), 1, IntTowxString( m_Total ));
+			lcPaths->SetItem( event.GetExtraLong(), 2, IntTowxString( m_New ));
 			if(g_Paths.GetCount())
-                gProgress->SetValue( ( event.GetExtraLong() * 100 ) /  g_Paths.GetCount() );
+                gProgress->SetValue( ( event.GetExtraLong() * 100 ) /  (long)g_Paths.GetCount() );
 		}
 
 	}

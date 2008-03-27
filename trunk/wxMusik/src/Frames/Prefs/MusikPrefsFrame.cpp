@@ -126,19 +126,11 @@ bool MusikPrefsDialog::Create( wxWindow *pParent, const wxString &sTitle )
 	//----------------------//
 	//--- System Buttons ---//
 	//----------------------//
-	wxButton* btnCancel =	new wxButton_NoFlicker( this, wxID_CANCEL,	_("Cancel"),	wxDefaultPosition, wxDefaultSize );
-	wxButton* btnApply =	new wxButton_NoFlicker( this, wxID_APPLY,	_("Apply"),		wxDefaultPosition, wxDefaultSize );
-	wxButton* btnOK =		new wxButton_NoFlicker( this, wxID_OK,		_("OK"),		wxDefaultPosition, wxDefaultSize );
-
-	//----------------------------//
-	//--- System Buttons Sizer ---//
-	//----------------------------//
-	wxBoxSizer *hsSysButtons = new wxBoxSizer( wxHORIZONTAL );
-	hsSysButtons->Add( btnCancel,	0, wxALIGN_LEFT		);
-	hsSysButtons->Add( -1,-1,	1, wxEXPAND			);
-	hsSysButtons->Add( btnApply,	0, wxALIGN_RIGHT	);
-	hsSysButtons->Add( btnOK,		0, wxALIGN_RIGHT | wxLEFT, 4);
-
+	wxStdDialogButtonSizer *hsSysButtons = new wxStdDialogButtonSizer;
+	hsSysButtons->AddButton(new wxButton_NoFlicker( this, wxID_CANCEL,	_("Cancel")));
+	hsSysButtons->AddButton(new wxButton_NoFlicker( this, wxID_APPLY,	_("Apply")));
+	hsSysButtons->AddButton(new wxButton_NoFlicker( this, wxID_OK,		_("OK")));
+	hsSysButtons->Realize();
 	//-------------------------//
 	//--- Hide / Show Sizer ---//
 	//-------------------------//

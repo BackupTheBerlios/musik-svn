@@ -80,11 +80,10 @@ void MusikUpdateLibThread::MusikPurgeLibrary( CMusikLibrary *pLibrary,const wxAr
 //---------------------------------//
 //---		update library		---//
 //---------------------------------//
-MusikUpdateLibThread::MusikUpdateLibThread(wxEvtHandler *pParent, wxArrayString* del, wxArrayString & m_refFiles, unsigned long flagsUpdate)
+MusikUpdateLibThread::MusikUpdateLibThread(wxEvtHandler *pParent, wxArrayString & m_refFiles, unsigned long flagsUpdate)
 	:MusikScanNewThread(pParent,m_refFiles)
 {
 	m_pPathesToAdd	= g_Paths.GetList();
-	m_pPathesDel	= del;
 	m_flagsUpdate   = flagsUpdate;
 }
 
@@ -179,17 +178,6 @@ void *MusikUpdateLibThread::Entry()
 		{
     		MusikPurgeLibrary(pSlaveLibrary.get(),songsBeforeUpdate,bDbChangedByPurge);
 
-			if (m_pPathesDel &&  m_pPathesDel->GetCount() > 0 )
-			{
-				for ( size_t i = 0; i < m_pPathesDel->GetCount(); i++ )
-				{
-					if ( TestDestroy() )
-						break;
-					if ( m_pPathesDel->Item( i ) != wxT("") )
-						pSlaveLibrary->RemoveSongDir( m_pPathesDel->Item( i ) );
-				}
-				m_pPathesDel->Clear();
-			}
 			// hack: set progresstypoe back to MUSIK_LIBRARY_UPDATE_THREAD (in case MusikPurgeLibrary() was called)
 			wxCommandEvent evtSetProgressType	( wxEVT_COMMAND_MENU_SELECTED, MUSIK_LIBRARY_THREAD_PROG );
 			evtSetProgressType.SetInt(SET_PROGRESSTYPE);
@@ -294,8 +282,6 @@ void MusikScanNewThread::GetMusicDirs( const wxArrayString & aDirs, wxArrayStrin
 
 	if ( aDirs.GetCount() > 0 )
 	{
-
-		wxString sCurrPath;
 		wxCommandEvent evtSetTotalFiles	( wxEVT_COMMAND_MENU_SELECTED, MUSIK_LIBRARY_THREAD_PROG );
 		evtSetTotalFiles.SetInt(SET_TOTAL);
 		wxCommandEvent ScanNewProgEvt	( wxEVT_COMMAND_MENU_SELECTED, MUSIK_LIBRARY_THREAD_PROG );	
@@ -319,7 +305,7 @@ void MusikScanNewThread::GetMusicDirs( const wxArrayString & aDirs, wxArrayStrin
 				evtSetTotalFiles.SetExtraLong( nTotal );
 				wxPostEvent( Parent(), evtSetTotalFiles );
 
-				int nCompare	= pSlaveLibrary->GetSongDirCount( sCurrPath );
+				int nCompare	= pSlaveLibrary->GetSongDirCount( aDirs[i] );
 				int nResult		= nTotal - nCompare;
 
 				//--- post update progress event ---//

@@ -107,11 +107,9 @@ protected:
 
 	wxListCtrl		*lcPaths;
 	wxGauge			*gProgress;
-	wxButton		*btnOK;
-	wxButton		*btnCancel;
-	wxBoxSizer		*hsSysButtons;
+	wxStdDialogButtonSizer	*hsSysButtons;
     wxSizer         *sizerPaths;
-	wxGridSizer		*hsLibraryButtons;
+	wxBoxSizer		*hsLibraryButtons;
 	wxBoxSizer		*vsTopSizer;
 
     void PathsListRemoveSel		();
@@ -149,7 +147,6 @@ private:
 	unsigned long m_flagsUpdate;
 	wxString m_Title; //--- so it doesn't have to be recreated millions of times ---//
 
-	wxArrayString m_aDelDirs;
 	bool m_bRebuild;
     // 
     CThreadController m_ActiveThreadController; // this should be the last member, so it is destructed last

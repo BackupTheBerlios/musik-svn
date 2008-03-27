@@ -4,7 +4,6 @@
 	Version="8.00"
 	Name="wxWidgetsAddons"
 	InheritedPropertySheets="$(SolutionDir)/VSPropSheets/wxWidgets.vsprops"
-
 	>
 	<Tool
 		Name="VCCLCompilerTool"

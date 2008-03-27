@@ -55,7 +55,7 @@ protected:
 class MusikUpdateLibThread : public MusikScanNewThread
 {
 public:
-	MusikUpdateLibThread(wxEvtHandler *pParent, wxArrayString* del , wxArrayString & m_refFiles, unsigned long flagsUpdate );
+	MusikUpdateLibThread(wxEvtHandler *pParent, wxArrayString & m_refFiles, unsigned long flagsUpdate );
 
 	virtual void *Entry();
 	virtual void OnExit();
@@ -63,7 +63,6 @@ protected:
     void MusikPurgeLibrary(CMusikLibrary *pLibrary,const wxArrayString &songs,bool & bDatabaseChanged);
 private:
 	wxArrayString* m_pPathesToAdd;
-	wxArrayString* m_pPathesDel;
 	unsigned long  m_flagsUpdate;
 };
 

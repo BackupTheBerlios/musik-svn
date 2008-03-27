@@ -12,7 +12,6 @@
 	<Tool
 		Name="VCLinkerTool"
 		AdditionalLibraryDirectories="&quot;$(WXDIR)\lib\vc$(PathCpuPrefix)_lib$(PathVisualStudioPrefix)&quot;"
-		GenerateManifest="false"
 	/>
 	<Tool
 		Name="VCResourceCompilerTool"

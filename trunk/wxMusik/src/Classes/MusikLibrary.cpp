@@ -167,6 +167,7 @@ void CMusikLibrary::InternalEndTransaction()
 
 void CMusikLibrary::SignalSlaveTransactionEnd()
 {
+	m_nCachedSongCount = -1; // invalidate song count, because slave has ended a transaction, where he did add  or remove songs.
     m_pBusyHandler->Signal();    
 }
 void CMusikLibrary::Shutdown()
@@ -1055,7 +1056,7 @@ bool CMusikLibrary::FindOrPurgeMissing( const wxString & filename )
 		if(songidCandidate != -1)
 		{	
 			QuerySongFromSongid(songidCandidate,&songCandidate);
-			if(songCandidate.MetaData.nDuration_ms != songMissing.MetaData.nDuration_ms
+			if(songCandidate.MetaData.nDuration_ms/1000 != songMissing.MetaData.nDuration_ms/1000
 				|| songCandidate.TimeAdded < songMissing.TimeAdded)
 			{
 				songCandidate.songid = -1;// mark as nothing found
@@ -1067,7 +1068,7 @@ bool CMusikLibrary::FindOrPurgeMissing( const wxString & filename )
 			songidCandidate = QueryCount(MusikDb::QueryString( "select distinct songs.songid from songs where songid <> %d and title = %Q and artist = %Q and album = %Q;", 
 														songidMissing,songMissing.MetaData.Title.c_str(),songMissing.MetaData.Artist.c_str(),songMissing.MetaData.Album.c_str()));
 			QuerySongFromSongid(songidCandidate,&songCandidate);
-			if(songCandidate.MetaData.nDuration_ms != songMissing.MetaData.nDuration_ms
+			if(songCandidate.MetaData.nDuration_ms/1000 != songMissing.MetaData.nDuration_ms/1000
 				|| songCandidate.TimeAdded < songMissing.TimeAdded)
 			{
 				songCandidate.songid = -1;// mark as nothing found

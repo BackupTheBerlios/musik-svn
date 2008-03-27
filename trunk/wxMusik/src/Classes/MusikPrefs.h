@@ -402,6 +402,7 @@ public:
 		,sFilemanagerCmd(this,wxT( "FilemanagerCmd" ),wxT("nautilus  \"%s\""))			
 #endif
 		,bAllowTagGuessing(this,wxT("AllowTagGuessing"),true)		
+		,bScanMP3VBRQuick(this,wxT("ScanMP3VBRQuick"),true)		
 #ifdef wxUSE_HOTKEY
 		,bEnablePlayerHotkeys(this,	wxT("EnablePlayerHotkeys"),false)
 		,sPlayerHotkeys(this,wxT("PlayerHotkey%d"),DefaultPlayerHotkeys)
@@ -553,6 +554,7 @@ public:
 
 	CConfigSettingString sFilemanagerCmd;			
 	CConfigSettingBool bAllowTagGuessing;
+	CConfigSettingBool bScanMP3VBRQuick;
 #ifdef wxUSE_HOTKEY
 	CConfigSettingBool bEnablePlayerHotkeys;			
 	CConfigSettingArray<wxString,MUSIK_HOTKEYID_LAST> sPlayerHotkeys;

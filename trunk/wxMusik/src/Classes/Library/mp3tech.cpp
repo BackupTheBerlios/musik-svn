@@ -114,7 +114,7 @@ int get_mp3_info(mp3info *mp3,int scantype, int fullscan_vbr)
   fseek(mp3->file,0,SEEK_END);
   mp3->datasize = ftell(mp3->file);
   /* scan */
-  if(scantype == SCAN_QUICK) {
+  if(scantype != SCAN_FULL) {
 
     if(get_first_header(mp3,data_start,1) == 0)  /* search first valid single frame header */
         return 1;/* error*/
@@ -134,7 +134,7 @@ int get_mp3_info(mp3info *mp3,int scantype, int fullscan_vbr)
         {
             /* assume no headerless vbr file starts with a frame of a bitrate > 96 kbps*/
             /* we do a cheaper check */
-            num_samples = 1;
+			num_samples = (scantype == SCAN_QUICK) ? 0 : 1;
         }
             /* check for vbr by taking NUM_SAMPLES samples of frames of the file */
         lastrate=15-mp3->header.bitrate;

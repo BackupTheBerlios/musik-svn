@@ -1,11 +1,11 @@
 /***************************************************************************
-    copyright            : (C) 2002, 2003 by Scott Wheeler
+    copyright            : (C) 2002 - 2008 by Scott Wheeler
     email                : wheeler@kde.org
  ***************************************************************************/
 
 /***************************************************************************
  *   This library is free software; you can redistribute it and/or modify  *
- *   it  under the terms of the GNU Lesser General Public License version  *
+ *   it under the terms of the GNU Lesser General Public License version   *
  *   2.1 as published by the Free Software Foundation.                     *
  *                                                                         *
  *   This library is distributed in the hope that it will be useful, but   *
@@ -51,22 +51,13 @@ ByteVector SynchData::fromUInt(uint value)
   return v;
 }
 
-void SynchData::decode(ByteVector &data)
+ByteVector SynchData::decode(const ByteVector &data)
 {
-  char *n = data.data();
-  const char *o = data.data();
-  const char *end = o + data.size();
+  ByteVector result = data;
 
-  if(data.size() <= 0)
-    return;
+  ByteVector pattern(2, char(0));
+  pattern[0] = '\xFF';
+  pattern[1] = '\x00';
 
-  while(o < end - 1) {
-    *n++ = *o;
-    if(o[0] == '\xFF' && o[1] == '\x00')
-      o++;
-    o++;
-  }
-  *n++ = *o;
-
-  data.resize(n - data.data());
+  return result.replace(pattern, '\xFF');
 }

@@ -36,18 +36,17 @@ namespace TagLib {
   class Tag;
   class AudioProperties;
 
-
 #ifdef _WIN32
   class TAGLIB_EXPORT FileName
   {
   public:
-    FileName(const wchar_t *name) : name(0), wname(name) {}
-    FileName(const char *name) : name(name), wname(0) {}
-    operator const wchar_t *() { return wname; }
-    operator const char *() { return name; }
-  protected:
-    const char *name;
-    const wchar_t *wname;
+    FileName(const wchar_t *name) : m_wname(name) {}
+    FileName(const char *name) : m_name(name) {}
+    operator const wchar_t *() const { return m_wname.c_str(); }
+    operator const char *() const { return m_name.c_str(); }
+  private:
+    std::string m_name;
+    std::wstring m_wname;
   };
 #else
   typedef const char *FileName;

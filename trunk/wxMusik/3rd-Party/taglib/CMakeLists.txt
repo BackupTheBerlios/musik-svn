@@ -77,6 +77,7 @@ ADD_LIBRARY(TagLib ./ape/apefooter.cpp
 	./mpeg/id3v2/frames/uniquefileidentifierframe.cpp
 	./mpeg/id3v2/frames/unknownframe.cpp
 	./mpeg/id3v2/frames/generalencapsulatedobjectframe.cpp
+	./mpeg/id3v2/frames/unsynchronizedlyricsframe.cpp
 	./mpeg/id3v2/frames/urllinkframe.cpp
 	./mpeg/id3v2/id3v2extendedheader.cpp
 	./mpeg/id3v2/id3v2footer.cpp
@@ -90,13 +91,21 @@ ADD_LIBRARY(TagLib ./ape/apefooter.cpp
 	./mpeg/mpegproperties.cpp
 	./mpeg/xingheader.cpp
 	./ogg/flac/oggflacfile.cpp
+	./ogg/speex/speexfile.cpp
+	./ogg/speex/speexproperties.cpp
+
 	./ogg/oggfile.cpp
 	./ogg/oggpage.cpp
 	./ogg/oggpageheader.cpp
 	./ogg/vorbis/vorbisfile.cpp
 	./ogg/vorbis/vorbisproperties.cpp
 	./ogg/xiphcomment.cpp
+	./trueaudio/trueaudiofile.cpp
+	./trueaudio/trueaudioproperties.cpp
+	./wavpack/wavpackfile.cpp
+	./wavpack/wavpackproperties.cpp
 	./tag.cpp
+	./tagunion.cpp
 	./toolkit/tbytevector.cpp
 	./toolkit/tbytevectorlist.cpp
 	./toolkit/tdebug.cpp	

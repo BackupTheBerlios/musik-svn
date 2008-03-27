@@ -30,8 +30,13 @@
 #include "mpegfile.h"
 #include "vorbisfile.h"
 #include "flacfile.h"
+#include "flac/oggflacfile.h"
 #include "mpcfile.h"
 #include "mp4/mp4file.h"
+#include "wavpack/wavpackfile.h"
+#include "ogg/speex/speexfile.h"
+#include "trueaudio/trueaudiofile.h"
+
 using namespace TagLib;
 
 class FileRef::FileRefPrivate : public RefCounter
@@ -111,8 +116,12 @@ StringList FileRef::defaultFileExtensions()
 
   l.append("ogg");
   l.append("flac");
+  l.append("oga");
   l.append("mp3");
   l.append("mpc");
+  l.append("wv");
+  l.append("spx");
+  l.append("tta");
 
   return l;
 }
@@ -161,11 +170,9 @@ File *FileRef::create(FileName fileName, bool readAudioProperties,
   // Ok, this is really dumb for now, but it works for testing.
 
   String s;
+
 #ifdef _WIN32
-  if((const wchar_t *)fileName)
-    s = (const wchar_t *)fileName;
-  else
-    s = (const char *)fileName;
+  s = (wcslen((const wchar_t *) fileName) > 0) ? String((const wchar_t *) fileName) : String((const char *) fileName);
 #else
   s = fileName;
 #endif
@@ -176,15 +183,23 @@ File *FileRef::create(FileName fileName, bool readAudioProperties,
 
     if(s.size() > 4) {	
         if(s.substr(s.size() - 4, 4).upper() == ".OGG")
-        return new Vorbis::File(fileName, readAudioProperties, audioPropertiesStyle);
+      return new Ogg::Vorbis::File(fileName, readAudioProperties, audioPropertiesStyle);
         if(s.substr(s.size() - 4, 4).upper() == ".MP3")
         return new MPEG::File(fileName, readAudioProperties, audioPropertiesStyle);
+    if(s.substr(s.size() - 4, 4).upper() == ".OGA")
+      return new Ogg::FLAC::File(fileName, readAudioProperties, audioPropertiesStyle);
     if(s.substr(s.size() - 4, 4).upper() == ".MP2")
         return new MPEG::File(fileName, readAudioProperties, audioPropertiesStyle);
     if(s.substr(s.size() - 5, 5).upper() == ".FLAC")
         return new FLAC::File(fileName, readAudioProperties, audioPropertiesStyle);
     if(s.substr(s.size() - 4, 4).upper() == ".MPC")
         return new MPC::File(fileName, readAudioProperties, audioPropertiesStyle);
+    if(s.substr(s.size() - 3, 3).upper() == ".WV")
+      return new WavPack::File(fileName, readAudioProperties, audioPropertiesStyle);
+    if(s.substr(s.size() - 4, 4).upper() == ".SPX")
+      return new Ogg::Speex::File(fileName, readAudioProperties, audioPropertiesStyle);
+    if(s.substr(s.size() - 4, 4).upper() == ".TTA")
+      return new TrueAudio::File(fileName, readAudioProperties, audioPropertiesStyle);
     if(s.substr(s.size() - 4, 4).upper() == ".MP4")
         return new MP4::File(fileName, readAudioProperties, audioPropertiesStyle);
     if(s.substr(s.size() - 4, 4).upper() == ".M4A")

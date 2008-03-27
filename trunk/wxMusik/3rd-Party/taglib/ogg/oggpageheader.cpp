@@ -315,10 +315,7 @@ ByteVector Ogg::PageHeader::lacingValues() const
     for(int i = 0; i < n.quot; i++)
       data.append(char(uchar(255)));
 
-	 
-	List<int>::ConstIterator last = sizes.end();
-	--last;
-    if(it != last || d->lastPacketCompleted)
+    if(it != --sizes.end() || d->lastPacketCompleted)
       data.append(char(uchar(n.rem)));
   }
 

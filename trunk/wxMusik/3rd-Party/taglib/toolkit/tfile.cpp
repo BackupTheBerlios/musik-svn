@@ -1,11 +1,11 @@
 /***************************************************************************
-    copyright            : (C) 2002, 2003 by Scott Wheeler
+    copyright            : (C) 2002 - 2008 by Scott Wheeler
     email                : wheeler@kde.org
  ***************************************************************************/
 
 /***************************************************************************
  *   This library is free software; you can redistribute it and/or modify  *
- *   it  under the terms of the GNU Lesser General Public License version  *
+ *   it under the terms of the GNU Lesser General Public License version   *
  *   2.1 as published by the Free Software Foundation.                     *
  *                                                                         *
  *   This library is distributed in the hope that it will be useful, but   *
@@ -30,63 +30,82 @@
 #include <stdio.h>
 #include <string.h>
 #include <sys/stat.h>
+
 #ifdef _WIN32
 # include <wchar.h>
 # include <windows.h>
 # include <io.h>
 # define ftruncate _chsize
 #else
- #include <unistd.h>
+# include <unistd.h>
 #endif
-#include  <stdlib.h>
+
+#include <stdlib.h>
 
 #ifndef R_OK
-#define R_OK 4
+# define R_OK 4
 #endif
 #ifndef W_OK
-#define W_OK 2
+# define W_OK 2
 #endif
 
 using namespace TagLib;
 
+#ifdef _WIN32
+
+typedef FileName FileNameHandle;
+
+#else
+
+struct FileNameHandle : public std::string
+{
+  FileNameHandle(FileName name) : std::string(name) {}
+  operator FileName () const { return c_str(); }
+};
+
+#endif
+
 class File::FilePrivate
 {
 public:
-  FilePrivate(FileName fileName) :
-    file(0),
-    name(fileName),
-    readOnly(true),
-    valid(true),
-    size(0)
-    {}
-
-  ~FilePrivate()
-  {
-#ifdef _WIN32
-    free((void *)((const char *)name));
-    free((void *)((const wchar_t *)name));
-#else
-    free((void *)name);
-#endif
-  }
-
-  void openFile(const char *file, bool printError = true);
-#ifdef _WIN32
-  void openFile(const wchar_t *file);
-#endif
+  FilePrivate(FileName fileName);
 
   FILE *file;
-  FileName name;
+
+  FileNameHandle name;
+
   bool readOnly;
   bool valid;
   ulong size;
   static const uint bufferSize = 1024;
 };
 
-void File::FilePrivate::openFile(const char *name, bool printError)
+File::FilePrivate::FilePrivate(FileName fileName) :
+  file(0),
+  name(fileName),
+  readOnly(true),
+  valid(true),
+  size(0)
 {
-  // First try with read/write mode, if that fails, fall back to read only.
-  // We can't use ::access() since that works in odd ways on some file systems.
+  // First try with read / write mode, if that fails, fall back to read only.
+
+#ifdef _WIN32
+
+  if(wcslen((const wchar_t *) fileName) > 0) {
+
+    file = _wfopen(name, L"rb+");
+
+    if(file)
+      readOnly = false;
+    else
+      file = _wfopen(name, L"rb");
+
+    if(file)
+      return;
+
+  }
+
+#endif
 
   file = fopen(name, "rb+");
 
@@ -95,41 +114,9 @@ void File::FilePrivate::openFile(const char *name, bool printError)
   else
     file = fopen(name, "rb");
 
-  if(!file && printError)
-    debug("Could not open file " + String(name));
-}
-
-#ifdef _WIN32
-
-void File::FilePrivate::openFile(const wchar_t *name)
-  {
-  // Windows NT/2000/XP/Vista
-
-  if(GetVersion() < 0x80000000) {
-    file = _wfopen(name, L"rb+");
-    if(file)
-      readOnly = false;
-    else
-      file = _wfopen(name, L"rb");
-  }
-
-  // Windows 9x/ME
-
-  else {
-    size_t length = wcslen(name) + 1;
-    char *tmpname = (char *)malloc(length);
-    if(tmpname) {
-      if(WideCharToMultiByte(CP_ACP, 0, name, -1, tmpname, length, NULL, NULL))
-        openFile(tmpname, false);
-      free(tmpname);
-    }
-  }
-
   if(!file)
-    debug("Could not open file " + String(name));
+    debug("Could not open file " + String((const char *) name));
 }
-
-#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 // public members
@@ -137,21 +124,7 @@ void File::FilePrivate::openFile(const wchar_t *name)
 
 File::File(FileName file)
 {
-#ifdef _WIN32
-  const char *name = (const char *)file;
-  const wchar_t *wname = (const wchar_t *)file;
-  if(wname) {
-    d = new FilePrivate(::_wcsdup(wname));
-    d->openFile(wname);
-  }
-  else {
-    d = new FilePrivate(::_strdup(name));
-    d->openFile(name);
-  }
-#else
-  d = new FilePrivate(::strdup(file));
-  d->openFile(d->name);
-#endif
+  d = new FilePrivate(file);
 }
 
 File::~File()
@@ -328,7 +301,7 @@ long File::rfind(const ByteVector &pattern, long fromOffset, const ByteVector &b
   }
   else {
     seek(fromOffset + -1 * int(d->bufferSize), Beginning);
-    bufferOffset = tell();    
+    bufferOffset = tell();
   }
 
   // See the notes in find() for an explanation of this algorithm.
@@ -502,7 +475,7 @@ bool File::readOnly() const
 
 bool File::isReadable(const char *file)
 {
-	return access(file, R_OK) == 0;
+  return access(file, R_OK) == 0;
 }
 
 bool File::isOpen() const
@@ -553,15 +526,15 @@ long File::length()
     return d->size;
 
   if(!d->file)
-    return 0;	  
+    return 0;
 
   long curpos = tell();
-  
+
   seek(0, End);
   long endpos = tell();
-  
+
   seek(curpos, Beginning);
-  
+
   d->size = endpos;
   return endpos;
 }

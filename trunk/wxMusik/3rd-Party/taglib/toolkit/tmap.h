@@ -27,6 +27,8 @@
 #define TAGLIB_MAP_H
 
 #include <map>
+// using namespace std; to do this in a header which actually does not need it , but is included by
+// mpeg/id3v1/id3v1genres.h, which a client can include , but could make trouble there, is a ... bad idea at least.
 
 #include "taglib.h"
 

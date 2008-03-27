@@ -568,7 +568,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ogg\speex\speexfile.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ogg\speex\speexproperties.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\tag.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\tagunion.cpp"
 				>
 			</File>
 			<File
@@ -592,6 +604,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\trueaudio\trueaudiofile.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\trueaudio\trueaudioproperties.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\toolkit\tstring.cpp"
 				>
 			</File>
@@ -612,6 +632,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\mpeg\id3v2\frames\unsynchronizedlyricsframe.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\mpeg\id3v2\frames\urllinkframe.cpp"
 				>
 			</File>
@@ -621,6 +645,14 @@
 			</File>
 			<File
 				RelativePath=".\ogg\vorbis\vorbisproperties.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\wavpack\wavpackfile.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\wavpack\wavpackproperties.cpp"
 				>
 			</File>
 			<File
@@ -666,6 +698,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\mpeg\id3v1\id3v1genres.h"
+				>
+			</File>
+			<File
+				RelativePath=".\mpeg\id3v1\id3v1tag.h"
+				>
+			</File>
+			<File
 				RelativePath=".\ogg\oggfile.h"
 				>
 			</File>
@@ -682,6 +722,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ogg\speex\speexfile.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ogg\speex\speexproperties.h"
+				>
+			</File>
+			<File
 				RelativePath=".\tag.h"
 				>
 			</File>
@@ -691,6 +739,10 @@
 			</File>
 			<File
 				RelativePath=".\taglib_export.h"
+				>
+			</File>
+			<File
+				RelativePath=".\tagunion.h"
 				>
 			</File>
 			<File
@@ -718,6 +770,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\trueaudio\trueaudiofile.h"
+				>
+			</File>
+			<File
+				RelativePath=".\trueaudio\trueaudioproperties.h"
+				>
+			</File>
+			<File
 				RelativePath=".\toolkit\tstring.h"
 				>
 			</File>
@@ -730,6 +790,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\mpeg\id3v2\frames\unsynchronizedlyricsframe.h"
+				>
+			</File>
+			<File
 				RelativePath=".\mpeg\id3v2\frames\urllinkframe.h"
 				>
 			</File>
@@ -739,6 +803,14 @@
 			</File>
 			<File
 				RelativePath=".\ogg\vorbis\vorbisproperties.h"
+				>
+			</File>
+			<File
+				RelativePath=".\wavpack\wavpackfile.h"
+				>
+			</File>
+			<File
+				RelativePath=".\wavpack\wavpackproperties.h"
 				>
 			</File>
 			<File

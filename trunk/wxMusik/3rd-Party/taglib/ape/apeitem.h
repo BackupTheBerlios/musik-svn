@@ -5,7 +5,7 @@
 
 /***************************************************************************
  *   This library is free software; you can redistribute it and/or modify  *
- *   it  under the terms of the GNU Lesser General Public License version  *
+ *   it under the terms of the GNU Lesser General Public License version   *
  *   2.1 as published by the Free Software Foundation.                     *
  *                                                                         *
  *   This library is distributed in the hope that it will be useful, but   *
@@ -39,7 +39,7 @@ namespace TagLib {
     /*!
      * This class provides the features of items in the APEv2 standard.
      */
-    class Item
+    class TAGLIB_EXPORT Item
     {
     public:
       /*!
@@ -61,6 +61,7 @@ namespace TagLib {
       /*!
        * Constructs an item with \a key and \a value.
        */
+      // BIC: Remove this, StringList has a constructor from a single string
       Item(const String &key, const String &value);
 
       /*!
@@ -75,7 +76,7 @@ namespace TagLib {
 
       /*!
        * Destroys the item.
-      */
+       */
       virtual ~Item();
 
       /*!
@@ -143,9 +144,15 @@ namespace TagLib {
       String toString() const;
 
       /*!
-       * Returns the value as a string list.
+       * \deprecated
+       * \see values
        */
       StringList toStringList() const;
+
+      /*!
+       * Returns the list of values.
+       */
+      StringList values() const;
 
       /*!
        * Render the item to a ByteVector.

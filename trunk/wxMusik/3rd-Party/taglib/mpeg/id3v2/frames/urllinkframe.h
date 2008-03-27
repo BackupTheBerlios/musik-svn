@@ -34,10 +34,12 @@ namespace TagLib {
 
   namespace ID3v2 {
 
+    //! ID3v2 URL frame
     /*!
      * An implementation of ID3v2 URL link frames.
      */
-    class UrlLinkFrame : public Frame {
+    class TAGLIB_EXPORT UrlLinkFrame : public Frame
+    {
       friend class FrameFactory;
 
     public:
@@ -84,6 +86,8 @@ namespace TagLib {
       UrlLinkFramePrivate *d;
     };
 
+    //! ID3v2 User defined URL frame
+
     /*!
      * This is a specialization of URL link frames that allows for
      * user defined entries.  Each entry has a description in addition to the
@@ -91,7 +95,8 @@ namespace TagLib {
      *
      * This description identifies the frame and must be unique.
      */
-    class UserUrlLinkFrame : public UrlLinkFrame {
+    class TAGLIB_EXPORT UserUrlLinkFrame : public UrlLinkFrame
+    {
       friend class FrameFactory;
 
     public:

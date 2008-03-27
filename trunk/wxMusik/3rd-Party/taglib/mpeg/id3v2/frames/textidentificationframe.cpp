@@ -1,11 +1,11 @@
 /***************************************************************************
-    copyright            : (C) 2002, 2003 by Scott Wheeler
+    copyright            : (C) 2002 - 2008 by Scott Wheeler
     email                : wheeler@kde.org
  ***************************************************************************/
 
 /***************************************************************************
  *   This library is free software; you can redistribute it and/or modify  *
- *   it  under the terms of the GNU Lesser General Public License version  *
+ *   it under the terms of the GNU Lesser General Public License version   *
  *   2.1 as published by the Free Software Foundation.                     *
  *                                                                         *
  *   This library is distributed in the hope that it will be useful, but   *
@@ -119,7 +119,7 @@ void TextIdentificationFrame::parseFields(const ByteVector &data)
   while(dataLength > 0 && data[dataLength] == 0)
     dataLength--;
 
-  while((dataLength % byteAlign) != 0)
+  while(dataLength % byteAlign != 0)
     dataLength++;
 
   ByteVectorList l = ByteVectorList::split(data.mid(1, dataLength), textDelimiter(d->textEncoding), byteAlign);
@@ -139,23 +139,22 @@ void TextIdentificationFrame::parseFields(const ByteVector &data)
 
 ByteVector TextIdentificationFrame::renderFields() const
 {
+  String::Type encoding = checkEncoding(d->fieldList, d->textEncoding);
+
   ByteVector v;
 
-  if(d->fieldList.size() > 0) {
-
-    v.append(char(d->textEncoding));
+  v.append(char(encoding));
 
   for(StringList::ConstIterator it = d->fieldList.begin(); it != d->fieldList.end(); it++) {
 
-      // Since the field list is null delimited, if this is not the first
-      // element in the list, append the appropriate delimiter for this
-      // encoding.
+    // Since the field list is null delimited, if this is not the first
+    // element in the list, append the appropriate delimiter for this
+    // encoding.
 
-      if(it != d->fieldList.begin())
-        v.append(textDelimiter(d->textEncoding));
+    if(it != d->fieldList.begin())
+      v.append(textDelimiter(encoding));
 
-      v.append((*it).data(d->textEncoding));
-    }
+    v.append((*it).data(encoding));
   }
 
   return v;
@@ -260,7 +259,7 @@ UserTextIdentificationFrame::UserTextIdentificationFrame(const ByteVector &data,
 {
   checkFields();
 }
-  
+
 void UserTextIdentificationFrame::checkFields()
 {
   int fields = fieldList().size();

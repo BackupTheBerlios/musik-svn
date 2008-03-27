@@ -1,11 +1,11 @@
 /***************************************************************************
-    copyright            : (C) 2002, 2003 by Scott Wheeler
+    copyright            : (C) 2002 - 2008 by Scott Wheeler
     email                : wheeler@kde.org
  ***************************************************************************/
 
 /***************************************************************************
  *   This library is free software; you can redistribute it and/or modify  *
- *   it  under the terms of the GNU Lesser General Public License version  *
+ *   it under the terms of the GNU Lesser General Public License version   *
  *   2.1 as published by the Free Software Foundation.                     *
  *                                                                         *
  *   This library is distributed in the hope that it will be useful, but   *
@@ -118,9 +118,18 @@ String ID3v2::Tag::album() const
 
 String ID3v2::Tag::comment() const
 {
-  if(!d->frameListMap["COMM"].isEmpty())
-    return d->frameListMap["COMM"].front()->toString();
-  return String::null;
+  const FrameList &comments = d->frameListMap["COMM"];
+
+  if(comments.isEmpty())
+    return String::null;
+
+  for(FrameList::ConstIterator it = comments.begin(); it != comments.end(); ++it)
+  {
+    if(static_cast<CommentsFrame *>(*it)->description().isEmpty())
+      return (*it)->toString();
+  }
+
+  return comments.front()->toString();
 }
 
 String ID3v2::Tag::genre() const
@@ -135,7 +144,7 @@ String ID3v2::Tag::genre() const
     return String::null;
   }
 
-// ID3v2.4 lists genres as the fields in its frames field list.  If the field
+  // ID3v2.4 lists genres as the fields in its frames field list.  If the field
   // is simply a number it can be assumed that it is an ID3v1 genre number.
   // Here was assume that if an ID3v1 string is present that it should be
   // appended to the genre string.  Multiple fields will be appended as the
@@ -339,7 +348,7 @@ ByteVector ID3v2::Tag::render() const
 
   for(FrameList::Iterator it = d->frameList.begin(); it != d->frameList.end(); it++) {
     if(!(*it)->header()->tagAlterPreservation())
-    tagData.append((*it)->render());
+      tagData.append((*it)->render());
   }
 
   // Compute the amount of padding, and append that to tagData.
@@ -386,9 +395,8 @@ void ID3v2::Tag::parse(const ByteVector &origData)
 {
   ByteVector data = origData;
 
-  if(d->header.unsynchronisation() && d->header.majorVersion() <= 3) {
-    SynchData::decode(data);
-  }
+  if(d->header.unsynchronisation() && d->header.majorVersion() <= 3)
+    data = SynchData::decode(data);
 
   uint frameDataPosition = 0;
   uint frameDataLength = data.size();
@@ -443,9 +451,9 @@ void ID3v2::Tag::parse(const ByteVector &origData)
       return;
     }
 
-		frameDataPosition += frame->size() + Frame::headerSize(d->header.majorVersion());
-		addFrame(frame);
-	}
+    frameDataPosition += frame->size() + Frame::headerSize(d->header.majorVersion());
+    addFrame(frame);
+  }
 }
 
 void ID3v2::Tag::setTextFrame(const ByteVector &id, const String &value)

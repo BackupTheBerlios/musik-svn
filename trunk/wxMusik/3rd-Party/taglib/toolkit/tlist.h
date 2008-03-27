@@ -26,9 +26,17 @@
 #ifndef TAGLIB_LIST_H
 #define TAGLIB_LIST_H
 
-#include "taglib.h"
+#define USE_VECTOR_FOR_TLIST // use std::vector instead of std::list as underlying container
 
+
+#include "taglib.h"
+#ifdef USE_VECTOR_FOR_TLIST
 #include <vector>
+#define TLIST_TYPE std::vector
+#else
+#include <list>
+#define TLIST_TYPE std::list
+#endif
 
 namespace TagLib {
 
@@ -54,8 +62,8 @@ namespace TagLib {
   {
   public:
 #ifndef DO_NOT_DOCUMENT
-    typedef typename std::vector<T>::iterator Iterator;
-    typedef typename std::vector<T>::const_iterator ConstIterator;
+    typedef typename TLIST_TYPE<T>::iterator Iterator;
+    typedef typename TLIST_TYPE<T>::const_iterator ConstIterator;
 #endif
 
     /*!
@@ -248,5 +256,5 @@ namespace TagLib {
 // implementation.
 
 #include "tlist.tcc"
-
+#undef  TLIST_TYPE
 #endif

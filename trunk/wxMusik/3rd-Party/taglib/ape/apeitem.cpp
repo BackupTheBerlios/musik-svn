@@ -5,7 +5,7 @@
 
 /***************************************************************************
  *   This library is free software; you can redistribute it and/or modify  *
- *   it  under the terms of the GNU Lesser General Public License version  *
+ *   it under the terms of the GNU Lesser General Public License version   *
  *   2.1 as published by the Free Software Foundation.                     *
  *                                                                         *
  *   This library is distributed in the hope that it will be useful, but   *
@@ -69,7 +69,7 @@ APE::Item::Item(const Item &item)
 
 APE::Item::~Item()
 {
-    delete d;
+  delete d;
 }
 
 Item &APE::Item::operator=(const Item &item)
@@ -143,6 +143,11 @@ int APE::Item::size() const
 }
 
 StringList APE::Item::toStringList() const
+{
+  return d->text;
+}
+
+StringList APE::Item::values() const
 {
   return d->text;
 }

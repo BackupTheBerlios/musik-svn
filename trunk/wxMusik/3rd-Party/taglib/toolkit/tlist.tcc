@@ -46,22 +46,17 @@ public:
 };
 
 // A generic implementation
-#define USE_VECTOR // use std::vector instead of std::list as underlying container
 
 template <class T>
 template <class TP> class List<T>::ListPrivate  : public ListPrivateBase
 {
 public:
   ListPrivate() : ListPrivateBase() {}
-  ListPrivate(const std::vector<TP> &l) : ListPrivateBase(), list(l) {}
+  ListPrivate(const TLIST_TYPE<TP> &l) : ListPrivateBase(), list(l) {}
   void clear() {
     list.clear();
   }
-#ifdef USE_VECTOR
-  std::vector<TP> list;
-#else
-  std::list<TP> list;
-#endif
+  TLIST_TYPE<TP> list;
 };
 
 // A partial specialization for all pointer types that implements the
@@ -72,24 +67,19 @@ template <class TP> class List<T>::ListPrivate<TP *>  : public ListPrivateBase
 {
 public:
   ListPrivate() : ListPrivateBase() {}
-  ListPrivate(const std::vector<TP *> &l) : ListPrivateBase(), list(l) {}
+  ListPrivate(const TLIST_TYPE<TP *> &l) : ListPrivateBase(), list(l) {}
   ~ListPrivate() {
     clear();
   }
   void clear() {
     if(autoDelete) {
-      typename std::vector<TP *>::const_iterator it = list.begin();
+      typename TLIST_TYPE<TP *>::const_iterator it = list.begin();
       for(; it != list.end(); ++it)
         delete *it;
     }
     list.clear();
   }
-#ifdef USE_VECTOR
-  std::vector<TP *> list;
-#else
-  std::list<TP> list;
-#endif
-
+  TLIST_TYPE<TP *> list;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -181,7 +171,7 @@ template <class T>
 List<T> &List<T>::prepend(const T &item)
 {
   detach();
-#ifdef USE_VECTOR  
+#ifdef USE_VECTOR_FOR_TLIST  
   d->list.insert(d->list.begin(),item);
 #else
   d->list.push_front(item);
@@ -276,7 +266,7 @@ T &List<T>::back()
 template <class T>
 T &List<T>::operator[](uint i)
 {
-#ifdef USE_VECTOR
+#ifdef USE_VECTOR_FOR_TLIST
   return d->list[i];
 #else
   Iterator it = d->list.begin();
@@ -291,7 +281,7 @@ T &List<T>::operator[](uint i)
 template <class T>
 const T &List<T>::operator[](uint i) const
 {
-#ifdef USE_VECTOR
+#ifdef USE_VECTOR_FOR_TLIST
   return d->list[i];
 #else
   ConstIterator it = d->list.begin();

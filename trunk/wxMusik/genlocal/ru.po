@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wxMusik-0.3.1.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-21 23:07+0100\n"
+"POT-Creation-Date: 2008-03-27 17:51+0100\n"
 "PO-Revision-Date: 2005-02-18 23:01+0100\n"
 "Last-Translator: \n"
 "Language-Team: wxMusik Team <LL@li.org>\n"
@@ -28,7 +28,7 @@ msgstr ""
 "автопереименование синтаксиса:\n"
 "\n"
 
-#: ../src/Frames/MusikLibraryFrame.cpp:530
+#: ../src/Frames/MusikLibraryFrame.cpp:524
 msgid ""
 "\n"
 "Do you want me to fix this conflict for you?"
@@ -59,7 +59,7 @@ msgstr "FX"
 msgid " Library Setup"
 msgstr "Настройки библиотеки"
 
-#: ../src/Frames/MusikLibraryFrame.cpp:681
+#: ../src/Frames/MusikLibraryFrame.cpp:675
 msgid " Library Setup - Elapsed Time: "
 msgstr "Настройки библиотеки - Прошло времени"
 
@@ -71,7 +71,7 @@ msgstr "Настройки"
 msgid " by importing Playlist File"
 msgstr ""
 
-#: ../src/Frames/MusikLibraryFrame.cpp:578
+#: ../src/Frames/MusikLibraryFrame.cpp:572
 msgid ""
 " has detected that your library configuration has changed.\n"
 "\n"
@@ -466,7 +466,7 @@ msgstr "всегда показывать\tCtrl-T"
 msgid "An error occured when setting the Auto DJ Filter"
 msgstr "Ошибка произошла, при установке авто фильтра ди-джея"
 
-#: ../src/Classes/MusikLibrary.cpp:1009
+#: ../src/Classes/MusikLibrary.cpp:1010
 msgid "An error occurred when attempting to update the database"
 msgstr "Ошибка произошла, при обновлении базы данных"
 
@@ -489,7 +489,7 @@ msgid "Append to file"
 msgstr "приложить к файлу"
 
 #: ../src/Frames/MusikTagFrame.cpp:149
-#: ../src/Frames/Prefs/MusikPrefsFrame.cpp:130
+#: ../src/Frames/Prefs/MusikPrefsFrame.cpp:131
 msgid "Apply"
 msgstr "добавить"
 
@@ -542,8 +542,8 @@ msgid "Buffer Size (bytes):"
 msgstr "размер буфера (байт):"
 
 #: ../src/Frames/MusikAutoTaggerFrame.cpp:157
-#: ../src/Frames/MusikLibraryFrame.cpp:207 ../src/Frames/MusikTagFrame.cpp:148
-#: ../src/Frames/Prefs/MusikPrefsFrame.cpp:129
+#: ../src/Frames/MusikLibraryFrame.cpp:210 ../src/Frames/MusikTagFrame.cpp:148
+#: ../src/Frames/Prefs/MusikPrefsFrame.cpp:130
 msgid "Cancel"
 msgstr "отменить"
 
@@ -576,7 +576,7 @@ msgstr ""
 msgid "Censor common swearwords"
 msgstr "Цензор общие ругательства"
 
-#: ../src/Frames/MusikLibraryFrame.cpp:192
+#: ../src/Frames/MusikLibraryFrame.cpp:193
 msgid "Clear &Library"
 msgstr "очистить &библиотеку"
 
@@ -1056,10 +1056,14 @@ msgid "OGG Vorbis Audio File"
 msgstr "OGG Vorbis аудио файл"
 
 #: ../src/Frames/MusikAutoTaggerFrame.cpp:153
-#: ../src/Frames/MusikLibraryFrame.cpp:208 ../src/Frames/MusikTagFrame.cpp:150
-#: ../src/Frames/Prefs/MusikPrefsFrame.cpp:131 ../src/MusikAboutDlg.cpp:226
+#: ../src/Frames/MusikLibraryFrame.cpp:211 ../src/Frames/MusikTagFrame.cpp:150
+#: ../src/Frames/Prefs/MusikPrefsFrame.cpp:132 ../src/MusikAboutDlg.cpp:226
 msgid "OK"
 msgstr "ок"
+
+#: ../src/Frames/MusikLibraryFrame.cpp:192
+msgid "Only quick scan for MP3-VBR files (faster)"
+msgstr ""
 
 #: ../src/Frames/Prefs/MusikPrefsFrame.cpp:117
 msgid "Options"
@@ -1069,17 +1073,17 @@ msgstr "сервис"
 msgid "Ouput Driver:"
 msgstr "драйвер выхода"
 
-#: ../src/Classes/MusikLibrary.cpp:507 ../src/Classes/MusikLibrary.cpp:553
+#: ../src/Classes/MusikLibrary.cpp:508 ../src/Classes/MusikLibrary.cpp:554
 #, c-format
 msgid "Parsing of file %s failed."
 msgstr "парсинг файла %s неудался."
 
-#: ../src/Classes/MusikLibrary.cpp:476
+#: ../src/Classes/MusikLibrary.cpp:477
 #, c-format
 msgid "Parsing of file %s not supported. Setting title to filename."
 msgstr "парсинг файла %s не поддерживается. установите название на имя файла."
 
-#: ../src/Classes/MusikLibrary.cpp:542
+#: ../src/Classes/MusikLibrary.cpp:543
 #, c-format
 msgid "Parsing of file %s not supported. Song data is not updated."
 msgstr "парсинг файла %s не поддерживается. данные песни не обновлены."
@@ -1156,7 +1160,7 @@ msgstr "размер плейлиста:"
 msgid "Please choose location to copy songs to:"
 msgstr "пожалуйста выберите папку,чтобы скопировать песни:"
 
-#: ../src/Frames/MusikLibraryFrame.cpp:427
+#: ../src/Frames/MusikLibraryFrame.cpp:421
 msgid "Please choose music directory."
 msgstr "пожалуйста выберите папку с музыкой."
 
@@ -1270,12 +1274,12 @@ msgstr "правый канал: %d гц"
 msgid "Run a program"
 msgstr "запустить программу"
 
-#: ../src/Frames/MusikLibraryFrame.cpp:750
+#: ../src/Frames/MusikLibraryFrame.cpp:744
 #, c-format
 msgid "Scanning directory for audio files: %d files scanned"
 msgstr "сканирование каталогов на аудио файлы: %d файлов просмотренно"
 
-#: ../src/Frames/MusikLibraryFrame.cpp:723
+#: ../src/Frames/MusikLibraryFrame.cpp:717
 #, c-format
 msgid "Scanning for and adding new files: %d / %d (ESC to abort)"
 msgstr "сканирование и добавление новых аудио файлов: %d / %d (ESC для отмены)"
@@ -1284,7 +1288,7 @@ msgstr "сканирование и добавление новых аудио файлов: %d / %d (ESC для отмены)"
 msgid "Scanning for changed attributes"
 msgstr "сканирование на измененные атрибуты"
 
-#: ../src/Frames/MusikLibraryFrame.cpp:735
+#: ../src/Frames/MusikLibraryFrame.cpp:729
 #, c-format
 msgid "Scanning library for obsolete files: %d / %d (ESC to abort)"
 msgstr ""
@@ -1450,17 +1454,17 @@ msgstr "отмечать"
 msgid "The following fields can be used in your query"
 msgstr "следующие области могут использоваться в вашем вопросе"
 
-#: ../src/Frames/MusikLibraryFrame.cpp:492
+#: ../src/Frames/MusikLibraryFrame.cpp:486
 msgid "The path entered already exists."
 msgstr ""
 
-#: ../src/Frames/MusikLibraryFrame.cpp:530
+#: ../src/Frames/MusikLibraryFrame.cpp:524
 msgid ""
 "The path entered conflicts with the following paths:\n"
 "\n"
 msgstr ""
 
-#: ../src/Frames/MusikLibraryFrame.cpp:505
+#: ../src/Frames/MusikLibraryFrame.cpp:499
 msgid ""
 "The path entered is already contained within the following path's scope:\n"
 "\n"
@@ -1494,7 +1498,7 @@ msgstr ""
 msgid "This "
 msgstr "этот год"
 
-#: ../src/Frames/MusikLibraryFrame.cpp:257
+#: ../src/Frames/MusikLibraryFrame.cpp:251
 #, fuzzy, c-format
 msgid ""
 "This is the first time %s has been run.\n"
@@ -1515,7 +1519,13 @@ msgstr ""
 "для показа этого окна еще раз,нажмите CTRL+L в главном окне,или выбирите "
 "\"настройка библиотеки\" из \"библиотека\" меню."
 
-#: ../src/Frames/MusikLibraryFrame.cpp:549
+#: ../src/Frames/MusikLibraryFrame.cpp:237
+msgid ""
+"This will completely rebuild the database and can be slow. Only use this if "
+"the normal update does not work correctly. Do you really want to do this?"
+msgstr ""
+
+#: ../src/Frames/MusikLibraryFrame.cpp:543
 msgid ""
 "This will wipe the library clean. Are you ABSOLUTELY SURE you want to do "
 "this?"
@@ -1652,7 +1662,7 @@ msgstr "записать тэги в файл"
 msgid "Write to file"
 msgstr "записать в файл"
 
-#: ../src/Classes/MusikLibrary.cpp:595
+#: ../src/Classes/MusikLibrary.cpp:596
 #, c-format
 msgid ""
 "Writing tags to file %s failed,because the file does not exist.\n"
@@ -1661,12 +1671,12 @@ msgstr ""
 "запись тэгов в файл %s неудалась,потому что файл не существует.\n"
 "пожалуйста произведите чистку базы данных."
 
-#: ../src/Classes/MusikLibrary.cpp:613
+#: ../src/Classes/MusikLibrary.cpp:614
 #, c-format
 msgid "Writing tags to file %s failed."
 msgstr "запись тэгов в файл %s неудалась."
 
-#: ../src/Classes/MusikLibrary.cpp:603
+#: ../src/Classes/MusikLibrary.cpp:604
 #, c-format
 msgid ""
 "Writing tags to file %s is not supported. File is set as clean in database."

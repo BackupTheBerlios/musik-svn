@@ -1270,16 +1270,12 @@ void CMusikLibrary::GetAllOfColumn( const PlaylistColumn & Column, wxArrayString
 	if(bSorted)
 	{
         if(wxGetApp().Prefs.bSortArtistWithoutPrefix && Column.SortOrder == PlaylistColumn::SortNoCaseNoPrefix)
-            Query( wxT("select distinct ") + sColumn + wxT(",UPPER(REMPREFIX(") + sColumn + wxT(")) as UP from songs order by UP;"), aReturn );
-		else if(Column.SortOrder == PlaylistColumn::SortNoCase)	
-			Query( wxT("select distinct ") + sColumn + wxT(",UPPER(") + sColumn + wxT(") as UP from songs order by UP;"), aReturn );
+            Query( wxT("select distinct ") + sColumn + wxT(",REMPREFIX(") + sColumn + wxT(") as RPF from songs order by RPF collate nocase;"), aReturn );
         else
-            Query( wxT("select distinct ") +  sColumn + wxT(" from songs order by ")+ sColumn +  wxT(";"), aReturn );
+			Query( wxT("select distinct ") + sColumn + wxT(" from songs order by ")+ sColumn + ((Column.SortOrder == PlaylistColumn::SortNoCase)? wxT(" collate nocase;"):wxT(";") ), aReturn );
 	}
 	else
 		Query( wxT("select distinct ") +  sColumn + wxT(" from songs;"), aReturn );
-
-
 }
 
 bool CMusikLibrary::SetAutoDjFilter(const wxString & sFilter)

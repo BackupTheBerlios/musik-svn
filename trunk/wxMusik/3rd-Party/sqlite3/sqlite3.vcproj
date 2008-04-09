@@ -6,6 +6,7 @@
 	ProjectGUID="{2403AC39-77C9-4D42-A563-AA225B9CBED4}"
 	RootNamespace="sqlite3"
 	Keyword="Win32Proj"
+	TargetFrameworkVersion="0"
 	>
 	<Platforms>
 		<Platform
@@ -41,7 +42,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				PreprocessorDefinitions="THREADSAFE;SQLITE_OMIT_LOAD_EXTENSION;SQLITE_CORE"
+				PreprocessorDefinitions="THREADSAFE;SQLITE_OMIT_LOAD_EXTENSION;SQLITE_CORE;SQLITE_ENABLE_ICU"
 				SmallerTypeCheck="false"
 				WarningLevel="0"
 				Detect64BitPortabilityProblems="false"
@@ -98,7 +99,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				PreprocessorDefinitions="THREADSAFE;SQLITE_OMIT_LOAD_EXTENSION;SQLITE_CORE"
+				PreprocessorDefinitions="THREADSAFE;SQLITE_OMIT_LOAD_EXTENSION;SQLITE_CORE;SQLITE_ENABLE_ICU"
 				SmallerTypeCheck="false"
 				WarningLevel="0"
 				Detect64BitPortabilityProblems="false"
@@ -154,7 +155,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				PreprocessorDefinitions="THREADSAFE;SQLITE_OMIT_LOAD_EXTENSION;SQLITE_CORE"
+				PreprocessorDefinitions="THREADSAFE;SQLITE_OMIT_LOAD_EXTENSION;SQLITE_CORE;SQLITE_ENABLE_ICU"
 				WarningLevel="0"
 				Detect64BitPortabilityProblems="false"
 			/>
@@ -210,7 +211,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				PreprocessorDefinitions="THREADSAFE;SQLITE_OMIT_LOAD_EXTENSION;SQLITE_CORE"
+				PreprocessorDefinitions="THREADSAFE;SQLITE_OMIT_LOAD_EXTENSION;SQLITE_CORE;SQLITE_ENABLE_ICU"
 				WarningLevel="0"
 				Detect64BitPortabilityProblems="false"
 			/>
@@ -253,6 +254,10 @@
 			>
 			<File
 				RelativePath=".\sqlite3.c"
+				>
+			</File>
+			<File
+				RelativePath=".\sqlite3_unicode.c"
 				>
 			</File>
 		</Filter>

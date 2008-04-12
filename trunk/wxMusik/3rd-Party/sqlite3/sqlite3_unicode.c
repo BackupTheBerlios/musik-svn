@@ -84,6 +84,7 @@ extern "C" {
 ** Many SQLite interface functions require a 64-bit integer arguments.
 ** Those interfaces are declared using this typedef.
 */
+/*
 #ifdef SQLITE_INT64_TYPE
   typedef SQLITE_INT64_TYPE sqlite_int64;
   typedef unsigned SQLITE_INT64_TYPE sqlite_uint64;
@@ -96,7 +97,7 @@ extern "C" {
 #endif
 typedef sqlite_int64 sqlite3_int64;
 typedef sqlite_uint64 sqlite3_uint64;
-
+*/
 /*
 ** Integers of known sizes.  These typedefs might change for architectures
 ** where the sizes very.  Preprocessor macros are available so that the
@@ -122,8 +123,8 @@ typedef sqlite_uint64 sqlite3_uint64;
 #ifndef LONGDOUBLE_TYPE
 # define LONGDOUBLE_TYPE long double
 #endif
-typedef sqlite_int64 i64;          /* 8-byte signed integer */
-typedef sqlite_uint64 u64;         /* 8-byte unsigned integer */
+//typedef sqlite_int64 i64;          /* 8-byte signed integer */
+//typedef sqlite_uint64 u64;         /* 8-byte unsigned integer */
 typedef UINT32_TYPE u32;           /* 4-byte unsigned integer */
 typedef UINT16_TYPE u16;           /* 2-byte unsigned integer */
 typedef INT16_TYPE i16;            /* 2-byte signed integer */

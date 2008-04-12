@@ -22,7 +22,9 @@
 #endif
 
 #if wxUSE_UXTHEME
+#ifdef __WXMSW__
 #include "wx/msw/uxtheme.h"
+#endif
 #endif
 
 const wxEventType wxEVT_LISTSEL_CHANGED_COMMAND = wxNewEventType();

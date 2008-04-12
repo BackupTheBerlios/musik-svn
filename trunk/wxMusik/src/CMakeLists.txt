@@ -143,12 +143,12 @@ IF(APPLE)
     SET(MACOSX_BUNDLE_EXECUTABLE_NAME wxMusik)
     SET(MACOSX_BUNDLE_INFO_STRING "wxMusik version ${PROJECT_VERSION_MAJOR}, (c) Gunnar Roth")
     SET(MACOSX_BUNDLE_GUI_IDENTIFIER "roth.gunnar.wxMusik")
-    SET(MACOSX_BUNDLE_LONG_VERSION_STRING "${PROJECT_VERSION_MAJOR}, (c) 2006 Gunnar  Roth")
+    SET(MACOSX_BUNDLE_LONG_VERSION_STRING "${PROJECT_VERSION_MAJOR}, (c) 2008 Gunnar  Roth")
     SET(MACOSX_BUNDLE_BUNDLE_NAME "wxMusik")
     SET(MACOSX_BUNDLE_SHORT_VERSION_STRING "${PROJECT_VERSION_MAJOR}")
     SET(MACOSX_BUNDLE_BUNDLE_VERSION "${PROJECT_VERSION_MAJOR}")
     SET(MACOSX_BUNDLE_ICON_FILE "wxMusik.icns")
-    SET(MACOSX_BUNDLE_COPYRIGHT "Copyright 2006 Gunnar Roth")
+    SET(MACOSX_BUNDLE_COPYRIGHT "Copyright 2008 Gunnar Roth")
 ENDIF(APPLE)
 
 ADD_EXECUTABLE(wxMusik ${WIN32_EXECUTABLE} MACOSX_BUNDLE  ${MAIN_SRCS} ${OTHER_SRCS})
@@ -199,7 +199,25 @@ ENDIF(USE_FMODEX)
 
     SET(RSRC_FILES3 Next.png  Next_down.png  Pause.png  Pause_down.png  Play.png  Play_down.png  Prev.png  Prev_down.png  Stop.png  Stop_down.png  Volume.png  Volume_down.png )
     COPY_IF_DIFFERENT( ${PROJECT_SOURCE_DIR}/data/playbackart ${EXECUTABLE_OUTPUT_PATH}/wxMusik.app/Contents/Resources/playbackart  "${RSRC_FILES3}" RsrcTargets3 "RsrcFiles3") 
-    ADD_CUSTOM_TARGET(CopyRsrcFiles ALL DEPENDS ${RsrcTargets} ${RsrcTargets2} ${RsrcTargets3})
+
+	# copy the locale files
+	SET(MOTargets "")
+	file(GLOB_RECURSE LOCALE_FILES "${wxMusik_SOURCE_DIR}/locale/*.mo")
+	foreach(mo_file ${LOCALE_FILES})
+		string(REGEX REPLACE "${wxMusik_SOURCE_DIR}/" "" mo_file_dest ${mo_file})
+		SET(MO_TARGET  "${EXECUTABLE_OUTPUT_PATH}/wxMusik.app/Contents/Resources/${mo_file_dest}")
+	        ADD_CUSTOM_COMMAND(
+           		OUTPUT  ${MO_TARGET}
+           		COMMAND ${CMAKE_COMMAND}
+           		ARGS    -E copy_if_different ${mo_file} ${MO_TARGET}
+           		COMMENT "Copying ${mo_file} ${MO_TARGET}"
+           	)
+		SET(MOTargets ${MOTargets} ${MO_TARGET})
+
+	endforeach(mo_file ${LOCALE_FILES})
+
+
+    ADD_CUSTOM_TARGET(CopyRsrcFiles ALL DEPENDS ${RsrcTargets} ${RsrcTargets2} ${RsrcTargets3} ${MOTargets})
 
     WRITE_FILE(${EXECUTABLE_OUTPUT_PATH}/wxMusik.app/Contents/PkgInfo "APPL????")
 #    ADD_CUSTOM_COMMAND(

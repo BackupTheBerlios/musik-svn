@@ -39,7 +39,7 @@ FMODExEqualizer::FMODExEqualizer(FMOD::System *system,int nFrequency)
 	Inactive by default.
 	*/
 	m_DSP->setBypass(true);
-	result = system->addDSP(m_DSP); 
+	result = system->addDSP(m_DSP,NULL); 
 
 }
 

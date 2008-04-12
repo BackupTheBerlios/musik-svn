@@ -73,21 +73,24 @@ wxString wxStringRemovePrefix(const wxString &s)
     }
     return s;
 }
-// NOTE: wxStrcoll sorts by using the current locale. This means they are sorted lexically.
-// case is ignored in th lexically order of most locales ( don't know why MS has a separate stricoll function)
-#ifdef __WXMAC__
-//wcscoll does not work correctly sorts like wcscmp.
-// we want nocase sorting
-int wxCMPFUNC_CONV wxStringSortAscendingLocaleRemovePrefix(const wxString& s1, const wxString& s2)
-{
-    return wxStricmp(wxStringRemovePrefix(s1).c_str(), wxStringRemovePrefix(s2).c_str());
-}
+#ifdef wxUSE_UNICODE
+extern "C" unsigned short  unicode_fold(unsigned short c);
 
-int wxCMPFUNC_CONV wxStringSortAscendingLocale(const wxString& s1,const  wxString& s2)
+int mystrcoll(const wchar_t *a,const wchar_t *b)
 {
-    return wxStricmp(s1.c_str(), s2.c_str());
+	signed int ua = 0, ub = 0;
+
+	do
+	{ 
+		ua = unicode_fold(*(a++)); 
+		ub = unicode_fold(*(b++)); 
+	}
+	while(ua != 0 && ua==ub); 
+	return ua - ub;	
 }
-#else
+#undef wxStrcoll
+#define wxStrcoll mystrcoll
+#endif
 int wxCMPFUNC_CONV wxStringSortAscendingLocaleRemovePrefix(const wxString& s1, const wxString& s2)
 {
     return wxStrcoll(wxStringRemovePrefix(s1).c_str(), wxStringRemovePrefix(s2).c_str());
@@ -97,7 +100,6 @@ int wxCMPFUNC_CONV wxStringSortAscendingLocale(const wxString& s1,const  wxStrin
 {
     return wxStrcoll(s1.c_str(), s2.c_str());
 }
-#endif
 
 //------------------------//
 //--- CActivityListBox ---//
@@ -285,7 +287,7 @@ void CActivityListBox::Update( bool selnone )
 	m_ActiveAttr	= wxListItemAttr( wxSystemSettings::GetColour( wxSYS_COLOUR_HIGHLIGHTTEXT ), wxSystemSettings::GetColour( wxSYS_COLOUR_HIGHLIGHT ), wxNullFont );
 	m_AllReset		= wxListItemAttr( wxSystemSettings::GetColour( wxSYS_COLOUR_WINDOWTEXT), wxSystemSettings::GetColour( wxSYS_COLOUR_BTNHIGHLIGHT ), g_fntListBold );
 
-	SetItemCount( GetRowCount() );
+	SetItemCount( (long)GetRowCount() );
 	RescaleColumns();
 	if ( selnone )
     {
@@ -393,7 +395,7 @@ void CActivityListBox::SetSel( const wxString & sel,bool bEnsureVisible , bool b
 	if(bDeselectAllFirst)
 		SelectNone();
 	bool bFound = false;
-	for ( size_t i = 0; i < GetRowCount(); i++ )
+	for ( long i = 0; i <  (long)GetRowCount(); i++ )
 	{
 		if (GetRowText(i) == sel )
 		{
@@ -620,26 +622,16 @@ void CActivityBox::GetRelatedList( CActivityBox *pParentBox, wxArrayString & aRe
 
 	aReturn.Clear();
     const PlaylistColumn & ColumnOut =  g_PlaylistColumn[ColId()];
-    bool bLetDBSort = ColumnOut.Type != PlaylistColumn::Textual; // texts cannot be sorted by the db right now, 
-                                                                 //because it does not sort utf-8 strings correctly.
-                                                                 // this will change if sqlite 3 is used.
     if(m_ParentBox)
     {
         const PlaylistColumn & ColumnIn	= g_PlaylistColumn[m_ParentBox->ColId()];
         wxArrayString sel;
         m_ParentBox->GetSelected( sel );
-        wxGetApp().Library.GetInfo( sel, ColumnIn, ColumnOut, aReturn ,bLetDBSort);
+        wxGetApp().Library.GetInfo( sel, ColumnIn, ColumnOut, aReturn ,true);
     }
     else
     {
-        GetFullList(aReturn,bLetDBSort);
-    }
-    if(!bLetDBSort)
-    {
-        if(wxGetApp().Prefs.bSortArtistWithoutPrefix && g_PlaylistColumn[ColId()].SortOrder  == PlaylistColumn::SortNoCaseNoPrefix)
-            aReturn.Sort(wxStringSortAscendingLocaleRemovePrefix);
-        else
-            aReturn.Sort(wxStringSortAscendingLocale);
+        GetFullList(aReturn,true);
     }
 }
 

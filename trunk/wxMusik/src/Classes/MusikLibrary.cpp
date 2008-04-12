@@ -688,10 +688,9 @@ void CMusikLibrary::GetInfo( const wxArrayString & aList, const PlaylistColumn &
 		switch ( ColumnOut.SortOrder )
 		{
         case PlaylistColumn::SortNoCase:
-            query += wxT(" order by OutColumn collate nocase");
-            break;
 		case PlaylistColumn::SortNoCaseNoPrefix:
-			query += wxT(" order by RPF collate nocase");
+			query += (wxGetApp().Prefs.bSortArtistWithoutPrefix) ? wxT(" order by RPF collate nocase") 
+																 : wxT(" order by OutColumn collate nocase");
 			break;
 
         case PlaylistColumn::SortCase:
@@ -1220,12 +1219,11 @@ bool CMusikLibrary::RenameFile( CMusikSong & song )
 	if(!wxFileName::Mkdir(newfilename.GetPath(),0777,wxPATH_MKDIR_FULL))
 		return false;
 
-
 	//-----------------------------------------//
 	//--- file does need to be renamed, so	---//
 	//--- rename it, then return			---//
 	//-----------------------------------------//
-	if ( wxRenameFile( song.MetaData.Filename.GetFullPath(), newfilename.GetFullPath() ) )
+	if ( wxRenameFile( song.MetaData.Filename.GetFullPath(), newfilename.GetFullPath(),false ) ) // false == no overwrite
 	{
 		song.MetaData.Filename = newfilename;
         if( m_pDB->Exec(MusikDb::QueryString("update songs set filename =%Q where songid = %d;",
@@ -1272,7 +1270,7 @@ void CMusikLibrary::GetAllOfColumn( const PlaylistColumn & Column, wxArrayString
         if(wxGetApp().Prefs.bSortArtistWithoutPrefix && Column.SortOrder == PlaylistColumn::SortNoCaseNoPrefix)
             Query( wxT("select distinct ") + sColumn + wxT(",REMPREFIX(") + sColumn + wxT(") as RPF from songs order by RPF collate nocase;"), aReturn );
         else
-			Query( wxT("select distinct ") + sColumn + wxT(" from songs order by ")+ sColumn + ((Column.SortOrder == PlaylistColumn::SortNoCase)? wxT(" collate nocase;"):wxT(";") ), aReturn );
+			Query( wxT("select distinct ") + sColumn + wxT(" from songs order by ")+ sColumn + ((Column.SortOrder != PlaylistColumn::SortCase)? wxT(" collate nocase;"):wxT(";") ), aReturn );
 	}
 	else
 		Query( wxT("select distinct ") +  sColumn + wxT(" from songs;"), aReturn );

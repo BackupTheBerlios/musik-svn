@@ -2392,8 +2392,14 @@ SQLITE_PRIVATE int sqlite3StrNICmp(const char *zLeft, const char *zRight, int N)
   unsigned char *b = (unsigned char *)zRight;
   signed int ua = 0, ub = 0;
 
-  while(N-- > 0 && *a!=0 && ua==ub) { ua = unicode_fold(sqlite3Utf8Read(a, 0, &a)); ub = unicode_fold(sqlite3Utf8Read(b, 0, &b)); }
-  return N<0 ? 0 : ua - ub;
+  while(N-- && ua==ub) 
+  { 
+	  ua = unicode_fold(sqlite3Utf8Read(a, 0, &a)); 
+	  ub = unicode_fold(sqlite3Utf8Read(b, 0, &b)); 
+	  if(!ua || !ub)
+		  break;
+  }
+  return ua - ub;
 }
 
 /*

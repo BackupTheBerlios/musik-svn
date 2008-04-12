@@ -21,7 +21,9 @@
 #include <commctrl.h>
 #endif
 
-
+#if wxUSE_UXTHEME
+#include "wx/msw/uxtheme.h"
+#endif
 
 const wxEventType wxEVT_LISTSEL_CHANGED_COMMAND = wxNewEventType();
 
@@ -36,12 +38,19 @@ CMusikListCtrl::CMusikListCtrl( wxWindow *parent, const wxWindowID id, const wxP
     m_bLISTSEL_CHANGED_Fired = false;
     m_bSuppressListItemStateEvents = false;
 
-/*
+
 #ifdef __WXMSW__
-    SendMessage((HWND)GetHWND(), LVM_SETEXTENDEDLISTVIEWSTYLE, (WPARAM)
-        LVS_EX_DOUBLEBUFFER, (LPARAM) LVS_EX_DOUBLEBUFFER);
+#if wxUSE_UXTHEME
+// 	// check if we use themes at all -- if we don't, we're still okay
+// 	if ( wxUxThemeEngine::GetIfActive() )
+// 	{
+// 		wxUxThemeEngine::GetIfActive()->SetWindowTheme(GetHwnd(), _T("Explorer"), _T(""));
+// 	}
+#endif	
+//	SendMessage((HWND)GetHWND(), LVM_SETEXTENDEDLISTVIEWSTYLE, (WPARAM)
+//		      LVS_EX_DOUBLEBUFFER, (LPARAM) LVS_EX_DOUBLEBUFFER);
 #endif
-*/
+
 }
 
 

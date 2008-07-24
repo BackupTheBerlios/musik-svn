@@ -253,6 +253,7 @@ MUSIKEngine::Error FMODExStreamOut::GetOpenStatus(MUSIKEngine::OpenStatus *pStat
 
     switch(openstate)
     {
+	case FMOD_OPENSTATE_STREAMING:
     case FMOD_OPENSTATE_READY:
         *pStatus = MUSIKEngine::OPENSTATUS_READY;
         break;
@@ -262,9 +263,8 @@ MUSIKEngine::Error FMODExStreamOut::GetOpenStatus(MUSIKEngine::OpenStatus *pStat
     case FMOD_OPENSTATE_LOADING:
     case FMOD_OPENSTATE_CONNECTING:
     case FMOD_OPENSTATE_BUFFERING:
+	case FMOD_OPENSTATE_SEEKING:
         *pStatus = MUSIKEngine::OPENSTATUS_OPENINPROGRESS;
-    default:
-        ;
     }
     return MUSIKEngine::errSuccess;
 }
@@ -313,20 +313,21 @@ MUSIKEngine::Error FMODExStreamOut::GetNetStatus(MUSIKEngine::NetStatus *pStatus
     
     switch(openstate)
     {
+	case FMOD_OPENSTATE_STREAMING:
     case FMOD_OPENSTATE_READY:
         *pStatus = MUSIKEngine::NETSTATUS_READY;
         break;
     case FMOD_OPENSTATE_CONNECTING:
         *pStatus = MUSIKEngine::NETSTATUS_CONNECTING;
         break;
+	case FMOD_OPENSTATE_ERROR:
+		*pStatus = MUSIKEngine::NETSTATUS_ERROR;
+		break;
     case FMOD_OPENSTATE_LOADING:
     case FMOD_OPENSTATE_BUFFERING:
-        *pStatus = MUSIKEngine::NETSTATUS_BUFFERING;
-        break;
-    case FMOD_OPENSTATE_ERROR:
-    default:
-        *pStatus = MUSIKEngine::NETSTATUS_ERROR;
-        break;
+	case FMOD_OPENSTATE_SEEKING:
+		*pStatus = MUSIKEngine::NETSTATUS_BUFFERING;
+		break;
     }
     return MUSIKEngine::errSuccess;
 }

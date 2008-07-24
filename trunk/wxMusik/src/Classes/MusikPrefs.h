@@ -354,6 +354,7 @@ public:
 		,sFramePlacement(this,wxT( "FramePlacement" ),wxT("-1,-1,800,600,0,0"))
 		,sPrefsDialogPlacement(this,wxT( "PrefsDialogPlacement") ,wxT("-1,-1,-1,-1"))
 		,sLibraryDialogPlacement(this,wxT( "LibraryDialogPlacement") ,wxT("-1,-1,-1,-1"))
+		,sLibraryAutoUpdateDialogPlacement(this,wxT( "LibraryAutoUpdateDialogPlacement") ,wxT("-1,-1,-1,-1"))
 		,sTagDialogPlacement(this,wxT( "TagDialogPlacement") ,wxT("-1,-1,-1,-1"))
 		,sAutoTagDialogPlacement(this,wxT( "AutoTagDialogPlacement") ,wxT("-1,-1,-1,-1"))
 		,sFXDialogPlacement(this,wxT( "FXDialogPlacement") ,wxT("-1,-1,-1,-1"))
@@ -511,6 +512,7 @@ public:
 	CConfigSettingString sFramePlacement;
 	CConfigSettingString sPrefsDialogPlacement;
 	CConfigSettingString sLibraryDialogPlacement;
+	CConfigSettingString sLibraryAutoUpdateDialogPlacement;
 	CConfigSettingString sTagDialogPlacement;
 	CConfigSettingString sAutoTagDialogPlacement;
 	CConfigSettingString sFXDialogPlacement;

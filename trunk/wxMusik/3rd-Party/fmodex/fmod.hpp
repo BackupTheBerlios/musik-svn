@@ -32,7 +32,7 @@ namespace FMOD
     /*
         FMOD global system functions (optional).
     */
-    inline FMOD_RESULT Memory_Initialize(void *poolmem, int poollen, FMOD_MEMORY_ALLOCCALLBACK useralloc, FMOD_MEMORY_REALLOCCALLBACK userrealloc, FMOD_MEMORY_FREECALLBACK userfree) { return FMOD_Memory_Initialize(poolmem, poollen, useralloc, userrealloc, userfree); }
+    inline FMOD_RESULT Memory_Initialize(void *poolmem, int poollen, FMOD_MEMORY_ALLOCCALLBACK useralloc, FMOD_MEMORY_REALLOCCALLBACK userrealloc, FMOD_MEMORY_FREECALLBACK userfree, FMOD_MEMORY_TYPE memtypeflags = (FMOD_MEMORY_NORMAL | FMOD_MEMORY_XBOX360_PHYSICAL)) { return FMOD_Memory_Initialize(poolmem, poollen, useralloc, userrealloc, userfree, memtypeflags); }
     inline FMOD_RESULT Memory_GetStats  (int *currentalloced, int *maxalloced) { return FMOD_Memory_GetStats(currentalloced, maxalloced); }
     inline FMOD_RESULT Debug_SetLevel(FMOD_DEBUGLEVEL level)  { return FMOD_Debug_SetLevel(level); }
     inline FMOD_RESULT Debug_GetLevel(FMOD_DEBUGLEVEL *level) { return FMOD_Debug_GetLevel(level); }
@@ -79,7 +79,7 @@ namespace FMOD
         FMOD_RESULT F_API getAdvancedSettings    (FMOD_ADVANCEDSETTINGS *settings);
         FMOD_RESULT F_API setSpeakerMode         (FMOD_SPEAKERMODE speakermode);
         FMOD_RESULT F_API getSpeakerMode         (FMOD_SPEAKERMODE *speakermode);
-        FMOD_RESULT F_API setCallback            (FMOD_SYSTEM_CALLBACKTYPE type, FMOD_SYSTEM_CALLBACK callback);
+        FMOD_RESULT F_API setCallback            (FMOD_SYSTEM_CALLBACK callback);
                                                 
         // Plug-in support                       
         FMOD_RESULT F_API setPluginPath          (const char *path);
@@ -460,7 +460,10 @@ namespace FMOD
         FMOD_RESULT F_API getActive              (bool *active);
         FMOD_RESULT F_API setBypass              (bool bypass);
         FMOD_RESULT F_API getBypass              (bool *bypass);
-        FMOD_RESULT F_API reset                  ();
+        FMOD_RESULT F_API setSpeakerActive		 (FMOD_SPEAKER speaker, bool active);
+		FMOD_RESULT F_API getSpeakerActive		 (FMOD_SPEAKER speaker, bool *active);
+		FMOD_RESULT F_API reset                  ();
+		
 
         // DSP parameter control.
         FMOD_RESULT F_API setParameter           (int index, float value);

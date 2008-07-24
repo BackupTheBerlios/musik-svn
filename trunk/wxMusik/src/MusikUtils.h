@@ -827,10 +827,13 @@ public:
 		long style = wxDEFAULT_DIALOG_STYLE,
 		const wxString& name = wxDialogNameStr);
 
+	virtual void EndModal(int retCode);
 	virtual bool Destroy();
 	virtual ~MusikDialog();
 
 private:
+	void SavePersistData();
+
 	wxString & m_refPersistData;
 
 	DECLARE_DYNAMIC_CLASS(MusikDialog)

@@ -1344,10 +1344,19 @@ MusikDialog::~MusikDialog()
 		
 }
 
-bool MusikDialog::Destroy()
+void MusikDialog::SavePersistData()
 {
 	wxPoint pos = GetPosition();
 	wxSize size = GetSize();
 	m_refPersistData = wxString::Format( wxT("%d,%d,%d,%d"), pos.x, pos.y, size.x, size.y );
+}
+void MusikDialog::EndModal(int retCode)
+{
+	SavePersistData();
+	return wxDialog::EndModal(retCode);
+}
+bool MusikDialog::Destroy()
+{
+	SavePersistData();
 	return wxDialog::Destroy();
 }

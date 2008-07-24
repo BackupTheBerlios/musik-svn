@@ -87,9 +87,7 @@ bool CMusikAutoTaggerFrame::Create( wxWindow* parent, wxWindowID id, const wxStr
     MusikDialog::Create( parent, id, caption, pos, size, style );
 
     CreateControls();
-    GetSizer()->Fit(this);
-    GetSizer()->SetSizeHints(this);
-////@end CMusikAutoTaggerFrame creation
+ ////@end CMusikAutoTaggerFrame creation
     return TRUE;
 }
 

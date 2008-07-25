@@ -1,4 +1,7 @@
-INSTALL_FILES(/lib libfmodex.so*)
-
+if (CMAKE_SIZEOF_VOID_P MATCHES "8")
+	INSTALL_FILES(/lib libfmodex64.so*)
+ELSE  (CMAKE_SIZEOF_VOID_P MATCHES "8") 
+	INSTALL_FILES(/lib libfmodex.so*)
+ENDIF  (CMAKE_SIZEOF_VOID_P MATCHES "8") 
 
 

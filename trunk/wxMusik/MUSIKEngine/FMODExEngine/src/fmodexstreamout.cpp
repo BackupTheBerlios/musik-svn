@@ -21,7 +21,7 @@
 
 #include "fmodexstreamout.h"
 
-#define FMOD_STREAM_FORMAT_FLAGS (FSOUND_SIGNED | FSOUND_16BITS | FSOUND_STEREO|FSOUND_HW2D)
+#define FMOD_STREAM_FORMAT_FLAGS (FSOUND_SIGNED | FSOUND_16BITS | FSOUND_STEREO|FSOUND_SOFTWARE)
 
 FMOD_RESULT F_CALLBACK FMODExStreamOut::pcmreadcallback(FMOD_SOUND *sound, void *data, unsigned int datalen)
 {

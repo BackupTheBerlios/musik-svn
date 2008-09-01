@@ -15,10 +15,6 @@
 #ifndef MUSIK_PLAYLISTINFO_CTRL
 #define MUSIK_PLAYLISTINFO_CTRL
 
-#include "myprec.h"
-#ifndef WX_PRECOMP
-	#include "wx/wx.h"
-#endif 
 #include "../MusikUtils.h"
 class IPlaylistInfo;
 

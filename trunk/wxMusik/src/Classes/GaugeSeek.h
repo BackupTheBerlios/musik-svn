@@ -15,10 +15,6 @@
 #ifndef MUSIK_GAUGESEEK_EVT
 #define MUSIK_GAUGESEEK_EVT
 
-#include "myprec.h"
-#ifndef WX_PRECOMP
-	#include "wx/wx.h"
-#endif 
 
 class CGaugeSeekEvt : public wxEvtHandler
 {

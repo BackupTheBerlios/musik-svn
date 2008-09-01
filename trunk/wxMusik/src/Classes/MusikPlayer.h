@@ -14,11 +14,6 @@
 #ifndef MUSIK_PLAYER_H
 #define MUSIK_PLAYER_H
 
-//--- wx stuff ---//
-#include "myprec.h"
-#ifndef WX_PRECOMP
-	#include "wx/wx.h"
-#endif
 #include <wx/dynarray.h>
 #include "Classes/MusikPlayerEvt.h"
 

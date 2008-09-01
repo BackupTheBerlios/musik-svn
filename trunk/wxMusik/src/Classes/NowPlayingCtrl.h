@@ -15,10 +15,6 @@
 #ifndef MUSIK_NOWPLAYING_CTRL
 #define MUSIK_NOWPLAYING_CTRL
 
-#include "myprec.h"
-#ifndef WX_PRECOMP
-	#include "wx/wx.h"
-#endif 
 #include "Classes/MusikLibrary.h"
 
 

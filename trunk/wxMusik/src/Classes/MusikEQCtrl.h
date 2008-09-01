@@ -13,11 +13,7 @@
 #ifndef MUSIK_EQ_CTRL_H
 #define MUSIK_EQ_CTRL_H
 
-#include "myprec.h"
-#ifndef WX_PRECOMP
-	#include "wx/wx.h"
-	#include <vector>
-#endif 
+#include <vector>
 #include "../MusikUtils.h"
 #include "MusikEQGauge.h"
 

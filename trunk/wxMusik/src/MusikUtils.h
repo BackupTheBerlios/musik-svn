@@ -14,15 +14,10 @@
 #ifndef MUSIKUTILS_H
 #define MUSIKUTILS_H
 
-#include "myprec.h"
-#ifndef WX_PRECOMP
-	#include "wx/wx.h"
-    #include <wx/regex.h>
-    #include <wx/listctrl.h>
-    #include <wx/textdlg.h>
-    #include <wx/mimetype.h>
-#endif
-
+#include <wx/regex.h>
+#include <wx/listctrl.h>
+#include <wx/textdlg.h>
+#include <wx/mimetype.h>
 #include <wx/stdpaths.h>
 
 #include "MusikDefines.h"

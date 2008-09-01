@@ -14,10 +14,6 @@
 #ifndef MUSIK_BTNDOWN_EVT
 #define MUSIK_BTNDOWN_EVT
 
-#include "myprec.h"
-#ifndef WX_PRECOMP
-	#include "wx/wx.h"
-#endif 
 
 class CBtnDownEvt : public wxEvtHandler
 {

@@ -13,10 +13,6 @@
 #ifndef MUSIK_TAG_FRAME_H
 #define MUSIK_TAG_FRAME_H
 
-#include "myprec.h"
-#ifndef WX_PRECOMP
-	#include "wx/wx.h"
-#endif 
 #include "wx/thread.h"
 
 //--- MusikSongIdArray defined here ---//

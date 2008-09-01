@@ -15,10 +15,6 @@
 #ifndef MUSIK_ACTIVITYAREA_CTRL
 #define MUSIK_ACTIVITYAREA_CTRL
 
-#include "myprec.h"
-#ifndef WX_PRECOMP
-	#include "wx/wx.h"
-#endif 
 #include "wx/laywin.h"
 #include "ActivityBox.h"
 

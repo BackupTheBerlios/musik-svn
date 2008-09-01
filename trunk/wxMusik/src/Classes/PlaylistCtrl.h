@@ -14,19 +14,14 @@
 #ifndef PLAYLISTCTRL_H
 #define PLAYLISTCTRL_H
 
+#include <wx/dnd.h>
 
-//--- wx ---//
-#include "myprec.h"
-#ifndef WX_PRECOMP
-	#include "wx/wx.h"
-#endif
 #include "ThreadController.h"
 #include "PlaylistColumn.h"
 #include "PlaylistInfoCtrl.h"
 //--- definition MusikSongIdArray is here ---//
 #include "MusikLibrary.h"
 
-#include <wx/dnd.h>
 
 #include "MusikListCtrl.h"
 

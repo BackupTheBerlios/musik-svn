@@ -15,10 +15,6 @@
 #ifndef MUSIK_SOURCES_BOX_H
 #define MUSIK_SOURCES_BOX_H
 
-#include "myprec.h"
-#ifndef WX_PRECOMP
-	#include "wx/wx.h"
-#endif 
 #include "../MusikDefines.h"
 #include "ActivityBox.h"
 #include <wx/laywin.h>

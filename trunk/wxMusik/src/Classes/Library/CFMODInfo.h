@@ -1,10 +1,6 @@
 #ifndef CFMODINFO_H
 #define CFMODINFO_H
-//--- For compilers that support precompilation, includes "wx/wx.h". ---//
-#include "myprec.h"
-#ifndef WX_PRECOMP
-#include "wx/wx.h"
-#endif 
+
 #include "CInfo.h"
 //--- globals ---//
 #include "../../MusikGlobals.h"

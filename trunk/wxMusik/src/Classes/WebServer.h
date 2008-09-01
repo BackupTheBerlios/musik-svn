@@ -14,10 +14,6 @@
 #ifndef WEBSERVER_H
 #define WEBSERVER_H
 
-#include "myprec.h"
-#ifndef WX_PRECOMP
-	#include "wx/wx.h"
-#endif
 #include "wx/socket.h"
 
 #define MUSIK_SERVER_ID 2000

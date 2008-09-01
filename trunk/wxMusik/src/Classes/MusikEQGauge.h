@@ -13,11 +13,6 @@
 #ifndef MUSIK_FX_GAUGE_H
 #define MUSIK_FX_GAUGE_H
 
-//--- wx ---//
-#include "myprec.h"
-#ifndef WX_PRECOMP
-	#include "wx/wx.h"
-#endif 
 
 enum EMUSIK_FX_CHANNEL
 {

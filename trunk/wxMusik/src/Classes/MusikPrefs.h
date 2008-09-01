@@ -14,16 +14,12 @@
 #ifndef MUSIK_PREFS_H
 #define MUSIK_PREFS_H
 
-//--- wx core stuff ---//
-#include "myprec.h"
-#ifndef WX_PRECOMP
-	#include "wx/wx.h"
-#endif 
-#include "PlaylistColumn.h"
-#include "MusikUtils.h"
 #include <wx/config.h> 
 #include <wx/confbase.h>
 #include <wx/fileconf.h> 
+
+#include "PlaylistColumn.h"
+#include "MusikUtils.h"
 
 template <class T>
 struct Value

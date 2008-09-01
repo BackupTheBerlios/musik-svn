@@ -13,11 +13,6 @@
 #ifndef MUSIK_LIBRARY_H
 #define MUSIK_LIBRARY_H
 
-//--- wx ---//
-#include "myprec.h"
-#ifndef WX_PRECOMP
-	#include "wx/wx.h"
-#endif
 #include <wx/dynarray.h>
 #include <wx/datetime.h>
 #include <wx/regex.h>

@@ -14,10 +14,6 @@
 #ifndef MUSIK_THREADS_H
 #define MUSIK_THREADS_H
 
-#include "myprec.h"
-#ifndef WX_PRECOMP
-	#include "wx/wx.h"
-#endif
 #include "../ThreadController.h"
 
 

@@ -13,14 +13,10 @@
 #ifndef MUSIK_APP_H
 #define MUSIK_APP_H
 
-#include "myprec.h"
-#ifndef WX_PRECOMP
-	#include "wx/wx.h"
-#endif 
 #include <wx/snglinst.h>
 #include <wx/ipc.h>
-#include "wx/intl.h"
-#include "wx/app.h"
+#include <wx/intl.h>
+#include <wx/app.h>
 
 
 #include "Classes/MusikLibrary.h"

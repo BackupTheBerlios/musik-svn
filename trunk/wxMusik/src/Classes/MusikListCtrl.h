@@ -13,12 +13,6 @@
 #ifndef MUSIKLISTCTRL_H
 #define MUSIKLISTCTRL_H
 
-#include "myprec.h"
-
-
-#ifndef WX_PRECOMP
-	#include "wx/wx.h"
-#endif 
 #if defined(__WXMAC__) 
 //#define  USE_GENERICLISTCTRL   
 #endif

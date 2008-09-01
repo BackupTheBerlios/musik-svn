@@ -160,7 +160,7 @@ TARGET_LINK_LIBRARIES(wxMusik
 	libbitap
         mysqlite3
         mysqlite2
-#        ${WXWINDOWS_LIBRARY}
+ 	${wxWidgets_LIBRARIES}
         ${APE_LIBS}
         ${FMOD_LIBRARY}
         TagLib
@@ -173,7 +173,7 @@ TARGET_LINK_LIBRARIES(wxMusik
 
 IF(PCHSupport_FOUND)
 add_precompiled_header( wxMusik 
-	${CMAKE_CURRENT_SOURCE_DIR}/myprec.h
+	myprec.h
 )  
 ENDIF(PCHSupport_FOUND)
 

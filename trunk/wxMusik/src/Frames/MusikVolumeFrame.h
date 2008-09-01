@@ -13,11 +13,6 @@
 #ifndef MUSIK_VOLUME_FRAME_H
 #define MUSIK_VOLUME_FRAME_H
 
-#include "myprec.h"
-#ifndef WX_PRECOMP
-	#include "wx/wx.h"
-#endif 
-
 //--- event handler for gauge ---//
 #include "../Classes/GaugeSeek.h"
 

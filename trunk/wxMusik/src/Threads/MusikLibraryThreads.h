@@ -13,11 +13,6 @@
 #ifndef MUSIK_LIBRARY_THREADS_H
 #define MUSIK_LIBRARY_THREADS_H
 
-//--- wx ---//
-#include "myprec.h"
-#ifndef WX_PRECOMP
-	#include "wx/wx.h"
-#endif 
 
 #include "wx/thread.h"
 #include <wx/dir.h>

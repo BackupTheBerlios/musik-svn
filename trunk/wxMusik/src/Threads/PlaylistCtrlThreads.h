@@ -13,12 +13,6 @@
 #ifndef MUSIK_PLAYLISTCTRL_THREADS_H
 #define MUSIK_PLAYLISTCTRL_THREADS_H
 
-//--- wx ---//
-#include "myprec.h"
-#ifndef WX_PRECOMP
-	#include "wx/wx.h"
-#endif 
-
 #include "wx/thread.h"
 
 #include "../Classes/MusikLibrary.h"

@@ -14,10 +14,6 @@
 #ifndef TUNAGE_H
 #define TUNAGE_H
 
-#include "myprec.h"
-#ifndef WX_PRECOMP
-	#include "wx/wx.h"
-#endif
 #include "wx/socket.h"
 
 class CMusikSong;

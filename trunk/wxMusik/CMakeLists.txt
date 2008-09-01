@@ -1,11 +1,13 @@
-
+cmake_minimum_required(VERSION 2.4)
 PROJECT(wxMusik)
 
-SUBDIRS(data locale 3rd-Party MUSIKEngine src)
 INCLUDE (${wxMusik_SOURCE_DIR}/scripts/cmake/TargetDistclean.cmake)
 IF(NOT WIN32 )
 IF(NOT APPLE)
-SET(CMAKE_CXX_FLAGS " `pkg-config  --cflags-only-I gtk+-2.0`  ${CMAKE_CXX_FLAGS}")
+#SET(CMAKE_CXX_FLAGS " `pkg-config  --cflags-only-I gtk+-2.0`  ${CMAKE_CXX_FLAGS}")
+find_package(PkgConfig)
+pkg_check_modules(MYGTK2 gtk+-2.0 )
+ADD_DEFINITIONS(${MYGTK2_CFLAGS})
 ENDIF(NOT APPLE)
 ENDIF(NOT WIN32)
 
@@ -13,7 +15,12 @@ INCLUDE (TestBigEndian)
 TEST_BIG_ENDIAN(CMAKE_WORDS_BIGENDIAN)
 
 # Configure for a wxWindows build
-INCLUDE( ${CMAKE_CURRENT_SOURCE_DIR}/scripts/cmake/MyUse_wxWindows.cmake)
+find_package(wxWidgets COMPONENTS base core adv html net qa xml)
+if(wxWidgets_FOUND)
+	INCLUDE(${wxWidgets_USE_FILE})
+else(wxWidgets_FOUND)
+    message("ERROR: wxWidgets not found!")
+endif(wxWidgets_FOUND)
 
 # Vorbis library
 #FIND_LIBRARY(VORBIS_LIBRARY NAMES vorbis PATHS /usr/lib /usr/local/lib)
@@ -27,6 +34,7 @@ INCLUDE_DIRECTORIES("${wxMusik_SOURCE_DIR}/3rd-Party/taglib/mpeg/id3v2")
 INCLUDE_DIRECTORIES("${wxMusik_SOURCE_DIR}/MUSIKEngine")
 INCLUDE_DIRECTORIES("${wxMusik_SOURCE_DIR}/3rd-Party/sqlite3")
 INCLUDE_DIRECTORIES("${wxMusik_SOURCE_DIR}/3rd-Party/sqlite2")
+
 
 
 # Set build variables
@@ -47,4 +55,6 @@ ENDIF(UNIX)
 
 SET(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR})
 SET(MyExecutable_PATH ${EXECUTABLE_OUTPUT_PATH})
+
+SUBDIRS(data locale 3rd-Party MUSIKEngine src)
 

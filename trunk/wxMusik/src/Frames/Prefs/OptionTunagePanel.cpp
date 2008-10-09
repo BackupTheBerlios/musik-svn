@@ -29,14 +29,16 @@ wxSizer * OptionTunagePanel::CreateControls()
     // IMPORTANT! Create wxStaticBox BEFORE creation of
     // controls which should be placed inside
     // or else they wont be displayed on wxGTK		
+	wxStaticBox *sbTunageUseScrobbler = new wxStaticBox( this, -1, _("Scrobble to Last.fm") );
     wxStaticBox *sbTunageFile = new wxStaticBox( this, -1, _("Write to file") );
     wxStaticBox *sbTunageURL = new wxStaticBox( this, -1, _("Post to a website") );
-    wxStaticBox *sbTunageApp = new wxStaticBox( this, -1, _("Run a program") );
+	wxStaticBox *sbTunageApp = new wxStaticBox( this, -1, _("Run a program") );
     wxStaticBox *sbTunageMisc = new wxStaticBox( this, -1, _("Misc.") );
 
     PREF_CREATE_CHECKBOX(TunageWriteFile,_("Enable"));
     PREF_CREATE_CHECKBOX(TunageAppendFile, _("Append to file"));
-    PREF_CREATE_CHECKBOX(TunagePostURL, _("Enable"));
+	PREF_CREATE_CHECKBOX(TunageUseScrobbler, _("Enable"));
+	PREF_CREATE_CHECKBOX(TunagePostURL, _("Enable"));
     PREF_CREATE_CHECKBOX(TunageRunApp, _("Enable"));
     PREF_CREATE_CHECKBOX(TunageRunOnStop,  _("Update when playing is stopped"));
 
@@ -52,6 +54,11 @@ wxSizer * OptionTunagePanel::CreateControls()
     wxBoxSizer *hsTunageFileLine = new wxBoxSizer( wxHORIZONTAL );
     hsTunageFileLine->Add( PREF_STATICTEXT(_("Line to write:")), 0, wxRIGHT | wxALIGN_CENTER_VERTICAL, 2 );
     hsTunageFileLine->Add( tcTunageFileLine, 1, 0, 0 );
+/*
+	wxBoxSizer *hsTunageUseScrobbler = new wxBoxSizer( wxHORIZONTAL );
+	hsTunageUseScrobbler->Add( PREF_STATICTEXT(_("URL:")), 0, wxRIGHT | wxALIGN_CENTER_VERTICAL, 2 );
+	hsTunageURL->Add( tcTunageURL, 1, 0, 0 );
+*/
     wxBoxSizer *hsTunageURL = new wxBoxSizer( wxHORIZONTAL );
     hsTunageURL->Add( PREF_STATICTEXT(_("URL:")), 0, wxRIGHT | wxALIGN_CENTER_VERTICAL, 2 );
     hsTunageURL->Add( tcTunageURL, 1, 0, 0 );
@@ -70,7 +77,12 @@ wxSizer * OptionTunagePanel::CreateControls()
     vsTunageFile->Add( hsTunageFileLine,		0, wxALL | wxEXPAND, 2 );
     vsTunageFile->Add( chkTunageAppendFile,		0, wxALL, 2 );
 
-    wxStaticBoxSizer *vsTunageURL = new wxStaticBoxSizer( sbTunageURL, wxVERTICAL );
+	
+	wxStaticBoxSizer *vsTunageUseScrobbler = new wxStaticBoxSizer( sbTunageUseScrobbler, wxVERTICAL );
+	vsTunageUseScrobbler->Add( chkTunageUseScrobbler,		0, wxALL, 2 );
+//	vsTunageUseScrobbler->Add( hsTunageURL,				0, wxALL | wxEXPAND, 2 );
+
+	wxStaticBoxSizer *vsTunageURL = new wxStaticBoxSizer( sbTunageURL, wxVERTICAL );
     vsTunageURL->Add( chkTunagePostURL,		0, wxALL, 2 );
     vsTunageURL->Add( hsTunageURL,				0, wxALL | wxEXPAND, 2 );
 
@@ -83,7 +95,9 @@ wxSizer * OptionTunagePanel::CreateControls()
     vsTunageMisc->Add( hsTunageStoppedText,		0, wxALL | wxEXPAND, 2 );
 
     wxBoxSizer *vsOptions_Tunage = new wxBoxSizer( wxVERTICAL );
-    vsOptions_Tunage->Add( vsTunageFile,		0, wxALL | wxEXPAND, 2 );
+	
+	vsOptions_Tunage->Add( vsTunageUseScrobbler,0, wxALL | wxEXPAND, 2 );
+	vsOptions_Tunage->Add( vsTunageFile,		0, wxALL | wxEXPAND, 2 );
     vsOptions_Tunage->Add( vsTunageURL,			0, wxALL | wxEXPAND, 2 );
     vsOptions_Tunage->Add( vsTunageApp,			0, wxALL | wxEXPAND, 2 );
     vsOptions_Tunage->Add( vsTunageMisc,		0, wxALL | wxEXPAND, 2 );

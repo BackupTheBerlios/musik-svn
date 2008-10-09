@@ -18,13 +18,17 @@
 
 class CMusikSong;
 
+class MusikScrobbler;
+
 class CTunage
 {
 public:
 	CTunage();
 	~CTunage();
                          
-	void Execute(const CMusikSong& song );
+	void Started(const CMusikSong& song );
+	void Paused();
+	void Resumed();
 	void Stopped();
 
 private:
@@ -34,5 +38,7 @@ private:
 	void RunApp(const CMusikSong& song );
 
 	void ParseTags( wxString& str ,const CMusikSong& song );
+
+	MusikScrobbler * m_pScrobbler;
 };
 #endif

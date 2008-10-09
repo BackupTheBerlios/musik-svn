@@ -423,9 +423,6 @@ void CNowPlayingCtrl::ResetInfo()
 	#else
 		gSeek->SetValue( 1 );
 	#endif
-
-	m_pTunage->Stopped();
-
 	Layout();
 }
 
@@ -448,7 +445,7 @@ void CNowPlayingCtrl::UpdateInfo( const MusikSongId &songid )
     {
         // song info has changed
         m_CurrSong = *pSong;
-        m_pTunage->Execute( *pSong );
+        m_pTunage->Started( *pSong );
 
         //--- title / artist / time -//
         sTitle.Replace	( wxT( "&" ), wxT( "&&" ), TRUE );
@@ -523,18 +520,22 @@ void CNowPlayingCtrl::OnPlayStart(MusikPlayerEvent & ev)
 
 void CNowPlayingCtrl::OnPlayPause(MusikPlayerEvent & ev)
 {
+	m_pTunage->Paused();
     PauseBtnToPlayBtn();
     ev.Skip();
 }
 void CNowPlayingCtrl::OnPlayResume(MusikPlayerEvent & ev)
 {
-    PlayBtnToPauseBtn();
+	 m_pTunage->Resumed();
+	PlayBtnToPauseBtn();
     ev.Skip();
 }
 
 void CNowPlayingCtrl::OnPlayStop(MusikPlayerEvent & ev)
 {
-    PauseBtnToPlayBtn();
+	m_pTunage->Stopped();
+
+	PauseBtnToPlayBtn();
     ResetInfo();
-    ev.Skip();
+	ev.Skip();
 }

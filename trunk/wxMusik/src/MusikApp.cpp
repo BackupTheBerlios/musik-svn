@@ -210,7 +210,7 @@ bool MusikApp::OnInit()
 					sData += wxT("\n");
 				}
 		#if wxUSE_UNICODE
-				pConn->Poke(wxT("PlayFiles"),sData.GetWriteBuf(sData.Length()),sData.Length()*sizeof(wxChar),wxIPC_UNICODETEXT);
+				pConn->Poke(wxT("PlayFiles"),sData.GetWriteBuf(sData.Length()),(int)sData.Length()*sizeof(wxChar),wxIPC_UNICODETEXT);
 		#else
 				pConn->Poke(wxT("PlayFiles"),sData.GetWriteBuf(sData.Length()),sData.Length(),wxIPC_TEXT);
 		#endif

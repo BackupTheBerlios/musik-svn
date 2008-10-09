@@ -370,6 +370,7 @@ public:
 		,bTunagePostURL(this,wxT( "TunagePostURL" ),false)
 		,sTunageURL(this,wxT( "TunageURL" ),wxT(""))
 		,bTunageRunApp(this,wxT( "TunageRunApp" ),false)
+		,bTunageUseScrobbler(this,wxT( "TunageUseScrobbler" ),false)
 		,sTunageCmdLine(this,wxT( "TunageCmdLine" ),wxT(""))
 		,bTunageRunOnStop(this,wxT( "TunageRunOnStop" ),false)
 		,sTunageStoppedText(this,wxT( "TunageStoppedText" ),wxString(MUSIKAPPNAME) + _(" is not running") )
@@ -528,6 +529,7 @@ public:
 	CConfigSettingBool bTunagePostURL;
 	CConfigSettingString sTunageURL;
 	CConfigSettingBool bTunageRunApp;
+	CConfigSettingBool bTunageUseScrobbler;
 	CConfigSettingPath sTunageCmdLine;
 	CConfigSettingBool bTunageRunOnStop;
 	CConfigSettingString sTunageStoppedText;

@@ -435,7 +435,7 @@ void MusikLibraryDialog::PathsListAdd()
 			{
 				wxFileName dir(sPath);
 				wxStandardPathsBase & stdpaths = wxStandardPaths::Get();
-				dir.MakeRelativeTo(stdpaths.GetExecutablePath());
+				dir.MakeRelativeTo(wxFileName(stdpaths.GetExecutablePath()).GetPath());
 				sPath = dir.GetPath(true);
 			}
 			if ( ValidatePath( sPath ) )

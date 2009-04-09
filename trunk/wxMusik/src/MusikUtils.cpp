@@ -754,7 +754,7 @@ wxString MusikGetHomePath()
     wxString sHomeSubPath(wxT( ".Musik" ));
     wxStandardPathsBase & stdpaths = wxStandardPaths::Get();
     wxFileName LocalHomePath;
-    LocalHomePath.AssignDir(stdpaths.GetExecutablePath());
+    LocalHomePath.AssignDir(wxFileName(stdpaths.GetExecutablePath()).GetPath());
     LocalHomePath.AppendDir(sHomeSubPath);
     if ( wxAccess(LocalHomePath.GetPath(),6) == 0)
 	{

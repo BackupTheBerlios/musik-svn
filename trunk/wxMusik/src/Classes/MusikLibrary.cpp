@@ -243,6 +243,7 @@ bool CMusikLibrary::Load()
 #ifdef __WXMSW__
         m_pDB->Exec("PRAGMA page_size=4096;");
 #endif
+		m_pDB->Exec("PRAGMA temp_store = \"memory\";");
 		// always create table, if it exists an error will be returned by Exec(), but we dont care.
 		m_pDB->Exec( szCreateVersionQuery);
 		m_pDB->Exec( szCreateSongTableQuery);

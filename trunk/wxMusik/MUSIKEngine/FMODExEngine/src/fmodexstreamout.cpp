@@ -165,7 +165,7 @@ bool FMODExStreamOut::Open(const char *FileName)
 #ifdef WIN32
     if(bNetStream) nFlags |= FMOD_NONBLOCKING;
 #else
-	if(bNetStream) nFlags = FMOD_CREATESTREAM|FMOD_MPEGSEARCH|FMOD_NONBLOCKING;// on linux and mac, HW2D does not work on net streams.
+	if(bNetStream) nFlags = FMOD_SOFTWARE |FMOD_CREATESTREAM|FMOD_MPEGSEARCH|FMOD_NONBLOCKING;// on linux and mac, HW2D does not work on net streams.
 #endif
     if(bNetStream)
         m_Engine.System().setStreamBufferSize(m_Engine.GetNetBufferSize(), FMOD_TIMEUNIT_RAWBYTES);
